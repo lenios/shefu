@@ -22,7 +22,6 @@ class RecipeCard extends StatelessWidget {
                 File(recipe.image_path),
                 fit: BoxFit.fitWidth,
                 width: 120,
-                // height: 50,
               ),
             ),
             const SizedBox(

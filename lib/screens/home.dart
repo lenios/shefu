@@ -37,9 +37,8 @@ class Home extends StatelessWidget {
     return GetBuilder<Controller>(
         init: c,
         builder: (value) => Scaffold(
-            // appBar: AppBar(title: Obx(() => Text("length: ${c.count} "))),
             appBar: AppBar(
-              title: Text("xx"),
+              title: Text("Shefu"),
               actions: <Widget>[
                 Padding(
                     padding: EdgeInsets.only(right: 20.0),
@@ -66,7 +65,7 @@ class Home extends StatelessWidget {
               child: Column(
                 children: [
                   TextFormField(
-                    decoration: InputDecoration(hintText: "Recherche"),
+                    decoration: InputDecoration(hintText: "search".tr),
                     onChanged: (String value) {
                       c.filter_string = value;
                       c.update();
@@ -81,20 +80,18 @@ class Home extends StatelessWidget {
                                 Hive.box<Recipe>('recipes').listenable(),
                             builder: (context, Box<Recipe> box, _) {
                               if (box.values.isEmpty) {
-                                return Text('data is empty');
+                                return Text('no_recipe'.tr);
                               } else {
                                 List<Recipe> recipes =
                                     box.values.toList().where((e) {
                                   return e.title.contains(c.filter_string);
                                 }).toList();
-                                //List<Recipe> recipes = box.values.toList();
                                 print(recipes);
 
                                 return SizedBox(
                                     height: 700,
                                     child: RecipesGridView(recipes: recipes));
                               }
-                              //return Container();
                             },
                           );
                         } else {

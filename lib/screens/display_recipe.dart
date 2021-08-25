@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:shefu/models/recipes.dart';
 
 class DisplayRecipe extends StatelessWidget {
