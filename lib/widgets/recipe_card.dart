@@ -12,16 +12,17 @@ class RecipeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Get.to(() => DisplayRecipe()),
+      onTap: () => Get.to(() => DisplayRecipe(recipe: recipe)),
       child: Card(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ClipRRect(
               child: Image.file(
-                File(recipe.image_path!),
-                fit: BoxFit.scaleDown,
-                height: 50,
+                File(recipe.image_path),
+                fit: BoxFit.fitWidth,
+                width: 120,
+                // height: 50,
               ),
             ),
             const SizedBox(

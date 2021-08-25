@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:shefu/controller.dart';
 import 'package:shefu/screens/add_recipe.dart';
@@ -47,7 +45,6 @@ class Home extends StatelessWidget {
                     padding: EdgeInsets.only(right: 20.0),
                     child: GestureDetector(
                       onTap: () {
-                        //TODO  c.database.cleanUp();
                         Hive.box<Recipe>('recipes').clear();
                         c.update();
                       },
@@ -65,28 +62,48 @@ class Home extends StatelessWidget {
                     )),
               ],
             ),
-            body: FutureBuilder(
-                future: Hive.openBox<Recipe>('recipes'),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.done) {
-                    return ValueListenableBuilder(
-                      valueListenable: Hive.box<Recipe>('recipes').listenable(),
-                      builder: (context, Box<Recipe> box, _) {
-                        if (box.values.isEmpty) {
-                          return Text('data is empty');
-                        } else {
-                          List<Recipe> recipes = box.values.toList();
-                          print(recipes);
+            body: SingleChildScrollView(
+              child: Column(
+                children: [
+                  TextFormField(
+                    decoration: InputDecoration(hintText: "Recherche"),
+                    onChanged: (String value) {
+                      c.filter_string = value;
+                      c.update();
+                    },
+                  ),
+                  FutureBuilder(
+                      future: Hive.openBox<Recipe>('recipes'),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.done) {
+                          return ValueListenableBuilder(
+                            valueListenable:
+                                Hive.box<Recipe>('recipes').listenable(),
+                            builder: (context, Box<Recipe> box, _) {
+                              if (box.values.isEmpty) {
+                                return Text('data is empty');
+                              } else {
+                                List<Recipe> recipes =
+                                    box.values.toList().where((e) {
+                                  return e.title.contains(c.filter_string);
+                                }).toList();
+                                //List<Recipe> recipes = box.values.toList();
+                                print(recipes);
 
-                          return RecipesGridView(recipes: recipes);
+                                return SizedBox(
+                                    height: 700,
+                                    child: RecipesGridView(recipes: recipes));
+                              }
+                              //return Container();
+                            },
+                          );
+                        } else {
+                          return Container();
                         }
-                        //return Container();
-                      },
-                    );
-                  } else {
-                    return Container();
-                  }
-                })));
+                      }),
+                ],
+              ),
+            )));
 
     // Center(
     //     child: ElevatedButton(

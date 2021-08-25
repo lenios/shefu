@@ -25,6 +25,7 @@ class AddRecipe extends StatelessWidget {
     return GetBuilder<Controller>(
         init: c,
         builder: (value) => Scaffold(
+              appBar: AppBar(),
               body: Column(
                 children: [
                   Center(child: Text('add recipe'.tr)),
