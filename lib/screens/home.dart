@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:shefu/controller.dart';
 import 'package:shefu/screens/add_recipe.dart';
 import 'package:shefu/models/recipes.dart';
@@ -35,50 +37,56 @@ class Home extends StatelessWidget {
     return GetBuilder<Controller>(
         init: c,
         builder: (value) => Scaffold(
-              // appBar: AppBar(title: Obx(() => Text("length: ${c.count} "))),
-              appBar: AppBar(
-                title: Text("xx"),
-                actions: <Widget>[
-                  Padding(
-                      padding: EdgeInsets.only(right: 20.0),
-                      child: GestureDetector(
-                        onTap: () {
-                          c.database.cleanUp();
-                          c.update();
-                        },
-                        child: Icon(
-                          Icons.delete_forever,
-                          color: Colors.red.shade700,
-                          size: 26.0,
-                        ),
-                      )),
-                  Padding(
-                      padding: EdgeInsets.only(right: 20.0),
-                      child: GestureDetector(
-                        onTap: () => Get.to(() => AddRecipe()),
-                        child: Icon(Icons.add),
-                      )),
-                ],
-              ),
-              body: FutureBuilder(
-                  future: value.database.allRecipeEntries,
-                  builder: (BuildContext context,
-                      AsyncSnapshot<List<Recipe>> snapshot) {
-                    if (snapshot.connectionState == ConnectionState.done &&
-                        snapshot.hasData) {
-                      List<Recipe> recipes = snapshot.data!;
-                      print(recipes);
-                      //return Container();
-                      return RecipesGridView(recipes: recipes);
-                    } else {
-                      /// Display a loader untill data is not fetched from server
-                      return Container();
-                    }
-                  }),
+            // appBar: AppBar(title: Obx(() => Text("length: ${c.count} "))),
+            appBar: AppBar(
+              title: Text("xx"),
+              actions: <Widget>[
+                Padding(
+                    padding: EdgeInsets.only(right: 20.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        //TODO  c.database.cleanUp();
+                        c.update();
+                      },
+                      child: Icon(
+                        Icons.delete_forever,
+                        color: Colors.red.shade700,
+                        size: 26.0,
+                      ),
+                    )),
+                Padding(
+                    padding: EdgeInsets.only(right: 20.0),
+                    child: GestureDetector(
+                      onTap: () => Get.to(() => AddRecipe()),
+                      child: Icon(Icons.add),
+                    )),
+              ],
+            ),
+            body: FutureBuilder(
+                future: Hive.openBox<Recipe>('recipes'),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    return ValueListenableBuilder(
+                      valueListenable: Hive.box<Recipe>('recipes').listenable(),
+                      builder: (context, Box<Recipe> box, _) {
+                        if (box.values.isEmpty) {
+                          return Text('data is empty');
+                        } else {
+                          List<Recipe> recipes = box.values.toList();
+                          print(recipes);
 
-              // Center(
-              //     child: ElevatedButton(
-              //         child: Text('increase'.tr), onPressed: c.increment)),
-            ));
+                          return RecipesGridView(recipes: recipes);
+                        }
+                        //return Container();
+                      },
+                    );
+                  } else {
+                    return Container();
+                  }
+                })));
+
+    // Center(
+    //     child: ElevatedButton(
+    //         child: Text('increase'.tr), onPressed: c.increment)),
   }
 }

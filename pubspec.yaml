@@ -24,8 +24,6 @@ dependencies:
   flutter:
     sdk: flutter
   get:
-  moor: ^4.5.0
-  sqlite3_flutter_libs: ^0.5.0
   path_provider: ^2.0.0
   path: ^1.8.0
 
@@ -35,12 +33,14 @@ dependencies:
   cupertino_icons: ^1.0.2
   google_fonts: ^2.1.0
   file_picker: ^4.0.0
+  hive: ^2.0.4
+  hive_flutter: ^1.1.0
 
 dev_dependencies:
 #  flutter_test:
 #    sdk: flutter
-  moor_generator: ^4.5.1
   build_runner: ^2.1.1
+  hive_generator: ^1.1.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

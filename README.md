@@ -1,6 +1,6 @@
 # shefu
 
-A new **offline** recipes manager in flutter, built with GetX and Moor
+A new **offline** recipes manager in flutter, built with GetX and Hive
 
 This application allows you to add, search and display your own recipes in your native language, all of this with local storage (no internet required at all!).
 
@@ -19,4 +19,4 @@ Supported languages:
   - 日本語
 
 Documentation will come later.
-This is using flutter beta channel to have access to latest moor packages.
+This is using flutter beta channel.

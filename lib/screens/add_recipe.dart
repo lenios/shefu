@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:moor/moor.dart' as m;
+import 'package:hive/hive.dart';
 import 'package:shefu/controller.dart';
 import 'package:shefu/models/recipes.dart';
 import 'package:shefu/widgets/image_helper.dart';
@@ -11,12 +11,10 @@ class AddRecipe extends StatelessWidget {
   final Controller c = Get.find();
   final TextEditingController _titleController = TextEditingController();
 
-  saveRecipe() {
-    c.database.addRecipe(RecipesCompanion(
-      title: m.Value(_titleController.text),
-      source: m.Value('url 1'),
-      image_path: m.Value(c.file_path),
-    ));
+  saveRecipe() async {
+    var box = Hive.box<Recipe>('recipes');
+    var recipe = Recipe(_titleController.text, 'url 1', c.file_path);
+    box.add(recipe);
     c.file_path = '';
     c.update();
     Get.back();
