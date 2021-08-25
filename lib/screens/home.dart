@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:shefu/controller.dart';
 import 'package:shefu/screens/add_recipe.dart';
 import 'package:shefu/models/recipes.dart';
-import 'package:shefu/widgets/recipe_thumbnail.dart';
+import 'package:shefu/widgets/recipe_card.dart';
 
 class RecipesGridView extends StatelessWidget {
   final List<Recipe> recipes;
@@ -17,10 +19,10 @@ class RecipesGridView extends StatelessWidget {
       return GridView.builder(
         itemCount: recipes.length,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2, mainAxisExtent: 100),
+            crossAxisCount: 2, mainAxisExtent: 90),
         itemBuilder: (context, index) {
           final recipe = recipes[index];
-          return RecipeThumbnail(recipe: recipe);
+          return RecipeCard(recipe: recipe);
         },
       );
     } else {
@@ -46,6 +48,7 @@ class Home extends StatelessWidget {
                     child: GestureDetector(
                       onTap: () {
                         //TODO  c.database.cleanUp();
+                        Hive.box<Recipe>('recipes').clear();
                         c.update();
                       },
                       child: Icon(

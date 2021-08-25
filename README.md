@@ -13,6 +13,11 @@ As a bonus, this should work on all platforms (ios,android,web,macos,linux and m
 
 This is a WIP! Use at your own risks!
 
+Sample:
+![home](https://github.com/lenios/shefu/blob/main/images/home.png?raw=true)
+![add recipe](https://github.com/lenios/shefu/blob/main/images/add_recipe.png?raw=true)
+
+
 Supported languages:
   - English
   - Français

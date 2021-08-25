@@ -11,8 +11,9 @@ Future<String> get _localPath async {
 }
 
 pickImage() async {
+  //webp not available for FileType.image
   final result = await FilePicker.platform
-      .pickFiles(type: FileType.image, allowMultiple: false, withData: true);
+      .pickFiles(type: FileType.any, allowMultiple: false, withData: true);
   final Controller c = Get.find();
 
   if (result != null) {
