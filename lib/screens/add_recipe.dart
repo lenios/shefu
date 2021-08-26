@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:shefu/controller.dart';
+import 'package:shefu/models/recipe_steps.dart';
 import 'package:shefu/models/recipes.dart';
 import 'package:shefu/widgets/image_helper.dart';
 
@@ -14,7 +15,16 @@ class AddRecipe extends StatelessWidget {
   saveRecipe() async {
     var box = Hive.box<Recipe>('recipes');
     var recipe = Recipe(_titleController.text, 'url 1', c.file_path);
+
+    var recipesteps_box = await Hive.openBox<RecipeStep>('recipesteps');
+    var new_step = RecipeStep('step 1 ${recipe.title}', 'cut lemon', '');
+    recipesteps_box.add(new_step);
+
+    recipe.steps = HiveList(recipesteps_box);
+    recipe.steps.add(new_step);
+
     box.add(recipe);
+
     c.file_path = '';
     c.update();
     Get.back();

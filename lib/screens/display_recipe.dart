@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+
 import 'package:shefu/models/recipes.dart';
 
 class DisplayRecipe extends StatelessWidget {
@@ -26,6 +27,18 @@ class DisplayRecipe extends StatelessWidget {
                   )),
               const SizedBox(
                 height: 5,
+              ),
+              Flexible(
+                child: ListView.builder(
+                    padding: const EdgeInsets.all(8),
+                    itemCount: recipe.steps.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Container(
+                        height: 50,
+                        child: Center(
+                            child: Text('name ${recipe.steps[index].name}')),
+                      );
+                    }),
               ),
               Text('source: ${recipe.source}'),
             ],

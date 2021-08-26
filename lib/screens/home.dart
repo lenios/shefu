@@ -86,7 +86,7 @@ class Home extends StatelessWidget {
                                     box.values.toList().where((e) {
                                   return e.title.contains(c.filter_string);
                                 }).toList();
-                                print(recipes);
+                                // print(recipes);
 
                                 return SizedBox(
                                     height: 700,

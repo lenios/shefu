@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+import 'recipe_steps.dart';
 
 part 'recipes.g.dart';
 
@@ -12,6 +13,9 @@ class Recipe extends HiveObject {
 
   @HiveField(2)
   String image_path;
+
+  @HiveField(3)
+  List<RecipeStep> steps = [];
 
   Recipe(this.title, this.source, this.image_path);
 }

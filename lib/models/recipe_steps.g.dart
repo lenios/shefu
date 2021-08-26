@@ -1,40 +1,38 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'recipes.dart';
+part of 'recipe_steps.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class RecipeAdapter extends TypeAdapter<Recipe> {
+class RecipeStepAdapter extends TypeAdapter<RecipeStep> {
   @override
-  final int typeId = 0;
+  final int typeId = 1;
 
   @override
-  Recipe read(BinaryReader reader) {
+  RecipeStep read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Recipe(
+    return RecipeStep(
       fields[0] as String,
       fields[1] as String,
       fields[2] as String,
-    )..steps = (fields[3] as List).cast<RecipeStep>();
+    );
   }
 
   @override
-  void write(BinaryWriter writer, Recipe obj) {
+  void write(BinaryWriter writer, RecipeStep obj) {
     writer
-      ..writeByte(4)
-      ..writeByte(0)
-      ..write(obj.title)
-      ..writeByte(1)
-      ..write(obj.source)
-      ..writeByte(2)
-      ..write(obj.image_path)
       ..writeByte(3)
-      ..write(obj.steps);
+      ..writeByte(0)
+      ..write(obj.name)
+      ..writeByte(1)
+      ..write(obj.instructions)
+      ..writeByte(2)
+      ..write(obj.image_path);
   }
 
   @override
@@ -43,7 +41,7 @@ class RecipeAdapter extends TypeAdapter<Recipe> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is RecipeAdapter &&
+      other is RecipeStepAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
