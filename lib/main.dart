@@ -11,6 +11,7 @@ void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(RecipeAdapter());
   Hive.registerAdapter(RecipeStepAdapter());
+  Hive.openBox<RecipeStep>('recipesteps');
   runApp(GetMaterialApp(
       theme: ThemeData.light(),
       translations: I18n(),
