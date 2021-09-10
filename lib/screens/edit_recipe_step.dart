@@ -2,31 +2,31 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hive/hive.dart';
 import 'package:shefu/controller.dart';
 import 'package:shefu/models/recipe_steps.dart';
 import 'package:shefu/models/recipes.dart';
 import 'package:shefu/widgets/image_helper.dart';
 
-class AddRecipe extends StatelessWidget {
+class EditRecipeStep extends StatelessWidget {
+  final Recipe recipe;
+  final RecipeStep recipeStep;
+
+  EditRecipeStep(this.recipe, this.recipeStep);
+
   final Controller c = Get.find();
-  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _directionController = TextEditingController();
 
-  saveRecipe() async {
-    var box = Hive.box<Recipe>('recipes');
-    var recipe = Recipe(_titleController.text, 'url 1', c.file_path);
+  saveRecipeStep() {
+    recipeStep.name = _nameController.text;
+    recipeStep.direction = _directionController.text;
+    recipeStep.image_path = c.file_path;
+    recipeStep.save();
+    recipe.save();
 
-    var recipesteps_box = await Hive.openBox<RecipeStep>('recipesteps');
-    var new_step = RecipeStep('step 1 ${recipe.title}', 'cut lemon', '');
-    recipesteps_box.add(new_step);
-
-    recipe.steps = HiveList(recipesteps_box);
-    recipe.steps.add(new_step);
-
-    box.add(recipe);
-
-    c.file_path = '';
+    c.file_path = recipe.image_path;
     c.update();
+    //get back to recipe edition
     Get.back();
   }
 
@@ -38,9 +38,16 @@ class AddRecipe extends StatelessWidget {
               appBar: AppBar(),
               body: Column(
                 children: [
-                  Center(child: Text('add recipe'.tr)),
+                  Center(child: Text('add step'.tr)),
                   TextFormField(
-                    controller: _titleController,
+                    controller: _nameController,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    validator: (value) {
+                      return null;
+                    },
+                  ),
+                  TextFormField(
+                    controller: _directionController,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     validator: (value) {
                       return null;
@@ -56,7 +63,8 @@ class AddRecipe extends StatelessWidget {
                       : Container(),
                   ElevatedButton(
                       child: Text('pick image'.tr), onPressed: pickImage),
-                  ElevatedButton(child: Text('save'.tr), onPressed: saveRecipe)
+                  ElevatedButton(
+                      child: Text('save'.tr), onPressed: saveRecipeStep)
                 ],
               ),
             ));

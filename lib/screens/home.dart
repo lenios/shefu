@@ -3,7 +3,8 @@ import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:shefu/controller.dart';
-import 'package:shefu/screens/add_recipe.dart';
+import 'package:shefu/models/recipe_steps.dart';
+import 'package:shefu/screens/edit_recipe.dart';
 import 'package:shefu/models/recipes.dart';
 import 'package:shefu/widgets/recipe_card.dart';
 
@@ -30,10 +31,24 @@ class RecipesGridView extends StatelessWidget {
 }
 
 class Home extends StatelessWidget {
+  final Controller c = Get.put(Controller());
+
+  addRecipe() {
+    //create empty recipe and redirect to edit page
+    var box = Hive.box<Recipe>('recipes');
+    var new_recipe = Recipe('', '', '');
+    var recipesteps_box = Hive.box<RecipeStep>('recipesteps');
+    new_recipe.steps = HiveList(recipesteps_box);
+
+    box.add(new_recipe);
+
+    c.file_path = '';
+    c.update();
+    Get.to(() => EditRecipe(new_recipe));
+  }
+
   @override
   Widget build(BuildContext context) {
-    final Controller c = Get.put(Controller());
-
     return GetBuilder<Controller>(
         init: c,
         builder: (value) => Scaffold(
@@ -56,7 +71,7 @@ class Home extends StatelessWidget {
                 Padding(
                     padding: EdgeInsets.only(right: 20.0),
                     child: GestureDetector(
-                      onTap: () => Get.to(() => AddRecipe()),
+                      onTap: addRecipe,
                       child: Icon(Icons.add),
                     )),
               ],

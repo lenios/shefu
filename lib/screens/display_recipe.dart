@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 import 'package:shefu/models/recipes.dart';
+import 'package:shefu/widgets/recipe_step_card.dart';
 
 class DisplayRecipe extends StatelessWidget {
   final Recipe recipe;
@@ -36,7 +37,8 @@ class DisplayRecipe extends StatelessWidget {
                       return Container(
                         height: 50,
                         child: Center(
-                            child: Text('name ${recipe.steps[index].name}')),
+                            child: RecipeStepCard(
+                                recipe_step: recipe.steps[index])),
                       );
                     }),
               ),

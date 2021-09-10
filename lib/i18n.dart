@@ -6,6 +6,7 @@ class I18n extends Translations {
         'en_US': {
           'hello': 'Hello',
           'add recipe': 'Add recipe',
+          'add step': 'Add step',
           'save': 'Save',
           'title': 'Title',
           'pick image': 'Pick an image',

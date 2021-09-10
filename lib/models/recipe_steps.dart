@@ -8,10 +8,10 @@ class RecipeStep extends HiveObject {
   String name;
 
   @HiveField(1)
-  String instructions;
+  String direction;
 
   @HiveField(2)
   String image_path = '';
 
-  RecipeStep(this.name, this.instructions, this.image_path);
+  RecipeStep(this.name, this.direction, this.image_path);
 }

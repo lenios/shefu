@@ -30,7 +30,7 @@ class RecipeStepAdapter extends TypeAdapter<RecipeStep> {
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
-      ..write(obj.instructions)
+      ..write(obj.direction)
       ..writeByte(2)
       ..write(obj.image_path);
   }
