@@ -38,6 +38,13 @@ class EditRecipe extends StatelessWidget {
     Get.back();
   }
 
+  deleteRecipe() {
+    //TODO delete steps
+    recipe.delete(); //c.update(); //todo: needed?
+    Get.back();
+    Get.back(); //TODO DIRTY
+  }
+
   addRecipeStep() {
     updateRecipe();
 
@@ -77,18 +84,36 @@ class EditRecipe extends StatelessWidget {
                     itemCount: recipe.steps.length,
                     itemBuilder: (context, index) {
                       final recipe_step = recipe.steps[index];
-                      return Container(
+                      return Dismissible(
+                        key: Key(recipe_step.name),
+                        onDismissed: (direction) {
+                          recipe_step.delete();
+                          //todo optimize
+                          recipe.save();
+                          c.update();
+                        },
+                        child: Container(
                           height: 100,
                           child: RecipeStepCard(
                               recipe: recipe,
                               recipe_step: recipe_step,
-                              editable: true));
+                              editable: true),
+                        ),
+                      );
                     },
                   )),
                   pickImageWidget(),
                   ElevatedButton(
                       child: Text('add step'.tr), onPressed: addRecipeStep),
-                  ElevatedButton(child: Text('save'.tr), onPressed: saveRecipe)
+                  Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        ElevatedButton(
+                            child: Text('delete'.tr), onPressed: deleteRecipe),
+                        ElevatedButton(
+                            child: Text('save'.tr), onPressed: saveRecipe),
+                      ]),
                 ],
               ),
             ));

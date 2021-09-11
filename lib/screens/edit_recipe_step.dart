@@ -48,8 +48,7 @@ class EditRecipeStep extends StatelessWidget {
                   Center(child: Text('add step'.tr)),
                   TextFormField(
                     controller: _nameController,
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(), labelText: 'name'.tr),
+                    decoration: InputDecoration(labelText: 'name'.tr),
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     validator: (value) {
                       return null;
@@ -57,9 +56,7 @@ class EditRecipeStep extends StatelessWidget {
                   ),
                   TextFormField(
                     controller: _directionController,
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'direction'.tr),
+                    decoration: InputDecoration(labelText: 'direction'.tr),
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     validator: (value) {
                       return null;
@@ -67,8 +64,7 @@ class EditRecipeStep extends StatelessWidget {
                   ),
                   TextFormField(
                     controller: _timerController,
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(), labelText: 'timer'.tr),
+                    decoration: InputDecoration(labelText: 'timer'.tr),
                   ),
                   pickImageWidget(),
                   ElevatedButton(

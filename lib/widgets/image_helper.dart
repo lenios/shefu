@@ -13,13 +13,15 @@ Widget pickImageWidget() {
 
   return Center(
     child: Container(
+      height: 170,
+      padding: EdgeInsets.all(10),
       child: Row(children: [
         c.file_path.isNotEmpty
             ? ClipRRect(
                 child: Image.file(
                 File(c.file_path),
                 fit: BoxFit.scaleDown,
-                width: 50,
+                width: 300,
               ))
             : Container(),
         ElevatedButton(child: Text('pick image'.tr), onPressed: pickImage),
