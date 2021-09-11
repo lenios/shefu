@@ -20,19 +20,21 @@ class RecipeStepAdapter extends TypeAdapter<RecipeStep> {
       fields[0] as String,
       fields[1] as String,
       fields[2] as String,
-    );
+    )..timer = fields[3] as int;
   }
 
   @override
   void write(BinaryWriter writer, RecipeStep obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
       ..write(obj.direction)
       ..writeByte(2)
-      ..write(obj.image_path);
+      ..write(obj.image_path)
+      ..writeByte(3)
+      ..write(obj.timer);
   }
 
   @override

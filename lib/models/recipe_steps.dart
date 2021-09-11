@@ -13,5 +13,8 @@ class RecipeStep extends HiveObject {
   @HiveField(2)
   String image_path = '';
 
+  @HiveField(3)
+  int timer = 0;
+
   RecipeStep(this.name, this.direction, this.image_path);
 }

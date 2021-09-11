@@ -15,6 +15,7 @@ mockData() async {
 //step 1
   file_path = await pickAssetImage('images/mock/applepie1.webp');
   var recipeStep1 = RecipeStep('prepare dough', 'as you want', file_path);
+  recipeStep1.timer = 90;
   recipesteps_box.add(recipeStep1);
   testRecipe1.steps.add(recipeStep1);
 

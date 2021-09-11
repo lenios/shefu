@@ -58,12 +58,15 @@ class RecipeStepCard extends StatelessWidget {
                 '${recipe_step.direction}',
                 maxLines: 2,
               ),
-              // editable
-              //     ? ElevatedButton(
-              //         child: Text('edit step'.tr),
-              //         onPressed: () =>
-              //             Get.to(() => EditRecipeStep(recipe, recipe_step)))
-              //     : Container()
+              recipe_step.timer > 0
+                  ? Text('${recipe_step.timer} seconds!')
+                  : Container(),
+              editable
+                  ? ElevatedButton(
+                      child: Text('edit step'.tr),
+                      onPressed: () =>
+                          Get.to(() => EditRecipeStep(recipe, recipe_step)))
+                  : Container()
             ],
           ),
         ],

@@ -1,11 +1,32 @@
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shefu/controller.dart';
+
+Widget pickImageWidget() {
+  final Controller c = Get.find();
+
+  return Center(
+    child: Container(
+      child: Row(children: [
+        c.file_path.isNotEmpty
+            ? ClipRRect(
+                child: Image.file(
+                File(c.file_path),
+                fit: BoxFit.scaleDown,
+                width: 50,
+              ))
+            : Container(),
+        ElevatedButton(child: Text('pick image'.tr), onPressed: pickImage),
+      ]),
+    ),
+  );
+}
 
 Future<String> get _localPath async {
   final directory = await getApplicationDocumentsDirectory();

@@ -14,18 +14,20 @@ class EditRecipeStep extends StatelessWidget {
   EditRecipeStep(this.recipe, this.recipeStep) {
     _nameController.text = recipeStep.name;
     _directionController.text = recipeStep.direction;
-
+    _timerController.text = recipeStep.timer.toString();
     c.file_path = recipeStep.image_path;
   }
 
   final Controller c = Get.find();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _directionController = TextEditingController();
+  final TextEditingController _timerController = TextEditingController();
 
   saveRecipeStep() {
     recipeStep.name = _nameController.text;
     recipeStep.direction = _directionController.text;
     recipeStep.image_path = c.file_path;
+    recipeStep.timer = int.parse(_timerController.text);
     recipeStep.save();
     recipe.save();
 
@@ -46,6 +48,8 @@ class EditRecipeStep extends StatelessWidget {
                   Center(child: Text('add step'.tr)),
                   TextFormField(
                     controller: _nameController,
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(), labelText: 'name'.tr),
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     validator: (value) {
                       return null;
@@ -53,21 +57,20 @@ class EditRecipeStep extends StatelessWidget {
                   ),
                   TextFormField(
                     controller: _directionController,
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'direction'.tr),
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     validator: (value) {
                       return null;
                     },
                   ),
-                  c.file_path.isNotEmpty
-                      ? ClipRRect(
-                          child: Image.file(
-                          File(c.file_path),
-                          fit: BoxFit.scaleDown,
-                          width: 50,
-                        ))
-                      : Container(),
-                  ElevatedButton(
-                      child: Text('pick image'.tr), onPressed: pickImage),
+                  TextFormField(
+                    controller: _timerController,
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(), labelText: 'timer'.tr),
+                  ),
+                  pickImageWidget(),
                   ElevatedButton(
                       child: Text('save'.tr), onPressed: saveRecipeStep)
                 ],

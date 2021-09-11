@@ -60,8 +60,12 @@ class EditRecipe extends StatelessWidget {
               appBar: AppBar(),
               body: Column(
                 children: [
-                  Center(child: Text('add recipe'.tr)),
+                  Center(
+                      child: Text('add recipe'.tr,
+                          style: const TextStyle(fontSize: 24))),
                   TextFormField(
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(), labelText: 'title'.tr),
                     controller: _titleController,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     validator: (value) {
@@ -81,18 +85,9 @@ class EditRecipe extends StatelessWidget {
                               editable: true));
                     },
                   )),
-                  c.file_path.isNotEmpty
-                      ? ClipRRect(
-                          child: Image.file(
-                          File(c.file_path),
-                          fit: BoxFit.scaleDown,
-                          width: 50,
-                        ))
-                      : Container(),
+                  pickImageWidget(),
                   ElevatedButton(
                       child: Text('add step'.tr), onPressed: addRecipeStep),
-                  ElevatedButton(
-                      child: Text('pick image'.tr), onPressed: pickImage),
                   ElevatedButton(child: Text('save'.tr), onPressed: saveRecipe)
                 ],
               ),
