@@ -17,13 +17,15 @@ class RecipeCard extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ClipRRect(
-              child: Image.file(
-                File(recipe.image_path),
-                fit: BoxFit.fitWidth,
-                width: 120,
-              ),
-            ),
+            recipe.image_path.isNotEmpty
+                ? ClipRRect(
+                    child: Image.file(
+                      File(recipe.image_path),
+                      fit: BoxFit.fitWidth,
+                      width: 120,
+                    ),
+                  )
+                : Container(),
             const SizedBox(
               width: 5,
             ),

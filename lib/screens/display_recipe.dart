@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 import 'package:shefu/models/recipes.dart';
+import 'package:shefu/widgets/recipe_header.dart';
 import 'package:shefu/widgets/recipe_step_card.dart';
 
 class DisplayRecipe extends StatelessWidget {
@@ -19,30 +20,20 @@ class DisplayRecipe extends StatelessWidget {
         body: SafeArea(
           child: Column(
             children: [
-              SizedBox(
-                  height: 250,
-                  width: double.infinity,
-                  child: Image.file(
-                    File(recipe.image_path),
-                    fit: BoxFit.scaleDown,
-                  )),
-              const SizedBox(
-                height: 5,
-              ),
+              RecipeHeader(recipe: recipe),
               Flexible(
                 child: ListView.builder(
-                    padding: const EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(4),
                     itemCount: recipe.steps.length,
                     itemBuilder: (BuildContext context, int index) {
                       return Container(
-                        height: 50,
+                        height: 100,
                         child: Center(
                             child: RecipeStepCard(
                                 recipe_step: recipe.steps[index])),
                       );
                     }),
               ),
-              Text('source: ${recipe.source}'),
             ],
           ),
         ));
