@@ -101,8 +101,6 @@ class Home extends StatelessWidget {
                                     box.values.toList().where((e) {
                                   return e.title.contains(c.filter_string);
                                 }).toList();
-                                // print(recipes);
-
                                 return SizedBox(
                                     height: 700,
                                     child: RecipesGridView(recipes: recipes));
@@ -116,9 +114,5 @@ class Home extends StatelessWidget {
                 ],
               ),
             )));
-
-    // Center(
-    //     child: ElevatedButton(
-    //         child: Text('increase'.tr), onPressed: c.increment)),
   }
 }

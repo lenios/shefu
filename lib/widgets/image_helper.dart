@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shefu/controller.dart';
 
@@ -27,4 +29,16 @@ pickImage() async {
   } else {
     // User canceled the picker
   }
+}
+
+//for data mock
+pickAssetImage(String asset) async {
+  final file = await rootBundle.load(asset);
+  String name = basename(asset);
+
+  final dir_path = await _localPath;
+  String file_path = '$dir_path/${name}';
+  //write image to disk
+  File(file_path).writeAsBytesSync(List.from(file.buffer.asUint8List()));
+  return file_path;
 }
