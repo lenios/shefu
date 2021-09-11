@@ -11,7 +11,12 @@ class EditRecipeStep extends StatelessWidget {
   final Recipe recipe;
   final RecipeStep recipeStep;
 
-  EditRecipeStep(this.recipe, this.recipeStep);
+  EditRecipeStep(this.recipe, this.recipeStep) {
+    _nameController.text = recipeStep.name;
+    _directionController.text = recipeStep.direction;
+
+    c.file_path = recipeStep.image_path;
+  }
 
   final Controller c = Get.find();
   final TextEditingController _nameController = TextEditingController();

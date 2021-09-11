@@ -1,11 +1,21 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:shefu/models/recipe_steps.dart';
+import 'package:shefu/models/recipes.dart';
+import 'package:shefu/screens/edit_recipe_step.dart';
 
 class RecipeStepCard extends StatelessWidget {
   final RecipeStep recipe_step;
-  const RecipeStepCard({Key? key, required this.recipe_step}) : super(key: key);
+  final Recipe recipe;
+  final bool editable;
+  const RecipeStepCard(
+      {Key? key,
+      required this.recipe,
+      required this.recipe_step,
+      this.editable = false})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +42,7 @@ class RecipeStepCard extends StatelessWidget {
           //         itemCount: 2,
           //         itemBuilder: (BuildContext context, int index) {
           //           return ListTile(
-          //             leading: new MyBullet(),
+          //             leading: Text('•'),
           //             title: Text('ingredient $index'),
           //             //Text(recipe_step.ingredients[index].label);
           //           );
@@ -48,23 +58,15 @@ class RecipeStepCard extends StatelessWidget {
                 '${recipe_step.direction}',
                 maxLines: 2,
               ),
+              // editable
+              //     ? ElevatedButton(
+              //         child: Text('edit step'.tr),
+              //         onPressed: () =>
+              //             Get.to(() => EditRecipeStep(recipe, recipe_step)))
+              //     : Container()
             ],
           ),
         ],
-      ),
-    );
-  }
-}
-
-class MyBullet extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return new Container(
-      height: 10.0,
-      width: 10.0,
-      decoration: new BoxDecoration(
-        color: Colors.black,
-        shape: BoxShape.circle,
       ),
     );
   }

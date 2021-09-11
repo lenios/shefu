@@ -12,10 +12,15 @@ import 'package:shefu/widgets/recipe_step_card.dart';
 import 'edit_recipe_step.dart';
 
 class EditRecipe extends StatelessWidget {
+  final Controller c = Get.find();
+
   final Recipe recipe;
   final TextEditingController _titleController = TextEditingController();
 
-  EditRecipe(this.recipe);
+  EditRecipe(this.recipe) {
+    _titleController.text = recipe.title;
+    c.file_path = recipe.image_path;
+  }
 
   updateRecipe() {
     final Controller c = Get.find();
@@ -42,14 +47,13 @@ class EditRecipe extends StatelessWidget {
     recipesteps_box.add(new_step);
 
     recipe.steps.add(new_step);
+    recipe.save();
 
     Get.to(() => EditRecipeStep(recipe, new_step));
   }
 
   @override
   Widget build(context) {
-    final Controller c = Get.find();
-
     return GetBuilder<Controller>(
         init: c,
         builder: (value) => Scaffold(
@@ -69,7 +73,12 @@ class EditRecipe extends StatelessWidget {
                     itemCount: recipe.steps.length,
                     itemBuilder: (context, index) {
                       final recipe_step = recipe.steps[index];
-                      return RecipeStepCard(recipe_step: recipe_step);
+                      return Container(
+                          height: 100,
+                          child: RecipeStepCard(
+                              recipe: recipe,
+                              recipe_step: recipe_step,
+                              editable: true));
                     },
                   )),
                   c.file_path.isNotEmpty
