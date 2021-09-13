@@ -5,6 +5,7 @@ class I18n extends Translations {
   Map<String, Map<String, String>> get keys => {
         'en_US': {
           'hello': 'Hello',
+          'add': 'Add',
           'add recipe': 'Add recipe',
           'add step': 'Add step',
           'edit recipe': 'Edit recipe',
@@ -14,15 +15,19 @@ class I18n extends Translations {
           'title': 'Title',
           'timer': 'Timer',
           'name': 'Name',
+          'unit': 'Unit',
+          'quantity': 'Quantity',
           'direction': 'Direction',
           'pick image': 'Pick an image',
           'source': 'Source',
           'search': 'Search',
+          'notes': 'Notes',
           'no_recipe':
               'No recipe in database. Please create one using the + icon.',
         },
         'fr_FR': {
           'hello': 'Bonjour',
+          'add': 'Ajouter',
           'add recipe': 'Ajouter une recette',
           'add step': 'Ajouter une étape',
           'edit recipe': 'Modier la recette',
@@ -32,6 +37,8 @@ class I18n extends Translations {
           'title': 'Titre',
           'timer': 'Durée',
           'name': 'Nom',
+          'unit': 'Unité',
+          'quantity': 'Quantité',
           'direction': 'instructions',
           'pick image': 'Sélectionner une image',
           'source': 'Source',

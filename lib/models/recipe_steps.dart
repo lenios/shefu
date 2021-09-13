@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+import 'package:shefu/models/ingredient_tuples.dart';
 
 part 'recipe_steps.g.dart';
 
@@ -15,6 +16,9 @@ class RecipeStep extends HiveObject {
 
   @HiveField(3)
   int timer = 0;
+
+  @HiveField(4)
+  List<IngredientTuple> ingredients = [];
 
   RecipeStep(this.name, this.direction, this.image_path);
 }

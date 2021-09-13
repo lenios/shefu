@@ -17,5 +17,8 @@ class Recipe extends HiveObject {
   @HiveField(3)
   List<RecipeStep> steps = [];
 
+  @HiveField(4)
+  String notes = '';
+
   Recipe(this.title, this.source, this.image_path);
 }

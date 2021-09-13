@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 import 'package:shefu/models/recipes.dart';
 
 class RecipeHeader extends StatelessWidget {
@@ -16,8 +17,8 @@ class RecipeHeader extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           SizedBox(
-              height: 200,
-              width: 300,
+              height: 150,
+              width: 250,
               child: recipe.image_path.isNotEmpty
                   ? Image.file(
                       File(recipe.image_path),
@@ -32,7 +33,11 @@ class RecipeHeader extends StatelessWidget {
                     fontWeight: FontWeight.w700,
                     fontSize: 20,
                   )),
-              Text('source: ${recipe.source}'),
+              Text("${'source'.tr}: ${recipe.source}"),
+              //TODO deal with overflow
+              (recipe.notes.length > 0)
+                  ? Text("${'notes'.tr}: ${recipe.notes}")
+                  : Container(),
             ],
           )
         ],

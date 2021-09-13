@@ -86,31 +86,21 @@ class Home extends StatelessWidget {
                       c.update();
                     },
                   ),
-                  FutureBuilder(
-                      future: Hive.openBox<Recipe>('recipes'),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.done) {
-                          return ValueListenableBuilder(
-                            valueListenable:
-                                Hive.box<Recipe>('recipes').listenable(),
-                            builder: (context, Box<Recipe> box, _) {
-                              if (box.values.isEmpty) {
-                                return Text('no_recipe'.tr);
-                              } else {
-                                List<Recipe> recipes =
-                                    box.values.toList().where((e) {
-                                  return e.title.contains(c.filter_string);
-                                }).toList();
-                                return SizedBox(
-                                    height: 700,
-                                    child: RecipesGridView(recipes: recipes));
-                              }
-                            },
-                          );
-                        } else {
-                          return Container();
-                        }
-                      }),
+                  ValueListenableBuilder(
+                    valueListenable: Hive.box<Recipe>('recipes').listenable(),
+                    builder: (context, Box<Recipe> box, _) {
+                      if (box.values.isEmpty) {
+                        return Text('no_recipe'.tr);
+                      } else {
+                        List<Recipe> recipes = box.values.toList().where((e) {
+                          return e.title.contains(c.filter_string);
+                        }).toList();
+                        return SizedBox(
+                            height: 700,
+                            child: RecipesGridView(recipes: recipes));
+                      }
+                    },
+                  ),
                 ],
               ),
             )));

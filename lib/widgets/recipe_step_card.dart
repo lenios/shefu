@@ -21,56 +21,86 @@ class RecipeStepCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          recipe_step.image_path.isNotEmpty
-              ? ClipRRect(
-                  child: Image.file(
-                    File(recipe_step.image_path),
-                    fit: BoxFit.cover,
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            recipe_step.image_path.isNotEmpty
+                ? SizedBox(
+                    height: 90,
+                    width: 160,
+                    child: ClipRRect(
+                      child: Image.file(
+                        File(recipe_step.image_path),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  )
+                : Container(
+                    height: 90,
+                    width: 160,
                   ),
-                )
-              : Container(),
-          const SizedBox(
-            width: 5,
-          ),
-          // ingredients list
-          // TODO: display ingredients
-          // Flexible(
-          //     flex: 1,
-          //     child: ListView.builder(
-          //         itemCount: 2,
-          //         itemBuilder: (BuildContext context, int index) {
-          //           return ListTile(
-          //             leading: Text('•'),
-          //             title: Text('ingredient $index'),
-          //             //Text(recipe_step.ingredients[index].label);
-          //           );
-          //         })),
-          Column(
-            children: [
-              Text(
-                '${recipe_step.name}',
-                maxLines: 1,
-                style: const TextStyle(fontWeight: FontWeight.w700),
+            const SizedBox(
+              width: 5,
+            ),
+            // ingredients list
+            Flexible(
+              fit: FlexFit.loose,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Text('test'),
+
+                  ListView.builder(
+                    padding: const EdgeInsets.all(0.0),
+                    shrinkWrap: true,
+                    itemCount: recipe_step.ingredients.length,
+                    itemBuilder: (context, index) {
+                      final ingredientTuple = recipe_step.ingredients[index];
+                      return ListTile(
+                        minVerticalPadding: -4,
+                        leading: Text('•'),
+                        subtitle: Text(ingredientTuple.shape),
+                        dense: true,
+                        contentPadding: EdgeInsets.zero,
+                        title: Align(
+                          alignment: Alignment(-1.2, 0),
+                          child: Text(
+                              '${ingredientTuple.quantity} ${ingredientTuple.unit} ${ingredientTuple.name}'),
+                        ),
+                      );
+                    },
+                  ),
+                ],
               ),
-              Text(
-                '${recipe_step.direction}',
-                maxLines: 2,
+            ),
+
+            Flexible(
+              flex: 2,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '${recipe_step.name}',
+                    maxLines: 1,
+                    style: const TextStyle(fontWeight: FontWeight.w700),
+                  ),
+                  Text(
+                    '${recipe_step.direction}',
+                    maxLines: 2,
+                  ),
+                  recipe_step.timer > 0
+                      ? Text('${recipe_step.timer} seconds!')
+                      : Container(),
+                  editable
+                      ? ElevatedButton(
+                          child: Text('edit step'.tr),
+                          onPressed: () =>
+                              Get.to(() => EditRecipeStep(recipe, recipe_step)))
+                      : Container()
+                ],
               ),
-              recipe_step.timer > 0
-                  ? Text('${recipe_step.timer} seconds!')
-                  : Container(),
-              editable
-                  ? ElevatedButton(
-                      child: Text('edit step'.tr),
-                      onPressed: () =>
-                          Get.to(() => EditRecipeStep(recipe, recipe_step)))
-                  : Container()
-            ],
-          ),
-        ],
-      ),
+            )
+          ]),
     );
   }
 }

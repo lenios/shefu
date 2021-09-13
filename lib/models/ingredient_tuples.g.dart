@@ -1,44 +1,41 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'recipe_steps.dart';
+part of 'ingredient_tuples.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class RecipeStepAdapter extends TypeAdapter<RecipeStep> {
+class IngredientTupleAdapter extends TypeAdapter<IngredientTuple> {
   @override
-  final int typeId = 1;
+  final int typeId = 2;
 
   @override
-  RecipeStep read(BinaryReader reader) {
+  IngredientTuple read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return RecipeStep(
+    return IngredientTuple(
       fields[0] as String,
       fields[1] as String,
-      fields[2] as String,
-    )
-      ..timer = fields[3] as int
-      ..ingredients = (fields[4] as List).cast<IngredientTuple>();
+      fields[2] as int,
+      fields[3] as String,
+    );
   }
 
   @override
-  void write(BinaryWriter writer, RecipeStep obj) {
+  void write(BinaryWriter writer, IngredientTuple obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
-      ..write(obj.direction)
+      ..write(obj.unit)
       ..writeByte(2)
-      ..write(obj.image_path)
+      ..write(obj.quantity)
       ..writeByte(3)
-      ..write(obj.timer)
-      ..writeByte(4)
-      ..write(obj.ingredients);
+      ..write(obj.shape);
   }
 
   @override
@@ -47,7 +44,7 @@ class RecipeStepAdapter extends TypeAdapter<RecipeStep> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is RecipeStepAdapter &&
+      other is IngredientTupleAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -24,24 +22,23 @@ class DisplayRecipe extends StatelessWidget {
             appBar: AppBar(
               title: Text(recipe.title),
             ),
-            body: SafeArea(
+            body: SingleChildScrollView(
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   RecipeHeader(recipe: recipe),
-                  Flexible(
-                    child: ListView.builder(
-                        padding: const EdgeInsets.all(4),
-                        itemCount: recipe.steps.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return Container(
-                            height: 100,
-                            child: Center(
-                                child: RecipeStepCard(
-                                    recipe: recipe,
-                                    recipe_step: recipe.steps[index])),
-                          );
-                        }),
-                  ),
+                  ListView.builder(
+                      shrinkWrap: true,
+                      padding: const EdgeInsets.all(4),
+                      itemCount: recipe.steps.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Container(
+                          child: Center(
+                              child: RecipeStepCard(
+                                  recipe: recipe,
+                                  recipe_step: recipe.steps[index])),
+                        );
+                      }),
                   ElevatedButton(
                       child: Text('edit recipe'.tr),
                       onPressed: () => Get.to(() => EditRecipe(recipe))),

@@ -4,6 +4,7 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:shefu/widgets/mock_data.dart';
 import 'i18n.dart';
+import 'models/ingredient_tuples.dart';
 import 'models/recipe_steps.dart';
 import 'models/recipes.dart';
 import 'screens/home.dart';
@@ -12,8 +13,12 @@ void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(RecipeAdapter());
   Hive.registerAdapter(RecipeStepAdapter());
+  Hive.registerAdapter(IngredientTupleAdapter());
+  await Hive.openBox<IngredientTuple>('ingredienttuples');
   await Hive.openBox<RecipeStep>('recipesteps');
-  // mockData();
+  await Hive.openBox<Recipe>('recipes');
+
+  mockData();
   runApp(GetMaterialApp(
       theme: ThemeData.light(),
       translations: I18n(),
