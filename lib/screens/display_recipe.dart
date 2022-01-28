@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
 
 import 'package:shefu/models/recipes.dart';
 import 'package:shefu/widgets/recipe_header.dart';
@@ -16,6 +17,9 @@ class DisplayRecipe extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // final _recipes = Hive.box<Recipe>('recipes');
+    // Recipe? _recipe = _recipes.get(recipe);
+
     return GetBuilder<Controller>(
         init: c,
         builder: (value) => Scaffold(
@@ -27,21 +31,62 @@ class DisplayRecipe extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   RecipeHeader(recipe: recipe),
+                  Column(
+                    children: [
+                      Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Flexible(
+                                flex: 1,
+                                fit: FlexFit.tight,
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  children: [
+                                    Text(
+                                      'Ingredients',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          fontStyle: FontStyle.normal,
+                                          letterSpacing: 2,
+                                          color: Colors.green[700],
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                  ],
+                                )),
+                            Flexible(
+                                flex: 2,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Instructions',
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          fontStyle: FontStyle.normal,
+                                          letterSpacing: 2,
+                                          color: Colors.green[700],
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                  ],
+                                ))
+                          ]),
+                    ],
+                  ),
                   ListView.builder(
                       shrinkWrap: true,
-                      padding: const EdgeInsets.all(4),
+                      //padding: const EdgeInsets.all(4),
                       itemCount: recipe.steps.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return Container(
-                          child: Center(
-                              child: RecipeStepCard(
-                                  recipe: recipe,
-                                  recipe_step: recipe.steps[index])),
-                        );
+                        return RecipeStepCard(recipe_step: recipe.steps[index]);
                       }),
                   ElevatedButton(
                       child: Text('edit recipe'.tr),
-                      onPressed: () => Get.to(() => EditRecipe(recipe))),
+                      onPressed: () => Get.to(() => EditRecipe(recipe.key))),
                 ],
               ),
             )));

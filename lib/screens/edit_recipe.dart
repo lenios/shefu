@@ -13,24 +13,29 @@ import 'edit_recipe_step.dart';
 class EditRecipe extends StatelessWidget {
   final Controller c = Get.find();
 
-  final Recipe recipe;
+  Recipe? _recipe;
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _notesController = TextEditingController();
 
-  EditRecipe(this.recipe) {
-    _titleController.text = recipe.title;
-    _notesController.text = recipe.notes;
-    c.file_path = recipe.image_path;
+  final _recipes = Hive.box<Recipe>('recipes');
+
+  var _recipesteps_box = Hive.box<RecipeStep>('recipesteps');
+
+  EditRecipe(int? recipeKey) {
+    _recipe = _recipes.get(recipeKey);
+    _titleController.text = _recipe!.title;
+    _notesController.text = _recipe!.notes;
+    c.file_path = _recipe!.image_path;
     // Hive.openBox<IngredientTuple>('ingredienttuples');
   }
 
   updateRecipe() {
     final Controller c = Get.find();
-    recipe.title = _titleController.text;
-    recipe.source = 'url 1';
-    recipe.image_path = c.file_path;
-    recipe.notes = _notesController.text;
-    recipe.save();
+    _recipe!.title = _titleController.text;
+    _recipe!.source = 'url 1';
+    _recipe!.image_path = c.file_path;
+    _recipe!.notes = _notesController.text;
+    _recipe!.save();
     c.file_path = '';
     c.update();
   }
@@ -43,7 +48,8 @@ class EditRecipe extends StatelessWidget {
 
   deleteRecipe() {
     //TODO delete steps
-    recipe.delete(); //c.update(); //todo: needed?
+    _recipes.delete(_recipe);
+    c.update(); //todo: needed?
     Get.back();
     Get.back(); //TODO DIRTY
   }
@@ -52,19 +58,21 @@ class EditRecipe extends StatelessWidget {
     updateRecipe();
 
     //create empty recipe step and redirect to edit page
-    var recipesteps_box = Hive.box<RecipeStep>('recipesteps');
     var new_step = RecipeStep('', '', '');
 
     var ingredientTuples_box = Hive.box<IngredientTuple>('ingredienttuples');
     new_step.ingredients = HiveList(ingredientTuples_box);
 
-    recipesteps_box.add(new_step);
+    _recipesteps_box.add(new_step);
 
-    recipe.steps.add(new_step);
+    _recipe!.steps.add(new_step);
 
-    recipe.save();
+    _recipe!.save();
 
-    Get.to(() => EditRecipeStep(recipe, new_step));
+    var recipesteps_box = Hive.box<RecipeStep>('recipesteps');
+    recipesteps_box.get(new_step)?.save();
+
+    Get.to(() => EditRecipeStep(new_step));
   }
 
   @override
@@ -91,23 +99,21 @@ class EditRecipe extends StatelessWidget {
                     ),
                     ListView.builder(
                       shrinkWrap: true,
-                      itemCount: recipe.steps.length,
+                      itemCount: _recipe!.steps.length,
                       itemBuilder: (context, index) {
-                        final recipe_step = recipe.steps[index];
+                        final recipe_step = _recipe!.steps[index];
                         return Dismissible(
-                          key: Key(recipe_step.name),
+                          key: Key(recipe_step.key.toString()),
                           onDismissed: (direction) {
-                            // recipe_step.delete();
                             //todo optimize
-                            recipe.steps.remove(recipe_step);
-                            recipe.save();
+                            _recipe!.steps.remove(recipe_step);
+                            _recipe!.save();
+                            recipe_step.delete();
                             c.update();
                           },
                           child: Container(
                             child: RecipeStepCard(
-                                recipe: recipe,
-                                recipe_step: recipe_step,
-                                editable: true),
+                                recipe_step: recipe_step, editable: true),
                           ),
                         );
                       },

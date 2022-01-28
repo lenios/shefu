@@ -10,6 +10,7 @@ import 'models/recipes.dart';
 import 'screens/home.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   Hive.registerAdapter(RecipeAdapter());
   Hive.registerAdapter(RecipeStepAdapter());
@@ -18,8 +19,9 @@ void main() async {
   await Hive.openBox<RecipeStep>('recipesteps');
   await Hive.openBox<Recipe>('recipes');
 
-  mockData();
+  //mockData();
   runApp(GetMaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData.light(),
       translations: I18n(),
       locale: Locale('fr', 'FR'),

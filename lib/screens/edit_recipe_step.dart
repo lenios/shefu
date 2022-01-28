@@ -8,10 +8,14 @@ import 'package:shefu/models/recipes.dart';
 import 'package:shefu/widgets/image_helper.dart';
 
 class EditRecipeStep extends StatelessWidget {
-  final Recipe recipe;
-  final RecipeStep recipeStep;
+  //Recipe recipe;
+  RecipeStep recipeStep;
+  //late int step_key;
 
-  EditRecipeStep(this.recipe, this.recipeStep) {
+  var ingredientTuples_box = Hive.box<IngredientTuple>('ingredienttuples');
+  var recipesteps_box = Hive.box<RecipeStep>('recipesteps');
+  EditRecipeStep(this.recipeStep) {
+    //step_key = recipeStep.key ?? 0;
     _nameController.text = recipeStep.name;
     _directionController.text = recipeStep.direction;
     _timerController.text = recipeStep.timer.toString();
@@ -32,21 +36,29 @@ class EditRecipeStep extends StatelessWidget {
   final TextEditingController _ingredientShapeController =
       TextEditingController();
 
-  saveRecipeStep() {
+  updateRecipeStep() {
+    //RecipeStep? dbRecipeStep = recipesteps_box.getAt(step_key);
     recipeStep.name = _nameController.text;
     recipeStep.direction = _directionController.text;
     recipeStep.image_path = c.file_path;
     recipeStep.timer = int.parse(_timerController.text);
     recipeStep.save();
-    recipe.save();
+    //recipeStep.isInBox ? recipeStep.save() : recipesteps_box.add(recipeStep);
+    //recipe.save();
 
-    c.file_path = recipe.image_path;
+    //c.file_path = recipe.image_path;
     c.update();
+  }
+
+  saveRecipeStep() {
+    updateRecipeStep();
     //get back to recipe edition
     Get.back();
   }
 
   addIngredient() {
+    final Controller c = Get.find();
+
     IngredientTuple new_tuple = IngredientTuple(
       _ingredientNameController.text,
       _ingredientUnitController.text,
@@ -54,23 +66,24 @@ class EditRecipeStep extends StatelessWidget {
       _ingredientShapeController.text,
     );
 
-    var ingredientTuples_box = Hive.box<IngredientTuple>('ingredienttuples');
     ingredientTuples_box.add(new_tuple);
-
+    //new_tuple.save();
     recipeStep.ingredients.add(new_tuple);
-
+    //recipeStep.save();
     _ingredientNameController.text = '';
     _ingredientUnitController.text = '';
     _ingredientQuantityController.text = '';
     _ingredientShapeController.text = '';
-
+    //updateRecipeStep();
     c.update();
   }
 
   deleteIngredient(IngredientTuple ingredientTuple) {
-    ingredientTuple.delete();
     recipeStep.ingredients.remove(ingredientTuple);
-    // c.update();
+    recipeStep.save();
+    //ingredientTuple.delete();
+    ingredientTuples_box.delete(ingredientTuple);
+    //c.update();
   }
 
   @override
@@ -83,7 +96,7 @@ class EditRecipeStep extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Center(child: Text('add step'.tr)),
+                  Center(child: Text('edit step'.tr)),
                   TextFormField(
                     controller: _nameController,
                     decoration: InputDecoration(labelText: 'name'.tr),
@@ -110,9 +123,8 @@ class EditRecipeStep extends StatelessWidget {
                     itemBuilder: (context, index) {
                       final ingredientTuple = recipeStep.ingredients[index];
                       // return Dismissible(
-                      //   key: Key(ingredientTuple.name),
-                      //   onDismissed: deleteIngredient(ingredientTuple),
-                      //   child:
+                      //     key: Key(ingredientTuple.key.toString()),
+                      //     onDismissed: deleteIngredient(ingredientTuple),
                       return Row(
                         children: [
                           Expanded(
