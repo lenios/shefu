@@ -3,13 +3,12 @@ import 'dart:io';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hive/hive.dart';
 import 'package:shefu/models/recipe_steps.dart';
-import 'package:shefu/models/recipes.dart';
+import 'package:shefu/screens/display_image.dart';
 import 'package:shefu/screens/edit_recipe_step.dart';
 
 class RecipeStepCard extends StatelessWidget {
-  RecipeStep recipe_step;
+  final RecipeStep recipe_step;
   //Recipe recipe;
   final bool editable;
 
@@ -18,8 +17,6 @@ class RecipeStepCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var recipesteps_box = Hive.box<RecipeStep>('recipesteps');
-
     return Column(
       children: [
         Padding(
@@ -35,20 +32,6 @@ class RecipeStepCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             //mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              recipe_step.image_path.isNotEmpty
-                  ? SizedBox(
-                      width: 160,
-                      child: ClipRRect(
-                        child: Image.file(
-                          File(recipe_step.image_path),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    )
-                  : Container(),
-              const SizedBox(
-                width: 1,
-              ),
               // ingredients list
               Flexible(
                 fit: FlexFit.tight,
@@ -127,7 +110,7 @@ class RecipeStepCard extends StatelessWidget {
                         ? ElevatedButton(
                             child: Text('edit step'.tr),
                             onPressed: () =>
-                                Get.to(() => EditRecipeStep(recipe_step)))
+                                Get.to(() => EditRecipeStep(recipe_step.key)))
                         : Container()
                   ],
                 ),
@@ -135,6 +118,23 @@ class RecipeStepCard extends StatelessWidget {
               // Flexible(
               //   child: _timer(timer: recipe_step.timer),
               // ),
+              recipe_step.image_path.isNotEmpty
+                  ? ElevatedButton(
+                      child: SizedBox(
+                        width: 160,
+                        child: ClipRRect(
+                          child: Image.file(
+                            File(recipe_step.image_path),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                      onPressed: () => Get.to(() =>
+                          DisplayImage(imagePath: recipe_step.image_path)))
+                  : Container(),
+              const SizedBox(
+                width: 1,
+              ),
             ]),
       ],
     );

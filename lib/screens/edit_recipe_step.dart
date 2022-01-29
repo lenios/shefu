@@ -4,22 +4,23 @@ import 'package:hive/hive.dart';
 import 'package:shefu/controller.dart';
 import 'package:shefu/models/ingredient_tuples.dart';
 import 'package:shefu/models/recipe_steps.dart';
-import 'package:shefu/models/recipes.dart';
 import 'package:shefu/widgets/image_helper.dart';
 
 class EditRecipeStep extends StatelessWidget {
   //Recipe recipe;
-  RecipeStep recipeStep;
+  late final RecipeStep? recipeStep;
   //late int step_key;
 
-  var ingredientTuples_box = Hive.box<IngredientTuple>('ingredienttuples');
-  var recipesteps_box = Hive.box<RecipeStep>('recipesteps');
-  EditRecipeStep(this.recipeStep) {
+  final ingredientTuples_box = Hive.box<IngredientTuple>('ingredienttuples');
+  final recipesteps_box = Hive.box<RecipeStep>('recipesteps');
+  EditRecipeStep(int? recipeStepKey) {
+    recipeStep = recipesteps_box.get(recipeStepKey);
     //step_key = recipeStep.key ?? 0;
-    _nameController.text = recipeStep.name;
-    _directionController.text = recipeStep.direction;
-    _timerController.text = recipeStep.timer.toString();
-    c.file_path = recipeStep.image_path;
+    _nameController.text = recipeStep!.name;
+    _directionController.text = recipeStep!.direction;
+    _timerController.text = recipeStep!.timer.toString();
+    c.old_file_path = c.file_path;
+    c.file_path = recipeStep!.image_path;
   }
 
   final Controller c = Get.find();
@@ -38,15 +39,14 @@ class EditRecipeStep extends StatelessWidget {
 
   updateRecipeStep() {
     //RecipeStep? dbRecipeStep = recipesteps_box.getAt(step_key);
-    recipeStep.name = _nameController.text;
-    recipeStep.direction = _directionController.text;
-    recipeStep.image_path = c.file_path;
-    recipeStep.timer = int.parse(_timerController.text);
-    recipeStep.save();
+    recipeStep!.name = _nameController.text;
+    recipeStep!.direction = _directionController.text;
+    recipeStep!.image_path = c.file_path;
+    recipeStep!.timer = int.parse(_timerController.text);
+    recipeStep!.save();
     //recipeStep.isInBox ? recipeStep.save() : recipesteps_box.add(recipeStep);
     //recipe.save();
-
-    //c.file_path = recipe.image_path;
+    c.file_path = c.old_file_path;
     c.update();
   }
 
@@ -68,7 +68,7 @@ class EditRecipeStep extends StatelessWidget {
 
     ingredientTuples_box.add(new_tuple);
     //new_tuple.save();
-    recipeStep.ingredients.add(new_tuple);
+    recipeStep!.ingredients.add(new_tuple);
     //recipeStep.save();
     _ingredientNameController.text = '';
     _ingredientUnitController.text = '';
@@ -79,8 +79,8 @@ class EditRecipeStep extends StatelessWidget {
   }
 
   deleteIngredient(IngredientTuple ingredientTuple) {
-    recipeStep.ingredients.remove(ingredientTuple);
-    recipeStep.save();
+    recipeStep!.ingredients.remove(ingredientTuple);
+    recipeStep!.save();
     //ingredientTuple.delete();
     ingredientTuples_box.delete(ingredientTuple);
     //c.update();
@@ -119,9 +119,9 @@ class EditRecipeStep extends StatelessWidget {
                   ),
                   ListView.builder(
                     shrinkWrap: true,
-                    itemCount: recipeStep.ingredients.length,
+                    itemCount: recipeStep!.ingredients.length,
                     itemBuilder: (context, index) {
-                      final ingredientTuple = recipeStep.ingredients[index];
+                      final ingredientTuple = recipeStep!.ingredients[index];
                       // return Dismissible(
                       //     key: Key(ingredientTuple.key.toString()),
                       //     onDismissed: deleteIngredient(ingredientTuple),

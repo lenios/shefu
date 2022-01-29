@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
+import 'package:shefu/models/recipe_steps.dart';
 
 import 'package:shefu/models/recipes.dart';
 import 'package:shefu/widgets/recipe_header.dart';
@@ -19,6 +20,8 @@ class DisplayRecipe extends StatelessWidget {
   Widget build(BuildContext context) {
     // final _recipes = Hive.box<Recipe>('recipes');
     // Recipe? _recipe = _recipes.get(recipe);
+
+    final _recipesteps_box = Hive.box<RecipeStep>('recipesteps');
 
     return GetBuilder<Controller>(
         init: c,
@@ -82,7 +85,12 @@ class DisplayRecipe extends StatelessWidget {
                       //padding: const EdgeInsets.all(4),
                       itemCount: recipe.steps.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return RecipeStepCard(recipe_step: recipe.steps[index]);
+                        var step = _recipesteps_box.get(recipe.steps[index]);
+                        if (step != null) {
+                          return RecipeStepCard(recipe_step: step);
+                        } else {
+                          return (Container());
+                        }
                       }),
                   ElevatedButton(
                       child: Text('edit recipe'.tr),

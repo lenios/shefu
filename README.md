@@ -25,4 +25,4 @@ Supported languages:
   - 日本語
 
 Documentation will come later.
-This is using flutter beta channel.
+This is using flutter stable channel.

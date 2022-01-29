@@ -4,6 +4,8 @@ import 'package:shefu/models/recipe_steps.dart';
 import 'package:shefu/models/recipes.dart';
 import 'image_helper.dart';
 
+//TODO FIX
+
 mockData() async {
   String file_path = await pickAssetImage('images/mock/applepie.webp');
 
@@ -38,7 +40,7 @@ mockData() async {
 //recipe 1
   var testRecipe1 = Recipe('apple pie', 'source 1', file_path);
   testRecipe1.steps = HiveList(recipesteps_box);
-  testRecipe1.steps.add(recipeStep1);
-  testRecipe1.steps.add(recipeStep2);
+  // testRecipe1.steps.add(recipeStep1);
+  // testRecipe1.steps.add(recipeStep2);
   recipes_box.add(testRecipe1);
 }

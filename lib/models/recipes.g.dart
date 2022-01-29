@@ -21,7 +21,7 @@ class RecipeAdapter extends TypeAdapter<Recipe> {
       fields[1] as String,
       fields[2] as String,
     )
-      ..steps = (fields[3] as List).cast<RecipeStep>()
+      ..steps = (fields[3] as List).cast<int>()
       ..notes = fields[4] as String;
   }
 

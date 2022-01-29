@@ -15,7 +15,7 @@ class Recipe extends HiveObject {
   String image_path;
 
   @HiveField(3)
-  List<RecipeStep> steps = [];
+  List<int> steps = [];
 
   @HiveField(4)
   String notes = '';

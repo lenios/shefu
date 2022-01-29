@@ -22,7 +22,7 @@ void main() async {
   //mockData();
   runApp(GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData.light(),
+      theme: ThemeData.dark(),
       translations: I18n(),
       locale: Locale('fr', 'FR'),
       fallbackLocale: Locale('en', 'US'),
