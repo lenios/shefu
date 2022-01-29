@@ -14,6 +14,7 @@ class EditRecipe extends StatelessWidget {
   final Controller c = Get.find();
 
   late final Recipe? _recipe;
+  final TextEditingController _sourceController = TextEditingController();
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _notesController = TextEditingController();
 
@@ -37,6 +38,8 @@ class EditRecipe extends StatelessWidget {
 
     _titleController.text = _recipe!.title;
     _notesController.text = _recipe!.notes;
+    _sourceController.text = _recipe!.source;
+
     c.file_path = _recipe?.image_path ?? '';
   }
 
@@ -65,6 +68,11 @@ class EditRecipe extends StatelessWidget {
                     stepsList(context),
                     ElevatedButton(
                         child: Text('add step'.tr), onPressed: addRecipeStep),
+                    TextFormField(
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(), labelText: 'source'.tr),
+                      controller: _sourceController,
+                    ),
                     TextFormField(
                       decoration: InputDecoration(
                           border: OutlineInputBorder(), labelText: 'notes'.tr),
@@ -113,7 +121,7 @@ class EditRecipe extends StatelessWidget {
 
   updateRecipe() {
     _recipe!.title = _titleController.text;
-    _recipe!.source = 'url 1';
+    _recipe!.source = _sourceController.text;
     _recipe!.image_path = c.file_path;
     _recipe!.notes = _notesController.text;
     _recipe!.save();

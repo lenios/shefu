@@ -30,7 +30,7 @@ class I18n extends Translations {
           'add': 'Ajouter',
           'add recipe': 'Ajouter une recette',
           'add step': 'Ajouter une étape',
-          'edit recipe': 'Modier la recette',
+          'edit recipe': 'Modifier la recette',
           'edit step': 'Modifier l\'étape',
           'save': 'Enregistrer',
           'delete': 'Supprimer',
