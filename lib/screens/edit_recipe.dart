@@ -146,8 +146,8 @@ class EditRecipe extends StatelessWidget {
     //create empty recipe step and redirect to edit page
     var new_step = RecipeStep('', '', '');
 
-    var ingredientTuples_box = Hive.box<IngredientTuple>('ingredienttuples');
-    new_step.ingredients = HiveList(ingredientTuples_box);
+    // var ingredientTuples_box = Hive.box<IngredientTuple>('ingredienttuples');
+    // new_step.ingredients = HiveList(ingredientTuples_box);
 
     int step_key = await _recipesteps_box.add(new_step);
 

@@ -56,7 +56,10 @@ class EditRecipeStep extends StatelessWidget {
     Get.back();
   }
 
-  addIngredient() {
+  addIngredient() async {
+    //deal with add ingredient before save
+    updateRecipeStep();
+
     final Controller c = Get.find();
 
     IngredientTuple new_tuple = IngredientTuple(
@@ -66,9 +69,9 @@ class EditRecipeStep extends StatelessWidget {
       _ingredientShapeController.text,
     );
 
-    ingredientTuples_box.add(new_tuple);
+    int new_tuple_key = await ingredientTuples_box.add(new_tuple);
     //new_tuple.save();
-    recipeStep!.ingredients.add(new_tuple);
+    recipeStep!.ingredients.add(new_tuple_key);
     //recipeStep.save();
     _ingredientNameController.text = '';
     _ingredientUnitController.text = '';
@@ -79,7 +82,7 @@ class EditRecipeStep extends StatelessWidget {
   }
 
   deleteIngredient(IngredientTuple ingredientTuple) {
-    recipeStep!.ingredients.remove(ingredientTuple);
+    recipeStep!.ingredients.remove(ingredientTuple.key);
     recipeStep!.save();
     //ingredientTuple.delete();
     ingredientTuples_box.delete(ingredientTuple);
@@ -121,7 +124,8 @@ class EditRecipeStep extends StatelessWidget {
                     shrinkWrap: true,
                     itemCount: recipeStep!.ingredients.length,
                     itemBuilder: (context, index) {
-                      final ingredientTuple = recipeStep!.ingredients[index];
+                      final ingredientTuple = ingredientTuples_box
+                          .get(recipeStep!.ingredients[index]);
                       // return Dismissible(
                       //     key: Key(ingredientTuple.key.toString()),
                       //     onDismissed: deleteIngredient(ingredientTuple),
@@ -129,7 +133,7 @@ class EditRecipeStep extends StatelessWidget {
                         children: [
                           Expanded(
                             child: Text(
-                                '${ingredientTuple.quantity} ${ingredientTuple.unit} ${ingredientTuple.name} (${ingredientTuple.shape})'),
+                                '${ingredientTuple!.quantity} ${ingredientTuple.unit} ${ingredientTuple.name} (${ingredientTuple.shape})'),
                           ),
                           //TODO delete
                           // ElevatedButton(

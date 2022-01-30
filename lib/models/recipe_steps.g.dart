@@ -22,7 +22,7 @@ class RecipeStepAdapter extends TypeAdapter<RecipeStep> {
       fields[2] as String,
     )
       ..timer = fields[3] as int
-      ..ingredients = (fields[4] as List).cast<IngredientTuple>();
+      ..ingredients = (fields[4] as List).cast<int>();
   }
 
   @override

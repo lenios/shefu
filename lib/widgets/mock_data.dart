@@ -26,8 +26,8 @@ mockData() async {
   recipeStep1.ingredients = HiveList(ingredienttuples_box);
 
   recipeStep1.timer = 90;
-  recipeStep1.ingredients.add(recipeStep1i1);
-  recipeStep1.ingredients.add(recipeStep1i2);
+  // recipeStep1.ingredients.add(recipeStep1i1);
+  // recipeStep1.ingredients.add(recipeStep1i2);
 
   recipesteps_box.add(recipeStep1);
 

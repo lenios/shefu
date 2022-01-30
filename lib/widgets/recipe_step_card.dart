@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
+import 'package:shefu/models/ingredient_tuples.dart';
 import 'package:shefu/models/recipe_steps.dart';
 import 'package:shefu/screens/display_image.dart';
 import 'package:shefu/screens/edit_recipe_step.dart';
@@ -11,6 +13,8 @@ class RecipeStepCard extends StatelessWidget {
   final RecipeStep recipe_step;
   //Recipe recipe;
   final bool editable;
+
+  final ingredientTuples_box = Hive.box<IngredientTuple>('ingredienttuples');
 
   RecipeStepCard({Key? key, required this.recipe_step, this.editable = false})
       : super(key: key);
@@ -48,7 +52,8 @@ class RecipeStepCard extends StatelessWidget {
                       shrinkWrap: true,
                       itemCount: recipe_step.ingredients.length,
                       itemBuilder: (context, index) {
-                        final ingredientTuple = recipe_step.ingredients[index];
+                        final ingredientTuple = ingredientTuples_box
+                            .get(recipe_step.ingredients[index]);
 
                         return SizedBox(
                           height: 35,
@@ -59,7 +64,7 @@ class RecipeStepCard extends StatelessWidget {
                             leading: Text(
                               '•',
                             ),
-                            subtitle: Text(ingredientTuple.shape),
+                            subtitle: Text(ingredientTuple!.shape),
                             //visualDensity: VisualDensity.compact,
                             //visualDensity: VisualDensity(vertical: -3),
                             dense: true,

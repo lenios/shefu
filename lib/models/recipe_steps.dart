@@ -18,7 +18,7 @@ class RecipeStep extends HiveObject {
   int timer = 0;
 
   @HiveField(4)
-  List<IngredientTuple> ingredients = [];
+  List<int> ingredients = [];
 
   RecipeStep(this.name, this.direction, this.image_path);
 }
