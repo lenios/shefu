@@ -36,6 +36,7 @@ dependencies:
   hive: ^2.0.4
   hive_flutter: ^1.1.0
   circular_countdown_timer: 0.2.0
+  fraction: ^3.2.2
 
 dev_dependencies:
 #  flutter_test:

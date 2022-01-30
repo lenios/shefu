@@ -42,16 +42,19 @@ class EditRecipeStep extends StatelessWidget {
     recipeStep!.name = _nameController.text;
     recipeStep!.direction = _directionController.text;
     recipeStep!.image_path = c.file_path;
+    //recipeStep!.image_path = '';
+
     recipeStep!.timer = int.parse(_timerController.text);
     recipeStep!.save();
     //recipeStep.isInBox ? recipeStep.save() : recipesteps_box.add(recipeStep);
     //recipe.save();
-    c.file_path = c.old_file_path;
-    c.update();
   }
 
   saveRecipeStep() {
     updateRecipeStep();
+
+    c.file_path = c.old_file_path;
+    c.update();
     //get back to recipe edition
     Get.back();
   }
@@ -194,7 +197,7 @@ class EditRecipeStep extends StatelessWidget {
                       ),
                     ],
                   ),
-                  pickImageWidget(),
+                  pickImageWidget('s' + recipeStep!.key.toString()),
                   ElevatedButton(
                       child: Text('save'.tr), onPressed: saveRecipeStep)
                 ],

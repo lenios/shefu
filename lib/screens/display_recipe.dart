@@ -50,7 +50,7 @@ class DisplayRecipe extends StatelessWidget {
                                       CrossAxisAlignment.stretch,
                                   children: [
                                     Text(
-                                      'Ingredients',
+                                      'ingredients'.tr,
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           fontSize: 20,
@@ -62,21 +62,21 @@ class DisplayRecipe extends StatelessWidget {
                                   ],
                                 )),
                             Flexible(
-                                flex: 2,
+                                //flex: 2,
                                 child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Instructions',
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          fontStyle: FontStyle.normal,
-                                          letterSpacing: 2,
-                                          color: Colors.green[700],
-                                          fontWeight: FontWeight.w400),
-                                    ),
-                                  ],
-                                ))
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'instructions'.tr,
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontStyle: FontStyle.normal,
+                                      letterSpacing: 2,
+                                      color: Colors.green[700],
+                                      fontWeight: FontWeight.w400),
+                                ),
+                              ],
+                            ))
                           ]),
                     ],
                   ),

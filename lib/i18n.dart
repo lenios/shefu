@@ -10,6 +10,8 @@ class I18n extends Translations {
           'add step': 'Add step',
           'edit recipe': 'Edit recipe',
           'edit step': 'Edit step',
+          'ingredients': 'Ingredients',
+          'instructions': 'Instructions',
           'save': 'Save',
           'delete': 'Delete',
           'title': 'Title',
@@ -21,6 +23,7 @@ class I18n extends Translations {
           'pick image': 'Pick an image',
           'source': 'Source',
           'search': 'Search',
+          'servings': 'Servings',
           'notes': 'Notes',
           'no_recipe':
               'No recipe in database. Please create one using the + icon.',
@@ -32,6 +35,8 @@ class I18n extends Translations {
           'add step': 'Ajouter une étape',
           'edit recipe': 'Modifier la recette',
           'edit step': 'Modifier l\'étape',
+          'ingredients': 'Ingrédients',
+          'instructions': 'Instructions',
           'save': 'Enregistrer',
           'delete': 'Supprimer',
           'title': 'Titre',
@@ -42,6 +47,7 @@ class I18n extends Translations {
           'direction': 'instructions',
           'pick image': 'Sélectionner une image',
           'source': 'Source',
+          'servings': 'Parts',
           'search': 'Recherche',
           'no_recipe':
               'Aucune recette en base. Veuillez en créer une avec l\'icone +.',

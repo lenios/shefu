@@ -17,6 +17,7 @@ class EditRecipe extends StatelessWidget {
   final TextEditingController _sourceController = TextEditingController();
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _notesController = TextEditingController();
+  final TextEditingController _servingsController = TextEditingController();
 
   final _recipes = Hive.box<Recipe>('recipes');
 
@@ -39,6 +40,7 @@ class EditRecipe extends StatelessWidget {
     _titleController.text = _recipe!.title;
     _notesController.text = _recipe!.notes;
     _sourceController.text = _recipe!.source;
+    _servingsController.text = _recipe!.servings.toString();
 
     c.file_path = _recipe?.image_path ?? '';
   }
@@ -78,7 +80,13 @@ class EditRecipe extends StatelessWidget {
                           border: OutlineInputBorder(), labelText: 'notes'.tr),
                       controller: _notesController,
                     ),
-                    pickImageWidget(),
+                    TextFormField(
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'servings'.tr),
+                      controller: _servingsController,
+                    ),
+                    pickImageWidget('r' + _recipe!.key.toString()),
                     Row(
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -124,6 +132,8 @@ class EditRecipe extends StatelessWidget {
     _recipe!.source = _sourceController.text;
     _recipe!.image_path = c.file_path;
     _recipe!.notes = _notesController.text;
+    _recipe!.servings = int.parse(_servingsController.text);
+
     _recipe!.save();
     c.update();
   }

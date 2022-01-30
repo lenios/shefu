@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter/material.dart';
+import 'package:fraction/fraction.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:shefu/models/ingredient_tuples.dart';
@@ -44,8 +45,9 @@ class RecipeStepCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    // Text('test'),
-
+                    recipe_step.name.isNotEmpty
+                        ? Text(recipe_step.name)
+                        : Container(),
                     ListView.builder(
                       //itemExtent: recipe_step.ingredients.length * 15,
                       //padding: const EdgeInsets.all(0.0),
@@ -70,7 +72,7 @@ class RecipeStepCard extends StatelessWidget {
                             dense: true,
                             contentPadding: EdgeInsets.only(left: 70.0),
                             title: Text(
-                                '${ingredientTuple.quantity}${ingredientTuple.unit} ${ingredientTuple.name}'),
+                                '${Fraction.fromDouble(ingredientTuple.quantity)}${ingredientTuple.unit} ${ingredientTuple.name}'),
                           ),
                         );
                       },
@@ -80,7 +82,7 @@ class RecipeStepCard extends StatelessWidget {
               ),
 
               Flexible(
-                flex: 2,
+                //flex: 2,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -108,7 +110,7 @@ class RecipeStepCard extends StatelessWidget {
                           : Text(''),
                       title: Text(
                         '${recipe_step.direction}',
-                        maxLines: 2,
+                        maxLines: 5,
                       ),
                     ),
                     editable

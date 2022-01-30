@@ -38,9 +38,12 @@ class RecipeHeader extends StatelessWidget {
                     fontSize: 20,
                   )),
               Text("${'source'.tr}: ${recipe.source}"),
+              Text("${'servings'.tr}: ${recipe.servings}"),
+
               //TODO deal with overflow
               (recipe.notes.length > 0)
-                  ? Text("${'notes'.tr}: ${recipe.notes}")
+                  ? SizedBox(
+                      width: 500, child: Text("${'notes'.tr}: ${recipe.notes}"))
                   : Container(),
             ],
           )

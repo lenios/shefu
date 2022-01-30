@@ -8,7 +8,7 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shefu/controller.dart';
 
-Widget pickImageWidget() {
+Widget pickImageWidget(String recipe_id) {
   final Controller c = Get.find();
 
   return Center(
@@ -24,7 +24,9 @@ Widget pickImageWidget() {
                 width: 300,
               ))
             : Container(),
-        ElevatedButton(child: Text('pick image'.tr), onPressed: pickImage),
+        ElevatedButton(
+            child: Text('pick image'.tr),
+            onPressed: (() => pickImage(recipe_id))),
       ]),
     ),
   );
@@ -35,7 +37,7 @@ Future<String> get _localPath async {
   return directory.path;
 }
 
-pickImage() async {
+pickImage(String recipe_id) async {
   //webp not available for FileType.image
   final result = await FilePicker.platform
       .pickFiles(type: FileType.any, allowMultiple: false, withData: true);
@@ -45,7 +47,7 @@ pickImage() async {
     PlatformFile file = result.files.first;
 
     final dir_path = await _localPath;
-    c.file_path = '$dir_path/${file.name}';
+    c.file_path = '$dir_path/${recipe_id}_${file.name}';
     //write image to disk
     File(c.file_path).writeAsBytesSync(List.from(file.bytes!.cast<int>()));
     c.update();

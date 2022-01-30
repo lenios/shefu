@@ -20,5 +20,8 @@ class Recipe extends HiveObject {
   @HiveField(4)
   String notes = '';
 
+  @HiveField(5)
+  int servings = 4;
+
   Recipe(this.title, this.source, this.image_path);
 }
