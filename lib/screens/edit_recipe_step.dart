@@ -62,7 +62,7 @@ class EditRecipeStep extends StatelessWidget {
     IngredientTuple new_tuple = IngredientTuple(
       _ingredientNameController.text,
       _ingredientUnitController.text,
-      int.parse(_ingredientQuantityController.text),
+      double.parse(_ingredientQuantityController.text),
       _ingredientShapeController.text,
     );
 

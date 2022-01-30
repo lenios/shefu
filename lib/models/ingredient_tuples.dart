@@ -11,7 +11,7 @@ class IngredientTuple extends HiveObject {
   String unit;
 
   @HiveField(2)
-  int quantity;
+  double quantity;
 
   @HiveField(3)
   String shape;

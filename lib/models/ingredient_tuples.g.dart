@@ -19,7 +19,7 @@ class IngredientTupleAdapter extends TypeAdapter<IngredientTuple> {
     return IngredientTuple(
       fields[0] as String,
       fields[1] as String,
-      fields[2] as int,
+      fields[2] as double,
       fields[3] as String,
     );
   }
