@@ -1,5 +1,4 @@
 import 'package:hive/hive.dart';
-import 'package:shefu/models/ingredient_tuples.dart';
 
 part 'recipe_steps.g.dart';
 

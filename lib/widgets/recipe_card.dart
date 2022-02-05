@@ -1,8 +1,8 @@
 import 'dart:io';
 
+import 'package:flag/flag.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hive/hive.dart';
 import 'package:shefu/screens/display_recipe.dart';
 import '../models/recipes.dart';
 
@@ -12,7 +12,6 @@ class RecipeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _recipes = Hive.box<Recipe>('recipes');
     return GestureDetector(
       onTap: () => Get.to(() => DisplayRecipe(recipe: recipe)),
       child: Card(
@@ -31,18 +30,26 @@ class RecipeCard extends StatelessWidget {
             const SizedBox(
               width: 5,
             ),
-            Column(
-              children: [
-                Text(
-                  '${recipe.title}',
-                  maxLines: 1,
-                  style: const TextStyle(fontWeight: FontWeight.w700),
-                ),
-                Text(
-                  '${recipe.source}',
-                  maxLines: 1,
-                ),
-              ],
+            SizedBox(
+              width: 250,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '${recipe.title}',
+                    maxLines: 2,
+                    style: const TextStyle(fontWeight: FontWeight.w700),
+                  ),
+                  Text(
+                    '${recipe.source}',
+                    maxLines: 1,
+                  ),
+                  recipe.country_code.isNotEmpty
+                      ? Flag.fromString(recipe.country_code,
+                          height: 15, width: 24, fit: BoxFit.fill)
+                      : Container(),
+                ],
+              ),
             ),
           ],
         ),

@@ -1,3 +1,4 @@
+import 'package:flag/flag.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -11,6 +12,21 @@ class Home extends StatelessWidget {
 
   final _recipes = Hive.box<Recipe>('recipes');
 
+  Category categoryvalue = Category.all;
+  String countrycode = '';
+
+  //build list of unique values of country codes set in recipes
+  List<String> buildAvailableCountries() {
+    List<String> available_countries = [];
+    available_countries.add('');
+    _recipes.values.where((item) => item.country_code != '').forEach((e) {
+      if (available_countries.contains(e.country_code) == false) {
+        available_countries.add(e.country_code);
+      }
+    });
+    return available_countries.toSet().toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return GetBuilder<Controller>(
@@ -23,12 +39,58 @@ class Home extends StatelessWidget {
             body: SingleChildScrollView(
               child: Column(
                 children: [
-                  TextFormField(
-                    decoration: InputDecoration(hintText: "search".tr),
-                    onChanged: (String value) {
-                      c.filter_string = value;
-                      c.update();
-                    },
+                  Row(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          decoration: InputDecoration(hintText: "search".tr),
+                          onChanged: (String value) {
+                            c.filter_string = value;
+                            c.update();
+                          },
+                        ),
+                      ),
+                      DropdownButton(
+                        value: countrycode,
+                        icon: const Icon(Icons.keyboard_arrow_down),
+                        items: buildAvailableCountries().map((e) {
+                          //available_countries.add(e);
+                          return DropdownMenuItem(
+                            value: e,
+                            child: (e != '')
+                                ? Row(
+                                    children: [
+                                      Flag.fromString(e,
+                                          height: 15,
+                                          width: 24,
+                                          fit: BoxFit.fill),
+                                      Text(e)
+                                    ],
+                                  )
+                                : Text('all countries'.tr),
+                          );
+                        }).toList(),
+                        onChanged: (String? e) {
+                          countrycode = e!;
+                          c.update();
+                        },
+                      ),
+                      SizedBox(width: 5),
+                      DropdownButton(
+                        value: categoryvalue,
+                        icon: const Icon(Icons.keyboard_arrow_down),
+                        items: Category.values.map((e) {
+                          return DropdownMenuItem(
+                            value: e,
+                            child: Text(e.toString().tr),
+                          );
+                        }).toList(),
+                        onChanged: (Category? e) {
+                          categoryvalue = e!;
+                          c.update();
+                        },
+                      )
+                    ],
                   ),
                   ValueListenableBuilder(
                     valueListenable: _recipes.listenable(),
@@ -36,10 +98,25 @@ class Home extends StatelessWidget {
                       if (box.values.isEmpty) {
                         return Text('no_recipe'.tr);
                       } else {
-                        //filter recipes matching search field
-                        List<Recipe> filtered_recipes =
+                        //filter recipes by category
+                        List<Recipe> category_recipes =
                             box.values.toList().where((e) {
-                          return e.title.contains(c.filter_string);
+                          return categoryvalue == Category.all ||
+                              e.category == categoryvalue.toString();
+                        }).toList();
+
+                        //filter recipes by countryR
+                        List<Recipe> country_recipes =
+                            category_recipes.where((e) {
+                          return countrycode == '' ||
+                              e.country_code == countrycode;
+                        }).toList();
+
+                        //filter recipes matching search field in recipe name or ingredients
+                        List<Recipe> filtered_recipes =
+                            country_recipes.where((e) {
+                          return e.title.contains(c.filter_string) ||
+                              e.tags.any((f) => f.contains(c.filter_string));
                         }).toList();
                         return RecipesGridView(recipes: filtered_recipes);
                       }

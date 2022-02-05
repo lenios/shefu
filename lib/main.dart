@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:shefu/widgets/mock_data.dart';
 import 'i18n.dart';
 import 'models/ingredient_tuples.dart';
 import 'models/recipe_steps.dart';

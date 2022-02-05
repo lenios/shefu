@@ -2,14 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hive/hive.dart';
-
-import 'package:shefu/models/recipes.dart';
-import 'package:shefu/widgets/recipe_header.dart';
-import 'package:shefu/widgets/recipe_step_card.dart';
-
-import '../controller.dart';
-import 'edit_recipe.dart';
 
 class DisplayImage extends StatelessWidget {
   final String imagePath;
@@ -26,7 +18,7 @@ class DisplayImage extends StatelessWidget {
           title: Text('image'),
         ),
         body: SingleChildScrollView(
-            child: ElevatedButton(
+            child: TextButton(
           child: SizedBox(
             width: MediaQuery.of(context).size.width,
             child: ClipRRect(

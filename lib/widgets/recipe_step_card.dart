@@ -10,14 +10,23 @@ import 'package:shefu/models/recipe_steps.dart';
 import 'package:shefu/screens/display_image.dart';
 import 'package:shefu/screens/edit_recipe_step.dart';
 
+import '../controller.dart';
+
 class RecipeStepCard extends StatelessWidget {
   final RecipeStep recipe_step;
   //Recipe recipe;
   final bool editable;
+  final int servings;
+
+  final Controller c = Get.find();
 
   final ingredientTuples_box = Hive.box<IngredientTuple>('ingredienttuples');
 
-  RecipeStepCard({Key? key, required this.recipe_step, this.editable = false})
+  RecipeStepCard(
+      {Key? key,
+      required this.recipe_step,
+      required this.servings,
+      this.editable = false})
       : super(key: key);
 
   @override
@@ -72,7 +81,7 @@ class RecipeStepCard extends StatelessWidget {
                             dense: true,
                             contentPadding: EdgeInsets.only(left: 70.0),
                             title: Text(
-                                '${Fraction.fromDouble(ingredientTuple.quantity)}${ingredientTuple.unit} ${ingredientTuple.name}'),
+                                '${Fraction.fromDouble(ingredientTuple.quantity / servings * c.servings)}${ingredientTuple.unit} ${ingredientTuple.name}'),
                           ),
                         );
                       },
@@ -126,7 +135,7 @@ class RecipeStepCard extends StatelessWidget {
               //   child: _timer(timer: recipe_step.timer),
               // ),
               recipe_step.image_path.isNotEmpty
-                  ? ElevatedButton(
+                  ? TextButton(
                       child: SizedBox(
                         width: 160,
                         child: ClipRRect(

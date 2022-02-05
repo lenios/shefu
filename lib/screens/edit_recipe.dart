@@ -13,13 +13,17 @@ import 'edit_recipe_step.dart';
 class EditRecipe extends StatelessWidget {
   final Controller c = Get.find();
 
+  String categoryvalue = Category.all.toString();
+
   late final Recipe? _recipe;
   final TextEditingController _sourceController = TextEditingController();
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _notesController = TextEditingController();
   final TextEditingController _servingsController = TextEditingController();
+  final TextEditingController _countryController = TextEditingController();
 
   final _recipes = Hive.box<Recipe>('recipes');
+  final ingredientTuples_box = Hive.box<IngredientTuple>('ingredienttuples');
 
   final _recipesteps_box = Hive.box<RecipeStep>('recipesteps');
 
@@ -41,6 +45,10 @@ class EditRecipe extends StatelessWidget {
     _notesController.text = _recipe!.notes;
     _sourceController.text = _recipe!.source;
     _servingsController.text = _recipe!.servings.toString();
+    _countryController.text = _recipe!.country_code;
+    if (_recipe!.category != '') {
+      categoryvalue = _recipe!.category;
+    }
 
     c.file_path = _recipe?.image_path ?? '';
   }
@@ -70,6 +78,30 @@ class EditRecipe extends StatelessWidget {
                     stepsList(context),
                     ElevatedButton(
                         child: Text('add step'.tr), onPressed: addRecipeStep),
+                    Row(
+                      children: [
+                        Text('category'.tr + ' :'),
+                        DropdownButton<String>(
+                          value: categoryvalue,
+                          icon: const Icon(Icons.keyboard_arrow_down),
+                          items: Category.values.map((e) {
+                            return DropdownMenuItem(
+                              value: e.toString(),
+                              child: Text(e.toString().tr),
+                            );
+                          }).toList(),
+                          onChanged: (String? e) {
+                            categoryvalue = e!;
+                          },
+                        ),
+                      ],
+                    ),
+                    TextFormField(
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'country code'.tr),
+                      controller: _countryController,
+                    ),
                     TextFormField(
                       decoration: InputDecoration(
                           border: OutlineInputBorder(), labelText: 'source'.tr),
@@ -120,7 +152,10 @@ class EditRecipe extends StatelessWidget {
             c.update();
           },
           child: Container(
-            child: RecipeStepCard(recipe_step: recipe_step, editable: true),
+            child: RecipeStepCard(
+                recipe_step: recipe_step,
+                servings: _recipe!.servings,
+                editable: true),
           ),
         );
       },
@@ -133,7 +168,23 @@ class EditRecipe extends StatelessWidget {
     _recipe!.image_path = c.file_path;
     _recipe!.notes = _notesController.text;
     _recipe!.servings = int.parse(_servingsController.text);
+    _recipe!.category = categoryvalue;
+    _recipe!.country_code = _countryController.text;
 
+    //clear tags
+    _recipe!.tags = <String>[];
+    //loop through steps, and add each ingredient name to recipe tags
+    for (var i = 0; i < _recipe!.steps.length; i++) {
+      int recipeStepKey = _recipe!.steps[i];
+      RecipeStep? recipeStep = _recipesteps_box.get(recipeStepKey);
+
+      for (var y = 0; y < recipeStep!.ingredients.length; y++) {
+        _recipe!.tags
+            .add(ingredientTuples_box.get(recipeStep.ingredients[y])!.name);
+      }
+    }
+
+    print(_recipe!.tags);
     _recipe!.save();
     c.update();
   }

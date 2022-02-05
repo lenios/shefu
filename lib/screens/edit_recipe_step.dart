@@ -85,6 +85,7 @@ class EditRecipeStep extends StatelessWidget {
   }
 
   deleteIngredient(IngredientTuple ingredientTuple) {
+    print('delete ingredient' + ingredientTuple.name);
     recipeStep!.ingredients.remove(ingredientTuple.key);
     recipeStep!.save();
     //ingredientTuple.delete();
@@ -129,21 +130,23 @@ class EditRecipeStep extends StatelessWidget {
                     itemBuilder: (context, index) {
                       final ingredientTuple = ingredientTuples_box
                           .get(recipeStep!.ingredients[index]);
-                      // return Dismissible(
-                      //     key: Key(ingredientTuple.key.toString()),
-                      //     onDismissed: deleteIngredient(ingredientTuple),
-                      return Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                                '${ingredientTuple!.quantity} ${ingredientTuple.unit} ${ingredientTuple.name} (${ingredientTuple.shape})'),
-                          ),
-                          //TODO delete
-                          // ElevatedButton(
-                          //     child: Text('delete'.tr),
-                          //     onPressed: deleteIngredient(ingredientTuple))
-                        ],
-                      );
+                      return Dismissible(
+                          key: Key(ingredientTuple!.key.toString()),
+                          onDismissed: (direction) {
+                            deleteIngredient(ingredientTuple);
+                          },
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                    '${ingredientTuple.quantity} ${ingredientTuple.unit} ${ingredientTuple.name} (${ingredientTuple.shape})'),
+                              ),
+                              //TODO delete
+                              // ElevatedButton(
+                              //     child: Text('delete'.tr),
+                              //     onPressed: deleteIngredient(ingredientTuple))
+                            ],
+                          ));
                     },
                   ),
                   Row(

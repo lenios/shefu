@@ -87,7 +87,10 @@ class DisplayRecipe extends StatelessWidget {
                       itemBuilder: (BuildContext context, int index) {
                         var step = _recipesteps_box.get(recipe.steps[index]);
                         if (step != null) {
-                          return RecipeStepCard(recipe_step: step);
+                          return RecipeStepCard(
+                            recipe_step: step,
+                            servings: recipe.servings,
+                          );
                         } else {
                           return (Container());
                         }
