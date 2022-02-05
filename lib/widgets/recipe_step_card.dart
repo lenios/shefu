@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
@@ -28,6 +29,21 @@ class RecipeStepCard extends StatelessWidget {
       required this.servings,
       this.editable = false})
       : super(key: key);
+
+  formatted_quantity(double quantity) {
+    if (quantity > 1) {
+      //integer: display integer
+      if ((quantity % 1) == 0) {
+        return quantity.toInt();
+      } else {
+        //division: round to 2 decimals
+        return quantity.toStringAsFixed(2);
+      }
+    } else {
+      //fractions of less than one: display as fraction
+      return Fraction.fromDouble(quantity);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +97,7 @@ class RecipeStepCard extends StatelessWidget {
                             dense: true,
                             contentPadding: EdgeInsets.only(left: 70.0),
                             title: Text(
-                                '${Fraction.fromDouble(ingredientTuple.quantity / servings * c.servings)}${ingredientTuple.unit} ${ingredientTuple.name}'),
+                                '${formatted_quantity(ingredientTuple.quantity / servings * c.servings)} ${ingredientTuple.unit} ${ingredientTuple.name}'),
                           ),
                         );
                       },
