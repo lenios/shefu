@@ -2,7 +2,7 @@
 
 A new **offline** recipes manager in flutter, built with GetX and Hive
 
-This application allows you to add, search and display your own recipes in your native language, all of this with local storage (no internet required at all!).
+This application allows you to add, edit, search and display your own recipes in your native language, all of this with local storage (no internet required at all!).
 
 The goal is to replace the gourmet recipes manager that is unfortunately not maintained anymore.
 Import from gourmet recipes manager will be available later.
