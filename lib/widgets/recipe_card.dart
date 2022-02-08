@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shefu/screens/display_recipe.dart';
 import '../models/recipes.dart';
+import 'image_helper.dart';
 
 class RecipeCard extends StatelessWidget {
   final Recipe recipe;
@@ -21,7 +22,7 @@ class RecipeCard extends StatelessWidget {
             recipe.image_path.isNotEmpty
                 ? ClipRRect(
                     child: Image.file(
-                      File(recipe.image_path),
+                      File(thumbnailPath(recipe.image_path)),
                       fit: BoxFit.fitWidth,
                       width: 120,
                     ),

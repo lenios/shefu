@@ -7,6 +7,7 @@ import 'package:shefu/models/recipes.dart';
 import 'package:shefu/screens/display_image.dart';
 
 import '../controller.dart';
+import 'image_helper.dart';
 
 class RecipeHeader extends StatelessWidget {
   final Recipe recipe;
@@ -26,7 +27,7 @@ class RecipeHeader extends StatelessWidget {
               child: recipe.image_path.isNotEmpty
                   ? TextButton(
                       child: Image.file(
-                        File(recipe.image_path),
+                        File(thumbnailPath(recipe.image_path)),
                         //fit: BoxFit.fill,
                       ),
                       onPressed: () => Get.to(

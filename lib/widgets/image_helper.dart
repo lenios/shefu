@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shefu/controller.dart';
+import 'package:image/image.dart' as i;
 
 Widget pickImageWidget(String recipe_id) {
   final Controller c = Get.find();
@@ -48,8 +49,13 @@ pickImage(String recipe_id) async {
 
     final dir_path = await _localPath;
     c.file_path = '$dir_path/${recipe_id}_${file.name}';
-    //write image to disk
-    File(c.file_path).writeAsBytesSync(List.from(file.bytes!.cast<int>()));
+
+    List<int> image_bytes = List.from(file.bytes!.cast<int>());
+    var thumbnail = i.copyResize(i.decodeImage(image_bytes)!, width: 250);
+    //write images to disk
+    File(c.file_path).writeAsBytesSync(image_bytes);
+    File(thumbnailPath(c.file_path)).writeAsBytesSync(i.encodePng(thumbnail));
+
     c.update();
   } else {
     // User canceled the picker
@@ -66,4 +72,8 @@ pickAssetImage(String asset) async {
   //write image to disk
   File(file_path).writeAsBytesSync(List.from(file.buffer.asUint8List()));
   return file_path;
+}
+
+String thumbnailPath(String filepath) {
+  return dirname(filepath) + '/t_' + basename(filepath);
 }

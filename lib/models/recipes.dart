@@ -43,6 +43,7 @@ enum Category {
   starters,
   soups,
   mains,
+  sides,
   desserts,
   basics,
 }

@@ -12,6 +12,7 @@ import 'package:shefu/screens/display_image.dart';
 import 'package:shefu/screens/edit_recipe_step.dart';
 
 import '../controller.dart';
+import 'image_helper.dart';
 
 class RecipeStepCard extends StatelessWidget {
   final RecipeStep recipe_step;
@@ -156,7 +157,7 @@ class RecipeStepCard extends StatelessWidget {
                         width: 160,
                         child: ClipRRect(
                           child: Image.file(
-                            File(recipe_step.image_path),
+                            File(thumbnailPath(recipe_step.image_path)),
                             fit: BoxFit.cover,
                           ),
                         ),
