@@ -1,6 +1,6 @@
 # shefu
 
-A new **offline** recipes manager in flutter, built with GetX and Hive
+An **offline** recipes manager in flutter, built with Isar
 
 This application allows you to add, edit, search and display your own recipes in your native language, all of this with local storage (no internet required at all!).
 

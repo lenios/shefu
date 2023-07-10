@@ -1,11 +1,13 @@
 import 'dart:io';
 
-import 'package:flag/flag.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shefu/screens/display_recipe.dart';
 import '../models/recipes.dart';
-import 'image_helper.dart';
+import '../utils/app_color.dart';
+import '../widgets/image_helper.dart';
+import 'misc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RecipeCard extends StatelessWidget {
   final Recipe recipe;
@@ -14,42 +16,108 @@ class RecipeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Get.to(() => DisplayRecipe(recipe: recipe)),
-      child: Card(
+      onTap: () async {
+        await Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => DisplayRecipe(recipe: recipe)),
+        );
+      },
+      child: Container(
+        margin: const EdgeInsets.all(2.0),
+        height: 90,
+        padding: const EdgeInsets.all(1),
+        decoration: BoxDecoration(
+          color: AppColor.whiteSoft,
+          borderRadius: BorderRadius.circular(10),
+        ),
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            recipe.image_path.isNotEmpty
-                ? ClipRRect(
-                    child: Image.file(
-                      File(thumbnailPath(recipe.image_path)),
-                      fit: BoxFit.fitWidth,
-                      width: 120,
-                    ),
-                  )
-                : Container(),
-            const SizedBox(
-              width: 5,
+            Container(
+              width: 95,
+              height: 95,
+              decoration: recipe.imagePath != ''
+                  ? BoxDecoration(
+                      borderRadius: BorderRadius.circular(3),
+                      image: DecorationImage(
+                        image: FileImage(
+                            File(thumbnailPath(recipe.imagePath ?? ''))),
+                        fit: BoxFit.fitWidth,
+                      ),
+                    )
+                  : const BoxDecoration(),
             ),
-            SizedBox(
-              width: 250,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '${recipe.title}',
-                    maxLines: 2,
-                    style: const TextStyle(fontWeight: FontWeight.w700),
-                  ),
-                  Text(
-                    '${recipe.source}',
-                    maxLines: 1,
-                  ),
-                  recipe.country_code.isNotEmpty
-                      ? Flag.fromString(recipe.country_code,
-                          height: 15, width: 24, fit: BoxFit.fill)
-                      : Container(),
-                ],
+            Expanded(
+              child: Container(
+                margin: const EdgeInsets.only(left: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(bottom: 12),
+                      child: Text(
+                        recipe.title,
+                        maxLines: 2,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.w600, fontFamily: 'inter'),
+                      ),
+                    ),
+                    recipe.source != ""
+                        ? Text(
+                            recipe.source,
+                            maxLines: 1,
+                          )
+                        : Container(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        recipe.calories != 0
+                            ? Row(
+                                children: [
+                                  SvgPicture.asset(
+                                    'assets/icons/fire-filled.svg',
+                                    width: 12,
+                                    height: 12,
+                                  ),
+                                  Container(
+                                    margin: const EdgeInsets.only(left: 2),
+                                    child: Text(
+                                      '${recipe.calories} ${AppLocalizations.of(context)!.kcps}',
+                                      style: const TextStyle(fontSize: 12),
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : Container(),
+                        const SizedBox(
+                          width: 6,
+                        ),
+                        recipe.time != 0
+                            ? Row(
+                                children: [
+                                  const Icon(
+                                    Icons.alarm,
+                                    size: 14,
+                                    color: Colors.black,
+                                  ),
+                                  Container(
+                                    margin: const EdgeInsets.only(left: 2),
+                                    child: Text(
+                                      '${recipe.time} ${AppLocalizations.of(context)!.min}',
+                                      style: const TextStyle(fontSize: 12),
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : Container(),
+                        flagIcon(recipe.countryCode ?? ""),
+                      ],
+                    ),
+                    Container(),
+                  ],
+                ),
               ),
             ),
           ],

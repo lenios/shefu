@@ -1,37 +1,35 @@
-import 'package:hive/hive.dart';
+import 'package:isar/isar.dart';
 part 'recipes.g.dart';
 
-@HiveType(typeId: 0)
-class Recipe extends HiveObject {
-  @HiveField(0)
+@collection
+class Recipe {
+  Id id = Isar.autoIncrement;
+
   String title;
 
-  @HiveField(1)
   String source;
 
-  @HiveField(2)
-  String image_path;
+  String? imagePath;
 
-  @HiveField(3)
-  List<int> steps = [];
+  List<RecipeStep>? steps = [];
 
-  @HiveField(4)
-  String notes = '';
+  String? notes;
 
-  @HiveField(5, defaultValue: 4)
   int servings = 4;
 
-  @HiveField(6, defaultValue: [])
-  List<String> tags = [];
+  List<String>? tags;
 
-  @HiveField(7, defaultValue: '')
-  String category = Category.all.toString();
+  @enumerated
+  Category category = Category.all;
 
   //ISO 3166-1-alpha-2 Flags
-  @HiveField(8, defaultValue: '')
-  String country_code = '';
+  String? countryCode;
 
-  Recipe(this.title, this.source, this.image_path);
+  int calories = 0;
+
+  int time = 0;
+
+  Recipe(this.title, this.source, this.imagePath);
 }
 
 enum Category {
@@ -45,5 +43,36 @@ enum Category {
   mains,
   sides,
   desserts,
-  basics,
+  basics;
+
+  @override
+  String toString() => name;
+}
+
+@embedded
+class RecipeStep {
+  String name = "";
+  String instruction = "";
+  String imagePath = '';
+  int timer = 0;
+  List<IngredientTuple> ingredients = [];
+}
+
+@embedded
+class IngredientTuple {
+  String name = "";
+  String unit = Unit.none.toString();
+  double quantity = 1.0;
+  String shape = "";
+}
+
+enum Unit {
+  none,
+  g,
+  pinch,
+  ml,
+  cm;
+
+  @override
+  String toString() => name != "none" ? name : "";
 }

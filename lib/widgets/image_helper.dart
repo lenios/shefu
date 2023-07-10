@@ -1,79 +1,35 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:get/get.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:shefu/controller.dart';
 import 'package:image/image.dart' as i;
 
-Widget pickImageWidget(String recipe_id) {
-  final Controller c = Get.find();
-
-  return Center(
-    child: Container(
-      height: 170,
-      padding: EdgeInsets.all(10),
-      child: Row(children: [
-        c.file_path.isNotEmpty
-            ? ClipRRect(
-                child: Image.file(
-                File(c.file_path),
-                fit: BoxFit.scaleDown,
-                width: 300,
-              ))
-            : Container(),
-        ElevatedButton(
-            child: Text('pick image'.tr),
-            onPressed: (() => pickImage(recipe_id))),
-      ]),
-    ),
-  );
-}
-
-Future<String> get _localPath async {
-  final directory = await getApplicationDocumentsDirectory();
-  return directory.path;
-}
-
-pickImage(String recipe_id) async {
+pickImage(name) async {
   //webp not available for FileType.image
-  final result = await FilePicker.platform
-      .pickFiles(type: FileType.any, allowMultiple: false, withData: true);
-  final Controller c = Get.find();
+
+  FilePickerResult? result =
+      await FilePicker.platform.pickFiles(withData: true);
 
   if (result != null) {
-    PlatformFile file = result.files.first;
+    final dirPath = await getApplicationDocumentsDirectory();
+    String filePath = dirPath.path + '/${name}';
 
-    final dir_path = await _localPath;
-    c.file_path = '$dir_path/${recipe_id}_${file.name}';
+    Uint8List fileBytes = result.files.single.bytes as Uint8List;
 
-    List<int> image_bytes = List.from(file.bytes!.cast<int>());
-    var thumbnail = i.copyResize(i.decodeImage(image_bytes)!, width: 250);
+    var thumbnail = i.copyResize(i.decodeImage(fileBytes)!, width: 250);
     //write images to disk
-    File(c.file_path).writeAsBytesSync(image_bytes);
-    File(thumbnailPath(c.file_path)).writeAsBytesSync(i.encodePng(thumbnail));
-
-    c.update();
+    File(filePath).writeAsBytesSync(fileBytes);
+    File(thumbnailPath(filePath)).writeAsBytesSync(i.encodePng(thumbnail));
+    //recipe.imagePath = filePath;
+    return filePath;
   } else {
-    // User canceled the picker
+    //user cancelled
+    return "";
   }
 }
 
-//for data mock
-pickAssetImage(String asset) async {
-  final file = await rootBundle.load(asset);
-  String name = basename(asset);
-
-  final dir_path = await _localPath;
-  String file_path = '$dir_path/${name}';
-  //write image to disk
-  File(file_path).writeAsBytesSync(List.from(file.buffer.asUint8List()));
-  return file_path;
-}
-
 String thumbnailPath(String filepath) {
-  return dirname(filepath) + '/t_' + basename(filepath);
+  return '${dirname(filepath)}/t_${basename(filepath)}';
 }
