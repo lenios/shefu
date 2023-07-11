@@ -46,5 +46,8 @@
           "countryCode": "country code",
           "country": "country",
           "allCountries": "all countries",
-          "shoppingList": "shopping list"
+          "shoppingList": "shopping list",
+          "pinch": "pinch",
+          "tsp": "tsp",
+          "tbsp": "tbsp"
 }

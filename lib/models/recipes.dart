@@ -71,7 +71,9 @@ enum Unit {
   g,
   pinch,
   ml,
-  cm;
+  cm,
+  tsp,
+  tbsp;
 
   @override
   String toString() => name != "none" ? name : "";

@@ -9,6 +9,7 @@ import '../provider/recipes_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../widgets/image_helper.dart';
+import '../widgets/misc.dart';
 
 class EditRecipe extends StatefulWidget {
   //String categoryvalue = Category.all.toString();
@@ -233,7 +234,9 @@ class _EditRecipeState extends State<EditRecipe> {
                 initialValue: temp_recipe.steps?[key].ingredients[index].unit,
                 icon: const Icon(Icons.keyboard_arrow_down),
                 items: Unit.values.map((e) {
-                  return DropdownMenuItem(value: e, child: Text(e.toString()));
+                  return DropdownMenuItem(
+                      value: e.toString(),
+                      child: Text(formattedUnit(e.toString(), context)));
                 }).toList(),
                 onChanged: (e) {
                   setState(() {

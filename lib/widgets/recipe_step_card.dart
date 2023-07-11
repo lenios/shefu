@@ -13,7 +13,8 @@ class RecipeStepCard extends StatelessWidget {
   //Recipe recipe;
   final double servings;
 
-  const RecipeStepCard({Key? key, required this.recipe_step, required this.servings})
+  const RecipeStepCard(
+      {Key? key, required this.recipe_step, required this.servings})
       : super(key: key);
 
   @override
@@ -54,7 +55,7 @@ class RecipeStepCard extends StatelessWidget {
                           '•',
                         ),
                         title: Text(
-                            '${formattedQuantity(tuple.quantity * servings)}${tuple.unit.toString()} ${tuple.name}'),
+                            '${formattedQuantity(tuple.quantity * servings)}${formattedUnit(tuple.unit.toString(), context)} ${tuple.name}'),
                         subtitle: Text(tuple.shape),
                       );
                     }),

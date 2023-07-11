@@ -65,7 +65,7 @@ class _DisplayRecipeState extends State<DisplayRecipe>
     }
   }
 
-  Widget shoppingList(Recipe recipe) {
+  Widget shoppingList(Recipe recipe, context) {
     return Column(
       children: [
         ...List.generate(recipe.steps?.length ?? 0, (index) {
@@ -76,7 +76,7 @@ class _DisplayRecipeState extends State<DisplayRecipe>
                 ...List.generate(recipeStep?.ingredients.length ?? 0,
                     (tupleIndex) {
                   return Text(
-                      "• ${formattedQuantity(recipeStep!.ingredients[tupleIndex].quantity)}${recipeStep.ingredients[tupleIndex].unit} ${recipeStep.ingredients[tupleIndex].name}");
+                      "• ${formattedQuantity(recipeStep!.ingredients[tupleIndex].quantity)}${formattedUnit(recipeStep.ingredients[tupleIndex].unit, context)} ${recipeStep.ingredients[tupleIndex].name}");
                 })
               ]);
         }),
@@ -446,7 +446,8 @@ class _DisplayRecipeState extends State<DisplayRecipe>
                   )
                 ]);
               }),
-              shoppingList(widget.recipe), //TODO adapt quantity to servings
+              shoppingList(
+                  widget.recipe, context), //TODO adapt quantity to servings
 
               (widget.recipe.notes != '')
                   ? SizedBox(
