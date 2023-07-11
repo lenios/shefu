@@ -13,7 +13,7 @@ class RecipeStepCard extends StatelessWidget {
   //Recipe recipe;
   final double servings;
 
-  RecipeStepCard({Key? key, required this.recipe_step, required this.servings})
+  const RecipeStepCard({Key? key, required this.recipe_step, required this.servings})
       : super(key: key);
 
   @override

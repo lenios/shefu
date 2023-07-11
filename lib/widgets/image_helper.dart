@@ -14,7 +14,7 @@ pickImage(name) async {
 
   if (result != null) {
     final dirPath = await getApplicationDocumentsDirectory();
-    String filePath = dirPath.path + '/${name}';
+    String filePath = '${dirPath.path}/$name';
 
     Uint8List fileBytes = result.files.single.bytes as Uint8List;
 

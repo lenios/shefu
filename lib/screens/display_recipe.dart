@@ -218,7 +218,7 @@ class _DisplayRecipeState extends State<DisplayRecipe>
         children: [
           // Section 1 - Header
           Container(
-            padding: EdgeInsets.only(top: 35),
+            padding: const EdgeInsets.only(top: 35),
             color: AppColor.primary,
             child: Row(
               mainAxisSize: MainAxisSize.min,

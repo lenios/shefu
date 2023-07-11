@@ -60,7 +60,7 @@ class _HomePageState extends State<HomePage> {
           children: [
             // Section 1 - Search
             Container(
-              padding: EdgeInsets.only(
+              padding: const EdgeInsets.only(
                 top: 45,
               ),
               width: MediaQuery.of(context).size.width,
@@ -193,7 +193,7 @@ class _HomePageState extends State<HomePage> {
                                         topLeft: Radius.circular(20),
                                         topRight: Radius.circular(20))),
                                 builder: (context) {
-                                  return SearchFilterModal();
+                                  return const SearchFilterModal();
                                 });
                           },
                           child: Container(
