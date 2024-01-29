@@ -264,15 +264,20 @@ class _DisplayRecipeState extends State<DisplayRecipe>
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        widget.recipe.title,
-                        style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600,
-                            fontFamily: 'inter'),
+                      Row(
+                        children: [
+                          Text(
+                            widget.recipe.title,
+                            style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                                fontFamily: 'inter'),
+                          ),
+                          const Spacer(),
+                          flagIcon(widget.recipe.countryCode ?? ""),
+                        ],
                       ),
-                      flagIcon(widget.recipe.countryCode ?? ""),
                       widget.recipe.source != ""
                           ? Text(
                               '${AppLocalizations.of(context)!.source}: ${widget.recipe.source}',
