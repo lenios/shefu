@@ -25,7 +25,7 @@ class _HomePageState extends State<HomePage> {
   String _filter = "";
   Category selectedCategory = Category.all;
   String countryCode = "";
-  int tab = 1; //1: recipes, 2:nutrients
+  int tab = 0; //0: recipes, 1:nutrients
 
   List<Recipe> recipes = [];
 
@@ -219,7 +219,7 @@ class _HomePageState extends State<HomePage> {
                       scrollDirection: Axis.horizontal,
                       physics: const BouncingScrollPhysics(),
                       padding: const EdgeInsets.symmetric(horizontal: 16),
-                      itemCount: 1,
+                      itemCount: 2,
                       separatorBuilder: (context, index) {
                         return const SizedBox(width: 8);
                       },
@@ -238,7 +238,11 @@ class _HomePageState extends State<HomePage> {
                                   width: 1),
                             ),
                             child: Text(
-                              AppLocalizations.of(context)!.recipes,
+                              switch (index) {
+                                0 => AppLocalizations.of(context)!.recipes,
+                                1 => AppLocalizations.of(context)!.notes,
+                                _ => "",
+                              },
                               style: TextStyle(
                                   color: Colors.white.withOpacity(0.7),
                                   fontWeight: FontWeight.w400),
@@ -268,7 +272,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   switch (tab) {
                     //RECIPES
-                    1 => Consumer<RecipesProvider>(
+                    0 => Consumer<RecipesProvider>(
                           builder: (context, recipesProvider, child) {
                         var filteredRecipes = recipesProvider.filterRecipes(
                             _filter, countryCode, selectedCategory);
@@ -289,6 +293,7 @@ class _HomePageState extends State<HomePage> {
                           return Text(AppLocalizations.of(context)!.noRecipe);
                         }
                       }),
+                    1 => Text("WIP"),
                     //NUTRIENTS
                     2 => Consumer<NutrientsProvider>(
                           builder: (context, nutrientsProvider, child) {
