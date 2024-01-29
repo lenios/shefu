@@ -30,13 +30,16 @@ class RecipesProvider with ChangeNotifier {
   }
 
   List<Recipe> filterRecipes(filter, countryCode, selectedCategory) {
-    var filtered = _recipes
-        .where((e) => (e.title.contains(filter) ||
-            e.tags!.any((f) => f.contains(filter))))
+    List<Recipe> filtered = _recipes
         .where((e) => e.countryCode == countryCode || countryCode == "")
         .where((e) => (e.category == selectedCategory ||
             selectedCategory == Category.all))
         .toList();
+    for (var term in filter.split(',')) {
+      filtered.retainWhere((e) =>
+          (e.title.contains(term) || e.tags!.any((f) => f.contains(term))));
+    }
+
     return filtered;
   }
 
@@ -66,9 +69,10 @@ class RecipesProvider with ChangeNotifier {
     });
   }
 
-  List availableCountries() {
-    return List.from([''])
-      ..addAll((_recipes.map((e) => e.countryCode).toSet().toList()));
+  List<String> availableCountries() {
+    var countries = _recipes.map((e) => e.countryCode ?? '').toSet().toList();
+    countries.sort();
+    return countries;
   }
 
   // void toggleImp(int id) async {

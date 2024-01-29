@@ -175,7 +175,7 @@ class _HomePageState extends State<HomePage> {
                                           width: 24,
                                           //fit: BoxFit.fill
                                         ),
-                                        Text(e ?? '')
+                                        Text(e.toString())
                                       ],
                                     )
                                   : Text(AppLocalizations.of(context)!.country),
@@ -183,7 +183,7 @@ class _HomePageState extends State<HomePage> {
                           }).toList(),
                           onChanged: (value) {
                             setState(() {
-                              countryCode = value as String;
+                              countryCode = value!;
                             });
                           },
                         );
