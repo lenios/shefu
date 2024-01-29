@@ -22,55 +22,65 @@ const RecipeSchema = CollectionSchema(
       name: r'calories',
       type: IsarType.long,
     ),
-    r'category': PropertySchema(
+    r'carbohydrates': PropertySchema(
       id: 1,
+      name: r'carbohydrates',
+      type: IsarType.long,
+    ),
+    r'category': PropertySchema(
+      id: 2,
       name: r'category',
       type: IsarType.byte,
       enumMap: _RecipecategoryEnumValueMap,
     ),
     r'countryCode': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'countryCode',
       type: IsarType.string,
     ),
     r'imagePath': PropertySchema(
-      id: 3,
+      id: 4,
       name: r'imagePath',
       type: IsarType.string,
     ),
+    r'month': PropertySchema(
+      id: 5,
+      name: r'month',
+      type: IsarType.long,
+    ),
     r'notes': PropertySchema(
-      id: 4,
+      id: 6,
       name: r'notes',
       type: IsarType.string,
     ),
     r'servings': PropertySchema(
-      id: 5,
+      id: 7,
       name: r'servings',
       type: IsarType.long,
     ),
     r'source': PropertySchema(
-      id: 6,
+      id: 8,
       name: r'source',
       type: IsarType.string,
     ),
     r'steps': PropertySchema(
-      id: 7,
+      id: 9,
       name: r'steps',
       type: IsarType.objectList,
       target: r'RecipeStep',
     ),
     r'tags': PropertySchema(
-      id: 8,
+      id: 10,
       name: r'tags',
       type: IsarType.stringList,
     ),
     r'time': PropertySchema(
-      id: 9,
+      id: 11,
       name: r'time',
       type: IsarType.long,
     ),
     r'title': PropertySchema(
-      id: 10,
+      id: 12,
       name: r'title',
       type: IsarType.string,
     )
@@ -154,21 +164,23 @@ void _recipeSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeLong(offsets[0], object.calories);
-  writer.writeByte(offsets[1], object.category.index);
-  writer.writeString(offsets[2], object.countryCode);
-  writer.writeString(offsets[3], object.imagePath);
-  writer.writeString(offsets[4], object.notes);
-  writer.writeLong(offsets[5], object.servings);
-  writer.writeString(offsets[6], object.source);
+  writer.writeLong(offsets[1], object.carbohydrates);
+  writer.writeByte(offsets[2], object.category.index);
+  writer.writeString(offsets[3], object.countryCode);
+  writer.writeString(offsets[4], object.imagePath);
+  writer.writeLong(offsets[5], object.month);
+  writer.writeString(offsets[6], object.notes);
+  writer.writeLong(offsets[7], object.servings);
+  writer.writeString(offsets[8], object.source);
   writer.writeObjectList<RecipeStep>(
-    offsets[7],
+    offsets[9],
     allOffsets,
     RecipeStepSchema.serialize,
     object.steps,
   );
-  writer.writeStringList(offsets[8], object.tags);
-  writer.writeLong(offsets[9], object.time);
-  writer.writeString(offsets[10], object.title);
+  writer.writeStringList(offsets[10], object.tags);
+  writer.writeLong(offsets[11], object.time);
+  writer.writeString(offsets[12], object.title);
 }
 
 Recipe _recipeDeserialize(
@@ -178,26 +190,28 @@ Recipe _recipeDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = Recipe(
-    reader.readString(offsets[10]),
-    reader.readString(offsets[6]),
-    reader.readStringOrNull(offsets[3]),
+    reader.readString(offsets[12]),
+    reader.readString(offsets[8]),
+    reader.readStringOrNull(offsets[4]),
   );
   object.calories = reader.readLong(offsets[0]);
+  object.carbohydrates = reader.readLong(offsets[1]);
   object.category =
-      _RecipecategoryValueEnumMap[reader.readByteOrNull(offsets[1])] ??
+      _RecipecategoryValueEnumMap[reader.readByteOrNull(offsets[2])] ??
           Category.all;
-  object.countryCode = reader.readStringOrNull(offsets[2]);
+  object.countryCode = reader.readStringOrNull(offsets[3]);
   object.id = id;
-  object.notes = reader.readStringOrNull(offsets[4]);
-  object.servings = reader.readLong(offsets[5]);
+  object.month = reader.readLong(offsets[5]);
+  object.notes = reader.readStringOrNull(offsets[6]);
+  object.servings = reader.readLong(offsets[7]);
   object.steps = reader.readObjectList<RecipeStep>(
-    offsets[7],
+    offsets[9],
     RecipeStepSchema.deserialize,
     allOffsets,
     RecipeStep(),
   );
-  object.tags = reader.readStringList(offsets[8]);
-  object.time = reader.readLong(offsets[9]);
+  object.tags = reader.readStringList(offsets[10]);
+  object.time = reader.readLong(offsets[11]);
   return object;
 }
 
@@ -211,10 +225,10 @@ P _recipeDeserializeProp<P>(
     case 0:
       return (reader.readLong(offset)) as P;
     case 1:
+      return (reader.readLong(offset)) as P;
+    case 2:
       return (_RecipecategoryValueEnumMap[reader.readByteOrNull(offset)] ??
           Category.all) as P;
-    case 2:
-      return (reader.readStringOrNull(offset)) as P;
     case 3:
       return (reader.readStringOrNull(offset)) as P;
     case 4:
@@ -222,19 +236,23 @@ P _recipeDeserializeProp<P>(
     case 5:
       return (reader.readLong(offset)) as P;
     case 6:
-      return (reader.readString(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 7:
+      return (reader.readLong(offset)) as P;
+    case 8:
+      return (reader.readString(offset)) as P;
+    case 9:
       return (reader.readObjectList<RecipeStep>(
         offset,
         RecipeStepSchema.deserialize,
         allOffsets,
         RecipeStep(),
       )) as P;
-    case 8:
-      return (reader.readStringList(offset)) as P;
-    case 9:
-      return (reader.readLong(offset)) as P;
     case 10:
+      return (reader.readStringList(offset)) as P;
+    case 11:
+      return (reader.readLong(offset)) as P;
+    case 12:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -253,6 +271,7 @@ const _RecipecategoryEnumValueMap = {
   'sides': 8,
   'desserts': 9,
   'basics': 10,
+  'sauces': 11,
 };
 const _RecipecategoryValueEnumMap = {
   0: Category.all,
@@ -266,6 +285,7 @@ const _RecipecategoryValueEnumMap = {
   8: Category.sides,
   9: Category.desserts,
   10: Category.basics,
+  11: Category.sauces,
 };
 
 Id _recipeGetId(Recipe object) {
@@ -401,6 +421,59 @@ extension RecipeQueryFilter on QueryBuilder<Recipe, Recipe, QFilterCondition> {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
         property: r'calories',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<Recipe, Recipe, QAfterFilterCondition> carbohydratesEqualTo(
+      int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'carbohydrates',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Recipe, Recipe, QAfterFilterCondition> carbohydratesGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'carbohydrates',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Recipe, Recipe, QAfterFilterCondition> carbohydratesLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'carbohydrates',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Recipe, Recipe, QAfterFilterCondition> carbohydratesBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'carbohydrates',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -802,6 +875,58 @@ extension RecipeQueryFilter on QueryBuilder<Recipe, Recipe, QFilterCondition> {
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'imagePath',
         value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Recipe, Recipe, QAfterFilterCondition> monthEqualTo(int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'month',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Recipe, Recipe, QAfterFilterCondition> monthGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'month',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Recipe, Recipe, QAfterFilterCondition> monthLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'month',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Recipe, Recipe, QAfterFilterCondition> monthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'month',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
       ));
     });
   }
@@ -1672,6 +1797,18 @@ extension RecipeQuerySortBy on QueryBuilder<Recipe, Recipe, QSortBy> {
     });
   }
 
+  QueryBuilder<Recipe, Recipe, QAfterSortBy> sortByCarbohydrates() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'carbohydrates', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Recipe, Recipe, QAfterSortBy> sortByCarbohydratesDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'carbohydrates', Sort.desc);
+    });
+  }
+
   QueryBuilder<Recipe, Recipe, QAfterSortBy> sortByCategory() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'category', Sort.asc);
@@ -1705,6 +1842,18 @@ extension RecipeQuerySortBy on QueryBuilder<Recipe, Recipe, QSortBy> {
   QueryBuilder<Recipe, Recipe, QAfterSortBy> sortByImagePathDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'imagePath', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Recipe, Recipe, QAfterSortBy> sortByMonth() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'month', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Recipe, Recipe, QAfterSortBy> sortByMonthDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'month', Sort.desc);
     });
   }
 
@@ -1782,6 +1931,18 @@ extension RecipeQuerySortThenBy on QueryBuilder<Recipe, Recipe, QSortThenBy> {
     });
   }
 
+  QueryBuilder<Recipe, Recipe, QAfterSortBy> thenByCarbohydrates() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'carbohydrates', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Recipe, Recipe, QAfterSortBy> thenByCarbohydratesDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'carbohydrates', Sort.desc);
+    });
+  }
+
   QueryBuilder<Recipe, Recipe, QAfterSortBy> thenByCategory() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'category', Sort.asc);
@@ -1827,6 +1988,18 @@ extension RecipeQuerySortThenBy on QueryBuilder<Recipe, Recipe, QSortThenBy> {
   QueryBuilder<Recipe, Recipe, QAfterSortBy> thenByImagePathDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'imagePath', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Recipe, Recipe, QAfterSortBy> thenByMonth() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'month', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Recipe, Recipe, QAfterSortBy> thenByMonthDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'month', Sort.desc);
     });
   }
 
@@ -1898,6 +2071,12 @@ extension RecipeQueryWhereDistinct on QueryBuilder<Recipe, Recipe, QDistinct> {
     });
   }
 
+  QueryBuilder<Recipe, Recipe, QDistinct> distinctByCarbohydrates() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'carbohydrates');
+    });
+  }
+
   QueryBuilder<Recipe, Recipe, QDistinct> distinctByCategory() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'category');
@@ -1915,6 +2094,12 @@ extension RecipeQueryWhereDistinct on QueryBuilder<Recipe, Recipe, QDistinct> {
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'imagePath', caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<Recipe, Recipe, QDistinct> distinctByMonth() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'month');
     });
   }
 
@@ -1971,6 +2156,12 @@ extension RecipeQueryProperty on QueryBuilder<Recipe, Recipe, QQueryProperty> {
     });
   }
 
+  QueryBuilder<Recipe, int, QQueryOperations> carbohydratesProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'carbohydrates');
+    });
+  }
+
   QueryBuilder<Recipe, Category, QQueryOperations> categoryProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'category');
@@ -1986,6 +2177,12 @@ extension RecipeQueryProperty on QueryBuilder<Recipe, Recipe, QQueryProperty> {
   QueryBuilder<Recipe, String?, QQueryOperations> imagePathProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'imagePath');
+    });
+  }
+
+  QueryBuilder<Recipe, int, QQueryOperations> monthProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'month');
     });
   }
 
@@ -2726,23 +2923,33 @@ const IngredientTupleSchema = Schema(
   name: r'IngredientTuple',
   id: 6510394689369736366,
   properties: {
-    r'name': PropertySchema(
+    r'foodId': PropertySchema(
       id: 0,
+      name: r'foodId',
+      type: IsarType.long,
+    ),
+    r'name': PropertySchema(
+      id: 1,
       name: r'name',
       type: IsarType.string,
     ),
     r'quantity': PropertySchema(
-      id: 1,
+      id: 2,
       name: r'quantity',
       type: IsarType.double,
     ),
+    r'selectedFactorId': PropertySchema(
+      id: 3,
+      name: r'selectedFactorId',
+      type: IsarType.long,
+    ),
     r'shape': PropertySchema(
-      id: 2,
+      id: 4,
       name: r'shape',
       type: IsarType.string,
     ),
     r'unit': PropertySchema(
-      id: 3,
+      id: 5,
       name: r'unit',
       type: IsarType.string,
     )
@@ -2771,10 +2978,12 @@ void _ingredientTupleSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeString(offsets[0], object.name);
-  writer.writeDouble(offsets[1], object.quantity);
-  writer.writeString(offsets[2], object.shape);
-  writer.writeString(offsets[3], object.unit);
+  writer.writeLong(offsets[0], object.foodId);
+  writer.writeString(offsets[1], object.name);
+  writer.writeDouble(offsets[2], object.quantity);
+  writer.writeLong(offsets[3], object.selectedFactorId);
+  writer.writeString(offsets[4], object.shape);
+  writer.writeString(offsets[5], object.unit);
 }
 
 IngredientTuple _ingredientTupleDeserialize(
@@ -2784,10 +2993,12 @@ IngredientTuple _ingredientTupleDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = IngredientTuple();
-  object.name = reader.readString(offsets[0]);
-  object.quantity = reader.readDouble(offsets[1]);
-  object.shape = reader.readString(offsets[2]);
-  object.unit = reader.readString(offsets[3]);
+  object.foodId = reader.readLong(offsets[0]);
+  object.name = reader.readString(offsets[1]);
+  object.quantity = reader.readDouble(offsets[2]);
+  object.selectedFactorId = reader.readLong(offsets[3]);
+  object.shape = reader.readString(offsets[4]);
+  object.unit = reader.readString(offsets[5]);
   return object;
 }
 
@@ -2799,12 +3010,16 @@ P _ingredientTupleDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readString(offset)) as P;
+      return (reader.readLong(offset)) as P;
     case 1:
-      return (reader.readDouble(offset)) as P;
-    case 2:
       return (reader.readString(offset)) as P;
+    case 2:
+      return (reader.readDouble(offset)) as P;
     case 3:
+      return (reader.readLong(offset)) as P;
+    case 4:
+      return (reader.readString(offset)) as P;
+    case 5:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -2813,6 +3028,62 @@ P _ingredientTupleDeserializeProp<P>(
 
 extension IngredientTupleQueryFilter
     on QueryBuilder<IngredientTuple, IngredientTuple, QFilterCondition> {
+  QueryBuilder<IngredientTuple, IngredientTuple, QAfterFilterCondition>
+      foodIdEqualTo(int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'foodId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<IngredientTuple, IngredientTuple, QAfterFilterCondition>
+      foodIdGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'foodId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<IngredientTuple, IngredientTuple, QAfterFilterCondition>
+      foodIdLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'foodId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<IngredientTuple, IngredientTuple, QAfterFilterCondition>
+      foodIdBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'foodId',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
   QueryBuilder<IngredientTuple, IngredientTuple, QAfterFilterCondition>
       nameEqualTo(
     String value, {
@@ -3011,6 +3282,62 @@ extension IngredientTupleQueryFilter
         upper: upper,
         includeUpper: includeUpper,
         epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<IngredientTuple, IngredientTuple, QAfterFilterCondition>
+      selectedFactorIdEqualTo(int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'selectedFactorId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<IngredientTuple, IngredientTuple, QAfterFilterCondition>
+      selectedFactorIdGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'selectedFactorId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<IngredientTuple, IngredientTuple, QAfterFilterCondition>
+      selectedFactorIdLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'selectedFactorId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<IngredientTuple, IngredientTuple, QAfterFilterCondition>
+      selectedFactorIdBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'selectedFactorId',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
       ));
     });
   }

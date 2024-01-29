@@ -1,6 +1,6 @@
 # shefu
 
-An **offline** recipes manager in flutter, built with Isar
+An **offline** open source (GPLv3) recipes manager in flutter, built with Isar
 
 This application allows you to add, edit, search and display your own recipes in your native language, all of this with local storage (no internet required at all!).
 
@@ -8,6 +8,10 @@ The goal is to replace the gourmet recipes manager that is unfortunately not mai
 Import from gourmet recipes manager will be available later.
 
 As a bonus, this should work on all platforms (ios,android,web,macos,linux and maybe windows). However due to lack of time, first release will be focused on macos. Feel free to help!
+
+## News
+
+New in v2: nutritional informations are automatically generated (for EN and FR only)! Source: Santé Canada (Fichier canadien sur les éléments nutritifs, 2015)-> https://www.canada.ca/fr/sante-canada/services/aliments-nutrition/saine-alimentation/donnees-nutritionnelles/fichier-canadien-elements-nutritifs-fcen-2015.html
 
 ## Getting Started
 

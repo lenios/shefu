@@ -11,7 +11,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RecipeCard extends StatelessWidget {
   final Recipe recipe;
-  const RecipeCard({Key? key, required this.recipe}) : super(key: key);
+  const RecipeCard({super.key, required this.recipe});
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +59,7 @@ class RecipeCard extends StatelessWidget {
                       margin: const EdgeInsets.only(bottom: 12),
                       child: Text(
                         recipe.title,
-                        maxLines: 2,
+                        maxLines: 1,
                         style: const TextStyle(
                             fontWeight: FontWeight.w600, fontFamily: 'inter'),
                       ),
@@ -73,6 +73,27 @@ class RecipeCard extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
+                        recipe.carbohydrates != 0
+                            ? Row(
+                                children: [
+                                  SvgPicture.asset(
+                                    'assets/icons/carbohydrates.svg',
+                                    width: 12,
+                                    height: 12,
+                                  ),
+                                  Container(
+                                    margin: const EdgeInsets.only(left: 2),
+                                    child: Text(
+                                      '${recipe.carbohydrates} ${AppLocalizations.of(context)!.gps}',
+                                      style: const TextStyle(fontSize: 12),
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : Container(),
+                        const SizedBox(
+                          width: 6,
+                        ),
                         recipe.calories != 0
                             ? Row(
                                 children: [

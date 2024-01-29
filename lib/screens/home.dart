@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:flag/flag.dart';
+import 'package:shefu/main.dart';
+import 'package:shefu/provider/nutrients_provider.dart';
+import 'package:shefu/widgets/misc.dart';
 
 import '../models/recipes.dart';
 import '../provider/recipes_provider.dart';
@@ -22,35 +25,27 @@ class _HomePageState extends State<HomePage> {
   String _filter = "";
   Category selectedCategory = Category.all;
   String countryCode = "";
+  int tab = 1; //1: recipes, 2:nutrients
 
   List<Recipe> recipes = [];
-
-  Widget localetest() {
-    return Localizations.override(
-      context: context,
-      locale: const Locale('ja'),
-      // Using a Builder to get the correct BuildContext.
-      // Alternatively, you can create a new widget and Localizations.override
-      // will pass the updated BuildContext to the new widget.
-      child: Builder(
-        builder: (context) {
-          // A toy example for an internationalized Material widget.
-          return CalendarDatePicker(
-            initialDate: DateTime.now(),
-            firstDate: DateTime(1900),
-            lastDate: DateTime(2100),
-            onDateChanged: (value) {},
-          );
-        },
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
     //var appState = context.watch<MyAppState>();
 
     bool isHandset = MediaQuery.of(context).size.width < 550;
+
+    var languages = ['en', 'fr', 'ja'];
+
+    Widget localewidget = DropdownButton(
+      icon: const Icon(Icons.settings, color: Colors.white),
+      items: languages.map((String item) {
+        return DropdownMenuItem(value: item, child: Text(item));
+      }).toList(),
+      onChanged: (String? newValue) {
+        MyApp.setLocale(context, Locale(newValue!));
+      },
+    );
 
     return Scaffold(
       body: ListView(
@@ -125,10 +120,10 @@ class _HomePageState extends State<HomePage> {
                                 )),
                           ),
                         ),
-
                         Consumer<RecipesProvider>(
                             builder: (context, recipesProvider, child) {
                           return DropdownButton(
+                            dropdownColor: AppColor.primarySoft,
                             //isExpanded: true,
                             style: TextStyle(
                                 backgroundColor: AppColor.primary,
@@ -164,6 +159,7 @@ class _HomePageState extends State<HomePage> {
                         }),
 
                         DropdownButton(
+                          dropdownColor: AppColor.primarySoft,
                           style: TextStyle(
                               backgroundColor: AppColor.primary,
                               color: Colors.white),
@@ -172,7 +168,8 @@ class _HomePageState extends State<HomePage> {
                           items: Category.values.map((e) {
                             return DropdownMenuItem(
                               value: e,
-                              child: Text(e.toString()),
+                              child: Text(
+                                  formattedCategory(e.toString(), context)),
                             );
                           }).toList(),
                           onChanged: (value) {
@@ -193,7 +190,8 @@ class _HomePageState extends State<HomePage> {
                                         topLeft: Radius.circular(20),
                                         topRight: Radius.circular(20))),
                                 builder: (context) {
-                                  return const SearchFilterModal();
+                                  return SearchFilterModal(
+                                      widget: localewidget);
                                 });
                           },
                           child: Container(
@@ -228,7 +226,9 @@ class _HomePageState extends State<HomePage> {
                           alignment: Alignment.topCenter,
                           child: TextButton(
                             onPressed: () {
-                              _filter = "test"; //popularRecipeKeyword[index];
+                              setState(() {
+                                tab = index;
+                              });
                             },
                             style: OutlinedButton.styleFrom(
                               side: BorderSide(
@@ -237,7 +237,6 @@ class _HomePageState extends State<HomePage> {
                             ),
                             child: Text(
                               "test $index",
-                              //popularRecipeKeyword[index],
                               style: TextStyle(
                                   color: Colors.white.withOpacity(0.7),
                                   fontWeight: FontWeight.w400),
@@ -265,30 +264,58 @@ class _HomePageState extends State<HomePage> {
                       style: const TextStyle(color: Colors.grey, fontSize: 12),
                     ),
                   ),
-                  Consumer<RecipesProvider>(
-                      builder: (context, recipesProvider, child) {
-                    var filteredRecipes = recipesProvider.filterRecipes(
-                        _filter, countryCode, selectedCategory);
-                    if (filteredRecipes.isNotEmpty) {
-                      return GridView.builder(
-                        shrinkWrap: true,
-                        itemCount: filteredRecipes.length,
-                        physics: const NeverScrollableScrollPhysics(),
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: isHandset ? 1 : 2,
-                            mainAxisExtent: 90),
-                        itemBuilder: (context, index) {
-                          return RecipeCard(recipe: filteredRecipes[index]);
-                        },
-                      );
-                    } else {
-                      return Text(AppLocalizations.of(context)!.noRecipe);
-                    }
-                  }),
+                  switch (tab) {
+                    //RECIPES
+                    1 => Consumer<RecipesProvider>(
+                          builder: (context, recipesProvider, child) {
+                        var filteredRecipes = recipesProvider.filterRecipes(
+                            _filter, countryCode, selectedCategory);
+                        if (filteredRecipes.isNotEmpty) {
+                          return GridView.builder(
+                            shrinkWrap: true,
+                            itemCount: filteredRecipes.length,
+                            physics: const NeverScrollableScrollPhysics(),
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: isHandset ? 1 : 2,
+                                    mainAxisExtent: 90),
+                            itemBuilder: (context, index) {
+                              return RecipeCard(recipe: filteredRecipes[index]);
+                            },
+                          );
+                        } else {
+                          return Text(AppLocalizations.of(context)!.noRecipe);
+                        }
+                      }),
+                    //NUTRIENTS
+                    2 => Consumer<NutrientsProvider>(
+                          builder: (context, nutrientsProvider, child) {
+                        var filteredNutrients =
+                            nutrientsProvider.filterNutrients(_filter);
+                        if (filteredNutrients.isNotEmpty) {
+                          return GridView.builder(
+                            shrinkWrap: true,
+                            itemCount: filteredNutrients.length,
+                            physics: const NeverScrollableScrollPhysics(),
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: isHandset ? 1 : 2,
+                                    mainAxisExtent: 90),
+                            itemBuilder: (context, index) {
+                              return Text(filteredNutrients[index].descFR);
+                            },
+                          );
+                        } else {
+                          return Text(AppLocalizations.of(context)!.noRecipe);
+                        }
+                      }),
+
+                    // TODO: Handle this case.
+                    int() => Container(),
+                  },
                 ],
               ),
             ),
-            //localetest(),
           ]),
       floatingActionButton: FloatingActionButton(
         onPressed: addRecipe,

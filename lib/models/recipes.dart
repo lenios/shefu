@@ -29,6 +29,10 @@ class Recipe {
 
   int time = 0;
 
+  int month = 1;
+
+  int carbohydrates = 0;
+
   Recipe(this.title, this.source, this.imagePath);
 }
 
@@ -43,7 +47,8 @@ enum Category {
   mains,
   sides,
   desserts,
-  basics;
+  basics,
+  sauces;
 
   @override
   String toString() => name;
@@ -64,6 +69,8 @@ class IngredientTuple {
   String unit = Unit.none.toString();
   double quantity = 1.0;
   String shape = "";
+  int foodId = 0;
+  int selectedFactorId = 0;
 }
 
 enum Unit {
@@ -73,7 +80,12 @@ enum Unit {
   ml,
   cm,
   tsp,
-  tbsp;
+  tbsp,
+  bunch,
+  cl,
+  sprig,
+  packet,
+  leaf;
 
   @override
   String toString() => name != "none" ? name : "";

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pinch_zoom/pinch_zoom.dart';
 
 class FullScreenImage extends StatelessWidget {
   final Widget image;
@@ -23,9 +24,15 @@ class FullScreenImage extends StatelessWidget {
         height: MediaQuery.of(context).size.height,
         alignment: Alignment.center,
         // Image Wrapper
-        child: SizedBox(
-          width: MediaQuery.of(context).size.width,
-          // Image Widget
+
+        child: PinchZoom(
+          maxScale: 3,
+          onZoomStart: () {
+            //print('Start zooming');
+          },
+          onZoomEnd: () {
+            //print('Stop zooming');
+          },
           child: image,
         ),
       ),

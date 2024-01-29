@@ -1,6 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:isar/isar.dart';
+import 'package:provider/provider.dart';
+import 'package:shefu/provider/nutrients_provider.dart';
+import 'package:shefu/screens/full_screen_image.dart';
 import 'package:shefu/utils/app_color.dart';
 
 import '../models/recipes.dart';
@@ -9,13 +13,128 @@ import 'image_helper.dart';
 import 'misc.dart';
 
 class RecipeStepCard extends StatelessWidget {
-  final RecipeStep recipe_step;
+  final RecipeStep recipeStep;
   //Recipe recipe;
   final double servings;
 
   const RecipeStepCard(
-      {Key? key, required this.recipe_step, required this.servings})
-      : super(key: key);
+      {super.key, required this.recipeStep, required this.servings});
+
+  Widget stepImage(context) {
+    return recipeStep.imagePath.isNotEmpty
+        ? GestureDetector(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => FullScreenImage(
+                          image: Image.file(
+                        File(recipeStep.imagePath),
+                        //fit: BoxFit.fill,
+                      ))));
+            },
+            child: SizedBox(
+              width: 160,
+              child: ClipRRect(
+                child: Image.file(
+                  File(thumbnailPath(recipeStep.imagePath)),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ))
+        : Container();
+  }
+
+  Widget stepDirection(context) {
+    return Consumer<NutrientsProvider>(
+        builder: (context, nutrientsProvider, child) {
+      return Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          // ingredients list
+          Flexible(
+              child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              recipeStep.name.isNotEmpty
+                  ? SelectableText(
+                      recipeStep.name,
+                      style: const TextStyle(fontWeight: FontWeight.w700),
+                    )
+                  : Container(),
+              ...List.generate(recipeStep.ingredients.length, (index) {
+                var tuple = recipeStep.ingredients[index];
+                var convs =
+                    nutrientsProvider.getNutrientConversions(tuple.foodId);
+                var ref = "";
+                if (convs!.isNotEmpty) {
+                  var selected =
+                      convs.where((e) => e.id == tuple.selectedFactorId);
+                  if (selected.isNotEmpty) {
+                    ref =
+                        "(${formattedQuantity(selected.first.factor * tuple.quantity * 100)}g)";
+                  }
+                }
+                return ListTile(
+                  subtitleTextStyle: TextStyle(
+                    color: AppColor.primarySoft,
+                  ),
+                  leading: const Text(
+                    '•',
+                  ),
+                  title: Text(
+                      '${formattedQuantity(tuple.quantity * servings)}${formattedUnit(tuple.unit.toString(), context)} ${tuple.name} $ref'),
+                  subtitle: Text(tuple.shape),
+                );
+                ;
+              })
+            ],
+          )),
+          Flexible(
+              flex: recipeStep.ingredients.isNotEmpty ? 1 : 3,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    recipeStep.name,
+                    maxLines: 1,
+                    style: const TextStyle(fontWeight: FontWeight.w700),
+                  ),
+                  ListTile(
+                    contentPadding: const EdgeInsets.symmetric(vertical: 0.0),
+                    horizontalTitleGap: 0,
+                    minLeadingWidth: 20,
+                    visualDensity: VisualDensity.comfortable,
+                    leading: Text(
+                      recipeStep.ingredients.length > 1
+                          ? '}'
+                          : recipeStep.ingredients.isNotEmpty
+                              ? '→'
+                              : '',
+                      style: const TextStyle(
+                        overflow: TextOverflow.visible,
+                        fontWeight: FontWeight.w100,
+                      ),
+                    ),
+                    title: Row(
+                      children: [
+                        Expanded(
+                          child: SelectableText(
+                            recipeStep.instruction,
+                          ),
+                        ),
+                        _timer(timer: recipeStep.timer * 60),
+                        stepImage(context)!,
+                      ],
+                    ),
+                  ),
+                ],
+              ))
+        ],
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,90 +148,10 @@ class RecipeStepCard extends StatelessWidget {
             color: AppColor.secondary,
           ),
         ),
-        Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              // ingredients list
-              Flexible(
-                //fit: FlexFit.loose,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    recipe_step.name.isNotEmpty
-                        ? Text(recipe_step.name)
-                        : Container(),
-                    ...List.generate(recipe_step.ingredients.length ?? 0,
-                        (index) {
-                      var tuple = recipe_step.ingredients[index];
-                      return ListTile(
-                        subtitleTextStyle: TextStyle(
-                          color: AppColor.secondary,
-                        ),
-                        leading: const Text(
-                          '•',
-                        ),
-                        title: Text(
-                            '${formattedQuantity(tuple.quantity * servings)}${formattedUnit(tuple.unit.toString(), context)} ${tuple.name}'),
-                        subtitle: Text(tuple.shape),
-                      );
-                    }),
-                  ],
-                ),
-              ),
-
-              Flexible(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      recipe_step.name,
-                      maxLines: 1,
-                      style: const TextStyle(fontWeight: FontWeight.w700),
-                    ),
-                    ListTile(
-                      contentPadding: const EdgeInsets.symmetric(vertical: 0.0),
-                      horizontalTitleGap: 0,
-                      minLeadingWidth: 25,
-                      visualDensity: VisualDensity.comfortable,
-                      leading: recipe_step.ingredients.isNotEmpty
-                          ? Text(
-                              recipe_step.ingredients.length > 1 ? '}' : '→',
-                              style: const TextStyle(
-                                overflow: TextOverflow.visible,
-                                fontWeight: FontWeight.w100,
-                              ),
-                            )
-                          : const Text(''),
-                      title: Text(
-                        recipe_step.instruction,
-                        maxLines: 5,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              _timer(timer: recipe_step.timer * 60),
-
-              recipe_step.imagePath.isNotEmpty
-                  ? TextButton(
-                      child: SizedBox(
-                        width: 160,
-                        child: ClipRRect(
-                          child: Image.file(
-                            File(thumbnailPath(recipe_step.imagePath)),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      onPressed: () {})
-                  : Container(),
-              const SizedBox(
-                width: 1,
-              ),
-            ]),
+        stepDirection(context),
+        const SizedBox(
+          width: 1,
+        ),
       ],
     );
   }
@@ -145,7 +184,7 @@ class RecipeStepCard extends StatelessWidget {
                 }
               },
               child: CircularCountDownTimer(
-                duration: recipe_step.timer,
+                duration: recipeStep.timer,
                 initialDuration: 0,
                 controller: controller,
                 width: 50,

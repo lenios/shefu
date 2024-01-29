@@ -4,13 +4,13 @@ description: Offline recipes manager
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.0+1
+version: 2.0.0
 
 environment:
   sdk: '>=3.0.5 <4.0.0'
 
 dependencies:
-  file_picker: ^5.3.2
+  file_picker: ^6.1.1
   flag: ^7.0.0
   flutter:
     sdk: flutter
@@ -27,12 +27,15 @@ dependencies:
   path_provider: ^2.0.15
   provider: ^6.0.5
   riverpod: ^2.3.6
+  pinch_zoom: ^2.0.0
+  csv: ^5.1.1
+  shared_preferences: ^2.2.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_lints: ^2.0.0
+  flutter_lints: ^3.0.1
   isar_generator: ^3.1.0+1
   build_runner: ^2.4.5
 
@@ -43,4 +46,7 @@ flutter:
 
   assets:
     - assets/icons/
+    - assets/nutrients_full.csv
+    - assets/conversions_full.csv
+
 

@@ -16,12 +16,11 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../widgets/recipe_step_card.dart';
 import 'full_screen_image.dart';
 
-//import 'edit_recipe.dart';
-
+// ignore: must_be_immutable
 class DisplayRecipe extends StatefulWidget {
   Recipe recipe;
 
-  DisplayRecipe({Key? key, required this.recipe}) : super(key: key);
+  DisplayRecipe({super.key, required this.recipe});
 
   @override
   State<DisplayRecipe> createState() => _DisplayRecipeState();
@@ -120,6 +119,7 @@ class _DisplayRecipeState extends State<DisplayRecipe>
           actions: [
             IconButton(
                 onPressed: () {},
+                highlightColor: Colors.red.withOpacity(0.3),
                 icon: SvgPicture.asset('assets/icons/bookmark.svg',
                     colorFilter:
                         const ColorFilter.mode(Colors.white, BlendMode.srcIn))),
@@ -140,12 +140,29 @@ class _DisplayRecipeState extends State<DisplayRecipe>
             ),
             IconButton(
               tooltip: AppLocalizations.of(context)!.deleteRecipe,
-              onPressed: () async {
-                await context
-                    .read<RecipesProvider?>()
-                    ?.deleteRecipe(widget.recipe);
-                Navigator.pop(context, true);
-              },
+              onPressed: () async => showDialog<String>(
+                context: context,
+                builder: (BuildContext context) => AlertDialog(
+                  title: Text(AppLocalizations.of(context)!.deleteRecipe),
+                  content: Text(AppLocalizations.of(context)!.areYouSure),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () => Navigator.pop(context, 'Cancel'),
+                      child: Text(AppLocalizations.of(context)!.cancel),
+                    ),
+                    TextButton(
+                      onPressed: () async {
+                        await context
+                            .read<RecipesProvider?>()
+                            ?.deleteRecipe(widget.recipe);
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+                      },
+                      child: Text(AppLocalizations.of(context)!.delete),
+                    ),
+                  ],
+                ),
+              ),
               icon: const Icon(Icons.delete, color: Colors.white),
             ),
           ],
@@ -218,7 +235,7 @@ class _DisplayRecipeState extends State<DisplayRecipe>
         children: [
           // Section 1 - Header
           Container(
-            padding: const EdgeInsets.only(top: 35),
+            padding: const EdgeInsets.only(top: 60),
             color: AppColor.primary,
             child: Row(
               mainAxisSize: MainAxisSize.min,
@@ -247,23 +264,21 @@ class _DisplayRecipeState extends State<DisplayRecipe>
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        children: [
-                          Text(
-                            widget.recipe.title,
-                            style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
-                                fontFamily: 'inter'),
-                          ),
-                          flagIcon(widget.recipe.countryCode ?? ""),
-                        ],
-                      ),
                       Text(
-                        '${AppLocalizations.of(context)!.source}: ${widget.recipe.source}',
-                        style: const TextStyle(color: Colors.white),
+                        widget.recipe.title,
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                            fontFamily: 'inter'),
                       ),
+                      flagIcon(widget.recipe.countryCode ?? ""),
+                      widget.recipe.source != ""
+                          ? Text(
+                              '${AppLocalizations.of(context)!.source}: ${widget.recipe.source}',
+                              style: const TextStyle(color: Colors.white),
+                            )
+                          : Container(),
                       Row(
                         children: [
                           Text(
@@ -292,12 +307,34 @@ class _DisplayRecipeState extends State<DisplayRecipe>
                         ],
                       ),
                       Text(
-                        "${AppLocalizations.of(context)!.category}: ${widget.recipe.category}",
+                        "${AppLocalizations.of(context)!.category}: ${formattedCategory(widget.recipe.category.toString(), context)}",
                         style: const TextStyle(color: Colors.white),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
+                          widget.recipe.carbohydrates != 0
+                              ? Row(
+                                  children: [
+                                    SvgPicture.asset(
+                                      'assets/icons/carbohydrates.svg',
+                                      colorFilter: const ColorFilter.mode(
+                                          Colors.white, BlendMode.srcIn),
+                                      width: 16,
+                                      height: 16,
+                                    ),
+                                    Container(
+                                      margin: const EdgeInsets.only(left: 5),
+                                      child: Text(
+                                        "${widget.recipe.carbohydrates} ${AppLocalizations.of(context)!.gps}",
+                                        style: const TextStyle(
+                                            color: Colors.white, fontSize: 12),
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              : Container(),
+                          const SizedBox(width: 10),
                           widget.recipe.calories != 0
                               ? Row(
                                   children: [
@@ -345,16 +382,6 @@ class _DisplayRecipeState extends State<DisplayRecipe>
             ),
           ),
           // Section 2 - Recipe Info
-
-          // Recipe Description
-          //   Text(
-          //     widget.recipe.notes ?? "",
-          //     style: TextStyle(
-          //         color: Colors.white.withOpacity(0.9),
-          //         fontSize: 14,
-          //         height: 150 / 100),
-          //   ),
-          // ],
 
           // Tabbar ( Steps, Tutorial, Reviews )
           Container(
@@ -438,10 +465,16 @@ class _DisplayRecipeState extends State<DisplayRecipe>
                       ...List.generate(widget.recipe.steps?.length ?? 0,
                           (index) {
                         return RecipeStepCard(
-                          recipe_step: widget.recipe.steps![index],
+                          recipeStep: widget.recipe.steps![index],
                           servings: servings / widget.recipe.servings,
                         );
                       }),
+                      (widget.recipe.notes != '')
+                          ? Card(
+                              child: SelectableText(
+                                  "${AppLocalizations.of(context)!.notes}: ${widget.recipe.notes}"),
+                            )
+                          : Container(),
                     ],
                   )
                 ]);
@@ -452,8 +485,8 @@ class _DisplayRecipeState extends State<DisplayRecipe>
               (widget.recipe.notes != '')
                   ? SizedBox(
                       width: 500,
-                      child: Text(
-                          "${AppLocalizations.of(context)!.notes}: ${widget.recipe.notes}"))
+                      child: SelectableText(
+                          "${AppLocalizations.of(context)!.notes}: ${widget.recipe.notes}; ${AppLocalizations.of(context)!.month}: ${widget.recipe.month}"))
                   : Container(),
             ],
           ),
