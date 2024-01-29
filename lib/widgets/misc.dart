@@ -65,7 +65,7 @@ String formattedUnit(String unit, context) {
 String formattedCategory(String category, context) {
   switch (category) {
     case "all":
-      return AppLocalizations.of(context)!.all;
+      return AppLocalizations.of(context)!.category;
     case "snacks":
       return AppLocalizations.of(context)!.snacks;
     case "cocktails":

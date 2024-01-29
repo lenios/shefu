@@ -147,12 +147,13 @@ class _HomePageState extends State<HomePage> {
                                           Text(e ?? '')
                                         ],
                                       )
-                                    : Text(AppLocalizations.of(context)!.all),
+                                    : Text(
+                                        AppLocalizations.of(context)!.country),
                               );
                             }).toList(),
                             onChanged: (value) {
                               setState(() {
-                                countryCode = value!;
+                                countryCode = value as String;
                               });
                             },
                           );

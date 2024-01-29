@@ -66,12 +66,9 @@ class RecipesProvider with ChangeNotifier {
     });
   }
 
-  List<String?> availableCountries() {
-    var countries = _recipes.map((e) => e.countryCode).toSet().toList();
-    if (!countries.contains('')) {
-      countries.add('');
-    }
-    return countries;
+  List availableCountries() {
+    return List.from([''])
+      ..addAll((_recipes.map((e) => e.countryCode).toSet().toList()));
   }
 
   // void toggleImp(int id) async {
