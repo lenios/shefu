@@ -217,7 +217,7 @@ class _HomePageState extends State<HomePage> {
                       scrollDirection: Axis.horizontal,
                       physics: const BouncingScrollPhysics(),
                       padding: const EdgeInsets.symmetric(horizontal: 16),
-                      itemCount: 3,
+                      itemCount: 1,
                       separatorBuilder: (context, index) {
                         return const SizedBox(width: 8);
                       },
@@ -236,7 +236,7 @@ class _HomePageState extends State<HomePage> {
                                   width: 1),
                             ),
                             child: Text(
-                              "test $index",
+                              AppLocalizations.of(context)!.recipes,
                               style: TextStyle(
                                   color: Colors.white.withOpacity(0.7),
                                   fontWeight: FontWeight.w400),
