@@ -59,7 +59,6 @@ class _HomePageState extends State<HomePage> {
                 top: 45,
               ),
               width: MediaQuery.of(context).size.width,
-              height: 185,
               color: AppColor.primary,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -120,65 +119,6 @@ class _HomePageState extends State<HomePage> {
                                 )),
                           ),
                         ),
-                        Consumer<RecipesProvider>(
-                            builder: (context, recipesProvider, child) {
-                          return DropdownButton(
-                            dropdownColor: AppColor.primarySoft,
-                            //isExpanded: true,
-                            style: TextStyle(
-                                backgroundColor: AppColor.primary,
-                                color: Colors.white),
-                            icon: const Icon(Icons.arrow_drop_down),
-                            value: countryCode,
-                            items:
-                                recipesProvider.availableCountries().map((e) {
-                              //available_countries.add(e);
-                              return DropdownMenuItem(
-                                value: e,
-                                child: (e != '')
-                                    ? Row(
-                                        children: [
-                                          Flag.fromString(
-                                            e.toString(),
-                                            height: 15,
-                                            width: 24,
-                                            //fit: BoxFit.fill
-                                          ),
-                                          Text(e ?? '')
-                                        ],
-                                      )
-                                    : Text(
-                                        AppLocalizations.of(context)!.country),
-                              );
-                            }).toList(),
-                            onChanged: (value) {
-                              setState(() {
-                                countryCode = value as String;
-                              });
-                            },
-                          );
-                        }),
-
-                        DropdownButton(
-                          dropdownColor: AppColor.primarySoft,
-                          style: TextStyle(
-                              backgroundColor: AppColor.primary,
-                              color: Colors.white),
-                          value: selectedCategory,
-                          icon: const Icon(Icons.keyboard_arrow_down),
-                          items: Category.values.map((e) {
-                            return DropdownMenuItem(
-                              value: e,
-                              child: Text(
-                                  formattedCategory(e.toString(), context)),
-                            );
-                          }).toList(),
-                          onChanged: (value) {
-                            setState(() {
-                              selectedCategory = value!;
-                            });
-                          },
-                        ),
 
                         // Filter Button
                         GestureDetector(
@@ -208,6 +148,67 @@ class _HomePageState extends State<HomePage> {
                         )
                       ],
                     ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Consumer<RecipesProvider>(
+                          builder: (context, recipesProvider, child) {
+                        return DropdownButton(
+                          dropdownColor: AppColor.primarySoft,
+                          //isExpanded: true,
+                          style: TextStyle(
+                              backgroundColor: AppColor.primary,
+                              color: Colors.white),
+                          icon: const Icon(Icons.arrow_drop_down),
+                          value: countryCode,
+                          items: recipesProvider.availableCountries().map((e) {
+                            //available_countries.add(e);
+                            return DropdownMenuItem(
+                              value: e,
+                              child: (e != '')
+                                  ? Row(
+                                      children: [
+                                        Flag.fromString(
+                                          e.toString(),
+                                          height: 15,
+                                          width: 24,
+                                          //fit: BoxFit.fill
+                                        ),
+                                        Text(e ?? '')
+                                      ],
+                                    )
+                                  : Text(AppLocalizations.of(context)!.country),
+                            );
+                          }).toList(),
+                          onChanged: (value) {
+                            setState(() {
+                              countryCode = value as String;
+                            });
+                          },
+                        );
+                      }),
+                      DropdownButton(
+                        dropdownColor: AppColor.primarySoft,
+                        style: TextStyle(
+                            backgroundColor: AppColor.primary,
+                            color: Colors.white),
+                        value: selectedCategory,
+                        icon: const Icon(Icons.keyboard_arrow_down),
+                        items: Category.values.map((e) {
+                          return DropdownMenuItem(
+                            value: e,
+                            child:
+                                Text(formattedCategory(e.toString(), context)),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            selectedCategory = value!;
+                          });
+                        },
+                      ),
+                    ],
                   ),
                   // Search Keyword Recommendation
                   Container(
