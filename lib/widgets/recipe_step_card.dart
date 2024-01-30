@@ -117,15 +117,17 @@ class RecipeStepCard extends StatelessWidget {
                         fontWeight: FontWeight.w100,
                       ),
                     ),
-                    title: Row(
+                    title: Column(
                       children: [
-                        Expanded(
-                          child: SelectableText(
-                            recipeStep.instruction,
-                          ),
+                        SelectableText(
+                          recipeStep.instruction,
                         ),
-                        _timer(timer: recipeStep.timer * 60),
-                        stepImage(context)!,
+                        Row(
+                          children: [
+                            _timer(timer: recipeStep.timer * 60),
+                            stepImage(context),
+                          ],
+                        ),
                       ],
                     ),
                   ),

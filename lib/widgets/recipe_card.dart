@@ -91,7 +91,7 @@ class RecipeCard extends StatelessWidget {
                                   Container(
                                     margin: const EdgeInsets.only(left: 2),
                                     child: Text(
-                                      '${recipe.carbohydrates} ${AppLocalizations.of(context)!.gps}',
+                                      '${recipe.carbohydrates} ${AppLocalizations.of(context)!.g}',
                                       style: const TextStyle(fontSize: 12),
                                     ),
                                   ),
@@ -112,7 +112,7 @@ class RecipeCard extends StatelessWidget {
                                   Container(
                                     margin: const EdgeInsets.only(left: 2),
                                     child: Text(
-                                      '${recipe.calories} ${AppLocalizations.of(context)!.kcps}',
+                                      '${recipe.calories} ${AppLocalizations.of(context)!.kc}',
                                       style: const TextStyle(fontSize: 12),
                                     ),
                                   ),
