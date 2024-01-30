@@ -285,15 +285,17 @@ class _DisplayRecipeState extends State<DisplayRecipe>
                     children: [
                       Row(
                         children: [
-                          Text(
-                            widget.recipe.title,
-                            style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
-                                fontFamily: 'inter'),
+                          Flexible(
+                            fit: FlexFit.tight,
+                            child: Text(
+                              widget.recipe.title,
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: 'inter'),
+                            ),
                           ),
-                          const Spacer(),
                           flagIcon(widget.recipe.countryCode ?? ""),
                         ],
                       ),

@@ -163,7 +163,6 @@ class _HomePageState extends State<HomePage> {
                           icon: const Icon(Icons.arrow_drop_down),
                           value: countryCode,
                           items: recipesProvider.availableCountries().map((e) {
-                            //available_countries.add(e);
                             return DropdownMenuItem(
                               value: e,
                               child: (e != '')

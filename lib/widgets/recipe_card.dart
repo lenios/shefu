@@ -59,14 +59,17 @@ class RecipeCard extends StatelessWidget {
                       margin: const EdgeInsets.only(bottom: 12),
                       child: Row(
                         children: [
-                          Text(
-                            recipe.title,
-                            maxLines: 1,
-                            style: const TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontFamily: 'inter'),
+                          Flexible(
+                            fit: FlexFit.tight,
+                            child: Text(
+                              recipe.title,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: 'inter'),
+                            ),
                           ),
-                          const Spacer(),
                           flagIcon(recipe.countryCode ?? ""),
                         ],
                       ),
