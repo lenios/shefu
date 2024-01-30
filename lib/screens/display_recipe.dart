@@ -32,6 +32,7 @@ class _DisplayRecipeState extends State<DisplayRecipe>
   late ScrollController _scrollController;
 
   int servings = 4;
+  var basket = {};
 
   @override
   void initState() {
@@ -69,13 +70,31 @@ class _DisplayRecipeState extends State<DisplayRecipe>
       children: [
         ...List.generate(recipe.steps?.length ?? 0, (index) {
           RecipeStep? recipeStep = recipe.steps?[index];
+
           return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 ...List.generate(recipeStep?.ingredients.length ?? 0,
                     (tupleIndex) {
-                  return Text(
-                      "• ${formattedQuantity(recipeStep!.ingredients[tupleIndex].quantity)}${formattedUnit(recipeStep.ingredients[tupleIndex].unit, context)} ${recipeStep.ingredients[tupleIndex].name}");
+                  return CheckboxListTile(
+                    title: Text(
+                        "• ${formattedQuantity(recipeStep!.ingredients[tupleIndex].quantity)}${formattedUnit(recipeStep.ingredients[tupleIndex].unit, context)} ${recipeStep.ingredients[tupleIndex].name}",
+                        style: basket[recipeStep!
+                                    .ingredients[tupleIndex].foodId] ??
+                                false
+                            ? const TextStyle(
+                                decoration: TextDecoration.lineThrough)
+                            : const TextStyle()),
+                    value: basket[recipeStep!.ingredients[tupleIndex].foodId] ??
+                        false,
+                    onChanged: (newValue) {
+                      setState(() {
+                        basket[recipeStep!.ingredients[tupleIndex].foodId] =
+                            newValue!;
+                      });
+                    },
+                    controlAffinity: ListTileControlAffinity.leading,
+                  );
                 })
               ]);
         }),
