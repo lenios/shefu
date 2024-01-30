@@ -30,6 +30,7 @@ dependencies:
   pinch_zoom: ^2.0.0
   csv: ^5.1.1
   shared_preferences: ^2.2.2
+  google_mlkit_text_recognition:
 
 dev_dependencies:
   flutter_test:

@@ -57,12 +57,6 @@ class RecipeStepCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              recipeStep.name.isNotEmpty
-                  ? SelectableText(
-                      recipeStep.name,
-                      style: const TextStyle(fontWeight: FontWeight.w700),
-                    )
-                  : Container(),
               ...List.generate(recipeStep.ingredients.length, (index) {
                 var tuple = recipeStep.ingredients[index];
                 var convs =
@@ -99,7 +93,8 @@ class RecipeStepCard extends StatelessWidget {
                   Text(
                     recipeStep.name,
                     maxLines: 1,
-                    style: const TextStyle(fontWeight: FontWeight.w700),
+                    style: const TextStyle(
+                        fontSize: 15, fontWeight: FontWeight.w700),
                   ),
                   ListTile(
                     contentPadding: const EdgeInsets.symmetric(vertical: 0.0),

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:provider/provider.dart';
 
 import '../models/recipes.dart';
@@ -69,6 +70,29 @@ class _EditRecipeState extends State<EditRecipe> {
     super.dispose();
   }
 
+  mlkit(path) async {
+    final inputImage = InputImage.fromFilePath(path);
+    final textRecognizer = TextRecognizer(script: TextRecognitionScript.latin);
+    final RecognizedText recognizedText =
+        await textRecognizer.processImage(inputImage);
+
+    //String text = recognizedText.text;
+    for (TextBlock block in recognizedText.blocks) {
+      final String text = block.text;
+      setState(() {
+        RecipeStep recipeStep = RecipeStep();
+        recipeStep.instruction = text;
+        tempRecipe.steps = [...?tempRecipe.steps, recipeStep];
+      });
+      // for (TextLine line in block.lines) {
+      //   // Same getters as TextBlock
+      //   for (TextElement element in line.elements) {
+      //     // Same getters as TextBlock
+      //   }
+      // }
+    }
+  }
+
   Widget pickRecipeImageWidget({int key = -1, required name}) {
     String path = (key != -1)
         ? tempRecipe.steps![key].imagePath
@@ -90,6 +114,7 @@ class _EditRecipeState extends State<EditRecipe> {
         ElevatedButton(
           onPressed: (() async {
             var newImagePath = await pickImage(name);
+            await mlkit(newImagePath);
             setState(() {
               if (key != -1) {
                 tempRecipe.steps![key].imagePath = newImagePath;
@@ -114,7 +139,7 @@ class _EditRecipeState extends State<EditRecipe> {
         child: Column(
           children: [
             TextFormField(
-              maxLines: widget.recipe.steps![key].ingredients.length + 1,
+              maxLines: 8,
               onChanged: (val) {
                 tempRecipe.steps?[key].instruction = val;
               },
