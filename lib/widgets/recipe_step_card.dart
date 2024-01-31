@@ -73,7 +73,7 @@ class RecipeStepCard extends StatelessWidget {
                             ? selected.first.descFR
                             : selected.first.descEN;
                     quantity =
-                        '${formattedQuantity(selected.first.factor * tuple.quantity * 100)}g (${tuple.quantity * servings != 1 ? '${formattedQuantity(tuple.quantity * servings)}x' : ''}$descText)';
+                        '${formattedQuantity(selected.first.factor * tuple.quantity * 100 * servings)}g (${tuple.quantity * servings != 1 ? '${formattedQuantity(tuple.quantity * servings)}x' : ''}$descText)';
                   }
                 }
                 return ListTile(
