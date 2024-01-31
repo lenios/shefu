@@ -61,13 +61,19 @@ class RecipeStepCard extends StatelessWidget {
                 var tuple = recipeStep.ingredients[index];
                 var convs =
                     nutrientsProvider.getNutrientConversions(tuple.foodId);
-                var ref = "";
+                var quantity =
+                    '${formattedQuantity(tuple.quantity * servings)}${formattedUnit(tuple.unit.toString(), context)}';
                 if (convs!.isNotEmpty) {
                   var selected =
                       convs.where((e) => e.id == tuple.selectedFactorId);
                   if (selected.isNotEmpty) {
-                    ref =
-                        "(${formattedQuantity(selected.first.factor * tuple.quantity * 100)}g)";
+                    var descText =
+                        (Localizations.localeOf(context).toLanguageTag() ==
+                                "fr")
+                            ? selected.first.descFR
+                            : selected.first.descEN;
+                    quantity =
+                        '${formattedQuantity(selected.first.factor * tuple.quantity * 100)}g (${tuple.quantity * servings != 1 ? '${formattedQuantity(tuple.quantity * servings)}x' : ''}$descText)';
                   }
                 }
                 return ListTile(
@@ -77,8 +83,7 @@ class RecipeStepCard extends StatelessWidget {
                   leading: const Text(
                     '•',
                   ),
-                  title: Text(
-                      '${formattedQuantity(tuple.quantity * servings)}${formattedUnit(tuple.unit.toString(), context)} ${tuple.name} $ref'),
+                  title: Text('$quantity ${tuple.name}'),
                   subtitle: Text(tuple.shape),
                 );
                 ;
