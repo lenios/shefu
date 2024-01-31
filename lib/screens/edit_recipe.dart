@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:provider/provider.dart';
+import 'package:country_picker/country_picker.dart';
 
 import '../models/recipes.dart';
 import '../provider/nutrients_provider.dart';
@@ -29,7 +30,6 @@ class _EditRecipeState extends State<EditRecipe> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _sourceController = TextEditingController();
   final TextEditingController _notesController = TextEditingController();
-  final TextEditingController _countryController = TextEditingController();
   final TextEditingController _caloriesController = TextEditingController();
   final TextEditingController _timeController = TextEditingController();
   final TextEditingController _carbohydratesController =
@@ -38,6 +38,7 @@ class _EditRecipeState extends State<EditRecipe> {
   late Category category;
   late int servings;
   late int month;
+  late Country country;
   late Recipe tempRecipe;
 
   Object redrawObject = Object();
@@ -46,10 +47,10 @@ class _EditRecipeState extends State<EditRecipe> {
     _titleController.text = recipe.title;
     _sourceController.text = recipe.source;
     _notesController.text = recipe.notes ?? "";
-    _countryController.text = recipe.countryCode ?? "";
     _caloriesController.text = recipe.calories.toString();
     _carbohydratesController.text = recipe.carbohydrates.toString();
     _timeController.text = recipe.time.toString();
+    country = Country.parse(recipe.countryCode ?? "");
     category = recipe.category;
     servings = recipe.servings;
     month = recipe.month;
@@ -446,21 +447,24 @@ class _EditRecipeState extends State<EditRecipe> {
     );
   }
 
-  Widget formField(String field, controller, {bool required = false}) {
+  Widget formField(String field, controller,
+      {bool required = false, bool textarea = false}) {
     return Padding(
       padding: const EdgeInsets.all(5.0),
       child: TextFormField(
-          controller: controller,
-          decoration: InputDecoration(
-            border: const OutlineInputBorder(),
-            labelText: field,
-          ),
-          validator: (value) {
-            if (required && (value == null || value.isEmpty)) {
-              return AppLocalizations.of(context)!.enterTextFor(field);
-            }
-            return null;
-          }),
+        controller: controller,
+        decoration: InputDecoration(
+          border: const OutlineInputBorder(),
+          labelText: field,
+        ),
+        validator: (value) {
+          if (required && (value == null || value.isEmpty)) {
+            return AppLocalizations.of(context)!.enterTextFor(field);
+          }
+          return null;
+        },
+        maxLines: textarea ? 6 : 1,
+      ),
     );
   }
 
@@ -561,13 +565,8 @@ class _EditRecipeState extends State<EditRecipe> {
                     _sourceController,
                   ),
                   formField(
-                    AppLocalizations.of(context)!.notes,
-                    _notesController,
-                  ),
-                  formField(
-                    AppLocalizations.of(context)!.country,
-                    _countryController,
-                  ),
+                      AppLocalizations.of(context)!.notes, _notesController,
+                      textarea: true),
                   ...List.generate(tempRecipe.steps?.length ?? 0,
                       (index) => recipeStep(index, isHandset)),
                   const SizedBox(
@@ -580,6 +579,28 @@ class _EditRecipeState extends State<EditRecipe> {
                   categoryField(),
                   servingsField(),
                   monthField(),
+                  Row(
+                    children: [
+                      flagIcon(country.countryCode),
+                      Text(CountryLocalizations.of(context)!
+                              .countryName(countryCode: country.countryCode) ??
+                          ""),
+                      ElevatedButton(
+                        onPressed: () {
+                          showCountryPicker(
+                            context: context,
+                            onSelect: (Country c) {
+                              setState(() {
+                                country = c;
+                              });
+                            },
+                          );
+                        },
+                        child:
+                            Text(AppLocalizations.of(context)!.chooseCountry),
+                      ),
+                    ],
+                  ),
                   pickRecipeImageWidget(name: tempRecipe.id.toString()),
                   Row(
                     children: [
@@ -599,7 +620,7 @@ class _EditRecipeState extends State<EditRecipe> {
                           tempRecipe.title = _titleController.text;
                           tempRecipe.source = _sourceController.text;
                           tempRecipe.notes = _notesController.text;
-                          tempRecipe.countryCode = _countryController.text;
+                          tempRecipe.countryCode = country.countryCode;
                           tempRecipe.category = category;
                           tempRecipe.servings = servings;
                           tempRecipe.month = month;

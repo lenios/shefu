@@ -52,6 +52,7 @@
           "basics": "bases",
           "sauces": "sauces",
           "countryCode": "code pays",
+          "chooseCountry": "Choisir un pays",
           "country": "pays",
           "allCountries": "tous les pays",
           "shoppingList": "Liste de courses",

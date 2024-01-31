@@ -6,6 +6,7 @@ import 'package:shefu/provider/recipes_provider.dart';
 import 'provider/my_app_state.dart';
 import 'screens/home.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:country_picker/country_picker.dart';
 
 void main() async {
   runApp(const MyApp());
@@ -60,7 +61,8 @@ class _MyAppState extends State<MyApp> {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightGreen),
           useMaterial3: true,
         ),
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        localizationsDelegates: AppLocalizations.localizationsDelegates +
+            [CountryLocalizations.delegate],
         supportedLocales: const [Locale('en'), Locale('fr'), Locale('ja')],
         home: const HomePage(),
       ),
