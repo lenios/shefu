@@ -50,7 +50,8 @@ class _EditRecipeState extends State<EditRecipe> {
     _caloriesController.text = recipe.calories.toString();
     _carbohydratesController.text = recipe.carbohydrates.toString();
     _timeController.text = recipe.time.toString();
-    country = Country.parse(recipe.countryCode ?? "");
+    //country = Country.tryParse(recipe.countryCode) ?? Country.worldWide;
+    country = Country.parse(recipe.countryCode);
     category = recipe.category;
     servings = recipe.servings;
     month = recipe.month;

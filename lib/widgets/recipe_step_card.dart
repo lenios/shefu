@@ -99,7 +99,7 @@ class RecipeStepCard extends StatelessWidget {
                     recipeStep.name,
                     maxLines: 1,
                     style: const TextStyle(
-                        fontSize: 15, fontWeight: FontWeight.w700),
+                        fontSize: 18, fontWeight: FontWeight.w700),
                   ),
                   ListTile(
                     contentPadding: const EdgeInsets.symmetric(vertical: 0.0),

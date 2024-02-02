@@ -291,7 +291,7 @@ class _DisplayRecipeState extends State<DisplayRecipe>
                               widget.recipe.title,
                               style: const TextStyle(
                                   color: Colors.white,
-                                  fontSize: 18,
+                                  fontSize: 20,
                                   fontWeight: FontWeight.w600,
                                   fontFamily: 'inter'),
                             ),

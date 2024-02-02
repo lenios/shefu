@@ -108,12 +108,7 @@ int _recipeEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
-  {
-    final value = object.countryCode;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
+  bytesCount += 3 + object.countryCode.length * 3;
   {
     final value = object.imagePath;
     if (value != null) {
@@ -199,7 +194,7 @@ Recipe _recipeDeserialize(
   object.category =
       _RecipecategoryValueEnumMap[reader.readByteOrNull(offsets[2])] ??
           Category.all;
-  object.countryCode = reader.readStringOrNull(offsets[3]);
+  object.countryCode = reader.readString(offsets[3]);
   object.id = id;
   object.month = reader.readLong(offsets[5]);
   object.notes = reader.readStringOrNull(offsets[6]);
@@ -230,7 +225,7 @@ P _recipeDeserializeProp<P>(
       return (_RecipecategoryValueEnumMap[reader.readByteOrNull(offset)] ??
           Category.all) as P;
     case 3:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 4:
       return (reader.readStringOrNull(offset)) as P;
     case 5:
@@ -535,24 +530,8 @@ extension RecipeQueryFilter on QueryBuilder<Recipe, Recipe, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Recipe, Recipe, QAfterFilterCondition> countryCodeIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'countryCode',
-      ));
-    });
-  }
-
-  QueryBuilder<Recipe, Recipe, QAfterFilterCondition> countryCodeIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'countryCode',
-      ));
-    });
-  }
-
   QueryBuilder<Recipe, Recipe, QAfterFilterCondition> countryCodeEqualTo(
-    String? value, {
+    String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -565,7 +544,7 @@ extension RecipeQueryFilter on QueryBuilder<Recipe, Recipe, QFilterCondition> {
   }
 
   QueryBuilder<Recipe, Recipe, QAfterFilterCondition> countryCodeGreaterThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -580,7 +559,7 @@ extension RecipeQueryFilter on QueryBuilder<Recipe, Recipe, QFilterCondition> {
   }
 
   QueryBuilder<Recipe, Recipe, QAfterFilterCondition> countryCodeLessThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -595,8 +574,8 @@ extension RecipeQueryFilter on QueryBuilder<Recipe, Recipe, QFilterCondition> {
   }
 
   QueryBuilder<Recipe, Recipe, QAfterFilterCondition> countryCodeBetween(
-    String? lower,
-    String? upper, {
+    String lower,
+    String upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,
@@ -2168,7 +2147,7 @@ extension RecipeQueryProperty on QueryBuilder<Recipe, Recipe, QQueryProperty> {
     });
   }
 
-  QueryBuilder<Recipe, String?, QQueryOperations> countryCodeProperty() {
+  QueryBuilder<Recipe, String, QQueryOperations> countryCodeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'countryCode');
     });

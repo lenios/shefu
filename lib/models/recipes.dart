@@ -23,7 +23,7 @@ class Recipe {
   Category category = Category.all;
 
   //ISO 3166-1-alpha-2 Flags
-  String? countryCode;
+  String countryCode = "WW";
 
   int calories = 0;
 
