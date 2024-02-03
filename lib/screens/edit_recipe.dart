@@ -5,6 +5,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:provider/provider.dart';
 import 'package:country_picker/country_picker.dart';
+import 'package:shefu/utils/app_color.dart';
 
 import '../models/recipes.dart';
 import '../provider/nutrients_provider.dart';
@@ -93,6 +94,7 @@ class _EditRecipeState extends State<EditRecipe> {
       //   }
       // }
     }
+    textRecognizer.close();
   }
 
   Widget pickRecipeImageWidget({int key = -1, required name}) {
@@ -267,7 +269,7 @@ class _EditRecipeState extends State<EditRecipe> {
   }
 
   Widget foodFactors(conversions, key, index, foodId) {
-    if (foodId > 0) {
+    if (conversions!.isNotEmpty) {
       return PopupMenuButton<int>(
           //initialValue: ingredient.selectedFactorId,
           // Callback that sets the selected popup menu item.
@@ -276,18 +278,13 @@ class _EditRecipeState extends State<EditRecipe> {
           tempRecipe.steps?[key].ingredients[index].selectedFactorId = item;
         });
       }, itemBuilder: (BuildContext context) {
-        if (conversions!.isNotEmpty) {
-          var factorlist = List<PopupMenuEntry<int>>.generate(
-              conversions.length,
-              (index) => PopupMenuItem(
-                  value: conversions[index].id,
-                  child: translatedDesc(conversions[index])));
+        var factorlist = List<PopupMenuEntry<int>>.generate(
+            conversions.length,
+            (index) => PopupMenuItem(
+                value: conversions[index].id,
+                child: translatedDesc(conversions[index])));
 
-          return factorlist;
-        } else {
-          // Todo check if possible
-          return [const PopupMenuItem(value: 1, child: Text("test"))];
-        }
+        return factorlist;
       });
     } else {
       return const Text("");
@@ -295,157 +292,151 @@ class _EditRecipeState extends State<EditRecipe> {
   }
 
   Widget recipeStepIngredient(int key, int index) {
-    return Column(
-      children: [
-        Row(
-          children: [
-            Expanded(
-              child: TextFormField(
-                keyboardType: TextInputType.number,
-                onChanged: (val) {
-                  tempRecipe.steps?[key].ingredients[index].quantity =
-                      double.tryParse(val) ?? 0;
-                },
-                // initialValue: formattedQuantity(
-                //     tempRecipe.steps?[key].ingredients[index].quantity ?? 0,
-                //     fraction: false),
-                initialValue: tempRecipe.steps?[key].ingredients[index].quantity
-                    .toString(),
-                decoration: InputDecoration(
-                    floatingLabelBehavior: FloatingLabelBehavior.auto,
-                    labelText: AppLocalizations.of(context)!.quantity),
-              ),
-            ),
-            Expanded(
-              child: FormBuilderDropdown(
-                isExpanded: false,
-                decoration: InputDecoration(
-                  floatingLabelBehavior: FloatingLabelBehavior.auto,
-                  labelText: AppLocalizations.of(context)!.unit,
-                ),
-                name: "unit $key $index",
-                key: UniqueKey(),
-                initialValue: tempRecipe.steps?[key].ingredients[index].unit,
-                icon: const Icon(Icons.keyboard_arrow_down_sharp),
-                items: Unit.values.map((e) {
-                  return DropdownMenuItem(
-                      key: UniqueKey(),
-                      value: e.toString(),
-                      child: Text(formattedUnit(e.toString(), context)));
-                }).toList(),
-                onChanged: (e) {
-                  setState(() {
-                    tempRecipe.steps?[key].ingredients[index].unit =
-                        e!.toString();
-                  });
-                },
-              ),
-            ),
-          ],
-        ),
-        Row(
-          children: [
-            Expanded(
-              child: TextFormField(
-                onChanged: (val) {
-                  tempRecipe.steps?[key].ingredients[index].name = val;
-                },
-                initialValue:
-                    tempRecipe.steps?[key].ingredients[index].name ?? "",
-                decoration: InputDecoration(
-                    floatingLabelBehavior: FloatingLabelBehavior.auto,
-                    labelText: AppLocalizations.of(context)!.ingredients),
-              ),
-            ),
-            Expanded(
-              child: TextFormField(
-                expands: false,
-                onChanged: (val) {
-                  tempRecipe.steps?[key].ingredients[index].shape = val;
-                },
-                initialValue:
-                    tempRecipe.steps?[key].ingredients[index].shape ?? "",
-                decoration: InputDecoration(
-                    floatingLabelBehavior: FloatingLabelBehavior.auto,
-                    labelText: AppLocalizations.of(context)!.shape),
-              ),
-            ),
-          ],
-        ),
-        Consumer<NutrientsProvider>(
-            builder: (context, nutrientsProvider, child) {
-          var ingredient = tempRecipe.steps![key].ingredients[index];
-          if (ingredient.foodId > 0) {
-            var conversions =
-                nutrientsProvider.getNutrientConversions(ingredient.foodId);
-            var factorText = "empty";
-            if (conversions!.isNotEmpty) {
-              var factors =
-                  conversions.where((e) => e.id == ingredient.selectedFactorId);
-              if (factors.isNotEmpty) {
-                factorText =
-                    (Localizations.localeOf(context).toLanguageTag() == "fr")
-                        ? factors.first.descFR
-                        : factors.first.descEN;
-              }
-            }
-            return Column(
-              children: [
-                Row(
-                  children: [
-                    translatedDesc(
-                        nutrientsProvider.getNutrient(ingredient.foodId)),
-                    foodEntries(
-                        nutrientsProvider, key, index, ingredient.foodId),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Text(factorText.toString()),
-                    foodFactors(
-                        nutrientsProvider
-                            .getNutrientConversions(ingredient.foodId),
-                        key,
-                        index,
-                        ingredient.foodId),
-                  ],
-                ),
-              ],
-            );
-          } else {
-            return foodEntries(
-                nutrientsProvider, key, index, ingredient.foodId);
+    return Consumer<NutrientsProvider>(
+        builder: (context, nutrientsProvider, child) {
+      var ingredient = tempRecipe.steps![key].ingredients[index];
+      var factorText = "";
+
+      if (ingredient.foodId > 0) {
+        var conversions =
+            nutrientsProvider.getNutrientConversions(ingredient.foodId);
+        if (conversions!.isNotEmpty) {
+          var factors =
+              conversions.where((e) => e.id == ingredient.selectedFactorId);
+          if (factors.isNotEmpty) {
+            factorText =
+                (Localizations.localeOf(context).toLanguageTag() == "fr")
+                    ? factors.first.descFR
+                    : factors.first.descEN;
           }
-        }),
-        Row(
-          children: [
-            IconButton(
-              icon: const Icon(
-                Icons.qr_code,
-                color: Colors.white,
+        }
+      }
+
+      return Card(
+        elevation: 4,
+        surfaceTintColor: AppColor.secondary,
+        margin: EdgeInsetsDirectional.all(2.0),
+        child: Column(children: [
+          Row(
+            children: [
+              Expanded(
+                flex: 4,
+                child: TextFormField(
+                  onChanged: (val) {
+                    tempRecipe.steps?[key].ingredients[index].name = val;
+                  },
+                  initialValue:
+                      tempRecipe.steps?[key].ingredients[index].name ?? "",
+                  decoration: InputDecoration(
+                      floatingLabelBehavior: FloatingLabelBehavior.auto,
+                      labelText: AppLocalizations.of(context)!.ingredients),
+                ),
               ),
-              onPressed: () {
-                //tempRecipe.steps?[key].ingredients[index].foodId = 1;
-              },
-            ),
-            IconButton(
-              icon: const Icon(
-                Icons.delete,
-                color: Colors.white,
+              translatedDesc(nutrientsProvider.getNutrient(ingredient.foodId)),
+              foodEntries(nutrientsProvider, key, index, ingredient.foodId),
+            ],
+          ),
+          Row(
+            children: [
+              Expanded(
+                flex: 1,
+                child: TextFormField(
+                  keyboardType: TextInputType.number,
+                  onChanged: (val) {
+                    tempRecipe.steps?[key].ingredients[index].quantity =
+                        double.tryParse(val) ?? 0;
+                  },
+                  // initialValue: formattedQuantity(
+                  //     tempRecipe.steps?[key].ingredients[index].quantity ?? 0,
+                  //     fraction: false),
+                  initialValue: tempRecipe
+                      .steps?[key].ingredients[index].quantity
+                      .toString(),
+                  decoration: InputDecoration(
+                      floatingLabelBehavior: FloatingLabelBehavior.auto,
+                      labelText: AppLocalizations.of(context)!.quantity),
+                ),
               ),
-              onPressed: () {
-                setState(() {
-                  List<IngredientTuple> tuples = List.from(tempRecipe
-                      .steps?[key].ingredients as List<IngredientTuple>);
-                  tuples.removeAt(index);
-                  tempRecipe.steps?[key].ingredients = tuples;
-                });
-              },
-            ),
-          ],
-        )
-      ],
-    );
+              Expanded(
+                flex: 4,
+                child: FormBuilderDropdown(
+                  decoration: InputDecoration(
+                    floatingLabelBehavior: FloatingLabelBehavior.auto,
+                    labelText: AppLocalizations.of(context)!.unit,
+                  ),
+                  name: UniqueKey().toString(),
+                  key: UniqueKey(),
+                  initialValue: tempRecipe.steps?[key].ingredients[index].unit,
+                  icon: const Icon(Icons.keyboard_arrow_down_sharp),
+                  items: Unit.values.map((e) {
+                    return DropdownMenuItem(
+                        key: UniqueKey(),
+                        value: e.toString(),
+                        child: Text(formattedUnit(e.toString(), context)));
+                  }).toList(),
+                  onChanged: (e) {
+                    setState(() {
+                      tempRecipe.steps?[key].ingredients[index].unit = e!;
+                    });
+                  },
+                ),
+              ),
+              Text(factorText.toString()),
+              foodFactors(
+                  nutrientsProvider.getNutrientConversions(ingredient.foodId),
+                  key,
+                  index,
+                  ingredient.foodId),
+            ],
+          ),
+          Row(
+            children: [
+              Expanded(
+                flex: 4,
+                child: TextFormField(
+                  expands: false,
+                  onChanged: (val) {
+                    tempRecipe.steps?[key].ingredients[index].shape = val;
+                  },
+                  initialValue:
+                      tempRecipe.steps?[key].ingredients[index].shape ?? "",
+                  decoration: InputDecoration(
+                      floatingLabelBehavior: FloatingLabelBehavior.auto,
+                      labelText: AppLocalizations.of(context)!.shape),
+                ),
+              ),
+              Expanded(
+                child: IconButton(
+                  icon: const Icon(
+                    Icons.qr_code,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {
+                    //tempRecipe.steps?[key].ingredients[index].foodId = 1;
+                  },
+                ),
+              ),
+              Expanded(
+                child: IconButton(
+                  icon: const Icon(
+                    Icons.delete,
+                    color: Colors.red,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      List<IngredientTuple> tuples = List.from(tempRecipe
+                          .steps?[key].ingredients as List<IngredientTuple>);
+                      tuples.removeAt(index);
+                      tempRecipe.steps?[key].ingredients = tuples;
+                    });
+                  },
+                ),
+              )
+            ],
+          ),
+        ]),
+      );
+    });
   }
 
   Widget formField(String field, controller,
@@ -553,7 +544,7 @@ class _EditRecipeState extends State<EditRecipe> {
               key: _formKey,
               onChanged: () {
                 _formKey.currentState!.save();
-                debugPrint(_formKey.currentState!.value.toString());
+                //debugPrint(_formKey.currentState!.value.toString());
               },
               autovalidateMode: AutovalidateMode.disabled,
               child: Column(
