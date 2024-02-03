@@ -80,16 +80,16 @@ class _DisplayRecipeState extends State<DisplayRecipe>
                     title: Text(
                         "• ${formattedQuantity(recipeStep!.ingredients[tupleIndex].quantity)}${formattedUnit(recipeStep.ingredients[tupleIndex].unit, context)} ${recipeStep.ingredients[tupleIndex].name}",
                         style:
-                            basket[recipeStep.ingredients[tupleIndex].foodId] ??
+                            basket[recipeStep.ingredients[tupleIndex].name] ??
                                     false
                                 ? const TextStyle(
                                     decoration: TextDecoration.lineThrough)
                                 : const TextStyle()),
-                    value: basket[recipeStep.ingredients[tupleIndex].foodId] ??
+                    value: basket[recipeStep.ingredients[tupleIndex].name] ??
                         false,
                     onChanged: (newValue) {
                       setState(() {
-                        basket[recipeStep.ingredients[tupleIndex].foodId] =
+                        basket[recipeStep.ingredients[tupleIndex].name] =
                             newValue!;
                       });
                     },
