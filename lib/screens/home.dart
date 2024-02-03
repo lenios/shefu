@@ -132,7 +132,7 @@ class _HomePageState extends State<HomePage> {
                                         topRight: Radius.circular(20))),
                                 builder: (context) {
                                   return SearchFilterModal(
-                                      widget: localewidget);
+                                      localeWidget: localewidget);
                                 });
                           },
                           child: Container(
@@ -292,7 +292,7 @@ class _HomePageState extends State<HomePage> {
                           return Text(AppLocalizations.of(context)!.noRecipe);
                         }
                       }),
-                    1 => Text("WIP"),
+                    1 => const Text("WIP"),
                     //NUTRIENTS
                     2 => Consumer<NutrientsProvider>(
                           builder: (context, nutrientsProvider, child) {
@@ -315,8 +315,6 @@ class _HomePageState extends State<HomePage> {
                           return Text(AppLocalizations.of(context)!.noRecipe);
                         }
                       }),
-
-                    // TODO: Handle this case.
                     int() => Container(),
                   },
                 ],

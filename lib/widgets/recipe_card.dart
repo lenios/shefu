@@ -70,7 +70,7 @@ class RecipeCard extends StatelessWidget {
                                   fontFamily: 'inter'),
                             ),
                           ),
-                          flagIcon(recipe.countryCode ?? ""),
+                          flagIcon(recipe.countryCode),
                         ],
                       ),
                     ),

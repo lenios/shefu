@@ -1,4 +1,3 @@
-import 'package:csv/csv.dart';
 import 'package:flag/flag.dart';
 import 'package:flutter/material.dart';
 import 'package:fraction/fraction.dart';

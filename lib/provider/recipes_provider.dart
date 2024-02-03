@@ -70,7 +70,7 @@ class RecipesProvider with ChangeNotifier {
   }
 
   List<String> availableCountries() {
-    Set<String> countriesSet = _recipes.map((e) => e.countryCode ?? '').toSet();
+    Set<String> countriesSet = _recipes.map((e) => e.countryCode).toSet();
     countriesSet.add(''); //add if not present, for dropdown header
     List<String> countriesList = countriesSet.toList();
     countriesList.sort();

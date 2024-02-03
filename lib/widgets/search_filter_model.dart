@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import '../utils/app_color.dart';
 
 class SearchFilterModal extends StatelessWidget {
-  SearchFilterModal({super.key, required this.widget});
+  const SearchFilterModal({super.key, required this.localeWidget});
 
-  late var widget;
+  final Widget localeWidget;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +43,7 @@ class SearchFilterModal extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                     fontFamily: 'inter'),
               ),
-              widget,
+              localeWidget,
               GestureDetector(
                 onTap: () {
                   Navigator.of(context).pop();

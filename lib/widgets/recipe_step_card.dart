@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:isar/isar.dart';
 import 'package:provider/provider.dart';
 import 'package:shefu/provider/nutrients_provider.dart';
 import 'package:shefu/screens/full_screen_image.dart';
@@ -86,7 +85,6 @@ class RecipeStepCard extends StatelessWidget {
                   title: Text('$quantity ${tuple.name}'),
                   subtitle: Text(tuple.shape),
                 );
-                ;
               })
             ],
           )),

@@ -79,17 +79,17 @@ class _DisplayRecipeState extends State<DisplayRecipe>
                   return CheckboxListTile(
                     title: Text(
                         "• ${formattedQuantity(recipeStep!.ingredients[tupleIndex].quantity)}${formattedUnit(recipeStep.ingredients[tupleIndex].unit, context)} ${recipeStep.ingredients[tupleIndex].name}",
-                        style: basket[recipeStep!
-                                    .ingredients[tupleIndex].foodId] ??
-                                false
-                            ? const TextStyle(
-                                decoration: TextDecoration.lineThrough)
-                            : const TextStyle()),
-                    value: basket[recipeStep!.ingredients[tupleIndex].foodId] ??
+                        style:
+                            basket[recipeStep.ingredients[tupleIndex].foodId] ??
+                                    false
+                                ? const TextStyle(
+                                    decoration: TextDecoration.lineThrough)
+                                : const TextStyle()),
+                    value: basket[recipeStep.ingredients[tupleIndex].foodId] ??
                         false,
                     onChanged: (newValue) {
                       setState(() {
-                        basket[recipeStep!.ingredients[tupleIndex].foodId] =
+                        basket[recipeStep.ingredients[tupleIndex].foodId] =
                             newValue!;
                       });
                     },
@@ -296,7 +296,7 @@ class _DisplayRecipeState extends State<DisplayRecipe>
                                   fontFamily: 'inter'),
                             ),
                           ),
-                          flagIcon(widget.recipe.countryCode ?? ""),
+                          flagIcon(widget.recipe.countryCode),
                         ],
                       ),
                       widget.recipe.source != ""
