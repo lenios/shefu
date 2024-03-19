@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -14,6 +16,8 @@ import '../widgets/search_filter_model.dart';
 import 'edit_recipe.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -28,6 +32,82 @@ class _HomePageState extends State<HomePage> {
   int tab = 0; //0: recipes, 1:nutrients
 
   List<Recipe> recipes = [];
+
+  late TutorialCoachMark tutorialCoachMark;
+  GlobalKey keyButton = GlobalKey();
+  GlobalKey keyButton1 = GlobalKey();
+
+  @override
+  void initState() {
+    createTutorial();
+    //Future.delayed(Duration.zero, showTutorial);
+    super.initState();
+  }
+
+  void showTutorial() {
+    tutorialCoachMark.show(context: context);
+  }
+
+  void createTutorial() {
+    tutorialCoachMark = TutorialCoachMark(
+      targets: _createTargets(),
+      colorShadow: Colors.red,
+      textSkip: "SKIP",
+      paddingFocus: 10,
+      opacityShadow: 0.5,
+      imageFilter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+      onFinish: () {
+        print("finish");
+      },
+      onClickTarget: (target) {
+        print('onClickTarget: $target');
+      },
+      onClickTargetWithTapPosition: (target, tapDetails) {
+        print("target: $target");
+        print(
+            "clicked at position local: ${tapDetails.localPosition} - global: ${tapDetails.globalPosition}");
+      },
+      onClickOverlay: (target) {
+        print('onClickOverlay: $target');
+      },
+      onSkip: () {
+        print("skip");
+        return true;
+      },
+    );
+  }
+
+  List<TargetFocus> _createTargets() {
+    List<TargetFocus> targets = [];
+    targets.add(
+      TargetFocus(
+        identify: "keyBottomNavigation1",
+        keyTarget: keyButton,
+        alignSkip: Alignment.topRight,
+        enableOverlayTab: true,
+        contents: [
+          TargetContent(
+            align: ContentAlign.top,
+            builder: (context, controller) {
+              return const Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    "Titulo lorem ipsum",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
+        ],
+      ),
+    );
+    return targets;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -322,6 +402,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ]),
       floatingActionButton: FloatingActionButton(
+        key: keyButton,
         onPressed: addRecipe,
         tooltip: AppLocalizations.of(context)!.addRecipe,
         child: const Icon(Icons.add),

@@ -89,13 +89,13 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "shefu3" "\0"
+            VALUE "CompanyName", "fr.orvidia" "\0"
+            VALUE "FileDescription", "shefu" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "shefu3" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2023 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "shefu3.exe" "\0"
-            VALUE "ProductName", "shefu3" "\0"
+            VALUE "InternalName", "shefu" "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2023 fr.orvidia. All rights reserved." "\0"
+            VALUE "OriginalFilename", "shefu.exe" "\0"
+            VALUE "ProductName", "shefu" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

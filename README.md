@@ -11,7 +11,10 @@ As a bonus, this should work on all platforms (ios,android,web,macos,linux and m
 
 ## News
 
-New in v2: nutritional informations are automatically generated (for EN and FR only)! Source: Santé Canada (Fichier canadien sur les éléments nutritifs, 2015)-> https://www.canada.ca/fr/sante-canada/services/aliments-nutrition/saine-alimentation/donnees-nutritionnelles/fichier-canadien-elements-nutritifs-fcen-2015.html
+New in v2: nutritional informations are automatically generated (for EN and FR only)! Source: Santé Canada (Fichier canadien sur les éléments nutritifs, 2015)-> https://www.canada.ca/fr/sante-canada/services/aliments-nutrition/saine-alimentation/donnees-nutritionnelles/fichier-canadien-elements-nutritifs-fcen-2015.html. This is all done on-device with no internet access required.
+
+**Note: you need to choose ingredients from the drop-down menu to get the nutritional values calculated.**
+![home](https://github.com/lenios/shefu/blob/main/images/nutrition.png?raw=true)
 
 ## Getting Started
 
@@ -19,7 +22,7 @@ This is a WIP! Use at your own risks!
 
 Sample:
 ![home](https://github.com/lenios/shefu/blob/main/images/search.png?raw=true)
-![add recipe](https://github.com/lenios/shefu/blob/main/images/display_recipe.png?raw=true)
+![display recipe](https://github.com/lenios/shefu/blob/main/images/display_recipe.png?raw=true)
 ![add recipe](https://github.com/lenios/shefu/blob/main/images/add_recipe.png?raw=true)
 
 

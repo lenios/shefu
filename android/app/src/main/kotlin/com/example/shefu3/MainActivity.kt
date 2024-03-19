@@ -1,4 +1,4 @@
-package com.example.shefu3
+package fr.orvidia.shefu
 
 import io.flutter.embedding.android.FlutterActivity
 
