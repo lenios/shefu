@@ -1,15 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:shefu/provider/nutrients_provider.dart';
-import 'package:shefu/provider/recipes_provider.dart';
 import 'provider/my_app_state.dart';
-import 'screens/home.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:country_picker/country_picker.dart';
+import 'providers/database_provider.dart';
+import 'repositories/recipe_repository.dart';
+import 'repositories/nutrients_repository.dart';
+import 'router/app_router.dart';
+import 'l10n/app_localizations.dart';
+import 'viewmodels/home_view_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider<MyAppState>(
+          create: (_) => MyAppState(),
+        ),
+        // Database provider is the foundation
+        ChangeNotifierProvider<DatabaseProvider>(
+          create: (_) => DatabaseProvider(),
+        ),
+        // Get the repositories from the database provider
+        Provider<RecipeRepository>(
+          create: (context) => RecipeRepository(
+              Provider.of<DatabaseProvider>(context, listen: false).database),
+        ),
+        Provider<NutrientsRepository>(
+          create: (context) => NutrientsRepository(
+              Provider.of<DatabaseProvider>(context, listen: false).database),
+        ),
+        // Get the nutrients provider
+        ChangeNotifierProvider<HomeViewModel>(
+          create: (context) => HomeViewModel(
+              Provider.of<RecipeRepository>(context, listen: false)),
+        ),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatefulWidget {
@@ -43,35 +74,48 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider<MyAppState>(create: (_) => MyAppState()),
-        ChangeNotifierProvider<RecipesProvider>(
-            create: (_) => RecipesProvider()),
-        ChangeNotifierProvider<NutrientsProvider>(
-            create: (_) => NutrientsProvider()),
-      ],
-      child: MaterialApp(
-        locale: _locale,
-        debugShowCheckedModeBanner: false,
-        title: 'Shefu',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightGreen),
-          useMaterial3: true,
-        ),
-        localizationsDelegates: AppLocalizations.localizationsDelegates +
-            [CountryLocalizations.delegate],
-        supportedLocales: const [Locale('en'), Locale('fr'), Locale('ja')],
-        home: const HomePage(),
-      ),
-    );
-  }
-
-  setLocale(Locale locale) {
+  void setLocale(Locale locale) {
     setState(() {
       _locale = locale;
     });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp.router(
+      locale: _locale,
+      debugShowCheckedModeBanner: false,
+      title: 'Shefu',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightGreen),
+        useMaterial3: true,
+      ),
+      routerConfig: AppRouter.router,
+      localizationsDelegates: AppLocalizations.localizationsDelegates +
+          [CountryLocalizations.delegate],
+      supportedLocales: const [Locale('en'), Locale('fr'), Locale('ja')],
+    );
+  }
+}
+
+class SplashScreen extends StatelessWidget {
+  final String message;
+
+  const SplashScreen({super.key, required this.message});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const CircularProgressIndicator(),
+            const SizedBox(height: 20),
+            Text(message),
+          ],
+        ),
+      ),
+    );
   }
 }

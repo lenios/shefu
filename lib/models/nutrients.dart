@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:isar/isar.dart';
 part 'nutrients.g.dart';
 

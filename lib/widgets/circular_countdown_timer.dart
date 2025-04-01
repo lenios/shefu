@@ -260,8 +260,6 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
           /// Only call the [_onComplete] block when the animation is not reversed.
           if (!widget.isReverse) _onComplete();
           break;
-        default:
-        // Do nothing
       }
     });
 

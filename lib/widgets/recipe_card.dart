@@ -2,26 +2,27 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:shefu/screens/display_recipe.dart';
-import '../models/recipes.dart';
+import 'package:go_router/go_router.dart';
+import '../models/recipe_model.dart'; // Updated import
 import '../utils/app_color.dart';
 import '../widgets/image_helper.dart';
 import 'misc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../l10n/app_localizations.dart';
 
 class RecipeCard extends StatelessWidget {
-  final Recipe recipe;
+  final RecipeModel recipe; // Changed type from Recipe to RecipeModel
   const RecipeCard({super.key, required this.recipe});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        await Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => DisplayRecipe(recipe: recipe)),
-        );
+
+          context.goNamed(
+    'displayRecipe',
+    pathParameters: {'id': recipe.id.toString()},
+    extra: recipe,
+  );
       },
       child: Container(
         margin: const EdgeInsets.all(2.0),
@@ -36,12 +37,12 @@ class RecipeCard extends StatelessWidget {
             Container(
               width: 95,
               height: 95,
-              decoration: recipe.imagePath != ''
+              decoration: recipe.imagePath != null && recipe.imagePath != '' // Added null check
                   ? BoxDecoration(
                       borderRadius: BorderRadius.circular(3),
                       image: DecorationImage(
                         image: FileImage(
-                            File(thumbnailPath(recipe.imagePath ?? ''))),
+                            File(thumbnailPath(recipe.imagePath!))), // Added ! for non-null assertion
                         fit: BoxFit.fitWidth,
                       ),
                     )

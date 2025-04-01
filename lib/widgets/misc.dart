@@ -2,7 +2,7 @@ import 'package:flag/flag.dart';
 import 'package:flutter/material.dart';
 import 'package:fraction/fraction.dart';
 
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../l10n/app_localizations.dart';
 
 Widget flagIcon(String countryCode) {
   if (countryCode != "") {
