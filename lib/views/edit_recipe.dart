@@ -472,7 +472,7 @@ class _EditRecipeState extends State<EditRecipe> {
               items: Category.values.map((e) {
                 return DropdownMenuItem(
                   value: e,
-                  child: Text(formattedCategory(e.toString(), context)),
+                  child: Text(formattedCategory(e.name, context)),
                 );
               }).toList(),
               onChanged: (Category? e) {

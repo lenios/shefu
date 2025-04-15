@@ -29,38 +29,7 @@ class _HomePageState extends State<HomePage> {
   GlobalKey keyButton = GlobalKey();
   GlobalKey keyButton1 = GlobalKey();
 
-  // void showTutorial() {
-  //   tutorialCoachMark.show(context: context);
-  // }
-
-  // void createTutorial() {
-  //   tutorialCoachMark = TutorialCoachMark(
-  //     targets: _createTargets(),
-  //     colorShadow: Colors.red,
-  //     textSkip: "SKIP",
-  //     paddingFocus: 10,
-  //     opacityShadow: 0.5,
-  //     imageFilter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
-  //     onFinish: () {
-  //       print("finish");
-  //     },
-  //     onClickTarget: (target) {
-  //       print('onClickTarget: $target');
-  //     },
-  //     onClickTargetWithTapPosition: (target, tapDetails) {
-  //       print("target: $target");
-  //       print(
-  //           "clicked at position local: ${tapDetails.localPosition} - global: ${tapDetails.globalPosition}");
-  //     },
-  //     onClickOverlay: (target) {
-  //       print('onClickOverlay: $target');
-  //     },
-  //     onSkip: () {
-  //       print("skip");
-  //       return true;
-  //     },
-  //   );
-  // }
+  final ScrollController _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -81,6 +50,7 @@ class _HomePageState extends State<HomePage> {
     return Consumer<HomeViewModel>(builder: (context, viewModel, child) {
       return Scaffold(
         body: ListView(
+            controller: _scrollController,
             padding: EdgeInsets.zero,
             shrinkWrap: true,
             physics: const BouncingScrollPhysics(),
@@ -223,8 +193,7 @@ class _HomePageState extends State<HomePage> {
                           items: Category.values.map((e) {
                             return DropdownMenuItem(
                               value: e,
-                              child: Text(
-                                  formattedCategory(e.toString(), context)),
+                              child: Text(formattedCategory(e.name, context)),
                             );
                           }).toList(),
                           onChanged: (value) {
@@ -323,17 +292,58 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ]),
-        floatingActionButton: ElevatedButton.icon(
-          key: keyButton,
-          onPressed: () => addRecipe(context, viewModel),
-          icon: const Icon(Icons.add),
-          label: Text(AppLocalizations.of(context)!.addRecipe),
-          style: ElevatedButton.styleFrom(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
+        floatingActionButton: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // Scroll to top button (bottom left, only when not at top)
+            AnimatedBuilder(
+              animation: _scrollController,
+              builder: (context, child) {
+                bool show = _scrollController.hasClients &&
+                    _scrollController.offset > 0;
+                return show
+                    ? Align(
+                        alignment: Alignment.bottomLeft,
+                        child: Opacity(
+                          opacity: 0.6,
+                          child: FloatingActionButton(
+                            heroTag: "scrollToTop",
+                            mini: true,
+                            backgroundColor: Colors.black54,
+                            onPressed: () {
+                              _scrollController.animateTo(
+                                0,
+                                duration: const Duration(milliseconds: 400),
+                                curve: Curves.easeInOut,
+                              );
+                            },
+                            tooltip: AppLocalizations.of(context)!.scrollToTop,
+                            child: const Icon(Icons.arrow_upward,
+                                color: Colors.white),
+                          ),
+                        ),
+                      )
+                    : const SizedBox.shrink();
+              },
             ),
-          ),
+            // Add recipe button (always bottom right)
+            Align(
+              alignment: Alignment.bottomRight,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 8.0, right: 8.0),
+                child: FloatingActionButton.extended(
+                  key: keyButton,
+                  onPressed: () => addRecipe(context, viewModel),
+                  icon: const Icon(Icons.add),
+                  label: Text(AppLocalizations.of(context)!.addRecipe),
+                  tooltip: AppLocalizations.of(context)!.addRecipe,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       );
     });

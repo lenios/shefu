@@ -63,5 +63,6 @@
           "sprig": "Brin",
           "packet": "Sachet",
           "leaf": "Feuille",
-          "recipes": "Recettes"
+          "recipes": "Recettes",
+          "scrollToTop": "Remonter en haut"
 }

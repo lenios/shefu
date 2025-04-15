@@ -63,5 +63,6 @@
           "sprig": "sprig",
           "packet": "packet",
           "leaf": "leaf",
-          "recipes": "recipes"
+          "recipes": "recipes",
+          "scrollToTop": "Scroll to top"
 }

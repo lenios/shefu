@@ -7,7 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:shefu/repositories/recipe_repository.dart';
 
 import '../models/recipe_model.dart';
-import '../provider/my_app_state.dart';
+import '../providers/my_app_state.dart';
 import '../utils/app_color.dart';
 import '../widgets/image_helper.dart';
 import '../widgets/misc.dart';
@@ -202,7 +202,7 @@ class _DisplayRecipeState extends State<DisplayRecipe>
                             ],
                           ),
                           Text(
-                            "${AppLocalizations.of(context)!.category}: ${formattedCategory(viewModel.recipe.category.toString(), context)}",
+                            "${AppLocalizations.of(context)!.category}: ${formattedCategory(viewModel.recipe.category.name, context)}",
                             style: const TextStyle(color: Colors.white),
                           ),
                           Row(
