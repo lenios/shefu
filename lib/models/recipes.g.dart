@@ -99,7 +99,7 @@ const RecipeSchema = CollectionSchema(
   getId: _recipeGetId,
   getLinks: _recipeGetLinks,
   attach: _recipeAttach,
-  version: '3.1.0+1',
+  version: '3.1.8',
 );
 
 int _recipeEstimateSize(

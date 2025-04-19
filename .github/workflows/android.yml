@@ -1,0 +1,83 @@
+name: Build and Attach APK to Release
+
+permissions:
+  contents: write
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
+      - name: Get Flutter dependencies
+        run: flutter pub get
+
+      - name: Run build_runner
+        run: flutter pub run build_runner build --delete-conflicting-outputs
+
+      - name: Decode Keystore
+        env:
+          ENCODED_STRING: ${{ secrets.SIGNING_KEY_STORE_BASE64 }}
+        run: |
+          echo "$ENCODED_STRING" | base64 --decode > android/app/keystore.jks
+
+      - name: Build APK
+        env:
+           SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
+           SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
+           SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
+        run: flutter build apk --release --split-per-abi
+
+      - name: Upload APK as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-arm64-v8a-release.apk
+          path: build/app/outputs/flutter-apk/app-arm64-v8a-release.apk
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    # Only run this job if the commit message indicates a release-worthy change
+    if: >
+      startsWith(github.event.head_commit.message, 'feat:') ||
+      startsWith(github.event.head_commit.message, 'fix:') ||
+      startsWith(github.event.head_commit.message, 'perf:') ||
+      contains(github.event.head_commit.message, 'BREAKING CHANGE:')
+    steps:
+      # Checkout needed to read version from pubspec.yaml
+      - uses: actions/checkout@v4
+
+      - name: Download APK from build
+        uses: actions/download-artifact@v4
+        with:
+          name: app-arm64-v8a-release.apk
+          path: ./apk
+
+      - name: Get Version from pubspec.yaml
+        id: package_version
+        run: |
+          version=$(grep 'version:' pubspec.yaml | cut -d ' ' -f 2)
+          echo "version=v$version" >> $GITHUB_OUTPUT # Prepend 'v' for tag name
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.package_version.outputs.version }}
+          name: Release ${{ steps.package_version.outputs.version }}
+          draft: false
+          prerelease: false
+          files: ./apk/app-arm64-v8a-release.apk

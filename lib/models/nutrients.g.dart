@@ -275,7 +275,7 @@ const NutrientSchema = CollectionSchema(
   getId: _nutrientGetId,
   getLinks: _nutrientGetLinks,
   attach: _nutrientAttach,
-  version: '3.1.0+1',
+  version: '3.1.8',
 );
 
 int _nutrientEstimateSize(

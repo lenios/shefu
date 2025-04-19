@@ -4,7 +4,7 @@ description: Offline recipes manager
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 2.0.1+5
+version: 2.0.3+5
 
 environment:
   sdk: '>=3.0.5 <4.0.0'
@@ -22,8 +22,12 @@ dependencies:
   fraction: ^5.0.0
   image: ^4.0.17
   intl: any
-  isar: ^3.1.0+1
-  isar_flutter_libs: ^3.1.0+1
+  isar: 
+    version: 3.1.8
+    hosted: https://pub.isar-community.dev/
+  isar_flutter_libs:
+    version: 3.1.8
+    hosted: https://pub.isar-community.dev/
   path: ^1.8.3
   path_provider: ^2.1.5
   provider: ^6.0.5
@@ -41,8 +45,10 @@ dev_dependencies:
     sdk: flutter
 
   flutter_lints: ^5.0.0
-  isar_generator: ^3.1.0+1
-  build_runner: ^2.4.6
+  isar_generator:
+    version: 3.1.8
+    hosted: https://pub.isar-community.dev/
+  build_runner: ^2.4.15
 
 # The following section is specific to Flutter packages.
 flutter:
