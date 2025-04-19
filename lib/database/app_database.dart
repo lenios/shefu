@@ -6,11 +6,9 @@ import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 import 'package:sqlite3_flutter_libs/sqlite3_flutter_libs.dart';
 
-// Import tables
 part 'app_database.g.dart';
 
 final logger = Logger();
-
 
 // Enums
 enum Category {
@@ -43,67 +41,6 @@ enum UnitType {
   leaf
 }
 
-// Recipe Table
-class Recipes extends Table {
-  IntColumn get id => integer().autoIncrement()();
-  TextColumn get title => text()();
-  TextColumn get source => text().withDefault(const Constant(''))();
-  TextColumn get imagePath => text().withDefault(const Constant(''))();
-  TextColumn get notes => text().withDefault(const Constant(''))();
-  IntColumn get servings => integer().withDefault(const Constant(4))();
-  TextColumn get tags => text().map(const ListConverter<String>()).withDefault(const Constant(''))();
-  IntColumn get category => integer().withDefault(const Constant(0))();
-  TextColumn get countryCode => text().withDefault(const Constant('WW'))();
-  IntColumn get calories => integer().withDefault(const Constant(0))();
-  IntColumn get time => integer().withDefault(const Constant(0))();
-  IntColumn get month => integer().withDefault(const Constant(0))();
-  IntColumn get carbohydrates => integer().withDefault(const Constant(0))();
-}
-
-// RecipeStep Table
-class RecipeSteps extends Table {
-  IntColumn get id => integer().autoIncrement()();
-  IntColumn get recipeId => integer().references(Recipes, #id, onDelete: KeyAction.cascade)();
-  TextColumn get name => text().withDefault(const Constant(''))();
-  TextColumn get instruction => text().withDefault(const Constant(''))();
-  TextColumn get imagePath => text().withDefault(const Constant(''))();
-  IntColumn get timer => integer().withDefault(const Constant(0))();
-  IntColumn get stepOrder => integer()(); // To maintain ordering
-}
-
-// Ingredient Table
-class Ingredients extends Table {
-  IntColumn get id => integer().autoIncrement()();
-  IntColumn get recipeStepId => integer().references(RecipeSteps, #id, onDelete: KeyAction.cascade)();
-  TextColumn get name => text().withDefault(const Constant(''))();
-  TextColumn get unit => text().withDefault(const Constant(''))(); // Store enum as string
-  RealColumn get quantity => real().withDefault(const Constant(1.0))();
-  TextColumn get shape => text().withDefault(const Constant(''))();
-  IntColumn get foodId => integer().withDefault(const Constant(0))();
-  IntColumn get selectedFactorId => integer().withDefault(const Constant(0))();
-  IntColumn get ingredientOrder => integer()(); // To maintain ordering
-}
-
-// Nutrients Table
-class Nutrients extends Table {
-  IntColumn get id => integer().autoIncrement()();
-  TextColumn get descEN => text()();
-  TextColumn get descFR => text()();
-  RealColumn get proteins => real().withDefault(const Constant(0.0))();
-  RealColumn get water => real().withDefault(const Constant(0.0))();
-  RealColumn get fat => real().withDefault(const Constant(0.0))();
-  RealColumn get energKcal => real().withDefault(const Constant(0.0))();
-  RealColumn get carbohydrates => real().withDefault(const Constant(0.0))();
-}
-
-// Conversions Table
-class Conversions extends Table {
-  IntColumn get id => integer().autoIncrement()();
-  IntColumn get nutrientId => integer().references(Nutrients, #id)();
-  TextColumn get name => text()();
-  RealColumn get factor => real().withDefault(const Constant(0.0))();
-}
-
 // Type converters
 class ListConverter<T> extends TypeConverter<List<T>, String> {
   const ListConverter();
@@ -121,13 +58,80 @@ class ListConverter<T> extends TypeConverter<List<T>, String> {
   }
 }
 
+// Table definitions
+
+class Recipes extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get title => text()();
+  TextColumn get source => text().withDefault(const Constant(''))();
+  TextColumn get imagePath => text().withDefault(const Constant(''))();
+  TextColumn get notes => text().withDefault(const Constant(''))();
+  IntColumn get servings => integer().withDefault(const Constant(4))();
+  TextColumn get tags => text()
+      .map(const ListConverter<String>())
+      .withDefault(const Constant(''))();
+  IntColumn get category => integer().withDefault(const Constant(0))();
+  TextColumn get countryCode => text().withDefault(const Constant('WW'))();
+  IntColumn get calories => integer().withDefault(const Constant(0))();
+  IntColumn get time => integer().withDefault(const Constant(0))();
+  IntColumn get month => integer().withDefault(const Constant(0))();
+  IntColumn get carbohydrates => integer().withDefault(const Constant(0))();
+}
+
+class RecipeSteps extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get recipeId =>
+      integer().references(Recipes, #id, onDelete: KeyAction.cascade)();
+  TextColumn get name => text().withDefault(const Constant(''))();
+  TextColumn get instruction => text().withDefault(const Constant(''))();
+  TextColumn get imagePath => text().withDefault(const Constant(''))();
+  IntColumn get timer => integer().withDefault(const Constant(0))();
+  IntColumn get stepOrder => integer()();
+}
+
+class Ingredients extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get recipeStepId =>
+      integer().references(RecipeSteps, #id, onDelete: KeyAction.cascade)();
+  TextColumn get name => text().withDefault(const Constant(''))();
+  TextColumn get unit => text().withDefault(const Constant(''))();
+  RealColumn get quantity => real().withDefault(const Constant(1.0))();
+  TextColumn get shape => text().withDefault(const Constant(''))();
+  IntColumn get foodId => integer().withDefault(const Constant(0))();
+  IntColumn get selectedFactorId => integer().withDefault(const Constant(0))();
+  IntColumn get ingredientOrder => integer()();
+}
+
+class Nutrients extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get descEN => text()();
+  TextColumn get descFR => text()();
+  RealColumn get proteins => real().withDefault(const Constant(0.0))();
+  RealColumn get water => real().withDefault(const Constant(0.0))();
+  RealColumn get fat => real().withDefault(const Constant(0.0))();
+  RealColumn get energKcal => real().withDefault(const Constant(0.0))();
+  RealColumn get carbohydrates => real().withDefault(const Constant(0.0))();
+}
+
+class Conversions extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get nutrientId => integer().references(Nutrients, #id)();
+  TextColumn get name => text()();
+  RealColumn get factor => real().withDefault(const Constant(0.0))();
+  TextColumn get descEN =>
+      text().named('descEN').withDefault(const Constant(''))();
+  TextColumn get descFR =>
+      text().named('descFR').withDefault(const Constant(''))();
+}
+
 // Database class
-@DriftDatabase(tables: [Recipes, RecipeSteps, Ingredients, Nutrients, Conversions])
+@DriftDatabase(
+    tables: [Recipes, RecipeSteps, Ingredients, Nutrients, Conversions])
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 2; // Start with version 1
+  int get schemaVersion => 3;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -137,31 +141,30 @@ class AppDatabase extends _$AppDatabase {
         },
         onUpgrade: (Migrator m, int from, int to) async {
           logger.i('Upgrading database from $from to $to');
-          
           if (from < 2) {
             logger.i('Upgrading to schema v2 with CASCADE constraints');
-            
             try {
-              // Backup data
-              final recipesData = await customSelect('SELECT * FROM recipes').get();
-              final stepsData = await customSelect('SELECT * FROM recipe_steps').get();
-              final ingredientsData = await customSelect('SELECT * FROM ingredients').get();
-              
-              logger.i('Backup complete: ${recipesData.length} recipes, ${stepsData.length} steps, ${ingredientsData.length} ingredients');
-              
-              // Drop tables in reverse dependency order
+              final recipesData =
+                  await customSelect('SELECT * FROM recipes').get();
+              final stepsData =
+                  await customSelect('SELECT * FROM recipe_steps').get();
+              final ingredientsData =
+                  await customSelect('SELECT * FROM ingredients').get();
+
+              logger.i(
+                  'Backup complete: ${recipesData.length} recipes, ${stepsData.length} steps, ${ingredientsData.length} ingredients');
+
               await m.deleteTable('ingredients');
               await m.deleteTable('recipe_steps');
-              
-              // Recreate tables with new constraints
+
               logger.i('Recreating tables with CASCADE constraints');
               await m.createTable(recipeSteps);
-              await m.createTable(ingredients); // Remove the cast
-              
-              // Re-insert data
+              await m.createTable(ingredients);
+
               logger.i('Restoring data');
               for (final step in stepsData) {
-                await customInsert('INSERT INTO recipe_steps VALUES (?, ?, ?, ?, ?, ?, ?)',
+                await customInsert(
+                    'INSERT INTO recipe_steps VALUES (?, ?, ?, ?, ?, ?, ?)',
                     variables: [
                       Variable(step.data['id']),
                       Variable(step.data['recipe_id']),
@@ -172,9 +175,10 @@ class AppDatabase extends _$AppDatabase {
                       Variable(step.data['step_order']),
                     ]);
               }
-              
+
               for (final ingredient in ingredientsData) {
-                await customInsert('INSERT INTO ingredients VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+                await customInsert(
+                    'INSERT INTO ingredients VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
                     variables: [
                       Variable(ingredient.data['id']),
                       Variable(ingredient.data['recipe_step_id']),
@@ -187,26 +191,47 @@ class AppDatabase extends _$AppDatabase {
                       Variable(ingredient.data['ingredient_order']),
                     ]);
               }
-              
+
               logger.i('Migration to v2 completed successfully');
             } catch (e, stackTrace) {
-              logger.e('Error during schema v2 migration: $e', error: e, stackTrace: stackTrace);
-              // Note: Drift will roll back the transaction on error
+              logger.e('Error during schema v2 migration: $e',
+                  error: e, stackTrace: stackTrace);
             }
+          }
+
+          if (from < 3) {
+            logger.i('Upgrading to schema v3 for conversions table columns');
+            final conversionsData =
+                await customSelect('SELECT * FROM conversions').get();
+            logger.i('Backup complete: ${conversionsData.length} conversions');
+            await m.deleteTable('conversions');
+            await m.createTable(conversions);
+            for (final conv in conversionsData) {
+              await customInsert(
+                  'INSERT INTO conversions (id, nutrient_id, name, factor, "descEN", "descFR") VALUES (?, ?, ?, ?, ?, ?)',
+                  variables: [
+                    Variable(conv.data['id']),
+                    Variable(conv.data['nutrient_id']),
+                    Variable(conv.data['name']),
+                    Variable(conv.data['factor']),
+                    Variable(conv.data['desc_e_n']),
+                    Variable(conv.data['desc_f_r']),
+                  ]);
+            }
+            logger.i('Migration to v3 completed successfully');
           }
         },
         beforeOpen: (details) async {
           logger.i('Opening database: ${details.versionNow}');
-                logger.i('>>> beforeOpen START <<< Version: ${details.versionNow}'); // ADD THIS LINE
-
-          // You can add extra checks here if needed
-          await customStatement('PRAGMA foreign_keys = ON'); // Ensure that SQLite's foreign key constraints are enabled
-                try {
-        final result = await customSelect('PRAGMA foreign_keys').getSingle();
-        logger.i('PRAGMA foreign_keys status after setting: ${result.data}'); // Should log {'foreign_keys': 1} if ON
-      } catch (e) {
-        logger.e('Error checking PRAGMA foreign_keys status: $e');
-      }
+          await customStatement('PRAGMA foreign_keys = ON');
+          try {
+            final result =
+                await customSelect('PRAGMA foreign_keys').getSingle();
+            logger.i(
+                'PRAGMA foreign_keys status after setting: ${result.data}'); // Should log {'foreign_keys': 1} if ON
+          } catch (e) {
+            logger.e('Error checking PRAGMA foreign_keys status: $e');
+          }
         },
       );
 
@@ -224,45 +249,41 @@ class AppDatabase extends _$AppDatabase {
   }
 
   Future<bool> updateRecipe(RecipesCompanion recipe) {
-      assert(recipe.id.present, "Recipe ID must be present for update");
-
+    assert(recipe.id.present, "Recipe ID must be present for update");
     return update(recipes).replace(recipe);
   }
 
   Future<int> deleteRecipe(int id) async {
-  logger.i('Attempting to delete recipe $id');
-
-  return transaction(() async {
-    try {
-      // Try direct SQL DELETE (often more reliable than the query builder for CASCADE)
-      await customStatement('PRAGMA foreign_keys = ON;'); 
-      await customStatement('DELETE FROM recipes WHERE id = ?', [id]);
-      logger.i('Successfully deleted recipe $id with direct SQL');
-      return 1; // Return success
-    } catch (e) {
-      logger.e('Direct SQL delete failed: $e');
-      
-      // Your existing manual deletion fallback works, keep it
-      logger.w('Falling back to manual deletion for recipe $id');
-      
-      final steps = await getStepsForRecipe(id);
-      logger.i('Found ${steps.length} steps to delete');
-      
-      for (final step in steps) {
-        await (delete(ingredients)..where((i) => i.recipeStepId.equals(step.id))).go();
+    logger.i('Attempting to delete recipe $id');
+    return transaction(() async {
+      try {
+        // Try direct SQL DELETE (often more reliable than the query builder for CASCADE)
+        await customStatement('PRAGMA foreign_keys = ON;');
+        await customStatement('DELETE FROM recipes WHERE id = ?', [id]);
+        logger.i('Successfully deleted recipe $id with direct SQL');
+        return 1; // Return success
+      } catch (e) {
+        logger.e('Direct SQL delete failed: $e');
+        logger.w('Falling back to manual deletion for recipe $id');
+        final steps = await getStepsForRecipe(id);
+        logger.i('Found ${steps.length} steps to delete');
+        for (final step in steps) {
+          await (delete(ingredients)
+                ..where((i) => i.recipeStepId.equals(step.id)))
+              .go();
+        }
+        await (delete(recipeSteps)..where((s) => s.recipeId.equals(id))).go();
+        return await (delete(recipes)..where((r) => r.id.equals(id))).go();
       }
-      
-      await (delete(recipeSteps)..where((s) => s.recipeId.equals(id))).go();
-      return await (delete(recipes)..where((r) => r.id.equals(id))).go();
-    }
-  });
-}
+    });
+  }
 
   // Recipe steps methods
   Future<List<RecipeStep>> getStepsForRecipe(int recipeId) {
     return (select(recipeSteps)
-      ..where((s) => s.recipeId.equals(recipeId))
-      ..orderBy([(t) => OrderingTerm(expression: t.stepOrder)])).get();
+          ..where((s) => s.recipeId.equals(recipeId))
+          ..orderBy([(t) => OrderingTerm(expression: t.stepOrder)]))
+        .get();
   }
 
   Future<int> insertStep(RecipeStepsCompanion step) {
@@ -272,8 +293,9 @@ class AppDatabase extends _$AppDatabase {
   // Ingredients methods
   Future<List<Ingredient>> getIngredientsForStep(int stepId) {
     return (select(ingredients)
-      ..where((i) => i.recipeStepId.equals(stepId))
-      ..orderBy([(t) => OrderingTerm(expression: t.ingredientOrder)])).get();
+          ..where((i) => i.recipeStepId.equals(stepId))
+          ..orderBy([(t) => OrderingTerm(expression: t.ingredientOrder)]))
+        .get();
   }
 
   Future<int> insertIngredient(IngredientsCompanion ingredient) {
@@ -295,27 +317,74 @@ class AppDatabase extends _$AppDatabase {
 
   // Conversions methods
   Future<List<Conversion>> getConversionsForNutrient(int nutrientId) {
-    return (select(conversions)
-      ..where((c) => c.nutrientId.equals(nutrientId))).get();
+    return (select(conversions)..where((c) => c.nutrientId.equals(nutrientId)))
+        .get();
   }
 
   Future<int> insertConversion(ConversionsCompanion conversion) {
     return into(conversions).insert(conversion);
   }
+
+  // Nutrition calculation for a recipe
+  // TODO: check usage
+  Future<void> updateRecipeNutrients(int recipeId) async {
+    final steps = await getStepsForRecipe(recipeId);
+    double totalCarbs = 0.0;
+    double totalCalories = 0.0;
+    for (final step in steps) {
+      final ingredientsList = await getIngredientsForStep(step.id);
+      for (final ingredient in ingredientsList) {
+        if (ingredient.foodId > 0) {
+          final nutrient = await getNutrientById(ingredient.foodId);
+          double grams = 0.0;
+          if (ingredient.selectedFactorId > 0) {
+            final conversions =
+                await getConversionsForNutrient(ingredient.foodId);
+            final factor = conversions
+                .firstWhere((e) => e.id == ingredient.selectedFactorId,
+                    orElse: () => Conversion(
+                        id: 0,
+                        nutrientId: ingredient.foodId,
+                        name: '',
+                        factor: 1.0,
+                        descEN: '',
+                        descFR: ''))
+                .factor;
+            grams = ingredient.quantity * factor * 100;
+          } else if (ingredient.unit == 'g') {
+            grams = ingredient.quantity;
+          }
+          if (grams > 0) {
+            totalCalories += (nutrient.energKcal * grams / 100);
+            totalCarbs += (nutrient.carbohydrates * grams / 100);
+          }
+        }
+      }
+    }
+    await (update(recipes)..where((r) => r.id.equals(recipeId))).write(
+      RecipesCompanion(
+        calories: Value(totalCalories.round()),
+        carbohydrates: Value(totalCarbs.round()),
+      ),
+    );
+  }
+
+  // Helper for conversion measure name
+  String getMeasureName(Conversion conversion, String languageCode) {
+    if (languageCode == 'fr' && conversion.descFR.isNotEmpty) {
+      return conversion.descFR;
+    }
+    return conversion.descEN;
+  }
 }
 
 LazyDatabase _openConnection() {
   return LazyDatabase(() async {
-    // Make sure the sqlite3 library is properly loaded
     if (Platform.isAndroid) {
-      // Use the sqlite3_flutter_libs to ensure SQLite is properly loaded
       await applyWorkaroundToOpenSqlite3OnOldAndroidVersions();
     }
-
     final dbFolder = await getApplicationDocumentsDirectory();
     final file = File(p.join(dbFolder.path, 'shefu_db.sqlite'));
-
     return NativeDatabase(file);
   });
 }
-

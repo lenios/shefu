@@ -10,7 +10,7 @@ class NutrientModel {
   final double fat;
   final double energKcal;
   final double carbohydrates;
-  late final List<ConversionModel> conversions;
+  final List<ConversionModel> conversions; // changed from late final
 
   // Id id = Isar.autoIncrement;
   // String descEN = "";
@@ -87,7 +87,8 @@ class NutrientModel {
     );
   }
 
-  static NutrientModel fromNutrient(Nutrient nutrient, {List<ConversionModel> conversions = const []}) {
+  static NutrientModel fromNutrient(Nutrient nutrient,
+      {List<ConversionModel> conversions = const []}) {
     return NutrientModel(
       id: nutrient.id,
       descEN: nutrient.descEN,
@@ -119,7 +120,7 @@ class NutrientModel {
   NutrientModel copyWith({
     int? id,
     String? descEN,
-    String? descFR, 
+    String? descFR,
     double? proteins,
     double? water,
     double? fat,
@@ -147,23 +148,28 @@ class ConversionModel {
   final String name;
   final double factor;
 
+  final String descEN;
+  final String descFR;
+
   ConversionModel({
     this.id,
     this.nutrientId,
     required this.name,
     this.factor = 0.0,
-  });
-
-  get descFR => null;
-
-  get descEN => null;
+    String? descEN,
+    String? descFR,
+  })  : this.descEN = descEN ?? name,
+        this.descFR = descFR ?? name;
 
   ConversionsCompanion toCompanion() {
     return ConversionsCompanion(
       id: id != null ? Value(id!) : const Value.absent(),
-      nutrientId: nutrientId != null ? Value(nutrientId!) : const Value.absent(),
+      nutrientId:
+          nutrientId != null ? Value(nutrientId!) : const Value.absent(),
       name: Value(name),
       factor: Value(factor),
+      descEN: Value(descEN),
+      descFR: Value(descFR),
     );
   }
 
@@ -173,6 +179,8 @@ class ConversionModel {
       nutrientId: conversion.nutrientId,
       name: conversion.name,
       factor: conversion.factor,
+      descEN: conversion.name,
+      descFR: conversion.name,
     );
   }
 }

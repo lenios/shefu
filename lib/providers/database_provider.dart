@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import '../database/app_database.dart';
-import '../utils/migration_utility.dart';
-import '../utils/nutrients_migration_utility.dart';
 import 'package:logger/logger.dart';
 
 final logger = Logger();
@@ -27,18 +25,21 @@ class DatabaseProvider extends ChangeNotifier {
     try {
       // Create database
       _database = AppDatabase();
-
-      // Attempt migrations
-      final recipeMigrationUtility = MigrationUtility(_database);
-      _recipesMigrationCompleted = await recipeMigrationUtility.migrateIsarToDrift();
-
-      final nutrientsMigrationUtility = NutrientsMigrationUtility(_database);
-      _nutrientsMigrationCompleted = await nutrientsMigrationUtility.migrateIsarToDrift();
     } catch (e) {
       logger.e('Error during database initialization: $e');
     } finally {
       _initialized = true;
       notifyListeners();
+    }
+  }
+
+  Future<void> initDatabase() async {
+    try {
+      // Database is already initialized in the constructor
+      notifyListeners();
+    } catch (e) {
+      debugPrint('Error initializing database: $e');
+      // Handle initialization error
     }
   }
 

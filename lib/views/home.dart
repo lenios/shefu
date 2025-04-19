@@ -8,7 +8,6 @@ import 'package:shefu/main.dart';
 import '../viewmodels/home_view_model.dart';
 import 'package:shefu/widgets/misc.dart';
 
-import '../models/recipe_model.dart';
 import '../utils/app_color.dart';
 import '../widgets/recipe_card.dart';
 import '../widgets/search_filter_model.dart';
@@ -350,24 +349,15 @@ class _HomePageState extends State<HomePage> {
   }
 
   void addRecipe(BuildContext context, HomeViewModel viewModel) async {
-    // Create a new empty recipe model instead of the old Recipe class
-    RecipeModel newRecipe = RecipeModel(
-      title: AppLocalizations.of(context)!.newRecipe,
-      source: "",
-      imagePath: "",
-      steps: [],
-      servings: 4,
-      category: Category.all,
-      countryCode: "WW",
-    );
-
-    await viewModel.addNewRecipe(
+    final newRecipeId = await viewModel.addNewRecipe(
         context, AppLocalizations.of(context)!.newRecipe);
+
     if (!mounted) return;
+
+    // Navigate to edit page using the returned ID
     context.goNamed(
       'editRecipe',
-      pathParameters: {'id': newRecipe.id.toString()},
-      extra: newRecipe,
+      pathParameters: {'id': newRecipeId.toString()},
     );
 
     // Refresh the recipes list after returning

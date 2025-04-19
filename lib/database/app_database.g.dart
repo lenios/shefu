@@ -25,19 +25,25 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, Recipe> {
   static const VerificationMeta _sourceMeta = const VerificationMeta('source');
   @override
   late final GeneratedColumn<String> source = GeneratedColumn<String>(
-      'source', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
+      'source', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      defaultValue: const Constant(''));
   static const VerificationMeta _imagePathMeta =
       const VerificationMeta('imagePath');
   @override
   late final GeneratedColumn<String> imagePath = GeneratedColumn<String>(
-      'image_path', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
+      'image_path', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      defaultValue: const Constant(''));
   static const VerificationMeta _notesMeta = const VerificationMeta('notes');
   @override
   late final GeneratedColumn<String> notes = GeneratedColumn<String>(
-      'notes', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
+      'notes', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      defaultValue: const Constant(''));
   static const VerificationMeta _servingsMeta =
       const VerificationMeta('servings');
   @override
@@ -47,15 +53,20 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, Recipe> {
       requiredDuringInsert: false,
       defaultValue: const Constant(4));
   @override
-  late final GeneratedColumnWithTypeConverter<List<String>?, String> tags =
-      GeneratedColumn<String>('tags', aliasedName, true,
-              type: DriftSqlType.string, requiredDuringInsert: false)
-          .withConverter<List<String>?>($RecipesTable.$convertertagsn);
+  late final GeneratedColumnWithTypeConverter<List<String>, String> tags =
+      GeneratedColumn<String>('tags', aliasedName, false,
+              type: DriftSqlType.string,
+              requiredDuringInsert: false,
+              defaultValue: const Constant(''))
+          .withConverter<List<String>>($RecipesTable.$convertertags);
+  static const VerificationMeta _categoryMeta =
+      const VerificationMeta('category');
   @override
-  late final GeneratedColumnWithTypeConverter<Category, int> category =
-      GeneratedColumn<int>('category', aliasedName, false,
-              type: DriftSqlType.int, requiredDuringInsert: true)
-          .withConverter<Category>($RecipesTable.$convertercategory);
+  late final GeneratedColumn<int> category = GeneratedColumn<int>(
+      'category', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultValue: const Constant(0));
   static const VerificationMeta _countryCodeMeta =
       const VerificationMeta('countryCode');
   @override
@@ -85,7 +96,7 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, Recipe> {
       'month', aliasedName, false,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      defaultValue: const Constant(1));
+      defaultValue: const Constant(0));
   static const VerificationMeta _carbohydratesMeta =
       const VerificationMeta('carbohydrates');
   @override
@@ -145,6 +156,10 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, Recipe> {
       context.handle(_servingsMeta,
           servings.isAcceptableOrUnknown(data['servings']!, _servingsMeta));
     }
+    if (data.containsKey('category')) {
+      context.handle(_categoryMeta,
+          category.isAcceptableOrUnknown(data['category']!, _categoryMeta));
+    }
     if (data.containsKey('country_code')) {
       context.handle(
           _countryCodeMeta,
@@ -183,18 +198,17 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, Recipe> {
       title: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}title'])!,
       source: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}source']),
+          .read(DriftSqlType.string, data['${effectivePrefix}source'])!,
       imagePath: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}image_path']),
+          .read(DriftSqlType.string, data['${effectivePrefix}image_path'])!,
       notes: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}notes']),
+          .read(DriftSqlType.string, data['${effectivePrefix}notes'])!,
       servings: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}servings'])!,
-      tags: $RecipesTable.$convertertagsn.fromSql(attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}tags'])),
-      category: $RecipesTable.$convertercategory.fromSql(attachedDatabase
-          .typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}category'])!),
+      tags: $RecipesTable.$convertertags.fromSql(attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}tags'])!),
+      category: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}category'])!,
       countryCode: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}country_code'])!,
       calories: attachedDatabase.typeMapping
@@ -215,21 +229,17 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, Recipe> {
 
   static TypeConverter<List<String>, String> $convertertags =
       const ListConverter<String>();
-  static TypeConverter<List<String>?, String?> $convertertagsn =
-      NullAwareTypeConverter.wrap($convertertags);
-  static JsonTypeConverter2<Category, int, int> $convertercategory =
-      const EnumIndexConverter<Category>(Category.values);
 }
 
 class Recipe extends DataClass implements Insertable<Recipe> {
   final int id;
   final String title;
-  final String? source;
-  final String? imagePath;
-  final String? notes;
+  final String source;
+  final String imagePath;
+  final String notes;
   final int servings;
-  final List<String>? tags;
-  final Category category;
+  final List<String> tags;
+  final int category;
   final String countryCode;
   final int calories;
   final int time;
@@ -238,11 +248,11 @@ class Recipe extends DataClass implements Insertable<Recipe> {
   const Recipe(
       {required this.id,
       required this.title,
-      this.source,
-      this.imagePath,
-      this.notes,
+      required this.source,
+      required this.imagePath,
+      required this.notes,
       required this.servings,
-      this.tags,
+      required this.tags,
       required this.category,
       required this.countryCode,
       required this.calories,
@@ -254,23 +264,14 @@ class Recipe extends DataClass implements Insertable<Recipe> {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
     map['title'] = Variable<String>(title);
-    if (!nullToAbsent || source != null) {
-      map['source'] = Variable<String>(source);
-    }
-    if (!nullToAbsent || imagePath != null) {
-      map['image_path'] = Variable<String>(imagePath);
-    }
-    if (!nullToAbsent || notes != null) {
-      map['notes'] = Variable<String>(notes);
-    }
+    map['source'] = Variable<String>(source);
+    map['image_path'] = Variable<String>(imagePath);
+    map['notes'] = Variable<String>(notes);
     map['servings'] = Variable<int>(servings);
-    if (!nullToAbsent || tags != null) {
-      map['tags'] = Variable<String>($RecipesTable.$convertertagsn.toSql(tags));
-    }
     {
-      map['category'] =
-          Variable<int>($RecipesTable.$convertercategory.toSql(category));
+      map['tags'] = Variable<String>($RecipesTable.$convertertags.toSql(tags));
     }
+    map['category'] = Variable<int>(category);
     map['country_code'] = Variable<String>(countryCode);
     map['calories'] = Variable<int>(calories);
     map['time'] = Variable<int>(time);
@@ -283,15 +284,11 @@ class Recipe extends DataClass implements Insertable<Recipe> {
     return RecipesCompanion(
       id: Value(id),
       title: Value(title),
-      source:
-          source == null && nullToAbsent ? const Value.absent() : Value(source),
-      imagePath: imagePath == null && nullToAbsent
-          ? const Value.absent()
-          : Value(imagePath),
-      notes:
-          notes == null && nullToAbsent ? const Value.absent() : Value(notes),
+      source: Value(source),
+      imagePath: Value(imagePath),
+      notes: Value(notes),
       servings: Value(servings),
-      tags: tags == null && nullToAbsent ? const Value.absent() : Value(tags),
+      tags: Value(tags),
       category: Value(category),
       countryCode: Value(countryCode),
       calories: Value(calories),
@@ -307,13 +304,12 @@ class Recipe extends DataClass implements Insertable<Recipe> {
     return Recipe(
       id: serializer.fromJson<int>(json['id']),
       title: serializer.fromJson<String>(json['title']),
-      source: serializer.fromJson<String?>(json['source']),
-      imagePath: serializer.fromJson<String?>(json['imagePath']),
-      notes: serializer.fromJson<String?>(json['notes']),
+      source: serializer.fromJson<String>(json['source']),
+      imagePath: serializer.fromJson<String>(json['imagePath']),
+      notes: serializer.fromJson<String>(json['notes']),
       servings: serializer.fromJson<int>(json['servings']),
-      tags: serializer.fromJson<List<String>?>(json['tags']),
-      category: $RecipesTable.$convertercategory
-          .fromJson(serializer.fromJson<int>(json['category'])),
+      tags: serializer.fromJson<List<String>>(json['tags']),
+      category: serializer.fromJson<int>(json['category']),
       countryCode: serializer.fromJson<String>(json['countryCode']),
       calories: serializer.fromJson<int>(json['calories']),
       time: serializer.fromJson<int>(json['time']),
@@ -327,13 +323,12 @@ class Recipe extends DataClass implements Insertable<Recipe> {
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
       'title': serializer.toJson<String>(title),
-      'source': serializer.toJson<String?>(source),
-      'imagePath': serializer.toJson<String?>(imagePath),
-      'notes': serializer.toJson<String?>(notes),
+      'source': serializer.toJson<String>(source),
+      'imagePath': serializer.toJson<String>(imagePath),
+      'notes': serializer.toJson<String>(notes),
       'servings': serializer.toJson<int>(servings),
-      'tags': serializer.toJson<List<String>?>(tags),
-      'category': serializer
-          .toJson<int>($RecipesTable.$convertercategory.toJson(category)),
+      'tags': serializer.toJson<List<String>>(tags),
+      'category': serializer.toJson<int>(category),
       'countryCode': serializer.toJson<String>(countryCode),
       'calories': serializer.toJson<int>(calories),
       'time': serializer.toJson<int>(time),
@@ -345,12 +340,12 @@ class Recipe extends DataClass implements Insertable<Recipe> {
   Recipe copyWith(
           {int? id,
           String? title,
-          Value<String?> source = const Value.absent(),
-          Value<String?> imagePath = const Value.absent(),
-          Value<String?> notes = const Value.absent(),
+          String? source,
+          String? imagePath,
+          String? notes,
           int? servings,
-          Value<List<String>?> tags = const Value.absent(),
-          Category? category,
+          List<String>? tags,
+          int? category,
           String? countryCode,
           int? calories,
           int? time,
@@ -359,11 +354,11 @@ class Recipe extends DataClass implements Insertable<Recipe> {
       Recipe(
         id: id ?? this.id,
         title: title ?? this.title,
-        source: source.present ? source.value : this.source,
-        imagePath: imagePath.present ? imagePath.value : this.imagePath,
-        notes: notes.present ? notes.value : this.notes,
+        source: source ?? this.source,
+        imagePath: imagePath ?? this.imagePath,
+        notes: notes ?? this.notes,
         servings: servings ?? this.servings,
-        tags: tags.present ? tags.value : this.tags,
+        tags: tags ?? this.tags,
         category: category ?? this.category,
         countryCode: countryCode ?? this.countryCode,
         calories: calories ?? this.calories,
@@ -437,12 +432,12 @@ class Recipe extends DataClass implements Insertable<Recipe> {
 class RecipesCompanion extends UpdateCompanion<Recipe> {
   final Value<int> id;
   final Value<String> title;
-  final Value<String?> source;
-  final Value<String?> imagePath;
-  final Value<String?> notes;
+  final Value<String> source;
+  final Value<String> imagePath;
+  final Value<String> notes;
   final Value<int> servings;
-  final Value<List<String>?> tags;
-  final Value<Category> category;
+  final Value<List<String>> tags;
+  final Value<int> category;
   final Value<String> countryCode;
   final Value<int> calories;
   final Value<int> time;
@@ -471,14 +466,13 @@ class RecipesCompanion extends UpdateCompanion<Recipe> {
     this.notes = const Value.absent(),
     this.servings = const Value.absent(),
     this.tags = const Value.absent(),
-    required Category category,
+    this.category = const Value.absent(),
     this.countryCode = const Value.absent(),
     this.calories = const Value.absent(),
     this.time = const Value.absent(),
     this.month = const Value.absent(),
     this.carbohydrates = const Value.absent(),
-  })  : title = Value(title),
-        category = Value(category);
+  }) : title = Value(title);
   static Insertable<Recipe> custom({
     Expression<int>? id,
     Expression<String>? title,
@@ -514,12 +508,12 @@ class RecipesCompanion extends UpdateCompanion<Recipe> {
   RecipesCompanion copyWith(
       {Value<int>? id,
       Value<String>? title,
-      Value<String?>? source,
-      Value<String?>? imagePath,
-      Value<String?>? notes,
+      Value<String>? source,
+      Value<String>? imagePath,
+      Value<String>? notes,
       Value<int>? servings,
-      Value<List<String>?>? tags,
-      Value<Category>? category,
+      Value<List<String>>? tags,
+      Value<int>? category,
       Value<String>? countryCode,
       Value<int>? calories,
       Value<int>? time,
@@ -565,11 +559,10 @@ class RecipesCompanion extends UpdateCompanion<Recipe> {
     }
     if (tags.present) {
       map['tags'] =
-          Variable<String>($RecipesTable.$convertertagsn.toSql(tags.value));
+          Variable<String>($RecipesTable.$convertertags.toSql(tags.value));
     }
     if (category.present) {
-      map['category'] =
-          Variable<int>($RecipesTable.$convertercategory.toSql(category.value));
+      map['category'] = Variable<int>(category.value);
     }
     if (countryCode.present) {
       map['country_code'] = Variable<String>(countryCode.value);
@@ -632,8 +625,8 @@ class $RecipeStepsTable extends RecipeSteps
       'recipe_id', aliasedName, false,
       type: DriftSqlType.int,
       requiredDuringInsert: true,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('REFERENCES recipes (id)'));
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'REFERENCES recipes (id) ON DELETE CASCADE'));
   static const VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
   late final GeneratedColumn<String> name = GeneratedColumn<String>(
@@ -1006,8 +999,8 @@ class $IngredientsTable extends Ingredients
       'recipe_step_id', aliasedName, false,
       type: DriftSqlType.int,
       requiredDuringInsert: true,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('REFERENCES recipe_steps (id)'));
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'REFERENCES recipe_steps (id) ON DELETE CASCADE'));
   static const VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
   late final GeneratedColumn<String> name = GeneratedColumn<String>(
@@ -1888,8 +1881,23 @@ class $ConversionsTable extends Conversions
       type: DriftSqlType.double,
       requiredDuringInsert: false,
       defaultValue: const Constant(0.0));
+  static const VerificationMeta _descENMeta = const VerificationMeta('descEN');
   @override
-  List<GeneratedColumn> get $columns => [id, nutrientId, name, factor];
+  late final GeneratedColumn<String> descEN = GeneratedColumn<String>(
+      'descEN', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      defaultValue: const Constant(''));
+  static const VerificationMeta _descFRMeta = const VerificationMeta('descFR');
+  @override
+  late final GeneratedColumn<String> descFR = GeneratedColumn<String>(
+      'descFR', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      defaultValue: const Constant(''));
+  @override
+  List<GeneratedColumn> get $columns =>
+      [id, nutrientId, name, factor, descEN, descFR];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -1921,6 +1929,14 @@ class $ConversionsTable extends Conversions
       context.handle(_factorMeta,
           factor.isAcceptableOrUnknown(data['factor']!, _factorMeta));
     }
+    if (data.containsKey('descEN')) {
+      context.handle(_descENMeta,
+          descEN.isAcceptableOrUnknown(data['descEN']!, _descENMeta));
+    }
+    if (data.containsKey('descFR')) {
+      context.handle(_descFRMeta,
+          descFR.isAcceptableOrUnknown(data['descFR']!, _descFRMeta));
+    }
     return context;
   }
 
@@ -1938,6 +1954,10 @@ class $ConversionsTable extends Conversions
           .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
       factor: attachedDatabase.typeMapping
           .read(DriftSqlType.double, data['${effectivePrefix}factor'])!,
+      descEN: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}descEN'])!,
+      descFR: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}descFR'])!,
     );
   }
 
@@ -1952,11 +1972,15 @@ class Conversion extends DataClass implements Insertable<Conversion> {
   final int nutrientId;
   final String name;
   final double factor;
+  final String descEN;
+  final String descFR;
   const Conversion(
       {required this.id,
       required this.nutrientId,
       required this.name,
-      required this.factor});
+      required this.factor,
+      required this.descEN,
+      required this.descFR});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -1964,6 +1988,8 @@ class Conversion extends DataClass implements Insertable<Conversion> {
     map['nutrient_id'] = Variable<int>(nutrientId);
     map['name'] = Variable<String>(name);
     map['factor'] = Variable<double>(factor);
+    map['descEN'] = Variable<String>(descEN);
+    map['descFR'] = Variable<String>(descFR);
     return map;
   }
 
@@ -1973,6 +1999,8 @@ class Conversion extends DataClass implements Insertable<Conversion> {
       nutrientId: Value(nutrientId),
       name: Value(name),
       factor: Value(factor),
+      descEN: Value(descEN),
+      descFR: Value(descFR),
     );
   }
 
@@ -1984,6 +2012,8 @@ class Conversion extends DataClass implements Insertable<Conversion> {
       nutrientId: serializer.fromJson<int>(json['nutrientId']),
       name: serializer.fromJson<String>(json['name']),
       factor: serializer.fromJson<double>(json['factor']),
+      descEN: serializer.fromJson<String>(json['descEN']),
+      descFR: serializer.fromJson<String>(json['descFR']),
     );
   }
   @override
@@ -1994,16 +2024,25 @@ class Conversion extends DataClass implements Insertable<Conversion> {
       'nutrientId': serializer.toJson<int>(nutrientId),
       'name': serializer.toJson<String>(name),
       'factor': serializer.toJson<double>(factor),
+      'descEN': serializer.toJson<String>(descEN),
+      'descFR': serializer.toJson<String>(descFR),
     };
   }
 
   Conversion copyWith(
-          {int? id, int? nutrientId, String? name, double? factor}) =>
+          {int? id,
+          int? nutrientId,
+          String? name,
+          double? factor,
+          String? descEN,
+          String? descFR}) =>
       Conversion(
         id: id ?? this.id,
         nutrientId: nutrientId ?? this.nutrientId,
         name: name ?? this.name,
         factor: factor ?? this.factor,
+        descEN: descEN ?? this.descEN,
+        descFR: descFR ?? this.descFR,
       );
   Conversion copyWithCompanion(ConversionsCompanion data) {
     return Conversion(
@@ -2012,6 +2051,8 @@ class Conversion extends DataClass implements Insertable<Conversion> {
           data.nutrientId.present ? data.nutrientId.value : this.nutrientId,
       name: data.name.present ? data.name.value : this.name,
       factor: data.factor.present ? data.factor.value : this.factor,
+      descEN: data.descEN.present ? data.descEN.value : this.descEN,
+      descFR: data.descFR.present ? data.descFR.value : this.descFR,
     );
   }
 
@@ -2021,13 +2062,15 @@ class Conversion extends DataClass implements Insertable<Conversion> {
           ..write('id: $id, ')
           ..write('nutrientId: $nutrientId, ')
           ..write('name: $name, ')
-          ..write('factor: $factor')
+          ..write('factor: $factor, ')
+          ..write('descEN: $descEN, ')
+          ..write('descFR: $descFR')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, nutrientId, name, factor);
+  int get hashCode => Object.hash(id, nutrientId, name, factor, descEN, descFR);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -2035,7 +2078,9 @@ class Conversion extends DataClass implements Insertable<Conversion> {
           other.id == this.id &&
           other.nutrientId == this.nutrientId &&
           other.name == this.name &&
-          other.factor == this.factor);
+          other.factor == this.factor &&
+          other.descEN == this.descEN &&
+          other.descFR == this.descFR);
 }
 
 class ConversionsCompanion extends UpdateCompanion<Conversion> {
@@ -2043,17 +2088,23 @@ class ConversionsCompanion extends UpdateCompanion<Conversion> {
   final Value<int> nutrientId;
   final Value<String> name;
   final Value<double> factor;
+  final Value<String> descEN;
+  final Value<String> descFR;
   const ConversionsCompanion({
     this.id = const Value.absent(),
     this.nutrientId = const Value.absent(),
     this.name = const Value.absent(),
     this.factor = const Value.absent(),
+    this.descEN = const Value.absent(),
+    this.descFR = const Value.absent(),
   });
   ConversionsCompanion.insert({
     this.id = const Value.absent(),
     required int nutrientId,
     required String name,
     this.factor = const Value.absent(),
+    this.descEN = const Value.absent(),
+    this.descFR = const Value.absent(),
   })  : nutrientId = Value(nutrientId),
         name = Value(name);
   static Insertable<Conversion> custom({
@@ -2061,12 +2112,16 @@ class ConversionsCompanion extends UpdateCompanion<Conversion> {
     Expression<int>? nutrientId,
     Expression<String>? name,
     Expression<double>? factor,
+    Expression<String>? descEN,
+    Expression<String>? descFR,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (nutrientId != null) 'nutrient_id': nutrientId,
       if (name != null) 'name': name,
       if (factor != null) 'factor': factor,
+      if (descEN != null) 'descEN': descEN,
+      if (descFR != null) 'descFR': descFR,
     });
   }
 
@@ -2074,12 +2129,16 @@ class ConversionsCompanion extends UpdateCompanion<Conversion> {
       {Value<int>? id,
       Value<int>? nutrientId,
       Value<String>? name,
-      Value<double>? factor}) {
+      Value<double>? factor,
+      Value<String>? descEN,
+      Value<String>? descFR}) {
     return ConversionsCompanion(
       id: id ?? this.id,
       nutrientId: nutrientId ?? this.nutrientId,
       name: name ?? this.name,
       factor: factor ?? this.factor,
+      descEN: descEN ?? this.descEN,
+      descFR: descFR ?? this.descFR,
     );
   }
 
@@ -2098,6 +2157,12 @@ class ConversionsCompanion extends UpdateCompanion<Conversion> {
     if (factor.present) {
       map['factor'] = Variable<double>(factor.value);
     }
+    if (descEN.present) {
+      map['descEN'] = Variable<String>(descEN.value);
+    }
+    if (descFR.present) {
+      map['descFR'] = Variable<String>(descFR.value);
+    }
     return map;
   }
 
@@ -2107,7 +2172,9 @@ class ConversionsCompanion extends UpdateCompanion<Conversion> {
           ..write('id: $id, ')
           ..write('nutrientId: $nutrientId, ')
           ..write('name: $name, ')
-          ..write('factor: $factor')
+          ..write('factor: $factor, ')
+          ..write('descEN: $descEN, ')
+          ..write('descFR: $descFR')
           ..write(')'))
         .toString();
   }
@@ -2127,17 +2194,36 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities =>
       [recipes, recipeSteps, ingredients, nutrients, conversions];
+  @override
+  StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules(
+        [
+          WritePropagation(
+            on: TableUpdateQuery.onTableName('recipes',
+                limitUpdateKind: UpdateKind.delete),
+            result: [
+              TableUpdate('recipe_steps', kind: UpdateKind.delete),
+            ],
+          ),
+          WritePropagation(
+            on: TableUpdateQuery.onTableName('recipe_steps',
+                limitUpdateKind: UpdateKind.delete),
+            result: [
+              TableUpdate('ingredients', kind: UpdateKind.delete),
+            ],
+          ),
+        ],
+      );
 }
 
 typedef $$RecipesTableCreateCompanionBuilder = RecipesCompanion Function({
   Value<int> id,
   required String title,
-  Value<String?> source,
-  Value<String?> imagePath,
-  Value<String?> notes,
+  Value<String> source,
+  Value<String> imagePath,
+  Value<String> notes,
   Value<int> servings,
-  Value<List<String>?> tags,
-  required Category category,
+  Value<List<String>> tags,
+  Value<int> category,
   Value<String> countryCode,
   Value<int> calories,
   Value<int> time,
@@ -2147,12 +2233,12 @@ typedef $$RecipesTableCreateCompanionBuilder = RecipesCompanion Function({
 typedef $$RecipesTableUpdateCompanionBuilder = RecipesCompanion Function({
   Value<int> id,
   Value<String> title,
-  Value<String?> source,
-  Value<String?> imagePath,
-  Value<String?> notes,
+  Value<String> source,
+  Value<String> imagePath,
+  Value<String> notes,
   Value<int> servings,
-  Value<List<String>?> tags,
-  Value<Category> category,
+  Value<List<String>> tags,
+  Value<int> category,
   Value<String> countryCode,
   Value<int> calories,
   Value<int> time,
@@ -2207,15 +2293,13 @@ class $$RecipesTableFilterComposer
   ColumnFilters<int> get servings => $composableBuilder(
       column: $table.servings, builder: (column) => ColumnFilters(column));
 
-  ColumnWithTypeConverterFilters<List<String>?, List<String>, String>
-      get tags => $composableBuilder(
+  ColumnWithTypeConverterFilters<List<String>, List<String>, String> get tags =>
+      $composableBuilder(
           column: $table.tags,
           builder: (column) => ColumnWithTypeConverterFilters(column));
 
-  ColumnWithTypeConverterFilters<Category, Category, int> get category =>
-      $composableBuilder(
-          column: $table.category,
-          builder: (column) => ColumnWithTypeConverterFilters(column));
+  ColumnFilters<int> get category => $composableBuilder(
+      column: $table.category, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<String> get countryCode => $composableBuilder(
       column: $table.countryCode, builder: (column) => ColumnFilters(column));
@@ -2331,10 +2415,10 @@ class $$RecipesTableAnnotationComposer
   GeneratedColumn<int> get servings =>
       $composableBuilder(column: $table.servings, builder: (column) => column);
 
-  GeneratedColumnWithTypeConverter<List<String>?, String> get tags =>
+  GeneratedColumnWithTypeConverter<List<String>, String> get tags =>
       $composableBuilder(column: $table.tags, builder: (column) => column);
 
-  GeneratedColumnWithTypeConverter<Category, int> get category =>
+  GeneratedColumn<int> get category =>
       $composableBuilder(column: $table.category, builder: (column) => column);
 
   GeneratedColumn<String> get countryCode => $composableBuilder(
@@ -2399,12 +2483,12 @@ class $$RecipesTableTableManager extends RootTableManager<
           updateCompanionCallback: ({
             Value<int> id = const Value.absent(),
             Value<String> title = const Value.absent(),
-            Value<String?> source = const Value.absent(),
-            Value<String?> imagePath = const Value.absent(),
-            Value<String?> notes = const Value.absent(),
+            Value<String> source = const Value.absent(),
+            Value<String> imagePath = const Value.absent(),
+            Value<String> notes = const Value.absent(),
             Value<int> servings = const Value.absent(),
-            Value<List<String>?> tags = const Value.absent(),
-            Value<Category> category = const Value.absent(),
+            Value<List<String>> tags = const Value.absent(),
+            Value<int> category = const Value.absent(),
             Value<String> countryCode = const Value.absent(),
             Value<int> calories = const Value.absent(),
             Value<int> time = const Value.absent(),
@@ -2429,12 +2513,12 @@ class $$RecipesTableTableManager extends RootTableManager<
           createCompanionCallback: ({
             Value<int> id = const Value.absent(),
             required String title,
-            Value<String?> source = const Value.absent(),
-            Value<String?> imagePath = const Value.absent(),
-            Value<String?> notes = const Value.absent(),
+            Value<String> source = const Value.absent(),
+            Value<String> imagePath = const Value.absent(),
+            Value<String> notes = const Value.absent(),
             Value<int> servings = const Value.absent(),
-            Value<List<String>?> tags = const Value.absent(),
-            required Category category,
+            Value<List<String>> tags = const Value.absent(),
+            Value<int> category = const Value.absent(),
             Value<String> countryCode = const Value.absent(),
             Value<int> calories = const Value.absent(),
             Value<int> time = const Value.absent(),
@@ -3501,6 +3585,8 @@ typedef $$ConversionsTableCreateCompanionBuilder = ConversionsCompanion
   required int nutrientId,
   required String name,
   Value<double> factor,
+  Value<String> descEN,
+  Value<String> descFR,
 });
 typedef $$ConversionsTableUpdateCompanionBuilder = ConversionsCompanion
     Function({
@@ -3508,6 +3594,8 @@ typedef $$ConversionsTableUpdateCompanionBuilder = ConversionsCompanion
   Value<int> nutrientId,
   Value<String> name,
   Value<double> factor,
+  Value<String> descEN,
+  Value<String> descFR,
 });
 
 final class $$ConversionsTableReferences
@@ -3548,6 +3636,12 @@ class $$ConversionsTableFilterComposer
   ColumnFilters<double> get factor => $composableBuilder(
       column: $table.factor, builder: (column) => ColumnFilters(column));
 
+  ColumnFilters<String> get descEN => $composableBuilder(
+      column: $table.descEN, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get descFR => $composableBuilder(
+      column: $table.descFR, builder: (column) => ColumnFilters(column));
+
   $$NutrientsTableFilterComposer get nutrientId {
     final $$NutrientsTableFilterComposer composer = $composerBuilder(
         composer: this,
@@ -3587,6 +3681,12 @@ class $$ConversionsTableOrderingComposer
   ColumnOrderings<double> get factor => $composableBuilder(
       column: $table.factor, builder: (column) => ColumnOrderings(column));
 
+  ColumnOrderings<String> get descEN => $composableBuilder(
+      column: $table.descEN, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get descFR => $composableBuilder(
+      column: $table.descFR, builder: (column) => ColumnOrderings(column));
+
   $$NutrientsTableOrderingComposer get nutrientId {
     final $$NutrientsTableOrderingComposer composer = $composerBuilder(
         composer: this,
@@ -3625,6 +3725,12 @@ class $$ConversionsTableAnnotationComposer
 
   GeneratedColumn<double> get factor =>
       $composableBuilder(column: $table.factor, builder: (column) => column);
+
+  GeneratedColumn<String> get descEN =>
+      $composableBuilder(column: $table.descEN, builder: (column) => column);
+
+  GeneratedColumn<String> get descFR =>
+      $composableBuilder(column: $table.descFR, builder: (column) => column);
 
   $$NutrientsTableAnnotationComposer get nutrientId {
     final $$NutrientsTableAnnotationComposer composer = $composerBuilder(
@@ -3674,24 +3780,32 @@ class $$ConversionsTableTableManager extends RootTableManager<
             Value<int> nutrientId = const Value.absent(),
             Value<String> name = const Value.absent(),
             Value<double> factor = const Value.absent(),
+            Value<String> descEN = const Value.absent(),
+            Value<String> descFR = const Value.absent(),
           }) =>
               ConversionsCompanion(
             id: id,
             nutrientId: nutrientId,
             name: name,
             factor: factor,
+            descEN: descEN,
+            descFR: descFR,
           ),
           createCompanionCallback: ({
             Value<int> id = const Value.absent(),
             required int nutrientId,
             required String name,
             Value<double> factor = const Value.absent(),
+            Value<String> descEN = const Value.absent(),
+            Value<String> descFR = const Value.absent(),
           }) =>
               ConversionsCompanion.insert(
             id: id,
             nutrientId: nutrientId,
             name: name,
             factor: factor,
+            descEN: descEN,
+            descFR: descFR,
           ),
           withReferenceMapper: (p0) => p0
               .map((e) => (

@@ -56,7 +56,7 @@ class _DisplayRecipeState extends State<DisplayRecipe>
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(60),
             child: AppBar(
-              backgroundColor: Colors.transparent,
+              backgroundColor: AppColor.primary.withAlpha(150),
               elevation: 0,
               centerTitle: true,
               title: Container(),
@@ -79,7 +79,6 @@ class _DisplayRecipeState extends State<DisplayRecipe>
                     context.goNamed(
                       'editRecipe',
                       pathParameters: {'id': viewModel.recipe.id.toString()},
-                      extra: viewModel.recipe,
                     );
                   },
                   icon: const Icon(Icons.create_outlined, color: Colors.white),

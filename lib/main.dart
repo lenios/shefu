@@ -13,29 +13,37 @@ import 'package:shared_preferences/shared_preferences.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  // Pre-initialize database to avoid UI freezes later
+  final databaseProvider = DatabaseProvider();
+  await databaseProvider.initDatabase();
+
+  // Pre-initialize repositories to avoid UI freezes
+  final recipeRepository = RecipeRepository(databaseProvider.database);
+  final nutrientsRepository = NutrientsRepository(databaseProvider.database);
+
+  // Ensure nutrients data is loaded before app starts
+  await nutrientsRepository.ensureNutrientsPopulated();
+
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider<MyAppState>(
           create: (_) => MyAppState(),
         ),
-        // Database provider is the foundation
-        ChangeNotifierProvider<DatabaseProvider>(
-          create: (_) => DatabaseProvider(),
+        // Provide the already initialized database provider
+        ChangeNotifierProvider<DatabaseProvider>.value(
+          value: databaseProvider,
         ),
-        // Get the repositories from the database provider
-        Provider<RecipeRepository>(
-          create: (context) => RecipeRepository(
-              Provider.of<DatabaseProvider>(context, listen: false).database),
+        // Provide the already initialized repositories
+        Provider<RecipeRepository>.value(
+          value: recipeRepository,
         ),
-        Provider<NutrientsRepository>(
-          create: (context) => NutrientsRepository(
-              Provider.of<DatabaseProvider>(context, listen: false).database),
+        Provider<NutrientsRepository>.value(
+          value: nutrientsRepository,
         ),
-        // Get the nutrients provider
+        // Create view models with the pre-initialized repositories
         ChangeNotifierProvider<HomeViewModel>(
-          create: (context) => HomeViewModel(
-              Provider.of<RecipeRepository>(context, listen: false)),
+          create: (_) => HomeViewModel(recipeRepository),
         ),
       ],
       child: const MyApp(),

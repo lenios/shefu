@@ -39,11 +39,11 @@ class RecipeModel {
       id: id != null ? Value(id!) : const Value.absent(),
       title: Value(title),
       source: Value(source),
-      imagePath: Value(imagePath),
-      notes: Value(notes),
+      imagePath: Value(imagePath ?? ''),
+      notes: Value(notes ?? ''),
       servings: Value(servings),
-      tags: Value(tags),
-      category: Value(category),
+      tags: Value(tags ?? []),
+      category: Value(category.index),
       countryCode: Value(countryCode),
       calories: Value(calories),
       time: Value(time),
@@ -79,13 +79,34 @@ class RecipeModel {
       notes: recipe.notes,
       servings: recipe.servings,
       tags: recipe.tags,
-      category: recipe.category,
+      category: Category.values[recipe.category],
       countryCode: recipe.countryCode,
       calories: recipe.calories,
       time: recipe.time,
       month: recipe.month,
       carbohydrates: recipe.carbohydrates,
       steps: steps,
+    );
+  }
+
+  static empty() {
+    return RecipeModel(
+      title: '',
+      source: '',
+      servings: 4,
+      category: Category.all,
+      countryCode: "WW",
+      calories: 0,
+      time: 0,
+      month: 1,
+      carbohydrates: 0,
+      steps: [
+        RecipeStepModel(
+          ingredients: [
+            IngredientModel(),
+          ],
+        ),
+      ],
     );
   }
 }
@@ -190,8 +211,9 @@ class IngredientModel {
       shape: Value(shape),
       foodId: Value(foodId),
       selectedFactorId: Value(selectedFactorId),
-      ingredientOrder:
-          ingredientOrder != null ? Value(ingredientOrder!) : const Value.absent(),
+      ingredientOrder: ingredientOrder != null
+          ? Value(ingredientOrder!)
+          : const Value.absent(),
     );
   }
 

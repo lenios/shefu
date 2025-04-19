@@ -17,12 +17,10 @@ class RecipeCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-
-          context.goNamed(
-    'displayRecipe',
-    pathParameters: {'id': recipe.id.toString()},
-    extra: recipe,
-  );
+        context.goNamed(
+          'displayRecipe',
+          pathParameters: {'id': recipe.id.toString()},
+        );
       },
       child: Container(
         margin: const EdgeInsets.all(2.0),
@@ -37,12 +35,12 @@ class RecipeCard extends StatelessWidget {
             Container(
               width: 95,
               height: 95,
-              decoration: recipe.imagePath != null && recipe.imagePath != '' // Added null check
+              decoration: recipe.imagePath != null && recipe.imagePath != ''
                   ? BoxDecoration(
                       borderRadius: BorderRadius.circular(3),
                       image: DecorationImage(
-                        image: FileImage(
-                            File(thumbnailPath(recipe.imagePath!))), // Added ! for non-null assertion
+                        image:
+                            FileImage(File(thumbnailPath(recipe.imagePath!))),
                         fit: BoxFit.fitWidth,
                       ),
                     )

@@ -4,27 +4,42 @@ import '../models/nutrient_model.dart';
 import '../models/recipe_model.dart';
 
 class DisplayRecipeViewModel with ChangeNotifier {
-  RecipeModel _recipe;
-  int _servings;
+  RecipeModel? _recipe;
+  int _servings = 4; // Default value
   Color _appBarColor = Colors.transparent;
   int _selectedTabIndex = 0;
   final Map<String, bool> _basket = {};
 
-  DisplayRecipeViewModel(this._recipe) : _servings = _recipe.servings;
+  final int _recipeId;
+  final RecipeRepository _repository;
 
-  RecipeModel get recipe => _recipe;
-  int get servings => _servings;
+  DisplayRecipeViewModel(this._recipeId, this._repository) {
+    init();
+  }
+
+  // Safe getters that handle null _recipe
+  RecipeModel get recipe => _recipe ?? RecipeModel(title: "", source: "");
+  int get servings => _recipe?.servings ?? _servings;
+
   Color get appBarColor => _appBarColor;
   int get selectedTabIndex => _selectedTabIndex;
   Map<String, bool> get basket => _basket;
 
+  Future<void> init() async {
+    _recipe = await _repository.getRecipeById(_recipeId);
+    _servings = _recipe?.servings ?? 4;
+    notifyListeners();
+  }
+
   void setRecipe(RecipeModel recipe) {
     _recipe = recipe;
+    _servings = recipe.servings; // Ensure servings matches the new recipe
     notifyListeners();
   }
 
   void setServings(int servings) {
     _servings = servings;
+
     notifyListeners();
   }
 
@@ -57,16 +72,15 @@ class DisplayRecipeViewModel with ChangeNotifier {
   }
 
   Future<void> refreshRecipe(RecipeRepository repository) async {
-    if (_recipe.id != null) {
-      final updatedRecipe = await repository.getRecipeById(_recipe.id!);
+    if (_recipe?.id != null) {
+      final updatedRecipe = await repository.getRecipeById(_recipe!.id!);
       _recipe = updatedRecipe;
-      notifyListeners();
     }
   }
 
   Future<bool> deleteRecipe(RecipeRepository repository) async {
-    if (_recipe.id != null) {
-      await repository.deleteRecipe(_recipe.id!);
+    if (_recipe?.id != null) {
+      await repository.deleteRecipe(_recipe!.id!);
       notifyListeners();
       return true;
     }

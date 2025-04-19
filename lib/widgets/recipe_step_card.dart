@@ -1,10 +1,13 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shefu/views/full_screen_image.dart';
 import 'package:shefu/utils/app_color.dart';
 
+import '../models/nutrient_model.dart';
 import '../models/recipe_model.dart';
+import '../repositories/nutrients_repository.dart';
 import 'circular_countdown_timer.dart';
 import 'image_helper.dart';
 import 'misc.dart' as misc;
@@ -20,73 +23,98 @@ class RecipeStepCard extends StatelessWidget {
   });
 
   Widget stepImage(context) {
-    return recipeStep.imagePath.isNotEmpty
-        ? GestureDetector(
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => FullScreenImage(
-                        image: Image.file(
-                          File(recipeStep.imagePath),
-                        ),
-                      )));
-            },
-            child: SizedBox(
-              width: 160,
-              child: ClipRRect(
-                child: Image.file(
-                  File(thumbnailPath(recipeStep.imagePath)),
-                  fit: BoxFit.cover,
+    if (recipeStep.imagePath.isEmpty) {
+      return Container();
+    }
+
+    final file = File(recipeStep.imagePath);
+    if (!file.existsSync()) {
+      return Container();
+    }
+
+    return GestureDetector(
+        onTap: () {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => FullScreenImage(
+                    image: Image.file(file),
+                  )));
+        },
+        child: SizedBox(
+          width: 160,
+          child: ClipRRect(
+            child: Image.file(
+              File(thumbnailPath(recipeStep.imagePath)),
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) =>
+                  const Icon(Icons.broken_image, size: 80),
+            ),
+          ),
+        ));
+  }
+
+  Widget buildIngredientsList(
+      BuildContext context, NutrientsRepository nutrientsRepository) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        ...List.generate(recipeStep.ingredients.length, (index) {
+          final ingredient = recipeStep.ingredients[index];
+
+          // Use FutureBuilder for the async part
+          return FutureBuilder<List<ConversionModel>>(
+            future: nutrientsRepository
+                .getConversionsForNutrient(ingredient.foodId),
+            builder: (context, snapshot) {
+              String quantity =
+                  '${misc.formattedQuantity(ingredient.quantity * servings)} ${ingredient.name}';
+
+              if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+                final convs = snapshot.data!;
+                final selected =
+                    convs.where((e) => e.id == ingredient.selectedFactorId);
+
+                if (selected.isNotEmpty) {
+                  final conv = selected.first;
+                  final desc =
+                      Localizations.localeOf(context).toLanguageTag() == "fr"
+                          ? conv.descFR
+                          : conv.descEN;
+                  final formattedQty =
+                      misc.formattedQuantity(ingredient.quantity * servings);
+
+                  quantity = '$formattedQty ${ingredient.name} (${desc}g)';
+                  // TODO '${misc.formattedQuantity(tuple.quantity * servings)}${misc.formattedUnit(tuple.unit.toString(), context)}';
+                }
+              }
+
+              return ListTile(
+                subtitleTextStyle: TextStyle(
+                  color: AppColor.primarySoft,
                 ),
-              ),
-            ))
-        : Container();
+                leading: const Text('•'),
+                title: Text(quantity),
+                subtitle: Text(ingredient.shape),
+              );
+            },
+          );
+        })
+      ],
+    );
   }
 
   Widget stepDirection(BuildContext context) {
-    //NutrientsRepository nutrientsRepository = context.read();
+    final nutrientsRepository =
+        Provider.of<NutrientsRepository>(context, listen: false);
+
     return Row(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         // ingredients list
         Expanded(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              ...List.generate(recipeStep.ingredients.length, (index) {
-                var tuple = recipeStep.ingredients[index];
-                // var convs =
-                //     await nutrientsRepository.getConversionsForNutrient(tuple.foodId);
-                var quantity =
-                    '${misc.formattedQuantity(tuple.quantity * servings)}${misc.formattedUnit(tuple.unit.toString(), context)}';
-                // if (convs.isNotEmpty) {
-                //   var selected =
-                //       convs.where((e) => e.id == tuple.selectedFactorId);
-                //   if (selected.isNotEmpty) {
-                //     var descText =
-                //         (Localizations.localeOf(context).toLanguageTag() ==
-                //                 "fr")
-                //             ? selected.first.descFR
-                //             : selected.first.descEN;
-                //     quantity =
-                //         '${misc.formattedQuantity(selected.first.factor * tuple.quantity * 100 * servings)}g (${tuple.quantity * servings != 1 ? '${misc.formattedQuantity(tuple.quantity * servings)}x' : ''}$descText)';
-                //   }
-                // }
-                return ListTile(
-                  subtitleTextStyle: TextStyle(
-                    color: AppColor.primarySoft,
-                  ),
-                  leading: const Text(
-                    '•',
-                  ),
-                  title: Text('$quantity ${tuple.name}'),
-                  subtitle: Text(tuple.shape),
-                );
-              })
-            ],
-          ),
+          child: buildIngredientsList(context, nutrientsRepository),
         ),
         Expanded(
           flex: recipeStep.ingredients.isNotEmpty ? 1 : 3,
@@ -117,9 +145,7 @@ class RecipeStepCard extends StatelessWidget {
                 ),
                 title: Column(
                   children: [
-                    SelectableText(
-                      recipeStep.instruction,
-                    ),
+                    SelectableText(recipeStep.instruction),
                     Row(
                       children: [
                         _timer(timer: recipeStep.timer * 60),

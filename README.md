@@ -1,6 +1,6 @@
 # shefu
 
-An **offline** open source (GPLv3) recipes manager in flutter, built with Isar
+An **offline** open source (GPLv3) recipes manager.
 
 This application allows you to add, edit, search and display your own recipes in your native language, all of this with local storage (no internet required at all!).
 
@@ -11,9 +11,11 @@ As a bonus, this should work on all platforms (ios,android,web,macos,linux and m
 
 ## News
 
-New in v2: nutritional informations are automatically generated (for EN and FR only)! Source: Santé Canada (Fichier canadien sur les éléments nutritifs, 2015)-> https://www.canada.ca/fr/sante-canada/services/aliments-nutrition/saine-alimentation/donnees-nutritionnelles/fichier-canadien-elements-nutritifs-fcen-2015.html. This is all done on-device with no internet access required.
+New in v2: nutritional informations are automatically generated (for EN and FR only)! Source: Santé Canada (Fichier canadien sur les éléments nutritifs, 2015)-> https://www.canada.ca/fr/sante-canada/services/aliments-nutrition/saine-alimentation/donnees-nutritionnelles/fichier-canadien-elements-nutritifs-fcen-2015.html. 
 
-**Note: you need to choose ingredients from the drop-down menu to get the nutritional values calculated.**
+The app now uses an efficient drift database to store and query nutritional data and conversion factors extracted from nutrients_full.csv and conversions_full.csv. When editing recipes, you can select specific nutrients and conversion factors for each ingredient, allowing for precise calculation of total carbohydrates and calories. All calculations happen on-device with no internet access required.
+
+**Note: you need to choose ingredients from the drop-down menu and select appropriate nutrients and conversions to get the nutritional values calculated.**
 ![home](https://github.com/lenios/shefu/blob/main/images/nutrition.png?raw=true)
 
 ## Getting Started

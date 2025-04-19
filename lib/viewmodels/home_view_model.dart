@@ -92,7 +92,7 @@ class HomeViewModel with ChangeNotifier {
   }
 
   // Action methods
-  Future<RecipeModel?> addNewRecipe(BuildContext context, String title) async {
+  Future<int?> addNewRecipe(BuildContext context, String title) async {
     final recipe = RecipeModel(
       title: title,
       source: "",
@@ -105,7 +105,6 @@ class HomeViewModel with ChangeNotifier {
     final id = await _repository.saveRecipe(recipe);
     await refreshRecipes();
 
-    // Fetch the recipe with its assigned ID
-    return await _repository.getRecipeById(id);
+    return id;
   }
 }
