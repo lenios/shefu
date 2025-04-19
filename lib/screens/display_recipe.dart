@@ -11,8 +11,7 @@ import '../provider/recipes_provider.dart';
 import '../utils/app_color.dart';
 import '../widgets/image_helper.dart';
 import '../widgets/misc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
+import '../l10n/app_localizations.dart';
 import '../widgets/recipe_step_card.dart';
 import 'full_screen_image.dart';
 

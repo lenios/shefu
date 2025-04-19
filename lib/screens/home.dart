@@ -14,8 +14,7 @@ import '../utils/app_color.dart';
 import '../widgets/recipe_card.dart';
 import '../widgets/search_filter_model.dart';
 import 'edit_recipe.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
+import '../l10n/app_localizations.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 class HomePage extends StatefulWidget {

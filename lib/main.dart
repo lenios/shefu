@@ -5,7 +5,7 @@ import 'package:shefu/provider/nutrients_provider.dart';
 import 'package:shefu/provider/recipes_provider.dart';
 import 'provider/my_app_state.dart';
 import 'screens/home.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../l10n/app_localizations.dart';
 import 'package:country_picker/country_picker.dart';
 
 void main() async {

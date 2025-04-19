@@ -10,8 +10,7 @@ import 'package:shefu/utils/app_color.dart';
 import '../models/recipes.dart';
 import '../provider/nutrients_provider.dart';
 import '../provider/recipes_provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
+import '../l10n/app_localizations.dart';
 import '../widgets/image_helper.dart';
 import '../widgets/misc.dart';
 
