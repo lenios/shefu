@@ -122,30 +122,19 @@ int _recipeEstimateSize(
     }
   }
   bytesCount += 3 + object.source.length * 3;
+  bytesCount += 3 + object.steps.length * 3;
   {
-    final list = object.steps;
-    if (list != null) {
-      bytesCount += 3 + list.length * 3;
-      {
-        final offsets = allOffsets[RecipeStep]!;
-        for (var i = 0; i < list.length; i++) {
-          final value = list[i];
-          bytesCount +=
-              RecipeStepSchema.estimateSize(value, offsets, allOffsets);
-        }
-      }
+    final offsets = allOffsets[RecipeStep]!;
+    for (var i = 0; i < object.steps.length; i++) {
+      final value = object.steps[i];
+      bytesCount += RecipeStepSchema.estimateSize(value, offsets, allOffsets);
     }
   }
+  bytesCount += 3 + object.tags.length * 3;
   {
-    final list = object.tags;
-    if (list != null) {
-      bytesCount += 3 + list.length * 3;
-      {
-        for (var i = 0; i < list.length; i++) {
-          final value = list[i];
-          bytesCount += value.length * 3;
-        }
-      }
+    for (var i = 0; i < object.tags.length; i++) {
+      final value = object.tags[i];
+      bytesCount += value.length * 3;
     }
   }
   bytesCount += 3 + object.title.length * 3;
@@ -200,12 +189,13 @@ Recipe _recipeDeserialize(
   object.notes = reader.readStringOrNull(offsets[6]);
   object.servings = reader.readLong(offsets[7]);
   object.steps = reader.readObjectList<RecipeStep>(
-    offsets[9],
-    RecipeStepSchema.deserialize,
-    allOffsets,
-    RecipeStep(),
-  );
-  object.tags = reader.readStringList(offsets[10]);
+        offsets[9],
+        RecipeStepSchema.deserialize,
+        allOffsets,
+        RecipeStep(),
+      ) ??
+      [];
+  object.tags = reader.readStringList(offsets[10]) ?? [];
   object.time = reader.readLong(offsets[11]);
   return object;
 }
@@ -238,13 +228,14 @@ P _recipeDeserializeProp<P>(
       return (reader.readString(offset)) as P;
     case 9:
       return (reader.readObjectList<RecipeStep>(
-        offset,
-        RecipeStepSchema.deserialize,
-        allOffsets,
-        RecipeStep(),
-      )) as P;
+            offset,
+            RecipeStepSchema.deserialize,
+            allOffsets,
+            RecipeStep(),
+          ) ??
+          []) as P;
     case 10:
-      return (reader.readStringList(offset)) as P;
+      return (reader.readStringList(offset) ?? []) as P;
     case 11:
       return (reader.readLong(offset)) as P;
     case 12:
@@ -1239,22 +1230,6 @@ extension RecipeQueryFilter on QueryBuilder<Recipe, Recipe, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Recipe, Recipe, QAfterFilterCondition> stepsIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'steps',
-      ));
-    });
-  }
-
-  QueryBuilder<Recipe, Recipe, QAfterFilterCondition> stepsIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'steps',
-      ));
-    });
-  }
-
   QueryBuilder<Recipe, Recipe, QAfterFilterCondition> stepsLengthEqualTo(
       int length) {
     return QueryBuilder.apply(this, (query) {
@@ -1336,22 +1311,6 @@ extension RecipeQueryFilter on QueryBuilder<Recipe, Recipe, QFilterCondition> {
         upper,
         includeUpper,
       );
-    });
-  }
-
-  QueryBuilder<Recipe, Recipe, QAfterFilterCondition> tagsIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'tags',
-      ));
-    });
-  }
-
-  QueryBuilder<Recipe, Recipe, QAfterFilterCondition> tagsIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'tags',
-      ));
     });
   }
 
@@ -2183,13 +2142,13 @@ extension RecipeQueryProperty on QueryBuilder<Recipe, Recipe, QQueryProperty> {
     });
   }
 
-  QueryBuilder<Recipe, List<RecipeStep>?, QQueryOperations> stepsProperty() {
+  QueryBuilder<Recipe, List<RecipeStep>, QQueryOperations> stepsProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'steps');
     });
   }
 
-  QueryBuilder<Recipe, List<String>?, QQueryOperations> tagsProperty() {
+  QueryBuilder<Recipe, List<String>, QQueryOperations> tagsProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'tags');
     });

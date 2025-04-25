@@ -33,13 +33,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String get carbohydrates => '炭水化物';
 
   @override
-  String get kcps => 'カロリー/1人前';
+  String get kcps => 'kcal/人';
 
   @override
-  String get kc => 'カロリー';
+  String get kc => 'kcal';
 
   @override
-  String get gps => 'グラム/1人前';
+  String get gps => 'グラム/人';
 
   @override
   String get g => 'グラム';
@@ -122,7 +122,10 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
-  String get noRecipe => '+ アイコンを使ってレシピを作成してください。';
+  String get noRecipe => '+ ボタンを押して、.新しいレシピを作成してください。';
+
+  @override
+  String get noStepsAddedYet => 'まだ手順を追加していません。';
 
   @override
   String get category => 'カテゴリー';
@@ -200,8 +203,94 @@ class AppLocalizationsJa extends AppLocalizations {
   String get leaf => '葉';
 
   @override
+  String get cup => 'カップ';
+
+  @override
   String get recipes => 'レシピ';
 
   @override
   String get scrollToTop => 'トップに戻る';
+
+  @override
+  String get saveError => '保存エラー';
+
+  @override
+  String get selectNutrient => '栄養素を選択';
+
+  @override
+  String get noIngredientsForStep => 'この手順では材料はありません';
+
+  @override
+  String get titleCannotBeEmpty => 'タイトルは空にできません';
+
+  @override
+  String get notImplementedYet => '機能はまだ利用できません';
+
+  @override
+  String get start => '開始';
+
+  @override
+  String get language => '言語';
+
+  @override
+  String get gender => '性別';
+
+  @override
+  String get male => '男性';
+
+  @override
+  String get female => '女性';
+
+  @override
+  String get other => 'その他';
+
+  @override
+  String get profileSettings => 'プロフィール設定';
+
+  @override
+  String get dietaryRestrictions => '食品制限';
+
+  @override
+  String get vegan => 'ビーガン';
+
+  @override
+  String get vegetarian => '素食者';
+
+  @override
+  String get glutenFree => '無糖';
+
+  @override
+  String get close => '閉じる';
+
+  @override
+  String searchXRecipes(Object count) {
+    return '$count件のレシピを検索。。。';
+  }
+
+  @override
+  String get resetFilters => 'リセット';
+
+  @override
+  String get addIngredient => '材料を追加';
+
+  @override
+  String get minutes => '分';
+
+  @override
+  String get hours => '時間';
+
+  @override
+  String get timerUsage => 'タップすると一時停止/再開し、長押しするとタイマーを停止します。';
+
+  @override
+  String get noMatchingNutrient => '該当する栄養素が見つかりませんでした';
+
+  @override
+  String get leaveWithoutSaving => '保存せずに終了しますか？';
+
+  @override
+  String get leave => '終了';
+
+  @override
+  String get unsavedChanges => '保存されていない変更があります。';
 }

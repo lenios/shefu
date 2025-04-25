@@ -284,18 +284,12 @@ int _nutrientEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
+  bytesCount += 3 + object.conversions.length * 3;
   {
-    final list = object.conversions;
-    if (list != null) {
-      bytesCount += 3 + list.length * 3;
-      {
-        final offsets = allOffsets[Conversion]!;
-        for (var i = 0; i < list.length; i++) {
-          final value = list[i];
-          bytesCount +=
-              ConversionSchema.estimateSize(value, offsets, allOffsets);
-        }
-      }
+    final offsets = allOffsets[Conversion]!;
+    for (var i = 0; i < object.conversions.length; i++) {
+      final value = object.conversions[i];
+      bytesCount += ConversionSchema.estimateSize(value, offsets, allOffsets);
     }
   }
   bytesCount += 3 + object.descEN.length * 3;
@@ -392,11 +386,12 @@ Nutrient _nutrientDeserialize(
   object.cholesterol = reader.readDouble(offsets[9]);
   object.cholineTotal = reader.readDouble(offsets[10]);
   object.conversions = reader.readObjectList<Conversion>(
-    offsets[11],
-    ConversionSchema.deserialize,
-    allOffsets,
-    Conversion(),
-  );
+        offsets[11],
+        ConversionSchema.deserialize,
+        allOffsets,
+        Conversion(),
+      ) ??
+      [];
   object.copper = reader.readDouble(offsets[12]);
   object.fiber = reader.readDouble(offsets[16]);
   object.folateDFE = reader.readDouble(offsets[17]);
@@ -462,11 +457,12 @@ P _nutrientDeserializeProp<P>(
       return (reader.readDouble(offset)) as P;
     case 11:
       return (reader.readObjectList<Conversion>(
-        offset,
-        ConversionSchema.deserialize,
-        allOffsets,
-        Conversion(),
-      )) as P;
+            offset,
+            ConversionSchema.deserialize,
+            allOffsets,
+            Conversion(),
+          ) ??
+          []) as P;
     case 12:
       return (reader.readDouble(offset)) as P;
     case 13:
@@ -1316,23 +1312,6 @@ extension NutrientQueryFilter
         upper: upper,
         includeUpper: includeUpper,
         epsilon: epsilon,
-      ));
-    });
-  }
-
-  QueryBuilder<Nutrient, Nutrient, QAfterFilterCondition> conversionsIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'conversions',
-      ));
-    });
-  }
-
-  QueryBuilder<Nutrient, Nutrient, QAfterFilterCondition>
-      conversionsIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'conversions',
       ));
     });
   }
@@ -5459,7 +5438,7 @@ extension NutrientQueryProperty
     });
   }
 
-  QueryBuilder<Nutrient, List<Conversion>?, QQueryOperations>
+  QueryBuilder<Nutrient, List<Conversion>, QQueryOperations>
       conversionsProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'conversions');

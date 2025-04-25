@@ -33,13 +33,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get carbohydrates => 'carbohydrates';
 
   @override
-  String get kcps => 'Kcal/serving';
+  String get kcps => 'Kcal/serv.';
 
   @override
   String get kc => 'Kcal';
 
   @override
-  String get gps => 'g/serving';
+  String get gps => 'g/serv.';
 
   @override
   String get g => 'g';
@@ -122,7 +122,10 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get noRecipe => 'No recipe available. Please create one using the + icon.';
+  String get noRecipe => 'No recipe available. Please create one, using the + button on the bottom.';
+
+  @override
+  String get noStepsAddedYet => 'No steps added yet.';
 
   @override
   String get category => 'category';
@@ -200,8 +203,94 @@ class AppLocalizationsEn extends AppLocalizations {
   String get leaf => 'leaf';
 
   @override
+  String get cup => 'cup';
+
+  @override
   String get recipes => 'recipes';
 
   @override
   String get scrollToTop => 'Scroll to top';
+
+  @override
+  String get saveError => 'Save error';
+
+  @override
+  String get selectNutrient => 'Select nutrient';
+
+  @override
+  String get noIngredientsForStep => 'No ingredients for this step';
+
+  @override
+  String get titleCannotBeEmpty => 'Title cannot be empty';
+
+  @override
+  String get notImplementedYet => 'Feature not yet available';
+
+  @override
+  String get start => 'Start';
+
+  @override
+  String get language => 'Language';
+
+  @override
+  String get gender => 'Gender';
+
+  @override
+  String get male => 'Male';
+
+  @override
+  String get female => 'Female';
+
+  @override
+  String get other => 'Other';
+
+  @override
+  String get profileSettings => 'Profile settings';
+
+  @override
+  String get dietaryRestrictions => 'Dietary restrictions';
+
+  @override
+  String get vegan => 'Vegan';
+
+  @override
+  String get vegetarian => 'Vegetarian';
+
+  @override
+  String get glutenFree => 'Gluten-free';
+
+  @override
+  String get close => 'Close';
+
+  @override
+  String searchXRecipes(Object count) {
+    return 'Search through $count recipes...';
+  }
+
+  @override
+  String get resetFilters => 'Reset filters';
+
+  @override
+  String get addIngredient => 'Add ingredient';
+
+  @override
+  String get minutes => 'minutes';
+
+  @override
+  String get hours => 'hours';
+
+  @override
+  String get timerUsage => 'Tap to pause/resume, long press to stop the timer.';
+
+  @override
+  String get noMatchingNutrient => 'No matching nutrients found';
+
+  @override
+  String get leaveWithoutSaving => 'Leave without saving?';
+
+  @override
+  String get leave => 'Leave';
+
+  @override
+  String get unsavedChanges => 'You have unsaved changes.';
 }

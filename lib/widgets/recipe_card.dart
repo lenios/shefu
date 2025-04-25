@@ -1,13 +1,12 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:shefu/screens/display_recipe.dart';
-import '../models/recipes.dart';
-import '../utils/app_color.dart';
-import '../widgets/image_helper.dart';
-import 'misc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import '../l10n/app_localizations.dart';
+import '../models/recipes.dart';
+import '../viewmodels/home_page_viewmodel.dart';
+import '../widgets/image_helper.dart';
+import 'header_stats.dart';
+import 'misc.dart';
 
 class RecipeCard extends StatelessWidget {
   final Recipe recipe;
@@ -15,137 +14,91 @@ class RecipeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final textTheme = theme.textTheme;
+
     return GestureDetector(
       onTap: () async {
-        await Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => DisplayRecipe(recipe: recipe)),
-        );
+        final result = await context.push<bool>('/recipe/${recipe.id}');
+        if (result == true && context.mounted) {
+          context.read<HomePageViewModel>().loadRecipes();
+        }
       },
-      child: Container(
-        margin: const EdgeInsets.all(2.0),
-        height: 90,
-        padding: const EdgeInsets.all(1),
-        decoration: BoxDecoration(
-          color: AppColor.whiteSoft,
-          borderRadius: BorderRadius.circular(10),
-        ),
+      child: Card(
+        elevation: 1,
         child: Row(
           children: [
-            Container(
-              width: 95,
-              height: 95,
-              decoration: recipe.imagePath != ''
-                  ? BoxDecoration(
-                      borderRadius: BorderRadius.circular(3),
-                      image: DecorationImage(
-                        image: FileImage(
-                            File(thumbnailPath(recipe.imagePath ?? ''))),
-                        fit: BoxFit.fitWidth,
-                      ),
-                    )
-                  : const BoxDecoration(),
-            ),
+            // Image Container
+            SizedBox(
+                width: 100,
+                height: 100,
+                child: Container(
+                  color: colorScheme.surfaceContainerHighest
+                      .withAlpha(50), // Subtle background
+                  child: buildFutureImageWidget(
+                      context, thumbnailPath(recipe.imagePath ?? ''),
+                      width: 100, height: 100), // Display the built widget
+                )),
+            // Text Content Area
             Expanded(
-              child: Container(
-                margin: const EdgeInsets.only(left: 10),
-                padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10.0, vertical: 3.0),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      margin: const EdgeInsets.only(bottom: 12),
-                      child: Row(
-                        children: [
-                          Flexible(
-                            fit: FlexFit.tight,
-                            child: Text(
-                              recipe.title,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  fontFamily: 'inter'),
-                            ),
+                    // Top Row: Title and Flag
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            recipe.title,
+                            style: textTheme.titleSmall
+                                ?.copyWith(fontWeight: FontWeight.bold),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          flagIcon(recipe.countryCode),
-                        ],
-                      ),
+                        ),
+                        const SizedBox(width: 8),
+                        flagIcon(recipe.countryCode),
+                      ],
                     ),
-                    recipe.source != ""
-                        ? Text(
-                            recipe.source,
-                            maxLines: 1,
-                          )
-                        : Container(),
+                    // Source Row
+                    if (recipe.source.isNotEmpty)
+                      Text(
+                        formattedSource(recipe.source),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: textTheme.bodySmall?.copyWith(
+                            color: colorScheme
+                                .onSurfaceVariant), // Use theme text style and color
+                      ),
+                    // Stats Row
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        recipe.carbohydrates != 0
-                            ? Row(
-                                children: [
-                                  SvgPicture.asset(
-                                    'assets/icons/carbohydrates.svg',
-                                    width: 12,
-                                    height: 12,
-                                  ),
-                                  Container(
-                                    margin: const EdgeInsets.only(left: 2),
-                                    child: Text(
-                                      '${recipe.carbohydrates} ${AppLocalizations.of(context)!.g}',
-                                      style: const TextStyle(fontSize: 12),
-                                    ),
-                                  ),
-                                ],
-                              )
-                            : Container(),
-                        const SizedBox(
-                          width: 6,
-                        ),
-                        recipe.calories != 0
-                            ? Row(
-                                children: [
-                                  SvgPicture.asset(
-                                    'assets/icons/fire-filled.svg',
-                                    width: 12,
-                                    height: 12,
-                                  ),
-                                  Container(
-                                    margin: const EdgeInsets.only(left: 2),
-                                    child: Text(
-                                      '${recipe.calories} ${AppLocalizations.of(context)!.kc}',
-                                      style: const TextStyle(fontSize: 12),
-                                    ),
-                                  ),
-                                ],
-                              )
-                            : Container(),
-                        const SizedBox(
-                          width: 6,
-                        ),
-                        recipe.time != 0
-                            ? Row(
-                                children: [
-                                  const Icon(
-                                    Icons.alarm,
-                                    size: 14,
-                                    color: Colors.black,
-                                  ),
-                                  Container(
-                                    margin: const EdgeInsets.only(left: 2),
-                                    child: Text(
-                                      '${recipe.time} ${AppLocalizations.of(context)!.min}',
-                                      style: const TextStyle(fontSize: 12),
-                                    ),
-                                  ),
-                                ],
-                              )
-                            : Container(),
+                        buildHeaderStat(context,
+                            iconPath: 'assets/icons/carbohydrates.svg',
+                            value: recipe.carbohydrates,
+                            unit: AppLocalizations.of(context)!.g,
+                            color: Colors.black),
+                        const SizedBox(width: 8),
+                        buildHeaderStat(context,
+                            iconPath: 'assets/icons/fire-filled.svg',
+                            value: recipe.calories,
+                            unit: AppLocalizations.of(context)!.kc,
+                            color: Colors.black),
+                        const SizedBox(width: 8),
+                        buildHeaderStat(context,
+                            iconData: Icons.alarm,
+                            value: recipe.time,
+                            unit: AppLocalizations.of(context)!.min,
+                            color: Colors.black),
                       ],
                     ),
-                    Container(),
                   ],
                 ),
               ),

@@ -122,7 +122,10 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String get noRecipe => 'Aucune recette disponible. Veuillez en créer une avec l\'icône +.';
+  String get noRecipe => 'Aucune recette disponible. Veuillez en créer une avec le bouton + en bas.';
+
+  @override
+  String get noStepsAddedYet => 'Aucune étape ajoutée.';
 
   @override
   String get category => 'Catégorie';
@@ -140,7 +143,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get drinks => 'Boissons';
 
   @override
-  String get appetizers => 'Amuse-gueules';
+  String get appetizers => 'Amuse-bouches';
 
   @override
   String get starters => 'Entrées';
@@ -188,20 +191,106 @@ class AppLocalizationsFr extends AppLocalizations {
   String get tbsp => 'cs';
 
   @override
-  String get bunch => 'Bouquet';
+  String get bunch => 'bouquet';
 
   @override
-  String get sprig => 'Brin';
+  String get sprig => 'brin';
 
   @override
-  String get packet => 'Sachet';
+  String get packet => 'sachet';
 
   @override
-  String get leaf => 'Feuille';
+  String get leaf => 'feuille';
+
+  @override
+  String get cup => 'verre';
 
   @override
   String get recipes => 'Recettes';
 
   @override
   String get scrollToTop => 'Remonter en haut';
+
+  @override
+  String get saveError => 'Erreur d\'enregistrement';
+
+  @override
+  String get selectNutrient => 'Sélectionnez un ingredient';
+
+  @override
+  String get noIngredientsForStep => 'Aucun ingrédient dans cette étape';
+
+  @override
+  String get titleCannotBeEmpty => 'Le titre ne peut pas être vide';
+
+  @override
+  String get notImplementedYet => 'Fonctionnalité non disponible';
+
+  @override
+  String get start => 'Démarrer';
+
+  @override
+  String get language => 'Langue';
+
+  @override
+  String get gender => 'Genre';
+
+  @override
+  String get male => 'Homme';
+
+  @override
+  String get female => 'Femme';
+
+  @override
+  String get other => 'Autre';
+
+  @override
+  String get profileSettings => 'Paramètres de profil';
+
+  @override
+  String get dietaryRestrictions => 'Restrictions alimentaires';
+
+  @override
+  String get vegan => 'Vegan';
+
+  @override
+  String get vegetarian => 'Végétarien';
+
+  @override
+  String get glutenFree => 'Sans gluten';
+
+  @override
+  String get close => 'Fermer';
+
+  @override
+  String searchXRecipes(Object count) {
+    return 'Rechercher parmi $count recettes...';
+  }
+
+  @override
+  String get resetFilters => 'Reinitialiser';
+
+  @override
+  String get addIngredient => 'Ajouter un ingrédient';
+
+  @override
+  String get minutes => 'minutes';
+
+  @override
+  String get hours => 'heures';
+
+  @override
+  String get timerUsage => 'Appuyez pour mettre en pause/reprendre, Faites un appui long pour arrêter le minuteur.';
+
+  @override
+  String get noMatchingNutrient => 'Aucun ingrédient correspondant trouvé';
+
+  @override
+  String get leaveWithoutSaving => 'Quitter sans enregistrer ?';
+
+  @override
+  String get leave => 'Quitter';
+
+  @override
+  String get unsavedChanges => 'Vous avez des changements non enregistrés.';
 }

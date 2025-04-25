@@ -4,7 +4,8 @@ class AppColor {
   static Color primary = const Color(0xFF094542);
   static Color primarySoft = const Color(0xFF0B5551);
   static Color primaryExtraSoft = const Color(0xFFEEF4F4);
-  static Color secondary = const Color(0xFFEDE5CC);
+  static Color secondary =
+      const Color.fromARGB(255, 236, 229, 205); //0xFFEDE5CC
   static Color whiteSoft =
       const Color.fromARGB(255, 195, 211, 202).withAlpha(50);
   static LinearGradient bottomShadow = const LinearGradient(colors: [
@@ -19,4 +20,23 @@ class AppColor {
       colors: [Colors.black.withAlpha(127), Colors.black.withAlpha(0)],
       begin: Alignment.topCenter,
       end: Alignment.bottomCenter);
+
+  // Define the modern theme
+  static ColorScheme colorScheme = ColorScheme.fromSeed(
+    seedColor: const Color.fromARGB(255, 91, 202, 148),
+    brightness: Brightness.light,
+  );
+
+  final theme = ThemeData(
+    colorScheme: colorScheme,
+    useMaterial3: true,
+    appBarTheme: AppBarTheme(
+      backgroundColor: colorScheme.primary,
+      foregroundColor: colorScheme.onPrimary,
+    ),
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      backgroundColor: colorScheme.secondary,
+      foregroundColor: colorScheme.onSecondary,
+    ),
+  );
 }

@@ -5,8 +5,8 @@ class MyAppState extends ChangeNotifier {
 
   int servings = 4;
 
-  void setServings(int servings) {
-    servings = servings;
+  void setServings(int newServings) {
+    servings = newServings;
     notifyListeners();
   }
 

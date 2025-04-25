@@ -8,7 +8,7 @@ Widget flagIcon(String countryCode) {
   if (countryCode != "") {
     return Flag.fromString(
       countryCode,
-      height: 15,
+      height: 20,
       width: 24,
     );
   }
@@ -38,6 +38,17 @@ formattedQuantity(double quantity, {bool fraction = true}) {
       return quantity.toString();
     }
   }
+}
+
+String formattedSource(String source) {
+  // if source is a url, only show the domain
+  if (source.contains("http")) {
+    source = source.replaceAll(RegExp(r'https?://'), '');
+    //remove everything after the first /
+    source = source.split('/')[0];
+    return source;
+  }
+  return source;
 }
 
 String formattedUnit(String unit, context) {
@@ -89,5 +100,18 @@ String formattedCategory(String category, context) {
       return AppLocalizations.of(context)!.sauces;
     default:
       return category;
+  }
+}
+
+Widget categoryLine(String category, context) {
+  if (category == "all") {
+    return Container();
+  } else {
+    return Text(
+        "${AppLocalizations.of(context)!.category}: ${formattedCategory(category, context)}",
+        style: const TextStyle(
+          fontSize: 14,
+          color: Colors.white70,
+        ));
   }
 }

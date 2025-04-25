@@ -39,6 +39,7 @@ dependencies:
   country_picker: ^2.0.24
   tutorial_coach_mark: ^1.2.11
   logger: ^2.5.0
+  image_picker: 1.1.2
 
 dev_dependencies:
   flutter_test:

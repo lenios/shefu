@@ -148,7 +148,7 @@ abstract class AppLocalizations {
   /// No description provided for @kcps.
   ///
   /// In en, this message translates to:
-  /// **'Kcal/serving'**
+  /// **'Kcal/serv.'**
   String get kcps;
 
   /// No description provided for @kc.
@@ -160,7 +160,7 @@ abstract class AppLocalizations {
   /// No description provided for @gps.
   ///
   /// In en, this message translates to:
-  /// **'g/serving'**
+  /// **'g/serv.'**
   String get gps;
 
   /// No description provided for @g.
@@ -322,8 +322,14 @@ abstract class AppLocalizations {
   /// No description provided for @noRecipe.
   ///
   /// In en, this message translates to:
-  /// **'No recipe available. Please create one using the + icon.'**
+  /// **'No recipe available. Please create one, using the + button on the bottom.'**
   String get noRecipe;
+
+  /// No description provided for @noStepsAddedYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No steps added yet.'**
+  String get noStepsAddedYet;
 
   /// No description provided for @category.
   ///
@@ -475,6 +481,12 @@ abstract class AppLocalizations {
   /// **'leaf'**
   String get leaf;
 
+  /// No description provided for @cup.
+  ///
+  /// In en, this message translates to:
+  /// **'cup'**
+  String get cup;
+
   /// No description provided for @recipes.
   ///
   /// In en, this message translates to:
@@ -486,6 +498,168 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Scroll to top'**
   String get scrollToTop;
+
+  /// No description provided for @saveError.
+  ///
+  /// In en, this message translates to:
+  /// **'Save error'**
+  String get saveError;
+
+  /// No description provided for @selectNutrient.
+  ///
+  /// In en, this message translates to:
+  /// **'Select nutrient'**
+  String get selectNutrient;
+
+  /// No description provided for @noIngredientsForStep.
+  ///
+  /// In en, this message translates to:
+  /// **'No ingredients for this step'**
+  String get noIngredientsForStep;
+
+  /// No description provided for @titleCannotBeEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Title cannot be empty'**
+  String get titleCannotBeEmpty;
+
+  /// No description provided for @notImplementedYet.
+  ///
+  /// In en, this message translates to:
+  /// **'Feature not yet available'**
+  String get notImplementedYet;
+
+  /// No description provided for @start.
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get start;
+
+  /// No description provided for @language.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get language;
+
+  /// No description provided for @gender.
+  ///
+  /// In en, this message translates to:
+  /// **'Gender'**
+  String get gender;
+
+  /// No description provided for @male.
+  ///
+  /// In en, this message translates to:
+  /// **'Male'**
+  String get male;
+
+  /// No description provided for @female.
+  ///
+  /// In en, this message translates to:
+  /// **'Female'**
+  String get female;
+
+  /// No description provided for @other.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get other;
+
+  /// No description provided for @profileSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile settings'**
+  String get profileSettings;
+
+  /// No description provided for @dietaryRestrictions.
+  ///
+  /// In en, this message translates to:
+  /// **'Dietary restrictions'**
+  String get dietaryRestrictions;
+
+  /// No description provided for @vegan.
+  ///
+  /// In en, this message translates to:
+  /// **'Vegan'**
+  String get vegan;
+
+  /// No description provided for @vegetarian.
+  ///
+  /// In en, this message translates to:
+  /// **'Vegetarian'**
+  String get vegetarian;
+
+  /// No description provided for @glutenFree.
+  ///
+  /// In en, this message translates to:
+  /// **'Gluten-free'**
+  String get glutenFree;
+
+  /// No description provided for @close.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get close;
+
+  /// No description provided for @searchXRecipes.
+  ///
+  /// In en, this message translates to:
+  /// **'Search through {count} recipes...'**
+  String searchXRecipes(Object count);
+
+  /// No description provided for @resetFilters.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset filters'**
+  String get resetFilters;
+
+  /// No description provided for @addIngredient.
+  ///
+  /// In en, this message translates to:
+  /// **'Add ingredient'**
+  String get addIngredient;
+
+  /// No description provided for @minutes.
+  ///
+  /// In en, this message translates to:
+  /// **'minutes'**
+  String get minutes;
+
+  /// No description provided for @hours.
+  ///
+  /// In en, this message translates to:
+  /// **'hours'**
+  String get hours;
+
+  /// No description provided for @timerUsage.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to pause/resume, long press to stop the timer.'**
+  String get timerUsage;
+
+  /// No description provided for @noMatchingNutrient.
+  ///
+  /// In en, this message translates to:
+  /// **'No matching nutrients found'**
+  String get noMatchingNutrient;
+
+  /// No description provided for @leaveWithoutSaving.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave without saving?'**
+  String get leaveWithoutSaving;
+
+  /// No description provided for @leave.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave'**
+  String get leave;
+
+  /// No description provided for @unsavedChanges.
+  ///
+  /// In en, this message translates to:
+  /// **'You have unsaved changes.'**
+  String get unsavedChanges;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

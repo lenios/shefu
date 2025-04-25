@@ -53,7 +53,7 @@ class Nutrient {
   double FAPoly = 0.0;
   double cholesterol = 0.0;
 
-  List<Conversion>? conversions = [];
+  List<Conversion> conversions = [];
 
   Nutrient.empty(this.id);
 
