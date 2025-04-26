@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:country_picker/country_picker.dart';
-import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shefu/models/recipes.dart';
 import 'package:shefu/models/nutrients.dart';
-import 'package:shefu/repositories/nutrient_repository.dart'; // Import repository
-import 'package:shefu/repositories/recipe_repository.dart'; // Import repository
-import 'package:shefu/widgets/image_helper.dart'; // Keep for image processing
-import 'package:flutter/scheduler.dart'; // Add this import
+import 'package:shefu/repositories/nutrient_repository.dart';
+import 'package:shefu/repositories/recipe_repository.dart';
+import 'package:shefu/utils/mlkit.dart';
+import 'package:shefu/widgets/image_helper.dart';
 
 class EditRecipeViewModel extends ChangeNotifier {
   final RecipeRepository _recipeRepository; // Use RecipeRepository
@@ -359,9 +358,6 @@ class EditRecipeViewModel extends ChangeNotifier {
 
   // --- Image Handling ---
   final ImagePicker _picker = ImagePicker();
-  final TextRecognizer _textRecognizer =
-      TextRecognizer(script: TextRecognitionScript.latin);
-
   Future<void> pickAndProcessImage({int? stepIndex, String? name}) async {
     final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
     if (image == null) return; // user cancelled
@@ -369,14 +365,22 @@ class EditRecipeViewModel extends ChangeNotifier {
     _isLoading = true;
     notifyListeners(); // Notify loading START (for save button)
 
+    bool structureChanged = false;
     String? savedImagePath;
-    bool structureChanged = false; // Flag if OCR adds/removes steps/ingredients
+    String? ocrTitle;
 
     try {
-      // Text Recognition
-      final InputImage inputImage = InputImage.fromFilePath(image.path);
-      final RecognizedText recognizedText =
-          await _textRecognizer.processImage(inputImage);
+      (structureChanged, ocrTitle) = await ocrParse(image, _recipe);
+      //(structureChanged, ocrTitle) = (false, null);
+
+      // --- Handle potential title update ---
+      if (ocrTitle != null && _recipe.title != ocrTitle) {
+        _preventControllerListeners = true; // Prevent listener loop
+        _recipe.title = ocrTitle;
+        titleController.text = ocrTitle; // Update controller
+        _preventControllerListeners = false;
+      }
+
       savedImagePath = await saveImage(image, name); // Use repo method
 
       String? oldPathToDelete;
@@ -404,92 +408,25 @@ class EditRecipeViewModel extends ChangeNotifier {
         await _recipeRepository.deleteImageFile(oldPathToDelete);
       }
 
-      // --- Optional: Process recognized text ---
-      if (recognizedText.text.isNotEmpty) {
-        debugPrint("--- Starting OCR Text Processing ---");
-        final blocks = recognizedText.blocks;
-        _recipe.steps =
-            List<RecipeStep>.from(_recipe.steps); // convert to a growable list
-
-        // 1. Process Title (First Block)
-        if (blocks.isNotEmpty) {
-          final potentialTitle = blocks[0]
-              .lines
-              .map((l) => l.text.trim())
-              .where((t) => t.isNotEmpty)
-              .join(' ');
-          if (potentialTitle.isNotEmpty && _recipe.title != potentialTitle) {
-            _preventControllerListeners = true; // Prevent listener loop
-            _recipe.title = potentialTitle;
-            titleController.text = potentialTitle; // Update controller
-            _preventControllerListeners = false;
-            debugPrint("OCR Title updated: '$potentialTitle'");
-          }
-        }
-
-        // Ensure steps list is growable
-        _recipe.steps = List<RecipeStep>.from(_recipe.steps);
-
-        // 2. Process Ingredients (Second Block)
-        if (blocks.length > 1) {
-          if (_recipe.steps.isEmpty) {
-            _recipe.steps.add(RecipeStep.withInstruction('Prepare'));
-            structureChanged = true; // Structure changed
-          }
-          // Ensure ingredients list is growable
-          _recipe.steps[0].ingredients =
-              List<IngredientTuple>.from(_recipe.steps[0].ingredients);
-
-          int ingredientsAdded = 0;
-          for (final line in blocks[1].lines) {
-            final ingredientName = line.text.trim();
-            if (ingredientName.isNotEmpty) {
-              _recipe.steps[0].ingredients
-                  .add(IngredientTuple.withName(ingredientName));
-              ingredientsAdded++;
-            }
-          }
-          if (ingredientsAdded > 0) {
-            structureChanged = true; // Structure changed
-            debugPrint("OCR added $ingredientsAdded ingredients to step 0.");
-          }
-        }
-
-        // 3. Process Steps (Third Block onwards)
-        if (blocks.length > 2) {
-          int stepsAdded = 0;
-          for (int i = 2; i < blocks.length; i++) {
-            final stepInstruction = blocks[i]
-                .lines
-                .map((l) => l.text.trim())
-                .where((t) => t.isNotEmpty)
-                .join('\n');
-            if (stepInstruction.isNotEmpty) {
-              _recipe.steps.add(RecipeStep.withInstruction(stepInstruction));
-              stepsAdded++;
-            }
-          }
-          if (stepsAdded > 0) {
-            structureChanged = true; // Structure changed
-            debugPrint("OCR added $stepsAdded steps.");
-          }
-        }
-        debugPrint("--- Finished OCR Text Processing ---");
-      }
-      // --- End OCR Processing ---
-
       _imageVersion.value++; // Notify image widgets specifically
     } catch (e, stackTrace) {
       debugPrint("Error picking/processing image: $e\n$stackTrace");
+      // Clean up saved image if processing failed after saving
+      if (savedImagePath != null &&
+          _recipe.imagePath != savedImagePath &&
+          (stepIndex == null ||
+              _recipe.steps[stepIndex!].imagePath != savedImagePath)) {
+        await _recipeRepository.deleteImageFile(savedImagePath);
+      }
     } finally {
       _setLoading(false);
-      if (structureChanged || hasListeners) {
-        // Check hasListeners defensively
+      if (structureChanged ||
+          (ocrTitle != null && _recipe.title == ocrTitle) ||
+          hasListeners) {
         notifyListeners();
         debugPrint(
-            "pickAndProcessImage finished, notified listeners (loading/structure change).");
+            "pickAndProcessImage finished, notified listeners (loading/structure change/image update/title update).");
       }
-      debugPrint("pickAndProcessImage finished, notified listeners.");
     }
   }
 
@@ -575,6 +512,7 @@ class EditRecipeViewModel extends ChangeNotifier {
   // Ensure dispose removes listeners correctly.
   @override
   void dispose() {
+    // Conditionally dispose the text recognizer
     // titleController.removeListener(_onTitleChanged);
     // sourceController.removeListener(_onSourceChanged);
     // timeController.removeListener(_onTimeChanged);
@@ -586,7 +524,6 @@ class EditRecipeViewModel extends ChangeNotifier {
     notesController.dispose();
     servingsController.dispose();
     _imageVersion.dispose();
-    _textRecognizer.close(); // Close text recognizer
     super.dispose();
   }
 }
