@@ -15,10 +15,13 @@ New in v2: nutritional informations are automatically generated (for EN and FR o
 ## Getting Started
 
 Sample:
-![home](https://github.com/lenios/shefu/blob/main/images/search.png?raw=true)
-![display recipe](https://github.com/lenios/shefu/blob/main/images/display_recipe.png?raw=true)
-![add recipe](https://github.com/lenios/shefu/blob/main/images/add_recipe.png?raw=true)
-![edit recipe step](https://github.com/lenios/shefu/blob/main/images/edit_recipe_step.png?raw=true)
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/1-search.png" alt="home" width="300">
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/2-add_recipe.png" alt="add recipe" width="300">
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/3-edit_recipe_step.png" alt="edit recipe step" width="300">
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/4-display_recipe.png" alt="display recipe" width="300">
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/5-shopping-list.png" alt="Shopping list" width="300">
+
+
 
 
 Supported languages:
@@ -27,3 +30,4 @@ Supported languages:
   - 日本語
 
 Documentation will come later.
+
