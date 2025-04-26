@@ -4,10 +4,12 @@ import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart
 import 'package:image_picker/image_picker.dart';
 import 'package:shefu/models/recipes.dart';
 import 'package:shefu/models/nutrients.dart';
-import 'package:shefu/repositories/nutrient_repository.dart'; // Import repository
-import 'package:shefu/repositories/recipe_repository.dart'; // Import repository
-import 'package:shefu/widgets/image_helper.dart'; // Keep for image processing
-import 'package:flutter/scheduler.dart'; // Add this import
+import 'package:shefu/repositories/nutrient_repository.dart';
+import 'package:shefu/repositories/recipe_repository.dart';
+import 'package:shefu/widgets/image_helper.dart';
+
+// --- OCR Control Flag ---
+const bool useOcr = true;
 
 class EditRecipeViewModel extends ChangeNotifier {
   final RecipeRepository _recipeRepository; // Use RecipeRepository
@@ -359,8 +361,8 @@ class EditRecipeViewModel extends ChangeNotifier {
 
   // --- Image Handling ---
   final ImagePicker _picker = ImagePicker();
-  final TextRecognizer _textRecognizer =
-      TextRecognizer(script: TextRecognitionScript.latin);
+  final TextRecognizer? _textRecognizer =
+      useOcr ? TextRecognizer(script: TextRecognitionScript.latin) : null;
 
   Future<void> pickAndProcessImage({int? stepIndex, String? name}) async {
     final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
@@ -373,10 +375,11 @@ class EditRecipeViewModel extends ChangeNotifier {
     bool structureChanged = false; // Flag if OCR adds/removes steps/ingredients
 
     try {
-      // Text Recognition
-      final InputImage inputImage = InputImage.fromFilePath(image.path);
-      final RecognizedText recognizedText =
-          await _textRecognizer.processImage(inputImage);
+      RecognizedText? recognizedText;
+      if (useOcr && _textRecognizer != null) {
+        final InputImage inputImage = InputImage.fromFilePath(image.path);
+        recognizedText = await _textRecognizer!.processImage(inputImage);
+      }
       savedImagePath = await saveImage(image, name); // Use repo method
 
       String? oldPathToDelete;
@@ -405,7 +408,7 @@ class EditRecipeViewModel extends ChangeNotifier {
       }
 
       // --- Optional: Process recognized text ---
-      if (recognizedText.text.isNotEmpty) {
+      if (useOcr && recognizedText != null && recognizedText.text.isNotEmpty) {
         debugPrint("--- Starting OCR Text Processing ---");
         final blocks = recognizedText.blocks;
         _recipe.steps =
@@ -575,6 +578,10 @@ class EditRecipeViewModel extends ChangeNotifier {
   // Ensure dispose removes listeners correctly.
   @override
   void dispose() {
+    // Conditionally dispose the text recognizer
+    if (useOcr && _textRecognizer != null) {
+      _textRecognizer!.close();
+    }
     // titleController.removeListener(_onTitleChanged);
     // sourceController.removeListener(_onSourceChanged);
     // timeController.removeListener(_onTimeChanged);
@@ -586,7 +593,6 @@ class EditRecipeViewModel extends ChangeNotifier {
     notesController.dispose();
     servingsController.dispose();
     _imageVersion.dispose();
-    _textRecognizer.close(); // Close text recognizer
     super.dispose();
   }
 }
