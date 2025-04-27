@@ -4,15 +4,11 @@ import 'package:image_picker/image_picker.dart';
 import '../models/recipes.dart';
 
 // Return a tuple: (structureChanged, potentialTitle)
-Future<(bool, String?)> ocrParse(
-  XFile image,
-  Recipe recipe,
-) async {
+Future<(bool, String?)> ocrParse(XFile image, Recipe recipe) async {
   bool structureChanged = false; // changed after OCR processing
   String? potentialTitle;
 
-  final TextRecognizer textRecognizer =
-      TextRecognizer(script: TextRecognitionScript.latin);
+  final TextRecognizer textRecognizer = TextRecognizer(script: TextRecognitionScript.latin);
 
   RecognizedText? recognizedText;
 
@@ -23,13 +19,11 @@ Future<(bool, String?)> ocrParse(
   if (recognizedText.text.isNotEmpty) {
     debugPrint("--- Starting OCR Text Processing ---");
     final blocks = recognizedText.blocks;
-    recipe.steps =
-        List<RecipeStep>.from(recipe.steps); // convert to a growable list
+    recipe.steps = List<RecipeStep>.from(recipe.steps); // convert to a growable list
 
     // 1. Process Title (First Block)
     if (blocks.isNotEmpty) {
-      final titleFromOcr = blocks[0]
-          .lines
+      final titleFromOcr = blocks[0].lines
           .map((l) => l.text.trim())
           .where((t) => t.isNotEmpty)
           .join(' ');
@@ -46,18 +40,15 @@ Future<(bool, String?)> ocrParse(
         structureChanged = true; // Structure changed
       }
       // Ensure ingredients list is growable
-      recipe.steps[0].ingredients =
-          List<IngredientTuple>.from(recipe.steps[0].ingredients);
+      recipe.steps[0].ingredients = List<IngredientTuple>.from(recipe.steps[0].ingredients);
 
       int ingredientsAdded = 0;
       for (final line in blocks[1].lines) {
         final ingredientName = line.text.trim();
         if (ingredientName.isNotEmpty) {
           // Check if ingredient already exists (simple name check)
-          if (!recipe.steps[0].ingredients
-              .any((ing) => ing.name == ingredientName)) {
-            recipe.steps[0].ingredients
-                .add(IngredientTuple.withName(ingredientName));
+          if (!recipe.steps[0].ingredients.any((ing) => ing.name == ingredientName)) {
+            recipe.steps[0].ingredients.add(IngredientTuple.withName(ingredientName));
             ingredientsAdded++;
           }
         }
@@ -72,15 +63,13 @@ Future<(bool, String?)> ocrParse(
     if (blocks.length > 2) {
       int stepsAdded = 0;
       for (int i = 2; i < blocks.length; i++) {
-        final stepInstruction = blocks[i]
-            .lines
+        final stepInstruction = blocks[i].lines
             .map((l) => l.text.trim())
             .where((t) => t.isNotEmpty)
             .join('\n');
         if (stepInstruction.isNotEmpty) {
           // Check if step already exists (simple instruction check)
-          if (!recipe.steps
-              .any((step) => step.instruction == stepInstruction)) {
+          if (!recipe.steps.any((step) => step.instruction == stepInstruction)) {
             recipe.steps.add(RecipeStep.withInstruction(stepInstruction));
             stepsAdded++;
           }

@@ -92,6 +92,6 @@
   "noMatchingNutrient": "該当する栄養素が見つかりませんでした",
   "leaveWithoutSaving": "保存せずに終了しますか？",
   "leave": "終了",
-  "unsavedChanges": "保存されていない変更があります。"
-  
+  "unsavedChanges": "保存されていない変更があります。",
+  "saveError": "保存エラー"
 }

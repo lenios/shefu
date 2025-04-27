@@ -36,11 +36,7 @@ class NutrientRepository {
       int retries = 0;
       while (retries < 3) {
         try {
-          _isar = await Isar.open(
-            [NutrientSchema],
-            name: _isarInstanceName,
-            directory: dir.path,
-          );
+          _isar = await Isar.open([NutrientSchema], name: _isarInstanceName, directory: dir.path);
           break; // Exit the loop if successful
         } catch (e) {
           retries++;
@@ -86,13 +82,14 @@ class NutrientRepository {
     {
       // Load the nutrients CSV file
       final rawData = await rootBundle.loadString("assets/nutrients_full.csv");
-      List<List<dynamic>> listData = const CsvToListConverter()
-          .convert(rawData, convertEmptyTo: 0.0, eol: '\n');
+      List<List<dynamic>> listData = const CsvToListConverter().convert(
+        rawData,
+        convertEmptyTo: 0.0,
+        eol: '\n',
+      );
 
-      final convRawData =
-          await rootBundle.loadString("assets/conversions_full.csv");
-      List<List<dynamic>> convListData =
-          const CsvToListConverter().convert(convRawData, eol: '\n');
+      final convRawData = await rootBundle.loadString("assets/conversions_full.csv");
+      List<List<dynamic>> convListData = const CsvToListConverter().convert(convRawData, eol: '\n');
 
       Map<int, List<Conversion>> conversionsMap = {};
 
@@ -109,22 +106,19 @@ class NutrientRepository {
         int convId;
 
         try {
-          foodId = convItem[0] is int
-              ? convItem[0]
-              : int.parse(convItem[0].toString());
-          convId = convItem[1] is int
-              ? convItem[1]
-              : int.parse(convItem[1].toString());
+          foodId = convItem[0] is int ? convItem[0] : int.parse(convItem[0].toString());
+          convId = convItem[1] is int ? convItem[1] : int.parse(convItem[1].toString());
         } catch (e) {
           debugPrint("Error parsing conversion IDs: $e");
           continue;
         }
 
-        var conversion = Conversion()
-          ..id = convId
-          ..descEN = convItem[2]?.toString() ?? ''
-          ..descFR = convItem[3]?.toString() ?? ''
-          ..factor = convItem[4] is num ? (convItem[4] as num).toDouble() : 0.0;
+        var conversion =
+            Conversion()
+              ..id = convId
+              ..descEN = convItem[2]?.toString() ?? ''
+              ..descFR = convItem[3]?.toString() ?? ''
+              ..factor = convItem[4] is num ? (convItem[4] as num).toDouble() : 0.0;
 
         if (!conversionsMap.containsKey(foodId)) {
           conversionsMap[foodId] = [];
@@ -163,10 +157,8 @@ class NutrientRepository {
 
         // Add additional properties if available
         if (item.length > 18) nutrient.ash = _parseDoubleWithFallback(item[18]);
-        if (item.length > 19)
-          nutrient.fiber = _parseDoubleWithFallback(item[19]);
-        if (item.length > 20)
-          nutrient.sugar = _parseDoubleWithFallback(item[20]);
+        if (item.length > 19) nutrient.fiber = _parseDoubleWithFallback(item[19]);
+        if (item.length > 20) nutrient.sugar = _parseDoubleWithFallback(item[20]);
 
         nutrient.conversions = conversionsMap[foodId] ?? [];
 
@@ -197,8 +189,7 @@ class NutrientRepository {
     try {
       return _inMemoryNutrients.firstWhere(
         (n) => n.id == id,
-        orElse: () =>
-            Nutrient.empty(0), // Return empty nutrient instead of throwing
+        orElse: () => Nutrient.empty(0), // Return empty nutrient instead of throwing
       );
     } catch (e) {
       // Fallback to database query if there's an issue with in-memory lookup
@@ -221,14 +212,12 @@ class NutrientRepository {
   Future<List<Nutrient>> filterNutrients(String filter) async {
     if (!_isInitialized) await initialize();
 
-// TODO check needed
+    // TODO check needed
     if (_inMemoryNutrients.isEmpty) {
-      debugPrint(
-          "Warning: in-memory nutrients list is empty. Re-loading from database.");
+      debugPrint("Warning: in-memory nutrients list is empty. Re-loading from database.");
       _inMemoryNutrients = await _isar!.nutrients.where().findAll();
       print(_inMemoryNutrients.length);
-      debugPrint(
-          "Re-loaded ${_inMemoryNutrients.length} nutrients into memory.");
+      debugPrint("Re-loaded ${_inMemoryNutrients.length} nutrients into memory.");
     }
 
     if (filter.isEmpty) {
@@ -238,35 +227,43 @@ class NutrientRepository {
     final normalizedFilter = filter.trim().toLowerCase();
 
     // Filter in-memory list with loose matching
-    var filtered = _inMemoryNutrients
-        .where((n) =>
-            n.descEN.toLowerCase().contains(normalizedFilter) ||
-            n.descFR.toLowerCase().contains(normalizedFilter))
-        .toList();
+    var filtered =
+        _inMemoryNutrients
+            .where(
+              (n) =>
+                  n.descEN.toLowerCase().contains(normalizedFilter) ||
+                  n.descFR.toLowerCase().contains(normalizedFilter),
+            )
+            .toList();
 
     if (filtered.isEmpty) {
       // Try with alternative capitalization
-      final capitalizedFilter = normalizedFilter.isNotEmpty
-          ? "${normalizedFilter[0].toUpperCase()}${normalizedFilter.substring(1)}"
-          : "";
+      final capitalizedFilter =
+          normalizedFilter.isNotEmpty
+              ? "${normalizedFilter[0].toUpperCase()}${normalizedFilter.substring(1)}"
+              : "";
 
-      filtered = _inMemoryNutrients
-          .where((n) =>
-              n.descEN.contains(capitalizedFilter) ||
-              n.descFR.contains(capitalizedFilter))
-          .toList();
+      filtered =
+          _inMemoryNutrients
+              .where(
+                (n) => n.descEN.contains(capitalizedFilter) || n.descFR.contains(capitalizedFilter),
+              )
+              .toList();
     }
 
     // Limit results to avoid overwhelming the UI
     if (filtered.length > 30) {
       // if more than 30 results, try to filter elements
-      final reducedList = filtered
-          .where((n) =>
-              n.descEN.toLowerCase().contains('$normalizedFilter,') ||
-              n.descEN.toLowerCase().contains('${normalizedFilter}s,') ||
-              n.descFR.toLowerCase().contains('$normalizedFilter,') ||
-              n.descFR.toLowerCase().contains('${normalizedFilter}s,'))
-          .toList();
+      final reducedList =
+          filtered
+              .where(
+                (n) =>
+                    n.descEN.toLowerCase().contains('$normalizedFilter,') ||
+                    n.descEN.toLowerCase().contains('${normalizedFilter}s,') ||
+                    n.descFR.toLowerCase().contains('$normalizedFilter,') ||
+                    n.descFR.toLowerCase().contains('${normalizedFilter}s,'),
+              )
+              .toList();
       if (reducedList.isNotEmpty) {
         // we found elements with the name followed by a comma, filter on them
         filtered = reducedList;

@@ -69,8 +69,7 @@ class _MyAppState extends State<MyApp> {
         // --- ViewModels (depend on Repositories) ---
         ChangeNotifierProxyProvider<RecipeRepository, HomePageViewModel>(
           create: (context) => HomePageViewModel(context.read()),
-          update: (context, recipeRepo, previousViewModel) =>
-              HomePageViewModel(context.read()),
+          update: (context, recipeRepo, previousViewModel) => HomePageViewModel(context.read()),
         ),
       ],
       child: MaterialApp.router(

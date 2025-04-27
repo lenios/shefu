@@ -5,10 +5,7 @@ import 'package:shefu/l10n/app_localizations.dart';
 class StepTimerWidget extends StatefulWidget {
   final int timerDurationSeconds; // Pass duration in seconds
 
-  const StepTimerWidget({
-    super.key,
-    required this.timerDurationSeconds,
-  });
+  const StepTimerWidget({super.key, required this.timerDurationSeconds});
 
   @override
   State<StepTimerWidget> createState() => _StepTimerWidgetState();
@@ -35,10 +32,7 @@ class _StepTimerWidgetState extends State<StepTimerWidget> {
         // Display timer duration as text
         Text(
           '${(widget.timerDurationSeconds / 60).round()} min',
-          style: TextStyle(
-            fontSize: 12.0,
-            color: colorScheme.onSurfaceVariant,
-          ),
+          style: TextStyle(fontSize: 12.0, color: colorScheme.onSurfaceVariant),
         ),
         const SizedBox(height: 4),
         GestureDetector(
@@ -81,9 +75,10 @@ class _StepTimerWidgetState extends State<StepTimerWidget> {
             strokeWidth: 5.0,
             strokeCap: StrokeCap.round,
             textStyle: TextStyle(
-                fontSize: 14.0,
-                color: colorScheme.onSurface,
-                fontWeight: FontWeight.bold),
+              fontSize: 14.0,
+              color: colorScheme.onSurface,
+              fontWeight: FontWeight.bold,
+            ),
             textFormat: CountdownTextFormat.MM_SS,
             isReverse: true,
             isReverseAnimation: true,

@@ -93,5 +93,6 @@
           "noMatchingNutrient": "No matching nutrients found",
           "leaveWithoutSaving": "Leave without saving?",
           "leave": "Leave",
-          "unsavedChanges": "You have unsaved changes."
+          "unsavedChanges": "You have unsaved changes.",
+          "saveError": "Save error"
 }

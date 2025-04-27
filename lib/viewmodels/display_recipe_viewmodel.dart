@@ -8,8 +8,7 @@ class DisplayRecipeViewModel extends ChangeNotifier {
   final MyAppState _appState;
   final int _recipeId;
 
-  DisplayRecipeViewModel(
-      this._recipeRepository, this._appState, this._recipeId) {
+  DisplayRecipeViewModel(this._recipeRepository, this._appState, this._recipeId) {
     _loadRecipe();
     _servings = _appState.servings; // Initialize servings from app state
     _appState.addListener(_onAppStateChanged);

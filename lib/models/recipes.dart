@@ -74,21 +74,23 @@ class RecipeStep {
   RecipeStep.withInstruction(this.instruction);
 
   RecipeStep copy() {
-    final newStep = RecipeStep()
-      ..instruction = instruction
-      ..name = name
-      ..imagePath = imagePath
-      ..timer = timer;
+    final newStep =
+        RecipeStep()
+          ..instruction = instruction
+          ..name = name
+          ..imagePath = imagePath
+          ..timer = timer;
 
-    newStep.ingredients = ingredients.map((ingredient) {
-      return IngredientTuple()
-        ..foodId = ingredient.foodId
-        ..selectedFactorId = ingredient.selectedFactorId
-        ..quantity = ingredient.quantity
-        ..name = ingredient.name
-        ..unit = ingredient.unit
-        ..shape = ingredient.shape;
-    }).toList();
+    newStep.ingredients =
+        ingredients.map((ingredient) {
+          return IngredientTuple()
+            ..foodId = ingredient.foodId
+            ..selectedFactorId = ingredient.selectedFactorId
+            ..quantity = ingredient.quantity
+            ..name = ingredient.name
+            ..unit = ingredient.unit
+            ..shape = ingredient.shape;
+        }).toList();
 
     return newStep;
   }

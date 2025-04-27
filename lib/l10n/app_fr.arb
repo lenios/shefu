@@ -93,8 +93,6 @@
           "noMatchingNutrient": "Aucun ingrédient correspondant trouvé",
           "leaveWithoutSaving": "Quitter sans enregistrer ?",
           "leave": "Quitter",
-          "unsavedChanges": "Vous avez des changements non enregistrés."
-
-
-
+          "unsavedChanges": "Vous avez des changements non enregistrés.",
+          "saveError": "Erreur d'enregistrement"
 }

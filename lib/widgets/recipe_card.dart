@@ -31,20 +31,22 @@ class RecipeCard extends StatelessWidget {
           children: [
             // Image Container
             SizedBox(
-                width: 100,
-                height: 100,
-                child: Container(
-                  color: colorScheme.surfaceContainerHighest
-                      .withAlpha(50), // Subtle background
-                  child: buildFutureImageWidget(
-                      context, thumbnailPath(recipe.imagePath ?? ''),
-                      width: 100, height: 100), // Display the built widget
-                )),
+              width: 100,
+              height: 100,
+              child: Container(
+                color: colorScheme.surfaceContainerHighest.withAlpha(50), // Subtle background
+                child: buildFutureImageWidget(
+                  context,
+                  thumbnailPath(recipe.imagePath ?? ''),
+                  width: 100,
+                  height: 100,
+                ), // Display the built widget
+              ),
+            ),
             // Text Content Area
             Expanded(
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10.0, vertical: 3.0),
+                padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 3.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -56,8 +58,7 @@ class RecipeCard extends StatelessWidget {
                         Expanded(
                           child: Text(
                             recipe.title,
-                            style: textTheme.titleSmall
-                                ?.copyWith(fontWeight: FontWeight.bold),
+                            style: textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -73,30 +74,36 @@ class RecipeCard extends StatelessWidget {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: textTheme.bodySmall?.copyWith(
-                            color: colorScheme
-                                .onSurfaceVariant), // Use theme text style and color
+                          color: colorScheme.onSurfaceVariant,
+                        ), // Use theme text style and color
                       ),
                     // Stats Row
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        buildHeaderStat(context,
-                            iconPath: 'assets/icons/carbohydrates.svg',
-                            value: recipe.carbohydrates,
-                            unit: AppLocalizations.of(context)!.g,
-                            color: Colors.black),
+                        buildHeaderStat(
+                          context,
+                          iconPath: 'assets/icons/carbohydrates.svg',
+                          value: recipe.carbohydrates,
+                          unit: AppLocalizations.of(context)!.g,
+                          color: Colors.black,
+                        ),
                         const SizedBox(width: 8),
-                        buildHeaderStat(context,
-                            iconPath: 'assets/icons/fire-filled.svg',
-                            value: recipe.calories,
-                            unit: AppLocalizations.of(context)!.kc,
-                            color: Colors.black),
+                        buildHeaderStat(
+                          context,
+                          iconPath: 'assets/icons/fire-filled.svg',
+                          value: recipe.calories,
+                          unit: AppLocalizations.of(context)!.kc,
+                          color: Colors.black,
+                        ),
                         const SizedBox(width: 8),
-                        buildHeaderStat(context,
-                            iconData: Icons.alarm,
-                            value: recipe.time,
-                            unit: AppLocalizations.of(context)!.min,
-                            color: Colors.black),
+                        buildHeaderStat(
+                          context,
+                          iconData: Icons.alarm,
+                          value: recipe.time,
+                          unit: AppLocalizations.of(context)!.min,
+                          color: Colors.black,
+                        ),
                       ],
                     ),
                   ],

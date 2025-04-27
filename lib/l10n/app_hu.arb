@@ -93,8 +93,7 @@
           "noMatchingNutrient": "Nincs megfelelő hozzávaló",
           "leaveWithoutSaving": "Kilépés mentés nélkül?",
           "leave": "Kilépés",
-          "unsavedChanges": "Nem mentett változtatásai vannak."
-
-
+          "unsavedChanges": "Nem mentett változtatásai vannak.",
+          "saveError": "Mentési hiba"
 
 }

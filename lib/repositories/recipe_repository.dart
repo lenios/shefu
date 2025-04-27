@@ -32,9 +32,7 @@ class RecipeRepository {
       // Retry logic similar to NutrientRepository can be added here if needed
       try {
         _isar = await Isar.open(
-          [
-            RecipeSchema
-          ], // Add other schemas if Recipe depends on them directly via links
+          [RecipeSchema], // Add other schemas if Recipe depends on them directly via links
           name: _isarInstanceName,
           directory: dir.path,
         );
@@ -53,8 +51,7 @@ class RecipeRepository {
     // Synchronous operations require the repository to be initialized beforehand.
     if (!_isInitialized) {
       // Throw an error if not initialized. Callers must ensure initialize() completed first.
-      throw StateError(
-          'RecipeRepository must be initialized before calling getAllRecipes.');
+      throw StateError('RecipeRepository must be initialized before calling getAllRecipes.');
     }
     // Use the synchronous version of findAll
     return _isar!.recipes.where().findAllSync();
@@ -107,10 +104,8 @@ class RecipeRepository {
   List<String> getAvailableCountries() {
     // Operates on in-memory list, generally safe after init
     final _recipes = getAllRecipes();
-    Set<String> countriesSet = _recipes
-        .map((e) => e.countryCode)
-        .where((code) => code.isNotEmpty)
-        .toSet();
+    Set<String> countriesSet =
+        _recipes.map((e) => e.countryCode).where((code) => code.isNotEmpty).toSet();
     List<String> countriesList = countriesSet.toList();
     countriesList.sort();
     countriesList.insert(0, ''); // Add empty option

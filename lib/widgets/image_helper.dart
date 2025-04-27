@@ -48,8 +48,7 @@ Future<String> saveImage(dynamic image, String? name) async {
       final decodedImage = i.decodeImage(bytes);
       if (decodedImage != null) {
         final thumbnail = i.copyResize(decodedImage, width: 250);
-        await File(thumbnailPath(filePath))
-            .writeAsBytes(i.encodePng(thumbnail));
+        await File(thumbnailPath(filePath)).writeAsBytes(i.encodePng(thumbnail));
       }
     } else if (image is File) {
       // Case 2: File object
@@ -62,8 +61,7 @@ Future<String> saveImage(dynamic image, String? name) async {
       final decodedImage = i.decodeImage(bytes);
       if (decodedImage != null) {
         final thumbnail = i.copyResize(decodedImage, width: 250);
-        await File(thumbnailPath(filePath))
-            .writeAsBytes(i.encodePng(thumbnail));
+        await File(thumbnailPath(filePath)).writeAsBytes(i.encodePng(thumbnail));
       }
     } else if (image is List<int> || image is Uint8List) {
       // Case 3: Raw bytes
@@ -76,8 +74,7 @@ Future<String> saveImage(dynamic image, String? name) async {
       final decodedImage = i.decodeImage(bytes);
       if (decodedImage != null) {
         final thumbnail = i.copyResize(decodedImage, width: 250);
-        await File(thumbnailPath(filePath))
-            .writeAsBytes(i.encodePng(thumbnail));
+        await File(thumbnailPath(filePath)).writeAsBytes(i.encodePng(thumbnail));
       }
     } else {
       throw ArgumentError('Unsupported image type: ${image.runtimeType}');
@@ -99,8 +96,12 @@ String thumbnailPath(String filepath) {
   return '${dirname(filepath)}/t_${basename(filepath)}';
 }
 
-Widget buildFutureImageWidget(BuildContext context, String imagePath,
-    {double? width, double? height}) {
+Widget buildFutureImageWidget(
+  BuildContext context,
+  String imagePath, {
+  double? width,
+  double? height,
+}) {
   Widget imageWidget;
   final imageSize = MediaQuery.of(context).size.width * 1 / 3;
   if (imagePath.isNotEmpty) {
@@ -110,18 +111,22 @@ Widget buildFutureImageWidget(BuildContext context, String imagePath,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(
-              child: SizedBox(
-                  width: imageSize * 0.3, // Smaller indicator
-                  height: imageSize * 0.3,
-                  child: CircularProgressIndicator(
-                      strokeWidth: 2, color: Colors.white.withAlpha(150))));
+            child: SizedBox(
+              width: imageSize * 0.3, // Smaller indicator
+              height: imageSize * 0.3,
+              child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white.withAlpha(150)),
+            ),
+          );
         } else if (snapshot.hasError) {
-          debugPrint(
-              "Error loading header image async '$imagePath': ${snapshot.error}");
+          debugPrint("Error loading header image async '$imagePath': ${snapshot.error}");
           // Show placeholder on error
           return Center(
-              child: Icon(Icons.broken_image,
-                  size: imageSize * 0.5, color: Colors.white.withAlpha(150)));
+            child: Icon(
+              Icons.broken_image,
+              size: imageSize * 0.5,
+              color: Colors.white.withAlpha(150),
+            ),
+          );
         } else if (snapshot.hasData) {
           // Display image using Image.memory
           return Image.memory(
@@ -132,27 +137,37 @@ Widget buildFutureImageWidget(BuildContext context, String imagePath,
             fit: BoxFit.cover,
             gaplessPlayback: true,
             errorBuilder: (context, error, stackTrace) {
-              debugPrint(
-                  "Error displaying header image bytes from '$imagePath': $error");
+              debugPrint("Error displaying header image bytes from '$imagePath': $error");
               return Center(
-                  child: Icon(Icons.broken_image,
-                      size: imageSize * 0.5,
-                      color: Colors.white.withAlpha(150)));
+                child: Icon(
+                  Icons.broken_image,
+                  size: imageSize * 0.5,
+                  color: Colors.white.withAlpha(150),
+                ),
+              );
             },
           );
         } else {
           // Fallback placeholder
           return Center(
-              child: Icon(Icons.broken_image,
-                  size: imageSize * 0.5, color: Colors.white.withAlpha(150)));
+            child: Icon(
+              Icons.broken_image,
+              size: imageSize * 0.5,
+              color: Colors.white.withAlpha(150),
+            ),
+          );
         }
       },
     );
   } else {
     // Placeholder if imagePath is empty initially
     imageWidget = Center(
-        child: Icon(Icons.image_not_supported,
-            size: imageSize * 0.5, color: Colors.white.withAlpha(150)));
+      child: Icon(
+        Icons.image_not_supported,
+        size: imageSize * 0.5,
+        color: Colors.white.withAlpha(150),
+      ),
+    );
   }
   return imageWidget;
 }

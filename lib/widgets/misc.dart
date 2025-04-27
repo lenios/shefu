@@ -6,11 +6,7 @@ import '../l10n/app_localizations.dart';
 
 Widget flagIcon(String countryCode) {
   if (countryCode != "") {
-    return Flag.fromString(
-      countryCode,
-      height: 20,
-      width: 24,
-    );
+    return Flag.fromString(countryCode, height: 20, width: 24);
   }
   return Container();
 }
@@ -108,10 +104,8 @@ Widget categoryLine(String category, context) {
     return Container();
   } else {
     return Text(
-        "${AppLocalizations.of(context)!.category}: ${formattedCategory(category, context)}",
-        style: const TextStyle(
-          fontSize: 14,
-          color: Colors.white70,
-        ));
+      "${AppLocalizations.of(context)!.category}: ${formattedCategory(category, context)}",
+      style: const TextStyle(fontSize: 14, color: Colors.white70),
+    );
   }
 }

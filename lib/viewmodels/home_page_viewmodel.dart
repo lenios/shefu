@@ -98,11 +98,12 @@ class HomePageViewModel extends ChangeNotifier {
 
   void searchRecipes(String term) {
     // Split the search term by commas and trim each term
-    final List<String> searchTerms = term
-        .split(',')
-        .map((term) => term.trim().toLowerCase())
-        .where((term) => term.isNotEmpty)
-        .toList();
+    final List<String> searchTerms =
+        term
+            .split(',')
+            .map((term) => term.trim().toLowerCase())
+            .where((term) => term.isNotEmpty)
+            .toList();
 
     if (_filter != term.toLowerCase()) {
       _filter = term.toLowerCase();
@@ -113,23 +114,25 @@ class HomePageViewModel extends ChangeNotifier {
       // Apply each search term
       // TODO fix multiple terms search
       if (searchTerms.isNotEmpty) {
-        filteredRecipes = filteredRecipes.where((recipe) {
-          // Recipe should match ALL search terms to be included in results
-          return searchTerms.every((term) {
-            // Check if ANY of the fields contain this term
-            return recipe.title.toLowerCase().contains(term) ||
-                (recipe.source.toLowerCase().contains(term)) ||
-                (recipe.notes != null &&
-                    recipe.notes!.toLowerCase().contains(term)) ||
-                // Search in steps
-                recipe.steps.any((step) =>
-                    (step.name.toLowerCase().contains(term)) ||
-
-                    // Search in ingredients
-                    step.ingredients.any((ingredient) =>
-                        ingredient.name.toLowerCase().contains(term)));
-          });
-        }).toList();
+        filteredRecipes =
+            filteredRecipes.where((recipe) {
+              // Recipe should match ALL search terms to be included in results
+              return searchTerms.every((term) {
+                // Check if ANY of the fields contain this term
+                return recipe.title.toLowerCase().contains(term) ||
+                    (recipe.source.toLowerCase().contains(term)) ||
+                    (recipe.notes != null && recipe.notes!.toLowerCase().contains(term)) ||
+                    // Search in steps
+                    recipe.steps.any(
+                      (step) =>
+                          (step.name.toLowerCase().contains(term)) ||
+                          // Search in ingredients
+                          step.ingredients.any(
+                            (ingredient) => ingredient.name.toLowerCase().contains(term),
+                          ),
+                    );
+              });
+            }).toList();
       }
 
       // Apply filters and refresh the list
@@ -149,25 +152,29 @@ class HomePageViewModel extends ChangeNotifier {
       filtered = filtered.where((r) => r.countryCode == _countryCode).toList();
     }
     if (_selectedCategory != null) {
-      filtered =
-          filtered.where((r) => r.category == _selectedCategory).toList();
+      filtered = filtered.where((r) => r.category == _selectedCategory).toList();
     }
 
     if (_filter.isNotEmpty) {
-      filtered = filtered.where((r) {
-        final filterLower = _filter.toLowerCase();
-        bool matches = r.title.toLowerCase().contains(filterLower) ||
-            r.source.toLowerCase().contains(filterLower) ||
-            (r.notes?.toLowerCase().contains(filterLower) ?? false) ||
-            (r.steps.any((step) =>
-                step.instruction.toLowerCase().contains(filterLower) ||
-                step.name.toLowerCase().contains(filterLower) ||
-                (step.ingredients?.any((ing) =>
-                        ing.name.toLowerCase().contains(filterLower)) ??
-                    false)));
+      filtered =
+          filtered.where((r) {
+            final filterLower = _filter.toLowerCase();
+            bool matches =
+                r.title.toLowerCase().contains(filterLower) ||
+                r.source.toLowerCase().contains(filterLower) ||
+                (r.notes?.toLowerCase().contains(filterLower) ?? false) ||
+                (r.steps.any(
+                  (step) =>
+                      step.instruction.toLowerCase().contains(filterLower) ||
+                      step.name.toLowerCase().contains(filterLower) ||
+                      (step.ingredients?.any(
+                            (ing) => ing.name.toLowerCase().contains(filterLower),
+                          ) ??
+                          false),
+                ));
 
-        return matches;
-      }).toList();
+            return matches;
+          }).toList();
     }
 
     return filtered;

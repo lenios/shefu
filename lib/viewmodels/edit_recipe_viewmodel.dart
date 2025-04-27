@@ -27,8 +27,7 @@ class EditRecipeViewModel extends ChangeNotifier {
   // Controllers for text fields to manage state efficiently
   late TextEditingController titleController;
   late TextEditingController sourceController;
-  late TextEditingController
-      timeController; // Assuming time is stored as string for simplicity
+  late TextEditingController timeController; // Assuming time is stored as string for simplicity
   late TextEditingController notesController;
   late TextEditingController servingsController;
   Country _country = Country.worldWide; // Default, will be updated in init
@@ -47,8 +46,7 @@ class EditRecipeViewModel extends ChangeNotifier {
   ValueNotifier<int> get imageVersion => _imageVersion;
 
   // Constructor requires repositories and optional recipeId
-  EditRecipeViewModel(
-      this._recipeRepository, this._nutrientRepository, this._recipeId) {
+  EditRecipeViewModel(this._recipeRepository, this._nutrientRepository, this._recipeId) {
     // Initialize controllers here, they will be updated in initViewModel
     titleController = TextEditingController();
     sourceController = TextEditingController();
@@ -66,8 +64,7 @@ class EditRecipeViewModel extends ChangeNotifier {
       await _nutrientRepository.initialize();
 
       if (_recipeId != null) {
-        final existingRecipe =
-            await _recipeRepository.getRecipeById(_recipeId!);
+        final existingRecipe = await _recipeRepository.getRecipeById(_recipeId!);
         if (existingRecipe != null) {
           _recipe = existingRecipe;
         } else {
@@ -85,14 +82,13 @@ class EditRecipeViewModel extends ChangeNotifier {
       sourceController.text = _recipe.source;
       timeController.text = _recipe.time > 0 ? _recipe.time.toString() : '';
       notesController.text = _recipe.notes ?? '';
-      servingsController.text = _recipe.servings > 0
-          ? _recipe.servings.toString()
-          : ''; // Initialize servings
+      servingsController.text =
+          _recipe.servings > 0 ? _recipe.servings.toString() : ''; // Initialize servings
       _servings = _recipe.servings;
       _category = _recipe.category;
       _month = _recipe.month > 0 ? _recipe.month : DateTime.now().month;
-      _country = Country.tryParse(
-              _recipe.countryCode.isNotEmpty ? _recipe.countryCode : 'WW') ??
+      _country =
+          Country.tryParse(_recipe.countryCode.isNotEmpty ? _recipe.countryCode : 'WW') ??
           Country.worldWide;
       _preventControllerListeners = false;
       // --- End Controller Init ---
@@ -192,15 +188,13 @@ class EditRecipeViewModel extends ChangeNotifier {
   // --- Step Management ---
 
   void addEmptyStep() {
-    _recipe.steps =
-        List<RecipeStep>.from(_recipe.steps); // convert to a growable list
+    _recipe.steps = List<RecipeStep>.from(_recipe.steps); // convert to a growable list
     _recipe.steps.add(RecipeStep());
     notifyListeners();
   }
 
   void removeStep(int index) {
-    _recipe.steps =
-        List<RecipeStep>.from(_recipe.steps); // convert to a growable list
+    _recipe.steps = List<RecipeStep>.from(_recipe.steps); // convert to a growable list
 
     if (index >= 0 && index < _recipe.steps.length) {
       // Delete associated image file before removing the step
@@ -238,7 +232,8 @@ class EditRecipeViewModel extends ChangeNotifier {
   void addIngredient(int stepIndex) {
     if (stepIndex < _recipe.steps.length) {
       _recipe.steps[stepIndex].ingredients = List<IngredientTuple>.from(
-          _recipe.steps[stepIndex].ingredients); //convert to a growable list
+        _recipe.steps[stepIndex].ingredients,
+      ); //convert to a growable list
 
       _recipe.steps[stepIndex].ingredients.add(IngredientTuple());
 
@@ -249,18 +244,17 @@ class EditRecipeViewModel extends ChangeNotifier {
   void removeIngredient(int stepIndex, int ingredientIndex) {
     if (stepIndex < _recipe.steps.length) {
       _recipe.steps[stepIndex].ingredients = List<IngredientTuple>.from(
-          _recipe.steps[stepIndex].ingredients); //convert to a growable list
+        _recipe.steps[stepIndex].ingredients,
+      ); //convert to a growable list
       _recipe.steps![stepIndex].ingredients.removeAt(ingredientIndex);
       notifyListeners();
     }
   }
 
-  void updateIngredientQuantity(
-      int stepIndex, int ingredientIndex, String value) {
+  void updateIngredientQuantity(int stepIndex, int ingredientIndex, String value) {
     if (stepIndex < _recipe.steps!.length &&
         ingredientIndex < _recipe.steps[stepIndex].ingredients.length) {
-      _recipe.steps[stepIndex].ingredients[ingredientIndex].quantity =
-          double.tryParse(value) ?? 0;
+      _recipe.steps[stepIndex].ingredients[ingredientIndex].quantity = double.tryParse(value) ?? 0;
       // Don't notifyListeners
     }
   }
@@ -288,8 +282,7 @@ class EditRecipeViewModel extends ChangeNotifier {
     }
   }
 
-  void updateIngredientShape(
-      int stepIndex, int ingredientIndex, String? value) {
+  void updateIngredientShape(int stepIndex, int ingredientIndex, String? value) {
     if (stepIndex < _recipe.steps.length &&
         ingredientIndex < _recipe.steps[stepIndex].ingredients.length) {
       final ingredient = _recipe.steps[stepIndex].ingredients[ingredientIndex];
@@ -312,8 +305,7 @@ class EditRecipeViewModel extends ChangeNotifier {
     }
   }
 
-  void updateIngredientFactorId(
-      int stepIndex, int ingredientIndex, int factorId) {
+  void updateIngredientFactorId(int stepIndex, int ingredientIndex, int factorId) {
     if (_recipe.steps != null &&
         stepIndex < _recipe.steps!.length &&
         ingredientIndex < _recipe.steps![stepIndex].ingredients.length) {
@@ -348,9 +340,10 @@ class EditRecipeViewModel extends ChangeNotifier {
       return 1.0; // Default factor if no conversions exist at all
     }
 
-    final factor = convs
-        .firstWhere((e) => e.id == ingredient.selectedFactorId)
-        .factor; // Get the factor from the found element or the dummy
+    final factor =
+        convs
+            .firstWhere((e) => e.id == ingredient.selectedFactorId)
+            .factor; // Get the factor from the found element or the dummy
 
     // Ensure factor is positive
     return factor > 0 ? factor : 1.0;
@@ -393,8 +386,7 @@ class EditRecipeViewModel extends ChangeNotifier {
         _recipe.steps[stepIndex].imagePath = savedImagePath;
       } else {
         // Invalid step index, clean up and exit
-        if (savedImagePath != null)
-          await _recipeRepository.deleteImageFile(savedImagePath);
+        if (savedImagePath != null) await _recipeRepository.deleteImageFile(savedImagePath);
         _isLoading = false;
         notifyListeners(); // Notify loading END
         return;
@@ -414,18 +406,16 @@ class EditRecipeViewModel extends ChangeNotifier {
       // Clean up saved image if processing failed after saving
       if (savedImagePath != null &&
           _recipe.imagePath != savedImagePath &&
-          (stepIndex == null ||
-              _recipe.steps[stepIndex!].imagePath != savedImagePath)) {
+          (stepIndex == null || _recipe.steps[stepIndex!].imagePath != savedImagePath)) {
         await _recipeRepository.deleteImageFile(savedImagePath);
       }
     } finally {
       _setLoading(false);
-      if (structureChanged ||
-          (ocrTitle != null && _recipe.title == ocrTitle) ||
-          hasListeners) {
+      if (structureChanged || (ocrTitle != null && _recipe.title == ocrTitle) || hasListeners) {
         notifyListeners();
         debugPrint(
-            "pickAndProcessImage finished, notified listeners (loading/structure change/image update/title update).");
+          "pickAndProcessImage finished, notified listeners (loading/structure change/image update/title update).",
+        );
       }
     }
   }
@@ -464,10 +454,7 @@ class EditRecipeViewModel extends ChangeNotifier {
           var factor = await getFactor(i);
 
           // Check if nutrient is not null and factor is valid before calculation
-          if (nutrient != null &&
-              nutrient.id > 0 &&
-              i.selectedFactorId > 0 &&
-              factor > 0) {
+          if (nutrient != null && nutrient.id > 0 && i.selectedFactorId > 0 && factor > 0) {
             totalCalories += factor * i.quantity * nutrient.energKcal;
             totalCarbs += factor * i.quantity * nutrient.carbohydrates;
           }

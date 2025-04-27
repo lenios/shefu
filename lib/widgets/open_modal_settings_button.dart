@@ -6,26 +6,31 @@ import 'package:shefu/utils/app_color.dart';
 import '../l10n/app_localizations.dart';
 
 Widget openModalSettingsButton(
-    BuildContext context, ThemeData theme, AppLocalizations localization) {
+  BuildContext context,
+  ThemeData theme,
+  AppLocalizations localization,
+) {
   return GestureDetector(
     onTap: () {
       showModalBottomSheet(
-          isScrollControlled: true, // Allow sheet to take more height if needed
-          context: context,
-          backgroundColor: theme.dialogBackgroundColor,
-          shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20), topRight: Radius.circular(20))),
-          builder: (context) {
-            String currentLanguage =
-                Localizations.localeOf(context).languageCode;
+        isScrollControlled: true, // Allow sheet to take more height if needed
+        context: context,
+        backgroundColor: theme.dialogBackgroundColor,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
+          ),
+        ),
+        builder: (context) {
+          String currentLanguage = Localizations.localeOf(context).languageCode;
 
-            String? selectedGender;
-            bool isVegan = false;
-            bool isGlutenFree = false;
+          String? selectedGender;
+          bool isVegan = false;
+          bool isGlutenFree = false;
 
-            return StatefulBuilder(
-                builder: (BuildContext context, StateSetter setModalState) {
+          return StatefulBuilder(
+            builder: (BuildContext context, StateSetter setModalState) {
               return Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Wrap(
@@ -34,23 +39,24 @@ Widget openModalSettingsButton(
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(localization.language,
-                            style: theme.textTheme.titleMedium),
+                        Text(localization.language, style: theme.textTheme.titleMedium),
                         DropdownButton<String>(
                           style: TextStyle(
-                              color: theme.colorScheme.onSurface,
-                              backgroundColor: theme.dialogBackgroundColor),
-                          icon: Icon(Icons.language,
-                              color: theme.colorScheme.primary),
-                          items: AppLocalizations.supportedLocales
-                              .map((l) => l.languageCode)
-                              .map((String item) {
-                            return DropdownMenuItem<String>(
-                                value: item, child: Text(item.toUpperCase()));
-                          }).toList(),
+                            color: theme.colorScheme.onSurface,
+                            backgroundColor: theme.dialogBackgroundColor,
+                          ),
+                          icon: Icon(Icons.language, color: theme.colorScheme.primary),
+                          items:
+                              AppLocalizations.supportedLocales.map((l) => l.languageCode).map((
+                                String item,
+                              ) {
+                                return DropdownMenuItem<String>(
+                                  value: item,
+                                  child: Text(item.toUpperCase()),
+                                );
+                              }).toList(),
                           onChanged: (String? newValue) {
-                            if (newValue != null &&
-                                newValue != currentLanguage) {
+                            if (newValue != null && newValue != currentLanguage) {
                               MyApp.setLocale(context, Locale(newValue));
                               setModalState(() {
                                 currentLanguage = newValue;
@@ -150,8 +156,10 @@ Widget openModalSettingsButton(
                   ],
                 ),
               );
-            });
-          });
+            },
+          );
+        },
+      );
     },
     child: Container(
       width: 40, // Slightly larger tap target
@@ -164,7 +172,9 @@ Widget openModalSettingsButton(
       child: SvgPicture.asset(
         'assets/icons/filter.svg',
         colorFilter: ColorFilter.mode(
-            AppColor.colorScheme.onPrimary, BlendMode.srcIn), // Use theme color
+          AppColor.colorScheme.onPrimary,
+          BlendMode.srcIn,
+        ), // Use theme color
         width: 24, // Explicit size
         height: 24,
       ),

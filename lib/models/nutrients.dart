@@ -57,8 +57,16 @@ class Nutrient {
 
   Nutrient.empty(this.id);
 
-  Nutrient(this.id, this.descEN, this.descFR, this.protein, this.water,
-      this.lipidTotal, this.energKcal, this.carbohydrates);
+  Nutrient(
+    this.id,
+    this.descEN,
+    this.descFR,
+    this.protein,
+    this.water,
+    this.lipidTotal,
+    this.energKcal,
+    this.carbohydrates,
+  );
 }
 
 @embedded

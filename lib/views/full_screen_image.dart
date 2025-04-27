@@ -36,20 +36,17 @@ class FullScreenImage extends StatelessWidget {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const CircularProgressIndicator(color: Colors.white);
               } else if (snapshot.hasError) {
-                return const Icon(Icons.broken_image,
-                    color: Colors.white, size: 60);
+                return const Icon(Icons.broken_image, color: Colors.white, size: 60);
               } else if (snapshot.hasData) {
                 return Image.memory(
                   snapshot.data!,
                   fit: BoxFit.contain, // Fit whole image on screen
                   errorBuilder: (context, error, stackTrace) {
-                    return const Icon(Icons.broken_image,
-                        color: Colors.white, size: 60);
+                    return const Icon(Icons.broken_image, color: Colors.white, size: 60);
                   },
                 );
               } else {
-                return const Icon(Icons.broken_image,
-                    color: Colors.white, size: 60);
+                return const Icon(Icons.broken_image, color: Colors.white, size: 60);
               }
             },
           ),

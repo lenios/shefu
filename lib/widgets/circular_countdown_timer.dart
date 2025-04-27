@@ -82,8 +82,8 @@ class CircularCountDownTimer extends StatefulWidget {
      as in reverse when reaching '0' show 'GO', and for the rest of the instances follow 
      the default behavior.
   */
-  final Function(Function(Duration duration) defaultFormatterFunction,
-      Duration duration)? timeFormatterFunction;
+  final Function(Function(Duration duration) defaultFormatterFunction, Duration duration)?
+  timeFormatterFunction;
 
   const CircularCountDownTimer({
     required this.width,
@@ -125,20 +125,19 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
 
   String get time {
     String timeStamp = "";
-    if (widget.isReverse &&
-        !widget.autoStart &&
-        !countDownController!.isStarted) {
+    if (widget.isReverse && !widget.autoStart && !countDownController!.isStarted) {
       if (widget.timeFormatterFunction != null) {
-        return Function.apply(widget.timeFormatterFunction!,
-            [_getTime, Duration(seconds: widget.duration)]).toString();
+        return Function.apply(widget.timeFormatterFunction!, [
+          _getTime,
+          Duration(seconds: widget.duration),
+        ]).toString();
       } else {
         timeStamp = _getTime(Duration(seconds: widget.duration));
       }
     } else {
       Duration? duration = _controller!.duration! * _controller!.value;
       if (widget.timeFormatterFunction != null) {
-        return Function.apply(
-            widget.timeFormatterFunction!, [_getTime, duration]).toString();
+        return Function.apply(widget.timeFormatterFunction!, [_getTime, duration]).toString();
       } else {
         timeStamp = _getTime(duration);
       }
@@ -169,8 +168,7 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
     // }
     if ((!widget.isReverse && widget.isReverseAnimation) ||
         (widget.isReverse && !widget.isReverseAnimation)) {
-      _countDownAnimation =
-          Tween<double>(begin: 1, end: 0).animate(_controller!);
+      _countDownAnimation = Tween<double>(begin: 1, end: 0).animate(_controller!);
     }
   }
 
@@ -236,10 +234,7 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
   void initState() {
     countDownController = widget.controller ?? CountDownController();
     super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: Duration(seconds: widget.duration),
-    );
+    _controller = AnimationController(vsync: this, duration: Duration(seconds: widget.duration));
 
     _controller!.addStatusListener((status) {
       switch (status) {
@@ -276,48 +271,48 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
       width: widget.width,
       height: widget.height,
       child: AnimatedBuilder(
-          animation: _controller!,
-          builder: (context, child) {
-            return Align(
-              child: AspectRatio(
-                aspectRatio: 1.0,
-                child: Stack(
-                  children: <Widget>[
-                    Positioned.fill(
-                      child: CustomPaint(
-                        painter: CustomTimerPainter(
-                            animation: _countDownAnimation ?? _controller,
-                            fillColor: widget.fillColor,
-                            fillGradient: widget.fillGradient,
-                            ringColor: widget.ringColor,
-                            ringGradient: widget.ringGradient,
-                            strokeWidth: widget.strokeWidth,
-                            strokeCap: widget.strokeCap,
-                            isReverse: widget.isReverse,
-                            isReverseAnimation: widget.isReverseAnimation,
-                            backgroundColor: widget.backgroundColor,
-                            backgroundGradient: widget.backgroundGradient),
+        animation: _controller!,
+        builder: (context, child) {
+          return Align(
+            child: AspectRatio(
+              aspectRatio: 1.0,
+              child: Stack(
+                children: <Widget>[
+                  Positioned.fill(
+                    child: CustomPaint(
+                      painter: CustomTimerPainter(
+                        animation: _countDownAnimation ?? _controller,
+                        fillColor: widget.fillColor,
+                        fillGradient: widget.fillGradient,
+                        ringColor: widget.ringColor,
+                        ringGradient: widget.ringGradient,
+                        strokeWidth: widget.strokeWidth,
+                        strokeCap: widget.strokeCap,
+                        isReverse: widget.isReverse,
+                        isReverseAnimation: widget.isReverseAnimation,
+                        backgroundColor: widget.backgroundColor,
+                        backgroundGradient: widget.backgroundGradient,
                       ),
                     ),
-                    widget.isTimerTextShown
-                        ? Align(
-                            alignment: FractionalOffset.center,
-                            child: Text(
-                              time,
-                              style: widget.textStyle ??
-                                  const TextStyle(
-                                    fontSize: 16.0,
-                                    color: Colors.black,
-                                  ),
-                              textAlign: widget.textAlign,
-                            ),
-                          )
-                        : Container(),
-                  ],
-                ),
+                  ),
+                  widget.isTimerTextShown
+                      ? Align(
+                        alignment: FractionalOffset.center,
+                        child: Text(
+                          time,
+                          style:
+                              widget.textStyle ??
+                              const TextStyle(fontSize: 16.0, color: Colors.black),
+                          textAlign: widget.textAlign,
+                        ),
+                      )
+                      : Container(),
+                ],
               ),
-            );
-          }),
+            ),
+          );
+        },
+      ),
     );
   }
 
@@ -333,10 +328,7 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
 class CountDownController {
   CircularCountDownTimerState? _state;
   bool? _isReverse;
-  bool isStarted = false,
-      isPaused = false,
-      isResumed = false,
-      isRestarted = false;
+  bool isStarted = false, isPaused = false, isResumed = false, isRestarted = false;
   int? _initialDuration, _duration;
 
   /// This Method Starts the Countdown Timer
@@ -344,12 +336,12 @@ class CountDownController {
     if (_isReverse != null && _state != null && _state?._controller != null) {
       if (_isReverse!) {
         _state?._controller?.reverse(
-            from: _initialDuration == 0
-                ? 1
-                : 1 - (_initialDuration! / _duration!));
+          from: _initialDuration == 0 ? 1 : 1 - (_initialDuration! / _duration!),
+        );
       } else {
         _state?._controller?.forward(
-            from: _initialDuration == 0 ? 0 : (_initialDuration! / _duration!));
+          from: _initialDuration == 0 ? 0 : (_initialDuration! / _duration!),
+        );
       }
       isStarted = true;
       isPaused = false;
@@ -388,7 +380,8 @@ class CountDownController {
   void restart({int? duration}) {
     if (_isReverse != null && _state != null && _state?._controller != null) {
       _state?._controller!.duration = Duration(
-          seconds: duration ?? _state!._controller!.duration!.inSeconds);
+        seconds: duration ?? _state!._controller!.duration!.inSeconds,
+      );
       if (_isReverse!) {
         _state?._controller?.reverse(from: 1);
       } else {
@@ -417,8 +410,7 @@ class CountDownController {
 
   String? getTime() {
     if (_state != null && _state?._controller != null) {
-      return _state?._getTime(
-          _state!._controller!.duration! * _state!._controller!.value);
+      return _state?._getTime(_state!._controller!.duration! * _state!._controller!.value);
     }
     return "";
   }
@@ -456,15 +448,15 @@ class CustomTimerPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    Paint paint = Paint()
-      ..color = ringColor!
-      ..strokeWidth = strokeWidth!
-      ..strokeCap = strokeCap!
-      ..style = PaintingStyle.stroke;
+    Paint paint =
+        Paint()
+          ..color = ringColor!
+          ..strokeWidth = strokeWidth!
+          ..strokeCap = strokeCap!
+          ..style = PaintingStyle.stroke;
 
     if (ringGradient != null) {
-      final rect = Rect.fromCircle(
-          center: size.center(Offset.zero), radius: size.width / 2);
+      final rect = Rect.fromCircle(center: size.center(Offset.zero), radius: size.width / 2);
       paint.shader = ringGradient!.createShader(rect);
     } else {
       paint.shader = null;
@@ -481,8 +473,7 @@ class CustomTimerPainter extends CustomPainter {
     // }
 
     if (fillGradient != null) {
-      final rect = Rect.fromCircle(
-          center: size.center(Offset.zero), radius: size.width / 2);
+      final rect = Rect.fromCircle(center: size.center(Offset.zero), radius: size.width / 2);
       paint.shader = fillGradient!.createShader(rect);
     } else {
       paint.shader = null;
@@ -495,14 +486,12 @@ class CustomTimerPainter extends CustomPainter {
       final backgroundPaint = Paint();
 
       if (backgroundGradient != null) {
-        final rect = Rect.fromCircle(
-            center: size.center(Offset.zero), radius: size.width / 2.2);
+        final rect = Rect.fromCircle(center: size.center(Offset.zero), radius: size.width / 2.2);
         backgroundPaint.shader = backgroundGradient!.createShader(rect);
       } else {
         backgroundPaint.color = backgroundColor!;
       }
-      canvas.drawCircle(
-          size.center(Offset.zero), size.width / 2.2, backgroundPaint);
+      canvas.drawCircle(size.center(Offset.zero), size.width / 2.2, backgroundPaint);
     }
   }
 

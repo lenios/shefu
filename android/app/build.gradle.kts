@@ -1,5 +1,3 @@
-import com.android.build.OutputFile
-
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -49,7 +47,7 @@ android {
             isEnable = true
             reset()
             include("x86_64", "armeabi-v7a", "arm64-v8a")
-            isUniversalApk = false
+            isUniversalApk = false // keep for debug builds
         }
     }
 }

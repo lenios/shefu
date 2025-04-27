@@ -22,8 +22,7 @@ class DisplayRecipe extends StatefulWidget {
   State<DisplayRecipe> createState() => _DisplayRecipeState();
 }
 
-class _DisplayRecipeState extends State<DisplayRecipe>
-    with TickerProviderStateMixin {
+class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateMixin {
   late TabController _tabController;
 
   @override
@@ -55,53 +54,50 @@ class _DisplayRecipeState extends State<DisplayRecipe>
     final String imagePath = recipe.imagePath ?? '';
 
     return PopScope(
-        child: Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: _buildAppBar(context, viewModel),
-      body: Column(
-        children: [
-          _buildHeader(context, viewModel, imagePath),
-          // TabBar
-          Container(
-            height: 40,
-            color: AppColor.secondary,
-            child: TabBar(
-              controller: _tabController,
-              labelColor: Colors.black,
-              unselectedLabelColor: Colors.black54,
-              indicatorColor:
-                  AppColor.primary, // Use primary color for indicator
-              indicatorWeight: 3.0,
-              labelStyle:
-                  const TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
-              unselectedLabelStyle:
-                  const TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
-              tabs: [
-                Tab(text: AppLocalizations.of(context)!.steps),
-                Tab(text: AppLocalizations.of(context)!.shoppingList),
-                Tab(text: AppLocalizations.of(context)!.notes),
-              ],
+      child: Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: _buildAppBar(context, viewModel),
+        body: Column(
+          children: [
+            _buildHeader(context, viewModel, imagePath),
+            // TabBar
+            Container(
+              height: 40,
+              color: AppColor.secondary,
+              child: TabBar(
+                controller: _tabController,
+                labelColor: Colors.black,
+                unselectedLabelColor: Colors.black54,
+                indicatorColor: AppColor.primary, // Use primary color for indicator
+                indicatorWeight: 3.0,
+                labelStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+                unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
+                tabs: [
+                  Tab(text: AppLocalizations.of(context)!.steps),
+                  Tab(text: AppLocalizations.of(context)!.shoppingList),
+                  Tab(text: AppLocalizations.of(context)!.notes),
+                ],
+              ),
             ),
-          ),
 
-          // Page content
-          Expanded(
-            child: TabBarView(
-              controller: _tabController,
-              children: [
-                _buildStepsView(context, viewModel),
-                _buildShoppingList(context, viewModel),
-                _buildNotesView(context, viewModel),
-              ],
+            // Page content
+            Expanded(
+              child: TabBarView(
+                controller: _tabController,
+                children: [
+                  _buildStepsView(context, viewModel),
+                  _buildShoppingList(context, viewModel),
+                  _buildNotesView(context, viewModel),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
-    ));
+    );
   }
 
-  Widget _buildShoppingList(
-      BuildContext context, DisplayRecipeViewModel viewModel) {
+  Widget _buildShoppingList(BuildContext context, DisplayRecipeViewModel viewModel) {
     final recipe = viewModel.recipe;
     if (recipe == null) {
       return const Center(child: Text("No ingredients found.")); // TODO i10n
@@ -124,9 +120,7 @@ class _DisplayRecipeState extends State<DisplayRecipe>
                 title: Text(
                   "• ${formattedQuantity(ingredient.quantity * (viewModel.servings / recipe.servings))}${formattedUnit(ingredient.unit, context)} ${ingredient.name}",
                   style: TextStyle(
-                    decoration: isInBasket
-                        ? TextDecoration.lineThrough
-                        : TextDecoration.none,
+                    decoration: isInBasket ? TextDecoration.lineThrough : TextDecoration.none,
                     color: isInBasket ? Colors.green : Colors.black,
                   ),
                 ),
@@ -143,8 +137,7 @@ class _DisplayRecipeState extends State<DisplayRecipe>
     );
   }
 
-  Widget _buildStepsView(
-      BuildContext context, DisplayRecipeViewModel viewModel) {
+  Widget _buildStepsView(BuildContext context, DisplayRecipeViewModel viewModel) {
     final recipe = viewModel.recipe;
     if (recipe == null) {
       return const Center(child: Text("No steps found.")); // TODO i10n
@@ -162,30 +155,28 @@ class _DisplayRecipeState extends State<DisplayRecipe>
             Text(
               AppLocalizations.of(context)!.ingredients,
               style: theme.textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: theme.colorScheme.primary),
+                fontWeight: FontWeight.bold,
+                color: theme.colorScheme.primary,
+              ),
             ),
             Text(
               AppLocalizations.of(context)!.instructions,
               style: theme.textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: theme.colorScheme.primary),
+                fontWeight: FontWeight.bold,
+                color: theme.colorScheme.primary,
+              ),
             ),
           ],
         ),
         ...List.generate(recipe.steps.length, (index) {
-          return RecipeStepCard(
-            recipeStep: recipe.steps[index],
-            servings: servingsMultiplier,
-          );
+          return RecipeStepCard(recipeStep: recipe.steps[index], servings: servingsMultiplier);
         }),
         notesCard(recipe.notes),
       ],
     );
   }
 
-  Widget _buildNotesView(
-      BuildContext context, DisplayRecipeViewModel viewModel) {
+  Widget _buildNotesView(BuildContext context, DisplayRecipeViewModel viewModel) {
     return SingleChildScrollView(
       // allow scrolling long notes
       padding: const EdgeInsets.all(4.0),
@@ -208,17 +199,11 @@ class _DisplayRecipeState extends State<DisplayRecipe>
                   padding: const EdgeInsets.only(bottom: 12.0),
                   child: Text(
                     AppLocalizations.of(context)!.notes,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ),
               // Notes
-              SelectableText(
-                notes,
-                style: const TextStyle(fontSize: 16),
-              ),
+              SelectableText(notes, style: const TextStyle(fontSize: 16)),
             ],
           ),
         ),
@@ -228,8 +213,7 @@ class _DisplayRecipeState extends State<DisplayRecipe>
     }
   }
 
-  Widget _buildHeader(BuildContext context, DisplayRecipeViewModel viewModel,
-      String imagePath) {
+  Widget _buildHeader(BuildContext context, DisplayRecipeViewModel viewModel, String imagePath) {
     final recipe = viewModel.recipe!;
     final imageSize = MediaQuery.of(context).size.width * 1 / 3;
 
@@ -240,30 +224,27 @@ class _DisplayRecipeState extends State<DisplayRecipe>
         children: [
           // Image Container
           GestureDetector(
-              onTap: imagePath.isNotEmpty // Allow tap only if path exists
-                  ? () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) =>
-                              FullScreenImage(imagePath: imagePath)));
+            onTap:
+                imagePath
+                        .isNotEmpty // Allow tap only if path exists
+                    ? () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => FullScreenImage(imagePath: imagePath),
+                        ),
+                      );
                     }
-                  : null,
-              child: SizedBox(
-                width: imageSize,
-                height: imageSize,
-                child: Container(
-                  child: ClipRect(
-                    child: buildFutureImageWidget(
-                      context,
-                      imagePath,
-                    ),
-                  ),
-                ),
-              )),
+                    : null,
+            child: SizedBox(
+              width: imageSize,
+              height: imageSize,
+              child: Container(child: ClipRect(child: buildFutureImageWidget(context, imagePath))),
+            ),
+          ),
 
           Expanded(
             child: Container(
-              padding:
-                  const EdgeInsets.only(top: 20, bottom: 5, left: 15, right: 5),
+              padding: const EdgeInsets.only(top: 20, bottom: 5, left: 15, right: 5),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -291,23 +272,21 @@ class _DisplayRecipeState extends State<DisplayRecipe>
                     children: [
                       Text(
                         "${AppLocalizations.of(context)!.servings}: ",
-                        style: const TextStyle(
-                          color: Colors.white,
-                        ),
+                        style: const TextStyle(color: Colors.white),
                       ),
                       DropdownButton<int>(
                         value: viewModel.servings,
                         style: TextStyle(
-                            color: Colors.white,
-                            backgroundColor: AppColor.primarySoft),
-                        icon: const Icon(Icons.arrow_drop_down,
-                            color: Colors.white),
+                          color: Colors.white,
+                          backgroundColor: AppColor.primarySoft,
+                        ),
+                        icon: const Icon(Icons.arrow_drop_down, color: Colors.white),
                         dropdownColor: AppColor.primarySoft,
                         //underline: Container(), // Remove underline
-                        items: List.generate(12, (i) => i + 1).map((e) {
-                          return DropdownMenuItem<int>(
-                              value: e, child: Text(e.toString()));
-                        }).toList(),
+                        items:
+                            List.generate(12, (i) => i + 1).map((e) {
+                              return DropdownMenuItem<int>(value: e, child: Text(e.toString()));
+                            }).toList(),
                         onChanged: (int? newValue) {
                           if (newValue != null) {
                             viewModel.setServings(newValue);
@@ -320,8 +299,7 @@ class _DisplayRecipeState extends State<DisplayRecipe>
                   if (recipe.source.isNotEmpty)
                     Text(
                       '${AppLocalizations.of(context)!.source}: ${formattedSource(recipe.source)}',
-                      style:
-                          const TextStyle(color: Colors.white70, fontSize: 14),
+                      style: const TextStyle(color: Colors.white70, fontSize: 14),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -331,33 +309,38 @@ class _DisplayRecipeState extends State<DisplayRecipe>
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      buildHeaderStat(context,
-                          iconPath: 'assets/icons/carbohydrates.svg',
-                          value: recipe.carbohydrates,
-                          unit: AppLocalizations.of(context)!.gps),
+                      buildHeaderStat(
+                        context,
+                        iconPath: 'assets/icons/carbohydrates.svg',
+                        value: recipe.carbohydrates,
+                        unit: AppLocalizations.of(context)!.gps,
+                      ),
                       const SizedBox(width: 10),
-                      buildHeaderStat(context,
-                          iconPath: 'assets/icons/fire-filled.svg',
-                          value: recipe.calories,
-                          unit: AppLocalizations.of(context)!.kcps),
+                      buildHeaderStat(
+                        context,
+                        iconPath: 'assets/icons/fire-filled.svg',
+                        value: recipe.calories,
+                        unit: AppLocalizations.of(context)!.kcps,
+                      ),
                       const SizedBox(width: 10),
-                      buildHeaderStat(context,
-                          iconData: Icons.alarm,
-                          value: recipe.time,
-                          unit: AppLocalizations.of(context)!.min),
+                      buildHeaderStat(
+                        context,
+                        iconData: Icons.alarm,
+                        value: recipe.time,
+                        unit: AppLocalizations.of(context)!.min,
+                      ),
                     ],
                   ),
                 ],
               ),
             ),
-          )
+          ),
         ],
       ),
     );
   }
 
-  PreferredSizeWidget _buildAppBar(
-      BuildContext context, DisplayRecipeViewModel viewModel) {
+  PreferredSizeWidget _buildAppBar(BuildContext context, DisplayRecipeViewModel viewModel) {
     return PreferredSize(
       preferredSize: const Size.fromHeight(50),
       child: AppBar(
@@ -367,8 +350,7 @@ class _DisplayRecipeState extends State<DisplayRecipe>
         leading: BackButton(
           color: Colors.white,
           style: ButtonStyle(
-            backgroundColor:
-                WidgetStateProperty.all(Colors.black.withAlpha(80)),
+            backgroundColor: WidgetStateProperty.all(Colors.black.withAlpha(80)),
             shape: WidgetStateProperty.all(const CircleBorder()),
             padding: WidgetStateProperty.all(const EdgeInsets.all(2)),
           ),
@@ -382,63 +364,59 @@ class _DisplayRecipeState extends State<DisplayRecipe>
         ),
         actions: [
           IconButton(
-              onPressed: () {
-                // TODO: implement
-                // show snackbar "not implemented
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content:
-                      Text(AppLocalizations.of(context)!.notImplementedYet),
-                ));
-              },
-              icon: Icon(
-                  viewModel.isBookmarked
-                      ? Icons.bookmark_remove_outlined
-                      : Icons.bookmark_add_outlined,
-                  color: Colors.white)),
-          buildIconButton(
-              Icons.edit_outlined, AppLocalizations.of(context)!.editRecipe,
-              () async {
-            final result =
-                await context.push('/edit-recipe/${viewModel.recipe!.id}');
+            onPressed: () {
+              // TODO: implement
+              // show snackbar "not implemented
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(AppLocalizations.of(context)!.notImplementedYet)),
+              );
+            },
+            icon: Icon(
+              viewModel.isBookmarked ? Icons.bookmark_remove_outlined : Icons.bookmark_add_outlined,
+              color: Colors.white,
+            ),
+          ),
+          buildIconButton(Icons.edit_outlined, AppLocalizations.of(context)!.editRecipe, () async {
+            final result = await context.push('/edit-recipe/${viewModel.recipe!.id}');
             if (result == true && context.mounted) {
               await viewModel.reloadRecipe();
             }
           }),
           buildIconButton(
-              Icons.delete_outline,
-              AppLocalizations.of(context)!.deleteRecipe,
-              () async => showDialog<String>(
-                    context: context,
-                    builder: (BuildContext dialogContext) => AlertDialog(
-                      title: Text(
-                          "${AppLocalizations.of(context)!.deleteRecipe} ?"),
-                      content: Text(AppLocalizations.of(context)!.areYouSure),
-                      actions: <Widget>[
-                        TextButton(
-                          onPressed: () =>
-                              Navigator.pop(dialogContext, 'Cancel'),
-                          child: Text(AppLocalizations.of(context)!.cancel),
-                        ),
-                        TextButton(
-                          onPressed: () async {
-                            Navigator.pop(
-                                dialogContext, 'Delete'); // Close dialog
-                            await viewModel.deleteRecipe();
-                            if (context.mounted) {
-                              if (context.canPop()) {
-                                context.pop(true);
-                              } else {
-                                context.go('/');
-                              }
+            Icons.delete_outline,
+            AppLocalizations.of(context)!.deleteRecipe,
+            () async => showDialog<String>(
+              context: context,
+              builder:
+                  (BuildContext dialogContext) => AlertDialog(
+                    title: Text("${AppLocalizations.of(context)!.deleteRecipe} ?"),
+                    content: Text(AppLocalizations.of(context)!.areYouSure),
+                    actions: <Widget>[
+                      TextButton(
+                        onPressed: () => Navigator.pop(dialogContext, 'Cancel'),
+                        child: Text(AppLocalizations.of(context)!.cancel),
+                      ),
+                      TextButton(
+                        onPressed: () async {
+                          Navigator.pop(dialogContext, 'Delete'); // Close dialog
+                          await viewModel.deleteRecipe();
+                          if (context.mounted) {
+                            if (context.canPop()) {
+                              context.pop(true);
+                            } else {
+                              context.go('/');
                             }
-                          },
-                          child: Text(AppLocalizations.of(context)!.delete,
-                              style: TextStyle(
-                                  color: Colors.red)), //TODO check color
-                        ),
-                      ],
-                    ),
-                  )),
+                          }
+                        },
+                        child: Text(
+                          AppLocalizations.of(context)!.delete,
+                          style: TextStyle(color: Colors.red),
+                        ), //TODO check color
+                      ),
+                    ],
+                  ),
+            ),
+          ),
         ],
       ),
     );
