@@ -1,3 +1,5 @@
+import com.android.build.OutputFile
+
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -41,14 +43,39 @@ android {
             signingConfig = signingConfigs.getByName("release")
         }
     }
+
+    splits {
+        abi {
+            isEnable = true
+            reset()
+            include("x86_64", "armeabi-v7a", "arm64-v8a")
+            isUniversalApk = false
+        }
+    }
 }
 
 flutter {
     source = "../.."
 }
+
 dependencies {
     implementation("com.google.mlkit:text-recognition-chinese:16.0.0")
     implementation("com.google.mlkit:text-recognition-devanagari:16.0.0")
     implementation("com.google.mlkit:text-recognition-japanese:16.0.0")
     implementation("com.google.mlkit:text-recognition-korean:16.0.0")
+}
+
+val abiCodes = mapOf("x86_64" to 1, "armeabi-v7a" to 2, "arm64-v8a" to 3)
+
+androidComponents {
+    onVariants { variant ->
+        val baseVersionCode = variant.outputs.firstOrNull()?.versionCode?.get()?.toInt() ?: return@onVariants
+        variant.outputs.forEach { output ->
+            val abiFilter = output.filters.find { it.filterType.toString() == "ABI" }?.identifier
+            val abiVersionCode = abiCodes[abiFilter]
+            if (abiVersionCode != null) {
+                output.versionCode.set(baseVersionCode * 10 + abiVersionCode)
+            }
+        }
+    }
 }

@@ -1,0 +1,12 @@
+Shefu est un livre de recettes numérique open source et un assistant de cuisine, conçu pour vous aider à organiser, cuisiner et suivre vos recettes.
+
+Fonctionnalités clés :
+
+- Organisez vos recettes : Ajoutez, modifiez et recherchez facilement vos recettes classées par catégorie (plats principaux, desserts, etc.). Utilisez la recherche avancée et les filtres (comme la catégorie, le pays) pour trouver exactement ce dont vous avez besoin, au moment où vous en avez besoin. Recherchez « œuf » et vous trouverez toutes vos recettes contenant des œufs, même la meringue !
+- Scannez les recettes avec l'OCR : Vous avez une recette dans un livre ou un magazine ? Prenez simplement une photo ! L'OCR (Reconnaissance Optique de Caractères) intégrée de Shefu extrait intelligemment le titre, les ingrédients et les étapes. (Remarque : l'OCR fonctionne mieux avec des mises en page de texte claires et bien structurées et n'est PAS disponible sur la version fdroid).
+- Vue détaillée étape par étape : Suivez les recettes avec des instructions claires et faciles à lire. Ajoutez des images et des minuteurs facultatifs aux étapes individuelles. Les quantités d'ingrédients sont automatiquement adaptées aux portions souhaitées.
+- Suivi des nutriments et informations : Liez vos ingrédients à une vaste base de données de nutriments hors-ligne incluse (Source : Santé Canada). Shefu calcule automatiquement les calories et les glucides des recettes par personne en fonction des ingrédients, pour vous aider dans vos choix culinaires.
+- Génération de liste de courses : (Bientôt disponible !) Générez automatiquement une liste de courses basée sur les ingrédients manquants de vos recettes sélectionnées.
+- Prise en charge multilingue : Entièrement disponible en anglais, français et japonais.
+- Fonctionne totalement hors-ligne : Vos recettes sont stockées localement sur votre appareil, vous assurant un accès permanent. Aucune connexion Internet n'est requise pour utiliser l'application!
+

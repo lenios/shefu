@@ -1,0 +1,1 @@
+Un gestionnaire de recette hors-ligne
