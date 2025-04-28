@@ -22,7 +22,11 @@ formattedQuantity(double quantity, {bool fraction = true}) {
       return quantity.toInt();
     } else {
       //division: round to 2 decimals
-      return quantity.toStringAsFixed(2);
+      if (quantity > 10) {
+        return quantity.round(); // Round to nearest integer
+      } else {
+        return quantity.toStringAsFixed(2); // Round to 2 decimals for small quantities
+      }
     }
   } else {
     //fractions of less than one
