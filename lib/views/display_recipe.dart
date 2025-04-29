@@ -102,36 +102,41 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
     if (recipe == null) {
       return const Center(child: Text("No ingredients found.")); // TODO i10n
     }
+    final allIngredients = recipe.steps.expand((step) => step.ingredients).toList();
 
     return ListView.builder(
-      itemCount: recipe.steps.length,
-      itemBuilder: (context, stepIndex) {
-        final recipeStep = recipe.steps[stepIndex];
-        if (recipeStep.ingredients.isEmpty) {
-          return Container(); // Skip empty steps
-        }
+      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+      itemCount: allIngredients.length,
+      itemBuilder: (context, index) {
+        final ingredient = allIngredients[index];
+        final isInBasket = viewModel.basket[ingredient.name] ?? false;
 
-        return Column(
-          children: [
-            ...List.generate(recipeStep.ingredients.length, (ingredientIndex) {
-              final ingredient = recipeStep.ingredients[ingredientIndex];
-              final isInBasket = viewModel.basket[ingredient.name] ?? false;
-              return CheckboxListTile(
-                title: Text(
-                  "• ${formattedQuantity(ingredient.quantity * (viewModel.servings / recipe.servings))}${formattedUnit(ingredient.unit, context)} ${ingredient.name}",
-                  style: TextStyle(
-                    decoration: isInBasket ? TextDecoration.lineThrough : TextDecoration.none,
-                    color: isInBasket ? Colors.green : Colors.black,
+        return InkWell(
+          onTap: () => viewModel.toggleBasketItem(ingredient.name),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4.0),
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Checkbox(
+                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                  value: isInBasket,
+                  onChanged: (_) => viewModel.toggleBasketItem(ingredient.name),
+                ),
+                const SizedBox(width: 3),
+                Expanded(
+                  child: Text(
+                    "${formattedQuantity(ingredient.quantity * (viewModel.servings / recipe.servings))}${formattedUnit(ingredient.unit, context)} ${ingredient.name}",
+                    style: TextStyle(
+                      decoration: isInBasket ? TextDecoration.lineThrough : TextDecoration.none,
+                      color: isInBasket ? Colors.green : Colors.black,
+                    ),
                   ),
                 ),
-                value: isInBasket,
-                onChanged: (newValue) {
-                  viewModel.toggleBasketItem(ingredient.name);
-                },
-                controlAffinity: ListTileControlAffinity.leading,
-              );
-            }),
-          ],
+              ],
+            ),
+          ),
         );
       },
     );
@@ -258,8 +263,10 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
     final recipe = viewModel.recipe!;
     final imageSize = MediaQuery.of(context).size.width * 1 / 3;
 
+    final totalTopPadding = MediaQuery.of(context).padding.top + 50.0; // Status bar + AppBar
+
     return Container(
-      padding: const EdgeInsets.only(top: 50), // appbar height
+      padding: EdgeInsets.only(top: totalTopPadding),
       color: AppColor.primary,
       child: Row(
         children: [
@@ -291,7 +298,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
 
           Expanded(
             child: Container(
-              padding: const EdgeInsets.only(top: 20, bottom: 5, left: 15, right: 5),
+              padding: const EdgeInsets.only(top: 10, bottom: 5, left: 15, right: 5),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

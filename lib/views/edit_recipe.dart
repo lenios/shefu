@@ -794,6 +794,8 @@ class _EditRecipeState extends State<EditRecipe> {
         final ScrapedRecipe? scrapedData = await scraper.scrape(url, context);
         if (scrapedData != null && mounted) {
           viewModel.updateFromScrapedData(scrapedData);
+          // Sleep a little to avoid repeated dialog on phone
+          await Future.delayed(const Duration(milliseconds: 500));
         }
       } catch (e) {
         if (mounted) {
