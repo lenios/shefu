@@ -662,6 +662,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You have unsaved changes.'**
   String get unsavedChanges;
+
+  /// No description provided for @importRecipe.
+  ///
+  /// In en, this message translates to:
+  /// **'Import recipe'**
+  String get importRecipe;
+
+  /// No description provided for @importRecipeConfirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you want to import the recipe from {url}? This will overwrite the current title, steps, and image!'**
+  String importRecipeConfirmation(Object url);
+
+  /// No description provided for @scrapeError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to import recipe data from the URL.'**
+  String get scrapeError;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -1,11 +1,18 @@
+import 'dart:io'; // Import for File
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:country_picker/country_picker.dart';
+import 'package:http/http.dart' as http;
+import 'package:image/image.dart' as img;
 import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
 import 'package:shefu/models/recipes.dart';
 import 'package:shefu/models/nutrients.dart';
 import 'package:shefu/repositories/nutrient_repository.dart';
 import 'package:shefu/repositories/recipe_repository.dart';
 import 'package:shefu/utils/mlkit.dart';
+import 'package:shefu/utils/recipe_web_scraper.dart';
 import 'package:shefu/widgets/image_helper.dart';
 
 class EditRecipeViewModel extends ChangeNotifier {
@@ -317,6 +324,88 @@ class EditRecipeViewModel extends ChangeNotifier {
     }
   }
 
+  Future<void> updateFromScrapedData(ScrapedRecipe scrapedData) async {
+    // Overwrite title
+    recipe.title = scrapedData.title;
+    titleController.text = scrapedData.title;
+    recipe.servings = scrapedData.servings ?? recipe.servings;
+    servingsController.text = recipe.servings.toString();
+
+    // Overwrite steps and ingredients
+    recipe.steps =
+        scrapedData.steps.map((stepText) => RecipeStep.withInstruction(stepText)).toList();
+
+    // Ensure at least one step exists for ingredients
+    if (recipe.steps.isEmpty) {
+      recipe.steps.add(RecipeStep.withInstruction(''));
+    }
+
+    // Overwrite ingredients in the first step
+    if (scrapedData.ingredients.isNotEmpty) {
+      // for each ingredient, find the corresponding step by searching for the name in the instruction
+      for (var i in scrapedData.ingredients) {
+        // e.$1 = quantity, e.$2 = unit, e.$3 = name
+        double quantity = double.tryParse(i.$1.replaceAll(',', '.')) ?? 0;
+        String unit = i.$2;
+        String name = i.$3;
+
+        bool found = false;
+        for (var step in recipe.steps) {
+          if (step.instruction.contains(name)) {
+            step.ingredients.add(
+              IngredientTuple.withName(name)
+                ..quantity = quantity
+                ..unit = unit,
+            );
+            found = true;
+            break;
+          }
+        }
+        // For other not found ingredients, add them to the first step.
+        if (!found) {
+          recipe.steps[0].ingredients.add(
+            IngredientTuple.withName(name)
+              ..quantity = quantity
+              ..unit = unit,
+          );
+        }
+      }
+    }
+
+    // Download and save image if present, and generate thumbnail
+    if (scrapedData.imageUrl != null && scrapedData.imageUrl!.isNotEmpty) {
+      try {
+        final response = await http.get(Uri.parse(scrapedData.imageUrl!));
+        if (response.statusCode == 200) {
+          final directory = await getApplicationDocumentsDirectory();
+          final ext = p.extension(scrapedData.imageUrl!).toLowerCase();
+          final validExt = ['.jpg', '.jpeg', '.png', '.gif', '.webp'].contains(ext) ? ext : '.jpg';
+          final fileName = "${recipe.id}_main$validExt";
+          final localPath = p.join(directory.path, fileName);
+          final imageFile = File(localPath);
+
+          await imageFile.parent.create(recursive: true);
+          await imageFile.writeAsBytes(response.bodyBytes);
+          recipe.imagePath = localPath;
+
+          // --- Generate and save thumbnail ---
+          final decoded = img.decodeImage(response.bodyBytes);
+          if (decoded != null) {
+            final thumbnail = img.copyResize(decoded, width: 250);
+            final thumbPath = thumbnailPath(localPath);
+            await File(thumbPath).writeAsBytes(img.encodePng(thumbnail));
+          }
+
+          imageVersion.value++; // Notify listeners for image update
+        }
+      } catch (e) {
+        debugPrint("Error downloading or processing scraped image: $e");
+      }
+    }
+
+    notifyListeners();
+  }
+
   // --- Nutrient Data Access ---
 
   Future<List<Nutrient>> getFilteredNutrients(String filter) async {
@@ -348,6 +437,66 @@ class EditRecipeViewModel extends ChangeNotifier {
     // Ensure factor is positive
     return factor > 0 ? factor : 1.0;
   }
+
+  /// Saves image data (from picker or URL) locally and updates the recipe.
+  Future<bool> saveRecipeImage({
+    String? imageUrl,
+    Uint8List? imageBytes,
+    String? originalFileName,
+  }) async {
+    Uint8List? finalImageBytes = imageBytes;
+    String sourceForExtension = originalFileName ?? imageUrl ?? '';
+
+    // If URL is provided and bytes are not, download the image
+    if (imageUrl != null && imageUrl.isNotEmpty && finalImageBytes == null) {
+      try {
+        final response = await http.get(Uri.parse(imageUrl));
+        if (response.statusCode == 200) {
+          finalImageBytes = response.bodyBytes;
+        } else {
+          debugPrint(
+            "Failed to download image from URL: $imageUrl (Status: ${response.statusCode})",
+          );
+          return false; // Download failed
+        }
+      } catch (e) {
+        debugPrint("Error downloading image from URL $imageUrl: $e");
+        return false; // Network or other error
+      }
+    }
+
+    // If we don't have image bytes by now, we can't save
+    if (finalImageBytes == null) {
+      debugPrint("No image data provided or downloaded.");
+      return false;
+    }
+
+    try {
+      final directory = await getApplicationDocumentsDirectory();
+      final ext = p.extension(sourceForExtension).toLowerCase();
+      final validExt = ['.jpg', '.jpeg', '.png', '.gif', '.webp'].contains(ext) ? ext : '.jpg';
+      final fileName = "${recipe.id}_main$validExt";
+      final localPath = p.join(directory.path, fileName);
+      final imageFile = File(localPath);
+
+      await imageFile.parent.create(recursive: true); // TODO needed?
+      await imageFile.writeAsBytes(finalImageBytes);
+
+      // Update recipe state ONLY if save was successful
+      recipe.imagePath = localPath;
+      imageVersion.value++;
+      notifyListeners();
+      return true;
+    } catch (e) {
+      debugPrint("Error saving image locally: $e");
+      return false;
+    }
+  }
+
+  // TODO Method to be called from the image picker widget for code reuse?
+  // Future<void> handlePickedImage(Uint8List imageBytes, String fileName) async {
+  //   await saveRecipeImage(imageBytes: imageBytes, originalFileName: fileName);
+  // }
 
   // --- Image Handling ---
   final ImagePicker _picker = ImagePicker();

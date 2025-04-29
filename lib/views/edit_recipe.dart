@@ -10,6 +10,8 @@ import 'package:country_picker/country_picker.dart';
 import 'package:shefu/l10n/app_localizations.dart';
 import 'package:shefu/utils/app_color.dart';
 import 'package:shefu/viewmodels/edit_recipe_viewmodel.dart';
+import 'package:shefu/utils/recipe_web_scraper.dart';
+import 'package:flutter/scheduler.dart';
 
 import '../models/recipes.dart';
 import '../models/nutrients.dart';
@@ -31,20 +33,34 @@ class _EditRecipeState extends State<EditRecipe> {
   final Map<String, TextEditingController> _ingredientNameControllers =
       {}; // need to handle refresh properly, as nutrient search depends on name
 
+  bool _isScrapeDialogShowing = false; // Flag to prevent multiple dialogs
+
+  EditRecipeViewModel? editRecipeViewModel;
+
   @override
   void initState() {
     super.initState();
-    final viewModel = Provider.of<EditRecipeViewModel>(context, listen: false);
-
     titleFocusNode = FocusNode(); // Initialize the FocusNode
     sourceFocusNode = FocusNode();
     timeFocusNode = FocusNode();
     notesFocusNode = FocusNode();
     servingsFocusNode = FocusNode();
+
+    final viewModel = Provider.of<EditRecipeViewModel>(context, listen: false);
+    viewModel.sourceController.addListener(_handleSourceUrlChange);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Safe: context is valid here
+    editRecipeViewModel = Provider.of<EditRecipeViewModel>(context, listen: false);
   }
 
   @override
   void dispose() {
+    editRecipeViewModel!.sourceController.removeListener(_handleSourceUrlChange);
+
     titleFocusNode.dispose(); // Remember to dispose the focus node
     sourceFocusNode.dispose();
     timeFocusNode.dispose();
@@ -616,26 +632,35 @@ class _EditRecipeState extends State<EditRecipe> {
                       ),
                     ),
                     const SizedBox(width: 8),
-                    // Unit (keep as is, since it's a dropdown)
+                    // Unit
                     SizedBox(
                       width: 90,
-                      child: FormBuilderDropdown(
+                      child: FormBuilderDropdown<String>(
                         name: UniqueKey().toString(),
                         key: UniqueKey(),
                         initialValue: ingredient.unit,
                         icon: const Icon(Icons.keyboard_arrow_down_sharp),
-                        items:
-                            Unit.values.map((e) {
-                              String unitText =
-                                  e.toString() == ""
-                                      ? AppLocalizations.of(context)!.unit
-                                      : e.toString();
-                              return DropdownMenuItem(
-                                key: UniqueKey(),
-                                value: e.toString(),
-                                child: Text(formattedUnit(unitText, context).toLowerCase()),
-                              );
-                            }).toList(),
+                        items: () {
+                          // Get the list of standard units from the enum
+                          Set<String> values = Unit.values.map((e) => e.toString()).toSet();
+
+                          // if currentUnitValue is not in list (imported recipe), add it to the set
+                          if (!Unit.values.any((u) => u.toString() == ingredient.unit) &&
+                              ingredient.unit.isNotEmpty) {
+                            values.add(ingredient.unit);
+                          }
+
+                          return values.map((e) {
+                            String unitText =
+                                e.toString() == ""
+                                    ? AppLocalizations.of(context)!.unit
+                                    : e.toString();
+                            return DropdownMenuItem<String>(
+                              value: e,
+                              child: Text(formattedUnit(unitText, context).toLowerCase()),
+                            );
+                          }).toList();
+                        }(), // Call the function to get the items
                         onChanged:
                             (val) =>
                                 viewModel.updateIngredientUnit(stepIndex, ingredientIndex, val!),
@@ -713,6 +738,72 @@ class _EditRecipeState extends State<EditRecipe> {
     return (locale.languageCode == "fr" && nutrient.descFR.isNotEmpty)
         ? nutrient.descFR
         : nutrient.descEN;
+  }
+
+  void _handleSourceUrlChange() {
+    // Use SchedulerBinding to avoid calling showDialog during build/layout phase
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || _isScrapeDialogShowing) return;
+
+      final viewModel = Provider.of<EditRecipeViewModel>(context, listen: false);
+      final url = viewModel.sourceController.text.trim();
+      if (url.isEmpty || viewModel.recipe.source == url) return; // No URL to scrape or no change
+      final scraper = RecipeScraperFactory.getScraper(url);
+
+      if (scraper != null) {
+        _showScrapeConfirmationDialog(url, scraper, viewModel);
+      }
+    });
+  }
+
+  Future<void> _showScrapeConfirmationDialog(
+    String url,
+    RecipeWebScraper scraper,
+    EditRecipeViewModel viewModel,
+  ) async {
+    _isScrapeDialogShowing = true;
+    final l10n = AppLocalizations.of(context)!;
+
+    final bool? shouldScrape = await showDialog<bool>(
+      context: context,
+      barrierDismissible: false, // User must choose Yes or No
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
+          title: Text(l10n.importRecipe),
+          content: Text(l10n.importRecipeConfirmation(url)),
+          actions: <Widget>[
+            TextButton(
+              child: Text(l10n.cancel),
+              onPressed: () => Navigator.of(dialogContext).pop(false),
+            ),
+            FilledButton(
+              autofocus: true,
+              child: Text(l10n.importRecipe),
+              onPressed: () => Navigator.of(dialogContext).pop(true),
+            ),
+          ],
+        );
+      },
+    );
+    if (mounted) {
+      _isScrapeDialogShowing = false;
+    }
+
+    if (shouldScrape == true) {
+      try {
+        final ScrapedRecipe? scrapedData = await scraper.scrape(url, context);
+        if (scrapedData != null && mounted) {
+          viewModel.updateFromScrapedData(scrapedData);
+        }
+      } catch (e) {
+        if (mounted) {
+          debugPrint("Error during scraping: $e");
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(l10n.scrapeError), backgroundColor: Colors.red));
+        }
+      }
+    }
   }
 
   Future<bool> _onWillPop(BuildContext context, viewModel) async {

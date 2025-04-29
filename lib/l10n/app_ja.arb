@@ -93,5 +93,8 @@
   "leaveWithoutSaving": "保存せずに終了しますか？",
   "leave": "終了",
   "unsavedChanges": "保存されていない変更があります。",
-  "saveError": "保存エラー"
+  "saveError": "保存エラー",
+  "importRecipe": "レシピをインポート",
+  "importRecipeConfirmation": "{url}からレシピをインポートしますか？この場合、現在のタイトル、手順、画像が上書きされます。",
+  "scrapeError": "URLからレシピデータの取得に失敗しました。"
 }

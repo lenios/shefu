@@ -293,4 +293,15 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get unsavedChanges => 'Vous avez des changements non enregistrés.';
+
+  @override
+  String get importRecipe => 'Importer la recette';
+
+  @override
+  String importRecipeConfirmation(Object url) {
+    return 'Voulez-vous importer la recette depuis $url? Cela écrasera le titre, les étapes et l\'image.';
+  }
+
+  @override
+  String get scrapeError => 'Echec d\'importation de la recette depuis l\'URL.';
 }

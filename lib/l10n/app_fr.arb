@@ -94,5 +94,8 @@
           "leaveWithoutSaving": "Quitter sans enregistrer ?",
           "leave": "Quitter",
           "unsavedChanges": "Vous avez des changements non enregistrés.",
-          "saveError": "Erreur d'enregistrement"
+          "saveError": "Erreur d'enregistrement",
+          "importRecipe": "Importer la recette",
+          "importRecipeConfirmation": "Voulez-vous importer la recette depuis {url}? Cela écrasera le titre, les étapes et l'image.",
+          "scrapeError": "Echec d'importation de la recette depuis l'URL."
 }

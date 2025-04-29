@@ -293,4 +293,15 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get unsavedChanges => '保存されていない変更があります。';
+
+  @override
+  String get importRecipe => 'レシピをインポート';
+
+  @override
+  String importRecipeConfirmation(Object url) {
+    return '$urlからレシピをインポートしますか？この場合、現在のタイトル、手順、画像が上書きされます。';
+  }
+
+  @override
+  String get scrapeError => 'URLからレシピデータの取得に失敗しました。';
 }

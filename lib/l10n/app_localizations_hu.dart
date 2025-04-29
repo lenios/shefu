@@ -293,4 +293,15 @@ class AppLocalizationsHu extends AppLocalizations {
 
   @override
   String get unsavedChanges => 'Nem mentett változtatásai vannak.';
+
+  @override
+  String get importRecipe => 'Recept importálása';
+
+  @override
+  String importRecipeConfirmation(Object url) {
+    return 'Szeretné importálni a receptet az $url? Ez felülírja a címet, a lépéseket és a képet.';
+  }
+
+  @override
+  String get scrapeError => 'Nem sikerült importálni a receptet az URL-ről.';
 }

@@ -180,7 +180,44 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
     return SingleChildScrollView(
       // allow scrolling long notes
       padding: const EdgeInsets.all(4.0),
-      child: notesCard(viewModel.recipe?.notes, showTitle: true),
+      child: Column(
+        children: [
+          notesCard(viewModel.recipe?.notes, showTitle: true),
+          fullSource(viewModel.recipe?.source ?? ''),
+        ],
+      ),
+    );
+  }
+
+  Widget fullSource(sourceUrl) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text("", style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+        const SizedBox(height: 4),
+        InkWell(
+          // Make the URL clickable
+          onTap: () async {
+            final Uri uri = Uri.parse(sourceUrl);
+            // TODO check what to do
+          },
+          child: Card(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("${AppLocalizations.of(context)!.source}:", style: TextStyle(fontSize: 16)),
+                Text(
+                  "$sourceUrl",
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Theme.of(context).colorScheme.primary, // Style as a link
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 

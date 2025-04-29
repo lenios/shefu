@@ -39,15 +39,14 @@ class AppRouter {
         builder: (context, state) {
           final id = int.tryParse(state.pathParameters['id'] ?? '');
           if (id == null) {
-            // Handle error or redirect if ID is invalid
             return const Scaffold(body: Center(child: Text("Invalid Recipe ID")));
           }
           // Provide EditRecipeViewModel specifically for this route
           return ChangeNotifierProvider<EditRecipeViewModel>(
             create:
                 (context) => EditRecipeViewModel(
-                  context.read<RecipeRepository>(), // Read repository from context
-                  context.read<NutrientRepository>(), // Read repository from context
+                  context.read<RecipeRepository>(),
+                  context.read<NutrientRepository>(),
                   id, // Pass the recipe ID
                 ),
             child: const EditRecipe(), // Pass ID via ViewModel

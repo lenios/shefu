@@ -68,34 +68,6 @@ class HomePageViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> deleteRecipe(int recipeId) async {
-    _setLoading(true);
-    try {
-      // Optional: Delete associated image file first
-      final recipe = await _recipeRepository.getRecipeById(recipeId);
-      if (recipe != null) {
-        await _recipeRepository.deleteImageFile(recipe.imagePath);
-
-        for (var step in recipe.steps) {
-          await _recipeRepository.deleteImageFile(step.imagePath);
-        }
-      }
-
-      final success = await _recipeRepository.deleteRecipe(recipeId);
-      if (success) {
-        _recipes.removeWhere((r) => r.id == recipeId);
-      } else {
-        // Handle deletion failure (e.g., show a message)
-        print("Failed to delete recipe with ID: $recipeId");
-      }
-    } catch (e) {
-      print("Error deleting recipe: $e");
-      // Handle error (e.g., show a message)
-    } finally {
-      _setLoading(false); // This will trigger a rebuild via notifyListeners
-    }
-  }
-
   void searchRecipes(String term) {
     // Split the search term by commas and trim each term
     final List<String> searchTerms =
