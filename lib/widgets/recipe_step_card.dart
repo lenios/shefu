@@ -14,6 +14,32 @@ class RecipeStepCard extends StatelessWidget {
   final double servings;
 
   const RecipeStepCard({super.key, required this.recipeStep, required this.servings});
+  RichText _buildInstructionText(String instruction, BuildContext context) {
+    final theme = Theme.of(context);
+    final defaultStyle = theme.textTheme.bodyMedium;
+    final highlightStyle = theme.textTheme.labelLarge?.copyWith(
+      fontWeight: FontWeight.bold,
+      color: theme.colorScheme.primary,
+      fontSize: (theme.textTheme.labelLarge?.fontSize ?? 14) * 1.3,
+    );
+
+    final tempRegex = RegExp(r'(\d+\s*°?[CF])');
+    final spans = <TextSpan>[];
+    int last = 0;
+
+    // Split the instruction text into spans based on the temperature regex matches
+    for (final match in tempRegex.allMatches(instruction)) {
+      if (match.start > last) {
+        spans.add(TextSpan(text: instruction.substring(last, match.start), style: defaultStyle));
+      }
+      spans.add(TextSpan(text: match.group(0), style: highlightStyle));
+      last = match.end;
+    }
+    if (last < instruction.length) {
+      spans.add(TextSpan(text: instruction.substring(last), style: defaultStyle));
+    }
+    return RichText(text: TextSpan(children: spans));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +77,7 @@ class RecipeStepCard extends StatelessWidget {
                       style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
                     ),
                   ),
-                SelectableText(recipeStep.instruction, style: textTheme.bodyLarge),
+                _buildInstructionText(recipeStep.instruction, context),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.center,

@@ -33,14 +33,16 @@ class RecipeCard extends StatelessWidget {
             SizedBox(
               width: 100,
               height: 100,
-              child: Container(
-                color: colorScheme.surfaceContainerHighest.withAlpha(50), // Subtle background
-                child: buildFutureImageWidget(
-                  context,
-                  thumbnailPath(recipe.imagePath ?? ''),
-                  width: 100,
-                  height: 100,
-                ), // Display the built widget
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(6.0),
+                child: Container(
+                  child: buildFutureImageWidget(
+                    context,
+                    thumbnailPath(recipe.imagePath ?? ''),
+                    width: 100,
+                    height: 100,
+                  ),
+                ),
               ),
             ),
             // Text Content Area

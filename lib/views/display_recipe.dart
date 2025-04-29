@@ -190,6 +190,10 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
   }
 
   Widget fullSource(sourceUrl) {
+    if (sourceUrl.isEmpty) {
+      return const SizedBox();
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -275,7 +279,13 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
             child: SizedBox(
               width: imageSize,
               height: imageSize,
-              child: Container(child: ClipRect(child: buildFutureImageWidget(context, imagePath))),
+              child: Container(
+                decoration:
+                    imagePath.isNotEmpty
+                        ? BoxDecoration(border: Border.all(color: Colors.white, width: 0.5))
+                        : null, // No border if no image path
+                child: ClipRect(child: buildFutureImageWidget(context, imagePath)),
+              ),
             ),
           ),
 
