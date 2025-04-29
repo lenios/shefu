@@ -24,6 +24,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late final TextEditingController _searchController;
+
   Widget changeLanguageWidget() {
     // Create a dropdown for language selection
     var languages = AppLocalizations.supportedLocales.map((l) => l.languageCode).toList();
@@ -42,6 +44,18 @@ class _HomePageState extends State<HomePage> {
       value: Localizations.localeOf(context).languageCode, // Show current language
       dropdownColor: AppColor.primarySoft,
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _searchController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
   }
 
   @override
@@ -74,7 +88,7 @@ class _HomePageState extends State<HomePage> {
                       color: colorScheme.primaryContainer.withAlpha(70),
                     ),
                     child: TextFormField(
-                      initialValue: viewModel.filter,
+                      controller: _searchController,
                       onChanged: (value) {
                         viewModel.searchRecipes(value);
                       },
@@ -138,11 +152,11 @@ class _HomePageState extends State<HomePage> {
                     ),
                     icon: const Icon(Icons.refresh, color: Colors.white),
                     onPressed: () {
+                      _searchController.clear();
                       viewModel.setCategory(Category.all);
                       viewModel.setCountryCode("");
                       viewModel.searchRecipes("");
                       viewModel.setFilter("");
-                      // Reset the search filter
                     },
                     label: Text(
                       AppLocalizations.of(context)!.resetFilters,
