@@ -179,7 +179,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get allCountries => 'all countries';
 
   @override
-  String get shoppingList => 'shopping list';
+  String get shoppingList => 'Shopping list';
 
   @override
   String get pinch => 'pinch';
@@ -304,4 +304,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get scrapeError => 'Failed to import recipe data from the URL.';
+
+  @override
+  String get addToShoppingList => 'Add to shopping list';
+
+  @override
+  String get shoppingListEmpty => 'Your shopping list is empty.';
+
+  @override
+  String get clearList => 'Clear list';
+
+  @override
+  String get remove => 'Remove';
+
+  @override
+  String get itemsAddedToShoppingList => 'Items added to shopping list';
 }

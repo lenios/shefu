@@ -438,7 +438,7 @@ abstract class AppLocalizations {
   /// No description provided for @shoppingList.
   ///
   /// In en, this message translates to:
-  /// **'shopping list'**
+  /// **'Shopping list'**
   String get shoppingList;
 
   /// No description provided for @pinch.
@@ -680,6 +680,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Failed to import recipe data from the URL.'**
   String get scrapeError;
+
+  /// No description provided for @addToShoppingList.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to shopping list'**
+  String get addToShoppingList;
+
+  /// No description provided for @shoppingListEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Your shopping list is empty.'**
+  String get shoppingListEmpty;
+
+  /// No description provided for @clearList.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear list'**
+  String get clearList;
+
+  /// No description provided for @remove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get remove;
+
+  /// No description provided for @itemsAddedToShoppingList.
+  ///
+  /// In en, this message translates to:
+  /// **'Items added to shopping list'**
+  String get itemsAddedToShoppingList;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -69,7 +69,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                 controller: _tabController,
                 labelColor: Colors.black,
                 unselectedLabelColor: Colors.black54,
-                indicatorColor: AppColor.primary, // Use primary color for indicator
+                indicatorColor: AppColor.primary,
                 indicatorWeight: 3.0,
                 labelStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
                 unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
@@ -101,43 +101,74 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
   Widget _buildShoppingList(BuildContext context, DisplayRecipeViewModel viewModel) {
     final recipe = viewModel.recipe!;
     final allIngredients = recipe.steps.expand((step) => step.ingredients).toList();
+    final l10n = AppLocalizations.of(context)!;
 
-    return ListView.builder(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-      itemCount: allIngredients.length,
-      itemBuilder: (context, index) {
-        final ingredient = allIngredients[index];
-        final isInBasket = viewModel.basket[ingredient.name] ?? false;
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ConstrainedBox(
+            constraints: BoxConstraints(minHeight: 100.0),
+            child: ListView.builder(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: allIngredients.length,
+              itemBuilder: (context, index) {
+                final ingredient = allIngredients[index];
+                final isInBasket = viewModel.basket[ingredient.name] ?? false;
 
-        return InkWell(
-          onTap: () => viewModel.toggleBasketItem(ingredient.name),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 3.0),
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Checkbox(
-                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                  value: isInBasket,
-                  onChanged: (_) => viewModel.toggleBasketItem(ingredient.name),
-                ),
-                const SizedBox(width: 3),
-                Expanded(
-                  child: Text(
-                    "${formattedQuantity(ingredient.quantity * (viewModel.servings / recipe.servings))}"
-                    "${formattedUnit(ingredient.unit, context)} ${ingredient.name}",
-                    style: TextStyle(
-                      decoration: isInBasket ? TextDecoration.lineThrough : TextDecoration.none,
-                      color: isInBasket ? Colors.green : Colors.black,
+                return InkWell(
+                  onTap: () => viewModel.toggleBasketItem(ingredient.name),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 3.0).copyWith(left: 30.0),
+                    child: Row(
+                      children: [
+                        Checkbox(
+                          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                          value: isInBasket,
+                          onChanged: (_) => viewModel.toggleBasketItem(ingredient.name),
+                        ),
+                        const SizedBox(width: 3),
+                        Expanded(
+                          child: Text(
+                            "${formattedQuantity(ingredient.quantity * (viewModel.servings / recipe.servings))}"
+                            "${formattedUnit(ingredient.unit, context)} ${ingredient.name}",
+                            style: TextStyle(
+                              decoration:
+                                  isInBasket ? TextDecoration.lineThrough : TextDecoration.none,
+                              color: isInBasket ? Colors.green : Colors.black,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ),
-              ],
+                );
+              },
             ),
           ),
-        );
-      },
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: ElevatedButton.icon(
+              icon: const Icon(Icons.add_shopping_cart),
+              label: Text(l10n.addToShoppingList),
+              onPressed: () {
+                final itemsAdded = viewModel.addUncheckedItemsToBasket();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      itemsAdded > 0 ? l10n.itemsAddedToShoppingList : l10n.shoppingListEmpty,
+                    ),
+                    duration: const Duration(seconds: 2),
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 

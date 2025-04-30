@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:shefu/main.dart';
+import 'package:shefu/router/app_scaffold.dart';
 import 'package:shefu/utils/app_color.dart';
 import 'package:shefu/viewmodels/home_page_viewmodel.dart';
 import 'package:shefu/widgets/misc.dart';
@@ -65,8 +66,19 @@ class _HomePageState extends State<HomePage> {
     final colorScheme = theme.colorScheme;
 
     bool isHandset = MediaQuery.of(context).size.width < 550;
-    return Scaffold(
-      body: Column(
+    return AppScaffold(
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: addNewRecipe,
+        backgroundColor: AppColor.primarySoft,
+        tooltip: AppLocalizations.of(context)!.addRecipe,
+        icon: const Icon(Icons.add, color: Colors.white),
+        label: Text(
+          AppLocalizations.of(context)!.addRecipe,
+          style: const TextStyle(color: Colors.white),
+        ),
+        heroTag: 'homePageAddRecipe',
+      ),
+      child: Column(
         children: [
           // Search and Filter Bar
           Container(
@@ -307,16 +319,6 @@ class _HomePageState extends State<HomePage> {
                     ),
           ),
         ],
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: addNewRecipe,
-        backgroundColor: AppColor.primarySoft,
-        tooltip: AppLocalizations.of(context)!.addRecipe,
-        icon: const Icon(Icons.add, color: Colors.white),
-        label: Text(
-          AppLocalizations.of(context)!.addRecipe,
-          style: const TextStyle(color: Colors.white),
-        ),
       ),
     );
   }

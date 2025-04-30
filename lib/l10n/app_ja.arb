@@ -96,5 +96,12 @@
   "saveError": "保存エラー",
   "importRecipe": "レシピをインポート",
   "importRecipeConfirmation": "{url}からレシピをインポートしますか？この場合、現在のタイトル、手順、画像が上書きされます。",
-  "scrapeError": "URLからレシピデータの取得に失敗しました。"
+  "scrapeError": "URLからレシピデータの取得に失敗しました。",
+  "addToShoppingList": "リストに追加",
+  "shoppingList": "買い物リスト",
+  "shoppingListEmpty": "買い物リストは空です。",
+  "clearList": "買い物リストをクリア",
+  "remove": "削除",
+  "itemsAddedToShoppingList": "リストに追加されたアイテム"
+
 }

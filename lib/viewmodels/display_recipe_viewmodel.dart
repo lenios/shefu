@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shefu/models/recipes.dart';
+import 'package:shefu/models/shopping_basket.dart';
 import 'package:shefu/provider/my_app_state.dart';
 import 'package:shefu/repositories/recipe_repository.dart';
 
@@ -24,10 +25,9 @@ class DisplayRecipeViewModel extends ChangeNotifier {
   int get servings => _servings;
 
   Map<String, bool> _basket = {};
+  Map<String, bool> get basket => _basket;
 
   bool isBookmarked = false; // TODO: Implement bookmark logic
-
-  Map<String, bool> get basket => _basket;
 
   void _loadRecipe() async {
     _isLoading = true;
@@ -43,15 +43,14 @@ class DisplayRecipeViewModel extends ChangeNotifier {
   void _onAppStateChanged() {
     if (_appState.servings != _servings) {
       _servings = _appState.servings;
-      notifyListeners(); // Notify listeners if servings change globally
+      notifyListeners();
     }
   }
 
   void setServings(int newServings) {
     if (newServings > 0) {
-      // Ensure servings are positive
       _servings = newServings;
-      _appState.setServings(newServings); // Update global app state
+      _appState.setServings(newServings);
       notifyListeners();
     }
   }
@@ -77,24 +76,57 @@ class DisplayRecipeViewModel extends ChangeNotifier {
       _isLoading = true;
       notifyListeners();
       try {
-        // Delete associated images first
         await _recipeRepository.deleteImageFile(_recipe!.imagePath);
 
         for (var step in _recipe!.steps) {
           await _recipeRepository.deleteImageFile(step.imagePath);
         }
+
+        _appState.removeRecipeFromShoppingBasket(_recipe!);
         await _recipeRepository.deleteRecipe(_recipe!.id);
       } catch (e) {
         print("Error deleting recipe: $e");
       } finally {
         _isLoading = false;
+        notifyListeners();
       }
     }
   }
 
+  /// Gathers unchecked ingredients, adjusts quantities, and adds them to the global shopping basket.
+  /// Returns the number of items added.
+  int addUncheckedItemsToBasket() {
+    if (_recipe == null) return 0;
+
+    final List<BasketItem> itemsToAdd = [];
+    final double servingsMultiplier = _servings / _recipe!.servings;
+
+    for (final step in _recipe!.steps) {
+      for (final ingredient in step.ingredients) {
+        // Check the local basket state for this recipe view
+        if (!(_basket[ingredient.name] ?? false)) {
+          itemsToAdd.add(
+            BasketItem(
+              recipeId: _recipe!.id.toString(),
+              ingredientName: ingredient.name,
+              quantity: ingredient.quantity * servingsMultiplier,
+              unit: ingredient.unit,
+              isChecked: false,
+            ),
+          );
+        }
+      }
+    }
+
+    if (itemsToAdd.isNotEmpty) {
+      _appState.addItemsToShoppingBasket(itemsToAdd);
+    }
+    return itemsToAdd.length;
+  }
+
   Future<void> reloadRecipe() async {
     _isLoading = true;
-    notifyListeners(); // show loading state
+    notifyListeners();
 
     try {
       _recipe = await _recipeRepository.getRecipeById(_recipeId);
@@ -105,7 +137,7 @@ class DisplayRecipeViewModel extends ChangeNotifier {
       print("Error reloading recipe: $e");
     } finally {
       _isLoading = false;
-      notifyListeners(); // hide loading and show updated data
+      notifyListeners();
     }
   }
 

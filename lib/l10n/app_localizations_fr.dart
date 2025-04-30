@@ -303,5 +303,20 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String get scrapeError => 'Echec d\'importation de la recette depuis l\'URL.';
+  String get scrapeError => 'Échec d\'importation de la recette depuis l\'URL.';
+
+  @override
+  String get addToShoppingList => 'Ajouter à la liste de courses';
+
+  @override
+  String get shoppingListEmpty => 'Votre liste de courses est vide.';
+
+  @override
+  String get clearList => 'Vider la liste';
+
+  @override
+  String get remove => 'Retirer';
+
+  @override
+  String get itemsAddedToShoppingList => 'Articles ajoutés à la liste de courses';
 }

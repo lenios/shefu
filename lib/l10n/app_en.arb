@@ -97,5 +97,11 @@
           "saveError": "Save error",
           "importRecipe": "Import recipe",
           "importRecipeConfirmation": "Do you want to import the recipe from {url}? This will overwrite the current title, steps, and image!",
-          "scrapeError": "Failed to import recipe data from the URL."
+          "scrapeError": "Failed to import recipe data from the URL.",
+          "addToShoppingList": "Add to shopping list",
+          "shoppingList": "Shopping list",
+          "shoppingListEmpty": "Your shopping list is empty.",
+          "clearList": "Clear list",
+          "remove": "Remove",
+          "itemsAddedToShoppingList": "Items added to shopping list"
 }

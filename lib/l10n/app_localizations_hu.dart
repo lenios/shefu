@@ -304,4 +304,19 @@ class AppLocalizationsHu extends AppLocalizations {
 
   @override
   String get scrapeError => 'Nem sikerült importálni a receptet az URL-ről.';
+
+  @override
+  String get addToShoppingList => 'Lista hozzáadása';
+
+  @override
+  String get shoppingListEmpty => 'A bevásárlólista üres.';
+
+  @override
+  String get clearList => 'Lista ürítése';
+
+  @override
+  String get remove => 'Törlés';
+
+  @override
+  String get itemsAddedToShoppingList => 'Lista hozzáadása';
 }

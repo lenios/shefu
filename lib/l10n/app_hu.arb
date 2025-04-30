@@ -97,5 +97,11 @@
           "saveError": "Mentési hiba",
           "importRecipe": "Recept importálása",
           "importRecipeConfirmation": "Szeretné importálni a receptet az {url}? Ez felülírja a címet, a lépéseket és a képet.",
-          "scrapeError": "Nem sikerült importálni a receptet az URL-ről."
+          "scrapeError": "Nem sikerült importálni a receptet az URL-ről.",
+          "addToShoppingList": "Lista hozzáadása",
+          "shoppingList": "Bevásárlólista",
+          "shoppingListEmpty": "A bevásárlólista üres.",
+          "clearList": "Lista ürítése",
+          "remove": "Törlés",
+          "itemsAddedToShoppingList": "Lista hozzáadása"
 }

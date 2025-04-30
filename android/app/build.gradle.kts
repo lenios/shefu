@@ -50,6 +50,11 @@ android {
             isUniversalApk = false // keep for debug builds
         }
     }
+
+    dependenciesInfo {
+        includeInApk = false
+        includeInBundle = false
+    }
 }
 
 flutter {

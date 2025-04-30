@@ -304,4 +304,19 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get scrapeError => 'URLからレシピデータの取得に失敗しました。';
+
+  @override
+  String get addToShoppingList => 'リストに追加';
+
+  @override
+  String get shoppingListEmpty => '買い物リストは空です。';
+
+  @override
+  String get clearList => '買い物リストをクリア';
+
+  @override
+  String get remove => '削除';
+
+  @override
+  String get itemsAddedToShoppingList => 'リストに追加されたアイテム';
 }

@@ -6,6 +6,7 @@ import 'package:shefu/views/home.dart';
 import 'package:shefu/viewmodels/edit_recipe_viewmodel.dart';
 import 'package:shefu/viewmodels/display_recipe_viewmodel.dart';
 import 'package:shefu/provider/my_app_state.dart';
+import 'package:shefu/router/app_scaffold.dart';
 
 import '../repositories/nutrient_repository.dart';
 import '../repositories/recipe_repository.dart';
@@ -30,7 +31,7 @@ class AppRouter {
                   context.read<MyAppState>(),
                   id,
                 ),
-            child: DisplayRecipe(recipeId: id),
+            child: AppScaffold(child: DisplayRecipe(recipeId: id)),
           );
         },
       ),
@@ -49,7 +50,7 @@ class AppRouter {
                   context.read<NutrientRepository>(),
                   id, // Pass the recipe ID
                 ),
-            child: const EditRecipe(), // Pass ID via ViewModel
+            child: AppScaffold(child: const EditRecipe()),
           );
         },
       ),

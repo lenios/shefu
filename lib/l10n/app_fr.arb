@@ -97,5 +97,11 @@
           "saveError": "Erreur d'enregistrement",
           "importRecipe": "Importer la recette",
           "importRecipeConfirmation": "Voulez-vous importer la recette depuis {url}? Cela écrasera le titre, les étapes et l'image.",
-          "scrapeError": "Echec d'importation de la recette depuis l'URL."
+          "scrapeError": "Échec d'importation de la recette depuis l'URL.",
+          "addToShoppingList": "Ajouter à la liste de courses",
+          "shoppingList": "Liste de courses",
+          "shoppingListEmpty": "Votre liste de courses est vide.",
+          "clearList": "Vider la liste",
+          "remove": "Retirer",
+          "itemsAddedToShoppingList": "Articles ajoutés à la liste de courses"
 }
