@@ -660,7 +660,7 @@ abstract class AppLocalizations {
   /// No description provided for @unsavedChanges.
   ///
   /// In en, this message translates to:
-  /// **'You have unsaved changes.'**
+  /// **'You may have unsaved changes.'**
   String get unsavedChanges;
 
   /// No description provided for @importRecipe.

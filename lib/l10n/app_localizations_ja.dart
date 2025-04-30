@@ -292,7 +292,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get leave => '終了';
 
   @override
-  String get unsavedChanges => '保存されていない変更があります。';
+  String get unsavedChanges => '保存されていない変更があるかもしれません。';
 
   @override
   String get importRecipe => 'レシピをインポート';

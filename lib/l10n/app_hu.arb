@@ -93,7 +93,7 @@
           "noMatchingNutrient": "Nincs megfelelő hozzávaló",
           "leaveWithoutSaving": "Kilépés mentés nélkül?",
           "leave": "Kilépés",
-          "unsavedChanges": "Nem mentett változtatásai vannak.",
+          "unsavedChanges": "Lehet, hogy nem mentett változtatásai vannak.",
           "saveError": "Mentési hiba",
           "importRecipe": "Recept importálása",
           "importRecipeConfirmation": "Szeretné importálni a receptet az {url}? Ez felülírja a címet, a lépéseket és a képet.",

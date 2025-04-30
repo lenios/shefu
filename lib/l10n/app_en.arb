@@ -93,7 +93,7 @@
           "noMatchingNutrient": "No matching nutrients found",
           "leaveWithoutSaving": "Leave without saving?",
           "leave": "Leave",
-          "unsavedChanges": "You have unsaved changes.",
+          "unsavedChanges": "You may have unsaved changes.",
           "saveError": "Save error",
           "importRecipe": "Import recipe",
           "importRecipeConfirmation": "Do you want to import the recipe from {url}? This will overwrite the current title, steps, and image!",

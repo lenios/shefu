@@ -292,7 +292,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get leave => 'Quitter';
 
   @override
-  String get unsavedChanges => 'Vous avez des changements non enregistrés.';
+  String get unsavedChanges => 'Vous avez peut-être des changements non enregistrés.';
 
   @override
   String get importRecipe => 'Importer la recette';

@@ -5,6 +5,7 @@ import 'package:shefu/l10n/app_localizations.dart';
 import 'package:shefu/views/full_screen_image.dart';
 import 'package:shefu/utils/app_color.dart';
 import 'package:shefu/viewmodels/display_recipe_viewmodel.dart';
+import 'package:shefu/widgets/confirmation_dialog.dart';
 import 'package:shefu/widgets/icon_button.dart';
 import 'package:shefu/widgets/image_helper.dart';
 import 'package:shefu/widgets/misc.dart';
@@ -98,10 +99,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
   }
 
   Widget _buildShoppingList(BuildContext context, DisplayRecipeViewModel viewModel) {
-    final recipe = viewModel.recipe;
-    if (recipe == null) {
-      return const Center(child: Text("No ingredients found.")); // TODO i10n
-    }
+    final recipe = viewModel.recipe!;
     final allIngredients = recipe.steps.expand((step) => step.ingredients).toList();
 
     return ListView.builder(
@@ -114,7 +112,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
         return InkWell(
           onTap: () => viewModel.toggleBasketItem(ingredient.name),
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4.0),
+            padding: const EdgeInsets.symmetric(vertical: 3.0),
             child: Row(
               mainAxisSize: MainAxisSize.max,
               children: [
@@ -127,7 +125,8 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                 const SizedBox(width: 3),
                 Expanded(
                   child: Text(
-                    "${formattedQuantity(ingredient.quantity * (viewModel.servings / recipe.servings))}${formattedUnit(ingredient.unit, context)} ${ingredient.name}",
+                    "${formattedQuantity(ingredient.quantity * (viewModel.servings / recipe.servings))}"
+                    "${formattedUnit(ingredient.unit, context)} ${ingredient.name}",
                     style: TextStyle(
                       decoration: isInBasket ? TextDecoration.lineThrough : TextDecoration.none,
                       color: isInBasket ? Colors.green : Colors.black,
@@ -140,6 +139,33 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
         );
       },
     );
+  }
+
+  Future<void> _showDeleteConfirmation(
+    BuildContext context,
+    DisplayRecipeViewModel viewModel,
+  ) async {
+    final l10n = AppLocalizations.of(context)!;
+    final shouldDelete = await confirmationDialog(
+      context,
+      title: l10n.deleteRecipe,
+      content: l10n.areYouSure,
+      icon: Icons.delete_forever,
+      label: l10n.delete,
+      warning: true,
+    );
+
+    if (shouldDelete == true) {
+      await viewModel.deleteRecipe();
+      // recipe deleted, navigate back to the main screen
+      if (context.mounted) {
+        if (context.canPop()) {
+          context.pop(true);
+        } else {
+          context.go('/');
+        }
+      }
+    }
   }
 
   Widget _buildStepsView(BuildContext context, DisplayRecipeViewModel viewModel) {
@@ -439,37 +465,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
           buildIconButton(
             Icons.delete_outline,
             AppLocalizations.of(context)!.deleteRecipe,
-            () async => showDialog<String>(
-              context: context,
-              builder:
-                  (BuildContext dialogContext) => AlertDialog(
-                    title: Text("${AppLocalizations.of(context)!.deleteRecipe} ?"),
-                    content: Text(AppLocalizations.of(context)!.areYouSure),
-                    actions: <Widget>[
-                      TextButton(
-                        onPressed: () => Navigator.pop(dialogContext, 'Cancel'),
-                        child: Text(AppLocalizations.of(context)!.cancel),
-                      ),
-                      TextButton(
-                        onPressed: () async {
-                          Navigator.pop(dialogContext, 'Delete'); // Close dialog
-                          await viewModel.deleteRecipe();
-                          if (context.mounted) {
-                            if (context.canPop()) {
-                              context.pop(true);
-                            } else {
-                              context.go('/');
-                            }
-                          }
-                        },
-                        child: Text(
-                          AppLocalizations.of(context)!.delete,
-                          style: TextStyle(color: Colors.red),
-                        ), //TODO check color
-                      ),
-                    ],
-                  ),
-            ),
+            () async => await _showDeleteConfirmation(context, viewModel),
           ),
         ],
       ),

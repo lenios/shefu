@@ -292,7 +292,7 @@ class AppLocalizationsHu extends AppLocalizations {
   String get leave => 'Kilépés';
 
   @override
-  String get unsavedChanges => 'Nem mentett változtatásai vannak.';
+  String get unsavedChanges => 'Lehet, hogy nem mentett változtatásai vannak.';
 
   @override
   String get importRecipe => 'Recept importálása';

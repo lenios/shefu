@@ -92,7 +92,7 @@
   "noMatchingNutrient": "該当する栄養素が見つかりませんでした",
   "leaveWithoutSaving": "保存せずに終了しますか？",
   "leave": "終了",
-  "unsavedChanges": "保存されていない変更があります。",
+  "unsavedChanges": "保存されていない変更があるかもしれません。",
   "saveError": "保存エラー",
   "importRecipe": "レシピをインポート",
   "importRecipeConfirmation": "{url}からレシピをインポートしますか？この場合、現在のタイトル、手順、画像が上書きされます。",

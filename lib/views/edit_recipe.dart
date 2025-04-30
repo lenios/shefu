@@ -12,6 +12,7 @@ import 'package:shefu/utils/app_color.dart';
 import 'package:shefu/viewmodels/edit_recipe_viewmodel.dart';
 import 'package:shefu/utils/recipe_web_scraper.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:shefu/widgets/confirmation_dialog.dart';
 
 import '../models/recipes.dart';
 import '../models/nutrients.dart';
@@ -764,28 +765,16 @@ class _EditRecipeState extends State<EditRecipe> {
     _isScrapeDialogShowing = true;
     final l10n = AppLocalizations.of(context)!;
 
-    final bool? shouldScrape = await showDialog<bool>(
-      context: context,
-      barrierDismissible: false, // User must choose Yes or No
-      builder: (BuildContext dialogContext) {
-        return AlertDialog(
-          title: Text(l10n.importRecipe),
-          content: Text(l10n.importRecipeConfirmation(url)),
-          actions: <Widget>[
-            TextButton(
-              child: Text(l10n.cancel),
-              onPressed: () => Navigator.of(dialogContext).pop(false),
-            ),
-            FilledButton(
-              autofocus: true,
-              child: Text(l10n.importRecipe),
-              onPressed: () => Navigator.of(dialogContext).pop(true),
-            ),
-          ],
-        );
-      },
+    final bool? shouldScrape = await confirmationDialog(
+      context,
+      title: l10n.importRecipe,
+      content: l10n.importRecipeConfirmation(url),
+      icon: Icons.download,
+      label: l10n.importRecipe,
     );
+
     if (mounted) {
+      FocusScope.of(context).unfocus();
       _isScrapeDialogShowing = false;
     }
 
@@ -794,8 +783,6 @@ class _EditRecipeState extends State<EditRecipe> {
         final ScrapedRecipe? scrapedData = await scraper.scrape(url, context);
         if (scrapedData != null && mounted) {
           viewModel.updateFromScrapedData(scrapedData);
-          // Sleep a little to avoid repeated dialog on phone
-          await Future.delayed(const Duration(milliseconds: 500));
         }
       } catch (e) {
         if (mounted) {
@@ -806,72 +793,6 @@ class _EditRecipeState extends State<EditRecipe> {
         }
       }
     }
-  }
-
-  Future<bool> _onWillPop(BuildContext context, viewModel) async {
-    // Show confirmation dialog when clicking back button without saving
-    final shouldPop = await showDialog<bool>(
-      context: context,
-      builder: (BuildContext dialogContext) {
-        final l10n = AppLocalizations.of(context)!;
-        final theme = Theme.of(context);
-
-        return AlertDialog(
-          content: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(child: Text(l10n.unsavedChanges)),
-              IconButton(
-                icon: const Icon(Icons.close),
-                tooltip: l10n.cancel,
-                onPressed: () => Navigator.of(dialogContext).pop(false),
-                padding: EdgeInsets.zero,
-                constraints: const BoxConstraints(),
-                iconSize: 24,
-                splashRadius: 24,
-              ),
-            ],
-          ),
-          contentPadding: const EdgeInsets.fromLTRB(24, 14, 12, 8),
-          actions: [
-            OutlinedButton.icon(
-              icon: const Icon(Icons.exit_to_app),
-              label: Text(l10n.leave),
-              style: OutlinedButton.styleFrom(foregroundColor: theme.colorScheme.primary),
-              onPressed: () {
-                Navigator.of(dialogContext).pop(true); // Leave without saving
-              },
-            ),
-            FilledButton.icon(
-              icon: const Icon(Icons.save),
-              label: Text(l10n.save),
-              style: FilledButton.styleFrom(
-                backgroundColor: AppColor.primary,
-                foregroundColor: Colors.white,
-              ),
-              onPressed: () async {
-                bool saved = await viewModel.saveRecipe();
-                if (context.mounted) {
-                  if (saved) {
-                    Navigator.of(dialogContext).pop(); // close dialog
-                    if (Navigator.of(context).canPop()) {
-                      Navigator.of(context).pop(true);
-                    }
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(l10n.saveError), backgroundColor: Colors.red.shade700),
-                    );
-                  }
-                }
-              },
-            ),
-          ],
-          actionsPadding: const EdgeInsets.fromLTRB(24, 0, 24, 16),
-          actionsAlignment: MainAxisAlignment.spaceBetween,
-        );
-      },
-    );
-    return shouldPop ?? false;
   }
 
   @override
@@ -897,13 +818,40 @@ class _EditRecipeState extends State<EditRecipe> {
           );
         } else {
           return PopScope(
-            canPop: false,
+            canPop: false, // Prevent default pop behavior
             onPopInvokedWithResult: (didPop, result) async {
+              // If the pop was already handled (e.g., by nested Navigator), do nothing.
               if (didPop) return;
               final navigator = Navigator.of(context);
-              final shouldPop = await _onWillPop(context, viewModel);
-              if (shouldPop && context.mounted) {
-                navigator.pop();
+              final l10n = AppLocalizations.of(context)!;
+
+              // Show confirmation dialog when clicking back button without saving
+              final bool? shouldSave = await confirmationDialog(
+                context,
+                title: "${l10n.save} ?",
+                content: l10n.unsavedChanges,
+                icon: Icons.save,
+                label: l10n.save,
+                cancelIcon: const Icon(Icons.exit_to_app),
+                cancelLabel: l10n.leave,
+              );
+
+              if (shouldSave == true) {
+                bool saved = await viewModel.saveRecipe();
+                if (!context.mounted) return;
+                if (saved) {
+                  if (navigator.canPop()) {
+                    navigator.pop(true);
+                  }
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text(l10n.saveError), backgroundColor: Colors.red),
+                  );
+                }
+              } else if (shouldSave == false) {
+                if (navigator.canPop()) {
+                  navigator.pop(false);
+                }
               }
             },
             child: Scaffold(

@@ -292,7 +292,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get leave => 'Leave';
 
   @override
-  String get unsavedChanges => 'You have unsaved changes.';
+  String get unsavedChanges => 'You may have unsaved changes.';
 
   @override
   String get importRecipe => 'Import recipe';
