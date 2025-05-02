@@ -75,7 +75,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                 unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
                 tabs: [
                   Tab(text: AppLocalizations.of(context)!.steps),
-                  Tab(text: AppLocalizations.of(context)!.shoppingList),
+                  Tab(text: AppLocalizations.of(context)!.ingredients),
                   Tab(text: AppLocalizations.of(context)!.notes),
                 ],
               ),
@@ -107,6 +107,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+          Text(l10n.checkIngredientsYouHave),
           ConstrainedBox(
             constraints: BoxConstraints(minHeight: 100.0),
             child: ListView.builder(
@@ -153,7 +154,13 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
             padding: const EdgeInsets.all(16.0),
             child: ElevatedButton.icon(
               icon: const Icon(Icons.add_shopping_cart),
-              label: Text(l10n.addToShoppingList),
+              label: Text(
+                viewModel.anyItemsChecked()
+                    ? l10n.addMissingToShoppingList
+                    : l10n.addAllToShoppingList,
+
+                textAlign: TextAlign.center,
+              ),
               onPressed: () {
                 final itemsAdded = viewModel.addUncheckedItemsToBasket();
                 ScaffoldMessenger.of(context).showSnackBar(

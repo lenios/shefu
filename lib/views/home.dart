@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:shefu/main.dart';
 import 'package:shefu/router/app_scaffold.dart';
 import 'package:shefu/utils/app_color.dart';
 import 'package:shefu/viewmodels/home_page_viewmodel.dart';
@@ -26,26 +25,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late final TextEditingController _searchController;
-
-  Widget changeLanguageWidget() {
-    // Create a dropdown for language selection
-    var languages = AppLocalizations.supportedLocales.map((l) => l.languageCode).toList();
-    return DropdownButton<String>(
-      style: TextStyle(color: Colors.white, backgroundColor: AppColor.primarySoft),
-      icon: const Icon(Icons.settings, color: Colors.white),
-      items:
-          languages.map((String item) {
-            return DropdownMenuItem<String>(value: item, child: Text(item));
-          }).toList(),
-      onChanged: (String? newValue) {
-        if (newValue != null) {
-          MyApp.setLocale(context, Locale(newValue));
-        }
-      },
-      value: Localizations.localeOf(context).languageCode, // Show current language
-      dropdownColor: AppColor.primarySoft,
-    );
-  }
 
   @override
   void initState() {

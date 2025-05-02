@@ -71,6 +71,18 @@ class DisplayRecipeViewModel extends ChangeNotifier {
     }
   }
 
+  bool anyItemsChecked() {
+    if (recipe == null) return false;
+
+    final allIngredients =
+        recipe!.steps
+            .expand((step) => step.ingredients)
+            .map((ingredient) => ingredient.name)
+            .toList();
+
+    return allIngredients.any((name) => basket[name] == true);
+  }
+
   Future<void> deleteRecipe() async {
     if (_recipe != null) {
       _isLoading = true;

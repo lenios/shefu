@@ -681,11 +681,23 @@ abstract class AppLocalizations {
   /// **'Failed to import recipe data from the URL.'**
   String get scrapeError;
 
-  /// No description provided for @addToShoppingList.
+  /// No description provided for @checkIngredientsYouHave.
   ///
   /// In en, this message translates to:
-  /// **'Add to shopping list'**
-  String get addToShoppingList;
+  /// **'Check ingredients you already have:'**
+  String get checkIngredientsYouHave;
+
+  /// No description provided for @addAllToShoppingList.
+  ///
+  /// In en, this message translates to:
+  /// **'Add all ingredients\n to shopping list'**
+  String get addAllToShoppingList;
+
+  /// No description provided for @addMissingToShoppingList.
+  ///
+  /// In en, this message translates to:
+  /// **'Add missing ingredients\n to shopping list'**
+  String get addMissingToShoppingList;
 
   /// No description provided for @shoppingListEmpty.
   ///
@@ -710,6 +722,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Items added to shopping list'**
   String get itemsAddedToShoppingList;
+
+  /// No description provided for @tips.
+  ///
+  /// In en, this message translates to:
+  /// **'Tips'**
+  String get tips;
+
+  /// No description provided for @tipSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'You can search recipes by entering anything you filled when adding a recipe: name, source, notes, step instructions or ingredients name. For example, you can find chocolate mousse by searching for egg.'**
+  String get tipSearch;
+
+  /// No description provided for @tipShoppingList.
+  ///
+  /// In en, this message translates to:
+  /// **'On a display recipe page, click the \'ingredients\' tab (or swipe left) to see the ingredients list.\nYou can add multiple recipes to the shopping list, and switch between them from the shopping list floating button (click on the recipe title).'**
+  String get tipShoppingList;
+
+  /// No description provided for @tipImport.
+  ///
+  /// In en, this message translates to:
+  /// **'You can import a recipe by pasting the full URL from a supported website into the source field when editing a recipe.\nFor now, only www.marmiton.org is supported.'**
+  String get tipImport;
+
+  /// No description provided for @tipNutritionalValues.
+  ///
+  /// In en, this message translates to:
+  /// **'When editing an ingredient in a recipe, you can select a matching nutrient and factor. If you select both, nutritional values will be automatically computed and added to the recipe!'**
+  String get tipNutritionalValues;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -306,7 +306,13 @@ class AppLocalizationsFr extends AppLocalizations {
   String get scrapeError => 'Échec d\'importation de la recette depuis l\'URL.';
 
   @override
-  String get addToShoppingList => 'Ajouter à la liste de courses';
+  String get checkIngredientsYouHave => 'Cochez les ingrédients que vous avez déjà :';
+
+  @override
+  String get addAllToShoppingList => 'Ajouter tous les ingredients\n à la liste de courses';
+
+  @override
+  String get addMissingToShoppingList => 'Ajouter les ingredients manquants\nà la liste de courses';
 
   @override
   String get shoppingListEmpty => 'Votre liste de courses est vide.';
@@ -319,4 +325,19 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get itemsAddedToShoppingList => 'Articles ajoutés à la liste de courses';
+
+  @override
+  String get tips => 'Astuces';
+
+  @override
+  String get tipSearch => 'Vous pouvez rechercher des recettes en saisissant n\'importe quelle information saisie: nom, source, notes, instructions ou ingrédients. Par exemple, vous pouvez trouver une recette de mousse au chocolat en recherchant œuf.';
+
+  @override
+  String get tipShoppingList => 'Sur la page d\'une recette, cliquez sur l\'onglet \'ingrédients\' (ou balayez vers la gauche) pour voir la liste des ingrédients.\nVous pouvez ajouter plusieurs recettes à la liste de courses, et basculer entre elles depuis le bouton flottant de la liste de courses (cliquez sur le titre de la recette).';
+
+  @override
+  String get tipImport => 'Vous pouvez importer une recette en collant l\'URL complète d\'un site web supporté dans le champ source lors de l\'édition d\'une recette.\nPour l\'instant, seul www.marmiton.org est pris en charge.';
+
+  @override
+  String get tipNutritionalValues => 'Lors de l\'édition d\'un ingrédient dans une recette, vous pouvez sélectionner un nutriment correspondant et un facteur. Si vous sélectionnez les deux, les valeurs nutritionnelles seront automatiquement calculées et ajoutées à la recette !';
 }

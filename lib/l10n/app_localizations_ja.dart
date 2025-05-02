@@ -306,7 +306,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String get scrapeError => 'URLからレシピデータの取得に失敗しました。';
 
   @override
-  String get addToShoppingList => 'リストに追加';
+  String get checkIngredientsYouHave => 'すでに持っている材料をチェック:';
+
+  @override
+  String get addAllToShoppingList => 'すべての材料を\n買い物リストに追加';
+
+  @override
+  String get addMissingToShoppingList => '足りない材料を\n買い物リストに追加';
 
   @override
   String get shoppingListEmpty => '買い物リストは空です。';
@@ -319,4 +325,19 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get itemsAddedToShoppingList => 'リストに追加されたアイテム';
+
+  @override
+  String get tips => 'ヒント';
+
+  @override
+  String get tipSearch => 'レシピ追加時に入力した情報で検索できます：名前、出典、メモ、手順の指示、または材料名。例えば、卵で検索するとチョコレートムースが見つかります。';
+
+  @override
+  String get tipShoppingList => 'レシピ表示ページで「材料」タブをクリック（または左にスワイプ）すると材料リストが表示されます。\n複数のレシピを買い物リストに追加でき、買い物リストのフローティングボタンからレシピを切り替えられます（レシピタイトルをクリック）。';
+
+  @override
+  String get tipImport => 'レシピを編集する際、対応するウェブサイトの完全なURLを出典フィールドに貼り付けることでレシピをインポートできます。\n現在は、www.marmiton.orgのみをサポートしています。';
+
+  @override
+  String get tipNutritionalValues => 'レシピの材料を編集する際、対応する栄養素と係数を選択できます。両方を選択すると、栄養価が自動計算されレシピに追加されます！';
 }

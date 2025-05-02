@@ -306,7 +306,13 @@ class AppLocalizationsHu extends AppLocalizations {
   String get scrapeError => 'Nem sikerült importálni a receptet az URL-ről.';
 
   @override
-  String get addToShoppingList => 'Lista hozzáadása';
+  String get checkIngredientsYouHave => 'Jelölje be a már meglévő hozzávalókat:';
+
+  @override
+  String get addAllToShoppingList => 'Összes hozzávaló hozzáadása\n a bevásárlólistához';
+
+  @override
+  String get addMissingToShoppingList => 'Hiányzó hozzávalók hozzáadása\n a bevásárlólistához';
 
   @override
   String get shoppingListEmpty => 'A bevásárlólista üres.';
@@ -315,8 +321,23 @@ class AppLocalizationsHu extends AppLocalizations {
   String get clearList => 'Lista ürítése';
 
   @override
-  String get remove => 'Törlés';
+  String get remove => 'Eltávolítás';
 
   @override
-  String get itemsAddedToShoppingList => 'Lista hozzáadása';
+  String get itemsAddedToShoppingList => 'Elemek hozzáadva a bevásárlólistához';
+
+  @override
+  String get tips => 'Tippek';
+
+  @override
+  String get tipSearch => 'Bármilyen kifejezésre kereshet, amit a recept hozzáadásakor megadott: név, forrás, jegyzetek, utasítások vagy hozzávalók neve. Például, a csokoládé mousse-t megtalálhatja a \'tojás\' keresőszóval.';
+
+  @override
+  String get tipShoppingList => 'A recept oldalán kattintson a \'hozzávalók\' fülre (vagy húzza balra), hogy lássa a hozzávalók listáját.\nTöbb receptet is hozzáadhat a bevásárlólistához, és válthat közöttük a bevásárlólista lebegő gombbal (kattintson a recept címére).';
+
+  @override
+  String get tipImport => 'Importálhat receptet úgy, hogy beilleszti a teljes URL-t egy támogatott weboldalról a forrás mezőbe a recept szerkesztésekor.\nJelenleg csak a www.marmiton.org támogatott.';
+
+  @override
+  String get tipNutritionalValues => 'Amikor egy hozzávalót szerkeszt a receptben, kiválaszthat egy megfelelő tápanyagot és szorzót. Ha mindkettőt kiválasztja, a tápérték automatikusan kiszámításra kerül és hozzáadódik a recepthez!';
 }

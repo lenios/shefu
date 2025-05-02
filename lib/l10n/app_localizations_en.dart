@@ -306,7 +306,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get scrapeError => 'Failed to import recipe data from the URL.';
 
   @override
-  String get addToShoppingList => 'Add to shopping list';
+  String get checkIngredientsYouHave => 'Check ingredients you already have:';
+
+  @override
+  String get addAllToShoppingList => 'Add all ingredients\n to shopping list';
+
+  @override
+  String get addMissingToShoppingList => 'Add missing ingredients\n to shopping list';
 
   @override
   String get shoppingListEmpty => 'Your shopping list is empty.';
@@ -319,4 +325,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get itemsAddedToShoppingList => 'Items added to shopping list';
+
+  @override
+  String get tips => 'Tips';
+
+  @override
+  String get tipSearch => 'You can search recipes by entering anything you filled when adding a recipe: name, source, notes, step instructions or ingredients name. For example, you can find chocolate mousse by searching for egg.';
+
+  @override
+  String get tipShoppingList => 'On a display recipe page, click the \'ingredients\' tab (or swipe left) to see the ingredients list.\nYou can add multiple recipes to the shopping list, and switch between them from the shopping list floating button (click on the recipe title).';
+
+  @override
+  String get tipImport => 'You can import a recipe by pasting the full URL from a supported website into the source field when editing a recipe.\nFor now, only www.marmiton.org is supported.';
+
+  @override
+  String get tipNutritionalValues => 'When editing an ingredient in a recipe, you can select a matching nutrient and factor. If you select both, nutritional values will be automatically computed and added to the recipe!';
 }
