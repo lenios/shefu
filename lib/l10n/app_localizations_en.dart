@@ -122,7 +122,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get noRecipe => 'No recipe available. Please create one, using the + button on the bottom.';
+  String get noRecipe => 'No recipe available.\nPlease create one, using the + button on the bottom.';
 
   @override
   String get noStepsAddedYet => 'No steps added yet.';

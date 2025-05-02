@@ -263,21 +263,12 @@ class _HomePageState extends State<HomePage> {
                     ? const Center(child: CircularProgressIndicator())
                     : viewModel.recipes.isEmpty
                     ? Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children:
-                            AppLocalizations.of(context)!.noRecipe
-                                .split('.')
-                                .map(
-                                  (phrase) => Text(
-                                    phrase.trim(), // Trim whitespace
-                                    textAlign: TextAlign.center, // Center text
-                                    style: theme.textTheme.bodyLarge?.copyWith(
-                                      color: colorScheme.onSurfaceVariant,
-                                    ),
-                                  ),
-                                )
-                                .toList(),
+                      child: Text(
+                        AppLocalizations.of(context)!.noRecipe,
+                        textAlign: TextAlign.center,
+                        style: theme.textTheme.bodyLarge?.copyWith(
+                          color: colorScheme.onSurfaceVariant,
+                        ),
                       ),
                     )
                     : GridView.builder(

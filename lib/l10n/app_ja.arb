@@ -36,7 +36,7 @@
   "shape": "形",
   "notes": "メモ",
   "enterTextFor": "{field}の入力をしてください",
-  "noRecipe": "+ ボタンを押して、.新しいレシピを作成してください。",
+  "noRecipe": "+ ボタンを押して、\n新しいレシピを作成してください。",
   "noStepsAddedYet": "まだ手順を追加していません。",
   "category": "カテゴリー",
   "all": "すべて",

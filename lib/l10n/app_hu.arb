@@ -37,7 +37,7 @@
           "notes": "Jegyzetek",
           "enterTextFor": "Kérjük, töltse ki a(z) {field} mezőt",
           "noRecipe":
-              "Nincs elérhető recept. Kérjük, hozzon létre egyet az alul található + gombbal.",
+              "Nincs elérhető recept.\nKérjük, hozzon létre egyet az alul található + gombbal.",
           "noStepsAddedYet": "Még nincsenek lépések hozzáadva.",
           "category": "Kategória",
           "all": "Mind",

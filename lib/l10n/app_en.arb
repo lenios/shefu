@@ -37,7 +37,7 @@
           "notes": "Notes",
           "enterTextFor": "Please enter some text for {field}",
           "noRecipe":
-              "No recipe available. Please create one, using the + button on the bottom.",
+              "No recipe available.\nPlease create one, using the + button on the bottom.",
           "noStepsAddedYet": "No steps added yet.",
           "category": "category",
           "all": "all",

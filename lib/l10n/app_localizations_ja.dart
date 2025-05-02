@@ -122,7 +122,7 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
-  String get noRecipe => '+ ボタンを押して、.新しいレシピを作成してください。';
+  String get noRecipe => '+ ボタンを押して、\n新しいレシピを作成してください。';
 
   @override
   String get noStepsAddedYet => 'まだ手順を追加していません。';

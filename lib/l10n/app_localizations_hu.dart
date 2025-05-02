@@ -122,7 +122,7 @@ class AppLocalizationsHu extends AppLocalizations {
   }
 
   @override
-  String get noRecipe => 'Nincs elérhető recept. Kérjük, hozzon létre egyet az alul található + gombbal.';
+  String get noRecipe => 'Nincs elérhető recept.\nKérjük, hozzon létre egyet az alul található + gombbal.';
 
   @override
   String get noStepsAddedYet => 'Még nincsenek lépések hozzáadva.';
