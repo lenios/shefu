@@ -109,5 +109,6 @@
           "tipSearch": "Bármilyen kifejezésre kereshet, amit a recept hozzáadásakor megadott: név, forrás, jegyzetek, utasítások vagy hozzávalók neve. Például, a csokoládé mousse-t megtalálhatja a 'tojás' keresőszóval.",
           "tipShoppingList": "A recept oldalán kattintson a 'hozzávalók' fülre (vagy húzza balra), hogy lássa a hozzávalók listáját.\nTöbb receptet is hozzáadhat a bevásárlólistához, és válthat közöttük a bevásárlólista lebegő gombbal (kattintson a recept címére).",
           "tipImport": "Importálhat receptet úgy, hogy beilleszti a teljes URL-t egy támogatott weboldalról a forrás mezőbe a recept szerkesztésekor.\nJelenleg csak a www.marmiton.org támogatott.",
-          "tipNutritionalValues": "Amikor egy hozzávalót szerkeszt a receptben, kiválaszthat egy megfelelő tápanyagot és szorzót. Ha mindkettőt kiválasztja, a tápérték automatikusan kiszámításra kerül és hozzáadódik a recepthez!"
+          "tipNutritionalValues": "Amikor egy hozzávalót szerkeszt a receptben, kiválaszthat egy megfelelő tápanyagot és szorzót. Ha mindkettőt kiválasztja, a tápérték automatikusan kiszámításra kerül és hozzáadódik a recepthez!",
+          "gatherIngredients": "Hozzávalók összegyűjtése"
 }

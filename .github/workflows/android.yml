@@ -66,7 +66,7 @@ jobs:
         run: |
           rm lib/utils/mlkit.dart
           sed -i '/import.*utils\/mlkit.dart/d' "lib/viewmodels/edit_recipe_viewmodel.dart"
-          sed -i 's/await ocrParse(image, _recipe)/(false, null)/g' "lib/viewmodels/edit_recipe_viewmodel.dart"
+          sed -i 's/await ocrParse(.*)/(false, null)/g' "lib/viewmodels/edit_recipe_viewmodel.dart"
           sed -i '/com\.google\.mlkit/d' android/app/build.gradle.kts
           flutter pub remove google_mlkit_text_recognition
           flutter pub get

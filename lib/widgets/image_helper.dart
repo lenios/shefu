@@ -105,9 +105,18 @@ Widget buildFutureImageWidget(
   Widget imageWidget;
   final imageSize = MediaQuery.of(context).size.width * 1 / 3;
   if (imagePath.isNotEmpty) {
+    final file = File(imagePath);
+    // Check if file exists before attempting to read it
+    if (!file.existsSync()) {
+      debugPrint("Image file does not exist: '$imagePath'");
+      return Center(
+        child: Icon(Icons.broken_image, size: imageSize * 0.5, color: Colors.white.withAlpha(150)),
+      );
+    }
+
     imageWidget = FutureBuilder<Uint8List>(
       key: ValueKey<String>('image-$imagePath'),
-      future: File(imagePath).readAsBytes(), // Load bytes asynchronously
+      future: file.readAsBytes(), // Load bytes asynchronously
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(

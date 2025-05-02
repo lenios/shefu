@@ -106,7 +106,7 @@ class _EditRecipeState extends State<EditRecipe> {
                     : null)
                 : viewModel.recipe.imagePath;
 
-        final bool pathIsValid = path != null && path.isNotEmpty;
+        final bool pathIsValid = path != null && path.isNotEmpty && File(path).existsSync();
         Widget imageDisplayWidget;
         if (pathIsValid) {
           // --- Use FutureBuilder to load bytes asynchronously ---
@@ -147,8 +147,8 @@ class _EditRecipeState extends State<EditRecipe> {
             },
           );
         } else {
-          // Show placeholder if path is invalid/empty
-          debugPrint("Displaying placeholder icon (path invalid).");
+          // Show placeholder if path is invalid/empty or file doesn't exist
+          debugPrint("Displaying placeholder icon (path invalid or file does not exist).");
           imageDisplayWidget = Icon(Icons.add_a_photo_outlined, size: 50, color: Colors.grey[600]);
         }
 
@@ -173,7 +173,11 @@ class _EditRecipeState extends State<EditRecipe> {
                 icon: const Icon(Icons.image_search),
                 label: Text(AppLocalizations.of(context)!.pickImage),
                 onPressed: () async {
-                  await viewModel.pickAndProcessImage(stepIndex: stepIndex, name: "$baseName.jpg");
+                  await viewModel.pickAndProcessImage(
+                    stepIndex: stepIndex,
+                    name: "$baseName.jpg",
+                    context: context,
+                  );
                 },
               ),
             ),
@@ -783,6 +787,14 @@ class _EditRecipeState extends State<EditRecipe> {
         final ScrapedRecipe? scrapedData = await scraper.scrape(url, context);
         if (scrapedData != null && mounted) {
           viewModel.updateFromScrapedData(scrapedData);
+          // prevent loop in scrape dialog on real devices
+          viewModel.sourceController.removeListener(_handleSourceUrlChange);
+          await Future.delayed(const Duration(milliseconds: 500));
+          if (mounted) {
+            viewModel.sourceController.addListener(_handleSourceUrlChange);
+            FocusScope.of(context).requestFocus(titleFocusNode);
+            // TODO: Show success message in snackbar?
+          }
         }
       } catch (e) {
         if (mounted) {

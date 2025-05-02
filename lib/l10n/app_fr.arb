@@ -110,5 +110,6 @@
           "tipSearch": "Vous pouvez rechercher des recettes en saisissant n'importe quelle information saisie: nom, source, notes, instructions ou ingrédients. Par exemple, vous pouvez trouver une recette de mousse au chocolat en recherchant œuf.",
           "tipShoppingList": "Sur la page d'une recette, cliquez sur l'onglet 'ingrédients' (ou balayez vers la gauche) pour voir la liste des ingrédients.\nVous pouvez ajouter plusieurs recettes à la liste de courses, et basculer entre elles depuis le bouton flottant de la liste de courses (cliquez sur le titre de la recette).",
           "tipImport": "Vous pouvez importer une recette en collant l'URL complète d'un site web supporté dans le champ source lors de l'édition d'une recette.\nPour l'instant, seul www.marmiton.org est pris en charge.",
-          "tipNutritionalValues": "Lors de l'édition d'un ingrédient dans une recette, vous pouvez sélectionner un nutriment correspondant et un facteur. Si vous sélectionnez les deux, les valeurs nutritionnelles seront automatiquement calculées et ajoutées à la recette !"
+          "tipNutritionalValues": "Lors de l'édition d'un ingrédient dans une recette, vous pouvez sélectionner un nutriment correspondant et un facteur. Si vous sélectionnez les deux, les valeurs nutritionnelles seront automatiquement calculées et ajoutées à la recette !",
+          "gatherIngredients": "Réunissez les ingrédients"
 }

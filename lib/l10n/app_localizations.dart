@@ -752,6 +752,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'When editing an ingredient in a recipe, you can select a matching nutrient and factor. If you select both, nutritional values will be automatically computed and added to the recipe!'**
   String get tipNutritionalValues;
+
+  /// No description provided for @gatherIngredients.
+  ///
+  /// In en, this message translates to:
+  /// **'Gather ingredients'**
+  String get gatherIngredients;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

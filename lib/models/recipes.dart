@@ -109,6 +109,8 @@ class IngredientTuple {
 
   IngredientTuple.withName(this.name);
 
+  IngredientTuple.withNameAndQuantity(this.name, this.quantity);
+
   IngredientTuple copy() {
     return IngredientTuple()
       ..name = name

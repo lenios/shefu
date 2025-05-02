@@ -340,4 +340,7 @@ class AppLocalizationsHu extends AppLocalizations {
 
   @override
   String get tipNutritionalValues => 'Amikor egy hozzávalót szerkeszt a receptben, kiválaszthat egy megfelelő tápanyagot és szorzót. Ha mindkettőt kiválasztja, a tápérték automatikusan kiszámításra kerül és hozzáadódik a recepthez!';
+
+  @override
+  String get gatherIngredients => 'Hozzávalók összegyűjtése';
 }

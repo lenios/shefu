@@ -340,4 +340,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get tipNutritionalValues => 'レシピの材料を編集する際、対応する栄養素と係数を選択できます。両方を選択すると、栄養価が自動計算されレシピに追加されます！';
+
+  @override
+  String get gatherIngredients => '材料を収集';
 }

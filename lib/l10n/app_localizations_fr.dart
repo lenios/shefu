@@ -340,4 +340,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get tipNutritionalValues => 'Lors de l\'édition d\'un ingrédient dans une recette, vous pouvez sélectionner un nutriment correspondant et un facteur. Si vous sélectionnez les deux, les valeurs nutritionnelles seront automatiquement calculées et ajoutées à la recette !';
+
+  @override
+  String get gatherIngredients => 'Réunissez les ingrédients';
 }

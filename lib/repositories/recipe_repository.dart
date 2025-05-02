@@ -94,6 +94,8 @@ class RecipeRepository {
         if (await file.exists()) {
           await file.delete();
           debugPrint("Deleted image file: $path");
+        } else {
+          debugPrint("Image file not found: $path");
         }
       } catch (e) {
         debugPrint("Error deleting image file $path: $e");

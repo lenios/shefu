@@ -14,6 +14,7 @@ import 'package:shefu/repositories/recipe_repository.dart';
 import 'package:shefu/utils/mlkit.dart';
 import 'package:shefu/utils/recipe_web_scraper.dart';
 import 'package:shefu/widgets/image_helper.dart';
+import '../l10n/app_localizations.dart';
 
 class EditRecipeViewModel extends ChangeNotifier {
   final RecipeRepository _recipeRepository; // Use RecipeRepository
@@ -482,11 +483,16 @@ class EditRecipeViewModel extends ChangeNotifier {
       await imageFile.parent.create(recursive: true); // TODO needed?
       await imageFile.writeAsBytes(finalImageBytes);
 
-      // Update recipe state ONLY if save was successful
-      recipe.imagePath = localPath;
-      imageVersion.value++;
-      notifyListeners();
-      return true;
+      if (await imageFile.exists()) {
+        // Update recipe state ONLY if save was successful
+        recipe.imagePath = localPath;
+        imageVersion.value++;
+        notifyListeners();
+        return true;
+      } else {
+        debugPrint("Failed to verify image file was created: $localPath");
+        return false;
+      }
     } catch (e) {
       debugPrint("Error saving image locally: $e");
       return false;
@@ -500,7 +506,7 @@ class EditRecipeViewModel extends ChangeNotifier {
 
   // --- Image Handling ---
   final ImagePicker _picker = ImagePicker();
-  Future<void> pickAndProcessImage({int? stepIndex, String? name}) async {
+  Future<void> pickAndProcessImage({int? stepIndex, String? name, BuildContext? context}) async {
     final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
     if (image == null) return; // user cancelled
 
@@ -510,9 +516,10 @@ class EditRecipeViewModel extends ChangeNotifier {
     bool structureChanged = false;
     String? savedImagePath;
     String? ocrTitle;
+    var l10n = AppLocalizations.of(context!);
 
     try {
-      (structureChanged, ocrTitle) = await ocrParse(image, _recipe);
+      (structureChanged, ocrTitle) = await ocrParse(image, _recipe, l10n!);
       //(structureChanged, ocrTitle) = (false, null);
 
       // --- Handle potential title update ---
@@ -661,5 +668,15 @@ class EditRecipeViewModel extends ChangeNotifier {
     servingsController.dispose();
     _imageVersion.dispose();
     super.dispose();
+  }
+
+  bool imageFileExists(String? path) {
+    if (path == null || path.isEmpty) return false;
+    try {
+      return File(path).existsSync();
+    } catch (e) {
+      debugPrint("Error checking if image file exists: $e");
+      return false;
+    }
   }
 }
