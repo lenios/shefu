@@ -54,11 +54,66 @@ Future<(bool, String?)> ocrParse(XFile image, Recipe recipe, AppLocalizations l1
         // Use RegExp to find sentences (start with capital letter, end with period)
         final sentenceRegex = RegExp(r'[A-Z][^.!?]*[.!?]');
         final matches = sentenceRegex.allMatches(allStepsText);
+        final sentences =
+            matches
+                .map((m) => m.group(0)?.trim())
+                .where((s) => s != null && s.isNotEmpty)
+                .toList()
+                .cast<String>();
 
         int stepsAdded = 0;
-        for (final match in matches) {
-          final sentence = match.group(0)?.trim();
-          if (sentence != null && sentence.isNotEmpty) {
+
+        debugPrint(
+          "Found ${sentences.length} sentences in the text, ${blocks.skip(2).length * 2}: $sentences",
+        );
+
+        if (sentences.length > (blocks.skip(2).length * 1.5) && blocks.length > 3) {
+          // If too many phrases compared to original steps, use block-based parsing instead
+
+          debugPrint("Too many phrases detected. Using block-based parsing instead.");
+
+          // Process each block after ingredients as a separate step
+          for (int blockIndex = 2; blockIndex < blocks.length; blockIndex++) {
+            final blockLines =
+                blocks[blockIndex].lines
+                    .map((l) => l.text.trim())
+                    .where((t) => t.isNotEmpty)
+                    .toList();
+
+            if (blockLines.isEmpty) continue;
+
+            final blockText = blockLines.join(' ');
+            if (blockText.isEmpty) continue;
+
+            // Check if block contains a title (colon-separated)
+            if (blockText.contains(':')) {
+              final colonIndex = blockText.indexOf(':');
+              final stepName = blockText.substring(0, colonIndex).trim();
+              final stepInstruction = blockText.substring(colonIndex + 1).trim();
+
+              // Check for existing step
+              bool stepExists = recipe.steps.any(
+                (step) => step.name == stepName && step.instruction == stepInstruction,
+              );
+
+              if (!stepExists && stepInstruction.isNotEmpty) {
+                final step = RecipeStep.withInstruction(stepInstruction);
+                step.name = stepName;
+                recipe.steps.add(step);
+                stepsAdded++;
+              }
+            } else {
+              // No colon, use whole block as instruction
+              bool stepExists = recipe.steps.any((step) => step.instruction == blockText);
+              if (!stepExists) {
+                recipe.steps.add(RecipeStep.withInstruction(blockText));
+                stepsAdded++;
+              }
+            }
+          }
+        } else {
+          // Use phrase-based parsing for fewer phrases
+          for (final sentence in sentences) {
             // if sentence contains a colon, consider the first part as name/title
             if (sentence.contains(':')) {
               final colonIndex = sentence.indexOf(':');
@@ -133,7 +188,7 @@ Future<(bool, String?)> ocrParse(XFile image, Recipe recipe, AppLocalizations l1
                 .where((s) => s.isNotEmpty)
                 .toList();
       } else {
-        // process each line as an ingredient
+        // process each line as an ingredient (no title found)
         ingredientNames =
             blocks[1].lines
                 .map((line) => line.text.trim())
