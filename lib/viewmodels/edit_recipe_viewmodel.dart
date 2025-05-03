@@ -7,6 +7,7 @@ import 'package:image/image.dart' as img;
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:shefu/models/recipes.dart';
 import 'package:shefu/models/nutrients.dart';
 import 'package:shefu/repositories/nutrient_repository.dart';
@@ -61,6 +62,11 @@ class EditRecipeViewModel extends ChangeNotifier {
     timeController = TextEditingController();
     notesController = TextEditingController();
     servingsController = TextEditingController();
+  }
+
+  // Static helper to access the viewmodel from context
+  static EditRecipeViewModel of(BuildContext context) {
+    return Provider.of<EditRecipeViewModel>(context, listen: false);
   }
 
   Future<void> initViewModel() async {
