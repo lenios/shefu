@@ -425,18 +425,22 @@ class EditRecipeViewModel extends ChangeNotifier {
   }
 
   Future<double> getFactor(IngredientTuple ingredient) async {
+    if (ingredient.foodId <= 0) return 1.0; // Early return for invalid foodId
+
     final convs = await getNutrientConversions(ingredient.foodId);
     if (convs.isEmpty || ingredient.selectedFactorId <= 0) {
       return 1.0; // Default factor if no conversions exist at all
     }
 
-    final factor =
-        convs
-            .firstWhere((e) => e.id == ingredient.selectedFactorId)
-            .factor; // Get the factor from the found element or the dummy
+    try {
+      final factor = convs.firstWhere((e) => e.id == ingredient.selectedFactorId).factor;
 
-    // Ensure factor is positive
-    return factor > 0 ? factor : 1.0;
+      // Ensure factor is positive
+      return factor > 0 ? factor : 1.0;
+    } catch (e) {
+      debugPrint("Error getting factor: $e");
+      return 1.0; // Safe default
+    }
   }
 
   /// Saves image data (from picker or URL) locally and updates the recipe.
@@ -549,11 +553,19 @@ class EditRecipeViewModel extends ChangeNotifier {
       }
 
       // --- Delete old image AFTER updating the path in the model ---
-      // This prevents trying to load the old image while deleting
       if (oldPathToDelete != null &&
           oldPathToDelete.isNotEmpty &&
           oldPathToDelete != savedImagePath) {
+        // Clear both the old image and its thumbnail from cache
+        clearImageCache(oldPathToDelete);
         await _recipeRepository.deleteImageFile(oldPathToDelete);
+        await _recipeRepository.deleteImageFile(thumbnailPath(oldPathToDelete));
+      }
+
+      // Ensure the new image's thumbnail is properly generated
+      if (savedImagePath.isNotEmpty) {
+        await regenerateThumbnail(savedImagePath);
+        clearImageCache(savedImagePath);
       }
 
       _imageVersion.value++; // Notify image widgets specifically
@@ -563,23 +575,19 @@ class EditRecipeViewModel extends ChangeNotifier {
       if (savedImagePath != null &&
           _recipe.imagePath != savedImagePath &&
           (stepIndex == null || _recipe.steps[stepIndex!].imagePath != savedImagePath)) {
+        clearImageCache(savedImagePath);
         await _recipeRepository.deleteImageFile(savedImagePath);
+        await _recipeRepository.deleteImageFile(thumbnailPath(savedImagePath));
       }
     } finally {
-      _setLoading(false);
-      if (structureChanged || (ocrTitle != null && _recipe.title == ocrTitle) || hasListeners) {
-        notifyListeners();
-        debugPrint(
-          "pickAndProcessImage finished, notified listeners (loading/structure change/image update/title update).",
-        );
-      }
+      _isLoading = false;
+      notifyListeners();
     }
   }
 
   // --- Save Recipe ---
   Future<bool> saveRecipe() async {
     _isLoading = true;
-    notifyListeners(); // Notify loading START
 
     bool successDb = false;
     try {
@@ -591,28 +599,31 @@ class EditRecipeViewModel extends ChangeNotifier {
       _recipe.servings = int.tryParse(servingsController.text) ?? 0;
       _recipe.category = _category; // Ensure category is updated
       _recipe.month = _month; // Ensure month is updated
-      _recipe.countryCode = _country.countryCode; // Ensure country is updated
-
+      //_recipe.countryCode = _country.countryCode; // Ensure country is updated
       // 2. Update calories and carbohydrates
       var totalCalories = 0.0;
       var totalCarbs = 0.0;
 
-      for (var s in _recipe.steps ?? []) {
-        for (var i in s.ingredients) {
-          if (i.selectedFactorId < 0) {
-            i.selectedFactorId = 0;
-          }
-          if (i.foodId < 0) {
-            i.foodId = 0;
-          }
-          // Await the future results
-          var nutrient = await getNutrientById(i.foodId);
-          var factor = await getFactor(i);
+      // Only process steps if there are any
+      if (_recipe.steps.isNotEmpty) {
+        for (var s in _recipe.steps) {
+          for (var i in s.ingredients) {
+            if (i.foodId <= 0) continue; // Skip ingredients without a valid foodId
 
-          // Check if nutrient is not null and factor is valid before calculation
-          if (nutrient != null && nutrient.id > 0 && i.selectedFactorId > 0 && factor > 0) {
-            totalCalories += factor * i.quantity * nutrient.energKcal;
-            totalCarbs += factor * i.quantity * nutrient.carbohydrates;
+            // Sanitize values
+            if (i.selectedFactorId < 0) {
+              i.selectedFactorId = 0;
+            }
+
+            // Await the future results
+            var nutrient = await getNutrientById(i.foodId);
+            var factor = await getFactor(i);
+
+            // Check if nutrient is not null and factor is valid before calculation
+            if (nutrient != null && nutrient.id > 0 && factor > 0) {
+              totalCalories += factor * i.quantity * nutrient.energKcal;
+              totalCarbs += factor * i.quantity * nutrient.carbohydrates;
+            }
           }
         }
       }
@@ -626,9 +637,13 @@ class EditRecipeViewModel extends ChangeNotifier {
       // 3. Update tags
       _recipe.tags = <String>[]; //clear tags // TODO use set for unique tags
       if (_recipe.source.isNotEmpty) _recipe.tags.add(_recipe.source);
-      for (var s in _recipe.steps) {
-        for (var i in s.ingredients) {
-          if (i.name.isNotEmpty) _recipe.tags.add(i.name);
+
+      // Only process tags if there are any steps
+      if (_recipe.steps.isNotEmpty) {
+        for (var s in _recipe.steps) {
+          for (var i in s.ingredients) {
+            if (i.name.isNotEmpty) _recipe.tags.add(i.name);
+          }
         }
       }
 

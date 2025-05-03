@@ -283,8 +283,12 @@ class _HomePageState extends State<HomePage> {
                                     : 42)) / // Padding + spacing for 2 columns
                             100, // Target height
                       ),
+                      cacheExtent: 500,
                       itemBuilder: (context, index) {
-                        return RecipeCard(recipe: viewModel.recipes[index]);
+                        return RepaintBoundary(
+                          // Isolate each recipe card's painting
+                          child: RecipeCard(recipe: viewModel.recipes[index]),
+                        );
                       },
                     ),
           ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shefu/models/recipes.dart';
 import 'package:shefu/repositories/recipe_repository.dart';
 import '../l10n/app_localizations.dart';
+import 'dart:async';
 
 class HomePageViewModel extends ChangeNotifier {
   final RecipeRepository _recipeRepository;
@@ -79,37 +80,18 @@ class HomePageViewModel extends ChangeNotifier {
 
     if (_filter != term.toLowerCase()) {
       _filter = term.toLowerCase();
-      notifyListeners(); // Notify about the filter change immediately
-
-      List<Recipe> filteredRecipes = _recipes;
-
       // Apply each search term
       // TODO fix multiple terms search
       if (searchTerms.isNotEmpty) {
-        filteredRecipes =
-            filteredRecipes.where((recipe) {
-              // Recipe should match ALL search terms to be included in results
-              return searchTerms.every((term) {
-                // Check if ANY of the fields contain this term
-                return recipe.title.toLowerCase().contains(term) ||
-                    (recipe.source.toLowerCase().contains(term)) ||
-                    (recipe.notes != null && recipe.notes!.toLowerCase().contains(term)) ||
-                    // Search in steps
-                    recipe.steps.any(
-                      (step) =>
-                          (step.name.toLowerCase().contains(term)) ||
-                          // Search in ingredients
-                          step.ingredients.any(
-                            (ingredient) => ingredient.name.toLowerCase().contains(term),
-                          ),
-                    );
-              });
-            }).toList();
+        // Filter recipes in a microtask to avoid blocking the UI
+        Future.microtask(() {
+          _recipes = _filterAndSortRecipes();
+          notifyListeners();
+        });
+      } else {
+        _recipes = _filterAndSortRecipes();
+        notifyListeners();
       }
-
-      // Apply filters and refresh the list
-      _recipes = _filterAndSortRecipes();
-      notifyListeners(); // Notify again after filtering
     }
   }
 

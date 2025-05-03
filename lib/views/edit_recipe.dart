@@ -193,55 +193,46 @@ class _EditRecipeState extends State<EditRecipe> {
     int stepIndex,
     bool isHandset,
   ) {
-    // Get the specific step data using the index
-    // Ensure the steps list is accessed safely
-    if (stepIndex < 0 || stepIndex >= viewModel.recipe.steps.length) {
-      return const SizedBox.shrink(); // Or some error widget
-    }
-    //final step = viewModel.recipe.steps[stepIndex];
-    final l10n = AppLocalizations.of(context)!;
+    return RepaintBoundary(
+      // reduce the cost of repainting this complex widget
+      child: Card(
+        key: ValueKey('step_$stepIndex'), // Add a unique key
+        // make background color slightly more green
+        color: Colors.greenAccent[100]?.withAlpha(90), // Light, slightly transparent green
+        margin: const EdgeInsets.only(bottom: 20.0, top: 5.0),
+        elevation: 2.0,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+        clipBehavior: Clip.antiAlias, // Ensures content respects the card shape
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Step Header with Remove Button
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "${AppLocalizations.of(context)!.step} ${stepIndex + 1}",
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.delete_outline, color: Colors.red[700]),
+                    tooltip: AppLocalizations.of(context)!.delete,
+                    onPressed: () => viewModel.removeStep(stepIndex),
+                  ),
+                ],
+              ),
+              const Divider(height: 20, thickness: 1), // Add a divider after header
+              // --- Step Fields (Instruction, Timer, Name) ---
+              _buildStepContent(context, viewModel, stepIndex),
 
-    return Card(
-      key: ValueKey('step_$stepIndex'), // Add a unique key
-      // make background color slightly more green
-      color: Colors.greenAccent[100]?.withAlpha(90), // Light, slightly transparent green
-      margin: const EdgeInsets.only(bottom: 20.0, top: 5.0),
-      elevation: 2.0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8.0),
-        // Optional: Add a subtle border
-        // side: BorderSide(color: Colors.grey.shade300, width: 0.5),
-      ),
-      clipBehavior: Clip.antiAlias, // Ensures content respects the card shape
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Step Header with Remove Button
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "${l10n.step} ${stepIndex + 1}",
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-                IconButton(
-                  icon: Icon(Icons.delete_outline, color: Colors.red[700]),
-                  tooltip: l10n.delete,
-                  onPressed: () => viewModel.removeStep(stepIndex),
-                ),
-              ],
-            ),
-            const Divider(height: 20, thickness: 1), // Add a divider after header
-            // --- Step Fields (Instruction, Timer, Name) ---
-            _buildStepContent(context, viewModel, stepIndex),
+              // --- Ingredients Section Header ---
+              _buildIngredientsSection(context, viewModel, stepIndex),
 
-            // --- Ingredients Section Header ---
-            _buildIngredientsSection(context, viewModel, stepIndex),
-
-            const SizedBox(height: 10),
-          ],
+              const SizedBox(height: 10),
+            ],
+          ),
         ),
       ),
     );
@@ -1099,10 +1090,14 @@ class _EditRecipeState extends State<EditRecipe> {
                     const Divider(),
 
                     // Use Selector for the steps list
-                    Selector<EditRecipeViewModel, List<RecipeStep>>(
-                      selector: (_, vm) => vm.recipe.steps,
-                      //shouldRebuild: (prev, next) => !listEquals(prev, next),
-                      builder: (context, steps, _) {
+                    Selector<EditRecipeViewModel, (List<RecipeStep>, int)>(
+                      selector: (_, vm) => (vm.recipe.steps, vm.imageVersion.value),
+                      shouldRebuild:
+                          (prev, next) =>
+                              prev.$1.length != next.$1.length || // Length changed
+                              prev.$2 != next.$2, // Image version changed
+                      builder: (context, data, _) {
+                        final steps = data.$1;
                         if (steps.isEmpty) {
                           return Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8.0),

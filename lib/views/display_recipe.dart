@@ -347,15 +347,17 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                       );
                     }
                     : null,
-            child: SizedBox(
-              width: imageSize,
-              height: imageSize,
-              child: Container(
-                decoration:
-                    imagePath.isNotEmpty
-                        ? BoxDecoration(border: Border.all(color: Colors.white, width: 0.5))
-                        : null, // No border if no image path
-                child: ClipRect(child: buildFutureImageWidget(context, imagePath)),
+            child: RepaintBoundary(
+              child: SizedBox(
+                width: imageSize,
+                height: imageSize,
+                child: Container(
+                  decoration:
+                      imagePath.isNotEmpty
+                          ? BoxDecoration(border: Border.all(color: Colors.white, width: 0.5))
+                          : null, // No border if no image path
+                  child: ClipRect(child: buildFutureImageWidget(context, imagePath)),
+                ),
               ),
             ),
           ),

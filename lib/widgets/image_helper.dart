@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -6,6 +7,38 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:image/image.dart' as i;
 import 'package:image_picker/image_picker.dart';
+
+// Simple LRU cache for image data
+class ImageCache {
+  static final _cache = LinkedHashMap<String, Uint8List>();
+  static const _maxSize = 20; // Maximum number of images to keep in memory
+
+  static Uint8List? get(String key) {
+    final data = _cache[key];
+    if (data != null) {
+      // Move to end (most recently used)
+      _cache.remove(key);
+      _cache[key] = data;
+    }
+    return data;
+  }
+
+  static void put(String key, Uint8List data) {
+    // Remove oldest entry if cache is full
+    if (_cache.length >= _maxSize && !_cache.containsKey(key)) {
+      _cache.remove(_cache.keys.first);
+    }
+    _cache[key] = data;
+  }
+
+  static void clear() {
+    _cache.clear();
+  }
+
+  static void remove(String key) {
+    _cache.remove(key);
+  }
+}
 
 Future<String?> pickImage(String name) async {
   final ImagePicker picker = ImagePicker();
@@ -114,9 +147,38 @@ Widget buildFutureImageWidget(
       );
     }
 
+    // Try to get image from cache first
+    final cachedData = ImageCache.get(imagePath);
+
+    if (cachedData != null) {
+      // Use cached data directly
+      return Image.memory(
+        cachedData,
+        key: ValueKey<String>('image-memory-$imagePath'),
+        width: width ?? imageSize,
+        height: height ?? imageSize,
+        fit: BoxFit.cover,
+        gaplessPlayback: true,
+        errorBuilder: (context, error, stackTrace) {
+          debugPrint("Error displaying cached image from '$imagePath': $error");
+          return Center(
+            child: Icon(
+              Icons.broken_image,
+              size: imageSize * 0.5,
+              color: Colors.white.withAlpha(150),
+            ),
+          );
+        },
+      );
+    }
+
+    // If not in cache, load asynchronously
     imageWidget = FutureBuilder<Uint8List>(
       key: ValueKey<String>('image-$imagePath'),
-      future: file.readAsBytes(), // Load bytes asynchronously
+      future: file.readAsBytes().then((data) {
+        ImageCache.put(imagePath, data); // Store in cache
+        return data;
+      }),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(
@@ -179,4 +241,46 @@ Widget buildFutureImageWidget(
     );
   }
   return imageWidget;
+}
+
+void clearImageCache(String? imagePath) {
+  if (imagePath != null && imagePath.isNotEmpty) {
+    ImageCache.remove(imagePath);
+    ImageCache.remove(thumbnailPath(imagePath));
+  }
+}
+
+Future<void> regenerateThumbnail(String imagePath) async {
+  try {
+    final file = File(imagePath);
+    if (await file.exists()) {
+      final bytes = await file.readAsBytes();
+      final decodedImage = i.decodeImage(bytes);
+      if (decodedImage != null) {
+        final thumbnail = i.copyResize(decodedImage, width: 250);
+        final thumbPath = thumbnailPath(imagePath);
+        await File(thumbPath).writeAsBytes(i.encodePng(thumbnail));
+        // Clear from cache to ensure fresh load
+        ImageCache.remove(thumbPath);
+        debugPrint("Regenerated thumbnail: $thumbPath");
+      }
+    }
+  } catch (e) {
+    debugPrint("Error regenerating thumbnail: $e");
+  }
+}
+
+Future<void> updateImageWithThumbnail(String sourcePath, String destinationPath) async {
+  try {
+    final bytes = await File(sourcePath).readAsBytes();
+    await File(destinationPath).writeAsBytes(bytes);
+    final decodedImage = i.decodeImage(bytes);
+    if (decodedImage != null) {
+      final thumbnail = i.copyResize(decodedImage, width: 250);
+      await File(thumbnailPath(destinationPath)).writeAsBytes(i.encodePng(thumbnail));
+    }
+    clearImageCache(destinationPath);
+  } catch (e) {
+    print('Error updating image and thumbnail: $e');
+  }
 }
