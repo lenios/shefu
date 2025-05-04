@@ -3,10 +3,15 @@ import 'package:provider/provider.dart';
 import 'package:shefu/models/nutrients.dart';
 import 'package:shefu/viewmodels/edit_recipe_viewmodel.dart';
 
-Widget foodFactors(key, index, foodId, viewModel) {
+Widget foodFactors(int stepIndex, int ingredientIndex, EditRecipeViewModel viewModel) {
   return Selector<EditRecipeViewModel, (int, int)>(
     selector: (_, vm) {
-      final ingredient = vm.recipe.steps[key].ingredients[index];
+      // Defensive check for step/ingredient existence during rebuilds
+      if (stepIndex >= vm.recipe.steps.length ||
+          ingredientIndex >= vm.recipe.steps[stepIndex].ingredients.length) {
+        return (0, 0); // Return default values if indices are invalid
+      }
+      final ingredient = vm.recipe.steps[stepIndex].ingredients[ingredientIndex];
       return (ingredient.foodId, ingredient.selectedFactorId);
     },
     builder: (context, data, _) {
@@ -46,10 +51,17 @@ Widget foodFactors(key, index, foodId, viewModel) {
           }
           // Get the conversions data
           final conversions = snapshot.data ?? [];
-          final ingredient = viewModel.recipe.steps![key].ingredients[index];
 
-          // If no conversions, return empty widget
-          if (conversions.isEmpty || foodId == 0) {
+          // Defensive check again before accessing ingredient state
+          // This is to ensure that the widget does not crash if the step or ingredient is removed
+          if (stepIndex >= viewModel.recipe.steps.length ||
+              ingredientIndex >= viewModel.recipe.steps[stepIndex].ingredients.length) {
+            return const SizedBox.shrink();
+          }
+          final ingredient = viewModel.recipe.steps[stepIndex].ingredients[ingredientIndex];
+
+          // If no conversions, return empty widget (foodId check already done)
+          if (conversions.isEmpty) {
             return const SizedBox.shrink();
           }
 
@@ -61,33 +73,12 @@ Widget foodFactors(key, index, foodId, viewModel) {
             }
           }
 
-          // Show the popup menu button with the conversions
-          // return PopupMenuButton<int>(
-          //   //initialValue: ingredient.selectedFactorId,
-          //   onSelected: (int item) {
-          //     viewModel.updateIngredientFactorId(key, index, item);
-          //   },
-          //   itemBuilder: (BuildContext context) {
-          //     return conversions
-          //         .map((conversion) => PopupMenuItem<int>(
-          //               value: conversion.id,
-          //               child: Text(getMeasureName(conversion)),
-          //             ))
-          //         .toList();
-          //   },
-          //   child: Chip(
-          //     label: Text(
-          //         "select factor"), // TODO Text(AppLocalizations.of(context)!.selectedFactor),
-          //     backgroundColor: Colors.grey[200],
-          //   ),
-          // )
-
           return Padding(
             padding: const EdgeInsets.only(top: 8.0),
             child: DropdownButtonFormField<int>(
-              key: ValueKey('factor_${key}_${index}_${ingredient.foodId}'),
+              key: ValueKey('factor_${stepIndex}_${ingredientIndex}_${ingredient.foodId}'),
               value: ingredient.selectedFactorId > 0 ? ingredient.selectedFactorId : null,
-              hint: Text("Select factor"),
+              hint: Text("Select factor"), // TODO: Localize
               isExpanded: true,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
@@ -105,8 +96,7 @@ Widget foodFactors(key, index, foodId, viewModel) {
                       .toList(),
               onChanged: (int? newValue) {
                 if (newValue != null) {
-                  viewModel.updateIngredientFactorId(key, index, newValue);
-                  //setState(() {});
+                  viewModel.updateIngredientFactorId(stepIndex, ingredientIndex, newValue);
                 }
               },
             ),

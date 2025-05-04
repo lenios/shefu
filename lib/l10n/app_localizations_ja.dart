@@ -66,7 +66,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get steps => '手順';
 
   @override
-  String get save => '保存する';
+  String get save => '保存';
 
   @override
   String get delete => '削除';
@@ -97,6 +97,12 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get pickImage => '画像を選択';
+
+  @override
+  String get addImage => '画像を追加';
+
+  @override
+  String get changeImage => '画像を変更';
 
   @override
   String get source => '出典';
@@ -330,16 +336,19 @@ class AppLocalizationsJa extends AppLocalizations {
   String get tips => 'ヒント';
 
   @override
-  String get tipSearch => 'レシピ追加時に入力した情報で検索できます：名前、出典、メモ、手順の指示、または材料名。例えば、卵で検索するとチョコレートムースが見つかります。';
+  String get tipSearch => 'レシピは、レシピ名、材料名、メモ、出典、または手順などの情報を入力することで検索できます。\n例えば、「ムース」、「卵」、「泡立てる」などで検索してチョコレートムースを見つけることができます。';
 
   @override
-  String get tipShoppingList => 'レシピ表示ページで「材料」タブをクリック（または左にスワイプ）すると材料リストが表示されます。\n複数のレシピを買い物リストに追加でき、買い物リストのフローティングボタンからレシピを切り替えられます（レシピタイトルをクリック）。';
+  String get tipIngredients => 'レシピページでは、「材料」タブをタップするか、左にスワイプして材料リストを表示できます。';
 
   @override
-  String get tipImport => 'レシピを編集する際、対応するウェブサイトの完全なURLを出典フィールドに貼り付けることでレシピをインポートできます。\n現在は、www.marmiton.orgのみをサポートしています。';
+  String get tipShoppingList => 'レシピから買い物リストに材料を追加すると、レシピも保存されます。複数のレシピから材料を追加でき、買い物リストでレシピタイトルをタップすることでそれぞれのレシピにアクセスできます。';
 
   @override
-  String get tipNutritionalValues => 'レシピの材料を編集する際、対応する栄養素と係数を選択できます。両方を選択すると、栄養価が自動計算されレシピに追加されます！';
+  String get tipImport => 'レシピの編集時に出典フィールドに対応ウェブサイトの完全なURLを貼り付けることで、レシピをインポートできます。\n現在は、www.marmiton.orgのみ対応しています。';
+
+  @override
+  String get tipNutritionalValues => 'レシピの材料を編集する際、対応する栄養素と係数を選択できます。両方を選択すると、栄養価が自動的に計算されレシピに追加されます！';
 
   @override
   String get gatherIngredients => '材料を収集';

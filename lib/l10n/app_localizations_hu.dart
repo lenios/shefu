@@ -99,6 +99,12 @@ class AppLocalizationsHu extends AppLocalizations {
   String get pickImage => 'Kép kiválasztása';
 
   @override
+  String get addImage => 'Kép hozzáadása';
+
+  @override
+  String get changeImage => 'Kép megváltoztatása';
+
+  @override
   String get source => 'Forrás';
 
   @override
@@ -330,16 +336,19 @@ class AppLocalizationsHu extends AppLocalizations {
   String get tips => 'Tippek';
 
   @override
-  String get tipSearch => 'Bármilyen kifejezésre kereshet, amit a recept hozzáadásakor megadott: név, forrás, jegyzetek, utasítások vagy hozzávalók neve. Például, a csokoládé mousse-t megtalálhatja a \'tojás\' keresőszóval.';
+  String get tipSearch => 'Recepteket kereshet bármilyen recept információ beírásával: recept neve, hozzávaló neve, jegyzetek, forrás vagy lépések leírása.\nPéldául, csokoládé mousse-t találhat \'mousse\', \'tojás\' vagy \'felver\' keresésével.';
 
   @override
-  String get tipShoppingList => 'A recept oldalán kattintson a \'hozzávalók\' fülre (vagy húzza balra), hogy lássa a hozzávalók listáját.\nTöbb receptet is hozzáadhat a bevásárlólistához, és válthat közöttük a bevásárlólista lebegő gombbal (kattintson a recept címére).';
+  String get tipIngredients => 'A recept oldalon, érintse meg a \'Hozzávalók\' fület vagy húzza balra a képernyőt a hozzávalók listájának megtekintéséhez.';
+
+  @override
+  String get tipShoppingList => 'Amikor hozzáadja egy recept hozzávalóit a bevásárlólistához, a recept is mentésre kerül. Több receptből is hozzáadhat hozzávalókat, és elérheti az egyes recepteket a címükre kattintva a bevásárlólistában.';
 
   @override
   String get tipImport => 'Importálhat receptet úgy, hogy beilleszti a teljes URL-t egy támogatott weboldalról a forrás mezőbe a recept szerkesztésekor.\nJelenleg csak a www.marmiton.org támogatott.';
 
   @override
-  String get tipNutritionalValues => 'Amikor egy hozzávalót szerkeszt a receptben, kiválaszthat egy megfelelő tápanyagot és szorzót. Ha mindkettőt kiválasztja, a tápérték automatikusan kiszámításra kerül és hozzáadódik a recepthez!';
+  String get tipNutritionalValues => 'Amikor szerkeszt egy hozzávalót a receptben, kiválaszthat egy megfelelő tápanyagot és szorzót. Ha mindkettőt kiválasztja, a tápértékek automatikusan kiszámításra és hozzáadásra kerülnek a recepthez!';
 
   @override
   String get gatherIngredients => 'Hozzávalók összegyűjtése';

@@ -144,7 +144,7 @@ abstract class AppLocalizations {
   /// No description provided for @carbohydrates.
   ///
   /// In en, this message translates to:
-  /// **'carbohydrates'**
+  /// **'Carbohydrates'**
   String get carbohydrates;
 
   /// No description provided for @kcps.
@@ -279,6 +279,18 @@ abstract class AppLocalizations {
   /// **'Pick an image'**
   String get pickImage;
 
+  /// No description provided for @addImage.
+  ///
+  /// In en, this message translates to:
+  /// **'Add an image'**
+  String get addImage;
+
+  /// No description provided for @changeImage.
+  ///
+  /// In en, this message translates to:
+  /// **'Change the image'**
+  String get changeImage;
+
   /// No description provided for @source.
   ///
   /// In en, this message translates to:
@@ -336,85 +348,85 @@ abstract class AppLocalizations {
   /// No description provided for @category.
   ///
   /// In en, this message translates to:
-  /// **'category'**
+  /// **'Category'**
   String get category;
 
   /// No description provided for @all.
   ///
   /// In en, this message translates to:
-  /// **'all'**
+  /// **'All'**
   String get all;
 
   /// No description provided for @snacks.
   ///
   /// In en, this message translates to:
-  /// **'snacks'**
+  /// **'Snacks'**
   String get snacks;
 
   /// No description provided for @cocktails.
   ///
   /// In en, this message translates to:
-  /// **'cocktails'**
+  /// **'Cocktails'**
   String get cocktails;
 
   /// No description provided for @drinks.
   ///
   /// In en, this message translates to:
-  /// **'drinks'**
+  /// **'Drinks'**
   String get drinks;
 
   /// No description provided for @appetizers.
   ///
   /// In en, this message translates to:
-  /// **'appetizers'**
+  /// **'Appetizers'**
   String get appetizers;
 
   /// No description provided for @starters.
   ///
   /// In en, this message translates to:
-  /// **'starters'**
+  /// **'Starters'**
   String get starters;
 
   /// No description provided for @soups.
   ///
   /// In en, this message translates to:
-  /// **'soups'**
+  /// **'Soups'**
   String get soups;
 
   /// No description provided for @mains.
   ///
   /// In en, this message translates to:
-  /// **'mains'**
+  /// **'Mains'**
   String get mains;
 
   /// No description provided for @sides.
   ///
   /// In en, this message translates to:
-  /// **'sides'**
+  /// **'Sides'**
   String get sides;
 
   /// No description provided for @desserts.
   ///
   /// In en, this message translates to:
-  /// **'deserts'**
+  /// **'Desserts'**
   String get desserts;
 
   /// No description provided for @basics.
   ///
   /// In en, this message translates to:
-  /// **'basics'**
+  /// **'Basics'**
   String get basics;
 
   /// No description provided for @sauces.
   ///
   /// In en, this message translates to:
-  /// **'sauces'**
+  /// **'Sauces'**
   String get sauces;
 
   /// No description provided for @countryCode.
   ///
   /// In en, this message translates to:
-  /// **'country code'**
+  /// **'Country code'**
   String get countryCode;
 
   /// No description provided for @chooseCountry.
@@ -426,13 +438,13 @@ abstract class AppLocalizations {
   /// No description provided for @country.
   ///
   /// In en, this message translates to:
-  /// **'country'**
+  /// **'Country'**
   String get country;
 
   /// No description provided for @allCountries.
   ///
   /// In en, this message translates to:
-  /// **'all countries'**
+  /// **'All countries'**
   String get allCountries;
 
   /// No description provided for @shoppingList.
@@ -492,7 +504,7 @@ abstract class AppLocalizations {
   /// No description provided for @recipes.
   ///
   /// In en, this message translates to:
-  /// **'recipes'**
+  /// **'Recipes'**
   String get recipes;
 
   /// No description provided for @scrollToTop.
@@ -732,19 +744,25 @@ abstract class AppLocalizations {
   /// No description provided for @tipSearch.
   ///
   /// In en, this message translates to:
-  /// **'You can search recipes by entering anything you filled when adding a recipe: name, source, notes, step instructions or ingredients name. For example, you can find chocolate mousse by searching for egg.'**
+  /// **'You can search recipes by entering any information of a recipe: recipe name, ingredient name, notes, source or step instructions.\nFor instance, you can find chocolate mousse by searching for \'mousse\', \'egg\' or \'whisk\'.'**
   String get tipSearch;
+
+  /// No description provided for @tipIngredients.
+  ///
+  /// In en, this message translates to:
+  /// **'On a recipe page, tap the \'Ingredients\' tab or swipe left to view the ingredients list.'**
+  String get tipIngredients;
 
   /// No description provided for @tipShoppingList.
   ///
   /// In en, this message translates to:
-  /// **'On a display recipe page, click the \'ingredients\' tab (or swipe left) to see the ingredients list.\nYou can add multiple recipes to the shopping list, and switch between them from the shopping list floating button (click on the recipe title).'**
+  /// **'When you add ingredients from a recipe to the shopping list, the recipe is also saved there. You can add ingredients from multiple recipes and access each recipe by tapping its title in the shopping list.'**
   String get tipShoppingList;
 
   /// No description provided for @tipImport.
   ///
   /// In en, this message translates to:
-  /// **'You can import a recipe by pasting the full URL from a supported website into the source field when editing a recipe.\nFor now, only www.marmiton.org is supported.'**
+  /// **'You can import a recipe by pasting the full URL from a supported website into the source field when editing a recipe.\nCurrently, only www.marmiton.org is supported.'**
   String get tipImport;
 
   /// No description provided for @tipNutritionalValues.

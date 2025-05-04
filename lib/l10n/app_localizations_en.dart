@@ -30,7 +30,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get calories => 'Calories';
 
   @override
-  String get carbohydrates => 'carbohydrates';
+  String get carbohydrates => 'Carbohydrates';
 
   @override
   String get kcps => 'Kcal/serv.';
@@ -99,6 +99,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pickImage => 'Pick an image';
 
   @override
+  String get addImage => 'Add an image';
+
+  @override
+  String get changeImage => 'Change the image';
+
+  @override
   String get source => 'Source';
 
   @override
@@ -128,55 +134,55 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noStepsAddedYet => 'No steps added yet.';
 
   @override
-  String get category => 'category';
+  String get category => 'Category';
 
   @override
-  String get all => 'all';
+  String get all => 'All';
 
   @override
-  String get snacks => 'snacks';
+  String get snacks => 'Snacks';
 
   @override
-  String get cocktails => 'cocktails';
+  String get cocktails => 'Cocktails';
 
   @override
-  String get drinks => 'drinks';
+  String get drinks => 'Drinks';
 
   @override
-  String get appetizers => 'appetizers';
+  String get appetizers => 'Appetizers';
 
   @override
-  String get starters => 'starters';
+  String get starters => 'Starters';
 
   @override
-  String get soups => 'soups';
+  String get soups => 'Soups';
 
   @override
-  String get mains => 'mains';
+  String get mains => 'Mains';
 
   @override
-  String get sides => 'sides';
+  String get sides => 'Sides';
 
   @override
-  String get desserts => 'deserts';
+  String get desserts => 'Desserts';
 
   @override
-  String get basics => 'basics';
+  String get basics => 'Basics';
 
   @override
-  String get sauces => 'sauces';
+  String get sauces => 'Sauces';
 
   @override
-  String get countryCode => 'country code';
+  String get countryCode => 'Country code';
 
   @override
   String get chooseCountry => 'Choose a country';
 
   @override
-  String get country => 'country';
+  String get country => 'Country';
 
   @override
-  String get allCountries => 'all countries';
+  String get allCountries => 'All countries';
 
   @override
   String get shoppingList => 'Shopping list';
@@ -206,7 +212,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get cup => 'cup';
 
   @override
-  String get recipes => 'recipes';
+  String get recipes => 'Recipes';
 
   @override
   String get scrollToTop => 'Scroll to top';
@@ -330,13 +336,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tips => 'Tips';
 
   @override
-  String get tipSearch => 'You can search recipes by entering anything you filled when adding a recipe: name, source, notes, step instructions or ingredients name. For example, you can find chocolate mousse by searching for egg.';
+  String get tipSearch => 'You can search recipes by entering any information of a recipe: recipe name, ingredient name, notes, source or step instructions.\nFor instance, you can find chocolate mousse by searching for \'mousse\', \'egg\' or \'whisk\'.';
 
   @override
-  String get tipShoppingList => 'On a display recipe page, click the \'ingredients\' tab (or swipe left) to see the ingredients list.\nYou can add multiple recipes to the shopping list, and switch between them from the shopping list floating button (click on the recipe title).';
+  String get tipIngredients => 'On a recipe page, tap the \'Ingredients\' tab or swipe left to view the ingredients list.';
 
   @override
-  String get tipImport => 'You can import a recipe by pasting the full URL from a supported website into the source field when editing a recipe.\nFor now, only www.marmiton.org is supported.';
+  String get tipShoppingList => 'When you add ingredients from a recipe to the shopping list, the recipe is also saved there. You can add ingredients from multiple recipes and access each recipe by tapping its title in the shopping list.';
+
+  @override
+  String get tipImport => 'You can import a recipe by pasting the full URL from a supported website into the source field when editing a recipe.\nCurrently, only www.marmiton.org is supported.';
 
   @override
   String get tipNutritionalValues => 'When editing an ingredient in a recipe, you can select a matching nutrient and factor. If you select both, nutritional values will be automatically computed and added to the recipe!';

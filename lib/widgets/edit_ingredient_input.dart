@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:shefu/l10n/app_localizations.dart';
 import 'package:shefu/models/recipes.dart';
 import 'package:shefu/viewmodels/edit_recipe_viewmodel.dart';
@@ -59,6 +58,7 @@ class EditIngredientManager {
       return const SizedBox.shrink(); // Handle potential index out of bounds during rebuild race conditions
     }
     final ingredient = viewModel.recipe.steps[stepIndex].ingredients[ingredientIndex];
+    final l10n = AppLocalizations.of(context)!;
 
     // Keep StatefulBuilder here to manage local controllers for THIS ingredient row
     return StatefulBuilder(
@@ -85,16 +85,24 @@ class EditIngredientManager {
         // or using a dedicated StatefulWidget for the ingredient row.
         // For now, let's assume they get disposed eventually.
 
-        return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 3.0),
-          child: Column(
-            children: [
-              // add a white bar between ingredients
-              const Divider(height: 1, thickness: 2, color: Colors.white60),
+        return Card(
+          margin: const EdgeInsets.symmetric(vertical: 5.0),
+          elevation: 2.0,
+          color: Colors.greenAccent[100]?.withAlpha(100),
 
-              Container(
-                margin: const EdgeInsets.symmetric(vertical: 12.0),
-                child: Row(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8.0),
+            side: BorderSide(
+              color: Theme.of(context).colorScheme.surfaceContainerHighest,
+
+              width: 1.5,
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+            child: Column(
+              children: [
+                Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Quantity
@@ -103,53 +111,55 @@ class EditIngredientManager {
                       child: TextFormField(
                         controller: quantityController,
                         keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                        decoration: InputDecoration(
+                          labelText: l10n.quantity,
+                          border: const OutlineInputBorder(),
+                          isDense: true,
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+                        ),
                         onChanged:
                             (val) =>
                                 viewModel.updateIngredientQuantity(stepIndex, ingredientIndex, val),
-                        decoration: InputDecoration(
-                          labelText: AppLocalizations.of(context)!.quantity,
-                          border: const OutlineInputBorder(),
-                          isDense: true,
-                        ),
                       ),
                     ),
                     const SizedBox(width: 8),
                     // Unit
                     SizedBox(
-                      width: 90,
-                      child: FormBuilderDropdown<String>(
-                        name: UniqueKey().toString(),
-                        key: UniqueKey(),
-                        initialValue: ingredient.unit,
-                        icon: const Icon(Icons.keyboard_arrow_down_sharp),
-                        items: () {
-                          // Get the list of standard units from the enum
-                          Set<String> values = Unit.values.map((e) => e.toString()).toSet();
+                      width: 110,
+                      child: DropdownButtonFormField<String>(
+                        value: ingredient.unit,
+                        items:
+                            (() {
+                              // Get the list of standard units from the enum
+                              Set<String> values = Unit.values.map((e) => e.toString()).toSet();
 
-                          // if currentUnitValue is not in list (imported recipe), add it to the set
-                          if (!Unit.values.any((u) => u.toString() == ingredient.unit) &&
-                              ingredient.unit.isNotEmpty) {
-                            values.add(ingredient.unit);
+                              // if currentUnitValue is not in list (imported recipe), add it to the set
+                              if (!Unit.values.any((u) => u.toString() == ingredient.unit) &&
+                                  ingredient.unit.isNotEmpty) {
+                                values.add(ingredient.unit);
+                              }
+
+                              return values.map((e) {
+                                String unitText =
+                                    e.toString() == ""
+                                        ? AppLocalizations.of(context)!.unit
+                                        : e.toString();
+                                return DropdownMenuItem<String>(
+                                  value: e,
+                                  child: Text(formattedUnit(unitText, context).toLowerCase()),
+                                );
+                              }).toList();
+                            })(),
+                        onChanged: (String? newValue) {
+                          if (newValue != null) {
+                            viewModel.updateIngredientUnit(stepIndex, ingredientIndex, newValue);
                           }
-
-                          return values.map((e) {
-                            String unitText =
-                                e.toString() == ""
-                                    ? AppLocalizations.of(context)!.unit
-                                    : e.toString();
-                            return DropdownMenuItem<String>(
-                              value: e,
-                              child: Text(formattedUnit(unitText, context).toLowerCase()),
-                            );
-                          }).toList();
-                        }(), // Call the function to get the items
-                        onChanged:
-                            (val) =>
-                                viewModel.updateIngredientUnit(stepIndex, ingredientIndex, val!),
+                        },
                         decoration: InputDecoration(
-                          labelText: AppLocalizations.of(context)!.unit,
+                          labelText: l10n.unit,
                           border: const OutlineInputBorder(),
                           isDense: true,
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
                         ),
                       ),
                     ),
@@ -158,47 +168,56 @@ class EditIngredientManager {
                     Expanded(
                       child: TextFormField(
                         controller: shapeController,
+                        decoration: InputDecoration(
+                          labelText: l10n.shape,
+                          border: const OutlineInputBorder(),
+                          isDense: true,
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+                        ),
                         onChanged:
                             (val) =>
                                 viewModel.updateIngredientShape(stepIndex, ingredientIndex, val),
-                        decoration: InputDecoration(
-                          labelText: AppLocalizations.of(context)!.shape,
-                          border: const OutlineInputBorder(),
-                        ),
                       ),
                     ),
-                    // Remove Button
+                    // Delete Button
                     IconButton(
-                      padding: const EdgeInsets.only(top: 8),
-                      tooltip: AppLocalizations.of(context)!.delete,
-                      icon: const Icon(Icons.remove_circle_outline, color: Colors.red),
-                      onPressed: () => viewModel.removeIngredient(stepIndex, ingredientIndex),
+                      icon: Icon(Icons.remove_circle_outline, color: Colors.red[700]),
+                      tooltip: l10n.delete,
+                      onPressed: () {
+                        EditIngredientManager.disposeController(stepIndex, ingredientIndex);
+                        viewModel.removeIngredient(stepIndex, ingredientIndex);
+                      },
                       constraints: const BoxConstraints(),
                     ),
                   ],
                 ),
-              ),
-              const SizedBox(height: 8), // Space before name
-              TextFormField(
-                textAlign: TextAlign.left,
-                controller: nameController,
-                onChanged: (val) {
-                  viewModel.updateIngredientName(stepIndex, ingredientIndex, val);
-                  // Rebuild local widget to update dropdowns that depend on name
-                  setLocalState(() {});
-                },
-                decoration: InputDecoration(
-                  labelText: AppLocalizations.of(context)!.name,
-                  border: const OutlineInputBorder(),
-                  isDense: true,
-                ),
-              ),
-              // Shape
+                const SizedBox(height: 8),
+                // Optional Fields (Shape, Nutrient, Factor) - Conditionally shown or below
+                Column(
+                  children: [
+                    TextFormField(
+                      controller: nameController,
+                      onChanged: (val) {
+                        viewModel.updateIngredientName(stepIndex, ingredientIndex, val);
+                        // Rebuild local widget to update dropdowns that depend on name
+                        setLocalState(() {});
+                      },
+                      decoration: InputDecoration(
+                        labelText: l10n.name,
+                        border: const OutlineInputBorder(),
+                        isDense: true,
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+                      ),
+                    ),
 
-              // Nutrient/Factor Lookups (These use FutureBuilder/Selector internally, which is fine)
-              foodEntries(context, viewModel, stepIndex, ingredientIndex),
-              foodFactors(stepIndex, ingredientIndex, ingredient.foodId, viewModel),
-            ],
+                    const SizedBox(width: 8),
+                    if (ingredient.name.trim().isNotEmpty)
+                      foodEntries(context, viewModel, stepIndex, ingredientIndex),
+                  ],
+                ),
+                foodFactors(stepIndex, ingredientIndex, viewModel),
+              ],
+            ),
           ),
         );
       },

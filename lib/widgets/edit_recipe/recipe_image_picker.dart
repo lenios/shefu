@@ -1,8 +1,8 @@
 import 'dart:io';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shefu/l10n/app_localizations.dart';
 import 'package:shefu/viewmodels/edit_recipe_viewmodel.dart';
+import 'package:shefu/widgets/image_helper.dart';
 
 class RecipeImagePicker extends StatelessWidget {
   final EditRecipeViewModel viewModel;
@@ -13,6 +13,7 @@ class RecipeImagePicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final String baseName = "${viewModel.recipe.id}_${stepIndex ?? 'main'}";
+    final l10n = AppLocalizations.of(context)!;
 
     return ValueListenableBuilder<int>(
       valueListenable: viewModel.imageVersion,
@@ -26,81 +27,114 @@ class RecipeImagePicker extends StatelessWidget {
                 : viewModel.recipe.imagePath;
 
         final bool pathIsValid = path != null && path.isNotEmpty && File(path).existsSync();
-        Widget imageDisplayWidget;
         if (pathIsValid) {
-          // --- Use FutureBuilder to load bytes asynchronously ---
-          imageDisplayWidget = FutureBuilder<Uint8List>(
-            // Key for the FutureBuilder itself, depends on path and version
-            key: ValueKey<String>('future-$path-$version'),
-            future: File(path).readAsBytes(), // Read bytes asynchronously
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                  child: SizedBox(
-                    width: 30,
-                    height: 30,
-                    child: CircularProgressIndicator(strokeWidth: 2),
+          // Image exists - show with overlay buttons
+          return Stack(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8.0),
+                child: buildFutureImageWidget(context, path, height: 150),
+              ),
+              // Overlay with gradient to make buttons more visible
+              Positioned.fill(
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8.0),
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [Colors.black.withAlpha(25), Colors.black.withAlpha(75)],
+                      stops: const [0.7, 1.0],
+                    ),
                   ),
-                );
-              } else if (snapshot.hasError) {
-                debugPrint("Error reading image file async '$path': ${snapshot.error}");
-                return Icon(Icons.broken_image, size: 50, color: Colors.grey[600]);
-              } else if (snapshot.hasData) {
-                // Use Image.memory with the loaded bytes
-                return Image.memory(
-                  snapshot.data!,
-                  key: ValueKey<String>('image-memory-$path-$version'),
-                  fit: BoxFit.cover,
-                  height: 170,
-                  width: double.infinity,
-                  gaplessPlayback: true,
-                  errorBuilder: (context, error, stackTrace) {
-                    debugPrint("Error displaying image bytes from '$path': $error");
-                    return Icon(Icons.broken_image, size: 50, color: Colors.grey[600]);
-                  },
-                );
-              } else {
-                // Should not happen if future completes without error/data, but handle defensively
-                return Icon(Icons.broken_image, size: 50, color: Colors.grey[600]);
-              }
-            },
+                ),
+              ),
+              // Delete Button
+              Positioned(
+                top: 3,
+                right: 3,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.black.withAlpha(150),
+                    shape: BoxShape.circle,
+                  ),
+                  child: IconButton(
+                    icon: const Icon(Icons.delete_outline, color: Colors.white),
+                    tooltip: l10n.delete,
+                    onPressed: () async {
+                      clearImageCache(path);
+                      await viewModel.deleteImage(stepIndex: stepIndex);
+                    },
+                    constraints: const BoxConstraints(),
+                  ),
+                ),
+              ),
+              // Change Image Button
+              Positioned(
+                bottom: 3,
+                right: 3,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.primary.withAlpha(170),
+                    shape: BoxShape.circle,
+                  ),
+                  child: IconButton(
+                    icon: const Icon(Icons.edit_outlined, color: Colors.white),
+                    tooltip: l10n.changeImage,
+                    onPressed:
+                        () => viewModel.pickAndProcessImage(
+                          stepIndex: stepIndex,
+                          name: baseName,
+                          context: context,
+                        ),
+                    constraints: const BoxConstraints(),
+                  ),
+                ),
+              ),
+            ],
           );
         } else {
-          // Show placeholder if path is invalid/empty or file doesn't exist
-          imageDisplayWidget = Icon(Icons.add_a_photo_outlined, size: 50, color: Colors.grey[600]);
-        }
-
-        return Column(
-          children: [
-            Container(
-              height: 170,
-              width: double.infinity,
-              margin: const EdgeInsets.only(bottom: 10),
+          // No image - show placeholder with add button
+          return InkWell(
+            onTap:
+                () => viewModel.pickAndProcessImage(
+                  stepIndex: stepIndex,
+                  name: baseName,
+                  context: context,
+                ),
+            borderRadius: BorderRadius.circular(8.0),
+            child: Container(
+              height: 120,
               decoration: BoxDecoration(
                 color: Colors.grey[200],
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: Colors.grey[400]!),
-              ),
-              child: ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),
-                child: Center(child: imageDisplayWidget),
+                border: Border.all(color: Colors.white),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.add_photo_alternate_outlined,
+                    color: Theme.of(context).colorScheme.primary.withOpacity(0.8),
+                    size: 40,
+                  ),
+                  const SizedBox(height: 8),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Text(
+                      l10n.addImage,
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.primary,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ],
               ),
             ),
-            Center(
-              child: ElevatedButton.icon(
-                icon: const Icon(Icons.image_search),
-                label: Text(AppLocalizations.of(context)!.pickImage),
-                onPressed: () async {
-                  await viewModel.pickAndProcessImage(
-                    stepIndex: stepIndex,
-                    name: "$baseName.jpg",
-                    context: context,
-                  );
-                },
-              ),
-            ),
-          ],
-        );
+          );
+        }
       },
     );
   }

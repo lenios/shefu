@@ -22,7 +22,6 @@ class RecipeStepFields extends StatelessWidget {
         final timerController = TextEditingController(
           text: step.timer > 0 ? step.timer.toString() : "",
         );
-        final nameController = TextEditingController(text: step.name);
 
         // Controllers created here will be garbage collected when the StatefulBuilder rebuilds or is disposed.
 
@@ -42,37 +41,18 @@ class RecipeStepFields extends StatelessWidget {
                 alignLabelWithHint: true,
               ),
             ),
-            const SizedBox(height: 8),
-            Row(
-              children: [
-                Expanded(
-                  child: TextFormField(
-                    controller: timerController,
-                    keyboardType: TextInputType.number,
-                    onChanged: (val) {
-                      viewModel.updateStepTimer(stepIndex, val);
-                    },
-                    decoration: InputDecoration(
-                      labelText: "${l10n.timer} (${l10n.minutes})",
-                      border: const OutlineInputBorder(),
-                      prefixIcon: const Icon(Icons.timer_outlined),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: TextFormField(
-                    controller: nameController,
-                    onChanged: (val) {
-                      viewModel.updateStepName(stepIndex, val);
-                    },
-                    decoration: InputDecoration(
-                      labelText: AppLocalizations.of(context)!.name,
-                      border: const OutlineInputBorder(),
-                    ),
-                  ),
-                ),
-              ],
+            const SizedBox(height: 12),
+            TextFormField(
+              controller: timerController,
+              keyboardType: TextInputType.number,
+              onChanged: (val) {
+                viewModel.updateStepTimer(stepIndex, val);
+              },
+              decoration: InputDecoration(
+                labelText: "${l10n.timer} (${l10n.minutes})",
+                border: const OutlineInputBorder(),
+                prefixIcon: const Icon(Icons.timer_outlined),
+              ),
             ),
           ],
         );

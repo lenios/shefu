@@ -700,4 +700,15 @@ class EditRecipeViewModel extends ChangeNotifier {
       return false;
     }
   }
+
+  deleteImage({int? stepIndex}) {
+    // TODO rm image from the filesystem?
+    if (stepIndex == null) {
+      _recipe.imagePath = '';
+    } else if (stepIndex >= 0 && stepIndex < _recipe.steps.length) {
+      _recipe.steps[stepIndex].imagePath = '';
+    }
+    _imageVersion.value++;
+    notifyListeners();
+  }
 }

@@ -91,8 +91,10 @@ void _showSettingsModal(BuildContext context, ThemeData theme) {
 
                 Text(l10n.tips, style: theme.textTheme.titleMedium),
                 _buildTipTile(theme, Icons.search, l10n.tipSearch),
-                _buildTipTile(theme, Icons.shopping_cart_checkout, l10n.tipShoppingList),
+                _buildTipTile(theme, Icons.egg_outlined, l10n.tipIngredients),
+                _buildTipTile(theme, Icons.fact_check_outlined, l10n.tipShoppingList),
                 _buildTipTile(theme, Icons.cloud_download_outlined, l10n.tipImport),
+                _buildTipTile(theme, Icons.calculate_outlined, l10n.tipNutritionalValues),
 
                 // Add commented-out sections back here if needed
 
