@@ -71,6 +71,7 @@
   "scrollToTop": "トップに戻る",
   "saveError": "保存エラー",
   "selectNutrient": "栄養素を選択",
+  "selectFactor": "係数を選択",
   "noIngredientsForStep": "この手順では材料はありません",
   "titleCannotBeEmpty": "タイトルは空にできません",
   "notImplementedYet": "機能はまだ利用できません",

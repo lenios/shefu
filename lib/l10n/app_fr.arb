@@ -71,6 +71,7 @@
           "scrollToTop": "Remonter en haut",
           "saveError": "Erreur d'enregistrement",
           "selectNutrient": "Sélectionnez un ingrédient",
+          "selectFactor": "Sélectionnez un facteur",
           "noIngredientsForStep": "Aucun ingrédient dans cette étape",
           "titleCannotBeEmpty": "Le titre ne peut pas être vide",
           "notImplementedYet": "Fonctionnalité non disponible",

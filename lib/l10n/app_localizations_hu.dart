@@ -224,6 +224,9 @@ class AppLocalizationsHu extends AppLocalizations {
   String get selectNutrient => 'Válasszon hozzávalót';
 
   @override
+  String get selectFactor => 'Válasszon egyxefaktorot';
+
+  @override
   String get noIngredientsForStep => 'Nincs hozzávaló ebben a lépésben';
 
   @override

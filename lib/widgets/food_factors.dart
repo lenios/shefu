@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shefu/l10n/app_localizations.dart';
 import 'package:shefu/models/nutrients.dart';
 import 'package:shefu/viewmodels/edit_recipe_viewmodel.dart';
 
@@ -65,7 +66,8 @@ Widget foodFactors(int stepIndex, int ingredientIndex, EditRecipeViewModel viewM
             return const SizedBox.shrink();
           }
 
-          String selectedName = "select factor";
+          String selectedName = AppLocalizations.of(context)!.selectFactor;
+          ;
           if (ingredient.selectedFactorId > 0) {
             final selected = conversions.where((c) => c.id == ingredient.selectedFactorId).toList();
             if (selected.isNotEmpty) {
@@ -78,7 +80,7 @@ Widget foodFactors(int stepIndex, int ingredientIndex, EditRecipeViewModel viewM
             child: DropdownButtonFormField<int>(
               key: ValueKey('factor_${stepIndex}_${ingredientIndex}_${ingredient.foodId}'),
               value: ingredient.selectedFactorId > 0 ? ingredient.selectedFactorId : null,
-              hint: Text("Select factor"), // TODO: Localize
+              hint: Text(AppLocalizations.of(context)!.selectFactor),
               isExpanded: true,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),

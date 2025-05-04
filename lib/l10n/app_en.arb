@@ -71,6 +71,7 @@
           "scrollToTop": "Scroll to top",
           "saveError": "Save error",
           "selectNutrient": "Select nutrient",
+          "selectFactor": "Select factor",
           "noIngredientsForStep": "No ingredients for this step",
           "titleCannotBeEmpty": "Title cannot be empty",
           "notImplementedYet": "Feature not yet available",

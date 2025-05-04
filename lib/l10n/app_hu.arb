@@ -71,6 +71,7 @@
           "scrollToTop": "Görgessen a tetejére",
           "saveError": "Mentési hiba",
           "selectNutrient": "Válasszon hozzávalót",
+          "selectFactor": "Válasszon egyxefaktorot",
           "noIngredientsForStep": "Nincs hozzávaló ebben a lépésben",
           "titleCannotBeEmpty": "A cím nem lehet üres",
           "notImplementedYet": "Funkció még nem elérhető",

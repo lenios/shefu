@@ -525,6 +525,12 @@ abstract class AppLocalizations {
   /// **'Select nutrient'**
   String get selectNutrient;
 
+  /// No description provided for @selectFactor.
+  ///
+  /// In en, this message translates to:
+  /// **'Select factor'**
+  String get selectFactor;
+
   /// No description provided for @noIngredientsForStep.
   ///
   /// In en, this message translates to:

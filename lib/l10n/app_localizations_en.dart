@@ -224,6 +224,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get selectNutrient => 'Select nutrient';
 
   @override
+  String get selectFactor => 'Select factor';
+
+  @override
   String get noIngredientsForStep => 'No ingredients for this step';
 
   @override
