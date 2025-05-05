@@ -54,6 +54,16 @@ class EditRecipeViewModel extends ChangeNotifier {
   ValueNotifier<int> _imageVersion = ValueNotifier<int>(0);
   ValueNotifier<int> get imageVersion => _imageVersion;
 
+  bool _ocrEnabled = true;
+  bool get ocrEnabled => _ocrEnabled;
+
+  void toggleOcr(bool value) {
+    if (_ocrEnabled != value) {
+      _ocrEnabled = value;
+      notifyListeners();
+    }
+  }
+
   // Constructor requires repositories and optional recipeId
   EditRecipeViewModel(this._recipeRepository, this._nutrientRepository, this._recipeId) {
     // Initialize controllers here, they will be updated in initViewModel
@@ -529,8 +539,11 @@ class EditRecipeViewModel extends ChangeNotifier {
     var l10n = AppLocalizations.of(context!);
 
     try {
-      (structureChanged, ocrTitle) = await ocrParse(image, _recipe, l10n!);
-      //(structureChanged, ocrTitle) = (false, null);
+      if (ocrEnabled) {
+        (structureChanged, ocrTitle) = await ocrParse(image, _recipe, l10n!);
+      } else {
+        (structureChanged, ocrTitle) = (false, null);
+      }
 
       // --- Handle potential title update ---
       if (ocrTitle != null && _recipe.title != ocrTitle) {

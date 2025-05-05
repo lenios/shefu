@@ -189,8 +189,44 @@ class _EditRecipeState extends State<EditRecipe> {
                     ),
                     const SizedBox(height: 10),
 
-                    // --- Image Picker (Main) ---
-                    RecipeImagePicker(viewModel: viewModel),
+                    // --- Image Picker (Main) with floating OCR toggle ---
+                    Stack(
+                      children: [
+                        SizedBox(
+                          width: double.infinity,
+                          child: RecipeImagePicker(viewModel: viewModel),
+                        ),
+                        // OCR toggle
+                        Positioned(
+                          top: 2,
+                          right: 2,
+                          child: Selector<EditRecipeViewModel, bool>(
+                            selector: (_, vm) => vm.ocrEnabled,
+                            builder: (context, ocrEnabled, _) {
+                              return Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    "OCR:",
+                                    style: TextStyle(
+                                      color: AppColor.primary,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                  Switch(
+                                    value: ocrEnabled,
+                                    onChanged: (value) => viewModel.toggleOcr(value),
+                                    activeColor: AppColor.primary,
+                                  ),
+                                ],
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+
                     const SizedBox(height: 20),
 
                     // --- Source ---

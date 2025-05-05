@@ -51,7 +51,7 @@ class RecipeImagePicker extends StatelessWidget {
               ),
               // Delete Button
               Positioned(
-                top: 3,
+                top: 47,
                 right: 3,
                 child: Container(
                   decoration: BoxDecoration(
