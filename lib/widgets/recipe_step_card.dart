@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shefu/repositories/nutrient_repository.dart';
+import 'package:shefu/utils/string_extension.dart';
 import 'package:shefu/views/full_screen_image.dart';
 import 'package:shefu/widgets/step_timer_widget.dart';
 
@@ -46,14 +47,22 @@ class RecipeStepCard extends StatelessWidget {
     return Column(
       children: [
         Divider(height: 1.0, thickness: 0.7, color: theme.dividerColor, indent: 55, endIndent: 55),
+        // name/title
+        if (recipeStep.name.isNotEmpty)
+          Padding(
+            padding: const EdgeInsets.all(3.0),
+            child: Text(
+              recipeStep.name.capitalize(),
+              style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
+          ),
         stepDirection(context),
       ],
     );
   }
 
   Widget stepDirection(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 8.0),
       child: Row(
@@ -68,14 +77,6 @@ class RecipeStepCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (recipeStep.name.isNotEmpty) // Show step name if available
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 6.0),
-                    child: Text(
-                      recipeStep.name,
-                      style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
-                    ),
-                  ),
                 _buildInstructionText(recipeStep.instruction, context),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,

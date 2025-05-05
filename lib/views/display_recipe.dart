@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:shefu/l10n/app_localizations.dart';
 import 'package:shefu/repositories/nutrient_repository.dart';
+import 'package:shefu/utils/string_extension.dart';
 import 'package:shefu/views/full_screen_image.dart';
 import 'package:shefu/utils/app_color.dart';
 import 'package:shefu/viewmodels/display_recipe_viewmodel.dart';
@@ -409,7 +410,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                     children: [
                       Expanded(
                         child: Text(
-                          recipe.title,
+                          recipe.title.capitalize(),
                           style: const TextStyle(
                             color: Colors.white,
                             fontSize: 18,
