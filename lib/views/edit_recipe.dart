@@ -426,8 +426,8 @@ class _EditRecipeState extends State<EditRecipe> {
                         label: Text(l10n.addStep),
                         onPressed: viewModel.addEmptyStep,
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColor.primarySoft,
-                          foregroundColor: Colors.white,
+                          backgroundColor: Theme.of(context).colorScheme.primary,
+                          foregroundColor: Theme.of(context).colorScheme.onPrimary,
                         ),
                       ),
                     ),

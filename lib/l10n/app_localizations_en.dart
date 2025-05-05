@@ -304,7 +304,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get hours_abbreviation => 'h';
 
   @override
-  String get timerUsage => 'Tap to pause/resume, long press to stop the timer.';
+  String get timerUsage => 'Tap to pause/resume,\nlong press to stop the timer.';
 
   @override
   String get noMatchingNutrient => 'No matching nutrients found';

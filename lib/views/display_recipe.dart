@@ -137,6 +137,8 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                   );
                 }
 
+                final colorScheme = Theme.of(context).colorScheme;
+
                 return InkWell(
                   onTap: () => viewModel.toggleBasketItem(ingredient.name),
                   child: Padding(
@@ -162,7 +164,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                                 style: TextStyle(
                                   decoration:
                                       isInBasket ? TextDecoration.lineThrough : TextDecoration.none,
-                                  color: isInBasket ? Colors.green : Colors.black,
+                                  color: isInBasket ? colorScheme.tertiary : colorScheme.onSurface,
                                 ),
                                 softWrap: true,
                                 overflow: TextOverflow.ellipsis,
@@ -177,9 +179,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                                             ? TextDecoration.lineThrough
                                             : TextDecoration.none,
                                     color:
-                                        isInBasket
-                                            ? Colors.green
-                                            : Theme.of(context).colorScheme.primary,
+                                        isInBasket ? colorScheme.tertiary : colorScheme.onSurface,
                                   ),
                                 ),
                             ],

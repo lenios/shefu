@@ -97,7 +97,7 @@
           "hours": "óra",
           "minutes_abbreviation": "perc",
           "hours_abbreviation": "óra",
-          "timerUsage": "Érintse meg a szüneteltetéshez/folytatáshoz, tartsa lenyomva az időzítő leállításához.",
+          "timerUsage": "Érintse meg a szüneteltetéshez/folytatáshoz,\ntartsa lenyomva az időzítő leállításához.",
           "noMatchingNutrient": "Nincs megfelelő hozzávaló",
           "leaveWithoutSaving": "Kilépés mentés nélkül?",
           "leave": "Kilépés",

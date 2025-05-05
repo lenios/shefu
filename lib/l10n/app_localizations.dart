@@ -684,7 +684,7 @@ abstract class AppLocalizations {
   /// No description provided for @timerUsage.
   ///
   /// In en, this message translates to:
-  /// **'Tap to pause/resume, long press to stop the timer.'**
+  /// **'Tap to pause/resume,\nlong press to stop the timer.'**
   String get timerUsage;
 
   /// No description provided for @noMatchingNutrient.

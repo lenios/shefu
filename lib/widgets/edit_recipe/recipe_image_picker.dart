@@ -106,16 +106,16 @@ class RecipeImagePicker extends StatelessWidget {
             child: Container(
               height: 120,
               decoration: BoxDecoration(
-                color: Colors.grey[200],
+                color: Theme.of(context).colorScheme.surfaceContainerHighest,
                 borderRadius: BorderRadius.circular(8.0),
-                border: Border.all(color: Colors.white),
+                border: Border.all(color: Theme.of(context).colorScheme.outline.withAlpha(75)),
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(
                     Icons.add_photo_alternate_outlined,
-                    color: Theme.of(context).colorScheme.primary.withOpacity(0.8),
+                    color: Theme.of(context).colorScheme.primary,
                     size: 40,
                   ),
                   const SizedBox(height: 8),

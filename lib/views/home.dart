@@ -48,7 +48,7 @@ class _HomePageState extends State<HomePage> {
     return AppScaffold(
       floatingActionButton: FloatingActionButton.extended(
         onPressed: addNewRecipe,
-        backgroundColor: AppColor.primarySoft,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         tooltip: AppLocalizations.of(context)!.addRecipe,
         icon: const Icon(Icons.add, color: Colors.white),
         label: Text(
@@ -137,11 +137,11 @@ class _HomePageState extends State<HomePage> {
                   // button to reinitialize filters
                   ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: theme.colorScheme.onPrimaryFixedVariant,
-                      side: const BorderSide(color: Colors.white70),
+                      backgroundColor: theme.colorScheme.secondary,
+                      side: BorderSide(color: theme.colorScheme.onSecondary.withAlpha(175)),
                       elevation: 2,
                     ),
-                    icon: const Icon(Icons.refresh, color: Colors.white),
+                    icon: Icon(Icons.refresh, color: theme.colorScheme.onSecondary),
                     onPressed: () {
                       _searchController.clear();
                       viewModel.setCategory(Category.all);

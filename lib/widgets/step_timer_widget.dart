@@ -92,6 +92,7 @@ class _StepTimerWidgetState extends State<StepTimerWidget> {
                 SnackBar(
                   content: Text(l10n.timerUsage),
                   duration: const Duration(seconds: 5),
+                  backgroundColor: colorScheme.secondary,
                   // TODO only display once?
                 ),
               );

@@ -99,7 +99,7 @@ class EditIngredientManager {
             ),
           ),
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+            padding: const EdgeInsets.symmetric(vertical: 9.0, horizontal: 7.0),
             child: Column(
               children: [
                 Row(

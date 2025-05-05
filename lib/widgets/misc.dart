@@ -33,10 +33,8 @@ formattedQuantity(double quantity, {bool fraction = true}) {
     if (fraction) {
       //display as fraction
       return Fraction.fromDouble(quantity);
-    } else {
-      //get value as double
-      return quantity.toString();
     }
+    return quantity.toString();
   }
 }
 
@@ -51,30 +49,31 @@ String formattedSource(String source) {
   return source;
 }
 
-String formattedUnit(String unit, context) {
+String formattedUnit(String unit, BuildContext context) {
+  final l10n = AppLocalizations.of(context)!;
   switch (unit) {
     case "tsp":
-      return AppLocalizations.of(context)!.tsp;
+      return l10n.tsp;
     case "tbsp":
-      return AppLocalizations.of(context)!.tbsp;
+      return l10n.tbsp;
     case "pinch":
-      return AppLocalizations.of(context)!.pinch;
+      return l10n.pinch;
     case "bunch":
-      return AppLocalizations.of(context)!.bunch;
+      return l10n.bunch;
     case "sprig":
-      return AppLocalizations.of(context)!.sprig;
+      return l10n.sprig;
     case "packet":
-      return AppLocalizations.of(context)!.packet;
+      return l10n.packet;
     case "leaf":
-      return AppLocalizations.of(context)!.leaf;
+      return l10n.leaf;
     case "cup":
-      return AppLocalizations.of(context)!.cup;
+      return l10n.cup;
     case "slice":
-      return AppLocalizations.of(context)!.slice;
+      return l10n.slice;
     case "stick":
-      return AppLocalizations.of(context)!.stick;
+      return l10n.stick;
     case "handful":
-      return AppLocalizations.of(context)!.handful;
+      return l10n.handful;
     default:
       return unit;
   }
