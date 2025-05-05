@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shefu/repositories/nutrient_repository.dart';
 import 'package:shefu/views/full_screen_image.dart';
-import 'package:shefu/models/nutrients.dart';
 import 'package:shefu/widgets/step_timer_widget.dart';
 
 import '../models/recipes.dart';
@@ -120,83 +119,82 @@ class RecipeStepCard extends StatelessWidget {
 
   Widget stepIngredientsList(BuildContext context) {
     final nutrientRepository = Provider.of<NutrientRepository>(context, listen: false);
+
     return recipeStep.ingredients.isNotEmpty
         ? Expanded(
           flex: 2,
           child: Column(
             children: [
-              ...List.generate(recipeStep.ingredients.length, (index) {
-                var tuple = recipeStep.ingredients[index];
+              ...recipeStep.ingredients.map((ingredient) {
+                var baseQuantity = formattedQuantity(ingredient.quantity * servings);
+                final baseUnit = formattedUnit(ingredient.unit.toString(), context);
+                final String weightText;
 
-                return FutureBuilder<List<Conversion>>(
-                  future: nutrientRepository.getNutrientConversions(tuple.foodId),
-                  builder: (context, snapshot) {
-                    String quantity =
-                        '${formattedQuantity(tuple.quantity * servings)}${formattedUnit(tuple.unit.toString(), context)}';
-                    String quantityDetail = '';
-                    if (snapshot.connectionState == ConnectionState.done &&
-                        snapshot.hasData &&
-                        snapshot.data!.isNotEmpty) {
-                      final convs = snapshot.data!;
-                      var selected = convs.where((e) => e.id == tuple.selectedFactorId);
-                      if (selected.isNotEmpty) {
-                        // we have conversions
-                        var descText =
-                            (Localizations.localeOf(context).toLanguageTag() == "fr")
-                                ? selected.first.descFR
-                                : selected.first.descEN;
-                        quantity =
-                            '${formattedQuantity(selected.first.factor * tuple.quantity * 100 * servings)}g';
-                        quantityDetail =
-                            '(${tuple.quantity * servings != 1 ? '${formattedQuantity(tuple.quantity * servings)}x ' : ''}$descText)';
-                      }
-                    }
+                final factor = nutrientRepository.getConversionFactor(
+                  ingredient.foodId,
+                  ingredient.selectedFactorId,
+                );
 
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 3.0),
-                      child: Column(
+                weightText =
+                    ingredient.foodId > 0
+                        ? '${formattedQuantity(factor * ingredient.quantity * 100 * servings)}g'
+                        : '$baseQuantity$baseUnit';
+
+                final String descText = nutrientRepository.getNutrientDescById(
+                  context,
+                  ingredient.foodId,
+                  ingredient.selectedFactorId,
+                );
+                String quantityDetail = '';
+
+                if (descText.isNotEmpty) {
+                  quantityDetail =
+                      '(${ingredient.quantity * servings != 1 ? '${formattedQuantity(ingredient.quantity * servings)}x ' : ''}$descText)';
+                }
+
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 3.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "□ ",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: Theme.of(context).colorScheme.primary,
-                                ),
-                              ),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text('$quantity ${tuple.name}'),
-                                    if (quantityDetail.isNotEmpty)
-                                      Text(
-                                        quantityDetail,
-                                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                          color: Theme.of(context).colorScheme.primary,
-                                        ),
-                                      ),
-                                    if (tuple.shape.isNotEmpty)
-                                      Text(
-                                        tuple.shape,
-                                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                          fontStyle: FontStyle.italic,
-                                          color: Theme.of(context).colorScheme.primary,
-                                        ),
-                                      ),
-                                  ],
-                                ),
-                              ),
-                            ],
+                          Text(
+                            "□ ",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          ),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('$weightText ${ingredient.name}'),
+                                if (quantityDetail.isNotEmpty)
+                                  Text(
+                                    quantityDetail,
+                                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                      color: Theme.of(context).colorScheme.primary,
+                                    ),
+                                  ),
+                                if (ingredient.shape.isNotEmpty)
+                                  Text(
+                                    ingredient.shape,
+                                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                      fontStyle: FontStyle.italic,
+                                      color: Theme.of(context).colorScheme.primary,
+                                    ),
+                                  ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
-                    );
-                  },
+                    ],
+                  ),
                 );
               }),
             ],

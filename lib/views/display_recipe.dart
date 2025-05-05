@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:shefu/l10n/app_localizations.dart';
+import 'package:shefu/repositories/nutrient_repository.dart';
 import 'package:shefu/views/full_screen_image.dart';
 import 'package:shefu/utils/app_color.dart';
 import 'package:shefu/viewmodels/display_recipe_viewmodel.dart';
@@ -102,6 +103,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
     final recipe = viewModel.recipe!;
     final allIngredients = recipe.steps.expand((step) => step.ingredients).toList();
     final l10n = AppLocalizations.of(context)!;
+    final nutrientRepository = Provider.of<NutrientRepository>(context, listen: false);
 
     return SingleChildScrollView(
       child: Column(
@@ -119,6 +121,21 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                 final ingredient = allIngredients[index];
                 final isInBasket = viewModel.basket[ingredient.name] ?? false;
 
+                // Get the actual conversion factor
+                final factor = nutrientRepository.getConversionFactor(
+                  ingredient.foodId,
+                  ingredient.selectedFactorId,
+                );
+
+                String descText = "";
+                if (ingredient.foodId > 0) {
+                  descText = viewModel.getNutrientDescById(
+                    context,
+                    ingredient.foodId,
+                    ingredient.selectedFactorId,
+                  );
+                }
+
                 return InkWell(
                   onTap: () => viewModel.toggleBasketItem(ingredient.name),
                   child: Padding(
@@ -133,14 +150,33 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                         ),
                         const SizedBox(width: 3),
                         Expanded(
-                          child: Text(
-                            "${formattedQuantity(ingredient.quantity * (viewModel.servings / recipe.servings))}"
-                            "${formattedUnit(ingredient.unit, context)} ${ingredient.name}",
-                            style: TextStyle(
-                              decoration:
-                                  isInBasket ? TextDecoration.lineThrough : TextDecoration.none,
-                              color: isInBasket ? Colors.green : Colors.black,
-                            ),
+                          child: Row(
+                            children: [
+                              Text(
+                                ingredient.foodId > 0
+                                    ? "${formattedQuantity(factor * ingredient.quantity * 100 * viewModel.servings / recipe.servings)}g ${ingredient.name}"
+                                    : "${formattedQuantity(ingredient.quantity * viewModel.servings / recipe.servings)}${formattedUnit(ingredient.unit.toString(), context)} ${ingredient.name}",
+                                style: TextStyle(
+                                  decoration:
+                                      isInBasket ? TextDecoration.lineThrough : TextDecoration.none,
+                                  color: isInBasket ? Colors.green : Colors.black,
+                                ),
+                              ),
+                              if (descText.isNotEmpty)
+                                Text(
+                                  " (${((ingredient.quantity * viewModel.servings / recipe.servings) != 1) ? '${formattedQuantity(ingredient.quantity * viewModel.servings / recipe.servings)}x ' : ''}$descText)",
+                                  style: TextStyle(
+                                    decoration:
+                                        isInBasket
+                                            ? TextDecoration.lineThrough
+                                            : TextDecoration.none,
+                                    color:
+                                        isInBasket
+                                            ? Colors.green
+                                            : Theme.of(context).colorScheme.primary,
+                                  ),
+                                ),
+                            ],
                           ),
                         ),
                       ],

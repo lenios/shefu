@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shefu/models/recipes.dart';
 import 'package:shefu/models/shopping_basket.dart';
 import 'package:shefu/provider/my_app_state.dart';
+import 'package:shefu/repositories/nutrient_repository.dart';
 import 'package:shefu/repositories/recipe_repository.dart';
 
 class DisplayRecipeViewModel extends ChangeNotifier {
@@ -157,5 +159,12 @@ class DisplayRecipeViewModel extends ChangeNotifier {
   void dispose() {
     _appState.removeListener(_onAppStateChanged);
     super.dispose();
+  }
+
+  String getNutrientDescById(context, int foodId, int factorId) {
+    return Provider.of<NutrientRepository>(
+      context,
+      listen: false,
+    ).getNutrientDescById(context, foodId, factorId);
   }
 }

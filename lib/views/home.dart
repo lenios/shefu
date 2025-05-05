@@ -285,9 +285,11 @@ class _HomePageState extends State<HomePage> {
                       ),
                       cacheExtent: 500,
                       itemBuilder: (context, index) {
+                        // Reverse the index to show the last recipe first
+                        final reverseIndex = viewModel.recipes.length - 1 - index;
                         return RepaintBoundary(
                           // Isolate each recipe card's painting
-                          child: RecipeCard(recipe: viewModel.recipes[index]),
+                          child: RecipeCard(recipe: viewModel.recipes[reverseIndex]),
                         );
                       },
                     ),

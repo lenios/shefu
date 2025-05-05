@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:csv/csv.dart';
 import 'package:flutter/foundation.dart'; // For debugPrint
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
@@ -207,6 +208,56 @@ class NutrientRepository {
     if (!_isInitialized) await initialize();
     final nutrient = await getNutrientById(foodId);
     return nutrient?.conversions ?? [];
+  }
+
+  String getNutrientDescById(BuildContext context, int foodId, int factorId) {
+    if (foodId <= 0 || factorId <= 0) return "";
+
+    final isFrench = Localizations.localeOf(context).languageCode == 'fr';
+
+    try {
+      var nutrient = _inMemoryNutrients.firstWhere(
+        (n) => n.id == foodId,
+        orElse: () => Nutrient.empty(0),
+      );
+
+      if (nutrient.id == 0) return "";
+
+      var selected = nutrient.conversions.where((e) => e.id == factorId);
+      if (selected.isNotEmpty) {
+        return isFrench
+            ? selected.first.descFR
+            : selected.first.descEN; // fallback to English for all languages
+      }
+
+      return "";
+    } catch (e) {
+      debugPrint("Error in getNutrientDescById: $e");
+      return "";
+    }
+  }
+
+  double getConversionFactor(int foodId, int conversionId) {
+    if (foodId <= 0 || conversionId <= 0) return 1.0;
+
+    try {
+      var nutrient = _inMemoryNutrients.firstWhere(
+        (n) => n.id == foodId,
+        orElse: () => Nutrient.empty(0),
+      );
+
+      if (nutrient.id == 0) return 1.0;
+
+      var conversion = nutrient.conversions.firstWhere(
+        (c) => c.id == conversionId,
+        orElse: () => Conversion()..factor = 1.0,
+      );
+
+      return conversion.factor > 0 ? conversion.factor : 1.0;
+    } catch (e) {
+      debugPrint("Error in getConversionFactor: $e");
+      return 1.0;
+    }
   }
 
   Future<List<Nutrient>> filterNutrients(String filter) async {
