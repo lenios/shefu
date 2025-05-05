@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shefu/widgets/circular_countdown_timer.dart';
 import 'package:shefu/l10n/app_localizations.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 class StepTimerWidget extends StatefulWidget {
   final int timerDurationSeconds; // Pass duration in seconds
@@ -15,6 +17,7 @@ class _StepTimerWidgetState extends State<StepTimerWidget> {
   final CountDownController _controller = CountDownController();
   bool _isStarted = false;
   bool _isPaused = false;
+  final player = AudioPlayer();
 
   @override
   Widget build(BuildContext context) {
@@ -93,12 +96,13 @@ class _StepTimerWidgetState extends State<StepTimerWidget> {
                 ),
               );
             },
-            onComplete: () {
+            onComplete: () async {
               setState(() {
                 _isStarted = false;
                 _isPaused = false;
               });
-              // TODO: Trigger sound/vibration
+              await player.play(AssetSource('notification-ping-335500.mp3'));
+              HapticFeedback.vibrate();
             },
             timeFormatterFunction: (defaultFormatterFunction, duration) {
               // Show 'Start' only when not started
