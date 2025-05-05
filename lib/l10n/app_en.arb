@@ -95,6 +95,8 @@
           "addIngredient": "Add ingredient",
           "minutes": "minutes",
           "hours": "hours",
+          "minutes_abbreviation": "min",
+          "hours_abbreviation": "h",
           "timerUsage": "Tap to pause/resume, long press to stop the timer.",
           "noMatchingNutrient": "No matching nutrients found",
           "leaveWithoutSaving": "Leave without saving?",

@@ -31,7 +31,7 @@ class _StepTimerWidgetState extends State<StepTimerWidget> {
       children: [
         // Display timer duration as text
         Text(
-          '${(widget.timerDurationSeconds / 60).round()} min',
+          '${(widget.timerDurationSeconds / 60).round()} ${l10n.minutes_abbreviation}',
           style: TextStyle(fontSize: 12.0, color: colorScheme.onSurfaceVariant),
         ),
         const SizedBox(height: 4),

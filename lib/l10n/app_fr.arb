@@ -95,6 +95,8 @@
           "addIngredient": "Ajouter un ingrédient",
           "minutes": "minutes",
           "hours": "heures",
+          "minutes_abbreviation": "min",
+          "hours_abbreviation": "h",
           "timerUsage": "Appuyez pour mettre en pause/reprendre. Faites un appui long pour arrêter le minuteur.",
           "noMatchingNutrient": "Aucun ingrédient correspondant trouvé",
           "leaveWithoutSaving": "Quitter sans enregistrer ?",

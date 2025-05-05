@@ -140,8 +140,9 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                 return InkWell(
                   onTap: () => viewModel.toggleBasketItem(ingredient.name),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 3.0).copyWith(left: 30.0),
+                    padding: const EdgeInsets.symmetric(vertical: 5.0).copyWith(left: 30.0),
                     child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Checkbox(
                           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -151,7 +152,8 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                         ),
                         const SizedBox(width: 3),
                         Expanded(
-                          child: Row(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 ingredient.foodId > 0
@@ -162,6 +164,9 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                                       isInBasket ? TextDecoration.lineThrough : TextDecoration.none,
                                   color: isInBasket ? Colors.green : Colors.black,
                                 ),
+                                softWrap: true,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 2,
                               ),
                               if (descText.isNotEmpty)
                                 Text(

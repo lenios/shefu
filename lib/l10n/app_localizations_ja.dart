@@ -298,6 +298,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get hours => '時間';
 
   @override
+  String get minutes_abbreviation => '分';
+
+  @override
+  String get hours_abbreviation => '時間';
+
+  @override
   String get timerUsage => 'タップすると一時停止/再開し、長押しするとタイマーを停止します。';
 
   @override

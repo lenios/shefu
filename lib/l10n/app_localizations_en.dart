@@ -298,6 +298,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get hours => 'hours';
 
   @override
+  String get minutes_abbreviation => 'min';
+
+  @override
+  String get hours_abbreviation => 'h';
+
+  @override
   String get timerUsage => 'Tap to pause/resume, long press to stop the timer.';
 
   @override

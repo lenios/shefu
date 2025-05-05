@@ -95,6 +95,8 @@
   "addIngredient": "材料を追加",
   "minutes": "分",
   "hours": "時間",
+  "minutes_abbreviation": "分",
+  "hours_abbreviation": "時間",
   "timerUsage": "タップすると一時停止/再開し、長押しするとタイマーを停止します。",
   "noMatchingNutrient": "該当する栄養素が見つかりませんでした",
   "leaveWithoutSaving": "保存せずに終了しますか？",

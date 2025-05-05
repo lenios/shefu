@@ -298,6 +298,12 @@ class AppLocalizationsHu extends AppLocalizations {
   String get hours => 'óra';
 
   @override
+  String get minutes_abbreviation => 'perc';
+
+  @override
+  String get hours_abbreviation => 'óra';
+
+  @override
   String get timerUsage => 'Érintse meg a szüneteltetéshez/folytatáshoz, tartsa lenyomva az időzítő leállításához.';
 
   @override

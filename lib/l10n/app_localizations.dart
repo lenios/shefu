@@ -669,6 +669,18 @@ abstract class AppLocalizations {
   /// **'hours'**
   String get hours;
 
+  /// No description provided for @minutes_abbreviation.
+  ///
+  /// In en, this message translates to:
+  /// **'min'**
+  String get minutes_abbreviation;
+
+  /// No description provided for @hours_abbreviation.
+  ///
+  /// In en, this message translates to:
+  /// **'h'**
+  String get hours_abbreviation;
+
   /// No description provided for @timerUsage.
   ///
   /// In en, this message translates to:
