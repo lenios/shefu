@@ -212,6 +212,15 @@ class AppLocalizationsHu extends AppLocalizations {
   String get cup => 'csésze';
 
   @override
+  String get slice => 'szelet';
+
+  @override
+  String get stick => 'rúd';
+
+  @override
+  String get handful => 'maréknyi';
+
+  @override
   String get recipes => 'Receptek';
 
   @override

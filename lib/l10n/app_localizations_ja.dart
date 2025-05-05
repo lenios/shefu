@@ -212,6 +212,15 @@ class AppLocalizationsJa extends AppLocalizations {
   String get cup => 'カップ';
 
   @override
+  String get slice => '切れ';
+
+  @override
+  String get stick => '本';
+
+  @override
+  String get handful => '握り';
+
+  @override
   String get recipes => 'レシピ';
 
   @override

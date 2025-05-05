@@ -67,6 +67,14 @@ String formattedUnit(String unit, context) {
       return AppLocalizations.of(context)!.packet;
     case "leaf":
       return AppLocalizations.of(context)!.leaf;
+    case "cup":
+      return AppLocalizations.of(context)!.cup;
+    case "slice":
+      return AppLocalizations.of(context)!.slice;
+    case "stick":
+      return AppLocalizations.of(context)!.stick;
+    case "handful":
+      return AppLocalizations.of(context)!.handful;
     default:
       return unit;
   }

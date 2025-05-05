@@ -212,6 +212,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get cup => 'cup';
 
   @override
+  String get slice => 'slice';
+
+  @override
+  String get stick => 'stick';
+
+  @override
+  String get handful => 'handful';
+
+  @override
   String get recipes => 'Recipes';
 
   @override

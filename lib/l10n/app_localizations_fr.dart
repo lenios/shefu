@@ -212,6 +212,15 @@ class AppLocalizationsFr extends AppLocalizations {
   String get cup => 'verre';
 
   @override
+  String get slice => 'tranche';
+
+  @override
+  String get stick => 'branche';
+
+  @override
+  String get handful => 'poignée';
+
+  @override
   String get recipes => 'Recettes';
 
   @override

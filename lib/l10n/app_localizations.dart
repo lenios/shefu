@@ -501,6 +501,24 @@ abstract class AppLocalizations {
   /// **'cup'**
   String get cup;
 
+  /// No description provided for @slice.
+  ///
+  /// In en, this message translates to:
+  /// **'slice'**
+  String get slice;
+
+  /// No description provided for @stick.
+  ///
+  /// In en, this message translates to:
+  /// **'stick'**
+  String get stick;
+
+  /// No description provided for @handful.
+  ///
+  /// In en, this message translates to:
+  /// **'handful'**
+  String get handful;
+
   /// No description provided for @recipes.
   ///
   /// In en, this message translates to:

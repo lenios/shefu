@@ -135,7 +135,10 @@ enum Unit {
   sprig,
   packet,
   leaf,
-  cup;
+  cup,
+  slice,
+  stick,
+  handful;
 
   @override
   String toString() => name != "none" ? name : "";
