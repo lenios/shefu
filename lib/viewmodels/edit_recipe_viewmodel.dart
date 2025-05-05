@@ -592,9 +592,8 @@ class EditRecipeViewModel extends ChangeNotifier {
   }
 
   // --- Save Recipe ---
-  Future<bool> saveRecipe() async {
+  Future<bool> saveRecipe(l10n) async {
     _isLoading = true;
-
     bool successDb = false;
     try {
       // 1. Update recipe object from controllers before saving
@@ -605,7 +604,29 @@ class EditRecipeViewModel extends ChangeNotifier {
       _recipe.servings = int.tryParse(servingsController.text) ?? 0;
       _recipe.category = _category; // Ensure category is updated
       _recipe.month = _month; // Ensure month is updated
-      //_recipe.countryCode = _country.countryCode; // Ensure country is updated
+
+      // Automatically set timer from step instructions
+      if (_recipe.steps.isNotEmpty) {
+        final RegExp minutesRegex = RegExp(
+          r'(\d+)\s?' + RegExp.escape(l10n.minutes),
+          caseSensitive: false,
+        );
+
+        // Process timer for each step
+        for (var step in _recipe.steps) {
+          final instruction = step.instruction;
+          final match = minutesRegex.firstMatch(instruction);
+
+          if (match != null && match.groupCount >= 1) {
+            // Extract the number and set it as the timer, except if user set it manually
+            final minutes = int.tryParse(match.group(1) ?? "0") ?? 0;
+            if (minutes > 0 && (step.timer == 0 || step.timer != minutes)) {
+              step.timer = minutes;
+            }
+          }
+        }
+      }
+
       // 2. Update calories and carbohydrates
       var totalCalories = 0.0;
       var totalCarbs = 0.0;

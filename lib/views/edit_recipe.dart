@@ -103,7 +103,7 @@ class _EditRecipeState extends State<EditRecipe> {
               );
 
               if (shouldSave == true) {
-                bool saved = await viewModel.saveRecipe();
+                bool saved = await viewModel.saveRecipe(l10n);
                 if (!context.mounted) return;
                 if (saved) {
                   if (navigator.canPop()) {
@@ -152,7 +152,7 @@ class _EditRecipeState extends State<EditRecipe> {
                             isLoading
                                 ? null
                                 : () async {
-                                  bool saved = await viewModel.saveRecipe();
+                                  bool saved = await viewModel.saveRecipe(l10n);
                                   if (saved && context.mounted) {
                                     context.pop(true);
                                   } else if (context.mounted) {
