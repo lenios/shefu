@@ -62,125 +62,10 @@ class NutrientRepository {
         }
       }
     }
-
-    final count = await _isar!.nutrients.count();
-    if (count == 0) {
-      debugPrint("Nutrients database is empty. Populating from CSV...");
-      await _populateNutrientsFromCsv();
-      debugPrint("Population complete.");
-    } else {
-      debugPrint("Nutrients database already populated ($count items).");
-    }
-
     // Load nutrients into memory for faster access
     _inMemoryNutrients = await _isar!.nutrients.where().findAll();
     debugPrint("Loaded ${_inMemoryNutrients.length} nutrients into memory.");
     _isInitialized = true;
-  }
-
-  Future<void> _populateNutrientsFromCsv() async {
-    if (_isar == null) await initialize();
-    {
-      // Load the nutrients CSV file
-      final rawData = await rootBundle.loadString("assets/nutrients_full.csv");
-      List<List<dynamic>> listData = const CsvToListConverter().convert(
-        rawData,
-        convertEmptyTo: 0.0,
-        eol: '\n',
-      );
-
-      final convRawData = await rootBundle.loadString("assets/conversions_full.csv");
-      List<List<dynamic>> convListData = const CsvToListConverter().convert(convRawData, eol: '\n');
-
-      Map<int, List<Conversion>> conversionsMap = {};
-
-      for (var i = 1; i < convListData.length; i++) {
-        // Skip header row
-        final convItem = convListData[i];
-        if (convItem.length < 5) {
-          debugPrint("Skipping incomplete conversion row: $convItem");
-          continue;
-        }
-
-        // Handle potential type issues
-        int foodId;
-        int convId;
-
-        try {
-          foodId = convItem[0] is int ? convItem[0] : int.parse(convItem[0].toString());
-          convId = convItem[1] is int ? convItem[1] : int.parse(convItem[1].toString());
-        } catch (e) {
-          debugPrint("Error parsing conversion IDs: $e");
-          continue;
-        }
-
-        var conversion =
-            Conversion()
-              ..id = convId
-              ..descEN = convItem[2]?.toString() ?? ''
-              ..descFR = convItem[3]?.toString() ?? ''
-              ..factor = convItem[4] is num ? (convItem[4] as num).toDouble() : 0.0;
-
-        if (!conversionsMap.containsKey(foodId)) {
-          conversionsMap[foodId] = [];
-        }
-        conversionsMap[foodId]!.add(conversion);
-      }
-      List<Nutrient> nutrientsToInsert = [];
-
-      for (var item in listData.sublist(1)) {
-        // Skip header row
-        if (item.length < 18) {
-          debugPrint("Skipping incomplete nutrient row: $item");
-          continue;
-        }
-
-        // Handle potential type issues
-        int foodId;
-        try {
-          foodId = item[0] is int ? item[0] : int.parse(item[0].toString());
-        } catch (e) {
-          debugPrint("Error parsing nutrient ID: $e");
-          continue;
-        }
-
-        // Create the nutrient object with basic properties
-        var nutrient = Nutrient(
-          foodId,
-          item[1]?.toString() ?? '', // descEN
-          item[2]?.toString() ?? '', // descFR
-          _parseDoubleWithFallback(item[9]), // protein
-          _parseDoubleWithFallback(item[10]), // water
-          _parseDoubleWithFallback(item[15]), // lipidTotal
-          _parseDoubleWithFallback(item[16]), // energKcal
-          _parseDoubleWithFallback(item[17]), // carbohydrates
-        );
-
-        // Add additional properties if available
-        if (item.length > 18) nutrient.ash = _parseDoubleWithFallback(item[18]);
-        if (item.length > 19) nutrient.fiber = _parseDoubleWithFallback(item[19]);
-        if (item.length > 20) nutrient.sugar = _parseDoubleWithFallback(item[20]);
-
-        nutrient.conversions = conversionsMap[foodId] ?? [];
-
-        nutrientsToInsert.add(nutrient);
-
-        await _isar!.writeTxn(() async {
-          await _isar!.nutrients.putAll(nutrientsToInsert);
-        });
-      }
-    }
-  }
-
-  // Helper function to parse double values safely
-  double _parseDoubleWithFallback(dynamic value, {double fallback = 0.0}) {
-    if (value == null) return fallback;
-    if (value is num) return value.toDouble();
-    try {
-      return double.parse(value.toString());
-    } catch (e) {
-      return fallback;
-    }
   }
 
   Future<Nutrient?> getNutrientById(int id) async {
@@ -258,6 +143,20 @@ class NutrientRepository {
       debugPrint("Error in getConversionFactor: $e");
       return 1.0;
     }
+  }
+
+  Conversion getConversionFromId(int foodId, int conversionId) {
+    var nutrient = _inMemoryNutrients.firstWhere(
+      (n) => n.id == foodId,
+      orElse: () => Nutrient.empty(0),
+    );
+
+    var conversion = nutrient.conversions.firstWhere(
+      (c) => c.id == conversionId,
+      orElse: () => Conversion()..factor = 1.0,
+    );
+
+    return conversion;
   }
 
   Future<List<Nutrient>> filterNutrients(String filter) async {

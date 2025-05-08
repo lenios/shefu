@@ -85,6 +85,7 @@ jobs:
     # Only run this job if the commit message indicates a release-worthy change
     if: >
       startsWith(github.event.head_commit.message, 'feat:') ||
+      startsWith(github.event.head_commit.message, 'feat!:') ||
       startsWith(github.event.head_commit.message, 'fix:') ||
       startsWith(github.event.head_commit.message, 'perf:') ||
       contains(github.event.head_commit.message, 'BREAKING CHANGE:')

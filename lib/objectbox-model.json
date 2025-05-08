@@ -1,0 +1,520 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:6258115972404249335",
+      "lastPropertyId": "7:905922068841682306",
+      "name": "Conversion",
+      "properties": [
+        {
+          "id": "1:8604200031220244783",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:9202351488866148428",
+          "name": "descEN",
+          "type": 9
+        },
+        {
+          "id": "3:7298311886452211771",
+          "name": "descFR",
+          "type": 9
+        },
+        {
+          "id": "4:5877762822117907900",
+          "name": "factor",
+          "type": 8
+        },
+        {
+          "id": "5:1729286742440811135",
+          "name": "nutrientId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "1:2440321363782279921",
+          "relationTarget": "Nutrient"
+        },
+        {
+          "id": "6:9100055661404955199",
+          "name": "measureId",
+          "type": 6
+        },
+        {
+          "id": "7:905922068841682306",
+          "name": "foodId",
+          "type": 6
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "2:4044495939055305156",
+      "lastPropertyId": "9:780675996808017377",
+      "name": "IngredientItem",
+      "properties": [
+        {
+          "id": "1:8014277401507612088",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:9151430585078587242",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "3:981053507797126297",
+          "name": "unit",
+          "type": 9
+        },
+        {
+          "id": "4:2631347488874642789",
+          "name": "quantity",
+          "type": 8
+        },
+        {
+          "id": "5:1246905507888395957",
+          "name": "shape",
+          "type": 9
+        },
+        {
+          "id": "6:2184864783158863125",
+          "name": "foodId",
+          "type": 6
+        },
+        {
+          "id": "8:6236051589328793269",
+          "name": "stepId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "2:6547559057634504768",
+          "relationTarget": "RecipeStep"
+        },
+        {
+          "id": "9:780675996808017377",
+          "name": "conversionId",
+          "type": 6
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "3:4390279895634574532",
+      "lastPropertyId": "50:3965645087550855785",
+      "name": "Nutrient",
+      "properties": [
+        {
+          "id": "1:1186487441911206837",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:5303145012319275539",
+          "name": "descEN",
+          "type": 9
+        },
+        {
+          "id": "3:3169254619375292838",
+          "name": "descFR",
+          "type": 9
+        },
+        {
+          "id": "4:2001077991159847058",
+          "name": "protein",
+          "type": 8
+        },
+        {
+          "id": "5:36788368599632073",
+          "name": "water",
+          "type": 8
+        },
+        {
+          "id": "6:1792117613728295569",
+          "name": "lipidTotal",
+          "type": 8
+        },
+        {
+          "id": "7:4030084621276656039",
+          "name": "energKcal",
+          "type": 8
+        },
+        {
+          "id": "8:4325307815249569682",
+          "name": "carbohydrates",
+          "type": 8
+        },
+        {
+          "id": "9:799539450485959812",
+          "name": "ash",
+          "type": 8
+        },
+        {
+          "id": "10:3525599181850156765",
+          "name": "fiber",
+          "type": 8
+        },
+        {
+          "id": "11:451853166472450540",
+          "name": "sugar",
+          "type": 8
+        },
+        {
+          "id": "12:7689685620402365300",
+          "name": "calcium",
+          "type": 8
+        },
+        {
+          "id": "13:5433618270446722484",
+          "name": "iron",
+          "type": 8
+        },
+        {
+          "id": "14:1448531565401091298",
+          "name": "magnesium",
+          "type": 8
+        },
+        {
+          "id": "15:847323505599430390",
+          "name": "phosphorus",
+          "type": 8
+        },
+        {
+          "id": "16:5592379994306537788",
+          "name": "potassium",
+          "type": 8
+        },
+        {
+          "id": "17:3073714790686521293",
+          "name": "sodium",
+          "type": 8
+        },
+        {
+          "id": "18:6924932204835184177",
+          "name": "zinc",
+          "type": 8
+        },
+        {
+          "id": "19:9038800682622686051",
+          "name": "copper",
+          "type": 8
+        },
+        {
+          "id": "20:5550900669435965788",
+          "name": "manganese",
+          "type": 8
+        },
+        {
+          "id": "21:5058900097371260550",
+          "name": "selenium",
+          "type": 8
+        },
+        {
+          "id": "22:5068313499915885683",
+          "name": "vitaminC",
+          "type": 8
+        },
+        {
+          "id": "23:154363504645866734",
+          "name": "thiamin",
+          "type": 8
+        },
+        {
+          "id": "24:8470193417007511251",
+          "name": "riboflavin",
+          "type": 8
+        },
+        {
+          "id": "25:3699702148106388543",
+          "name": "niacin",
+          "type": 8
+        },
+        {
+          "id": "26:3798950894308457944",
+          "name": "pantoAcid",
+          "type": 8
+        },
+        {
+          "id": "27:1102802854869631430",
+          "name": "vitaminB6",
+          "type": 8
+        },
+        {
+          "id": "28:8006541650099894518",
+          "name": "folateTotal",
+          "type": 8
+        },
+        {
+          "id": "29:1631277860042997028",
+          "name": "folicAcid",
+          "type": 8
+        },
+        {
+          "id": "30:4071319276572970218",
+          "name": "foodFolate",
+          "type": 8
+        },
+        {
+          "id": "31:5799354516572051023",
+          "name": "folateDFE",
+          "type": 8
+        },
+        {
+          "id": "32:3681040581447649387",
+          "name": "cholineTotal",
+          "type": 8
+        },
+        {
+          "id": "33:6202615931484110828",
+          "name": "vitaminB12",
+          "type": 8
+        },
+        {
+          "id": "34:5673982438993578678",
+          "name": "vitaminAIU",
+          "type": 8
+        },
+        {
+          "id": "35:5508204115422525592",
+          "name": "vitaminARAE",
+          "type": 8
+        },
+        {
+          "id": "36:8652427811194148949",
+          "name": "retinol",
+          "type": 8
+        },
+        {
+          "id": "37:8375942112827678563",
+          "name": "alphaCarot",
+          "type": 8
+        },
+        {
+          "id": "38:6071122141950266656",
+          "name": "betaCarot",
+          "type": 8
+        },
+        {
+          "id": "39:1457394071297846351",
+          "name": "betaCrypt",
+          "type": 8
+        },
+        {
+          "id": "40:7806129080958078298",
+          "name": "lycopene",
+          "type": 8
+        },
+        {
+          "id": "41:4343762426690754600",
+          "name": "lutZea",
+          "type": 8
+        },
+        {
+          "id": "42:2966594369446083375",
+          "name": "vitaminE",
+          "type": 8
+        },
+        {
+          "id": "43:6611227159730847870",
+          "name": "vitaminD",
+          "type": 8
+        },
+        {
+          "id": "44:3200632239188278562",
+          "name": "vitaminDIU",
+          "type": 8
+        },
+        {
+          "id": "45:2868218333883205129",
+          "name": "vitaminK",
+          "type": 8
+        },
+        {
+          "id": "46:6183847045805496559",
+          "name": "FASat",
+          "type": 8
+        },
+        {
+          "id": "47:7092997154809799620",
+          "name": "FAMono",
+          "type": 8
+        },
+        {
+          "id": "48:9046262514356352783",
+          "name": "FAPoly",
+          "type": 8
+        },
+        {
+          "id": "49:6570446930734961847",
+          "name": "cholesterol",
+          "type": 8
+        },
+        {
+          "id": "50:3965645087550855785",
+          "name": "foodId",
+          "type": 6,
+          "flags": 40,
+          "indexId": "6:2705793105657317534"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "4:2416326191381789094",
+      "lastPropertyId": "12:528459893117606919",
+      "name": "Recipe",
+      "properties": [
+        {
+          "id": "1:6490349039015580475",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:1816101909760867429",
+          "name": "title",
+          "type": 9
+        },
+        {
+          "id": "3:3712783720548206720",
+          "name": "source",
+          "type": 9
+        },
+        {
+          "id": "4:4599138978355537896",
+          "name": "imagePath",
+          "type": 9
+        },
+        {
+          "id": "5:1113375781761955263",
+          "name": "notes",
+          "type": 9
+        },
+        {
+          "id": "6:5982327281449889150",
+          "name": "servings",
+          "type": 6
+        },
+        {
+          "id": "7:7224510200481207547",
+          "name": "category",
+          "type": 6
+        },
+        {
+          "id": "8:1081303392613435180",
+          "name": "countryCode",
+          "type": 9
+        },
+        {
+          "id": "9:7278219391415914417",
+          "name": "calories",
+          "type": 6
+        },
+        {
+          "id": "10:4086684423918074660",
+          "name": "time",
+          "type": 6
+        },
+        {
+          "id": "11:2084236262118415261",
+          "name": "month",
+          "type": 6
+        },
+        {
+          "id": "12:528459893117606919",
+          "name": "carbohydrates",
+          "type": 6
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "5:4388955433426848727",
+      "lastPropertyId": "6:7763688450360137610",
+      "name": "RecipeStep",
+      "properties": [
+        {
+          "id": "1:8851173125758025260",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:6784247177741292948",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "3:4880341097545631725",
+          "name": "instruction",
+          "type": 9
+        },
+        {
+          "id": "4:8133710026707724969",
+          "name": "imagePath",
+          "type": 9
+        },
+        {
+          "id": "5:682637197935843845",
+          "name": "timer",
+          "type": 6
+        },
+        {
+          "id": "6:7763688450360137610",
+          "name": "recipeId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "3:4653395338623598876",
+          "relationTarget": "Recipe"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "6:7362449003810345176",
+      "lastPropertyId": "3:6654200120975732863",
+      "name": "Tag",
+      "properties": [
+        {
+          "id": "1:6526773556714813656",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:2866481764279356746",
+          "name": "name",
+          "type": 9,
+          "flags": 2080,
+          "indexId": "4:7598214341922616506"
+        },
+        {
+          "id": "3:6654200120975732863",
+          "name": "recipeId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "5:3459184964907489599",
+          "relationTarget": "Recipe"
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "6:7362449003810345176",
+  "lastIndexId": "6:2705793105657317534",
+  "lastRelationId": "0:0",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [
+    4179309004405117661
+  ],
+  "retiredRelationUids": [],
+  "version": 1
+}

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shefu/repositories/nutrient_repository.dart';
+import 'package:shefu/repositories/objectbox_nutrient_repository.dart';
 import 'package:shefu/utils/string_extension.dart';
 import 'package:shefu/views/full_screen_image.dart';
 import 'package:shefu/widgets/step_timer_widget.dart';
+import '../models/objectbox_models.dart';
 
-import '../models/recipes.dart';
 import 'image_helper.dart';
 import 'misc.dart';
 
@@ -119,7 +119,7 @@ class RecipeStepCard extends StatelessWidget {
   }
 
   Widget stepIngredientsList(BuildContext context) {
-    final nutrientRepository = Provider.of<NutrientRepository>(context, listen: false);
+    final nutrientRepository = Provider.of<ObjectBoxNutrientRepository>(context, listen: false);
 
     return recipeStep.ingredients.isNotEmpty
         ? Expanded(
@@ -133,7 +133,7 @@ class RecipeStepCard extends StatelessWidget {
 
                 final factor = nutrientRepository.getConversionFactor(
                   ingredient.foodId,
-                  ingredient.selectedFactorId,
+                  ingredient.conversionId,
                 );
 
                 weightText =
@@ -144,7 +144,7 @@ class RecipeStepCard extends StatelessWidget {
                 final String descText = nutrientRepository.getNutrientDescById(
                   context,
                   ingredient.foodId,
-                  ingredient.selectedFactorId,
+                  ingredient.conversionId,
                 );
                 String quantityDetail = '';
 

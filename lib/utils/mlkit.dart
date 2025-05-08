@@ -2,10 +2,15 @@ import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shefu/l10n/app_localizations.dart';
-import '../models/recipes.dart';
+import 'package:shefu/models/objectbox_models.dart';
 
 // Return a tuple: (structureChanged, potentialTitle)
-Future<(bool, String?)> ocrParse(XFile image, Recipe recipe, AppLocalizations l10n) async {
+Future<(bool, String?)> ocrParse(
+  XFile image,
+  Recipe recipe,
+  AppLocalizations l10n,
+  viewModel,
+) async {
   bool structureChanged = false; // changed after OCR processing
   String? potentialTitle;
 
@@ -18,7 +23,6 @@ Future<(bool, String?)> ocrParse(XFile image, Recipe recipe, AppLocalizations l1
     if (recognizedText.text.isNotEmpty) {
       debugPrint("--- Starting OCR Text Processing ---");
       final blocks = recognizedText.blocks;
-      recipe.steps = List<RecipeStep>.from(recipe.steps); // convert to a growable list
 
       // 1. Process Title (First Block)
       if (blocks.isNotEmpty) {
@@ -34,7 +38,7 @@ Future<(bool, String?)> ocrParse(XFile image, Recipe recipe, AppLocalizations l1
 
       // Ensure we have at least a preparation step
       if (recipe.steps.isEmpty) {
-        recipe.steps.add(RecipeStep.withInstruction(l10n.gatherIngredients));
+        recipe.steps.add(RecipeStep(instruction: l10n.gatherIngredients));
         structureChanged = true; // Structure changed
       }
 
@@ -95,7 +99,7 @@ Future<(bool, String?)> ocrParse(XFile image, Recipe recipe, AppLocalizations l1
                 );
 
                 if (!stepExists && stepInstruction.isNotEmpty) {
-                  final step = RecipeStep.withInstruction(stepInstruction);
+                  final step = RecipeStep(instruction: stepInstruction);
                   step.name = stepName;
                   recipe.steps.add(step);
                   stepsAdded++;
@@ -104,7 +108,7 @@ Future<(bool, String?)> ocrParse(XFile image, Recipe recipe, AppLocalizations l1
                 // No colon, use whole block as instruction
                 bool stepExists = recipe.steps.any((step) => step.instruction == blockText);
                 if (!stepExists) {
-                  recipe.steps.add(RecipeStep.withInstruction(blockText));
+                  recipe.steps.add(RecipeStep(instruction: blockText));
                   stepsAdded++;
                 }
               }
@@ -124,7 +128,7 @@ Future<(bool, String?)> ocrParse(XFile image, Recipe recipe, AppLocalizations l1
                 );
 
                 if (!stepExists && stepInstruction.isNotEmpty) {
-                  final step = RecipeStep.withInstruction(stepInstruction);
+                  final step = RecipeStep(instruction: stepInstruction);
                   step.name = stepName;
                   recipe.steps.add(step);
                   stepsAdded++;
@@ -132,7 +136,7 @@ Future<(bool, String?)> ocrParse(XFile image, Recipe recipe, AppLocalizations l1
               } else {
                 // No colon, use whole sentence as instruction
                 if (!recipe.steps.any((step) => step.instruction == sentence)) {
-                  recipe.steps.add(RecipeStep.withInstruction(sentence));
+                  recipe.steps.add(RecipeStep(instruction: sentence));
                   stepsAdded++;
                 }
               }
@@ -196,166 +200,40 @@ Future<(bool, String?)> ocrParse(XFile image, Recipe recipe, AppLocalizations l1
 
         int ingredientsAdded = 0;
 
-        // Process each ingredient
         for (final ingredientName in ingredientNames) {
-          // Clean the ingredient name for better matching (french specific)
-          final cleanedIngName =
-              ingredientName
-                  .replaceFirst(RegExp(r'^de\s+|^du\s+|^des\s+'), '')
-                  .toLowerCase()
-                  .trim();
+          // Extract quantity and unit if possible (simplistic approach)
+          double quantity = 0.0;
+          String unit = "";
+          String shape = "";
+          String name = ingredientName;
 
-          bool foundMatch = false;
+          // Extract potential quantity at beginning
+          final quantityMatch = RegExp(r'^(\d+[.,]?\d*)').firstMatch(ingredientName);
+          if (quantityMatch != null) {
+            quantity = double.tryParse(quantityMatch.group(1)!.replaceAll(',', '.')) ?? 0;
+            name = ingredientName.substring(quantityMatch.end).trim();
 
-          // Extract important words from ingredient name
-          List<String> ingredientWords =
-              cleanedIngName
-                  .split(RegExp(r'\s+'))
-                  .where((word) => word.length > 2 && !RegExp(r'^\d+$').hasMatch(word))
-                  .toList();
-
-          // Extract main ingredient name (first word or full phrase if no spaces)
-          final simpleIngName =
-              cleanedIngName.contains(' ')
-                  ? cleanedIngName.split(' ').first.trim()
-                  : cleanedIngName;
-
-          // Generate comprehensive alternative forms for better matching
-          Set<String> alternativeForms = {simpleIngName};
-
-          // Handle singular/plural variations (more comprehensive for French)
-          if (simpleIngName.endsWith('s')) {
-            // Plural to singular
-            alternativeForms.add(simpleIngName.substring(0, simpleIngName.length - 1));
-          } else {
-            // Singular to plural
-            alternativeForms.add('${simpleIngName}s');
-          }
-
-          // Add variations from compound ingredients (TODO: french specific)
-          if (cleanedIngName.contains(' de ')) {
-            final parts = cleanedIngName.split(' de ');
-            if (parts.isNotEmpty && parts[0].length >= 3) alternativeForms.add(parts[0]);
-            // Also add plural/singular of the first part
-            if (parts[0].endsWith('s')) {
-              alternativeForms.add(parts[0].substring(0, parts[0].length - 1));
-            } else {
-              alternativeForms.add('${parts[0]}s');
+            // Look for common units after the quantity
+            final unitMatch = RegExp(
+              r'^(g|kg|ml|l|cl|càs|càc|c\.à\.s|c\.à\.c|pincée|gousse)s?\.?\s+',
+              caseSensitive: false,
+            ).firstMatch(name);
+            if (unitMatch != null) {
+              unit = unitMatch.group(1)!;
+              name = name.substring(unitMatch.end).trim();
             }
           }
 
-          // Convert set to list for iteration
-          List<String> altFormsList = alternativeForms.where((form) => form.isNotEmpty).toList();
+          // Use the same processing logic as scraping
+          viewModel.processImportedIngredient(
+            quantity: quantity,
+            unit: unit,
+            name: name,
+            shape: shape,
+          );
 
-          // --- PASS 1: Direct & Word Match ---
-          for (int i = 1; i < recipe.steps.length; i++) {
-            var step = recipe.steps[i];
-            step.ingredients = List<IngredientTuple>.from(step.ingredients);
-            final stepLower = step.instruction.toLowerCase();
-
-            // FIRST: Try direct form matches
-            bool directMatch = false;
-            for (final form in altFormsList) {
-              final pattern = RegExp(
-                r'(^|\s|[.,;:!?])\s*' + form + r'\s*($|\s|[.,;:!?])', // ensure not part of a word
-                caseSensitive: false,
-              );
-              if (pattern.hasMatch(stepLower)) {
-                directMatch = true;
-                debugPrint("✅ DIRECT MATCH: form '$form' found in step #$i");
-                break;
-              }
-            }
-
-            if (directMatch) {
-              step.ingredients.add(IngredientTuple.withNameAndQuantity(ingredientName, 0));
-              ingredientsAdded++;
-              foundMatch = true;
-              break; // Exit step loop for PASS 1
-            }
-
-            // SECOND: Check for single word matches if no direct match in this step
-            if (altFormsList.isNotEmpty) {
-              bool wordMatch = false;
-              for (final word in altFormsList) {
-                final wordPattern = RegExp(
-                  r'(^|\s|[.,;:!?])\s*' + word + r'\s*($|\s|[.,;:!?])', // ensure not part of a word
-                  caseSensitive: false,
-                );
-                if (wordPattern.hasMatch(stepLower)) {
-                  wordMatch = true;
-                  debugPrint("✅ WORD MATCH: word '$word' found in step #$i");
-                  break;
-                }
-              }
-
-              if (wordMatch) {
-                step.ingredients.add(IngredientTuple.withNameAndQuantity(ingredientName, 0));
-                ingredientsAdded++;
-                foundMatch = true;
-                break; // Exit step loop for PASS 1
-              }
-            }
-          }
-
-          // --- PASS 2: Loose Match ---
-          if (!foundMatch) {
-            debugPrint("No strict match found, trying looser matching (checking keywords)...");
-            for (int i = 1; i < recipe.steps.length; i++) {
-              var step = recipe.steps[i];
-              final stepLower = step.instruction.toLowerCase();
-
-              bool looseMatch = false;
-              // Try simple contains for any significant word
-              for (final word in ingredientWords) {
-                if (stepLower.contains(word)) {
-                  looseMatch = true;
-                  debugPrint("✅ LOOSE MATCH (keyword): word '$word' contained in step #$i");
-                  break; // Found a keyword match in this step
-                }
-              }
-
-              // Note: The partial match logic below might become less relevant
-              // when matching keywords, but we can keep it as a fallback within loose match.
-              // Try partial match if simple contains failed
-              if (!looseMatch) {
-                for (final word in ingredientWords.where((w) => w.length >= 4)) {
-                  // <-- Use ingredientWords here too
-                  final partial = word.substring(
-                    0,
-                    word.length >= 6 ? word.length - 2 : word.length - 1,
-                  );
-                  if (partial.length >= 3 && stepLower.contains(partial)) {
-                    looseMatch = true;
-                    debugPrint(
-                      "✅ PARTIAL MATCH (keyword): partial '$partial' from '$word' in step #$i",
-                    );
-                    break; // Found a partial keyword match
-                  }
-                }
-              }
-
-              if (looseMatch) {
-                step.ingredients = List<IngredientTuple>.from(step.ingredients);
-                step.ingredients.add(IngredientTuple.withNameAndQuantity(ingredientName, 0));
-                ingredientsAdded++;
-                foundMatch = true;
-                debugPrint("✓ Assigned '$ingredientName' to step #$i with LOOSE (keyword) match");
-                break; // Exit step loop for PASS 2
-              }
-            } // End of step loop for PASS 2
-          }
-
-          // --- PASS 4: Final Fallback ---
-          // Only if NO match was found in ANY previous pass
-          if (!foundMatch && recipe.steps.isNotEmpty) {
-            debugPrint(
-              "⚠️ FALLBACK (final): No match found for '$ingredientName', assigning to first step",
-            );
-            recipe.steps[0].ingredients = List<IngredientTuple>.from(recipe.steps[0].ingredients);
-            recipe.steps[0].ingredients.add(IngredientTuple.withNameAndQuantity(ingredientName, 0));
-            ingredientsAdded++;
-          }
+          // Increment counter for reporting
+          ingredientsAdded++;
         }
 
         if (ingredientsAdded > 0) {

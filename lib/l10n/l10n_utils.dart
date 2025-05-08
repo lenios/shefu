@@ -1,6 +1,6 @@
 // Helper function to show proper language names
 import 'package:flutter/material.dart';
-import 'package:shefu/models/nutrients.dart';
+import 'package:shefu/models/objectbox_models.dart';
 
 String getLanguageDisplayName(String languageCode) {
   final Map<String, String> languageNames = {

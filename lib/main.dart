@@ -3,24 +3,35 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shefu/l10n/app_localizations.dart';
 import 'package:shefu/provider/my_app_state.dart';
+import 'package:shefu/repositories/objectbox.dart';
+import 'package:shefu/repositories/objectbox_nutrient_repository.dart';
+import 'package:shefu/repositories/objectbox_recipe_repository.dart';
 import 'package:shefu/utils/app_color.dart';
 import 'package:shefu/viewmodels/home_page_viewmodel.dart';
 import 'package:country_picker/country_picker.dart';
-import 'repositories/nutrient_repository.dart';
+//import 'repositories/nutrient_repository.dart';
 import 'repositories/recipe_repository.dart';
 import 'router/app_router.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
+late ObjectBox objectBox;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await NutrientRepository().initialize();
+  objectBox = await ObjectBox.create();
+
+  //await NutrientRepository().initialize();
   await RecipeRepository().initialize();
 
-  runApp(const MyApp());
+  final objectBoxNutrientRepo = ObjectBoxNutrientRepository(objectBox);
+  await objectBoxNutrientRepo.initialize(); // populate the database from csv if needed
+
+  runApp(MyApp(objectBoxNutrientRepo: objectBoxNutrientRepo));
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+  final ObjectBoxNutrientRepository objectBoxNutrientRepo;
+
+  const MyApp({super.key, required this.objectBoxNutrientRepo});
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -56,20 +67,36 @@ class _MyAppState extends State<MyApp> {
     }
 
     // Get singleton instances of repositories
-    final nutrientRepository = NutrientRepository();
+    //final nutrientRepository = NutrientRepository();
     final recipeRepository = RecipeRepository();
-
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<MyAppState>(create: (_) => MyAppState()),
-        // --- Repositories (provided as singletons) ---
-        Provider<NutrientRepository>.value(value: nutrientRepository),
+        ChangeNotifierProvider(create: (context) => MyAppState()),
+        //Provider<NutrientRepository>.value(value: nutrientRepository),
         Provider<RecipeRepository>.value(value: recipeRepository),
+        Provider<ObjectBoxRecipeRepository>.value(value: ObjectBoxRecipeRepository(objectBox)),
+        Provider<ObjectBoxNutrientRepository>.value(value: widget.objectBoxNutrientRepo),
 
         // --- ViewModels (depend on Repositories) ---
-        ChangeNotifierProxyProvider<RecipeRepository, HomePageViewModel>(
-          create: (context) => HomePageViewModel(context.read()),
-          update: (context, recipeRepo, previousViewModel) => HomePageViewModel(context.read()),
+        ChangeNotifierProxyProvider2<
+          RecipeRepository,
+          ObjectBoxRecipeRepository,
+          HomePageViewModel
+        >(
+          create:
+              (context) => HomePageViewModel(
+                context.read<RecipeRepository>(),
+                context.read<ObjectBoxRecipeRepository>(),
+                context.read<ObjectBoxNutrientRepository>(),
+              ),
+          update:
+              (context, recipeRepo, objectBoxRepo, previousViewModel) =>
+                  previousViewModel ??
+                  HomePageViewModel(
+                    recipeRepo,
+                    objectBoxRepo,
+                    context.read<ObjectBoxNutrientRepository>(),
+                  ),
         ),
       ],
       child: MaterialApp.router(

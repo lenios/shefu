@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:shefu/l10n/app_localizations.dart';
-import 'package:shefu/models/recipes.dart';
 import 'package:shefu/models/shopping_basket.dart';
 import 'package:shefu/provider/my_app_state.dart';
-import 'package:shefu/repositories/recipe_repository.dart';
+import 'package:shefu/repositories/objectbox_recipe_repository.dart';
 import 'package:shefu/widgets/misc.dart';
+import 'package:shefu/models/objectbox_models.dart';
 
 class ShoppingBasketModal extends StatelessWidget {
   const ShoppingBasketModal({super.key});
@@ -29,7 +29,7 @@ class ShoppingBasketModal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appState = context.watch<MyAppState>();
-    final recipeRepository = context.read<RecipeRepository>();
+    final ObjectBoxRecipeRepository recipeRepository = context.read<ObjectBoxRecipeRepository>();
     final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
 
@@ -61,137 +61,106 @@ class ShoppingBasketModal extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(l10n.shoppingList, style: theme.textTheme.titleLarge),
-                    TextButton.icon(
-                      icon: Icon(Icons.delete_sweep_outlined, color: theme.colorScheme.error),
-                      label: Text(l10n.clearList, style: TextStyle(color: theme.colorScheme.error)),
-                      onPressed:
-                          appState.shoppingBasket.isEmpty
-                              ? null
-                              : () {
-                                appState.clearShoppingBasket();
-                              },
-                    ),
+                    if (appState.isShoppingBasketNotEmpty)
+                      TextButton.icon(
+                        icon: Icon(Icons.delete_sweep_outlined, color: theme.colorScheme.error),
+                        label: Text(
+                          l10n.clearList,
+                          style: TextStyle(color: theme.colorScheme.error),
+                        ),
+                        onPressed: () => appState.clearShoppingBasket(),
+                      ),
                   ],
                 ),
               ),
-              const Divider(height: 1),
+
+              const Divider(),
+
+              // List of shopping basket items
               Expanded(
-                child: ListView(
-                  controller: controller,
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  children: [
-                    if (appState.shoppingBasket.isEmpty)
-                      Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Center(
-                          child: Text(
-                            l10n.shoppingListEmpty,
-                            style: theme.textTheme.titleMedium?.copyWith(color: Colors.grey),
-                          ),
-                        ),
-                      )
-                    else ...[
-                      // --- Recipes Section ---
-                      if (filteredGroupedItems.isNotEmpty) ...[
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
-                          child: Text(l10n.recipes, style: theme.textTheme.titleMedium),
-                        ),
-                        ...filteredGroupedItems.entries.map((entry) {
-                          final recipeId = entry.key;
+                child:
+                    filteredGroupedItems.isEmpty
+                        ? Center(
+                          child: Text(l10n.shoppingListEmpty, style: theme.textTheme.titleMedium),
+                        )
+                        : ListView.builder(
+                          controller: controller,
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          itemCount: filteredGroupedItems.length,
+                          itemBuilder: (context, index) {
+                            final entry = filteredGroupedItems.entries.elementAt(index);
+                            final recipeId = entry.key;
+                            final items = entry.value;
 
-                          if (recipeId == null || recipeId.isEmpty) {
-                            return const SizedBox.shrink();
-                          }
+                            // Get recipe title if recipeId exists
+                            Recipe? recipe;
+                            if (recipeId != null) {
+                              recipe = recipeRepository.getRecipeById(int.parse(recipeId));
+                            }
 
-                          final futureBuilderKey = ValueKey('recipe_$recipeId');
-
-                          return FutureBuilder<Recipe?>(
-                            key: futureBuilderKey,
-                            future: recipeRepository.getRecipeById(int.tryParse(recipeId) ?? 0),
-                            builder: (context, snapshot) {
-                              final currentItemsForRecipe =
-                                  appState.shoppingBasket
-                                      .where((item) => item.recipeId == recipeId)
-                                      .toList();
-
-                              if (currentItemsForRecipe.isEmpty) {
-                                return const SizedBox.shrink(); // TODO check not working
-                              }
-
-                              if (snapshot.connectionState == ConnectionState.waiting) {
-                                // Show loading indicator only if items still exist
-                                return const Card(
-                                  elevation: 1,
-                                  margin: EdgeInsets.symmetric(vertical: 4.0),
-                                  child: ListTile(
-                                    dense: true,
-                                    title: Center(child: CircularProgressIndicator(strokeWidth: 2)),
-                                  ),
-                                );
-                              }
-
-                              final recipe = snapshot.data;
-                              final recipeTitle = recipe?.title ?? '${l10n.recipes} $recipeId';
-                              final recipeIdNum = int.tryParse(recipeId) ?? 0;
-
-                              return Card(
-                                elevation: 1,
-                                margin: const EdgeInsets.symmetric(vertical: 4.0),
-                                child: ListTile(
-                                  dense: true,
-                                  title: Text(recipeTitle, overflow: TextOverflow.ellipsis),
-                                  onTap:
-                                      recipeIdNum == 0
-                                          ? null
-                                          : () {
-                                            Navigator.pop(context); // Close modal first
-                                            context.push('/recipe/$recipeIdNum');
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                if (recipe?.title != null)
+                                  Padding(
+                                    padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
+                                    // recipe title
+                                    child: Card(
+                                      elevation: 1,
+                                      margin: const EdgeInsets.symmetric(vertical: 4.0),
+                                      child: ListTile(
+                                        dense: true,
+                                        title: Text(recipe!.title, overflow: TextOverflow.ellipsis),
+                                        onTap:
+                                            recipeId == "0"
+                                                ? null
+                                                : () {
+                                                  Navigator.pop(context); // Close modal first
+                                                  context.push('/recipe/$recipeId');
+                                                },
+                                        trailing: IconButton(
+                                          icon: Icon(
+                                            Icons.remove_circle_outline,
+                                            color: theme.colorScheme.error,
+                                          ),
+                                          tooltip: l10n.remove,
+                                          onPressed: () {
+                                            appState.removeRecipeFromShoppingBasket(recipe);
                                           },
-                                  trailing: IconButton(
-                                    icon: Icon(
-                                      Icons.remove_circle_outline,
-                                      color: theme.colorScheme.error,
+                                        ),
+                                      ),
                                     ),
-                                    tooltip: l10n.remove,
-                                    onPressed: () {
-                                      appState.removeRecipeFromShoppingBasket(recipe);
-                                    },
                                   ),
-                                ),
-                              );
-                            },
-                          );
-                        }),
-                        const Divider(height: 20),
-                      ],
 
-                      // --- Ingredients Section ---
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
-                        child: Text(l10n.ingredients, style: theme.textTheme.titleMedium),
-                      ),
-                      ...appState.shoppingBasket.map((item) {
-                        return CheckboxListTile(
-                          controlAffinity: ListTileControlAffinity.leading,
-                          dense: true,
-                          visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                          title: Text(
-                            "${formattedQuantity(item.quantity)} ${formattedUnit(item.unit ?? '', context)} ${item.ingredientName}",
-                            style: TextStyle(
-                              decoration: item.isChecked ? TextDecoration.lineThrough : null,
-                              color: item.isChecked ? Colors.grey : null,
-                            ),
-                          ),
-                          value: item.isChecked,
-                          onChanged: (bool? value) {
-                            appState.toggleShoppingBasketItemByName(item.ingredientName);
+                                // ingredients
+                                ...items.map((item) {
+                                  return CheckboxListTile(
+                                    controlAffinity: ListTileControlAffinity.leading,
+                                    dense: true,
+                                    visualDensity: const VisualDensity(
+                                      horizontal: -4,
+                                      vertical: -4,
+                                    ),
+                                    title: Text(
+                                      "${formattedQuantity(item.quantity)} ${formattedUnit(item.unit ?? '', context)} ${item.ingredientName}",
+                                      style: TextStyle(
+                                        decoration:
+                                            item.isChecked ? TextDecoration.lineThrough : null,
+                                        color: item.isChecked ? theme.colorScheme.primary : null,
+                                      ),
+                                    ),
+                                    value: item.isChecked,
+                                    onChanged: (bool? value) {
+                                      appState.toggleShoppingBasketItemByName(item.ingredientName);
+                                    },
+                                  );
+                                }),
+
+                                const Divider(),
+                              ],
+                            );
                           },
-                        );
-                      }),
-                    ],
-                  ],
-                ),
+                        ),
               ),
             ],
           ),

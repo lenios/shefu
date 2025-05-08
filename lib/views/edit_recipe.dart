@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:shefu/l10n/app_localizations.dart';
+import 'package:shefu/models/objectbox_models.dart';
 import 'package:shefu/utils/app_color.dart';
 import 'package:shefu/viewmodels/edit_recipe_viewmodel.dart';
 import 'package:shefu/widgets/confirmation_dialog.dart';
@@ -11,7 +12,6 @@ import 'package:shefu/widgets/edit_ingredient_input.dart';
 import 'package:shefu/widgets/edit_recipe/recipe_image_picker.dart';
 import 'package:shefu/widgets/edit_recipe/recipe_step_card.dart';
 import 'package:shefu/widgets/edit_recipe/scraper_dialog_handler.dart';
-import 'package:shefu/models/recipes.dart';
 import 'package:shefu/widgets/misc.dart';
 
 class EditRecipe extends StatefulWidget {
@@ -42,6 +42,11 @@ class _EditRecipeState extends State<EditRecipe> {
 
     final viewModel = Provider.of<EditRecipeViewModel>(context, listen: false);
     viewModel.sourceController.addListener(_handleSourceUrlChange);
+
+    // initialize the view model once
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      viewModel.initViewModel();
+    });
   }
 
   @override
@@ -244,10 +249,10 @@ class _EditRecipeState extends State<EditRecipe> {
                       children: [
                         Expanded(
                           flex: 3,
-                          child: Selector<EditRecipeViewModel, Category>(
+                          child: Selector<EditRecipeViewModel, int>(
                             selector: (_, vm) => vm.category,
                             builder: (context, category, _) {
-                              return DropdownButtonFormField<Category>(
+                              return DropdownButtonFormField<int>(
                                 value: category,
                                 isExpanded: true,
                                 decoration: InputDecoration(
@@ -257,15 +262,15 @@ class _EditRecipeState extends State<EditRecipe> {
                                 ),
                                 items:
                                     Category.values.map((Category category) {
-                                      return DropdownMenuItem<Category>(
-                                        value: category,
+                                      return DropdownMenuItem<int>(
+                                        value: category.index,
                                         child: Text(
                                           formattedCategory(category.name, context),
                                           overflow: TextOverflow.ellipsis,
                                         ),
                                       );
                                     }).toList(),
-                                onChanged: (Category? newValue) {
+                                onChanged: (int? newValue) {
                                   if (newValue != null) {
                                     viewModel.setCategory(newValue);
                                   }
@@ -409,6 +414,7 @@ class _EditRecipeState extends State<EditRecipe> {
                           children: List.generate(
                             steps.length,
                             (index) => RecipeStepCard(
+                              key: ValueKey('step_list_item_${steps[index].id}_$index'),
                               viewModel: viewModel,
                               stepIndex: index,
                               isHandset: isHandset,

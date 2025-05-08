@@ -1,8 +1,8 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
-import 'package:shefu/models/recipes.dart';
 import 'package:shefu/models/shopping_basket.dart';
+import '../models/objectbox_models.dart';
 
 class MyAppState extends ChangeNotifier {
   GlobalKey? historyListKey;

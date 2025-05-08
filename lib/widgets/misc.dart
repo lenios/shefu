@@ -1,6 +1,7 @@
 import 'package:flag/flag.dart';
 import 'package:flutter/material.dart';
 import 'package:fraction/fraction.dart';
+import 'package:shefu/models/objectbox_models.dart';
 
 import '../l10n/app_localizations.dart';
 
@@ -110,12 +111,12 @@ String formattedCategory(String category, context) {
   }
 }
 
-Widget categoryLine(String category, context) {
-  if (category == "all") {
+Widget categoryLine(int category, context) {
+  if (category == 0) {
     return Container();
   } else {
     return Text(
-      "${AppLocalizations.of(context)!.category}: ${formattedCategory(category, context)}",
+      "${AppLocalizations.of(context)!.category}: ${formattedCategory(Category.values[category].name, context)}",
       style: const TextStyle(fontSize: 14, color: Colors.white70),
     );
   }

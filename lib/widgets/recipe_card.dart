@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import '../l10n/app_localizations.dart';
-import '../models/recipes.dart';
+import '../models/objectbox_models.dart';
 import '../viewmodels/home_page_viewmodel.dart';
 import '../widgets/image_helper.dart';
 import 'header_stats.dart';
@@ -20,10 +20,7 @@ class RecipeCard extends StatelessWidget {
 
     return GestureDetector(
       onTap: () async {
-        final result = await context.push<bool>('/recipe/${recipe.id}');
-        if (result == true && context.mounted) {
-          context.read<HomePageViewModel>().loadRecipes();
-        }
+        await context.push<bool>('/recipe/${recipe.id}');
       },
       child: Card(
         elevation: 1,

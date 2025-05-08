@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:country_picker/country_picker.dart';
 import 'package:flag/flag.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +12,7 @@ import 'package:shefu/widgets/open_modal_settings_button.dart';
 
 import '../l10n/app_localizations.dart';
 import '../models/recipes.dart';
+import '../models/objectbox_models.dart' as ob;
 import '../widgets/recipe_card.dart';
 
 class HomePage extends StatefulWidget {
@@ -26,16 +25,28 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   late final TextEditingController _searchController;
 
+  final _countryDropdownKey = GlobalKey();
+
+  bool hasBeenInitialized = false;
+
   @override
   void initState() {
     super.initState();
     _searchController = TextEditingController();
+
+    setState(() {
+      hasBeenInitialized = true;
+    });
   }
 
   @override
   void dispose() {
     _searchController.dispose();
     super.dispose();
+  }
+
+  void refreshCountryDropdown() {
+    setState(() {});
   }
 
   @override
@@ -81,7 +92,7 @@ class _HomePageState extends State<HomePage> {
                     child: TextFormField(
                       controller: _searchController,
                       onChanged: (value) {
-                        viewModel.searchRecipes(value);
+                        viewModel.setSearchTerm(value);
                       },
                       textInputAction: TextInputAction.search,
                       maxLines: 1,
@@ -156,67 +167,21 @@ class _HomePageState extends State<HomePage> {
                   ),
                 const SizedBox(width: 10), // Spacing
                 // Country Dropdown
-                DropdownButtonHideUnderline(
-                  child: ConstrainedBox(
-                    constraints: const BoxConstraints(
-                      maxWidth: 130,
-                    ), // avoid overflow for long names (unites states of america)
-                    child: DropdownButton<String>(
-                      isExpanded: true,
-                      dropdownColor: AppColor.primarySoft,
-                      style: const TextStyle(color: Colors.white),
-                      icon: Icon(Icons.arrow_drop_down, color: colorScheme.onPrimary),
-                      value: viewModel.countryCode,
-                      hint: Text(
-                        AppLocalizations.of(context)!.country,
-                        style: TextStyle(color: Colors.white.withAlpha(240)),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      items:
-                          viewModel.getAvailableCountries().map((e) {
-                            if (e.isEmpty) {
-                              return DropdownMenuItem<String>(
-                                value: "",
-                                child: Text(
-                                  AppLocalizations.of(context)!.country,
-                                  style: const TextStyle(color: Colors.white),
-                                ),
-                              );
-                            }
-
-                            final country = Country.parse(e);
-                            final displayName = country.getTranslatedName(context) ?? country.name;
-
-                            return DropdownMenuItem<String>(
-                              value: e,
-                              child:
-                                  (e.isNotEmpty)
-                                      ? Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Flag.fromString(e, height: 15, width: 24),
-                                          const SizedBox(width: 4),
-                                          Flexible(
-                                            // handle overflow
-                                            child: Text(
-                                              displayName,
-                                              overflow: TextOverflow.ellipsis,
-                                              maxLines: 1,
-                                            ),
-                                          ),
-                                        ],
-                                      )
-                                      : Text(
-                                        AppLocalizations.of(context)!.country,
-                                        style: const TextStyle(color: Colors.white),
-                                      ),
-                            );
-                          }).toList(),
-                      onChanged: (String? value) {
-                        viewModel.setCountryCode(value ?? "");
-                      },
-                    ),
-                  ),
+                FutureBuilder<Widget>(
+                  future: countryDropdown(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const SizedBox(
+                        width: 130,
+                        height: 48,
+                        child: Center(child: CircularProgressIndicator(strokeWidth: 2)),
+                      );
+                    }
+                    if (snapshot.hasData) {
+                      return snapshot.data!;
+                    }
+                    return const SizedBox(width: 130, height: 48);
+                  },
                 ),
                 const SizedBox(width: 10), // Spacing
                 // Category Dropdown
@@ -238,7 +203,6 @@ class _HomePageState extends State<HomePage> {
                           Category.values.map((e) {
                             return DropdownMenuItem<Category>(
                               value: e,
-                              // Remove the Flexible widget - it's causing the error
                               child: Text(
                                 formattedCategory(e.toString(), context),
                                 overflow: TextOverflow.ellipsis,
@@ -255,42 +219,52 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ),
-
           // Section 2 - Recipe List (Scrollable)
           Expanded(
             child:
-                viewModel.isLoading
+                !hasBeenInitialized
                     ? const Center(child: CircularProgressIndicator())
-                    : viewModel.recipes.isEmpty
-                    ? Center(
-                      child: Text(
-                        AppLocalizations.of(context)!.noRecipe,
-                        textAlign: TextAlign.center,
-                        style: theme.textTheme.bodyLarge?.copyWith(
-                          color: colorScheme.onSurfaceVariant,
-                        ),
-                      ),
-                    )
-                    : GridView.builder(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      itemCount: viewModel.recipes.length,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: isHandset ? 1 : 2,
-                        childAspectRatio:
-                            (MediaQuery.of(context).size.width / (isHandset ? 1 : 2) -
-                                (isHandset
-                                    ? 32 // Total horizontal padding
-                                    : 42)) / // Padding + spacing for 2 columns
-                            100, // Target height
-                      ),
-                      cacheExtent: 500,
-                      itemBuilder: (context, index) {
-                        // Reverse the index to show the last recipe first
-                        final reverseIndex = viewModel.recipes.length - 1 - index;
-                        return RepaintBoundary(
-                          // Isolate each recipe card's painting
-                          child: RecipeCard(recipe: viewModel.recipes[reverseIndex]),
-                        );
+                    : StreamBuilder<List<ob.Recipe>>(
+                      stream: viewModel.recipeStream,
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return const Center(child: CircularProgressIndicator());
+                        } else {
+                          final filteredRecipes = viewModel.getFilteredRecipes(
+                            snapshot.data!,
+                            viewModel.searchTerm,
+                          );
+
+                          return filteredRecipes.isEmpty
+                              ? Center(
+                                child: Text(
+                                  AppLocalizations.of(context)!.noRecipe,
+                                  textAlign: TextAlign.center,
+                                  style: theme.textTheme.bodyLarge,
+                                ),
+                              )
+                              : GridView.builder(
+                                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                itemCount: filteredRecipes.length,
+                                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: isHandset ? 1 : 2,
+                                  childAspectRatio:
+                                      (MediaQuery.of(context).size.width / (isHandset ? 1 : 2) -
+                                          (isHandset
+                                              ? 32 // Total horizontal padding
+                                              : 42)) / // Padding + spacing for 2 columns
+                                      100, // Target height
+                                ),
+                                cacheExtent: 500,
+                                itemBuilder: (context, index) {
+                                  // Reverse the index to show the last recipe first
+                                  final reverseIndex = filteredRecipes.length - 1 - index;
+                                  return RepaintBoundary(
+                                    child: RecipeCard(recipe: filteredRecipes[reverseIndex]),
+                                  );
+                                },
+                              );
+                        }
                       },
                     ),
           ),
@@ -299,17 +273,83 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  addNewRecipe() async {
-    final viewModel = Provider.of<HomePageViewModel>(context, listen: false);
-
+  void addNewRecipe() async {
+    final viewModel = context.read<HomePageViewModel>();
     final int? newRecipeId = await viewModel.addNewRecipe(context);
-
-    if (newRecipeId != null && context.mounted) {
-      final result = await context.push("/edit-recipe/$newRecipeId");
-      if (result == true && context.mounted) {
-        // Reload recipe data
-        viewModel.loadRecipes();
-      }
+    if (newRecipeId != null && mounted) {
+      await context.push('/edit-recipe/$newRecipeId');
     }
+    if (mounted) {
+      refreshCountryDropdown();
+    }
+  }
+
+  Future<Widget> countryDropdown() async {
+    final viewModel = context.read<HomePageViewModel>();
+
+    final countries = await viewModel.getAvailableCountries();
+
+    return DropdownButtonHideUnderline(
+      key: _countryDropdownKey, // Add this key
+
+      child: ConstrainedBox(
+        // avoid overflow for long names (unites states of america)
+        constraints: const BoxConstraints(maxWidth: 130),
+        child: DropdownButton<String>(
+          isExpanded: true,
+          dropdownColor: AppColor.primarySoft,
+          style: const TextStyle(color: Colors.white),
+          icon: Icon(Icons.arrow_drop_down),
+          value: viewModel.countryCode,
+          hint: Text(
+            AppLocalizations.of(context)!.country,
+            style: TextStyle(color: Colors.white.withAlpha(240)),
+            overflow: TextOverflow.ellipsis,
+          ),
+          items:
+              countries.map((e) {
+                if (e.isEmpty) {
+                  return DropdownMenuItem<String>(
+                    value: "",
+                    child: Text(
+                      AppLocalizations.of(context)!.allCountries,
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                  );
+                }
+
+                final country = Country.parse(e);
+                final displayName = country.getTranslatedName(context) ?? country.name;
+
+                return DropdownMenuItem<String>(
+                  value: e,
+                  child:
+                      (e.isNotEmpty)
+                          ? Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Flag.fromString(e, height: 15, width: 24),
+                              const SizedBox(width: 4),
+                              Expanded(
+                                child: Text(
+                                  displayName,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                ),
+                              ),
+                            ],
+                          )
+                          : Text(
+                            AppLocalizations.of(context)!.country,
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                );
+              }).toList(),
+          onChanged: (String? value) {
+            viewModel.setCountryCode(value ?? "");
+          },
+        ),
+      ),
+    );
   }
 }
