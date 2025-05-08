@@ -1,19 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:shefu/models/recipes.dart';
+import 'package:shefu/models/objectbox_models.dart';
 import 'package:shefu/models/shopping_basket.dart';
 import 'package:shefu/provider/my_app_state.dart';
-import 'package:shefu/repositories/nutrient_repository.dart';
-import 'package:shefu/repositories/recipe_repository.dart';
+import 'package:shefu/repositories/objectbox_nutrient_repository.dart';
+import 'package:shefu/repositories/objectbox_recipe_repository.dart';
 
 class DisplayRecipeViewModel extends ChangeNotifier {
-  final RecipeRepository _recipeRepository;
+  final ObjectBoxRecipeRepository _recipeRepository;
+  final ObjectBoxNutrientRepository nutrientRepository;
   final MyAppState _appState;
   final int _recipeId;
 
-  DisplayRecipeViewModel(this._recipeRepository, this._appState, this._recipeId) {
-    _loadRecipe();
-    _servings = _appState.servings; // Initialize servings from app state
+  BuildContext? _context;
+
+  DisplayRecipeViewModel(
+    this._recipeRepository,
+    this._appState,
+    this.nutrientRepository,
+    this._recipeId,
+  ) {
+    _servings = _appState.servings;
     _appState.addListener(_onAppStateChanged);
   }
 
@@ -31,15 +37,80 @@ class DisplayRecipeViewModel extends ChangeNotifier {
 
   bool isBookmarked = false; // TODO: Implement bookmark logic
 
-  void _loadRecipe() async {
+  // Maps for pre-fetched data
+  final Map<String, double> _prefetchedFactors = {};
+  final Map<String, String> _prefetchedDescriptions = {};
+
+  Future<void> initialize(BuildContext context) async {
+    _context = context;
+    try {
+      await nutrientRepository.initialize();
+      _loadRecipe();
+    } catch (e) {
+      debugPrint("Error initializing DisplayRecipeViewModel: $e");
+    }
+  }
+
+  void _loadRecipe() {
     _isLoading = true;
     notifyListeners();
-    _recipe = await _recipeRepository.getRecipeById(_recipeId);
-    if (_recipe != null) {
-      _initializeBasket();
+
+    try {
+      _recipe = _recipeRepository.getRecipeById(_recipeId);
+      if (_recipe != null) {
+        _initializeBasket();
+        if (_context != null) {
+          _prefetchNutrientData(_context!);
+        }
+      }
+    } catch (e, stackTrace) {
+      debugPrint('DisplayRecipeViewModel: Error loading recipe: $e\n$stackTrace');
+      _recipe = null;
+    } finally {
+      _isLoading = false;
+      notifyListeners();
     }
-    _isLoading = false;
-    notifyListeners();
+  }
+
+  void _prefetchNutrientData(BuildContext contextForL10n) {
+    if (_recipe == null) return;
+    _prefetchedFactors.clear();
+    _prefetchedDescriptions.clear();
+
+    for (var step in _recipe!.steps) {
+      for (var ingredient in step.ingredients) {
+        if (ingredient.foodId > 0) {
+          final key = "${ingredient.foodId}-${ingredient.selectedFactorId}";
+
+          // Prefetch factor
+          if (ingredient.selectedFactorId > 0) {
+            try {
+              final conversions = nutrientRepository.getNutrientConversions(ingredient.foodId);
+              // Add orElse to handle case when no conversion matches the ID
+              final conversion = conversions.firstWhere(
+                (c) => c.id == ingredient.selectedFactorId,
+                orElse: () => Conversion(id: 0, factor: 1.0), // Default conversion
+              );
+
+              _prefetchedFactors[key] = conversion.factor > 0 ? conversion.factor : 1.0;
+            } catch (e) {
+              debugPrint("Error in _prefetchNutrientData for ingredient ${ingredient.name}: $e");
+              _prefetchedFactors[key] = 1.0; // Default if other errors occur
+            }
+          } else {
+            _prefetchedFactors[key] = 1.0; // Default if no factor selected
+          }
+
+          // Prefetch description
+          // nutrientRepository.getNutrientDescById is synchronous
+          _prefetchedDescriptions[key] = nutrientRepository.getNutrientDescById(
+            contextForL10n,
+            ingredient.foodId,
+            ingredient.selectedFactorId,
+          );
+        }
+      }
+    }
   }
 
   void _onAppStateChanged() {
@@ -64,8 +135,8 @@ class DisplayRecipeViewModel extends ChangeNotifier {
 
   void _initializeBasket() {
     _basket.clear();
-    if (_recipe?.steps != null) {
-      for (var step in _recipe!.steps!) {
+    if (_recipe != null) {
+      for (var step in _recipe!.steps) {
         for (var ingredient in step.ingredients) {
           _basket.putIfAbsent(ingredient.name, () => false);
         }
@@ -78,6 +149,7 @@ class DisplayRecipeViewModel extends ChangeNotifier {
 
     final allIngredients =
         recipe!.steps
+            .toList()
             .expand((step) => step.ingredients)
             .map((ingredient) => ingredient.name)
             .toList();
@@ -96,7 +168,7 @@ class DisplayRecipeViewModel extends ChangeNotifier {
           await _recipeRepository.deleteImageFile(step.imagePath);
         }
 
-        _appState.removeRecipeFromShoppingBasket(_recipe!);
+        _appState.removeRecipeFromShoppingBasket(_recipe);
         await _recipeRepository.deleteRecipe(_recipe!.id);
       } catch (e) {
         print("Error deleting recipe: $e");
@@ -138,17 +210,21 @@ class DisplayRecipeViewModel extends ChangeNotifier {
     return itemsToAdd.length;
   }
 
-  Future<void> reloadRecipe() async {
+  void reloadRecipe() {
     _isLoading = true;
     notifyListeners();
 
     try {
-      _recipe = await _recipeRepository.getRecipeById(_recipeId);
+      _recipe = _recipeRepository.getRecipeById(_recipeId);
       if (_recipe != null) {
         _initializeBasket();
+        if (_context != null) {
+          // Re-prefetch data on reload
+          _prefetchNutrientData(_context!);
+        }
       }
     } catch (e) {
-      print("Error reloading recipe: $e");
+      debugPrint('DisplayRecipeViewModel: Error reloading recipe: $e');
     } finally {
       _isLoading = false;
       notifyListeners();
@@ -161,10 +237,15 @@ class DisplayRecipeViewModel extends ChangeNotifier {
     super.dispose();
   }
 
-  String getNutrientDescById(context, int foodId, int factorId) {
-    return Provider.of<NutrientRepository>(
-      context,
-      listen: false,
-    ).getNutrientDescById(context, foodId, factorId);
+  String getNutrientDescById(int foodId, int factorId) {
+    if (foodId <= 0) return "";
+    final key = "$foodId-$factorId";
+    return _prefetchedDescriptions[key] ?? "";
+  }
+
+  double getNutrientConversionFactor(int foodId, int selectedFactorId) {
+    if (foodId <= 0 || selectedFactorId <= 0) return 1.0;
+    final key = "$foodId-$selectedFactorId";
+    return _prefetchedFactors[key] ?? 1.0;
   }
 }

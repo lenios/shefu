@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shefu/l10n/app_localizations.dart';
-import 'package:shefu/models/recipes.dart';
+import 'package:shefu/models/objectbox_models.dart';
 import 'package:shefu/viewmodels/edit_recipe_viewmodel.dart';
 import 'package:shefu/widgets/food_entries.dart';
 import 'package:shefu/widgets/food_factors.dart';

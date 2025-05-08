@@ -5,26 +5,41 @@ import 'package:shefu/viewmodels/edit_recipe_viewmodel.dart';
 import 'package:shefu/widgets/image_helper.dart';
 
 class RecipeImagePicker extends StatelessWidget {
-  final EditRecipeViewModel viewModel;
+  final EditRecipeViewModel? viewModel;
   final int? stepIndex;
+  final String? imagePath;
+  final bool readOnly;
 
-  const RecipeImagePicker({super.key, required this.viewModel, this.stepIndex});
+  const RecipeImagePicker({
+    super.key,
+    this.viewModel,
+    this.stepIndex,
+    this.imagePath,
+    this.readOnly = false,
+  }) : assert(
+         readOnly || viewModel != null,
+         'viewModel must be provided when not in readOnly mode',
+       );
 
   @override
   Widget build(BuildContext context) {
-    final String baseName = "${viewModel.recipe.id}_${stepIndex ?? 'main'}";
+    if (readOnly) {
+      return _buildReadOnlyImage(context, imagePath);
+    }
+
+    final String baseName = "${viewModel!.recipe.id}_${stepIndex ?? 'main'}";
     final l10n = AppLocalizations.of(context)!;
 
     return ValueListenableBuilder<int>(
-      valueListenable: viewModel.imageVersion,
+      valueListenable: viewModel!.imageVersion,
       builder: (context, version, _) {
         // Get the CURRENT path from the view model INSIDE the builder
         final String? path =
             (stepIndex != null)
-                ? (stepIndex! < viewModel.recipe.steps.length
-                    ? viewModel.recipe.steps[stepIndex!].imagePath
+                ? (stepIndex! < viewModel!.recipe.steps.length
+                    ? viewModel!.recipe.steps[stepIndex!].imagePath
                     : null)
-                : viewModel.recipe.imagePath;
+                : viewModel!.recipe.imagePath;
 
         final bool pathIsValid = path != null && path.isNotEmpty && File(path).existsSync();
         if (pathIsValid) {
@@ -63,7 +78,7 @@ class RecipeImagePicker extends StatelessWidget {
                     tooltip: l10n.delete,
                     onPressed: () async {
                       clearImageCache(path);
-                      await viewModel.deleteImage(stepIndex: stepIndex);
+                      await viewModel!.deleteImage(stepIndex: stepIndex);
                     },
                     constraints: const BoxConstraints(),
                   ),
@@ -82,7 +97,7 @@ class RecipeImagePicker extends StatelessWidget {
                     icon: const Icon(Icons.edit_outlined, color: Colors.white),
                     tooltip: l10n.changeImage,
                     onPressed:
-                        () => viewModel.pickAndProcessImage(
+                        () => viewModel!.pickAndProcessImage(
                           stepIndex: stepIndex,
                           name: baseName,
                           context: context,
@@ -97,7 +112,7 @@ class RecipeImagePicker extends StatelessWidget {
           // No image - show placeholder with add button
           return InkWell(
             onTap:
-                () => viewModel.pickAndProcessImage(
+                () => viewModel!.pickAndProcessImage(
                   stepIndex: stepIndex,
                   name: baseName,
                   context: context,
@@ -137,5 +152,27 @@ class RecipeImagePicker extends StatelessWidget {
         }
       },
     );
+  }
+
+  Widget _buildReadOnlyImage(BuildContext context, String? path) {
+    final bool pathIsValid = path != null && path.isNotEmpty && File(path).existsSync();
+
+    if (pathIsValid) {
+      return ClipRRect(
+        borderRadius: BorderRadius.circular(8.0),
+        child: buildFutureImageWidget(context, path, height: 150),
+      );
+    } else {
+      // Return an empty container or a placeholder for missing images
+      return Container(
+        height: 120,
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.surfaceContainerHighest,
+          borderRadius: BorderRadius.circular(8.0),
+          border: Border.all(color: Theme.of(context).colorScheme.outline.withAlpha(75)),
+        ),
+        child: const Center(child: Icon(Icons.image_not_supported_outlined, size: 40)),
+      );
+    }
   }
 }

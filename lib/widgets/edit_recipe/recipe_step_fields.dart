@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shefu/l10n/app_localizations.dart';
 import 'package:shefu/viewmodels/edit_recipe_viewmodel.dart';
-import 'package:shefu/models/recipes.dart';
 
 class RecipeStepFields extends StatelessWidget {
   final EditRecipeViewModel viewModel;

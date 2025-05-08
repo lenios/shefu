@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:shefu/l10n/app_localizations.dart';
-import 'package:shefu/repositories/nutrient_repository.dart';
 import 'package:shefu/utils/string_extension.dart';
 import 'package:shefu/views/full_screen_image.dart';
 import 'package:shefu/utils/app_color.dart';
@@ -27,11 +26,19 @@ class DisplayRecipe extends StatefulWidget {
 
 class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateMixin {
   late TabController _tabController;
+  late Future<void> _initFuture = Future.value(); // Initialize with a dummy future
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
+    // Delay to ensure context is available for Provider
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final viewModel = context.read<DisplayRecipeViewModel>();
+      setState(() {
+        _initFuture = viewModel.initialize(context);
+      });
+    });
   }
 
   @override
@@ -43,60 +50,64 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<DisplayRecipeViewModel>(context);
-    final recipe = viewModel.recipe;
 
-    // loading indicator while recipe is loading
-    if (viewModel.isLoading || recipe == null) {
-      return Scaffold(
-        appBar: AppBar(backgroundColor: AppColor.primary),
-        body: const Center(child: CircularProgressIndicator()),
-      );
-    }
+    // No need to check for null, _initFuture is always initialized
+    return FutureBuilder<void>(
+      future: _initFuture,
+      builder: (context, snapshot) {
+        // Show loading indicator while initializing or loading
+        if (snapshot.connectionState != ConnectionState.done || viewModel.isLoading) {
+          return Scaffold(
+            appBar: AppBar(backgroundColor: AppColor.primary),
+            body: const Center(child: CircularProgressIndicator()),
+          );
+        }
 
-    // Pre-calculate image path and widget safely
-    final String imagePath = recipe.imagePath ?? '';
-
-    return PopScope(
-      child: Scaffold(
-        extendBodyBehindAppBar: true,
-        appBar: _buildAppBar(context, viewModel),
-        body: Column(
-          children: [
-            _buildHeader(context, viewModel, imagePath),
-            // TabBar
-            Container(
-              height: 40,
-              color: AppColor.secondary,
-              child: TabBar(
-                controller: _tabController,
-                labelColor: Colors.black,
-                unselectedLabelColor: Colors.black54,
-                indicatorColor: AppColor.primary,
-                indicatorWeight: 3.0,
-                labelStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
-                unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
-                tabs: [
-                  Tab(text: AppLocalizations.of(context)!.steps),
-                  Tab(text: AppLocalizations.of(context)!.ingredients),
-                  Tab(text: AppLocalizations.of(context)!.notes),
-                ],
-              ),
+        return PopScope(
+          child: Scaffold(
+            extendBodyBehindAppBar: true,
+            appBar: _buildAppBar(context, viewModel),
+            body: Column(
+              children: [
+                _buildHeader(context, viewModel, viewModel.recipe!.imagePath),
+                // TabBar
+                Container(
+                  height: 40,
+                  color: AppColor.secondary,
+                  child: TabBar(
+                    controller: _tabController,
+                    labelColor: Colors.black,
+                    unselectedLabelColor: Colors.black54,
+                    indicatorColor: AppColor.primary,
+                    indicatorWeight: 3.0,
+                    labelStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+                    unselectedLabelStyle: const TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 14,
+                    ),
+                    tabs: [
+                      Tab(text: AppLocalizations.of(context)!.steps),
+                      Tab(text: AppLocalizations.of(context)!.ingredients),
+                      Tab(text: AppLocalizations.of(context)!.notes),
+                    ],
+                  ),
+                ),
+                // Page content
+                Expanded(
+                  child: TabBarView(
+                    controller: _tabController,
+                    children: [
+                      _buildStepsView(context, viewModel),
+                      _buildShoppingList(context, viewModel),
+                      _buildNotesView(context, viewModel),
+                    ],
+                  ),
+                ),
+              ],
             ),
-
-            // Page content
-            Expanded(
-              child: TabBarView(
-                controller: _tabController,
-                children: [
-                  _buildStepsView(context, viewModel),
-                  _buildShoppingList(context, viewModel),
-                  _buildNotesView(context, viewModel),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 
@@ -104,8 +115,6 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
     final recipe = viewModel.recipe!;
     final allIngredients = recipe.steps.expand((step) => step.ingredients).toList();
     final l10n = AppLocalizations.of(context)!;
-    final nutrientRepository = Provider.of<NutrientRepository>(context, listen: false);
-
     return SingleChildScrollView(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -123,7 +132,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                 final isInBasket = viewModel.basket[ingredient.name] ?? false;
 
                 // Get the actual conversion factor
-                final factor = nutrientRepository.getConversionFactor(
+                final factor = viewModel.getNutrientConversionFactor(
                   ingredient.foodId,
                   ingredient.selectedFactorId,
                 );
@@ -131,7 +140,6 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                 String descText = "";
                 if (ingredient.foodId > 0) {
                   descText = viewModel.getNutrientDescById(
-                    context,
                     ingredient.foodId,
                     ingredient.selectedFactorId,
                   );
@@ -465,7 +473,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
-                  categoryLine(recipe.category.name, context),
+                  categoryLine(recipe.category, context),
                   const SizedBox(height: 3),
                   // Stats Row
                   Row(
@@ -541,7 +549,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
           buildIconButton(Icons.edit_outlined, AppLocalizations.of(context)!.editRecipe, () async {
             final result = await context.push('/edit-recipe/${viewModel.recipe!.id}');
             if (result == true && context.mounted) {
-              await viewModel.reloadRecipe();
+              viewModel.reloadRecipe();
             }
           }),
           buildIconButton(

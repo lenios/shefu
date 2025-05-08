@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shefu/l10n/app_localizations.dart';
-import 'package:shefu/models/nutrients.dart';
+import 'package:shefu/models/objectbox_models.dart';
 import 'package:shefu/viewmodels/edit_recipe_viewmodel.dart';
 
 Widget foodFactors(int stepIndex, int ingredientIndex, EditRecipeViewModel viewModel) {
@@ -23,87 +23,59 @@ Widget foodFactors(int stepIndex, int ingredientIndex, EditRecipeViewModel viewM
         return const SizedBox.shrink();
       }
 
-      return FutureBuilder<List<Conversion>>(
-        future: viewModel.getNutrientConversions(foodId),
-        builder: (context, snapshot) {
-          // Show loading while waiting
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Padding(
-              padding: EdgeInsets.only(top: 8.0),
-              child: Center(
-                child: SizedBox(
-                  height: 20,
-                  width: 20,
-                  child: CircularProgressIndicator(strokeWidth: 2),
-                ),
-              ),
-            );
-          }
+      // Defensive check again before accessing ingredient state
+      // This is to ensure that the widget does not crash if the step or ingredient is removed
+      if (stepIndex >= viewModel.recipe.steps.length ||
+          ingredientIndex >= viewModel.recipe.steps[stepIndex].ingredients.length) {
+        return const SizedBox.shrink();
+      }
 
-          // Handle errors
-          if (snapshot.hasError) {
-            return Padding(
-              padding: const EdgeInsets.only(top: 8.0),
-              child: Text(
-                "Error loading conversions: ${snapshot.error}",
-                style: TextStyle(color: Colors.red, fontSize: 12),
-              ),
-            );
-          }
-          // Get the conversions data
-          final conversions = snapshot.data ?? [];
+      final conversions = viewModel.getNutrientConversions(foodId);
 
-          // Defensive check again before accessing ingredient state
-          // This is to ensure that the widget does not crash if the step or ingredient is removed
-          if (stepIndex >= viewModel.recipe.steps.length ||
-              ingredientIndex >= viewModel.recipe.steps[stepIndex].ingredients.length) {
-            return const SizedBox.shrink();
-          }
-          final ingredient = viewModel.recipe.steps[stepIndex].ingredients[ingredientIndex];
+      if (conversions.isEmpty) {
+        return const SizedBox.shrink();
+      }
 
-          // If no conversions, return empty widget (foodId check already done)
-          if (conversions.isEmpty) {
-            return const SizedBox.shrink();
-          }
+      // Remove duplicates and create unique conversions
+      final idSet = <int>{};
+      final List<Conversion> uniqueConversions = [];
+      for (final conversion in conversions) {
+        if (!idSet.contains(conversion.id)) {
+          idSet.add(conversion.id);
+          uniqueConversions.add(conversion);
+        }
+      }
+      // Sort by factor
+      uniqueConversions.sort((a, b) => a.factor.compareTo(b.factor));
 
-          String selectedName = AppLocalizations.of(context)!.selectFactor;
-          ;
-          if (ingredient.selectedFactorId > 0) {
-            final selected = conversions.where((c) => c.id == ingredient.selectedFactorId).toList();
-            if (selected.isNotEmpty) {
-              selectedName = getMeasureName(selected.first, context);
+      // Validate the selectedFactorId
+      bool factorExists = uniqueConversions.any((c) => c.id == selectedFactorId);
+
+      return Padding(
+        padding: const EdgeInsets.only(top: 8.0),
+        child: DropdownButtonFormField<int>(
+          key: ValueKey('factor_${stepIndex}_${ingredientIndex}_$foodId'),
+          value: factorExists ? selectedFactorId : null,
+          hint: Text(AppLocalizations.of(context)!.selectFactor),
+          isExpanded: true,
+          decoration: const InputDecoration(
+            border: OutlineInputBorder(),
+            isDense: true,
+            contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+          ),
+          items:
+              uniqueConversions.map((c) {
+                return DropdownMenuItem<int>(
+                  value: c.id,
+                  child: Text(getMeasureName(c, context), overflow: TextOverflow.ellipsis),
+                );
+              }).toList(),
+          onChanged: (int? newValue) {
+            if (newValue != null) {
+              viewModel.updateIngredientFactorId(stepIndex, ingredientIndex, newValue);
             }
-          }
-
-          return Padding(
-            padding: const EdgeInsets.only(top: 8.0),
-            child: DropdownButtonFormField<int>(
-              key: ValueKey('factor_${stepIndex}_${ingredientIndex}_${ingredient.foodId}'),
-              value: ingredient.selectedFactorId > 0 ? ingredient.selectedFactorId : null,
-              hint: Text(AppLocalizations.of(context)!.selectFactor),
-              isExpanded: true,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                isDense: true,
-                contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-              ),
-              items:
-                  (conversions..sort((a, b) => a.factor.compareTo(b.factor))) // sort by factor
-                      .map((c) {
-                        return DropdownMenuItem<int>(
-                          value: c.id,
-                          child: Text(getMeasureName(c, context), overflow: TextOverflow.ellipsis),
-                        );
-                      })
-                      .toList(),
-              onChanged: (int? newValue) {
-                if (newValue != null) {
-                  viewModel.updateIngredientFactorId(stepIndex, ingredientIndex, newValue);
-                }
-              },
-            ),
-          );
-        },
+          },
+        ),
       );
     },
   );

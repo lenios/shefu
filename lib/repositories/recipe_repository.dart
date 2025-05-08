@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/foundation.dart'; // For debugPrint
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
@@ -55,66 +54,5 @@ class RecipeRepository {
     }
     // Use the synchronous version of findAll
     return _isar!.recipes.where().findAllSync();
-  }
-
-  Future<Recipe?> getRecipeById(int id) async {
-    if (!_isInitialized) await initialize();
-    return await _isar!.recipes.get(id);
-  }
-
-  Future<int> saveRecipe(Recipe recipe) async {
-    if (!_isInitialized) await initialize();
-    return await _isar!.writeTxn(() async {
-      return await _isar!.recipes.put(recipe);
-    });
-  }
-
-  Future<bool> deleteRecipe(int id) async {
-    if (!_isInitialized) await initialize();
-    return await _isar!.writeTxn(() async {
-      return await _isar!.recipes.delete(id);
-    });
-  }
-
-  // Add other methods as needed (e.g., search, filter by category)
-
-  Future<void> close() async {
-    if (_isar?.isOpen == true) {
-      await _isar!.close();
-      _isInitialized = false;
-      debugPrint("RecipeRepository Isar instance closed.");
-    }
-  }
-
-  // Helper to delete image file associated with a recipe or step
-  Future<void> deleteImageFile(String? path) async {
-    if (path != null && path.isNotEmpty) {
-      try {
-        final file = File(path);
-        if (await file.exists()) {
-          await file.delete();
-          debugPrint("Deleted image file: $path");
-        } else {
-          debugPrint("Image file not found: $path");
-        }
-      } catch (e) {
-        debugPrint("Error deleting image file $path: $e");
-      }
-    }
-  }
-
-  List<String> getAvailableCountries() {
-    // Operates on in-memory list, generally safe after init
-    final _recipes = getAllRecipes();
-    Set<String> countriesSet =
-        _recipes.map((e) => e.countryCode).where((code) => code.isNotEmpty).toSet();
-    List<String> countriesList = countriesSet.toList();
-    countriesList.sort();
-    countriesList.insert(0, ''); // Add empty option
-    return countriesList;
-  }
-
-  Recipe createNewRecipe([String title = ""]) {
-    return Recipe(title, "", "");
   }
 }

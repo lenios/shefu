@@ -49,3 +49,6 @@ android/app/.cxx/
 
 # generated files
 .vscode/launch.json
+
+
+assets/tests/*

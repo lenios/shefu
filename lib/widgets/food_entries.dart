@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shefu/l10n/app_localizations.dart';
 import 'package:shefu/l10n/l10n_utils.dart';
-import 'package:shefu/models/nutrients.dart';
+import 'package:shefu/models/objectbox_models.dart';
 import 'package:shefu/viewmodels/edit_recipe_viewmodel.dart';
 
 Widget foodEntries(context, EditRecipeViewModel viewModel, int stepIndex, int ingredientIndex) {

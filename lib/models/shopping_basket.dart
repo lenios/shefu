@@ -1,6 +1,6 @@
-import 'package:shefu/models/recipes.dart';
+import 'package:shefu/models/objectbox_models.dart';
 
-// Not stored in Isar, just a logical grouping in AppState
+// Not stored in DB, reset on app close
 class ShoppingBasket {
   List<BasketItem> items;
   List<BasketRecipe> recipes;
@@ -63,7 +63,7 @@ class BasketItem {
     Map<String, double>? contributions,
   }) : recipeContributions = contributions ?? (recipeId != null ? {recipeId: quantity} : null);
 
-  factory BasketItem.fromTuple(IngredientTuple tuple, int recipeId) {
+  factory BasketItem.fromTuple(IngredientItem tuple, int recipeId) {
     final recipeIdStr = recipeId.toString();
     return BasketItem(
       ingredientName: tuple.name,
