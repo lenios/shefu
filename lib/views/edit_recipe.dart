@@ -350,6 +350,13 @@ class _EditRecipeState extends State<EditRecipe> {
                     Selector<EditRecipeViewModel, Country>(
                       selector: (_, vm) => vm.country,
                       builder: (context, country, _) {
+                        // Use locale country as favorite.
+                        final locale = l10n.localeName.substring(0, 2).toUpperCase();
+                        final localeCountryCode = switch (locale) {
+                          "EN" => ["US", "GB"],
+                          "JA" => ["JP"],
+                          _ => [locale], // All other locales match country code.
+                        };
                         return ListTile(
                           contentPadding: EdgeInsets.zero,
                           title: Text("${l10n.country}: ${country.name} (${country.flagEmoji})"),
@@ -357,6 +364,7 @@ class _EditRecipeState extends State<EditRecipe> {
                           onTap: () {
                             showCountryPicker(
                               context: context,
+                              favorite: localeCountryCode,
                               countryListTheme: CountryListThemeData(
                                 bottomSheetHeight: 500,
                                 borderRadius: const BorderRadius.only(

@@ -613,7 +613,7 @@ class EditRecipeViewModel extends ChangeNotifier {
     final viewModel = Provider.of<EditRecipeViewModel>(context, listen: false);
 
     try {
-      if (ocrEnabled) {
+      if (ocrEnabled && stepIndex == null) {
         (structureChanged, ocrTitle) = await ocrParse(image, _recipe, l10n!, viewModel);
       } else {
         (structureChanged, ocrTitle) = (false, null);

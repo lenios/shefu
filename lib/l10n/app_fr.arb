@@ -39,7 +39,7 @@
           "notes": "Notes",
           "enterTextFor": "Merci de renseigner le champ {field}",
           "noRecipe":
-              "Aucune recette disponible.\nVeuillez en créer une avec le bouton + en bas.",
+              "Aucune recette disponible.\nVeuillez en ajouter une avec le bouton + en bas.",
           "noStepsAddedYet": "Aucune étape ajoutée.",
           "category": "Catégorie",
           "all": "Tout",

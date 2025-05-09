@@ -88,41 +88,48 @@ class _HomePageState extends State<HomePage> {
                       borderRadius: BorderRadius.circular(10),
                       color: colorScheme.primaryContainer.withAlpha(70),
                     ),
-                    child: TextFormField(
-                      controller: _searchController,
-                      onChanged: (value) {
-                        viewModel.setSearchTerm(value);
-                      },
-                      textInputAction: TextInputAction.search,
-                      maxLines: 1,
-                      style: TextStyle(
-                        // Use theme text style
-                        color: colorScheme.onPrimaryContainer,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      decoration: InputDecoration(
-                        hintText: AppLocalizations.of(
-                          context,
-                        )!.searchXRecipes(viewModel.recipes.length),
-                        hintStyle: TextStyle(
-                          color: colorScheme.secondaryContainer.withAlpha(220),
-                        ), // Use theme color
-                        prefixIconConstraints: const BoxConstraints(maxHeight: 20, minWidth: 40),
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 17),
-                        focusedBorder: InputBorder.none,
-                        border: InputBorder.none,
-                        prefixIcon: Padding(
-                          padding: const EdgeInsets.only(left: 10, right: 12),
-                          child: SvgPicture.asset(
-                            'assets/icons/search.svg',
-                            colorFilter: ColorFilter.mode(
-                              colorScheme.onPrimaryContainer,
-                              BlendMode.srcIn,
+                    child: StreamBuilder<Object>(
+                      stream: viewModel.recipeStream,
+                      builder: (context, snapshot) {
+                        final recipeCount = (snapshot.data as List<Recipe>?)?.length ?? 0;
+                        return TextFormField(
+                          controller: _searchController,
+                          onChanged: (value) {
+                            viewModel.setSearchTerm(value);
+                          },
+                          textInputAction: TextInputAction.search,
+                          maxLines: 1,
+                          style: TextStyle(
+                            // Use theme text style
+                            color: colorScheme.onTertiary,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          decoration: InputDecoration(
+                            hintText: AppLocalizations.of(context)!.searchXRecipes(recipeCount),
+                            hintStyle: TextStyle(
+                              color: colorScheme.secondaryContainer,
+                            ), // Use theme color
+                            prefixIconConstraints: const BoxConstraints(
+                              maxHeight: 20,
+                              minWidth: 40,
+                            ),
+                            contentPadding: const EdgeInsets.symmetric(horizontal: 17),
+                            focusedBorder: InputBorder.none,
+                            border: InputBorder.none,
+                            prefixIcon: Padding(
+                              padding: const EdgeInsets.only(left: 10, right: 12),
+                              child: SvgPicture.asset(
+                                'assets/icons/search.svg',
+                                colorFilter: ColorFilter.mode(
+                                  colorScheme.onTertiary,
+                                  BlendMode.srcIn,
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      ),
+                        );
+                      },
                     ),
                   ),
                 ),
@@ -143,7 +150,7 @@ class _HomePageState extends State<HomePage> {
                 if ((viewModel.selectedCategory != null &&
                         viewModel.selectedCategory != Category.all) ||
                     viewModel.countryCode.isNotEmpty ||
-                    viewModel.filter.isNotEmpty) // Show reset button only if filters are applied
+                    viewModel.searchTerm.isNotEmpty)
                   // button to reinitialize filters
                   ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(
@@ -156,8 +163,7 @@ class _HomePageState extends State<HomePage> {
                       _searchController.clear();
                       viewModel.setCategory(Category.all);
                       viewModel.setCountryCode("");
-                      viewModel.searchRecipes("");
-                      viewModel.setFilter("");
+                      viewModel.setSearchTerm("");
                     },
                     label: Text(
                       AppLocalizations.of(context)!.resetFilters,
@@ -285,11 +291,11 @@ class _HomePageState extends State<HomePage> {
 
   Future<Widget> countryDropdown() async {
     final viewModel = context.read<HomePageViewModel>();
-
     final countries = await viewModel.getAvailableCountries();
+    final availableCountries = countries.where((e) => e.isNotEmpty).toList();
 
     return DropdownButtonHideUnderline(
-      key: _countryDropdownKey, // Add this key
+      key: _countryDropdownKey,
 
       child: ConstrainedBox(
         // avoid overflow for long names (unites states of america)
@@ -299,9 +305,9 @@ class _HomePageState extends State<HomePage> {
           dropdownColor: AppColor.primarySoft,
           style: const TextStyle(color: Colors.white),
           icon: Icon(Icons.arrow_drop_down),
-          value: viewModel.countryCode,
+          value: viewModel.countryCode.isEmpty ? null : viewModel.countryCode,
           hint: Text(
-            AppLocalizations.of(context)!.country,
+            AppLocalizations.of(context)!.allCountries,
             style: TextStyle(color: Colors.white.withAlpha(240)),
             overflow: TextOverflow.ellipsis,
           ),
@@ -322,26 +328,20 @@ class _HomePageState extends State<HomePage> {
 
                 return DropdownMenuItem<String>(
                   value: e,
-                  child:
-                      (e.isNotEmpty)
-                          ? Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Flag.fromString(e, height: 15, width: 24),
-                              const SizedBox(width: 4),
-                              Expanded(
-                                child: Text(
-                                  displayName,
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                ),
-                              ),
-                            ],
-                          )
-                          : Text(
-                            AppLocalizations.of(context)!.country,
-                            style: const TextStyle(color: Colors.white),
-                          ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Flag.fromString(e, height: 15, width: 24),
+                      const SizedBox(width: 4),
+                      Expanded(
+                        child: Text(
+                          e == "WW" ? AppLocalizations.of(context)!.other : displayName,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                        ),
+                      ),
+                    ],
+                  ),
                 );
               }).toList(),
           onChanged: (String? value) {

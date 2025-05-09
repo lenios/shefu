@@ -42,7 +42,7 @@ class HomePageViewModel extends ChangeNotifier {
     } else {
       _selectedCategory = category;
     }
-    loadRecipes(); // Reload and apply filters
+    notifyListeners();
   }
 
   String _countryCode = "";
@@ -50,7 +50,6 @@ class HomePageViewModel extends ChangeNotifier {
   setCountryCode(String value) {
     if (_countryCode != value) {
       _countryCode = value;
-
       notifyListeners();
     }
   }
@@ -71,7 +70,6 @@ class HomePageViewModel extends ChangeNotifier {
     _setLoading(true);
     await initializeObjectBoxAndMigrate(_store);
     await _objectBoxRepository.initialize();
-    loadRecipes();
     _setLoading(false);
   }
 
@@ -82,105 +80,13 @@ class HomePageViewModel extends ChangeNotifier {
     }
   }
 
-  void setFilter(String filter) {
-    _filter = filter;
+  void filterByCategory(Category? category) {
+    _selectedCategory = category;
     notifyListeners();
   }
 
-  void loadRecipes() {
-    _setLoading(true);
-    try {
-      _recipes = _objectBoxRepository.getAllRecipes();
-      _recipes = _filterAndSortRecipes();
-    } catch (e) {
-      print("Error loading recipes: $e");
-      _recipes = []; // Set to empty list on error
-    } finally {
-      _setLoading(false);
-    }
-  }
-
-  void searchRecipes(String term) {
-    // Split the search term by commas and trim each term
-    final List<String> searchTerms =
-        term
-            .split(',')
-            .map((term) => term.trim().toLowerCase())
-            .where((term) => term.isNotEmpty)
-            .toList();
-
-    if (_filter != term.toLowerCase()) {
-      _filter = term.toLowerCase();
-      // Apply each search term
-      // TODO fix multiple terms search
-      if (searchTerms.isNotEmpty) {
-        // Filter recipes in a microtask to avoid blocking the UI
-        Future.microtask(() {
-          _recipes = _filterAndSortRecipes();
-          notifyListeners();
-        });
-      } else {
-        _recipes = _filterAndSortRecipes();
-        notifyListeners();
-      }
-    }
-  }
-
-  void filterByCategory(Category? category) {
-    _selectedCategory = category;
-    loadRecipes(); // Reload and filter
-  }
-
-  List<Recipe> _filterAndSortRecipes() {
-    // TODO remove or adapt
-    List<Recipe> filtered = _objectBoxRepository.getAllRecipes();
-
-    // Apply filters
-    if (_countryCode.isNotEmpty) {
-      filtered = filtered.where((r) => r.countryCode == _countryCode).toList();
-    }
-    if (_selectedCategory != null) {
-      filtered = filtered.where((r) => r.category == _selectedCategory!.index).toList();
-    }
-
-    if (_filter.isNotEmpty) {
-      final filterLower = _filter.toLowerCase();
-      filtered =
-          filtered.where((r) {
-            bool matches =
-                r.title.toLowerCase().contains(filterLower) ||
-                r.source.toLowerCase().contains(filterLower)
-            //r.notes.toLowerCase().contains(filterLower) // TODO add notes
-            ;
-
-            // Check steps and ingredients
-            for (final step in r.steps) {
-              if (step.instruction.toLowerCase().contains(filterLower) ||
-                  step.name.toLowerCase().contains(filterLower)) {
-                matches = true;
-                break;
-              }
-
-              // Check ingredients in this step
-              for (final ing in step.ingredients) {
-                if (ing.name.toLowerCase().contains(filterLower)) {
-                  matches = true;
-                  break;
-                }
-              }
-
-              if (matches) break;
-            }
-
-            return matches;
-          }).toList();
-    }
-
-    return filtered;
-  }
-
   Future<List<String>> getAvailableCountries() async {
-    //await _recipeRepository.initialize();
+    await _objectBoxRepository.initialize();
     return await _objectBoxRepository.getAvailableCountries();
   }
 

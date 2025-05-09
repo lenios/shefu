@@ -336,7 +336,7 @@ abstract class AppLocalizations {
   /// No description provided for @noRecipe.
   ///
   /// In en, this message translates to:
-  /// **'No recipe available.\nPlease create one, using the + button on the bottom.'**
+  /// **'No recipe available.\nPlease add one, using the + button on the bottom.'**
   String get noRecipe;
 
   /// No description provided for @noStepsAddedYet.

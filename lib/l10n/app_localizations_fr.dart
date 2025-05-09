@@ -128,7 +128,7 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String get noRecipe => 'Aucune recette disponible.\nVeuillez en créer une avec le bouton + en bas.';
+  String get noRecipe => 'Aucune recette disponible.\nVeuillez en ajouter une avec le bouton + en bas.';
 
   @override
   String get noStepsAddedYet => 'Aucune étape ajoutée.';
