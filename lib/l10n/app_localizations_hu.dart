@@ -370,4 +370,25 @@ class AppLocalizationsHu extends AppLocalizations {
 
   @override
   String get gatherIngredients => 'Hozzávalók összegyűjtése';
+
+  @override
+  String get bowl => 'tál';
+
+  @override
+  String get pot => 'fazék';
+
+  @override
+  String get oven => 'sütő';
+
+  @override
+  String get microwave => 'mikró';
+
+  @override
+  String get blender => 'turmixgép';
+
+  @override
+  String get mixer => 'mixer';
+
+  @override
+  String get whisk => 'habverő';
 }

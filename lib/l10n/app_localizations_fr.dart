@@ -370,4 +370,25 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get gatherIngredients => 'Réunissez les ingrédients';
+
+  @override
+  String get bowl => 'saladier';
+
+  @override
+  String get pot => 'casserole';
+
+  @override
+  String get oven => 'four';
+
+  @override
+  String get microwave => 'micro-ondes';
+
+  @override
+  String get blender => 'blender';
+
+  @override
+  String get mixer => 'robot';
+
+  @override
+  String get whisk => 'fouet';
 }

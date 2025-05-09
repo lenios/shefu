@@ -370,4 +370,25 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get gatherIngredients => '材料を収集';
+
+  @override
+  String get bowl => 'ボウル';
+
+  @override
+  String get pot => '鍋';
+
+  @override
+  String get oven => 'オーブン';
+
+  @override
+  String get microwave => '電子レンジ';
+
+  @override
+  String get blender => 'ブレンダー';
+
+  @override
+  String get mixer => 'ミキサー';
+
+  @override
+  String get whisk => '泡立て';
 }

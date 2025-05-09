@@ -81,7 +81,7 @@ class ObjectBoxNutrientRepository {
       // Create the nutrient object with basic properties
       var nutrient = Nutrient(
         id: 0,
-        foodId: foodId, // Set the foodId from CSV to match Isar's foodId value
+        foodId: foodId, // Set the foodId from CSV
         descEN: item[1],
         descFR: item[2],
         protein: _parseDoubleWithFallback(item[9]),

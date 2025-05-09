@@ -1,5 +1,4 @@
 import 'package:objectbox/objectbox.dart';
-import 'package:shefu/models/recipes.dart' as isar_models;
 
 @Entity()
 class Recipe {
@@ -37,25 +36,6 @@ class Recipe {
     this.month = 1,
     this.carbohydrates = 0,
   });
-
-  // Factory constructor to create from Isar model for migration
-  factory Recipe.fromIsar(isar_models.Recipe isarRecipe) {
-    return Recipe(
-      // ObjectBox uses 0 for new entities, it will be auto-incremented
-      id: 0,
-      title: isarRecipe.title,
-      source: isarRecipe.source,
-      imagePath: isarRecipe.imagePath ?? '',
-      notes: isarRecipe.notes ?? '',
-      servings: isarRecipe.servings,
-      category: isarRecipe.category.index,
-      countryCode: isarRecipe.countryCode,
-      calories: isarRecipe.calories,
-      time: isarRecipe.time,
-      month: isarRecipe.month,
-      carbohydrates: isarRecipe.carbohydrates,
-    );
-  }
 }
 
 enum Category {
@@ -98,17 +78,6 @@ class RecipeStep {
     this.imagePath = "",
     this.timer = 0,
   });
-
-  // Factory constructor to create from Isar model for migration
-  factory RecipeStep.fromIsar(isar_models.RecipeStep isarStep) {
-    return RecipeStep(
-      id: 0,
-      name: isarStep.name,
-      instruction: isarStep.instruction,
-      imagePath: isarStep.imagePath,
-      timer: isarStep.timer,
-    );
-  }
 }
 
 @Entity()
@@ -134,19 +103,6 @@ class IngredientItem {
     this.foodId = 0,
     this.conversionId = 0,
   });
-
-  // Factory constructor to create from Isar model for migration
-  factory IngredientItem.fromIsar(isar_models.IngredientTuple isarIngredient) {
-    return IngredientItem(
-      id: 0,
-      name: isarIngredient.name,
-      unit: isarIngredient.unit,
-      quantity: isarIngredient.quantity,
-      shape: isarIngredient.shape,
-      foodId: isarIngredient.foodId,
-      conversionId: isarIngredient.selectedFactorId,
-    );
-  }
 }
 
 enum Unit {

@@ -11,8 +11,7 @@ import 'package:shefu/widgets/misc.dart';
 import 'package:shefu/widgets/open_modal_settings_button.dart';
 
 import '../l10n/app_localizations.dart';
-import '../models/recipes.dart';
-import '../models/objectbox_models.dart' as ob;
+import '../models/objectbox_models.dart';
 import '../widgets/recipe_card.dart';
 
 class HomePage extends StatefulWidget {
@@ -224,7 +223,7 @@ class _HomePageState extends State<HomePage> {
             child:
                 !hasBeenInitialized
                     ? const Center(child: CircularProgressIndicator())
-                    : StreamBuilder<List<ob.Recipe>>(
+                    : StreamBuilder<List<Recipe>>(
                       stream: viewModel.recipeStream,
                       builder: (context, snapshot) {
                         if (!snapshot.hasData) {

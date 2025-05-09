@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:shefu/models/objectbox_models.dart';
-import 'package:shefu/models/recipes.dart' as isar_models;
 import 'package:shefu/repositories/objectbox.dart';
 import 'package:shefu/objectbox.g.dart';
 
@@ -158,51 +157,6 @@ class ObjectBoxRecipeRepository {
         debugPrint("Error deleting image file: $e");
       }
     }
-  }
-
-  // Convert from Isar models for migration
-  Future<int> migrateIsarRecipe(isar_models.Recipe isarRecipe) async {
-    if (!_isInitialized) await initialize();
-
-    // Create ObjectBox Recipe from Isar Recipe
-    final recipe = Recipe.fromIsar(isarRecipe);
-
-    // Create steps and ingredients
-    for (final isarStep in isarRecipe.steps) {
-      final step = RecipeStep.fromIsar(isarStep);
-
-      // Add ingredients from Isar step
-      for (final isarIngredient in isarStep.ingredients) {
-        final ingredient = IngredientItem.fromIsar(isarIngredient);
-        step.ingredients.add(ingredient);
-      }
-
-      recipe.steps.add(step);
-    }
-
-    // TODO Add tags
-    // for (final tagName in isarRecipe.tags) {
-    //   // Check if tag exists
-    //   final query = _objectBox.tagBox.query(Tag.name.equals(tagName)).build();
-    //   try {
-    //     final tags = query.find();
-    //     Tag tag;
-
-    //     if (tags.isEmpty) {
-    //       // Create new tag
-    //       tag = Tag(name: tagName);
-    //     } else {
-    //       tag = tags.first;
-    //     }
-
-    //     recipe.tags.add(tag);
-    //   } finally {
-    //     query.close();
-    //   }
-    // }
-
-    // Save the complete recipe with relations
-    return saveRecipe(recipe);
   }
 
   Stream<List<Recipe>> watchAllRecipes() {

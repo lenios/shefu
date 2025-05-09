@@ -39,6 +39,23 @@ formattedQuantity(double quantity, {bool fraction = true}) {
   }
 }
 
+String formattedDesc(multiplier, descText) {
+  if (descText.isEmpty) return "";
+
+  final match = RegExp(r'^(\d+(\.\d+)?)\s+(.+)$').firstMatch(descText);
+
+  // If descText starts with a number, calculate the new combined quantity
+  if (match != null) {
+    final number = double.parse(match.group(1)!);
+    descText = match.group(3)!;
+    multiplier *= number;
+  } else {
+    // If descText doesn't start with a number, just use the original descText
+    descText = descText;
+  }
+  return "${multiplier != 1 ? '${formattedQuantity(multiplier)}x' : '1'} $descText"; // '4x egg', or '1 egg'
+}
+
 String formattedSource(String source) {
   // if source is a url, only show the domain
   if (source.contains("http")) {
@@ -108,6 +125,27 @@ String formattedCategory(String category, context) {
       return AppLocalizations.of(context)!.sauces;
     default:
       return category;
+  }
+}
+
+formattedTool(String tool, context) {
+  switch (tool) {
+    case "bowl":
+      return AppLocalizations.of(context)!.bowl;
+    case "pot":
+      return AppLocalizations.of(context)!.pot;
+    case "oven":
+      return AppLocalizations.of(context)!.oven;
+    case "microwave":
+      return AppLocalizations.of(context)!.microwave;
+    case "blender":
+      return AppLocalizations.of(context)!.blender;
+    case "mixer":
+      return AppLocalizations.of(context)!.mixer;
+    case "whisk":
+      return AppLocalizations.of(context)!.whisk;
+    default:
+      return tool;
   }
 }
 

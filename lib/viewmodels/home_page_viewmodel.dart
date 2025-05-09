@@ -2,39 +2,34 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:shefu/l10n/app_localizations.dart';
-import 'package:shefu/models/nutrients.dart';
-import 'package:shefu/models/objectbox_models.dart' as ob;
-import 'package:shefu/models/recipes.dart';
+import 'package:shefu/models/objectbox_models.dart';
 import 'package:shefu/objectbox.g.dart';
-import 'package:shefu/repositories/nutrient_repository.dart';
 import 'package:shefu/repositories/objectbox_nutrient_repository.dart';
 import 'package:shefu/repositories/objectbox_recipe_repository.dart';
-import 'package:shefu/repositories/recipe_repository.dart';
 
 class HomePageViewModel extends ChangeNotifier {
-  late RecipeRepository _recipeRepository;
   late ObjectBoxRecipeRepository _objectBoxRepository;
   late ObjectBoxNutrientRepository _objectBoxNutrientRepository;
 
   Store? _store;
-  Box<ob.Recipe>? _recipeBox;
-  Box<ob.RecipeStep>? _recipeStepBox;
-  Box<ob.IngredientItem>? _ingredientBox;
-  Box<ob.Nutrient>? _nutrientBox;
-  Box<ob.Conversion>? _conversionBox;
+  Box<Recipe>? _recipeBox;
+  Box<RecipeStep>? _recipeStepBox;
+  Box<IngredientItem>? _ingredientBox;
+  Box<Nutrient>? _nutrientBox;
+  Box<Conversion>? _conversionBox;
 
-  late Stream<List<ob.Recipe>> _stream;
-  Stream<List<ob.Recipe>> get stream => _stream;
+  late Stream<List<Recipe>> _stream;
+  Stream<List<Recipe>> get stream => _stream;
 
   bool hasBeenInitialized = false;
 
-  List<ob.Recipe> _recipes = [];
-  List<ob.Recipe> get recipes => _recipes;
+  List<Recipe> _recipes = [];
+  List<Recipe> get recipes => _recipes;
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
-  Stream<List<ob.Recipe>> get recipeStream => _objectBoxRepository.watchAllRecipes();
+  Stream<List<Recipe>> get recipeStream => _objectBoxRepository.watchAllRecipes();
 
   String _filter = '';
   String get filter => _filter;
@@ -68,11 +63,7 @@ class HomePageViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  HomePageViewModel(
-    this._recipeRepository,
-    this._objectBoxRepository,
-    this._objectBoxNutrientRepository,
-  ) {
+  HomePageViewModel(this._objectBoxRepository, this._objectBoxNutrientRepository) {
     _checkMigrationStatus();
   }
 
@@ -140,9 +131,9 @@ class HomePageViewModel extends ChangeNotifier {
     loadRecipes(); // Reload and filter
   }
 
-  List<ob.Recipe> _filterAndSortRecipes() {
+  List<Recipe> _filterAndSortRecipes() {
     // TODO remove or adapt
-    List<ob.Recipe> filtered = _objectBoxRepository.getAllRecipes();
+    List<Recipe> filtered = _objectBoxRepository.getAllRecipes();
 
     // Apply filters
     if (_countryCode.isNotEmpty) {
@@ -194,7 +185,7 @@ class HomePageViewModel extends ChangeNotifier {
   }
 
   // Filter recipes based on search term, category, and country
-  List<ob.Recipe> getFilteredRecipes(List<ob.Recipe> allRecipes, String searchTerm) {
+  List<Recipe> getFilteredRecipes(List<Recipe> allRecipes, String searchTerm) {
     final filteredRecipes =
         allRecipes.where((recipe) {
           bool matchesSearch = true;
@@ -245,122 +236,6 @@ class HomePageViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> migrateRecipesFromIsar() async {
-    if (!_store!.box<ob.Recipe>().isEmpty()) {
-      debugPrint('ObjectBox already contains recipes, marking migration as done');
-      return;
-    }
-
-    // Get all Isar recipes
-    await _recipeRepository.initialize();
-    final isarRecipes = _recipeRepository.getAllRecipes();
-
-    if (isarRecipes.isEmpty) {
-      debugPrint('No recipes to migrate from Isar');
-      return;
-    }
-
-    debugPrint('Migrating ${isarRecipes.length} recipes from Isar to ObjectBox');
-
-    await _objectBoxNutrientRepository.initialize();
-
-    Map<int, ob.Nutrient> nutrientsByFoodId = {};
-    Map<int, List<ob.Conversion>> conversionsByFoodId = {};
-    // Add a map to match by factor as well
-    Map<int, Map<double, ob.Conversion>> factorToConversionMap = {};
-
-    // Populate lookup maps
-    final allNutrients = _store!.box<ob.Nutrient>().getAll();
-
-    for (final nutrient in allNutrients) {
-      nutrientsByFoodId[nutrient.foodId] = nutrient;
-      conversionsByFoodId[nutrient.foodId] = nutrient.conversions.toList();
-
-      // Create factor-based lookup map
-      factorToConversionMap[nutrient.foodId] = {};
-      for (final conversion in nutrient.conversions) {
-        factorToConversionMap[nutrient.foodId]![conversion.factor] = conversion;
-      }
-    }
-
-    for (final isarRecipe in isarRecipes) {
-      try {
-        final recipe = ob.Recipe.fromIsar(isarRecipe);
-
-        for (final isarStep in isarRecipe.steps) {
-          final step = ob.RecipeStep.fromIsar(isarStep);
-          step.recipe.target = recipe;
-
-          if (isarStep.ingredients != null) {
-            for (final isarIngredient in isarStep.ingredients) {
-              final ingredient = ob.IngredientItem.fromIsar(isarIngredient);
-
-              // If we have nutrition data to migrate
-              if (ingredient.foodId > 0 && ingredient.conversionId > 0) {
-                // Get the Isar conversion
-                final nutrientRepository = NutrientRepository();
-                final isarConversions = await nutrientRepository.getNutrientConversions(
-                  ingredient.foodId,
-                );
-                final isarConversion = isarConversions.firstWhere(
-                  (conversion) => conversion.id == isarIngredient.selectedFactorId,
-                );
-                if (isarConversion != null) {
-                  // Get the ObjectBox conversion
-                  final matchingConversions = conversionsByFoodId[ingredient.foodId];
-                  ob.Conversion? matchingConversion;
-                  if (matchingConversions != null) {
-                    // Try to find a conversion with the same factor
-                    matchingConversion = matchingConversions.firstWhere(
-                      (conversion) =>
-                          conversion.factor == isarConversion.factor ||
-                          conversion.descEN == isarConversion.descEN,
-                    );
-                  }
-
-                  if (matchingConversion != null) {
-                    ingredient.conversionId = matchingConversion.id;
-                    debugPrint('Successfully mapped conversion for foodId ${ingredient.foodId}');
-                  } else {
-                    debugPrint(
-                      'Warning: No matching conversion found for foodId ${ingredient.foodId}',
-                    );
-                    ingredient.conversionId = 0;
-                  }
-                }
-              }
-
-              ingredient.step.target = step;
-              step.ingredients.add(ingredient);
-            }
-          }
-          recipe.steps.add(step);
-        }
-
-        // Add tags
-        for (final tagName in isarRecipe.tags) {
-          final tag = ob.Tag(name: tagName);
-          recipe.tags.add(tag);
-        }
-
-        final newId = _recipeBox!.put(recipe);
-        debugPrint('Migrated recipe ID ${isarRecipe.id} → $newId');
-      } catch (e, stackTrace) {
-        debugPrint('Error migrating recipe: $e');
-        debugPrint('Stack trace: $stackTrace');
-        // Continue with next recipe even if this one fails
-      }
-    }
-
-    debugPrint('Migration completed successfully');
-  }
-
-  // get conversions for a specific foodId in isar
-  Future<Conversion> getIsarConversionForFoodId(int foodId, int selectedFactorId) async {
-    final nutrientRepository = NutrientRepository();
-    return nutrientRepository.getConversionFromId(foodId, selectedFactorId);
-  }
-
   Future<bool> initializeObjectBoxAndMigrate(Store? store) async {
     // Ensure store is properly initialized
     if (store == null) {
@@ -388,9 +263,6 @@ class HomePageViewModel extends ChangeNotifier {
     // if (_recipeBox != null) _recipeBox!.removeAll();
     // debugPrint("Cleared all ObjectBox data on startup");
 
-    // Migrate data from Isar if needed
-    await migrateRecipesFromIsar();
-
     // Set up the stream
     if (_recipeBox != null) {
       _stream = _recipeBox!.query().watch(triggerImmediately: true).map((query) => query.find());
@@ -401,8 +273,8 @@ class HomePageViewModel extends ChangeNotifier {
     return false;
   }
 
-  ob.Recipe populateMockRecipes() {
-    ob.Recipe recipe = ob.Recipe(
+  Recipe populateMockRecipes() {
+    Recipe recipe = Recipe(
       id: 0, // Use 0 for new objects
       title: "Mock Recipe",
       notes: "This is a mock recipe for testing.",
@@ -410,27 +282,27 @@ class HomePageViewModel extends ChangeNotifier {
     );
 
     recipe.steps.addAll([
-      ob.RecipeStep(
+      RecipeStep(
           id: 0, // Use 0 for new objects
           name: "Step 1: Do something.",
           imagePath: "",
           instruction: "Mix all ingredients and cook.",
         )
         ..ingredients.addAll([
-          ob.IngredientItem(
+          IngredientItem(
             id: 0,
             name: "Ingredient 1",
             quantity: 2,
             unit: "cups",
           ), // Use 0 for new objects
-          ob.IngredientItem(
+          IngredientItem(
             id: 0,
             name: "Ingredient 2",
             quantity: 1,
             unit: "tbsp",
           ), // Use 0 for new objects
         ]),
-      ob.RecipeStep(
+      RecipeStep(
         id: 0, // Use 0 for new objects
         name: "Step 2: Do something else.",
         imagePath: "assets/images/recipe_step_2.jpg",

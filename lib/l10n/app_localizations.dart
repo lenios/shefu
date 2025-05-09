@@ -812,6 +812,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Gather ingredients'**
   String get gatherIngredients;
+
+  /// No description provided for @bowl.
+  ///
+  /// In en, this message translates to:
+  /// **'bowl'**
+  String get bowl;
+
+  /// No description provided for @pot.
+  ///
+  /// In en, this message translates to:
+  /// **'pot'**
+  String get pot;
+
+  /// No description provided for @oven.
+  ///
+  /// In en, this message translates to:
+  /// **'oven'**
+  String get oven;
+
+  /// No description provided for @microwave.
+  ///
+  /// In en, this message translates to:
+  /// **'microwave'**
+  String get microwave;
+
+  /// No description provided for @blender.
+  ///
+  /// In en, this message translates to:
+  /// **'blender'**
+  String get blender;
+
+  /// No description provided for @mixer.
+  ///
+  /// In en, this message translates to:
+  /// **'mixer'**
+  String get mixer;
+
+  /// No description provided for @whisk.
+  ///
+  /// In en, this message translates to:
+  /// **'whisk'**
+  String get whisk;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

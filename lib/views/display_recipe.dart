@@ -180,14 +180,13 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                               ),
                               if (descText.isNotEmpty)
                                 Text(
-                                  " (${((ingredient.quantity * viewModel.servings / recipe.servings) != 1) ? '${formattedQuantity(ingredient.quantity * viewModel.servings / recipe.servings)}x ' : ''}$descText)",
+                                  "➥ ${formattedDesc(ingredient.quantity * viewModel.servings / recipe.servings, descText)}",
                                   style: TextStyle(
                                     decoration:
                                         isInBasket
                                             ? TextDecoration.lineThrough
                                             : TextDecoration.none,
-                                    color:
-                                        isInBasket ? colorScheme.tertiary : colorScheme.onSurface,
+                                    color: isInBasket ? colorScheme.tertiary : colorScheme.primary,
                                   ),
                                 ),
                             ],

@@ -40,3 +40,5 @@ Supported languages:
   - Magyar
 
 Documentation will come later.
+
+Tools SVG icons from https://opensourcesvgicons.com/

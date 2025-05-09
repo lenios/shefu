@@ -118,5 +118,12 @@
           "tipShoppingList": "Lorsque vous ajoutez des ingrédients d'une recette à la liste de courses, la recette y est également enregistrée. Vous pouvez ajouter des ingrédients de plusieurs recettes et accéder à chaque recette en appuyant sur son titre dans la liste de courses.",
           "tipImport": "Vous pouvez importer une recette en collant l'URL complète d'un site web compatible dans le champ source lors de l'édition d'une recette.\nActuellement, seul www.marmiton.org est pris en charge.",
           "tipNutritionalValues": "Lors de la modification d'un ingrédient dans une recette, vous pouvez sélectionner un nutriment correspondant et un facteur. Si vous sélectionnez les deux, les valeurs nutritionnelles seront automatiquement calculées et ajoutées à la recette !",
-          "gatherIngredients": "Réunissez les ingrédients"
+          "gatherIngredients": "Réunissez les ingrédients",
+          "bowl": "saladier",
+          "pot": "casserole",
+          "oven": "four",
+          "microwave": "micro-ondes",
+          "blender": "blender",
+          "mixer": "robot",
+          "whisk": "fouet"
 }

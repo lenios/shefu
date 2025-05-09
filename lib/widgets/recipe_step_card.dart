@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:shefu/repositories/objectbox_nutrient_repository.dart';
 import 'package:shefu/utils/string_extension.dart';
@@ -63,14 +64,79 @@ class RecipeStepCard extends StatelessWidget {
   }
 
   Widget stepDirection(BuildContext context) {
+    // Use dynamic for values so we can mix IconData and drawable strings
+    final Map<String, dynamic> cookingTools = {
+      'bowl': 'assets/icons/bowl.svg',
+      'pot': 'assets/icons/cooking-pot-bold.svg',
+      'oven': 'assets/icons/oven-outline.svg',
+      'microwave': Icons.microwave_outlined,
+      'blender': Icons.blender_outlined,
+      'mixer': 'assets/icons/mixer.svg',
+      'pan': Icons.iron_outlined,
+      'fryer': Icons.local_fire_department_outlined,
+      'whisk': 'assets/icons/whisk.svg',
+    };
+
+    final String instruction = recipeStep.instruction.toLowerCase();
+    final Map<String, dynamic> foundTools = {};
+
+    for (final tool in cookingTools.keys) {
+      // if instruction contains l10n name of the tool
+      if (instruction.contains(formattedTool(tool, context))) {
+        foundTools[tool] = cookingTools[tool]!;
+      }
+    }
+
+    final bool hasTimer = recipeStep.timer > 0;
+    final bool hasImage = recipeStep.imagePath.isNotEmpty;
+
+    // Create the cooking tools row
+    final Widget toolsRow = ConstrainedBox(
+      constraints: const BoxConstraints(maxWidth: 150),
+      child:
+          foundTools.isNotEmpty
+              ? Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  ...foundTools.entries
+                      .take(recipeStep.ingredients.isNotEmpty ? 2 : 4)
+                      .map(
+                        (tool) => Padding(
+                          padding: const EdgeInsets.only(right: 8.0),
+                          child: Tooltip(
+                            message: tool.key.capitalize(),
+                            child:
+                                tool.value is IconData
+                                    ? Icon(
+                                      tool.value as IconData,
+                                      color: Theme.of(context).colorScheme.primary,
+                                      size: 24,
+                                    )
+                                    : SvgPicture.asset(
+                                      tool.value,
+                                      colorFilter: ColorFilter.mode(
+                                        Theme.of(context).colorScheme.primary,
+                                        BlendMode.srcIn,
+                                      ),
+                                      width: 24,
+                                      height: 24,
+                                    ),
+                          ),
+                        ),
+                      ),
+                ],
+              )
+              : const SizedBox.shrink(),
+    );
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 8.0),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start, // Align items to the top
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           stepIngredientsList(context),
-          if (recipeStep.ingredients.isNotEmpty) // Only add space if ingredients exist
-            const SizedBox(width: 20.0),
+          if (recipeStep.ingredients.isNotEmpty) const SizedBox(width: 20.0),
           // instructions
           Expanded(
             flex: 3,
@@ -82,9 +148,9 @@ class RecipeStepCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    StepTimerWidget(
-                      timerDurationSeconds: recipeStep.timer * 60, // Pass duration in seconds
-                    ),
+                    const SizedBox(width: 5),
+                    toolsRow,
+                    StepTimerWidget(timerDurationSeconds: recipeStep.timer * 60),
                     const SizedBox(width: 5),
                     stepImage(context),
                   ],
@@ -146,13 +212,7 @@ class RecipeStepCard extends StatelessWidget {
                   ingredient.foodId,
                   ingredient.conversionId,
                 );
-                String quantityDetail = '';
-
-                if (descText.isNotEmpty) {
-                  quantityDetail =
-                      '(${ingredient.quantity * servings != 1 ? '${formattedQuantity(ingredient.quantity * servings)}x ' : ''}$descText)';
-                }
-
+                final String desc = formattedDesc(ingredient.quantity * servings, descText);
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 3.0),
                   child: Column(
@@ -174,9 +234,9 @@ class RecipeStepCard extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text('$weightText ${ingredient.name}'),
-                                if (quantityDetail.isNotEmpty)
+                                if (desc.isNotEmpty)
                                   Text(
-                                    quantityDetail,
+                                    desc,
                                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                                       color: Theme.of(context).colorScheme.primary,
                                     ),
