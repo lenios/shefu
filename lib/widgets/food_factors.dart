@@ -29,7 +29,7 @@ Widget foodFactors(int stepIndex, int ingredientIndex, EditRecipeViewModel viewM
       return Padding(
         padding: const EdgeInsets.only(top: 8.0),
         child: DropdownButtonFormField<int>(
-          key: ValueKey('factor_$foodId'),
+          key: ValueKey('factor_${stepIndex}_${ingredientIndex}_$foodId'),
           value: selectedFactorId > 0 ? selectedFactorId : null,
           hint: Text(AppLocalizations.of(context)!.selectFactor),
           isExpanded: true,

@@ -269,7 +269,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get dietaryRestrictions => 'Restrictions alimentaires';
 
   @override
-  String get vegan => 'Vegan';
+  String get vegan => 'Végan';
 
   @override
   String get vegetarian => 'Végétarien';
@@ -391,4 +391,22 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get whisk => 'fouet';
+
+  @override
+  String get skillet => 'poêle';
+
+  @override
+  String get editImage => 'Modifier l\'image';
+
+  @override
+  String get clearSelections => 'Effacer les sélections';
+
+  @override
+  String get processing => 'Traitement en cours';
+
+  @override
+  String get rectangleInstructions => 'Important: Si plusieurs colonnes, sélectionnez les blocs !\n(si une seule colonne, ignorez et cliquez sur \'Enregistrer\')';
+
+  @override
+  String get rectangleDetails => 'Malheureusement, la reconnaissance de texte ne fonctionne pas bien sur les mises en page à colonnes multiples. Nous devons reformater l\'image.\n\nSélectionnez d\'abord le bloc titre+ingrédients, puis chaque colonne.\nIls seront fusionnés dans une nouvelle image.';
 }

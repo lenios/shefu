@@ -13,6 +13,7 @@ import 'package:shefu/repositories/objectbox_nutrient_repository.dart';
 import 'package:shefu/repositories/objectbox_recipe_repository.dart';
 import 'package:shefu/utils/mlkit.dart';
 import 'package:shefu/utils/recipe_web_scraper.dart';
+import 'package:shefu/widgets/edit_recipe/image_editor_screen.dart';
 import 'package:shefu/widgets/image_helper.dart';
 import '../l10n/app_localizations.dart';
 
@@ -270,7 +271,7 @@ class EditRecipeViewModel extends ChangeNotifier {
     if (stepIndex < _recipe.steps.length &&
         ingredientIndex < _recipe.steps[stepIndex].ingredients.length) {
       _recipe.steps[stepIndex].ingredients[ingredientIndex].unit = value;
-      notifyListeners(); // Need to rebuild dropdown
+      notifyListeners();
     }
   }
 
@@ -282,9 +283,11 @@ class EditRecipeViewModel extends ChangeNotifier {
       if (ingredient.name != value) {
         ingredient.name = value;
 
-        ingredient.foodId = 0;
-        ingredient.conversionId = 0;
-        notifyListeners(); // Need to rebuild dropdown
+        if (ingredient.foodId > 0 || ingredient.conversionId > 0) {
+          ingredient.foodId = 0;
+          ingredient.conversionId = 0;
+        }
+        notifyListeners();
       }
     }
   }
@@ -306,7 +309,6 @@ class EditRecipeViewModel extends ChangeNotifier {
 
       ingredient.foodId = foodId;
       ingredient.conversionId = 0;
-      _imageVersion.value++; // Hack to force deeper rebuild
       notifyListeners();
     }
   }
@@ -317,7 +319,7 @@ class EditRecipeViewModel extends ChangeNotifier {
       final ingredient = _recipe.steps[stepIndex].ingredients[ingredientIndex];
       if (ingredient.conversionId != factorId) {
         ingredient.conversionId = factorId;
-        notifyListeners(); // Rebuild UI if needed
+        notifyListeners();
       }
     }
   }
@@ -496,8 +498,7 @@ class EditRecipeViewModel extends ChangeNotifier {
 
   // --- Nutrient Data Access ---
 
-  Future<List<Nutrient>> getFilteredNutrients(String filter) async {
-    // Use the injected nutrient repository
+  List<Nutrient> getFilteredNutrients(String filter) {
     return _nutrientRepository.filterNutrients(filter);
   }
 
@@ -614,7 +615,14 @@ class EditRecipeViewModel extends ChangeNotifier {
 
     try {
       if (ocrEnabled && stepIndex == null) {
-        (structureChanged, ocrTitle) = await ocrParse(image, _recipe, l10n!, viewModel);
+        // Launch the image editor screen to select columns if needed
+        final XFile? editedImage = await Navigator.of(context!).push<XFile>(
+          MaterialPageRoute(builder: (context) => ImageEditorScreen(imageFile: image, name: name)),
+        );
+
+        // If the user cancelled the editing, return
+        if (editedImage == null) return;
+        (structureChanged, ocrTitle) = await ocrParse(editedImage, _recipe, l10n!, viewModel);
       } else {
         (structureChanged, ocrTitle) = (false, null);
       }

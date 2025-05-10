@@ -97,35 +97,61 @@ String formattedUnit(String unit, BuildContext context) {
   }
 }
 
-String formattedCategory(String category, context) {
+// Translate category name to localized string
+// and add icon for cocktails
+Widget formattedCategory(String category, context, {bool dark = false}) {
+  String categoryText;
+  IconData? categoryIcon;
+
   switch (category) {
     case "all":
-      return AppLocalizations.of(context)!.category;
+      categoryText = AppLocalizations.of(context)!.category;
     case "snacks":
-      return AppLocalizations.of(context)!.snacks;
+      categoryText = AppLocalizations.of(context)!.snacks;
     case "cocktails":
-      return AppLocalizations.of(context)!.cocktails;
+      categoryText = AppLocalizations.of(context)!.cocktails;
+      categoryIcon = Icons.local_bar;
     case "drinks":
-      return AppLocalizations.of(context)!.drinks;
+      categoryText = AppLocalizations.of(context)!.drinks;
+    //categoryIcon = Icons.water_full;
     case "appetizers":
-      return AppLocalizations.of(context)!.appetizers;
+      categoryText = AppLocalizations.of(context)!.appetizers;
     case "starters":
-      return AppLocalizations.of(context)!.starters;
+      categoryText = AppLocalizations.of(context)!.starters;
     case "soups":
-      return AppLocalizations.of(context)!.soups;
+      categoryText = AppLocalizations.of(context)!.soups;
     case "mains":
-      return AppLocalizations.of(context)!.mains;
+      categoryText = AppLocalizations.of(context)!.mains;
     case "sides":
-      return AppLocalizations.of(context)!.sides;
+      categoryText = AppLocalizations.of(context)!.sides;
     case "desserts":
-      return AppLocalizations.of(context)!.desserts;
+      categoryText = AppLocalizations.of(context)!.desserts;
     case "basics":
-      return AppLocalizations.of(context)!.basics;
+      categoryText = AppLocalizations.of(context)!.basics;
     case "sauces":
-      return AppLocalizations.of(context)!.sauces;
+      categoryText = AppLocalizations.of(context)!.sauces;
     default:
-      return category;
+      categoryText = category;
   }
+
+  final textColor =
+      dark ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onTertiary;
+
+  return Row(
+    mainAxisSize: MainAxisSize.min,
+    children: [
+      Text(
+        categoryText,
+        overflow: TextOverflow.ellipsis,
+        style: TextStyle(fontSize: 14, color: textColor),
+      ),
+      if (categoryIcon != null)
+        Padding(
+          padding: EdgeInsets.only(left: 4.0),
+          child: Icon(categoryIcon, size: 16, color: textColor),
+        ),
+    ],
+  );
 }
 
 formattedTool(String tool, context) {
@@ -144,6 +170,8 @@ formattedTool(String tool, context) {
       return AppLocalizations.of(context)!.mixer;
     case "whisk":
       return AppLocalizations.of(context)!.whisk;
+    case "skillet":
+      return AppLocalizations.of(context)!.skillet;
     default:
       return tool;
   }
@@ -153,9 +181,15 @@ Widget categoryLine(int category, context) {
   if (category == 0) {
     return Container();
   } else {
-    return Text(
-      "${AppLocalizations.of(context)!.category}: ${formattedCategory(Category.values[category].name, context)}",
-      style: const TextStyle(fontSize: 14, color: Colors.white70),
+    return Row(
+      children: [
+        Text(
+          "${AppLocalizations.of(context)!.category}: ",
+
+          style: const TextStyle(fontSize: 14, color: Colors.white70),
+        ),
+        formattedCategory(Category.values[category].name, context),
+      ],
     );
   }
 }

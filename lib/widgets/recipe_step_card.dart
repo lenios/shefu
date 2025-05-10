@@ -67,13 +67,12 @@ class RecipeStepCard extends StatelessWidget {
     // Use dynamic for values so we can mix IconData and drawable strings
     final Map<String, dynamic> cookingTools = {
       'bowl': 'assets/icons/bowl.svg',
+      'skillet': 'assets/icons/skillet_24.svg',
       'pot': 'assets/icons/cooking-pot-bold.svg',
-      'oven': 'assets/icons/oven-outline.svg',
       'microwave': Icons.microwave_outlined,
+      'oven': 'assets/icons/oven-outline.svg',
       'blender': Icons.blender_outlined,
       'mixer': 'assets/icons/mixer.svg',
-      'pan': Icons.iron_outlined,
-      'fryer': Icons.local_fire_department_outlined,
       'whisk': 'assets/icons/whisk.svg',
     };
 

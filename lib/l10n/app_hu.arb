@@ -126,5 +126,11 @@
           "microwave": "mikró",
           "blender": "turmixgép",
           "mixer": "mixer",
-          "whisk": "habverő"
+          "whisk": "habverő",
+          "skillet": "serpenyő",
+          "editImage": "Kép szerkesztése",
+          "clearSelections": "Kijelölések törlése",
+          "processing": "Feldolgozás folyamatban",
+          "rectangleInstructions": "Fontos: Ha több oszlop van, jelölje ki a blokkokat!\n(ha csak egy oszlop van, hagyja figyelmen kívül és kattintson a 'Mentés' gombra)",
+          "rectangleDetails": "Sajnos a szövegfelismerés nem működik jól a többoszlopos elrendezéseknél. Át kell formáznunk a képet.\n\nElőször válassza ki a cím+hozzávalók blokkot, majd minden oszlopot.\nEzeket egy új képpé fogjuk egyesíteni."
 }

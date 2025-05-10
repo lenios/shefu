@@ -208,11 +208,7 @@ class _HomePageState extends State<HomePage> {
                           Category.values.map((e) {
                             return DropdownMenuItem<Category>(
                               value: e,
-                              child: Text(
-                                formattedCategory(e.toString(), context),
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                              ),
+                              child: formattedCategory(e.toString(), context),
                             );
                           }).toList(),
                       onChanged: (Category? value) {
@@ -292,7 +288,6 @@ class _HomePageState extends State<HomePage> {
   Future<Widget> countryDropdown() async {
     final viewModel = context.read<HomePageViewModel>();
     final countries = await viewModel.getAvailableCountries();
-    final availableCountries = countries.where((e) => e.isNotEmpty).toList();
 
     return DropdownButtonHideUnderline(
       key: _countryDropdownKey,

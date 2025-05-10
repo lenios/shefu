@@ -86,7 +86,7 @@
           "other": "Autre",
           "profileSettings": "Paramètres de profil",
           "dietaryRestrictions": "Restrictions alimentaires",
-          "vegan": "Vegan",
+          "vegan": "Végan",
           "vegetarian": "Végétarien",
           "glutenFree": "Sans gluten",
           "close": "Fermer",
@@ -125,5 +125,11 @@
           "microwave": "micro-ondes",
           "blender": "blender",
           "mixer": "robot",
-          "whisk": "fouet"
+          "whisk": "fouet",
+          "skillet": "poêle",
+          "editImage": "Modifier l'image",
+          "clearSelections": "Effacer les sélections",
+          "processing": "Traitement en cours",
+          "rectangleInstructions": "Important: Si plusieurs colonnes, sélectionnez les blocs !\n(si une seule colonne, ignorez et cliquez sur 'Enregistrer')",
+          "rectangleDetails": "Malheureusement, la reconnaissance de texte ne fonctionne pas bien sur les mises en page à colonnes multiples. Nous devons reformater l'image.\n\nSélectionnez d'abord le bloc titre+ingrédients, puis chaque colonne.\nIls seront fusionnés dans une nouvelle image."
 }

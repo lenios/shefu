@@ -391,4 +391,22 @@ class AppLocalizationsHu extends AppLocalizations {
 
   @override
   String get whisk => 'habverő';
+
+  @override
+  String get skillet => 'serpenyő';
+
+  @override
+  String get editImage => 'Kép szerkesztése';
+
+  @override
+  String get clearSelections => 'Kijelölések törlése';
+
+  @override
+  String get processing => 'Feldolgozás folyamatban';
+
+  @override
+  String get rectangleInstructions => 'Fontos: Ha több oszlop van, jelölje ki a blokkokat!\n(ha csak egy oszlop van, hagyja figyelmen kívül és kattintson a \'Mentés\' gombra)';
+
+  @override
+  String get rectangleDetails => 'Sajnos a szövegfelismerés nem működik jól a többoszlopos elrendezéseknél. Át kell formáznunk a képet.\n\nElőször válassza ki a cím+hozzávalók blokkot, majd minden oszlopot.\nEzeket egy új képpé fogjuk egyesíteni.';
 }

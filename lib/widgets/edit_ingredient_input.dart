@@ -62,7 +62,7 @@ class EditIngredientManager {
 
     // Keep StatefulBuilder here to manage local controllers for THIS ingredient row
     return StatefulBuilder(
-      key: ValueKey('ingredient_${stepIndex}_$ingredientIndex'), // Add a key for stability
+      key: ValueKey('ingredient_${stepIndex}_$ingredientIndex'),
       builder: (BuildContext context, StateSetter setLocalState) {
         final nameController = EditIngredientManager.getController(
           stepIndex,
@@ -109,6 +109,7 @@ class EditIngredientManager {
                     SizedBox(
                       width: 70,
                       child: TextFormField(
+                        key: ValueKey('quantity_field_${stepIndex}_$ingredientIndex'),
                         controller: quantityController,
                         keyboardType: const TextInputType.numberWithOptions(decimal: true),
                         decoration: InputDecoration(
@@ -167,6 +168,7 @@ class EditIngredientManager {
                     // Name
                     Expanded(
                       child: TextFormField(
+                        key: ValueKey('shape_field_${stepIndex}_$ingredientIndex'),
                         controller: shapeController,
                         decoration: InputDecoration(
                           labelText: l10n.shape,
@@ -196,11 +198,10 @@ class EditIngredientManager {
                 Column(
                   children: [
                     TextFormField(
+                      key: ValueKey('name_field_${stepIndex}_$ingredientIndex'),
                       controller: nameController,
                       onChanged: (val) {
                         viewModel.updateIngredientName(stepIndex, ingredientIndex, val);
-                        // Rebuild local widget to update dropdowns that depend on name
-                        setLocalState(() {});
                       },
                       decoration: InputDecoration(
                         labelText: l10n.name,
@@ -211,8 +212,7 @@ class EditIngredientManager {
                     ),
 
                     const SizedBox(width: 8),
-                    if (ingredient.name.trim().isNotEmpty)
-                      foodEntries(context, viewModel, stepIndex, ingredientIndex),
+                    foodEntries(stepIndex, ingredientIndex, viewModel),
                   ],
                 ),
                 foodFactors(stepIndex, ingredientIndex, viewModel),

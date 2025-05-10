@@ -391,4 +391,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get whisk => 'whisk';
+
+  @override
+  String get skillet => 'skillet';
+
+  @override
+  String get editImage => 'Edit image';
+
+  @override
+  String get clearSelections => 'Clear selections';
+
+  @override
+  String get processing => 'Processing';
+
+  @override
+  String get rectangleInstructions => 'Important: If layout has multiple columns, select blocks!\n(if there is only one column, ignore and click on \'save\')';
+
+  @override
+  String get rectangleDetails => 'Unfortunately, OCR is not working well on layouts with multiple columns. We will need to reformat the image.\n\nFirst select the title+ingredients block, then each column.\nThey will be merged in a new image.';
 }

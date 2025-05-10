@@ -264,9 +264,10 @@ class _EditRecipeState extends State<EditRecipe> {
                                     Category.values.map((Category category) {
                                       return DropdownMenuItem<int>(
                                         value: category.index,
-                                        child: Text(
-                                          formattedCategory(category.name, context),
-                                          overflow: TextOverflow.ellipsis,
+                                        child: formattedCategory(
+                                          category.name,
+                                          context,
+                                          dark: true,
                                         ),
                                       );
                                     }).toList(),

@@ -32,10 +32,7 @@ class RecipeStepCard extends StatelessWidget {
           child: Stack(
             children: [
               Card(
-                // Use a unique key based on both the step ID and index
-                key: ValueKey(
-                  'step_${step.id}_${stepIndex}_${DateTime.now().millisecondsSinceEpoch}',
-                ),
+                key: ValueKey('step_${step.id}_$stepIndex'),
                 color: Colors.greenAccent[100]?.withAlpha(100),
                 margin: const EdgeInsets.only(bottom: 8.0, top: 5.0),
                 elevation: 2.0,
