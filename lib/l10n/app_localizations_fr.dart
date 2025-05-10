@@ -269,7 +269,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get dietaryRestrictions => 'Restrictions alimentaires';
 
   @override
-  String get vegan => 'Vegan';
+  String get vegan => 'Végan';
 
   @override
   String get vegetarian => 'Végétarien';
@@ -369,26 +369,41 @@ class AppLocalizationsFr extends AppLocalizations {
   String get tipNutritionalValues => 'Lors de la modification d\'un ingrédient dans une recette, vous pouvez sélectionner un nutriment correspondant et un facteur. Si vous sélectionnez les deux, les valeurs nutritionnelles seront automatiquement calculées et ajoutées à la recette !';
 
   @override
-  String get gatherIngredients => 'Réunissez les ingrédients';
+  String get gatherIngredients => 'Réunir les ingrédients';
 
   @override
-  String get bowl => 'saladier';
+  String get bowl => 'Saladier';
 
   @override
-  String get pot => 'casserole';
+  String get pot => 'Casserole';
 
   @override
-  String get oven => 'four';
+  String get oven => 'Four';
 
   @override
-  String get microwave => 'micro-ondes';
+  String get microwave => 'Micro-ondes';
 
   @override
-  String get blender => 'blender';
+  String get blender => 'Mixeur';
 
   @override
-  String get mixer => 'robot';
+  String get mixer => 'Robot';
 
   @override
-  String get whisk => 'fouet';
+  String get whisk => 'Fouet';
+
+  @override
+  String get editImage => 'Modifier l\'image';
+
+  @override
+  String get clearSelections => 'Effacer les sélections';
+
+  @override
+  String get processing => 'Traitement en cours';
+
+  @override
+  String get rectangleInstructions => 'Important: Si plusieurs colonnes, sélectionnez les blocs !\n(si une seule colonne, ignorez et cliquez sur \'Enregistrer\')';
+
+  @override
+  String get rectangleDetails => 'Malheureusement, la reconnaissance de texte ne fonctionne pas bien sur les mises en page à colonnes multiples. Nous devons reformater l\'image.\n\nSélectionnez d\'abord le bloc titre+ingrédients, puis chaque colonne.\nIls seront fusionnés dans une nouvelle image.';
 }

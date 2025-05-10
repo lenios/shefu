@@ -391,4 +391,19 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get whisk => '泡立て';
+
+  @override
+  String get editImage => '画像を編集';
+
+  @override
+  String get clearSelections => '選択をクリア';
+
+  @override
+  String get processing => '処理中';
+
+  @override
+  String get rectangleInstructions => '重要：複数の列がある場合は、ブロックを選択してください！\n（一列だけの場合は、無視して「保存」をクリックしてください）';
+
+  @override
+  String get rectangleDetails => '残念ながら、複数列のレイアウトではテキスト認識がうまく機能しません。画像を再フォーマットする必要があります。\n\nまずタイトル+材料のブロックを選択し、次に各列を選択してください。\nこれらは新しい画像に統合されます。';
 }

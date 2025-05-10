@@ -292,7 +292,6 @@ class _HomePageState extends State<HomePage> {
   Future<Widget> countryDropdown() async {
     final viewModel = context.read<HomePageViewModel>();
     final countries = await viewModel.getAvailableCountries();
-    final availableCountries = countries.where((e) => e.isNotEmpty).toList();
 
     return DropdownButtonHideUnderline(
       key: _countryDropdownKey,

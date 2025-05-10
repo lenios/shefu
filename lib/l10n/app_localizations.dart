@@ -854,6 +854,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'whisk'**
   String get whisk;
+
+  /// No description provided for @editImage.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit image'**
+  String get editImage;
+
+  /// No description provided for @clearSelections.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear selections'**
+  String get clearSelections;
+
+  /// No description provided for @processing.
+  ///
+  /// In en, this message translates to:
+  /// **'Processing'**
+  String get processing;
+
+  /// No description provided for @rectangleInstructions.
+  ///
+  /// In en, this message translates to:
+  /// **'Important: If layout has multiple columns, select blocks!\n(if there is only one column, ignore and click on \'save\')'**
+  String get rectangleInstructions;
+
+  /// No description provided for @rectangleDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Unfortunately, OCR is not working well on layouts with multiple columns. We will need to reformat the image.\n\nFirst select the title+ingredients block, then each column.\nThey will be merged in a new image.'**
+  String get rectangleDetails;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
