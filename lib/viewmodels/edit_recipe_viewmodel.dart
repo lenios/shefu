@@ -485,7 +485,7 @@ class EditRecipeViewModel extends ChangeNotifier {
     }
 
     // Fallback: if still not found, add to first step
-    if (!found && recipe.steps.isNotEmpty) {
+    if (!found && name.trim().isNotEmpty) {
       recipe.steps[0].ingredients.add(
         IngredientItem(name: name)
           ..quantity = quantity
@@ -494,6 +494,8 @@ class EditRecipeViewModel extends ChangeNotifier {
       );
       debugPrint("⚠️ FALLBACK: No match for '$name', assigning to first step");
     }
+
+    notifyListeners();
   }
 
   // --- Nutrient Data Access ---

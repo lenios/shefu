@@ -358,33 +358,48 @@ class _EditRecipeState extends State<EditRecipe> {
                           "JA" => ["JP"],
                           _ => [locale], // All other locales match country code.
                         };
-                        return ListTile(
-                          contentPadding: EdgeInsets.zero,
-                          title: Text("${l10n.country}: ${country.name} (${country.flagEmoji})"),
-                          trailing: const Icon(Icons.arrow_drop_down),
-                          onTap: () {
-                            showCountryPicker(
-                              context: context,
-                              favorite: localeCountryCode,
-                              countryListTheme: CountryListThemeData(
-                                bottomSheetHeight: 500,
-                                borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(10.0),
-                                  topRight: Radius.circular(10.0),
+                        return Row(
+                          children: [
+                            Expanded(
+                              child: ListTile(
+                                contentPadding: EdgeInsets.zero,
+                                title: Text(
+                                  "${l10n.country}: ${country.name} (${country.flagEmoji})",
                                 ),
-                                inputDecoration: InputDecoration(
-                                  labelText: l10n.search,
-                                  prefixIcon: const Icon(Icons.search),
-                                  border: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: const Color(0xFF8C98A8).withAlpha(50),
+                                trailing: const Icon(Icons.arrow_drop_down),
+                                onTap: () {
+                                  showCountryPicker(
+                                    context: context,
+                                    favorite: localeCountryCode,
+                                    countryListTheme: CountryListThemeData(
+                                      bottomSheetHeight: 500,
+                                      borderRadius: const BorderRadius.only(
+                                        topLeft: Radius.circular(10.0),
+                                        topRight: Radius.circular(10.0),
+                                      ),
+                                      inputDecoration: InputDecoration(
+                                        labelText: l10n.search,
+                                        prefixIcon: const Icon(Icons.search),
+                                        border: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: const Color(0xFF8C98A8).withAlpha(50),
+                                          ),
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
+                                    onSelect: viewModel.setCountry,
+                                  );
+                                },
                               ),
-                              onSelect: viewModel.setCountry,
-                            );
-                          },
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.clear),
+                              onPressed: () {
+                                // Remove country selection
+                                viewModel.setCountry(Country.parse("WW"));
+                              },
+                            ),
+                          ],
                         );
                       },
                     ),

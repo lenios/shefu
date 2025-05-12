@@ -42,7 +42,7 @@ formattedQuantity(double quantity, {bool fraction = true}) {
 String formattedDesc(multiplier, descText) {
   if (descText.isEmpty) return "";
 
-  final match = RegExp(r'^(\d+(\.\d+)?)\s+(.+)$').firstMatch(descText);
+  final match = RegExp(r'^(\d+(\.\d+)?)\s?(.+)$').firstMatch(descText);
 
   // If descText starts with a number, calculate the new combined quantity
   if (match != null) {
@@ -53,7 +53,7 @@ String formattedDesc(multiplier, descText) {
     // If descText doesn't start with a number, just use the original descText
     descText = descText;
   }
-  return "${multiplier != 1 ? '${formattedQuantity(multiplier)}x' : '1'} $descText"; // '4x egg', or '1 egg'
+  return "${multiplier != 1 ? '${formattedQuantity(multiplier)}' : '1'} $descText"; // '4x egg', or '1 egg'
 }
 
 String formattedSource(String source) {

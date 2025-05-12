@@ -136,7 +136,7 @@ class ObjectBoxRecipeRepository {
           countries.add(recipe.countryCode);
         }
       }
-      countries.add(''); // Add empty option
+      countries.add(''); // Add "other" (no specific country) option
 
       return countries.toList()..sort();
     } finally {
@@ -171,5 +171,18 @@ class ObjectBoxRecipeRepository {
     final id = _objectBox.recipeBox.put(recipe);
 
     return id;
+  }
+
+  Future<List<int>> getAvailableCategories() async {
+    final recipes = _objectBox.recipeBox.getAll();
+
+    final categorySet = <int>{};
+    for (final recipe in recipes) {
+      if (recipe.category > 0) {
+        categorySet.add(recipe.category);
+      }
+    }
+
+    return categorySet.toList();
   }
 }

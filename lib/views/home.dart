@@ -28,10 +28,23 @@ class _HomePageState extends State<HomePage> {
 
   bool hasBeenInitialized = false;
 
+  final _futuresRefreshNotifier = ValueNotifier<int>(0);
+
   @override
   void initState() {
     super.initState();
     _searchController = TextEditingController();
+
+    // Add listener to recipe stream to refresh dropdowns when recipes change (add/edit/delete)
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final viewModel = Provider.of<HomePageViewModel>(context, listen: false);
+      viewModel.recipeStream.listen((_) {
+        if (mounted) {
+          _futuresRefreshNotifier.value++;
+          setState(() {});
+        }
+      });
+    });
 
     setState(() {
       hasBeenInitialized = true;
@@ -42,10 +55,6 @@ class _HomePageState extends State<HomePage> {
   void dispose() {
     _searchController.dispose();
     super.dispose();
-  }
-
-  void refreshCountryDropdown() {
-    setState(() {});
   }
 
   @override
@@ -190,33 +199,23 @@ class _HomePageState extends State<HomePage> {
                 ),
                 const SizedBox(width: 10), // Spacing
                 // Category Dropdown
-                DropdownButtonHideUnderline(
-                  child: ConstrainedBox(
-                    constraints: const BoxConstraints(maxWidth: 130),
-                    child: DropdownButton<Category>(
-                      isExpanded: true,
-                      dropdownColor: AppColor.primarySoft,
-                      style: const TextStyle(color: Colors.white),
-                      icon: Icon(Icons.arrow_drop_down, color: colorScheme.onPrimary),
-                      value: viewModel.selectedCategory ?? Category.all,
-                      hint: Text(
-                        AppLocalizations.of(context)!.category,
-                        style: TextStyle(color: Colors.white.withAlpha(240)),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      items:
-                          Category.values.map((e) {
-                            return DropdownMenuItem<Category>(
-                              value: e,
-                              child: formattedCategory(e.toString(), context),
-                            );
-                          }).toList(),
-                      onChanged: (Category? value) {
-                        viewModel.setCategory(value ?? Category.all);
-                      },
-                    ),
-                  ),
+                FutureBuilder<Widget>(
+                  future: categoryDropdown(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const SizedBox(
+                        width: 130,
+                        height: 48,
+                        child: Center(child: CircularProgressIndicator(strokeWidth: 2)),
+                      );
+                    }
+                    if (snapshot.hasData) {
+                      return snapshot.data!;
+                    }
+                    return const SizedBox(width: 130, height: 48);
+                  },
                 ),
+                const SizedBox(height: 5), // Spacing
               ],
             ),
           ),
@@ -280,14 +279,63 @@ class _HomePageState extends State<HomePage> {
     if (newRecipeId != null && mounted) {
       await context.push('/edit-recipe/$newRecipeId');
     }
-    if (mounted) {
-      refreshCountryDropdown();
-    }
+  }
+
+  Future<Widget> categoryDropdown() async {
+    final viewModel = context.read<HomePageViewModel>();
+    final categories = await viewModel.getAvailableCategories();
+
+    if (categories.length <= 1) return const SizedBox.shrink();
+
+    return DropdownButtonHideUnderline(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 130),
+        child: DropdownButton<Category>(
+          isExpanded: true,
+          dropdownColor: AppColor.primarySoft,
+          style: const TextStyle(color: Colors.white),
+          icon: Icon(Icons.arrow_drop_down, color: Colors.white),
+          value: viewModel.selectedCategory ?? Category.all,
+          hint: Text(
+            AppLocalizations.of(context)!.category,
+            style: TextStyle(color: Colors.white.withAlpha(240)),
+            overflow: TextOverflow.ellipsis,
+          ),
+
+          items:
+              categories.map((e) {
+                if (e == Category.all) {
+                  return DropdownMenuItem<Category>(
+                    value: e,
+                    child: Text(
+                      AppLocalizations.of(context)!.category,
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                  );
+                }
+
+                return DropdownMenuItem<Category>(
+                  value: e,
+                  child: formattedCategory(
+                    e == Category.all ? AppLocalizations.of(context)!.all : e.toString(),
+                    context,
+                  ),
+                );
+              }).toList(),
+          onChanged: (Category? value) {
+            viewModel.setCategory(value ?? Category.all);
+          },
+        ),
+      ),
+    );
   }
 
   Future<Widget> countryDropdown() async {
     final viewModel = context.read<HomePageViewModel>();
     final countries = await viewModel.getAvailableCountries();
+
+    // Check if the countries list is empty or contains only "WW" (no specific country)
+    if (countries.length <= 2) return const SizedBox.shrink();
 
     return DropdownButtonHideUnderline(
       key: _countryDropdownKey,
@@ -302,7 +350,7 @@ class _HomePageState extends State<HomePage> {
           icon: Icon(Icons.arrow_drop_down),
           value: viewModel.countryCode.isEmpty ? null : viewModel.countryCode,
           hint: Text(
-            AppLocalizations.of(context)!.allCountries,
+            AppLocalizations.of(context)!.country,
             style: TextStyle(color: Colors.white.withAlpha(240)),
             overflow: TextOverflow.ellipsis,
           ),

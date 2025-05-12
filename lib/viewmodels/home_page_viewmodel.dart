@@ -216,4 +216,22 @@ class HomePageViewModel extends ChangeNotifier {
     ]);
     return recipe;
   }
+
+  Future<List<Category>> getAvailableCategories() async {
+    await _objectBoxRepository.initialize();
+
+    final categoryCodes = await _objectBoxRepository.getAvailableCategories();
+
+    // Always include Category.all
+    final availableCategories = [Category.all];
+
+    for (final code in categoryCodes) {
+      final category = Category.values.firstWhere((c) => c.index == code);
+      if (!availableCategories.contains(category)) {
+        availableCategories.add(category);
+      }
+    }
+
+    return availableCategories;
+  }
 }

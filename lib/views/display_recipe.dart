@@ -147,6 +147,11 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
 
                 final colorScheme = Theme.of(context).colorScheme;
 
+                final shoppingListQuantity =
+                    ingredient.foodId > 0
+                        ? "${formattedQuantity(factor * ingredient.quantity * 100 * viewModel.servings / recipe.servings)}g"
+                        : "${formattedQuantity(ingredient.quantity * viewModel.servings / recipe.servings)}${formattedUnit(ingredient.unit.toString(), context)}";
+
                 return InkWell(
                   onTap: () => viewModel.toggleBasketItem(ingredient.name),
                   child: Padding(
@@ -166,9 +171,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                ingredient.foodId > 0
-                                    ? "${formattedQuantity(factor * ingredient.quantity * 100 * viewModel.servings / recipe.servings)}g ${ingredient.name}"
-                                    : "${formattedQuantity(ingredient.quantity * viewModel.servings / recipe.servings)}${formattedUnit(ingredient.unit.toString(), context)} ${ingredient.name}",
+                                "$shoppingListQuantity ${ingredient.name}${ingredient.shape.isNotEmpty ? ', ${ingredient.shape}' : ''}",
                                 style: TextStyle(
                                   decoration:
                                       isInBasket ? TextDecoration.lineThrough : TextDecoration.none,

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
+import 'package:shefu/utils/string_extension.dart';
 import '../l10n/app_localizations.dart';
 import '../models/objectbox_models.dart';
-import '../viewmodels/home_page_viewmodel.dart';
 import '../widgets/image_helper.dart';
 import 'header_stats.dart';
 import 'misc.dart';
@@ -56,7 +55,7 @@ class RecipeCard extends StatelessWidget {
                       children: [
                         Expanded(
                           child: Text(
-                            recipe.title,
+                            recipe.title.capitalize(),
                             style: textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
