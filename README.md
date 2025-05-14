@@ -42,3 +42,5 @@ Supported languages:
 Documentation will come later.
 
 Tools SVG icons from https://opensourcesvgicons.com/
+
+Nutrients SVG icons from https://www.svgrepo.com/

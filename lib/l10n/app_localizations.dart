@@ -890,6 +890,324 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Unfortunately, OCR is not working well on layouts with multiple columns. We will need to reformat the image.\n\nFirst select the title+ingredients block, then each column.\nThey will be merged in a new image.'**
   String get rectangleDetails;
+
+  /// No description provided for @apple.
+  ///
+  /// In en, this message translates to:
+  /// **'apple'**
+  String get apple;
+
+  /// No description provided for @apricot.
+  ///
+  /// In en, this message translates to:
+  /// **'apricot'**
+  String get apricot;
+
+  /// No description provided for @asparagus.
+  ///
+  /// In en, this message translates to:
+  /// **'asparagus'**
+  String get asparagus;
+
+  /// No description provided for @avocado.
+  ///
+  /// In en, this message translates to:
+  /// **'avocado'**
+  String get avocado;
+
+  /// No description provided for @banana.
+  ///
+  /// In en, this message translates to:
+  /// **'banana'**
+  String get banana;
+
+  /// No description provided for @bellPepper.
+  ///
+  /// In en, this message translates to:
+  /// **'bell pepper'**
+  String get bellPepper;
+
+  /// No description provided for @blackberry.
+  ///
+  /// In en, this message translates to:
+  /// **'blackberry'**
+  String get blackberry;
+
+  /// No description provided for @blueberry.
+  ///
+  /// In en, this message translates to:
+  /// **'blueberry'**
+  String get blueberry;
+
+  /// No description provided for @broccoli.
+  ///
+  /// In en, this message translates to:
+  /// **'broccoli'**
+  String get broccoli;
+
+  /// No description provided for @butter.
+  ///
+  /// In en, this message translates to:
+  /// **'butter'**
+  String get butter;
+
+  /// No description provided for @cabbage.
+  ///
+  /// In en, this message translates to:
+  /// **'cabbage'**
+  String get cabbage;
+
+  /// No description provided for @carambola.
+  ///
+  /// In en, this message translates to:
+  /// **'star fruit'**
+  String get carambola;
+
+  /// No description provided for @carrot.
+  ///
+  /// In en, this message translates to:
+  /// **'carrot'**
+  String get carrot;
+
+  /// No description provided for @cauliflower.
+  ///
+  /// In en, this message translates to:
+  /// **'cauliflower'**
+  String get cauliflower;
+
+  /// No description provided for @celery.
+  ///
+  /// In en, this message translates to:
+  /// **'celery'**
+  String get celery;
+
+  /// No description provided for @cherry.
+  ///
+  /// In en, this message translates to:
+  /// **'cherry'**
+  String get cherry;
+
+  /// No description provided for @coconut.
+  ///
+  /// In en, this message translates to:
+  /// **'coconut'**
+  String get coconut;
+
+  /// No description provided for @corn.
+  ///
+  /// In en, this message translates to:
+  /// **'corn'**
+  String get corn;
+
+  /// No description provided for @cucumber.
+  ///
+  /// In en, this message translates to:
+  /// **'cucumber'**
+  String get cucumber;
+
+  /// No description provided for @dragonFruit.
+  ///
+  /// In en, this message translates to:
+  /// **'dragon fruit'**
+  String get dragonFruit;
+
+  /// No description provided for @eggplant.
+  ///
+  /// In en, this message translates to:
+  /// **'eggplant'**
+  String get eggplant;
+
+  /// No description provided for @fig.
+  ///
+  /// In en, this message translates to:
+  /// **'fig'**
+  String get fig;
+
+  /// No description provided for @garlic.
+  ///
+  /// In en, this message translates to:
+  /// **'garlic'**
+  String get garlic;
+
+  /// No description provided for @grapes.
+  ///
+  /// In en, this message translates to:
+  /// **'grapes'**
+  String get grapes;
+
+  /// No description provided for @greenBean.
+  ///
+  /// In en, this message translates to:
+  /// **'green bean'**
+  String get greenBean;
+
+  /// No description provided for @kiwi.
+  ///
+  /// In en, this message translates to:
+  /// **'kiwi'**
+  String get kiwi;
+
+  /// No description provided for @leek.
+  ///
+  /// In en, this message translates to:
+  /// **'leek'**
+  String get leek;
+
+  /// No description provided for @lemon.
+  ///
+  /// In en, this message translates to:
+  /// **'lemon'**
+  String get lemon;
+
+  /// No description provided for @lettuce.
+  ///
+  /// In en, this message translates to:
+  /// **'lettuce'**
+  String get lettuce;
+
+  /// No description provided for @lime.
+  ///
+  /// In en, this message translates to:
+  /// **'lime'**
+  String get lime;
+
+  /// No description provided for @litchi.
+  ///
+  /// In en, this message translates to:
+  /// **'lychee'**
+  String get litchi;
+
+  /// No description provided for @mango.
+  ///
+  /// In en, this message translates to:
+  /// **'mango'**
+  String get mango;
+
+  /// No description provided for @melon.
+  ///
+  /// In en, this message translates to:
+  /// **'melon'**
+  String get melon;
+
+  /// No description provided for @mushroom.
+  ///
+  /// In en, this message translates to:
+  /// **'mushroom'**
+  String get mushroom;
+
+  /// No description provided for @onion.
+  ///
+  /// In en, this message translates to:
+  /// **'onion'**
+  String get onion;
+
+  /// No description provided for @orange.
+  ///
+  /// In en, this message translates to:
+  /// **'orange'**
+  String get orange;
+
+  /// No description provided for @peach.
+  ///
+  /// In en, this message translates to:
+  /// **'peach'**
+  String get peach;
+
+  /// No description provided for @pear.
+  ///
+  /// In en, this message translates to:
+  /// **'pear'**
+  String get pear;
+
+  /// No description provided for @peas.
+  ///
+  /// In en, this message translates to:
+  /// **'peas'**
+  String get peas;
+
+  /// No description provided for @pineapple.
+  ///
+  /// In en, this message translates to:
+  /// **'pineapple'**
+  String get pineapple;
+
+  /// No description provided for @plum.
+  ///
+  /// In en, this message translates to:
+  /// **'plum'**
+  String get plum;
+
+  /// No description provided for @pomegranate.
+  ///
+  /// In en, this message translates to:
+  /// **'pomegranate'**
+  String get pomegranate;
+
+  /// No description provided for @potato.
+  ///
+  /// In en, this message translates to:
+  /// **'potato'**
+  String get potato;
+
+  /// No description provided for @pumpkin.
+  ///
+  /// In en, this message translates to:
+  /// **'pumpkin'**
+  String get pumpkin;
+
+  /// No description provided for @radish.
+  ///
+  /// In en, this message translates to:
+  /// **'radish'**
+  String get radish;
+
+  /// No description provided for @raspberry.
+  ///
+  /// In en, this message translates to:
+  /// **'raspberry'**
+  String get raspberry;
+
+  /// No description provided for @salmon.
+  ///
+  /// In en, this message translates to:
+  /// **'salmon'**
+  String get salmon;
+
+  /// No description provided for @spinach.
+  ///
+  /// In en, this message translates to:
+  /// **'spinach'**
+  String get spinach;
+
+  /// No description provided for @strawberry.
+  ///
+  /// In en, this message translates to:
+  /// **'strawberry'**
+  String get strawberry;
+
+  /// No description provided for @sweetPotato.
+  ///
+  /// In en, this message translates to:
+  /// **'sweet potato'**
+  String get sweetPotato;
+
+  /// No description provided for @tomato.
+  ///
+  /// In en, this message translates to:
+  /// **'tomato'**
+  String get tomato;
+
+  /// No description provided for @watermelon.
+  ///
+  /// In en, this message translates to:
+  /// **'watermelon'**
+  String get watermelon;
+
+  /// No description provided for @zucchini.
+  ///
+  /// In en, this message translates to:
+  /// **'zucchini'**
+  String get zucchini;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -409,4 +409,163 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get rectangleDetails => '残念ながら、複数列のレイアウトではテキスト認識がうまく機能しません。画像を再フォーマットする必要があります。\n\nまずタイトル+材料のブロックを選択し、次に各列を選択してください。\nこれらは新しい画像に統合されます。';
+
+  @override
+  String get apple => 'リンゴ';
+
+  @override
+  String get apricot => 'アプリコット';
+
+  @override
+  String get asparagus => 'アスパラガス';
+
+  @override
+  String get avocado => 'アボカド';
+
+  @override
+  String get banana => 'バナナ';
+
+  @override
+  String get bellPepper => 'ピーマン';
+
+  @override
+  String get blackberry => 'ブラックベリー';
+
+  @override
+  String get blueberry => 'ブルーベリー';
+
+  @override
+  String get broccoli => 'ブロッコリー';
+
+  @override
+  String get butter => 'バター';
+
+  @override
+  String get cabbage => 'キャベツ';
+
+  @override
+  String get carambola => 'スターフルーツ';
+
+  @override
+  String get carrot => 'ニンジン';
+
+  @override
+  String get cauliflower => 'カリフラワー';
+
+  @override
+  String get celery => 'セロリ';
+
+  @override
+  String get cherry => 'さくらんぼ';
+
+  @override
+  String get coconut => 'ココナッツ';
+
+  @override
+  String get corn => 'トウモロコシ';
+
+  @override
+  String get cucumber => 'キュウリ';
+
+  @override
+  String get dragonFruit => 'ドラゴンフルーツ';
+
+  @override
+  String get eggplant => 'ナス';
+
+  @override
+  String get fig => 'イチジク';
+
+  @override
+  String get garlic => 'ニンニク';
+
+  @override
+  String get grapes => 'ブドウ';
+
+  @override
+  String get greenBean => 'インゲン';
+
+  @override
+  String get kiwi => 'キウイ';
+
+  @override
+  String get leek => 'リーク';
+
+  @override
+  String get lemon => 'レモン';
+
+  @override
+  String get lettuce => 'レタス';
+
+  @override
+  String get lime => 'ライム';
+
+  @override
+  String get litchi => 'ライチ';
+
+  @override
+  String get mango => 'マンゴー';
+
+  @override
+  String get melon => 'メロン';
+
+  @override
+  String get mushroom => 'キノコ';
+
+  @override
+  String get onion => '玉ねぎ';
+
+  @override
+  String get orange => 'オレンジ';
+
+  @override
+  String get peach => '桃';
+
+  @override
+  String get pear => '梨';
+
+  @override
+  String get peas => 'エンドウ豆';
+
+  @override
+  String get pineapple => 'パイナップル';
+
+  @override
+  String get plum => 'プラム';
+
+  @override
+  String get pomegranate => 'ザクロ';
+
+  @override
+  String get potato => 'ジャガイモ';
+
+  @override
+  String get pumpkin => 'カボチャ';
+
+  @override
+  String get radish => '大根';
+
+  @override
+  String get raspberry => 'ラズベリー';
+
+  @override
+  String get salmon => '鮭';
+
+  @override
+  String get spinach => 'ほうれん草';
+
+  @override
+  String get strawberry => 'イチゴ';
+
+  @override
+  String get sweetPotato => 'サツマイモ';
+
+  @override
+  String get tomato => 'トマト';
+
+  @override
+  String get watermelon => 'スイカ';
+
+  @override
+  String get zucchini => 'ズッキーニ';
 }

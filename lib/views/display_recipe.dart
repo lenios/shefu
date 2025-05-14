@@ -170,17 +170,31 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                "$shoppingListQuantity ${ingredient.name}${ingredient.shape.isNotEmpty ? ', ${ingredient.shape}' : ''}",
-                                style: TextStyle(
-                                  decoration:
-                                      isInBasket ? TextDecoration.lineThrough : TextDecoration.none,
-                                  color: isInBasket ? colorScheme.tertiary : colorScheme.onSurface,
-                                ),
-                                softWrap: true,
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 2,
+                              Row(
+                                children: [
+                                  Flexible(
+                                    child: Text(
+                                      "$shoppingListQuantity ${ingredient.name}${ingredient.shape.isNotEmpty ? ', ${ingredient.shape}' : ''}",
+                                      style: TextStyle(
+                                        decoration:
+                                            isInBasket
+                                                ? TextDecoration.lineThrough
+                                                : TextDecoration.none,
+                                        color:
+                                            isInBasket
+                                                ? colorScheme.tertiary
+                                                : colorScheme.onSurface,
+                                      ),
+                                      softWrap: true,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 2,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 3),
+                                  nutrientIcon(context, ingredient.name),
+                                ],
                               ),
+
                               if (descText.isNotEmpty)
                                 Text(
                                   "➥ ${formattedDesc(ingredient.quantity * viewModel.servings / recipe.servings, descText)}",

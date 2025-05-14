@@ -409,4 +409,163 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get rectangleDetails => 'Unfortunately, OCR is not working well on layouts with multiple columns. We will need to reformat the image.\n\nFirst select the title+ingredients block, then each column.\nThey will be merged in a new image.';
+
+  @override
+  String get apple => 'apple';
+
+  @override
+  String get apricot => 'apricot';
+
+  @override
+  String get asparagus => 'asparagus';
+
+  @override
+  String get avocado => 'avocado';
+
+  @override
+  String get banana => 'banana';
+
+  @override
+  String get bellPepper => 'bell pepper';
+
+  @override
+  String get blackberry => 'blackberry';
+
+  @override
+  String get blueberry => 'blueberry';
+
+  @override
+  String get broccoli => 'broccoli';
+
+  @override
+  String get butter => 'butter';
+
+  @override
+  String get cabbage => 'cabbage';
+
+  @override
+  String get carambola => 'star fruit';
+
+  @override
+  String get carrot => 'carrot';
+
+  @override
+  String get cauliflower => 'cauliflower';
+
+  @override
+  String get celery => 'celery';
+
+  @override
+  String get cherry => 'cherry';
+
+  @override
+  String get coconut => 'coconut';
+
+  @override
+  String get corn => 'corn';
+
+  @override
+  String get cucumber => 'cucumber';
+
+  @override
+  String get dragonFruit => 'dragon fruit';
+
+  @override
+  String get eggplant => 'eggplant';
+
+  @override
+  String get fig => 'fig';
+
+  @override
+  String get garlic => 'garlic';
+
+  @override
+  String get grapes => 'grapes';
+
+  @override
+  String get greenBean => 'green bean';
+
+  @override
+  String get kiwi => 'kiwi';
+
+  @override
+  String get leek => 'leek';
+
+  @override
+  String get lemon => 'lemon';
+
+  @override
+  String get lettuce => 'lettuce';
+
+  @override
+  String get lime => 'lime';
+
+  @override
+  String get litchi => 'lychee';
+
+  @override
+  String get mango => 'mango';
+
+  @override
+  String get melon => 'melon';
+
+  @override
+  String get mushroom => 'mushroom';
+
+  @override
+  String get onion => 'onion';
+
+  @override
+  String get orange => 'orange';
+
+  @override
+  String get peach => 'peach';
+
+  @override
+  String get pear => 'pear';
+
+  @override
+  String get peas => 'peas';
+
+  @override
+  String get pineapple => 'pineapple';
+
+  @override
+  String get plum => 'plum';
+
+  @override
+  String get pomegranate => 'pomegranate';
+
+  @override
+  String get potato => 'potato';
+
+  @override
+  String get pumpkin => 'pumpkin';
+
+  @override
+  String get radish => 'radish';
+
+  @override
+  String get raspberry => 'raspberry';
+
+  @override
+  String get salmon => 'salmon';
+
+  @override
+  String get spinach => 'spinach';
+
+  @override
+  String get strawberry => 'strawberry';
+
+  @override
+  String get sweetPotato => 'sweet potato';
+
+  @override
+  String get tomato => 'tomato';
+
+  @override
+  String get watermelon => 'watermelon';
+
+  @override
+  String get zucchini => 'zucchini';
 }
