@@ -1038,7 +1038,7 @@ abstract class AppLocalizations {
   /// No description provided for @greenBean.
   ///
   /// In en, this message translates to:
-  /// **'green bean'**
+  /// **'green beans'**
   String get greenBean;
 
   /// No description provided for @kiwi.
@@ -1071,11 +1071,11 @@ abstract class AppLocalizations {
   /// **'lime'**
   String get lime;
 
-  /// No description provided for @litchi.
+  /// No description provided for @lychee.
   ///
   /// In en, this message translates to:
   /// **'lychee'**
-  String get litchi;
+  String get lychee;
 
   /// No description provided for @mango.
   ///

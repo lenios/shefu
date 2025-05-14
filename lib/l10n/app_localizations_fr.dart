@@ -483,7 +483,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get grapes => 'raisin';
 
   @override
-  String get greenBean => 'haricot vert';
+  String get greenBean => 'haricot verts';
 
   @override
   String get kiwi => 'kiwi';
@@ -501,7 +501,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get lime => 'citron vert';
 
   @override
-  String get litchi => 'litchi';
+  String get lychee => 'litchi';
 
   @override
   String get mango => 'mangue';

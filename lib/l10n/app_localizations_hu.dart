@@ -501,7 +501,7 @@ class AppLocalizationsHu extends AppLocalizations {
   String get lime => 'lime';
 
   @override
-  String get litchi => 'licsi';
+  String get lychee => 'licsi';
 
   @override
   String get mango => 'mangó';

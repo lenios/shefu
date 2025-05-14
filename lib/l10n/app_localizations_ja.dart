@@ -501,7 +501,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get lime => 'ライム';
 
   @override
-  String get litchi => 'ライチ';
+  String get lychee => 'ライチ';
 
   @override
   String get mango => 'マンゴー';

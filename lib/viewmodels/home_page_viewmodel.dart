@@ -6,6 +6,7 @@ import 'package:shefu/models/objectbox_models.dart';
 import 'package:shefu/objectbox.g.dart';
 import 'package:shefu/repositories/objectbox_nutrient_repository.dart';
 import 'package:shefu/repositories/objectbox_recipe_repository.dart';
+import 'package:shefu/utils/mocks.dart';
 
 class HomePageViewModel extends ChangeNotifier {
   late ObjectBoxRecipeRepository _objectBoxRepository;
@@ -168,6 +169,9 @@ class HomePageViewModel extends ChangeNotifier {
     // if (_recipeStepBox != null) _recipeStepBox!.removeAll();
     // if (_recipeBox != null) _recipeBox!.removeAll();
     // debugPrint("Cleared all ObjectBox data on startup");
+    // final recipe = populateMockRecipes();
+    // _recipeBox!.put(recipe);
+    // debugPrint("Populated ObjectBox with mock recipes");
 
     // Set up the stream
     if (_recipeBox != null) {
@@ -177,44 +181,6 @@ class HomePageViewModel extends ChangeNotifier {
     }
 
     return false;
-  }
-
-  Recipe populateMockRecipes() {
-    Recipe recipe = Recipe(
-      id: 0, // Use 0 for new objects
-      title: "Mock Recipe",
-      notes: "This is a mock recipe for testing.",
-      countryCode: "FR",
-    );
-
-    recipe.steps.addAll([
-      RecipeStep(
-          id: 0, // Use 0 for new objects
-          name: "Step 1: Do something.",
-          imagePath: "",
-          instruction: "Mix all ingredients and cook.",
-        )
-        ..ingredients.addAll([
-          IngredientItem(
-            id: 0,
-            name: "Ingredient 1",
-            quantity: 2,
-            unit: "cups",
-          ), // Use 0 for new objects
-          IngredientItem(
-            id: 0,
-            name: "Ingredient 2",
-            quantity: 1,
-            unit: "tbsp",
-          ), // Use 0 for new objects
-        ]),
-      RecipeStep(
-        id: 0, // Use 0 for new objects
-        name: "Step 2: Do something else.",
-        imagePath: "assets/images/recipe_step_2.jpg",
-      ),
-    ]);
-    return recipe;
   }
 
   Future<List<Category>> getAvailableCategories() async {

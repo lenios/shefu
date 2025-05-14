@@ -318,7 +318,7 @@ Widget nutrientIcon(BuildContext context, ingredientName) {
         'lemon',
         'lettuce',
         'lime',
-        'litchi',
+        'lychee',
         'mango',
         'melon',
         'mushroom',
