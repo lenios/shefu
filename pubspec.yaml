@@ -4,7 +4,7 @@ description: Offline recipes manager
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 3.0.4+28
+version: 3.0.5+29
 
 environment:
   sdk: ^3.7.2
@@ -54,6 +54,7 @@ flutter:
 
   assets:
     - assets/icons/
+    - assets/icons/nutrients/
     - assets/nutrients_full.csv
     - assets/conversions_full.csv
     - assets/notification-ping-335500.mp3 # from https://pixabay.com/sound-effects/notification-ping-335500/

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
+import 'package:shefu/l10n/l10n_utils.dart';
 import 'package:shefu/repositories/objectbox_nutrient_repository.dart';
 import 'package:shefu/utils/string_extension.dart';
 import 'package:shefu/views/full_screen_image.dart';
@@ -228,28 +229,100 @@ class RecipeStepCard extends StatelessWidget {
                               color: Theme.of(context).colorScheme.primary,
                             ),
                           ),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('$weightText ${ingredient.name}'),
-                                if (desc.isNotEmpty)
-                                  Text(
-                                    desc,
-                                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                      color: Theme.of(context).colorScheme.primary,
-                                    ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('$weightText ${ingredient.name}'),
+                              if (desc.isNotEmpty)
+                                Text(
+                                  desc,
+                                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                    color: Theme.of(context).colorScheme.primary,
                                   ),
-                                if (ingredient.shape.isNotEmpty)
-                                  Text(
-                                    ingredient.shape,
-                                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                      fontStyle: FontStyle.italic,
-                                      color: Theme.of(context).colorScheme.primary,
-                                    ),
+                                ),
+                              if (ingredient.shape.isNotEmpty)
+                                Text(
+                                  ingredient.shape,
+                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                    fontStyle: FontStyle.italic,
+                                    color: Theme.of(context).colorScheme.primary,
                                   ),
-                              ],
-                            ),
+                                ),
+                            ],
+                          ),
+                          const SizedBox(width: 3),
+                          Builder(
+                            builder: (context) {
+                              final availableNutrients = [
+                                'apple',
+                                'apricot',
+                                'asparagus',
+                                'avocado',
+                                'banana',
+                                'bell-pepper',
+                                'blackberry',
+                                'blueberry',
+                                'broccoli',
+                                'butter',
+                                'cabbage',
+                                'carambola',
+                                'carrot',
+                                'cauliflower',
+                                'celery',
+                                'cherry',
+                                'coconut',
+                                'corn',
+                                'cucumber',
+                                'dragon-fruit',
+                                'eggplant',
+                                'fig',
+                                'garlic',
+                                'grapes',
+                                'green-beans',
+                                'kiwi',
+                                'leek',
+                                'lemon',
+                                'lettuce',
+                                'lime',
+                                'litchi',
+                                'mango',
+                                'melon',
+                                'mushroom',
+                                'onion',
+                                'orange',
+                                'peach',
+                                'pear',
+                                'peas',
+                                'pineapple',
+                                'plum',
+                                'pomegranate',
+                                'potato',
+                                'pumpkin',
+                                'radish',
+                                'raspberry',
+                                'salmon',
+                                'spinach',
+                                'strawberry',
+                                'sweet-potato',
+                                'tomato',
+                                'watermelon',
+                                'zucchini',
+                              ];
+
+                              for (String i in availableNutrients) {
+                                if (getLocalizedNutrientName(i, context) ==
+                                    ingredient.name.toLowerCase()) {
+                                  final String iconPath = 'assets/icons/nutrients/$i.svg';
+                                  return SvgPicture.asset(
+                                    iconPath,
+                                    width: 21,
+                                    height: 21,
+                                    placeholderBuilder: (context) => const SizedBox.shrink(),
+                                  );
+                                }
+                              }
+                              return const SizedBox.shrink();
+                            },
                           ),
                         ],
                       ),

@@ -409,4 +409,163 @@ class AppLocalizationsHu extends AppLocalizations {
 
   @override
   String get rectangleDetails => 'Sajnos a szövegfelismerés nem működik jól a többoszlopos elrendezéseknél. Át kell formáznunk a képet.\n\nElőször válassza ki a cím+hozzávalók blokkot, majd minden oszlopot.\nEzeket egy új képpé fogjuk egyesíteni.';
+
+  @override
+  String get apple => 'alma';
+
+  @override
+  String get apricot => 'sárgabarack';
+
+  @override
+  String get asparagus => 'spárga';
+
+  @override
+  String get avocado => 'avokádó';
+
+  @override
+  String get banana => 'banán';
+
+  @override
+  String get bellPepper => 'kaliforniai paprika';
+
+  @override
+  String get blackberry => 'szeder';
+
+  @override
+  String get blueberry => 'áfonya';
+
+  @override
+  String get broccoli => 'brokkoli';
+
+  @override
+  String get butter => 'vaj';
+
+  @override
+  String get cabbage => 'káposzta';
+
+  @override
+  String get carambola => 'csillaggyümölcs';
+
+  @override
+  String get carrot => 'répa';
+
+  @override
+  String get cauliflower => 'karfiol';
+
+  @override
+  String get celery => 'zeller';
+
+  @override
+  String get cherry => 'cseresznye';
+
+  @override
+  String get coconut => 'kókuszdió';
+
+  @override
+  String get corn => 'kukorica';
+
+  @override
+  String get cucumber => 'uborka';
+
+  @override
+  String get dragonFruit => 'sárkánygyümölcs';
+
+  @override
+  String get eggplant => 'padlizsán';
+
+  @override
+  String get fig => 'füge';
+
+  @override
+  String get garlic => 'fokhagyma';
+
+  @override
+  String get grapes => 'szőlő';
+
+  @override
+  String get greenBean => 'zöldbab';
+
+  @override
+  String get kiwi => 'kiwi';
+
+  @override
+  String get leek => 'póréhagyma';
+
+  @override
+  String get lemon => 'citrom';
+
+  @override
+  String get lettuce => 'saláta';
+
+  @override
+  String get lime => 'lime';
+
+  @override
+  String get litchi => 'licsi';
+
+  @override
+  String get mango => 'mangó';
+
+  @override
+  String get melon => 'dinnye';
+
+  @override
+  String get mushroom => 'gomba';
+
+  @override
+  String get onion => 'hagyma';
+
+  @override
+  String get orange => 'narancs';
+
+  @override
+  String get peach => 'őszibarack';
+
+  @override
+  String get pear => 'körte';
+
+  @override
+  String get peas => 'borsó';
+
+  @override
+  String get pineapple => 'ananász';
+
+  @override
+  String get plum => 'szilva';
+
+  @override
+  String get pomegranate => 'gránátalma';
+
+  @override
+  String get potato => 'burgonya';
+
+  @override
+  String get pumpkin => 'tök';
+
+  @override
+  String get radish => 'retek';
+
+  @override
+  String get raspberry => 'málna';
+
+  @override
+  String get salmon => 'lazac';
+
+  @override
+  String get spinach => 'spenót';
+
+  @override
+  String get strawberry => 'eper';
+
+  @override
+  String get sweetPotato => 'édesburgonya';
+
+  @override
+  String get tomato => 'paradicsom';
+
+  @override
+  String get watermelon => 'görögdinnye';
+
+  @override
+  String get zucchini => 'cukkini';
 }
