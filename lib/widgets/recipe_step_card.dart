@@ -308,6 +308,7 @@ Widget nutrientIcon(BuildContext context, ingredientName) {
         'corn',
         'cucumber',
         'dragon-fruit',
+        'egg',
         'eggplant',
         'fig',
         'garlic',

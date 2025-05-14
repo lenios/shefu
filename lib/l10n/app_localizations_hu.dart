@@ -471,6 +471,9 @@ class AppLocalizationsHu extends AppLocalizations {
   String get dragonFruit => 'sárkánygyümölcs';
 
   @override
+  String get egg => 'hús';
+
+  @override
   String get eggplant => 'padlizsán';
 
   @override

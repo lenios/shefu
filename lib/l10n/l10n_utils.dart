@@ -68,6 +68,8 @@ String? getLocalizedNutrientName(String nutrientName, BuildContext context) {
       return localizations.cucumber;
     case "dragon-fruit":
       return localizations.dragonFruit;
+    case "egg":
+      return localizations.egg;
     case "eggplant":
       return localizations.eggplant;
     case "fig":

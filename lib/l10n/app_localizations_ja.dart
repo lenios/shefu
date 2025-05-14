@@ -471,6 +471,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get dragonFruit => 'ドラゴンフルーツ';
 
   @override
+  String get egg => '卵';
+
+  @override
   String get eggplant => 'ナス';
 
   @override

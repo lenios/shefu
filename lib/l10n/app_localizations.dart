@@ -1011,6 +1011,12 @@ abstract class AppLocalizations {
   /// **'dragon fruit'**
   String get dragonFruit;
 
+  /// No description provided for @egg.
+  ///
+  /// In en, this message translates to:
+  /// **'egg'**
+  String get egg;
+
   /// No description provided for @eggplant.
   ///
   /// In en, this message translates to:
