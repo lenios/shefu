@@ -173,6 +173,9 @@ class AppLocalizationsHu extends AppLocalizations {
   String get sauces => 'Szószok';
 
   @override
+  String get breakfast => 'Reggeli';
+
+  @override
   String get countryCode => 'Országkód';
 
   @override
@@ -378,6 +381,12 @@ class AppLocalizationsHu extends AppLocalizations {
   String get pot => 'fazék';
 
   @override
+  String get fridge => 'hűtőszekrény';
+
+  @override
+  String get freezer => 'fagyasztó';
+
+  @override
   String get oven => 'sütő';
 
   @override
@@ -394,6 +403,15 @@ class AppLocalizationsHu extends AppLocalizations {
 
   @override
   String get skillet => 'serpenyő';
+
+  @override
+  String get paddle => 'spatula';
+
+  @override
+  String get cut => 'vágódeszka';
+
+  @override
+  String get rollingPin => 'nyújtófa';
 
   @override
   String get editImage => 'Kép szerkesztése';
@@ -468,6 +486,18 @@ class AppLocalizationsHu extends AppLocalizations {
   String get cucumber => 'uborka';
 
   @override
+  String get chocolateDark => 'étcsokoládé';
+
+  @override
+  String get chocolateMilk => 'tejcsokoládé';
+
+  @override
+  String get chocolateRuby => 'rubincsokoládé';
+
+  @override
+  String get chocolateWhite => 'fehércsokoládé';
+
+  @override
   String get dragonFruit => 'sárkánygyümölcs';
 
   @override
@@ -511,6 +541,9 @@ class AppLocalizationsHu extends AppLocalizations {
 
   @override
   String get melon => 'dinnye';
+
+  @override
+  String get milk => 'tej';
 
   @override
   String get mushroom => 'gomba';

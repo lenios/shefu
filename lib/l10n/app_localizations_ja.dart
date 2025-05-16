@@ -173,6 +173,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get sauces => 'ソース';
 
   @override
+  String get breakfast => '朝食';
+
+  @override
   String get countryCode => '国コード';
 
   @override
@@ -378,6 +381,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get pot => '鍋';
 
   @override
+  String get fridge => '冷蔵庫';
+
+  @override
+  String get freezer => '冷凍庫';
+
+  @override
   String get oven => 'オーブン';
 
   @override
@@ -394,6 +403,15 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get skillet => 'フライパン';
+
+  @override
+  String get paddle => 'ヘラ';
+
+  @override
+  String get cut => '切る';
+
+  @override
+  String get rollingPin => 'めん棒';
 
   @override
   String get editImage => '画像を編集';
@@ -468,6 +486,18 @@ class AppLocalizationsJa extends AppLocalizations {
   String get cucumber => 'キュウリ';
 
   @override
+  String get chocolateDark => 'ダークチョコレート';
+
+  @override
+  String get chocolateMilk => 'ミルクチョコレート';
+
+  @override
+  String get chocolateRuby => 'ルビーチョコレート';
+
+  @override
+  String get chocolateWhite => 'ホワイトチョコレート';
+
+  @override
   String get dragonFruit => 'ドラゴンフルーツ';
 
   @override
@@ -511,6 +541,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get melon => 'メロン';
+
+  @override
+  String get milk => '牛乳';
 
   @override
   String get mushroom => 'キノコ';

@@ -50,7 +50,8 @@ enum Category {
   sides,
   desserts,
   basics,
-  sauces;
+  sauces,
+  breakfast;
 
   @override
   String toString() => name;

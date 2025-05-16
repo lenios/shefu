@@ -169,8 +169,8 @@ class HomePageViewModel extends ChangeNotifier {
     // if (_recipeStepBox != null) _recipeStepBox!.removeAll();
     // if (_recipeBox != null) _recipeBox!.removeAll();
     // debugPrint("Cleared all ObjectBox data on startup");
-    // final recipe = populateMockRecipes();
-    // _recipeBox!.put(recipe);
+    // final mockRecipes = populateMockRecipes();
+    // _recipeBox!.putMany(mockRecipes);
     // debugPrint("Populated ObjectBox with mock recipes");
 
     // Set up the stream

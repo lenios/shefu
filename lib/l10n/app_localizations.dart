@@ -423,6 +423,12 @@ abstract class AppLocalizations {
   /// **'Sauces'**
   String get sauces;
 
+  /// No description provided for @breakfast.
+  ///
+  /// In en, this message translates to:
+  /// **'Breakfast'**
+  String get breakfast;
+
   /// No description provided for @countryCode.
   ///
   /// In en, this message translates to:
@@ -825,6 +831,18 @@ abstract class AppLocalizations {
   /// **'pot'**
   String get pot;
 
+  /// No description provided for @fridge.
+  ///
+  /// In en, this message translates to:
+  /// **'fridge'**
+  String get fridge;
+
+  /// No description provided for @freezer.
+  ///
+  /// In en, this message translates to:
+  /// **'freezer'**
+  String get freezer;
+
   /// No description provided for @oven.
   ///
   /// In en, this message translates to:
@@ -860,6 +878,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'skillet'**
   String get skillet;
+
+  /// No description provided for @paddle.
+  ///
+  /// In en, this message translates to:
+  /// **'paddle'**
+  String get paddle;
+
+  /// No description provided for @cut.
+  ///
+  /// In en, this message translates to:
+  /// **'cut'**
+  String get cut;
+
+  /// No description provided for @rollingPin.
+  ///
+  /// In en, this message translates to:
+  /// **'rolling pin'**
+  String get rollingPin;
 
   /// No description provided for @editImage.
   ///
@@ -1005,6 +1041,30 @@ abstract class AppLocalizations {
   /// **'cucumber'**
   String get cucumber;
 
+  /// No description provided for @chocolateDark.
+  ///
+  /// In en, this message translates to:
+  /// **'dark chocolate'**
+  String get chocolateDark;
+
+  /// No description provided for @chocolateMilk.
+  ///
+  /// In en, this message translates to:
+  /// **'milk chocolate'**
+  String get chocolateMilk;
+
+  /// No description provided for @chocolateRuby.
+  ///
+  /// In en, this message translates to:
+  /// **'ruby chocolate'**
+  String get chocolateRuby;
+
+  /// No description provided for @chocolateWhite.
+  ///
+  /// In en, this message translates to:
+  /// **'white chocolate'**
+  String get chocolateWhite;
+
   /// No description provided for @dragonFruit.
   ///
   /// In en, this message translates to:
@@ -1094,6 +1154,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'melon'**
   String get melon;
+
+  /// No description provided for @milk.
+  ///
+  /// In en, this message translates to:
+  /// **'milk'**
+  String get milk;
 
   /// No description provided for @mushroom.
   ///

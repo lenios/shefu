@@ -66,6 +66,14 @@ String? getLocalizedNutrientName(String nutrientName, BuildContext context) {
       return localizations.corn;
     case "cucumber":
       return localizations.cucumber;
+    case "chocolate-dark":
+      return localizations.chocolateDark;
+    case "chocolate-milk":
+      return localizations.chocolateMilk;
+    case "chocolate-white":
+      return localizations.chocolateWhite;
+    case "chocolate-ruby":
+      return localizations.chocolateRuby;
     case "dragon-fruit":
       return localizations.dragonFruit;
     case "egg":
@@ -96,6 +104,8 @@ String? getLocalizedNutrientName(String nutrientName, BuildContext context) {
       return localizations.mango;
     case "melon":
       return localizations.melon;
+    case "milk":
+      return localizations.milk;
     case "mushroom":
       return localizations.mushroom;
     case "onion":
@@ -138,4 +148,37 @@ String? getLocalizedNutrientName(String nutrientName, BuildContext context) {
       return localizations.zucchini;
   }
   return null;
+}
+
+formattedTool(String tool, context) {
+  switch (tool) {
+    case "paddle":
+      return AppLocalizations.of(context)!.paddle;
+    case "knife":
+      return AppLocalizations.of(context)!.cut;
+    case "whisk":
+      return AppLocalizations.of(context)!.whisk;
+    case "rolling-pin":
+      return AppLocalizations.of(context)!.rollingPin;
+    case "bowl":
+      return AppLocalizations.of(context)!.bowl;
+    case "blender":
+      return AppLocalizations.of(context)!.blender;
+    case "mixer":
+      return AppLocalizations.of(context)!.mixer;
+    case "pot":
+      return AppLocalizations.of(context)!.pot;
+    case "fridge":
+      return AppLocalizations.of(context)!.fridge;
+    case "freezer":
+      return AppLocalizations.of(context)!.freezer;
+    case "microwave":
+      return AppLocalizations.of(context)!.microwave;
+    case "skillet":
+      return AppLocalizations.of(context)!.skillet;
+    case "oven":
+      return AppLocalizations.of(context)!.oven;
+    default:
+      return tool;
+  }
 }

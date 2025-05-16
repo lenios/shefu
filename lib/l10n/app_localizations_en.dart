@@ -173,6 +173,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sauces => 'Sauces';
 
   @override
+  String get breakfast => 'Breakfast';
+
+  @override
   String get countryCode => 'Country code';
 
   @override
@@ -378,6 +381,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pot => 'pot';
 
   @override
+  String get fridge => 'fridge';
+
+  @override
+  String get freezer => 'freezer';
+
+  @override
   String get oven => 'oven';
 
   @override
@@ -394,6 +403,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get skillet => 'skillet';
+
+  @override
+  String get paddle => 'paddle';
+
+  @override
+  String get cut => 'cut';
+
+  @override
+  String get rollingPin => 'rolling pin';
 
   @override
   String get editImage => 'Edit image';
@@ -468,6 +486,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get cucumber => 'cucumber';
 
   @override
+  String get chocolateDark => 'dark chocolate';
+
+  @override
+  String get chocolateMilk => 'milk chocolate';
+
+  @override
+  String get chocolateRuby => 'ruby chocolate';
+
+  @override
+  String get chocolateWhite => 'white chocolate';
+
+  @override
   String get dragonFruit => 'dragon fruit';
 
   @override
@@ -511,6 +541,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get melon => 'melon';
+
+  @override
+  String get milk => 'milk';
 
   @override
   String get mushroom => 'mushroom';

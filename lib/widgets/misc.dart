@@ -130,6 +130,9 @@ Widget formattedCategory(String category, context, {bool dark = false}) {
       categoryText = AppLocalizations.of(context)!.basics;
     case "sauces":
       categoryText = AppLocalizations.of(context)!.sauces;
+    case "breakfast":
+      categoryText = AppLocalizations.of(context)!.breakfast;
+
     default:
       categoryText = category;
   }
@@ -152,29 +155,6 @@ Widget formattedCategory(String category, context, {bool dark = false}) {
         ),
     ],
   );
-}
-
-formattedTool(String tool, context) {
-  switch (tool) {
-    case "bowl":
-      return AppLocalizations.of(context)!.bowl;
-    case "pot":
-      return AppLocalizations.of(context)!.pot;
-    case "oven":
-      return AppLocalizations.of(context)!.oven;
-    case "microwave":
-      return AppLocalizations.of(context)!.microwave;
-    case "blender":
-      return AppLocalizations.of(context)!.blender;
-    case "mixer":
-      return AppLocalizations.of(context)!.mixer;
-    case "whisk":
-      return AppLocalizations.of(context)!.whisk;
-    case "skillet":
-      return AppLocalizations.of(context)!.skillet;
-    default:
-      return tool;
-  }
 }
 
 Widget categoryLine(int category, context) {

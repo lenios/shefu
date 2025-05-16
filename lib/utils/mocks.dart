@@ -1,7 +1,8 @@
 import 'package:shefu/models/objectbox_models.dart';
 
-Recipe populateMockRecipes() {
-  Recipe recipe = Recipe(
+List<Recipe> populateMockRecipes() {
+  // First recipe - The Ultimate Harvest Feast
+  Recipe harvestRecipe = Recipe(
     id: 0,
     title: "The Ultimate Harvest Feast",
     notes:
@@ -118,7 +119,176 @@ Recipe populateMockRecipes() {
   ]);
 
   // Add all steps to recipe
-  recipe.steps.addAll([saladStep, soupStep, mainStep, fruitDessertStep, berryDessertStep]);
+  harvestRecipe.steps.addAll([saladStep, soupStep, mainStep, fruitDessertStep, berryDessertStep]);
 
-  return recipe;
+  // Second recipe - Chocolate Mousse
+  Recipe chocolateMousse = Recipe(
+    id: 0,
+    title: "Decadent Chocolate Mousse",
+    notes: "A silky smooth chocolate dessert that's easy to make but impressive to serve.",
+    servings: 4,
+    countryCode: "FR",
+    category: Category.desserts.index,
+    time: 30,
+    calories: 380,
+    carbohydrates: 22,
+    imagePath: "assets/mocks/chocolate-mousse.jpg",
+  );
+
+  // Step 1: Prepare the chocolate mixture
+  RecipeStep prepareChocolateStep = RecipeStep(
+    id: 0,
+    name: "",
+    instruction:
+        "Melt in a heatproof bowl over simmering water. Remove from heat and let cool slightly.",
+  );
+  prepareChocolateStep.ingredients.addAll([
+    IngredientItem(
+      id: 0,
+      name: "chocolate, dark",
+      quantity: 5,
+      unit: "g",
+      foodId: 501894,
+      conversionId: 16982,
+    ),
+    IngredientItem(id: 0, name: "butter", quantity: 3, unit: "g", foodId: 118, conversionId: 405),
+  ]);
+
+  RecipeStep prepareEggStep = RecipeStep(
+    id: 0,
+    name: "",
+    instruction: "Whisk, then mix into the chocolate.",
+  );
+  prepareEggStep.ingredients.addAll([
+    IngredientItem(
+      id: 0,
+      name: "egg",
+      quantity: 4,
+      unit: "",
+      shape: "yolk",
+      foodId: 127,
+      conversionId: 455,
+    ),
+    IngredientItem(id: 0, name: "sugar", quantity: 50, unit: "g", shape: ""),
+    IngredientItem(id: 0, name: "vanilla extract", quantity: 1, unit: "tsp"),
+    IngredientItem(id: 0, name: "salt", quantity: 0.25, unit: "tsp"),
+  ]);
+
+  // Step 2: Prepare the whipped cream
+  RecipeStep whipCreamStep = RecipeStep(
+    id: 0,
+    instruction: "In a clean bowl, whip egg whites until soft peaks form.",
+  );
+  whipCreamStep.ingredients.addAll([
+    IngredientItem(id: 0, name: "egg", quantity: 4, unit: "", shape: "white"),
+  ]);
+
+  // Step 2: Prepare the whipped cream
+  RecipeStep whipCreamStep2 = RecipeStep(
+    id: 0,
+    instruction: "In mixer, whip heavy cream until soft peaks form (5 minutes).",
+    timer: 5,
+  );
+  whipCreamStep2.ingredients.addAll([
+    IngredientItem(id: 0, name: "heavy cream", quantity: 240, unit: "ml", shape: "cold"),
+  ]);
+
+  // Step 3: Combine and chill
+  RecipeStep combineChillStep = RecipeStep(
+    id: 0,
+    instruction:
+        "Fold whipped egg whites into chocolate mixture, then gently fold in whipped cream. Divide into serving glasses and refrigerate for at least 3 hours or overnight.",
+    timer: 10 * 60, // 10 minutes in seconds (for combining - not including chill time)
+  );
+
+  // Add all steps to the chocolate mousse recipe
+  chocolateMousse.steps.addAll([
+    prepareChocolateStep,
+    prepareEggStep,
+    whipCreamStep,
+    whipCreamStep2,
+    combineChillStep,
+  ]);
+
+  Recipe pancakeRecipe = Recipe(
+    id: 0,
+    title: "Fluffy Buttermilk Pancakes",
+    notes:
+        "Classic, fluffy pancakes that are perfect for a weekend breakfast. Serve with fresh fruits and maple syrup.",
+    servings: 4,
+    countryCode: "US",
+    category: Category.desserts.index,
+    time: 25,
+    calories: 310,
+    carbohydrates: 42,
+    imagePath: "assets/mocks/pancakes.jpg",
+  );
+
+  // Step 1: Mix dry ingredients
+  RecipeStep preheatStep = RecipeStep(
+    id: 0,
+    instruction: "Preheat oven to 400°F to keep pancakes warm.",
+  );
+
+  RecipeStep dryIngredientsStep = RecipeStep(
+    id: 0,
+    instruction: "In a large bowl, whisk and set aside.",
+  );
+  dryIngredientsStep.ingredients.addAll([
+    IngredientItem(id: 0, name: "all-purpose flour", quantity: 220, unit: "g", shape: ""),
+    IngredientItem(id: 0, name: "baking powder", quantity: 2, unit: "tsp"),
+    IngredientItem(id: 0, name: "salt", quantity: 0.5, unit: "tsp"),
+    IngredientItem(id: 0, name: "sugar", quantity: 30, unit: "g"),
+  ]);
+
+  // Step 2: Mix wet ingredients
+  RecipeStep wetIngredientsStep = RecipeStep(id: 0, instruction: "In another medium bowl, whisk.");
+  wetIngredientsStep.ingredients.addAll([
+    IngredientItem(id: 0, name: "buttermilk", quantity: 360, unit: "ml"),
+    IngredientItem(id: 0, name: "egg", quantity: 2, unit: "", foodId: 127, conversionId: 455),
+    IngredientItem(
+      id: 0,
+      name: "butter",
+      quantity: 45,
+      unit: "g",
+      shape: "melted",
+      foodId: 118,
+      conversionId: 405,
+    ),
+    IngredientItem(id: 0, name: "vanilla extract", quantity: 1, unit: "tsp"),
+  ]);
+
+  // Step 3: Combine and cook
+  RecipeStep cookPancakesStep = RecipeStep(
+    id: 0,
+    instruction:
+        "Pour wet ingredients into dry ingredients and stir until just combined (lumps are okay).",
+    timer: 3 * 60, // 3 minutes in seconds for cooking time
+  );
+
+  // Step 4: Serve with toppings
+  RecipeStep servePancakesStep = RecipeStep(
+    id: 0,
+    name: "Heat",
+    instruction:
+        "Stack pancakes on plates and serve with your choice of fresh fruits, maple syrup, and a pat of butter.",
+  );
+  servePancakesStep.ingredients.addAll([
+    IngredientItem(id: 0, name: "maple syrup", quantity: 120, unit: "ml"),
+    IngredientItem(id: 0, name: "strawberry", quantity: 150, unit: "g", shape: "sliced"),
+    IngredientItem(id: 0, name: "banana", quantity: 2, unit: "", shape: "sliced"),
+    IngredientItem(id: 0, name: "blueberry", quantity: 100, unit: "g"),
+    IngredientItem(id: 0, name: "butter", quantity: 15, unit: "g"),
+  ]);
+
+  // // Add all steps to the pancake recipe
+  // pancakeRecipe.steps.addAll([
+  //   dryIngredientsStep,
+  //   wetIngredientsStep,
+  //   cookPancakesStep,
+  //   servePancakesStep,
+  // ]);
+
+  // Return all three recipes
+  return [harvestRecipe, chocolateMousse, pancakeRecipe];
 }
