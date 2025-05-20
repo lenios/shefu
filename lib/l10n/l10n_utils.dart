@@ -60,6 +60,8 @@ String? getLocalizedNutrientName(String nutrientName, BuildContext context) {
       return localizations.celery;
     case "cherry":
       return localizations.cherry;
+    case "chicken":
+      return localizations.chicken;
     case "coconut":
       return localizations.coconut;
     case "corn":
@@ -108,6 +110,8 @@ String? getLocalizedNutrientName(String nutrientName, BuildContext context) {
       return localizations.milk;
     case "mushroom":
       return localizations.mushroom;
+    case "olive-oil":
+      return localizations.oliveOil;
     case "onion":
       return localizations.onion;
     case "orange":

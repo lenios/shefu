@@ -185,4 +185,26 @@ class ObjectBoxRecipeRepository {
 
     return categorySet.toList();
   }
+
+  Future<List<String>> getUniqueSources({int limit = 5}) async {
+    if (!_isInitialized) await initialize();
+
+    // Fetch all recipes, descending
+    final query = recipeBox.query().order(Recipe_.id, flags: Order.descending).build();
+    final recipes = query.find();
+    query.close();
+
+    final Set<String> uniqueSourcesSet = {};
+
+    for (final recipe in recipes) {
+      if (recipe.source.isNotEmpty) {
+        if (uniqueSourcesSet.add(recipe.source)) {
+          if (uniqueSourcesSet.length >= limit) {
+            break;
+          }
+        }
+      }
+    }
+    return uniqueSourcesSet.toList();
+  }
 }

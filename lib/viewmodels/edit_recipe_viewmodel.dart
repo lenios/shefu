@@ -13,6 +13,7 @@ import 'package:shefu/repositories/objectbox_nutrient_repository.dart';
 import 'package:shefu/repositories/objectbox_recipe_repository.dart';
 import 'package:shefu/utils/mlkit.dart';
 import 'package:shefu/utils/recipe_web_scraper.dart';
+import 'package:shefu/widgets/edit_ingredient_input.dart';
 import 'package:shefu/widgets/edit_recipe/image_editor_screen.dart';
 import 'package:shefu/widgets/image_helper.dart';
 import '../l10n/app_localizations.dart';
@@ -57,6 +58,9 @@ class EditRecipeViewModel extends ChangeNotifier {
 
   bool _ocrEnabled = true;
   bool get ocrEnabled => _ocrEnabled;
+
+  List<String> _availableSourceSuggestions = [];
+  List<String> get availableSourceSuggestions => _availableSourceSuggestions;
 
   void toggleOcr(bool value) {
     if (_ocrEnabled != value) {
@@ -108,10 +112,12 @@ class EditRecipeViewModel extends ChangeNotifier {
       _country =
           Country.tryParse(_recipe.countryCode.isNotEmpty ? _recipe.countryCode : 'WW') ??
           Country.worldWide;
+      _availableSourceSuggestions = await _recipeRepository.getUniqueSources();
       _preventControllerListeners = false;
       // --- End Controller Init ---
 
       _isInitialized = true;
+      notifyListeners();
       success = true;
     } catch (e, stackTrace) {
       debugPrint("Error during initViewModel: $e\n$stackTrace");
@@ -145,7 +151,6 @@ class EditRecipeViewModel extends ChangeNotifier {
   void updateSource(String value) {
     if (_recipe.source != value) {
       _recipe.source = value;
-      // No notifyListeners needed if using TextEditingController
     }
   }
 
@@ -821,5 +826,35 @@ class EditRecipeViewModel extends ChangeNotifier {
     }
     _imageVersion.value++;
     notifyListeners();
+  }
+
+  void moveIngredientToNextStep(int currentStepIndex, int ingredientIndex) {
+    if (currentStepIndex < _recipe.steps.length - 1 &&
+        currentStepIndex >= 0 &&
+        ingredientIndex >= 0 &&
+        ingredientIndex < _recipe.steps[currentStepIndex].ingredients.length) {
+      // Dispose the controller for the ingredient at its current position
+      EditIngredientManager.disposeController(currentStepIndex, ingredientIndex);
+
+      final ingredientToMove = _recipe.steps[currentStepIndex].ingredients.removeAt(
+        ingredientIndex,
+      );
+      final nextStep = _recipe.steps[currentStepIndex + 1];
+
+      ingredientToMove.step.target = nextStep;
+      nextStep.ingredients.add(ingredientToMove);
+
+      notifyListeners();
+    }
+  }
+
+  /// Insert a new empty step at the specified index
+  void insertStepAt(int index) {
+    if (index >= 0 && index <= _recipe.steps.length) {
+      final newStep = RecipeStep();
+      _recipe.steps.insert(index, newStep);
+      _imageVersion.value++;
+      notifyListeners();
+    }
   }
 }

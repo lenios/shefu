@@ -60,9 +60,11 @@ class EditIngredientManager {
     final ingredient = viewModel.recipe.steps[stepIndex].ingredients[ingredientIndex];
     final l10n = AppLocalizations.of(context)!;
 
+    final bool isLastStep = stepIndex >= viewModel.recipe.steps.length - 1;
+
     // Keep StatefulBuilder here to manage local controllers for THIS ingredient row
     return StatefulBuilder(
-      key: ValueKey('ingredient_${stepIndex}_$ingredientIndex'),
+      key: ValueKey('ingredient_${ingredient.id}_${stepIndex}_$ingredientIndex'),
       builder: (BuildContext context, StateSetter setLocalState) {
         final nameController = EditIngredientManager.getController(
           stepIndex,
@@ -73,11 +75,13 @@ class EditIngredientManager {
         final quantityController = TextEditingController(
           text: ingredient.quantity > 0 ? formattedQuantity(ingredient.quantity).toString() : "",
         );
-        final shapeController = TextEditingController(text: ingredient.shape ?? "");
+        final shapeController = TextEditingController(text: ingredient.shape);
 
         nameController.addListener(() {
-          viewModel.updateIngredientName(stepIndex, ingredientIndex, nameController.text);
-          // No need for setLocalState here unless other local UI depends on name
+          // Prevent updates after disposal or move.
+          if (_controllers.containsValue(nameController)) {
+            viewModel.updateIngredientName(stepIndex, ingredientIndex, nameController.text);
+          }
         });
 
         // Dispose controllers when the StatefulBuilder is disposed
@@ -106,8 +110,8 @@ class EditIngredientManager {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Quantity
-                    SizedBox(
-                      width: 70,
+                    Expanded(
+                      flex: 2,
                       child: TextFormField(
                         key: ValueKey('quantity_field_${stepIndex}_$ingredientIndex'),
                         controller: quantityController,
@@ -125,8 +129,8 @@ class EditIngredientManager {
                     ),
                     const SizedBox(width: 8),
                     // Unit
-                    SizedBox(
-                      width: 110,
+                    Expanded(
+                      flex: 5,
                       child: DropdownButtonFormField<String>(
                         value: ingredient.unit,
                         items:
@@ -162,34 +166,36 @@ class EditIngredientManager {
                           isDense: true,
                           contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
                         ),
+                        isExpanded: true,
                       ),
                     ),
                     const SizedBox(width: 8),
-                    // Name
-                    Expanded(
-                      child: TextFormField(
-                        key: ValueKey('shape_field_${stepIndex}_$ingredientIndex'),
-                        controller: shapeController,
-                        decoration: InputDecoration(
-                          labelText: l10n.shape,
-                          border: const OutlineInputBorder(),
-                          isDense: true,
-                          contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+
+                    // Move to Next Step Button
+                    if (!isLastStep)
+                      IconButton(
+                        icon: Icon(
+                          Icons.arrow_downward_sharp,
+                          color: Theme.of(context).colorScheme.primary,
+                          size: 20,
                         ),
-                        onChanged:
-                            (val) =>
-                                viewModel.updateIngredientShape(stepIndex, ingredientIndex, val),
+                        tooltip: l10n.moveToNextStep,
+                        onPressed: () {
+                          viewModel.moveIngredientToNextStep(stepIndex, ingredientIndex);
+                        },
+                        constraints: const BoxConstraints(),
+                        padding: const EdgeInsets.symmetric(horizontal: 4.0),
                       ),
-                    ),
                     // Delete Button
                     IconButton(
-                      icon: Icon(Icons.remove_circle_outline, color: Colors.red[700]),
+                      icon: Icon(Icons.remove_circle_outline, color: Colors.red[700], size: 22),
                       tooltip: l10n.delete,
                       onPressed: () {
                         EditIngredientManager.disposeController(stepIndex, ingredientIndex);
                         viewModel.removeIngredient(stepIndex, ingredientIndex);
                       },
                       constraints: const BoxConstraints(),
+                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
                     ),
                   ],
                 ),
@@ -197,20 +203,50 @@ class EditIngredientManager {
                 // Optional Fields (Shape, Nutrient, Factor) - Conditionally shown or below
                 Column(
                   children: [
-                    TextFormField(
-                      key: ValueKey('name_field_${stepIndex}_$ingredientIndex'),
-                      controller: nameController,
-                      onChanged: (val) {
-                        viewModel.updateIngredientName(stepIndex, ingredientIndex, val);
-                      },
-                      decoration: InputDecoration(
-                        labelText: l10n.name,
-                        border: const OutlineInputBorder(),
-                        isDense: true,
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-                      ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextFormField(
+                            key: ValueKey('name_field_${stepIndex}_$ingredientIndex'),
+                            controller: nameController,
+                            onChanged: (val) {
+                              viewModel.updateIngredientName(stepIndex, ingredientIndex, val);
+                            },
+                            decoration: InputDecoration(
+                              labelText: l10n.name,
+                              border: const OutlineInputBorder(),
+                              isDense: true,
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 12,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 4),
+                        Expanded(
+                          child: TextFormField(
+                            key: ValueKey('shape_field_${stepIndex}_$ingredientIndex'),
+                            controller: shapeController,
+                            decoration: InputDecoration(
+                              labelText: l10n.shape,
+                              border: const OutlineInputBorder(),
+                              isDense: true,
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 12,
+                              ),
+                            ),
+                            onChanged:
+                                (val) => viewModel.updateIngredientShape(
+                                  stepIndex,
+                                  ingredientIndex,
+                                  val,
+                                ),
+                          ),
+                        ),
+                      ],
                     ),
-
                     const SizedBox(width: 8),
                     foodEntries(stepIndex, ingredientIndex, viewModel),
                   ],

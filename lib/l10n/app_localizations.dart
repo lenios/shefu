@@ -135,6 +135,18 @@ abstract class AppLocalizations {
   /// **'Add step'**
   String get addStep;
 
+  /// No description provided for @insertStep.
+  ///
+  /// In en, this message translates to:
+  /// **'Add intermediate step'**
+  String get insertStep;
+
+  /// No description provided for @moveToNextStep.
+  ///
+  /// In en, this message translates to:
+  /// **'Move to next step'**
+  String get moveToNextStep;
+
   /// No description provided for @calories.
   ///
   /// In en, this message translates to:
@@ -498,7 +510,7 @@ abstract class AppLocalizations {
   /// No description provided for @leaf.
   ///
   /// In en, this message translates to:
-  /// **'leaf'**
+  /// **' leaf'**
   String get leaf;
 
   /// No description provided for @cup.
@@ -1023,6 +1035,12 @@ abstract class AppLocalizations {
   /// **'cherry'**
   String get cherry;
 
+  /// No description provided for @chicken.
+  ///
+  /// In en, this message translates to:
+  /// **'chicken'**
+  String get chicken;
+
   /// No description provided for @coconut.
   ///
   /// In en, this message translates to:
@@ -1166,6 +1184,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'mushroom'**
   String get mushroom;
+
+  /// No description provided for @oliveOil.
+  ///
+  /// In en, this message translates to:
+  /// **'olive oil'**
+  String get oliveOil;
 
   /// No description provided for @onion.
   ///

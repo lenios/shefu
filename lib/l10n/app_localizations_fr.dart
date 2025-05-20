@@ -27,6 +27,12 @@ class AppLocalizationsFr extends AppLocalizations {
   String get addStep => 'Ajouter une étape';
 
   @override
+  String get insertStep => 'Ajouter une étape intermédiaire';
+
+  @override
+  String get moveToNextStep => 'Déplacer à l\'étape suivante';
+
+  @override
   String get calories => 'Calories';
 
   @override
@@ -209,7 +215,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get packet => 'sachet';
 
   @override
-  String get leaf => 'feuille';
+  String get leaf => ' feuille';
 
   @override
   String get cup => 'verre';
@@ -477,6 +483,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get cherry => 'cerise';
 
   @override
+  String get chicken => 'poulet';
+
+  @override
   String get coconut => 'noix de coco';
 
   @override
@@ -547,6 +556,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get mushroom => 'champignon';
+
+  @override
+  String get oliveOil => 'huile d\'olive';
 
   @override
   String get onion => 'oignon';

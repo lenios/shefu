@@ -2,6 +2,11 @@
 
 Shefu is an **offline** open source (GPLv3) digital cookbook and kitchen assistant, designed to help you organize, cook, and track your recipes in your native language. All of this with local storage (no internet required!).
 
+<a href='https://play.google.com/store/apps/details?id=fr.orvidia.shefu'>
+  <center><img src="assets/GetItOnGooglePlay_Badge_Web_color_English.png" alt="Get it on Google Play" width="170"></center>
+</a>
+
+
 Key Features:
 
 - **Organize Your Recipes**: Easily add, edit, and search your categorized recipes (mains, desserts, etc.). Use advanced search, and filters (like category, country) to find exactly what you need, right when you need it. Search 'egg' and you'll find all your recipes including eggs, even meringue!

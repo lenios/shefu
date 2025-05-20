@@ -27,6 +27,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get addStep => 'Add step';
 
   @override
+  String get insertStep => 'Add intermediate step';
+
+  @override
+  String get moveToNextStep => 'Move to next step';
+
+  @override
   String get calories => 'Calories';
 
   @override
@@ -209,7 +215,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get packet => 'packet';
 
   @override
-  String get leaf => 'leaf';
+  String get leaf => ' leaf';
 
   @override
   String get cup => 'cup';
@@ -477,6 +483,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get cherry => 'cherry';
 
   @override
+  String get chicken => 'chicken';
+
+  @override
   String get coconut => 'coconut';
 
   @override
@@ -547,6 +556,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get mushroom => 'mushroom';
+
+  @override
+  String get oliveOil => 'olive oil';
 
   @override
   String get onion => 'onion';

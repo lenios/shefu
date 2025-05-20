@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:shefu/l10n/app_localizations.dart';
+import 'package:shefu/models/objectbox_models.dart';
 import 'package:shefu/utils/string_extension.dart';
 import 'package:shefu/views/full_screen_image.dart';
 import 'package:shefu/utils/app_color.dart';
@@ -113,8 +114,32 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
 
   Widget _buildShoppingList(BuildContext context, DisplayRecipeViewModel viewModel) {
     final recipe = viewModel.recipe!;
-    final allIngredients = recipe.steps.expand((step) => step.ingredients).toList();
+    var allIngredients = recipe.steps.expand((step) => step.ingredients).toList();
     final l10n = AppLocalizations.of(context)!;
+
+    // Merge ingredients with the same name and shape, summing their quantities
+    final Map<String, IngredientItem> mergedIngredientsMap = {};
+    for (final ingredient in allIngredients) {
+      final key = '${ingredient.name}_${ingredient.shape}_${ingredient.unit}';
+
+      if (mergedIngredientsMap.containsKey(key)) {
+        final existingIngredient = mergedIngredientsMap[key]!;
+        existingIngredient.quantity += ingredient.quantity;
+      } else {
+        // First time seeing this ingredient, create a copy to avoid modifying original
+        final ingredientCopy = IngredientItem(
+          name: ingredient.name,
+          quantity: ingredient.quantity,
+          unit: ingredient.unit,
+          shape: ingredient.shape,
+          foodId: ingredient.foodId,
+          conversionId: ingredient.conversionId,
+        );
+        mergedIngredientsMap[key] = ingredientCopy;
+      }
+    }
+    final mergedIngredients = mergedIngredientsMap.values.toList();
+
     return SingleChildScrollView(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -126,9 +151,9 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
               padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: allIngredients.length,
+              itemCount: mergedIngredients.length,
               itemBuilder: (context, index) {
-                final ingredient = allIngredients[index];
+                final ingredient = mergedIngredients[index];
                 final isInBasket = viewModel.basket[ingredient.name] ?? false;
 
                 // Get the actual conversion factor

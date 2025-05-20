@@ -27,6 +27,12 @@ class AppLocalizationsHu extends AppLocalizations {
   String get addStep => 'Lépés hozzáadása';
 
   @override
+  String get insertStep => 'Köztes lépés beszúrása';
+
+  @override
+  String get moveToNextStep => 'Lépés a következő lépésre';
+
+  @override
   String get calories => 'Kalória';
 
   @override
@@ -209,7 +215,7 @@ class AppLocalizationsHu extends AppLocalizations {
   String get packet => 'csomag';
 
   @override
-  String get leaf => 'levél';
+  String get leaf => ' levél';
 
   @override
   String get cup => 'csésze';
@@ -477,6 +483,9 @@ class AppLocalizationsHu extends AppLocalizations {
   String get cherry => 'cseresznye';
 
   @override
+  String get chicken => 'csirke';
+
+  @override
   String get coconut => 'kókuszdió';
 
   @override
@@ -547,6 +556,9 @@ class AppLocalizationsHu extends AppLocalizations {
 
   @override
   String get mushroom => 'gomba';
+
+  @override
+  String get oliveOil => 'olívaolaj';
 
   @override
   String get onion => 'hagyma';

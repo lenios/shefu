@@ -27,6 +27,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get addStep => '手順を追加';
 
   @override
+  String get insertStep => '中間手順を追加';
+
+  @override
+  String get moveToNextStep => '次の手順へ進む';
+
+  @override
   String get calories => 'カロリー';
 
   @override
@@ -477,6 +483,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get cherry => 'さくらんぼ';
 
   @override
+  String get chicken => '鶏肉';
+
+  @override
   String get coconut => 'ココナッツ';
 
   @override
@@ -547,6 +556,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get mushroom => 'キノコ';
+
+  @override
+  String get oliveOil => 'オリーブ油';
 
   @override
   String get onion => '玉ねぎ';
