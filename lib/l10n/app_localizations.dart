@@ -474,7 +474,7 @@ abstract class AppLocalizations {
   /// No description provided for @pinch.
   ///
   /// In en, this message translates to:
-  /// **'pinch'**
+  /// **' pinch'**
   String get pinch;
 
   /// No description provided for @tsp.
@@ -492,19 +492,19 @@ abstract class AppLocalizations {
   /// No description provided for @bunch.
   ///
   /// In en, this message translates to:
-  /// **'bunch'**
+  /// **' bunch'**
   String get bunch;
 
   /// No description provided for @sprig.
   ///
   /// In en, this message translates to:
-  /// **'sprig'**
+  /// **' sprig'**
   String get sprig;
 
   /// No description provided for @packet.
   ///
   /// In en, this message translates to:
-  /// **'packet'**
+  /// **' packet'**
   String get packet;
 
   /// No description provided for @leaf.
@@ -516,25 +516,25 @@ abstract class AppLocalizations {
   /// No description provided for @cup.
   ///
   /// In en, this message translates to:
-  /// **'cup'**
+  /// **' cup'**
   String get cup;
 
   /// No description provided for @slice.
   ///
   /// In en, this message translates to:
-  /// **'slice'**
+  /// **' slice'**
   String get slice;
 
   /// No description provided for @stick.
   ///
   /// In en, this message translates to:
-  /// **'stick'**
+  /// **' stick'**
   String get stick;
 
   /// No description provided for @handful.
   ///
   /// In en, this message translates to:
-  /// **'handful'**
+  /// **' handful'**
   String get handful;
 
   /// No description provided for @recipes.

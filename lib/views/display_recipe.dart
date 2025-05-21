@@ -10,6 +10,7 @@ import 'package:shefu/viewmodels/display_recipe_viewmodel.dart';
 import 'package:shefu/widgets/confirmation_dialog.dart';
 import 'package:shefu/widgets/icon_button.dart';
 import 'package:shefu/widgets/image_helper.dart';
+import 'package:shefu/widgets/ingredient_display.dart';
 import 'package:shefu/widgets/misc.dart';
 import 'package:shefu/widgets/recipe_step_card.dart';
 
@@ -156,87 +157,35 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                 final ingredient = mergedIngredients[index];
                 final isInBasket = viewModel.basket[ingredient.name] ?? false;
 
-                // Get the actual conversion factor
-                final factor = viewModel.getNutrientConversionFactor(
-                  ingredient.foodId,
-                  ingredient.conversionId,
+                final formattedIngredient = formatIngredient(
+                  context: context,
+                  name: ingredient.name,
+                  quantity: ingredient.quantity,
+                  unit: ingredient.unit,
+                  shape: ingredient.shape,
+                  foodId: ingredient.foodId,
+                  conversionId: ingredient.conversionId,
+                  isChecked: isInBasket,
+                  servingsMultiplier: viewModel.servings / recipe.servings,
+                  nutrientRepository: viewModel.nutrientRepository,
                 );
 
-                String descText = "";
-                if (ingredient.foodId > 0) {
-                  descText = viewModel.getNutrientDescById(
-                    ingredient.foodId,
-                    ingredient.conversionId,
-                  );
-                }
+                return CheckboxListTile(
+                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                  controlAffinity: ListTileControlAffinity.leading,
+                  dense: true,
 
-                final colorScheme = Theme.of(context).colorScheme;
-
-                final shoppingListQuantity =
-                    ingredient.foodId > 0
-                        ? "${formattedQuantity(factor * ingredient.quantity * 100 * viewModel.servings / recipe.servings)}g"
-                        : "${formattedQuantity(ingredient.quantity * viewModel.servings / recipe.servings)}${formattedUnit(ingredient.unit.toString(), context)}";
-
-                return InkWell(
-                  onTap: () => viewModel.toggleBasketItem(ingredient.name),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 5.0).copyWith(left: 30.0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Checkbox(
-                          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                          value: isInBasket,
-                          onChanged: (_) => viewModel.toggleBasketItem(ingredient.name),
-                        ),
-                        const SizedBox(width: 3),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Flexible(
-                                    child: Text(
-                                      "$shoppingListQuantity ${ingredient.name}${ingredient.shape.isNotEmpty ? ', ${ingredient.shape}' : ''}",
-                                      style: TextStyle(
-                                        decoration:
-                                            isInBasket
-                                                ? TextDecoration.lineThrough
-                                                : TextDecoration.none,
-                                        color:
-                                            isInBasket
-                                                ? colorScheme.tertiary
-                                                : colorScheme.onSurface,
-                                      ),
-                                      softWrap: true,
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 2,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 3),
-                                  nutrientIcon(context, ingredient.name),
-                                ],
-                              ),
-
-                              if (descText.isNotEmpty)
-                                Text(
-                                  "➥ ${formattedDesc(ingredient.quantity * viewModel.servings / recipe.servings, descText)}",
-                                  style: TextStyle(
-                                    decoration:
-                                        isInBasket
-                                            ? TextDecoration.lineThrough
-                                            : TextDecoration.none,
-                                    color: isInBasket ? colorScheme.tertiary : colorScheme.primary,
-                                  ),
-                                ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
+                  title: IngredientDisplay(
+                    ingredient: formattedIngredient,
+                    bulletType: "",
+                    descBullet: "➥ ",
+                    primaryColor: Theme.of(context).colorScheme.primary,
                   ),
+                  value: isInBasket,
+                  onChanged: (_) {
+                    viewModel.toggleBasketItem(ingredient.name);
+                  },
                 );
               },
             ),

@@ -5,6 +5,7 @@ import 'package:shefu/l10n/l10n_utils.dart';
 import 'package:shefu/repositories/objectbox_nutrient_repository.dart';
 import 'package:shefu/utils/string_extension.dart';
 import 'package:shefu/views/full_screen_image.dart';
+import 'package:shefu/widgets/ingredient_display.dart';
 import 'package:shefu/widgets/step_timer_widget.dart';
 import '../models/objectbox_models.dart';
 
@@ -190,89 +191,27 @@ class RecipeStepCard extends StatelessWidget {
           child: Column(
             children: [
               ...recipeStep.ingredients.map((ingredient) {
-                var baseQuantity = formattedQuantity(ingredient.quantity * servings);
-                final baseUnit = formattedUnit(ingredient.unit.toString(), context);
-                final String weightText;
-
-                final factor = nutrientRepository.getConversionFactor(
-                  ingredient.foodId,
-                  ingredient.conversionId,
+                final formattedIngredient = formatIngredient(
+                  context: context,
+                  name: ingredient.name,
+                  quantity: ingredient.quantity,
+                  unit: ingredient.unit,
+                  shape: ingredient.shape,
+                  foodId: ingredient.foodId,
+                  conversionId: ingredient.conversionId,
+                  servingsMultiplier: servings,
+                  nutrientRepository: nutrientRepository,
                 );
 
-                weightText =
-                    ingredient.foodId > 0
-                        ? '${formattedQuantity(factor * ingredient.quantity * 100 * servings)}g'
-                        : '$baseQuantity$baseUnit';
+                final String bulletType = ingredient.conversionId > 0 ? "■ " : "□ ";
 
-                final String descText = nutrientRepository.getNutrientDescById(
-                  context,
-                  ingredient.foodId,
-                  ingredient.conversionId,
-                );
-                final String desc = formattedDesc(ingredient.quantity * servings, descText);
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 3.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "□ ",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
-                          ),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-
-                                  children: [
-                                    Flexible(
-                                      child: Text(
-                                        '$weightText ${ingredient.name}',
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 2,
-                                      ),
-                                    ),
-
-                                    const SizedBox(width: 3),
-
-                                    nutrientIcon(context, ingredient.name),
-                                  ],
-                                ),
-
-                                if (desc.isNotEmpty)
-                                  Text(
-                                    desc,
-                                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                      color: Theme.of(context).colorScheme.primary,
-                                    ),
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                if (ingredient.shape.isNotEmpty)
-                                  Text(
-                                    ingredient.shape,
-                                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                      fontStyle: FontStyle.italic,
-                                      color: Theme.of(context).colorScheme.primary,
-                                    ),
-                                    maxLines: 3,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+                  child: IngredientDisplay(
+                    ingredient: formattedIngredient,
+                    bulletType: bulletType,
+                    primaryColor: Theme.of(context).colorScheme.primary,
+                    lineShape: false,
                   ),
                 );
               }),

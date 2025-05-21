@@ -3,10 +3,13 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:shefu/l10n/app_localizations.dart';
 import 'package:shefu/models/shopping_basket.dart';
-import 'package:shefu/provider/my_app_state.dart';
-import 'package:shefu/repositories/objectbox_recipe_repository.dart';
-import 'package:shefu/widgets/misc.dart';
 import 'package:shefu/models/objectbox_models.dart';
+import 'package:shefu/provider/my_app_state.dart';
+import 'package:shefu/repositories/objectbox_nutrient_repository.dart';
+import 'package:shefu/repositories/objectbox_recipe_repository.dart';
+import 'package:shefu/widgets/ingredient_display.dart';
+import 'package:shefu/widgets/misc.dart';
+import 'package:shefu/widgets/recipe_step_card.dart';
 
 class ShoppingBasketModal extends StatelessWidget {
   const ShoppingBasketModal({super.key});
@@ -30,8 +33,11 @@ class ShoppingBasketModal extends StatelessWidget {
   Widget build(BuildContext context) {
     final appState = context.watch<MyAppState>();
     final ObjectBoxRecipeRepository recipeRepository = context.read<ObjectBoxRecipeRepository>();
+    final ObjectBoxNutrientRepository nutrientRepository =
+        context.read<ObjectBoxNutrientRepository>();
     final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
 
     return DraggableScrollableSheet(
       initialChildSize: 0.6,
@@ -102,57 +108,53 @@ class ShoppingBasketModal extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 if (recipe?.title != null)
-                                  Padding(
-                                    padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
-                                    // recipe title
-                                    child: Card(
-                                      elevation: 1,
-                                      margin: const EdgeInsets.symmetric(vertical: 4.0),
-                                      child: ListTile(
-                                        dense: true,
-                                        title: Text(recipe!.title, overflow: TextOverflow.ellipsis),
-                                        onTap:
-                                            recipeId == "0"
-                                                ? null
-                                                : () {
-                                                  Navigator.pop(context); // Close modal first
-                                                  context.push('/recipe/$recipeId');
-                                                },
-                                        trailing: IconButton(
-                                          icon: Icon(
-                                            Icons.remove_circle_outline,
-                                            color: theme.colorScheme.error,
-                                          ),
-                                          tooltip: l10n.remove,
-                                          onPressed: () {
-                                            appState.removeRecipeFromShoppingBasket(recipe);
-                                          },
-                                        ),
-                                      ),
-                                    ),
+                                  _buildRecipeTitleCard(
+                                    context,
+                                    recipe!,
+                                    recipeId!,
+                                    appState,
+                                    l10n,
                                   ),
 
                                 // ingredients
                                 ...items.map((item) {
-                                  return CheckboxListTile(
-                                    controlAffinity: ListTileControlAffinity.leading,
-                                    dense: true,
-                                    visualDensity: const VisualDensity(
-                                      horizontal: -4,
-                                      vertical: -4,
-                                    ),
-                                    title: Text(
-                                      "${formattedQuantity(item.quantity)} ${formattedUnit(item.unit ?? '', context)} ${item.ingredientName}",
-                                      style: TextStyle(
-                                        decoration:
-                                            item.isChecked ? TextDecoration.lineThrough : null,
-                                        color: item.isChecked ? theme.colorScheme.primary : null,
+                                  final formattedIngredient = formatIngredient(
+                                    context: context,
+                                    name: item.ingredientName,
+                                    quantity: item.quantity,
+                                    unit: item.unit,
+                                    shape: item.shape,
+                                    foodId: item.foodId,
+                                    conversionId: item.conversionId,
+                                    isChecked: item.isChecked,
+                                    nutrientRepository: nutrientRepository,
+                                  );
+
+                                  return Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      CheckboxListTile(
+                                        controlAffinity: ListTileControlAffinity.leading,
+                                        dense: true,
+                                        visualDensity: const VisualDensity(
+                                          horizontal: -4,
+                                          vertical: -4,
+                                        ),
+                                        title: IngredientDisplay(
+                                          ingredient: formattedIngredient,
+                                          bulletType: "",
+                                          descBullet: "➥ ",
+                                          primaryColor: colorScheme.primary,
+                                          lineShape: true,
+                                        ),
+                                        value: item.isChecked,
+                                        onChanged: (_) {
+                                          appState.toggleShoppingBasketItemByName(
+                                            item.ingredientName,
+                                          );
+                                        },
                                       ),
-                                    ),
-                                    value: item.isChecked,
-                                    onChanged: (bool? value) {
-                                      appState.toggleShoppingBasketItemByName(item.ingredientName);
-                                    },
+                                    ],
                                   );
                                 }),
 
@@ -166,6 +168,42 @@ class ShoppingBasketModal extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+
+  Widget _buildRecipeTitleCard(
+    BuildContext context,
+    Recipe recipe,
+    String recipeId,
+    MyAppState appState,
+    AppLocalizations l10n,
+  ) {
+    final theme = Theme.of(context);
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
+      child: Card(
+        elevation: 1,
+        margin: const EdgeInsets.symmetric(vertical: 4.0),
+        child: ListTile(
+          dense: true,
+          title: Text(recipe.title, overflow: TextOverflow.ellipsis),
+          onTap:
+              recipeId == "0"
+                  ? null
+                  : () {
+                    Navigator.pop(context); // Close modal first
+                    context.push('/recipe/$recipeId');
+                  },
+          trailing: IconButton(
+            icon: Icon(Icons.remove_circle_outline, color: theme.colorScheme.error),
+            tooltip: l10n.remove,
+            onPressed: () {
+              appState.removeRecipeFromShoppingBasket(recipe);
+            },
+          ),
+        ),
+      ),
     );
   }
 }

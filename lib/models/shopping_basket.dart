@@ -46,13 +46,17 @@ class BasketRecipe {
 }
 
 class BasketItem {
+  final String? recipeId;
   final String ingredientName;
   double quantity;
   final String? unit;
   bool isChecked;
-  final String? recipeId;
   // Map to track how much each recipe contributed to this item's quantity
   Map<String, double>? recipeContributions;
+
+  final int foodId;
+  final int conversionId;
+  final String shape;
 
   BasketItem({
     this.ingredientName = '',
@@ -61,6 +65,9 @@ class BasketItem {
     this.isChecked = false,
     this.recipeId,
     Map<String, double>? contributions,
+    this.foodId = 0,
+    this.conversionId = 0,
+    this.shape = '',
   }) : recipeContributions = contributions ?? (recipeId != null ? {recipeId: quantity} : null);
 
   factory BasketItem.fromTuple(IngredientItem tuple, int recipeId) {

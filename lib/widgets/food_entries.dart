@@ -5,9 +5,13 @@ import 'package:shefu/l10n/l10n_utils.dart';
 import 'package:shefu/viewmodels/edit_recipe_viewmodel.dart';
 
 Widget foodEntries(int stepIndex, int ingredientIndex, EditRecipeViewModel viewModel) {
-  return Selector<EditRecipeViewModel, String>(
-    selector: (_, vm) => vm.recipe.steps[stepIndex].ingredients[ingredientIndex].name,
-    builder: (context, name, _) {
+  return Selector<EditRecipeViewModel, (String, int)>(
+    selector: (_, vm) {
+      final ingredient = vm.recipe.steps[stepIndex].ingredients[ingredientIndex];
+      return (ingredient.name, ingredient.foodId);
+    },
+    builder: (context, data, _) {
+      final (name, foodId) = data;
       if (name.trim().isEmpty) return const SizedBox.shrink();
 
       final nutrients = viewModel.getFilteredNutrients(name);
