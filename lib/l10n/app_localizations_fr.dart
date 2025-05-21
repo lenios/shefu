@@ -197,7 +197,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get shoppingList => 'Liste de courses';
 
   @override
-  String get pinch => 'Pincée';
+  String get pinch => ' pincée';
 
   @override
   String get tsp => 'cc';
@@ -206,28 +206,28 @@ class AppLocalizationsFr extends AppLocalizations {
   String get tbsp => 'cs';
 
   @override
-  String get bunch => 'bouquet';
+  String get bunch => ' bouquet';
 
   @override
-  String get sprig => 'brin';
+  String get sprig => ' brin';
 
   @override
-  String get packet => 'sachet';
+  String get packet => ' sachet';
 
   @override
   String get leaf => ' feuille';
 
   @override
-  String get cup => 'verre';
+  String get cup => ' verre';
 
   @override
-  String get slice => 'tranche';
+  String get slice => ' tranche';
 
   @override
-  String get stick => 'branche';
+  String get stick => ' branche';
 
   @override
-  String get handful => 'poignée';
+  String get handful => ' poignée';
 
   @override
   String get recipes => 'Recettes';

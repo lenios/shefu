@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io'; // Import for File
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
@@ -34,6 +35,8 @@ class EditRecipeViewModel extends ChangeNotifier {
   bool get isInitialized => _isInitialized;
 
   bool _preventControllerListeners = false;
+
+  final Map<String, Timer> _debounceTimers = {};
 
   // Controllers for text fields to manage state efficiently
   late TextEditingController titleController;
@@ -293,6 +296,10 @@ class EditRecipeViewModel extends ChangeNotifier {
           ingredient.conversionId = 0;
         }
         notifyListeners();
+
+        if (value.isNotEmpty) {
+          checkForMatchingIngredient(stepIndex, ingredientIndex);
+        }
       }
     }
   }
@@ -303,6 +310,9 @@ class EditRecipeViewModel extends ChangeNotifier {
       final ingredient = _recipe.steps[stepIndex].ingredients[ingredientIndex];
       if (ingredient.shape != value?.trim()) {
         ingredient.shape = value?.trim() ?? '';
+        if (ingredient.name.isNotEmpty) {
+          checkForMatchingIngredient(stepIndex, ingredientIndex);
+        }
       }
     }
   }
@@ -804,6 +814,12 @@ class EditRecipeViewModel extends ChangeNotifier {
     notesController.dispose();
     servingsController.dispose();
     _imageVersion.dispose();
+
+    for (final timer in _debounceTimers.values) {
+      timer.cancel();
+    }
+    _debounceTimers.clear();
+
     super.dispose();
   }
 
@@ -856,5 +872,48 @@ class EditRecipeViewModel extends ChangeNotifier {
       _imageVersion.value++;
       notifyListeners();
     }
+  }
+
+  // Helper method to find matching ingredients with the same name and shape
+  void checkForMatchingIngredient(int stepIndex, int ingredientIndex) {
+    final key = 'check_$stepIndex-$ingredientIndex';
+
+    // Cancel existing timer to avoid multiple checks
+    _debounceTimers[key]?.cancel();
+
+    // Debounce to avoid excessive database queries while typing
+    _debounceTimers[key] = Timer(const Duration(milliseconds: 500), () {
+      if (stepIndex >= 0 &&
+          stepIndex < _recipe.steps.length &&
+          ingredientIndex < _recipe.steps[stepIndex].ingredients.length) {
+        final ingredient = _recipe.steps[stepIndex].ingredients[ingredientIndex];
+
+        if (ingredient.name.isNotEmpty && ingredient.foodId <= 0) {
+          final allRecipes = _recipeRepository.getAllRecipes();
+
+          // Search for a matching ingredient
+          for (final recipe in allRecipes) {
+            // Skip current recipe being edited
+            if (recipe.id == _recipe.id) continue;
+
+            for (final step in recipe.steps) {
+              for (final otherIngredient in step.ingredients) {
+                // Check for name and shape match (case-insensitive name)
+                if (otherIngredient.name.toLowerCase() == ingredient.name.toLowerCase() &&
+                    otherIngredient.shape == ingredient.shape &&
+                    otherIngredient.foodId > 0) {
+                  // Found a match! Copy the foodId and conversionId
+                  debugPrint("Found matching ingredient: ${otherIngredient.name}");
+                  ingredient.foodId = otherIngredient.foodId;
+                  ingredient.conversionId = otherIngredient.conversionId;
+                  notifyListeners();
+                  return; // Exit once we find a match
+                }
+              }
+            }
+          }
+        }
+      }
+    });
   }
 }

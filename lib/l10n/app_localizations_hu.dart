@@ -197,7 +197,7 @@ class AppLocalizationsHu extends AppLocalizations {
   String get shoppingList => 'Bevásárlólista';
 
   @override
-  String get pinch => 'Csipet';
+  String get pinch => ' csipet';
 
   @override
   String get tsp => 'tk';
@@ -206,28 +206,28 @@ class AppLocalizationsHu extends AppLocalizations {
   String get tbsp => 'ek';
 
   @override
-  String get bunch => 'csokor';
+  String get bunch => ' csokor';
 
   @override
-  String get sprig => 'ágacska';
+  String get sprig => ' ágacska';
 
   @override
-  String get packet => 'csomag';
+  String get packet => ' csomag';
 
   @override
   String get leaf => ' levél';
 
   @override
-  String get cup => 'csésze';
+  String get cup => ' csésze';
 
   @override
-  String get slice => 'szelet';
+  String get slice => ' szelet';
 
   @override
-  String get stick => 'rúd';
+  String get stick => ' rúd';
 
   @override
-  String get handful => 'maréknyi';
+  String get handful => ' maréknyi';
 
   @override
   String get recipes => 'Receptek';

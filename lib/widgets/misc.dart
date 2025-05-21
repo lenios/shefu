@@ -2,6 +2,8 @@ import 'package:flag/flag.dart';
 import 'package:flutter/material.dart';
 import 'package:fraction/fraction.dart';
 import 'package:shefu/models/objectbox_models.dart';
+import 'package:shefu/repositories/objectbox_nutrient_repository.dart';
+import 'package:shefu/models/formatted_ingredient.dart';
 
 import '../l10n/app_localizations.dart';
 
@@ -53,7 +55,11 @@ String formattedDesc(multiplier, descText) {
     // If descText doesn't start with a number, just use the original descText
     descText = descText;
   }
-  return "${multiplier != 1 ? '${formattedQuantity(multiplier)}' : '1'} $descText"; // '4x egg', or '1 egg'
+
+  // if descText is not "g", add a space before it
+  if (descText != "g") descText = " $descText";
+
+  return "${multiplier != 1 ? '${formattedQuantity(multiplier)}' : '1'}$descText"; // '4x egg', or '1 egg'
 }
 
 String formattedSource(String source) {
@@ -154,6 +160,47 @@ Widget formattedCategory(String category, context, {bool dark = false}) {
           child: Icon(categoryIcon, size: 16, color: textColor),
         ),
     ],
+  );
+}
+
+FormattedIngredient formatIngredient({
+  required BuildContext context,
+  required String name,
+  required double quantity,
+  String? unit,
+  String shape = '',
+  int foodId = 0,
+  int conversionId = 0,
+  bool isChecked = false,
+  required ObjectBoxNutrientRepository nutrientRepository,
+}) {
+  String primaryQuantityDisplay;
+  double conversionFactor = 1.0;
+
+  // Calculate primary quantity display
+  if (foodId > 0) {
+    conversionFactor = nutrientRepository.getConversionFactor(foodId, conversionId);
+    primaryQuantityDisplay = "${formattedQuantity(quantity * conversionFactor * 100)}g";
+  } else {
+    primaryQuantityDisplay = "${formattedQuantity(quantity)}${formattedUnit(unit ?? '', context)}";
+  }
+
+  // Get description if foodId exists
+  String descText = "";
+  if (foodId > 0) {
+    descText = nutrientRepository.getNutrientDescById(context, foodId, conversionId);
+  }
+
+  final String desc = formattedDesc(quantity, descText);
+  final bool showDesc = desc.isNotEmpty && desc != primaryQuantityDisplay;
+
+  return FormattedIngredient(
+    primaryQuantityDisplay: primaryQuantityDisplay,
+    name: name,
+    shape: shape,
+    descriptionText: desc,
+    showDescription: showDesc,
+    isChecked: isChecked,
   );
 }
 

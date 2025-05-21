@@ -198,6 +198,9 @@ class DisplayRecipeViewModel extends ChangeNotifier {
               quantity: ingredient.quantity * servingsMultiplier,
               unit: ingredient.unit,
               isChecked: false,
+              foodId: ingredient.foodId,
+              conversionId: ingredient.conversionId,
+              shape: ingredient.shape,
             ),
           );
         }
