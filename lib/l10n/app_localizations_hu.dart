@@ -230,6 +230,18 @@ class AppLocalizationsHu extends AppLocalizations {
   String get handful => ' maréknyi';
 
   @override
+  String get piece => ' darab';
+
+  @override
+  String get clove => ' gerezd';
+
+  @override
+  String get head => ' fej';
+
+  @override
+  String get stalk => ' szár';
+
+  @override
   String get recipes => 'Receptek';
 
   @override
@@ -616,4 +628,13 @@ class AppLocalizationsHu extends AppLocalizations {
 
   @override
   String get zucchini => 'cukkini';
+
+  @override
+  String get measurementSystem => 'Mértékegység rendszer';
+
+  @override
+  String get metric => 'Metrikus';
+
+  @override
+  String get us => 'Amerikai';
 }

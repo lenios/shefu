@@ -230,6 +230,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get handful => ' handful';
 
   @override
+  String get piece => ' piece';
+
+  @override
+  String get clove => ' clove';
+
+  @override
+  String get head => ' head';
+
+  @override
+  String get stalk => ' stalk';
+
+  @override
   String get recipes => 'Recipes';
 
   @override
@@ -616,4 +628,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get zucchini => 'zucchini';
+
+  @override
+  String get measurementSystem => 'Measurement System';
+
+  @override
+  String get metric => 'Metric';
+
+  @override
+  String get us => 'US';
 }

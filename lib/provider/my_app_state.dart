@@ -1,8 +1,11 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shefu/models/shopping_basket.dart';
 import '../models/objectbox_models.dart';
+
+enum MeasurementSystem { metric, us }
 
 class MyAppState extends ChangeNotifier {
   GlobalKey? historyListKey;
@@ -17,6 +20,29 @@ class MyAppState extends ChangeNotifier {
 
   void getNext() {
     notifyListeners();
+  }
+
+  MeasurementSystem _measurementSystem = MeasurementSystem.metric;
+  MeasurementSystem get measurementSystem => _measurementSystem;
+
+  MyAppState() {
+    _loadPreferences();
+  }
+
+  Future<void> _loadPreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+    final isUS = prefs.getBool('use_us_units') ?? false;
+    _measurementSystem = isUS ? MeasurementSystem.us : MeasurementSystem.metric;
+    notifyListeners();
+  }
+
+  Future<void> setMeasurementSystem(MeasurementSystem system) async {
+    if (_measurementSystem != system) {
+      _measurementSystem = system;
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('use_us_units', system == MeasurementSystem.us);
+      notifyListeners();
+    }
   }
 
   final List<BasketItem> _shoppingBasket = [];

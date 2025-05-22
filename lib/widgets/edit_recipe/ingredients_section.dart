@@ -42,7 +42,7 @@ class IngredientsSection extends StatelessWidget {
             ...List.generate(
               ingredients.length,
               (index) =>
-                  EditIngredientManager.editIngredientInput(context, viewModel, stepIndex, index),
+                  EditIngredientManager().editIngredientInput(context, viewModel, stepIndex, index),
             ),
             const SizedBox(height: 10),
             Align(

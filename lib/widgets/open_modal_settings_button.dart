@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shefu/main.dart';
+import 'package:shefu/provider/my_app_state.dart';
 import 'package:shefu/utils/app_color.dart';
 import 'package:shefu/l10n/app_localizations.dart';
 import 'package:shefu/l10n/l10n_utils.dart';
+import 'package:provider/provider.dart';
 
 Widget openModalSettingsButton(BuildContext context, ThemeData theme, [AppLocalizations? l10n]) {
   return GestureDetector(
@@ -29,26 +31,26 @@ Widget openModalSettingsButton(BuildContext context, ThemeData theme, [AppLocali
 }
 
 void _showSettingsModal(BuildContext context, ThemeData theme) {
+  final l10n = AppLocalizations.of(context)!;
+  final appState = Provider.of<MyAppState>(context, listen: false);
+  String currentLanguage = Localizations.localeOf(context).languageCode;
+
   showModalBottomSheet(
-    isScrollControlled: true,
     context: context,
-    backgroundColor: theme.dialogBackgroundColor,
+    isScrollControlled: true,
+    backgroundColor: theme.colorScheme.surface,
     shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+      borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
     ),
     builder: (context) {
       return StatefulBuilder(
         builder: (BuildContext context, StateSetter setModalState) {
-          final l10n = AppLocalizations.of(context)!;
-          String currentLanguage = Localizations.localeOf(context).languageCode;
-
           return Padding(
-            padding: const EdgeInsets.all(20.0).copyWith(
-              // Add padding for safe area
-              bottom: MediaQuery.of(context).viewInsets.bottom + 20.0,
-            ),
+            padding: const EdgeInsets.all(
+              20.0,
+            ).copyWith(bottom: MediaQuery.of(context).viewInsets.bottom + 20.0),
             child: Wrap(
-              runSpacing: 16.0, // Spacing between sections
+              runSpacing: 16.0,
               children: [
                 // Language Selection
                 Row(
@@ -86,9 +88,54 @@ void _showSettingsModal(BuildContext context, ThemeData theme) {
                     ),
                   ],
                 ),
-
+                // Measurement System Selection
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(l10n.measurementSystem, style: theme.textTheme.titleMedium),
+                    Row(
+                      children: [
+                        Text(
+                          l10n.metric,
+                          style: TextStyle(
+                            color:
+                                appState.measurementSystem == MeasurementSystem.metric
+                                    ? theme.colorScheme.primary
+                                    : theme.colorScheme.onSurface.withOpacity(0.6),
+                            fontWeight:
+                                appState.measurementSystem == MeasurementSystem.metric
+                                    ? FontWeight.bold
+                                    : FontWeight.normal,
+                          ),
+                        ),
+                        Switch(
+                          value: appState.measurementSystem == MeasurementSystem.us,
+                          activeColor: theme.colorScheme.primary,
+                          onChanged: (bool isUS) {
+                            appState.setMeasurementSystem(
+                              isUS ? MeasurementSystem.us : MeasurementSystem.metric,
+                            );
+                            setModalState(() {}); // Update the UI to reflect the change
+                          },
+                        ),
+                        Text(
+                          l10n.us,
+                          style: TextStyle(
+                            color:
+                                appState.measurementSystem == MeasurementSystem.us
+                                    ? theme.colorScheme.primary
+                                    : theme.colorScheme.onSurface.withOpacity(0.6),
+                            fontWeight:
+                                appState.measurementSystem == MeasurementSystem.us
+                                    ? FontWeight.bold
+                                    : FontWeight.normal,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
                 const Divider(),
-
                 Text(l10n.tips, style: theme.textTheme.titleMedium),
                 _buildTipTile(theme, Icons.search, l10n.tipSearch),
                 _buildTipTile(theme, Icons.egg_outlined, l10n.tipIngredients),
@@ -96,7 +143,8 @@ void _showSettingsModal(BuildContext context, ThemeData theme) {
                 _buildTipTile(theme, Icons.cloud_download_outlined, l10n.tipImport),
                 _buildTipTile(theme, Icons.calculate_outlined, l10n.tipNutritionalValues),
 
-                // Add commented-out sections back here if needed
+                // measurement system
+                const Divider(),
 
                 // // Profile Settings Title
                 // Text(l10n.profileSettings, // Use l10n here

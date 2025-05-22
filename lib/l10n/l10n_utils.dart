@@ -186,3 +186,100 @@ formattedTool(String tool, context) {
       return tool;
   }
 }
+
+String formattedUnit(String unit, BuildContext context) {
+  final l10n = AppLocalizations.of(context)!;
+  switch (unit) {
+    case "tsp":
+      return l10n.tsp;
+    case "tbsp":
+      return l10n.tbsp;
+    case "pinch":
+      return l10n.pinch;
+    case "bunch":
+      return l10n.bunch;
+    case "sprig":
+      return l10n.sprig;
+    case "packet":
+      return l10n.packet;
+    case "leaf":
+      return l10n.leaf;
+    case "cup":
+      return l10n.cup;
+    case "slice":
+      return l10n.slice;
+    case "stick":
+      return l10n.stick;
+    case "handful":
+      return l10n.handful;
+    case "piece":
+      return l10n.piece;
+    case "clove":
+      return l10n.clove;
+    case "head":
+      return l10n.head;
+    case "stalk":
+      return l10n.stalk;
+    default:
+      return unit;
+  }
+}
+
+// Translate category name to localized string
+// and add icon for cocktails
+Widget formattedCategory(String category, context, {bool dark = false}) {
+  String categoryText;
+  IconData? categoryIcon;
+
+  switch (category) {
+    case "all":
+      categoryText = AppLocalizations.of(context)!.category;
+    case "snacks":
+      categoryText = AppLocalizations.of(context)!.snacks;
+    case "cocktails":
+      categoryText = AppLocalizations.of(context)!.cocktails;
+      categoryIcon = Icons.local_bar;
+    case "drinks":
+      categoryText = AppLocalizations.of(context)!.drinks;
+    //categoryIcon = Icons.water_full;
+    case "appetizers":
+      categoryText = AppLocalizations.of(context)!.appetizers;
+    case "starters":
+      categoryText = AppLocalizations.of(context)!.starters;
+    case "soups":
+      categoryText = AppLocalizations.of(context)!.soups;
+    case "mains":
+      categoryText = AppLocalizations.of(context)!.mains;
+    case "sides":
+      categoryText = AppLocalizations.of(context)!.sides;
+    case "desserts":
+      categoryText = AppLocalizations.of(context)!.desserts;
+    case "basics":
+      categoryText = AppLocalizations.of(context)!.basics;
+    case "sauces":
+      categoryText = AppLocalizations.of(context)!.sauces;
+    case "breakfast":
+      categoryText = AppLocalizations.of(context)!.breakfast;
+
+    default:
+      categoryText = category;
+  }
+  final textColor =
+      dark ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onTertiary;
+
+  return Row(
+    mainAxisSize: MainAxisSize.min,
+    children: [
+      Text(
+        categoryText,
+        overflow: TextOverflow.ellipsis,
+        style: TextStyle(fontSize: 14, color: textColor),
+      ),
+      if (categoryIcon != null)
+        Padding(
+          padding: EdgeInsets.only(left: 4.0),
+          child: Icon(categoryIcon, size: 16, color: textColor),
+        ),
+    ],
+  );
+}

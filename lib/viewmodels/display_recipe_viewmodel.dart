@@ -20,6 +20,7 @@ class DisplayRecipeViewModel extends ChangeNotifier {
     this._recipeId,
   ) {
     _servings = _appState.servings;
+    _measurementSystem = _appState.measurementSystem;
     _appState.addListener(_onAppStateChanged);
   }
 
@@ -36,6 +37,8 @@ class DisplayRecipeViewModel extends ChangeNotifier {
   Map<String, bool> get basket => _basket;
 
   bool isBookmarked = false; // TODO: Implement bookmark logic
+
+  MeasurementSystem _measurementSystem = MeasurementSystem.metric;
 
   // Maps for pre-fetched data
   final Map<String, double> _prefetchedFactors = {};
@@ -116,6 +119,10 @@ class DisplayRecipeViewModel extends ChangeNotifier {
   void _onAppStateChanged() {
     if (_appState.servings != _servings) {
       _servings = _appState.servings;
+      notifyListeners();
+    }
+    if (_measurementSystem != _appState.measurementSystem) {
+      _measurementSystem = _appState.measurementSystem;
       notifyListeners();
     }
   }

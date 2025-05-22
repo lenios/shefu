@@ -1,9 +1,13 @@
 import 'package:flag/flag.dart';
 import 'package:flutter/material.dart';
 import 'package:fraction/fraction.dart';
+import 'package:provider/provider.dart';
+import 'package:shefu/l10n/l10n_utils.dart';
 import 'package:shefu/models/objectbox_models.dart';
+import 'package:shefu/provider/my_app_state.dart';
 import 'package:shefu/repositories/objectbox_nutrient_repository.dart';
 import 'package:shefu/models/formatted_ingredient.dart';
+import 'package:shefu/utils/unit_converter.dart';
 
 import '../l10n/app_localizations.dart';
 
@@ -16,28 +20,38 @@ Widget flagIcon(String countryCode) {
 
 formattedQuantity(double quantity, {bool fraction = true}) {
   if (quantity == 0) {
-    //do not display text if quantity is zero (e.g. salt pepper)
-    return "";
+    return ""; // No display for zero quantity
   }
+
+  if (quantity % 1 == 0) {
+    return quantity.toInt();
+  }
+
   if (quantity > 1) {
-    //integer: display integer
-    if ((quantity % 1) == 0) {
-      return quantity.toInt();
+    // Round quantity if greater than 1
+    if (quantity > 10) {
+      return quantity.round();
     } else {
-      //division: round to 2 decimals
-      if (quantity > 10) {
-        return quantity.round(); // Round to nearest integer
-      } else {
-        return quantity.toStringAsFixed(2); // Round to 2 decimals for small quantities
-      }
+      return quantity.toStringAsFixed(2);
     }
   } else {
-    //fractions of less than one
+    // Try to convert to fraction if less than 1
     if (fraction) {
-      //display as fraction
-      return Fraction.fromDouble(quantity);
+      final frac = Fraction.fromDouble(quantity);
+      if (frac.denominator > 8) {
+        // For values very close to common fractions, round to them
+        if ((quantity - 0.25).abs() < 0.03) return "1/4";
+        if ((quantity - 0.33).abs() < 0.03) return "1/3";
+        if ((quantity - 0.5).abs() < 0.03) return "1/2";
+        if ((quantity - 0.67).abs() < 0.03) return "2/3";
+        if ((quantity - 0.75).abs() < 0.03) return "3/4";
+
+        // Otherwise use decimal representation with 1 decimal place
+        return quantity.toStringAsFixed(1);
+      }
+      return frac.toString();
     }
-    return quantity.toString();
+    return quantity.toStringAsFixed(1);
   }
 }
 
@@ -73,96 +87,6 @@ String formattedSource(String source) {
   return source;
 }
 
-String formattedUnit(String unit, BuildContext context) {
-  final l10n = AppLocalizations.of(context)!;
-  switch (unit) {
-    case "tsp":
-      return l10n.tsp;
-    case "tbsp":
-      return l10n.tbsp;
-    case "pinch":
-      return l10n.pinch;
-    case "bunch":
-      return l10n.bunch;
-    case "sprig":
-      return l10n.sprig;
-    case "packet":
-      return l10n.packet;
-    case "leaf":
-      return l10n.leaf;
-    case "cup":
-      return l10n.cup;
-    case "slice":
-      return l10n.slice;
-    case "stick":
-      return l10n.stick;
-    case "handful":
-      return l10n.handful;
-    default:
-      return unit;
-  }
-}
-
-// Translate category name to localized string
-// and add icon for cocktails
-Widget formattedCategory(String category, context, {bool dark = false}) {
-  String categoryText;
-  IconData? categoryIcon;
-
-  switch (category) {
-    case "all":
-      categoryText = AppLocalizations.of(context)!.category;
-    case "snacks":
-      categoryText = AppLocalizations.of(context)!.snacks;
-    case "cocktails":
-      categoryText = AppLocalizations.of(context)!.cocktails;
-      categoryIcon = Icons.local_bar;
-    case "drinks":
-      categoryText = AppLocalizations.of(context)!.drinks;
-    //categoryIcon = Icons.water_full;
-    case "appetizers":
-      categoryText = AppLocalizations.of(context)!.appetizers;
-    case "starters":
-      categoryText = AppLocalizations.of(context)!.starters;
-    case "soups":
-      categoryText = AppLocalizations.of(context)!.soups;
-    case "mains":
-      categoryText = AppLocalizations.of(context)!.mains;
-    case "sides":
-      categoryText = AppLocalizations.of(context)!.sides;
-    case "desserts":
-      categoryText = AppLocalizations.of(context)!.desserts;
-    case "basics":
-      categoryText = AppLocalizations.of(context)!.basics;
-    case "sauces":
-      categoryText = AppLocalizations.of(context)!.sauces;
-    case "breakfast":
-      categoryText = AppLocalizations.of(context)!.breakfast;
-
-    default:
-      categoryText = category;
-  }
-
-  final textColor =
-      dark ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onTertiary;
-
-  return Row(
-    mainAxisSize: MainAxisSize.min,
-    children: [
-      Text(
-        categoryText,
-        overflow: TextOverflow.ellipsis,
-        style: TextStyle(fontSize: 14, color: textColor),
-      ),
-      if (categoryIcon != null)
-        Padding(
-          padding: EdgeInsets.only(left: 4.0),
-          child: Icon(categoryIcon, size: 16, color: textColor),
-        ),
-    ],
-  );
-}
-
 FormattedIngredient formatIngredient({
   required BuildContext context,
   required String name,
@@ -175,19 +99,49 @@ FormattedIngredient formatIngredient({
   double servingsMultiplier = 1.0,
   required ObjectBoxNutrientRepository nutrientRepository,
 }) {
-  final effectiveQuantity = quantity * servingsMultiplier;
+  final appState = Provider.of<MyAppState>(context, listen: false);
 
-  String primaryQuantityDisplay;
-  double conversionFactor = 1.0;
-
-  // Calculate primary quantity display
-  if (foodId > 0) {
-    conversionFactor = nutrientRepository.getConversionFactor(foodId, conversionId);
-    primaryQuantityDisplay = "${formattedQuantity(effectiveQuantity * conversionFactor * 100)}g";
-  } else {
-    primaryQuantityDisplay =
-        "${formattedQuantity(effectiveQuantity)}${formattedUnit(unit ?? '', context)}";
+  // Special case for pinch
+  if (unit?.toLowerCase() == "pinch") {
+    final primaryQuantityDisplay =
+        "${formattedQuantity(quantity * servingsMultiplier)} ${formattedUnit(unit!, context)}";
+    return FormattedIngredient(
+      primaryQuantityDisplay: primaryQuantityDisplay,
+      name: name,
+      shape: shape,
+      descriptionText: "",
+      showDescription: false,
+      isChecked: isChecked,
+    );
   }
+
+  final effectiveQuantity = quantity * servingsMultiplier;
+  String primaryQuantityDisplay;
+  double displayQuantity = effectiveQuantity;
+  String displayUnit = unit ?? '';
+
+  // Calculate the value with nutritional data if available
+  if (foodId > 0) {
+    final factor = nutrientRepository.getConversionFactor(foodId, conversionId);
+    // Convert to grams first
+    displayQuantity = displayQuantity * factor * 100;
+    displayUnit = 'g';
+  }
+
+  // Apply measurement system conversion
+  if (displayUnit.isNotEmpty && shouldConvertUnit(displayUnit, appState.measurementSystem)) {
+    final converted = UnitConverter.convertToSystem(
+      displayQuantity,
+      displayUnit,
+      appState.measurementSystem,
+    );
+    displayQuantity = converted.$1;
+    displayUnit = converted.$2;
+  }
+
+  // Format the final display
+  primaryQuantityDisplay =
+      "${formattedQuantity(displayQuantity)}${formattedUnit(displayUnit, context)}";
 
   // Get description if foodId exists
   String descText = "";
@@ -206,6 +160,17 @@ FormattedIngredient formatIngredient({
     showDescription: showDesc,
     isChecked: isChecked,
   );
+}
+
+bool shouldConvertUnit(String unit, MeasurementSystem targetSystem) {
+  final metricUnits = ['g', 'kg', 'ml', 'l'];
+  final usUnits = ['oz', 'lb', 'cup', 'pint', 'quart', 'gallon', 'fl_oz'];
+
+  if (targetSystem == MeasurementSystem.metric) {
+    return usUnits.contains(unit);
+  } else {
+    return metricUnits.contains(unit);
+  }
 }
 
 Widget categoryLine(int category, context) {

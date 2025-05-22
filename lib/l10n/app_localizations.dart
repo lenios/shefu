@@ -537,6 +537,30 @@ abstract class AppLocalizations {
   /// **' handful'**
   String get handful;
 
+  /// No description provided for @piece.
+  ///
+  /// In en, this message translates to:
+  /// **' piece'**
+  String get piece;
+
+  /// No description provided for @clove.
+  ///
+  /// In en, this message translates to:
+  /// **' clove'**
+  String get clove;
+
+  /// No description provided for @head.
+  ///
+  /// In en, this message translates to:
+  /// **' head'**
+  String get head;
+
+  /// No description provided for @stalk.
+  ///
+  /// In en, this message translates to:
+  /// **' stalk'**
+  String get stalk;
+
   /// No description provided for @recipes.
   ///
   /// In en, this message translates to:
@@ -1304,6 +1328,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'zucchini'**
   String get zucchini;
+
+  /// No description provided for @measurementSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'Measurement System'**
+  String get measurementSystem;
+
+  /// No description provided for @metric.
+  ///
+  /// In en, this message translates to:
+  /// **'Metric'**
+  String get metric;
+
+  /// No description provided for @us.
+  ///
+  /// In en, this message translates to:
+  /// **'US'**
+  String get us;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:shefu/l10n/l10n_utils.dart';
 import 'package:shefu/router/app_scaffold.dart';
 import 'package:shefu/utils/app_color.dart';
 import 'package:shefu/viewmodels/home_page_viewmodel.dart';
-import 'package:shefu/widgets/misc.dart';
 import 'package:shefu/widgets/open_modal_settings_button.dart';
 
 import '../l10n/app_localizations.dart';

@@ -230,6 +230,18 @@ class AppLocalizationsFr extends AppLocalizations {
   String get handful => ' poignée';
 
   @override
+  String get piece => ' pièce';
+
+  @override
+  String get clove => ' gousse';
+
+  @override
+  String get head => ' tête';
+
+  @override
+  String get stalk => ' tige';
+
+  @override
   String get recipes => 'Recettes';
 
   @override
@@ -616,4 +628,13 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get zucchini => 'courgette';
+
+  @override
+  String get measurementSystem => 'Système de mesure';
+
+  @override
+  String get metric => 'Métrique';
+
+  @override
+  String get us => 'US';
 }

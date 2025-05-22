@@ -230,6 +230,18 @@ class AppLocalizationsJa extends AppLocalizations {
   String get handful => '握り';
 
   @override
+  String get piece => ' 個';
+
+  @override
+  String get clove => ' 片';
+
+  @override
+  String get head => ' 頭';
+
+  @override
+  String get stalk => ' 茎';
+
+  @override
   String get recipes => 'レシピ';
 
   @override
@@ -616,4 +628,13 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get zucchini => 'ズッキーニ';
+
+  @override
+  String get measurementSystem => '計量単位';
+
+  @override
+  String get metric => 'メートル法';
+
+  @override
+  String get us => '米国単位';
 }

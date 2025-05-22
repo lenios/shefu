@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shefu/l10n/app_localizations.dart';
+import 'package:shefu/l10n/l10n_utils.dart';
 import 'package:shefu/models/objectbox_models.dart';
+import 'package:shefu/provider/my_app_state.dart';
 import 'package:shefu/viewmodels/edit_recipe_viewmodel.dart';
 import 'package:shefu/widgets/food_entries.dart';
 import 'package:shefu/widgets/food_factors.dart';
@@ -44,7 +47,7 @@ class EditIngredientManager {
     }
   }
 
-  static Widget editIngredientInput(
+  Widget editIngredientInput(
     BuildContext context,
     EditRecipeViewModel viewModel,
     int stepIndex,
@@ -133,32 +136,13 @@ class EditIngredientManager {
                       flex: 5,
                       child: DropdownButtonFormField<String>(
                         value: ingredient.unit,
-                        items:
-                            (() {
-                              // Get the list of standard units from the enum
-                              Set<String> values = Unit.values.map((e) => e.toString()).toSet();
-
-                              // if currentUnitValue is not in list (imported recipe), add it to the set
-                              if (!Unit.values.any((u) => u.toString() == ingredient.unit) &&
-                                  ingredient.unit.isNotEmpty) {
-                                values.add(ingredient.unit);
-                              }
-
-                              return values.map((e) {
-                                String unitText =
-                                    e.toString() == ""
-                                        ? AppLocalizations.of(context)!.unit
-                                        : e.toString();
-                                return DropdownMenuItem<String>(
-                                  value: e,
-                                  child: Text(formattedUnit(unitText, context).toLowerCase()),
-                                );
-                              }).toList();
-                            })(),
+                        items: getFilteredUnitOptions(context, ingredient.unit),
                         onChanged: (String? newValue) {
-                          if (newValue != null) {
-                            viewModel.updateIngredientUnit(stepIndex, ingredientIndex, newValue);
-                          }
+                          viewModel.updateIngredientUnit(
+                            stepIndex,
+                            ingredientIndex,
+                            newValue ?? "",
+                          );
                         },
                         decoration: InputDecoration(
                           labelText: l10n.unit,
@@ -258,5 +242,41 @@ class EditIngredientManager {
         );
       },
     );
+  }
+
+  List<DropdownMenuItem<String>> getFilteredUnitOptions(
+    BuildContext context,
+    String ingredientUnit,
+  ) {
+    final appState = Provider.of<MyAppState>(context, listen: false);
+    final l10n = AppLocalizations.of(context)!;
+
+    // Filter based on measurement system
+    Set<String> filteredUnits = {};
+
+    // if currentUnitValue is not in list (imported recipe), add it to the set
+    if (!Unit.values.any((u) => u.toString() == ingredientUnit) && ingredientUnit.isNotEmpty) {
+      filteredUnits.add(ingredientUnit);
+    }
+
+    // Common units for both systems
+    filteredUnits.addAll(['', 'pinch', 'tsp', 'tbsp']);
+
+    if (appState.measurementSystem == MeasurementSystem.metric) {
+      filteredUnits.addAll(['g', 'kg', 'ml', 'l']);
+    } else {
+      filteredUnits.addAll(['oz', 'lb', 'cup', 'pint', 'quart', 'gallon', 'fl_oz']);
+    }
+
+    // Add count-based units for both systems
+    filteredUnits.addAll(['piece', 'slice', 'clove', 'sprig', 'bunch', 'head', 'stalk']);
+
+    // Create dropdown items
+    return filteredUnits.map((unitText) {
+      String displayText =
+          unitText.isEmpty ? l10n.unit : formattedUnit(unitText, context).toLowerCase();
+
+      return DropdownMenuItem<String>(value: unitText, child: Text(displayText));
+    }).toList();
   }
 }
