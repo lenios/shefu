@@ -637,4 +637,9 @@ class AppLocalizationsHu extends AppLocalizations {
 
   @override
   String get us => 'Amerikai';
+
+  @override
+  String piecesPerServing(Object pieces_count) {
+    return '$pieces_count darab adagonként';
+  }
 }

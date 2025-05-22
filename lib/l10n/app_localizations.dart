@@ -1346,6 +1346,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'US'**
   String get us;
+
+  /// No description provided for @piecesPerServing.
+  ///
+  /// In en, this message translates to:
+  /// **'{pieces_count} per serving'**
+  String piecesPerServing(Object pieces_count);
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -365,7 +365,7 @@
     },
     {
       "id": "4:2416326191381789094",
-      "lastPropertyId": "12:528459893117606919",
+      "lastPropertyId": "13:3183327091994391619",
       "name": "Recipe",
       "properties": [
         {
@@ -427,6 +427,11 @@
         {
           "id": "12:528459893117606919",
           "name": "carbohydrates",
+          "type": 6
+        },
+        {
+          "id": "13:3183327091994391619",
+          "name": "piecesPerServing",
           "type": 6
         }
       ],

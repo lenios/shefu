@@ -44,6 +44,7 @@ class EditRecipeViewModel extends ChangeNotifier {
   late TextEditingController timeController; // time is stored as string for simplicity
   late TextEditingController notesController;
   late TextEditingController servingsController;
+  late TextEditingController piecesPerServingController;
   Country _country = Country.worldWide; // Default, will be updated in init
   Country get country => _country;
 
@@ -80,6 +81,7 @@ class EditRecipeViewModel extends ChangeNotifier {
     timeController = TextEditingController();
     notesController = TextEditingController();
     servingsController = TextEditingController();
+    piecesPerServingController = TextEditingController();
   }
 
   // Static helper to access the viewmodel from context
@@ -109,6 +111,9 @@ class EditRecipeViewModel extends ChangeNotifier {
       notesController.text = _recipe.notes;
       servingsController.text =
           _recipe.servings > 0 ? _recipe.servings.toString() : ''; // Initialize servings
+      if (_recipe.piecesPerServing != null) {
+        piecesPerServingController.text = _recipe.piecesPerServing.toString();
+      }
       _servings = _recipe.servings;
       _category = _recipe.category;
       _month = _recipe.month > 0 ? _recipe.month : DateTime.now().month;
@@ -714,6 +719,7 @@ class EditRecipeViewModel extends ChangeNotifier {
       _recipe.time = int.tryParse(timeController.text) ?? 0;
       _recipe.notes = notesController.text;
       _recipe.servings = int.tryParse(servingsController.text) ?? _recipe.servings;
+      _recipe.piecesPerServing = int.tryParse(piecesPerServingController.text);
       _recipe.category = _category; // Ensure category is updated
       _recipe.month = _month; // Ensure month is updated
       _recipe.countryCode = _country.countryCode;
@@ -813,6 +819,7 @@ class EditRecipeViewModel extends ChangeNotifier {
     timeController.dispose();
     notesController.dispose();
     servingsController.dispose();
+    piecesPerServingController.dispose();
     _imageVersion.dispose();
 
     for (final timer in _debounceTimers.values) {

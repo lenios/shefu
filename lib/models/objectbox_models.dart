@@ -10,6 +10,7 @@ class Recipe {
   String imagePath;
   String notes;
   int servings;
+  int? piecesPerServing;
   int category; // Corresponds to the enum Category
   String countryCode; //ISO 3166-1-alpha-2 Flags
   int calories;
@@ -29,6 +30,7 @@ class Recipe {
     this.imagePath = "",
     this.notes = "",
     this.servings = 4,
+    this.piecesPerServing,
     this.category = 0,
     this.countryCode = "WW",
     this.calories = 0,

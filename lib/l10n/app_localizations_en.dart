@@ -637,4 +637,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get us => 'US';
+
+  @override
+  String piecesPerServing(Object pieces_count) {
+    return '$pieces_count per serving';
+  }
 }

@@ -88,7 +88,12 @@ class _MyAppState extends State<MyApp> {
         locale: _locale,
         debugShowCheckedModeBanner: false,
         title: 'Shefu',
-        theme: AppColor().theme,
+        theme: AppColor().theme.copyWith(
+          inputDecorationTheme: AppColor().theme.inputDecorationTheme.copyWith(
+            contentPadding: const EdgeInsets.all(8.0),
+            floatingLabelBehavior: FloatingLabelBehavior.always,
+          ),
+        ),
         localizationsDelegates: const [
           AppLocalizations.delegate,
           GlobalMaterialLocalizations.delegate,

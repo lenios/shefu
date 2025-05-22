@@ -208,5 +208,6 @@
     "zucchini": "cukkini",
     "measurementSystem": "Mértékegység rendszer",
     "metric": "Metrikus",
-    "us": "Amerikai"
+    "us": "Amerikai",
+    "piecesPerServing": "{pieces_count} darab adagonként"
 }

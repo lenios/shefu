@@ -382,7 +382,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
       id: const obx_int.IdUid(4, 2416326191381789094),
       name: 'Recipe',
-      lastPropertyId: const obx_int.IdUid(12, 528459893117606919),
+      lastPropertyId: const obx_int.IdUid(13, 3183327091994391619),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
@@ -443,6 +443,11 @@ final _entities = <obx_int.ModelEntity>[
         obx_int.ModelProperty(
             id: const obx_int.IdUid(12, 528459893117606919),
             name: 'carbohydrates',
+            type: 6,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(13, 3183327091994391619),
+            name: 'piecesPerServing',
             type: 6,
             flags: 0)
       ],
@@ -923,7 +928,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
           final imagePathOffset = fbb.writeString(object.imagePath);
           final notesOffset = fbb.writeString(object.notes);
           final countryCodeOffset = fbb.writeString(object.countryCode);
-          fbb.startTable(13);
+          fbb.startTable(14);
           fbb.addInt64(0, object.id);
           fbb.addOffset(1, titleOffset);
           fbb.addOffset(2, sourceOffset);
@@ -936,6 +941,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
           fbb.addInt64(9, object.time);
           fbb.addInt64(10, object.month);
           fbb.addInt64(11, object.carbohydrates);
+          fbb.addInt64(12, object.piecesPerServing);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -954,6 +960,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
               .vTableGet(buffer, rootOffset, 12, '');
           final servingsParam =
               const fb.Int64Reader().vTableGet(buffer, rootOffset, 14, 0);
+          final piecesPerServingParam =
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 28);
           final categoryParam =
               const fb.Int64Reader().vTableGet(buffer, rootOffset, 16, 0);
           final countryCodeParam =
@@ -974,6 +982,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
               imagePath: imagePathParam,
               notes: notesParam,
               servings: servingsParam,
+              piecesPerServing: piecesPerServingParam,
               category: categoryParam,
               countryCode: countryCodeParam,
               calories: caloriesParam,
@@ -1400,6 +1409,10 @@ class Recipe_ {
   /// See [Recipe.carbohydrates].
   static final carbohydrates =
       obx.QueryIntegerProperty<Recipe>(_entities[3].properties[11]);
+
+  /// See [Recipe.piecesPerServing].
+  static final piecesPerServing =
+      obx.QueryIntegerProperty<Recipe>(_entities[3].properties[12]);
 
   /// see [Recipe.steps]
   static final steps =

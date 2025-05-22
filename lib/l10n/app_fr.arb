@@ -207,5 +207,7 @@
     "zucchini": "courgette",
     "measurementSystem": "Système de mesure",
     "metric": "Métrique",
-    "us": "US"
+    "us": "US",
+    "piecesPerServing": "{pieces_count} par part"
+
 }

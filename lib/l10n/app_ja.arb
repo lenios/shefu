@@ -10,9 +10,9 @@
     "moveToNextStep": "次の手順へ進む",
     "calories": "カロリー",
     "carbohydrates": "炭水化物",
-    "kcps": "kcal/人",
+    "kcps": "kcal/人前",
     "kc": "kcal",
-    "gps": "グラム/人",
+    "gps": "グラム/人前",
     "g": "グラム",
     "editRecipe": "レシピを編集",
     "editStep": "手順を編集",
@@ -208,5 +208,6 @@
     "zucchini": "ズッキーニ",
     "measurementSystem": "計量単位",
     "metric": "メートル法",
-    "us": "米国単位"
+    "us": "米国単位",
+    "piecesPerServing": "{pieces_count}個/人前"
 }

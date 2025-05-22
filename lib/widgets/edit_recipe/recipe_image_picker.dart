@@ -119,7 +119,8 @@ class RecipeImagePicker extends StatelessWidget {
                 ),
             borderRadius: BorderRadius.circular(8.0),
             child: Container(
-              height: 120,
+              height: 140,
+              width: 140,
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.surfaceContainerHighest,
                 borderRadius: BorderRadius.circular(8.0),
@@ -131,7 +132,7 @@ class RecipeImagePicker extends StatelessWidget {
                   Icon(
                     Icons.add_photo_alternate_outlined,
                     color: Theme.of(context).colorScheme.primary,
-                    size: 40,
+                    size: 45,
                   ),
                   const SizedBox(height: 8),
                   Padding(

@@ -39,13 +39,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String get carbohydrates => '炭水化物';
 
   @override
-  String get kcps => 'kcal/人';
+  String get kcps => 'kcal/人前';
 
   @override
   String get kc => 'kcal';
 
   @override
-  String get gps => 'グラム/人';
+  String get gps => 'グラム/人前';
 
   @override
   String get g => 'グラム';
@@ -637,4 +637,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get us => '米国単位';
+
+  @override
+  String piecesPerServing(Object pieces_count) {
+    return '$pieces_count個/人前';
+  }
 }

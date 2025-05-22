@@ -207,5 +207,6 @@
     "zucchini": "zucchini",
     "measurementSystem": "Measurement System",
     "metric": "Metric",
-    "us": "US"
+    "us": "US",
+    "piecesPerServing": "{pieces_count} per serving"
 }

@@ -453,6 +453,12 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                           }
                         },
                       ),
+                      const SizedBox(width: 10),
+                      if (recipe.piecesPerServing != null)
+                        Text(
+                          "(${AppLocalizations.of(context)!.piecesPerServing(recipe.piecesPerServing.toString())})",
+                          style: const TextStyle(color: Colors.white),
+                        ),
                     ],
                   ),
                   // Source and Category
