@@ -3,6 +3,7 @@ import 'dart:io'; // Import for File
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:country_picker/country_picker.dart';
+import 'package:flutter_command/flutter_command.dart';
 import 'package:http/http.dart' as http;
 import 'package:image/image.dart' as img;
 import 'package:image_picker/image_picker.dart';
@@ -22,8 +23,9 @@ import '../l10n/app_localizations.dart';
 class EditRecipeViewModel extends ChangeNotifier {
   final ObjectBoxRecipeRepository _recipeRepository;
   final ObjectBoxNutrientRepository _nutrientRepository;
-
   final int? _recipeId;
+
+  late Command<void, Recipe> initializeCommand;
 
   Recipe _recipe = Recipe();
   Recipe get recipe => _recipe;
@@ -31,11 +33,7 @@ class EditRecipeViewModel extends ChangeNotifier {
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
-  bool _isInitialized = false;
-  bool get isInitialized => _isInitialized;
-
   bool _preventControllerListeners = false;
-
   final Map<String, Timer> _debounceTimers = {};
 
   // Controllers for text fields to manage state efficiently
@@ -82,6 +80,7 @@ class EditRecipeViewModel extends ChangeNotifier {
     notesController = TextEditingController();
     servingsController = TextEditingController();
     piecesPerServingController = TextEditingController();
+    initializeCommand = Command.createAsyncNoParam<Recipe>(_initializeData, initialValue: Recipe());
   }
 
   // Static helper to access the viewmodel from context
@@ -89,11 +88,7 @@ class EditRecipeViewModel extends ChangeNotifier {
     return Provider.of<EditRecipeViewModel>(context, listen: false);
   }
 
-  Future<void> initViewModel() async {
-    if (_isInitialized) return;
-    _isLoading = true;
-
-    bool success = false;
+  Future<Recipe> _initializeData() async {
     try {
       await _nutrientRepository.initialize();
 
@@ -109,8 +104,7 @@ class EditRecipeViewModel extends ChangeNotifier {
       sourceController.text = _recipe.source;
       timeController.text = _recipe.time > 0 ? _recipe.time.toString() : '';
       notesController.text = _recipe.notes;
-      servingsController.text =
-          _recipe.servings > 0 ? _recipe.servings.toString() : ''; // Initialize servings
+      servingsController.text = _recipe.servings > 0 ? _recipe.servings.toString() : '';
       if (_recipe.piecesPerServing != null) {
         piecesPerServingController.text = _recipe.piecesPerServing.toString();
       }
@@ -122,28 +116,11 @@ class EditRecipeViewModel extends ChangeNotifier {
           Country.worldWide;
       _availableSourceSuggestions = await _recipeRepository.getUniqueSources();
       _preventControllerListeners = false;
-      // --- End Controller Init ---
 
-      _isInitialized = true;
-      notifyListeners();
-      success = true;
+      return _recipe;
     } catch (e, stackTrace) {
       debugPrint("Error during initViewModel: $e\n$stackTrace");
-      _isInitialized = false;
-      success = false;
-    } finally {
-      _isLoading = false; // Set flag directly
-
-      // --- Explicit Notification AFTER Frame (using Future.delayed) ---
-      if (success) {
-        // Use Future.delayed(Duration.zero) to schedule for the next event loop cycle
-        Future.delayed(Duration.zero, () {
-          if (hasListeners) {
-            notifyListeners(); // Notify UI that data is ready
-          }
-        });
-      }
-      // No notification on failure, FutureBuilder handles error state
+      rethrow; // Let Command handle the error
     }
   }
 

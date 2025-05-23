@@ -124,7 +124,11 @@ enum Unit {
   cup,
   slice,
   stick,
-  handful;
+  handful,
+  piece,
+  clove,
+  head,
+  stalk;
 
   @override
   String toString() => name != "none" ? name : "";

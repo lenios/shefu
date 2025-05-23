@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_command/flutter_command.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -43,6 +44,7 @@ class _EditRecipeState extends State<EditRecipe> {
 
     final viewModel = Provider.of<EditRecipeViewModel>(context, listen: false);
     viewModel.sourceController.addListener(_handleSourceUrlChange);
+    viewModel.initializeCommand.execute(context);
   }
 
   @override
@@ -74,15 +76,12 @@ class _EditRecipeState extends State<EditRecipe> {
     final isHandset = MediaQuery.of(context).size.width < 600;
     final l10n = AppLocalizations.of(context)!;
 
-    return Selector<EditRecipeViewModel, bool>(
-      selector: (_, vm) => vm.isInitialized,
-      builder: (context, isInitialized, _) {
-        if (!isInitialized) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            viewModel.initViewModel();
-          });
-          return Scaffold(appBar: AppBar(), body: const Center(child: CircularProgressIndicator()));
-        }
+    return CommandBuilder<void, Recipe>(
+      command: viewModel.initializeCommand,
+      whileExecuting:
+          (context, _, __) =>
+              SizedBox(width: 50.0, height: 50.0, child: CircularProgressIndicator()),
+      onData: (context, recipe, _) {
         return PopScope(
           canPop: false, // Prevent default pop behavior
           onPopInvokedWithResult: (didPop, result) async {

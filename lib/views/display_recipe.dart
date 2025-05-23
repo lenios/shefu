@@ -13,6 +13,7 @@ import 'package:shefu/widgets/image_helper.dart';
 import 'package:shefu/widgets/ingredient_display.dart';
 import 'package:shefu/widgets/misc.dart';
 import 'package:shefu/widgets/recipe_step_card.dart';
+import 'package:flutter_command/flutter_command.dart';
 
 import '../widgets/header_stats.dart';
 
@@ -28,19 +29,13 @@ class DisplayRecipe extends StatefulWidget {
 
 class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateMixin {
   late TabController _tabController;
-  late Future<void> _initFuture = Future.value(); // Initialize with a dummy future
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
-    // Delay to ensure context is available for Provider
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final viewModel = context.read<DisplayRecipeViewModel>();
-      setState(() {
-        _initFuture = viewModel.initialize(context);
-      });
-    });
+    final viewModel = Provider.of<DisplayRecipeViewModel>(context, listen: false);
+    viewModel.initializeCommand.execute(context);
   }
 
   @override
@@ -53,25 +48,20 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
   Widget build(BuildContext context) {
     final viewModel = Provider.of<DisplayRecipeViewModel>(context);
 
-    // No need to check for null, _initFuture is always initialized
-    return FutureBuilder<void>(
-      future: _initFuture,
-      builder: (context, snapshot) {
-        // Show loading indicator while initializing or loading
-        if (snapshot.connectionState != ConnectionState.done || viewModel.isLoading) {
-          return Scaffold(
-            appBar: AppBar(backgroundColor: AppColor.primary),
-            body: const Center(child: CircularProgressIndicator()),
-          );
-        }
-
+    return CommandBuilder<BuildContext, Recipe?>(
+      command: viewModel.initializeCommand,
+      whileExecuting:
+          (context, _, __) => const Center(
+            child: SizedBox(width: 50.0, height: 50.0, child: CircularProgressIndicator()),
+          ),
+      onData: (context, data, _) {
         return PopScope(
           child: Scaffold(
             extendBodyBehindAppBar: true,
             appBar: _buildAppBar(context, viewModel),
             body: Column(
               children: [
-                _buildHeader(context, viewModel, viewModel.recipe!.imagePath),
+                _buildHeader(context, viewModel, data!.imagePath),
                 // TabBar
                 Container(
                   height: 40,
@@ -545,7 +535,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
           buildIconButton(Icons.edit_outlined, AppLocalizations.of(context)!.editRecipe, () async {
             final result = await context.push('/edit-recipe/${viewModel.recipe!.id}');
             if (result == true && context.mounted) {
-              viewModel.reloadRecipe();
+              viewModel.initializeCommand.execute(context);
             }
           }),
           buildIconButton(

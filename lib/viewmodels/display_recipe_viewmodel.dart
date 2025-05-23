@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_command/flutter_command.dart';
 import 'package:shefu/models/objectbox_models.dart';
 import 'package:shefu/models/shopping_basket.dart';
 import 'package:shefu/provider/my_app_state.dart';
@@ -13,6 +14,8 @@ class DisplayRecipeViewModel extends ChangeNotifier {
 
   BuildContext? _context;
 
+  late Command<BuildContext, Recipe?> initializeCommand;
+
   DisplayRecipeViewModel(
     this._recipeRepository,
     this._appState,
@@ -22,13 +25,15 @@ class DisplayRecipeViewModel extends ChangeNotifier {
     _servings = _appState.servings;
     _measurementSystem = _appState.measurementSystem;
     _appState.addListener(_onAppStateChanged);
+
+    initializeCommand = Command.createAsync<BuildContext, Recipe?>(
+      _initializeAndLoadData,
+      initialValue: null,
+    );
   }
 
   Recipe? _recipe;
   Recipe? get recipe => _recipe;
-
-  bool _isLoading = true;
-  bool get isLoading => _isLoading;
 
   int _servings = 4; // Default value
   int get servings => _servings;
@@ -44,34 +49,19 @@ class DisplayRecipeViewModel extends ChangeNotifier {
   final Map<String, double> _prefetchedFactors = {};
   final Map<String, String> _prefetchedDescriptions = {};
 
-  Future<void> initialize(BuildContext context) async {
+  Future<Recipe?> _initializeAndLoadData(BuildContext context) async {
     _context = context;
     try {
       await nutrientRepository.initialize();
-      _loadRecipe();
-    } catch (e) {
-      debugPrint("Error initializing DisplayRecipeViewModel: $e");
-    }
-  }
-
-  void _loadRecipe() {
-    _isLoading = true;
-    notifyListeners();
-
-    try {
       _recipe = _recipeRepository.getRecipeById(_recipeId);
-      if (_recipe != null) {
-        _initializeBasket();
-        if (_context != null) {
-          _prefetchNutrientData(_context!);
-        }
-      }
+      _initializeBasket();
+      _prefetchNutrientData(context);
+
+      return _recipe;
     } catch (e, stackTrace) {
-      debugPrint('DisplayRecipeViewModel: Error loading recipe: $e\n$stackTrace');
+      debugPrint('DisplayRecipeViewModel: Error in initialization process: $e\n$stackTrace');
       _recipe = null;
-    } finally {
-      _isLoading = false;
-      notifyListeners();
+      rethrow; // Let Command handle the error
     }
   }
 
@@ -166,8 +156,6 @@ class DisplayRecipeViewModel extends ChangeNotifier {
 
   Future<void> deleteRecipe() async {
     if (_recipe != null) {
-      _isLoading = true;
-      notifyListeners();
       try {
         await _recipeRepository.deleteImageFile(_recipe!.imagePath);
 
@@ -179,9 +167,6 @@ class DisplayRecipeViewModel extends ChangeNotifier {
         await _recipeRepository.deleteRecipe(_recipe!.id);
       } catch (e) {
         print("Error deleting recipe: $e");
-      } finally {
-        _isLoading = false;
-        notifyListeners();
       }
     }
   }
@@ -218,27 +203,6 @@ class DisplayRecipeViewModel extends ChangeNotifier {
       _appState.addItemsToShoppingBasket(itemsToAdd);
     }
     return itemsToAdd.length;
-  }
-
-  void reloadRecipe() {
-    _isLoading = true;
-    notifyListeners();
-
-    try {
-      _recipe = _recipeRepository.getRecipeById(_recipeId);
-      if (_recipe != null) {
-        _initializeBasket();
-        if (_context != null) {
-          // Re-prefetch data on reload
-          _prefetchNutrientData(_context!);
-        }
-      }
-    } catch (e) {
-      debugPrint('DisplayRecipeViewModel: Error reloading recipe: $e');
-    } finally {
-      _isLoading = false;
-      notifyListeners();
-    }
   }
 
   @override

@@ -255,7 +255,7 @@ class EditIngredientManager {
     Set<String> filteredUnits = {};
 
     // if currentUnitValue is not in list (imported recipe), add it to the set
-    if (!Unit.values.any((u) => u.toString() == ingredientUnit) && ingredientUnit.isNotEmpty) {
+    if (ingredientUnit.isNotEmpty) {
       filteredUnits.add(ingredientUnit);
     }
 
@@ -269,7 +269,19 @@ class EditIngredientManager {
     }
 
     // Add count-based units for both systems
-    filteredUnits.addAll(['piece', 'slice', 'clove', 'sprig', 'bunch', 'head', 'stalk']);
+    filteredUnits.addAll([
+      'piece',
+      'slice',
+      'clove',
+      'sprig',
+      'bunch',
+      'head',
+      'stalk',
+      'leaf',
+      'packet',
+      'stick',
+      'handful',
+    ]);
 
     // Create dropdown items
     return filteredUnits.map((unitText) {
