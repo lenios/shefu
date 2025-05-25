@@ -384,7 +384,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get tipShoppingList => 'レシピから買い物リストに材料を追加すると、レシピも保存されます。複数のレシピから材料を追加でき、買い物リストでレシピタイトルをタップすることでそれぞれのレシピにアクセスできます。';
 
   @override
-  String get tipImport => 'レシピの編集時に出典フィールドに対応ウェブサイトの完全なURLを貼り付けることで、レシピをインポートできます。\n現在は、www.marmiton.orgのみ対応しています。';
+  String get tipImport => 'レシピの編集時に出典フィールドに対応ウェブサイトの完全なURLを貼り付けることで、レシピをインポートできます。';
 
   @override
   String get tipNutritionalValues => 'レシピの材料を編集する際、対応する栄養素と係数を選択できます。両方を選択すると、栄養価が自動的に計算されレシピに追加されます！';
@@ -642,4 +642,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String piecesPerServing(Object pieces_count) {
     return '$pieces_count個/人前';
   }
+
+  @override
+  String get makeAhead => '事前準備と保存';
 }

@@ -579,6 +579,16 @@ class _EditRecipeState extends State<EditRecipe> {
                   ),
                   const SizedBox(height: 20),
 
+                  // Make ahead
+                  const SizedBox(height: 16),
+                  TextFormField(
+                    controller: viewModel.makeAheadController,
+                    decoration: InputDecoration(
+                      labelText: l10n.makeAhead,
+                      border: const OutlineInputBorder(),
+                    ),
+                    maxLines: 3,
+                  ),
                   // --- Notes ---
                   TextFormField(
                     controller: viewModel.notesController,

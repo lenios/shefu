@@ -384,7 +384,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get tipShoppingList => 'Lorsque vous ajoutez des ingrédients d\'une recette à la liste de courses, la recette y est également enregistrée. Vous pouvez ajouter des ingrédients de plusieurs recettes et accéder à chaque recette en appuyant sur son titre dans la liste de courses.';
 
   @override
-  String get tipImport => 'Vous pouvez importer une recette en collant l\'URL complète d\'un site web compatible dans le champ source lors de l\'édition d\'une recette.\nActuellement, seul www.marmiton.org est pris en charge.';
+  String get tipImport => 'Vous pouvez importer une recette en collant l\'URL complète d\'un site web compatible dans le champ source lors de l\'édition d\'une recette.';
 
   @override
   String get tipNutritionalValues => 'Lors de la modification d\'un ingrédient dans une recette, vous pouvez sélectionner un nutriment correspondant et un facteur. Si vous sélectionnez les deux, les valeurs nutritionnelles seront automatiquement calculées et ajoutées à la recette !';
@@ -642,4 +642,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String piecesPerServing(Object pieces_count) {
     return '$pieces_count par part';
   }
+
+  @override
+  String get makeAhead => 'Conservation';
 }

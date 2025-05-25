@@ -9,9 +9,8 @@ import 'package:shefu/l10n/app_localizations.dart';
 
 class ImageEditorScreen extends StatefulWidget {
   final XFile imageFile;
-  final String? name;
 
-  const ImageEditorScreen({super.key, required this.imageFile, this.name});
+  const ImageEditorScreen({super.key, required this.imageFile});
 
   @override
   State<ImageEditorScreen> createState() => _ImageEditorScreenState();
@@ -274,7 +273,7 @@ class _ImageEditorScreenState extends State<ImageEditorScreen> {
 
       // Save the merged image
       final directory = await getTemporaryDirectory();
-      final name = widget.name ?? 'edited_${DateTime.now().millisecondsSinceEpoch}';
+      final name = 'edited_${DateTime.now().millisecondsSinceEpoch}';
       final path = '${directory.path}/$name.jpg';
 
       final File outputFile = File(path);

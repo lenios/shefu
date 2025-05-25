@@ -384,7 +384,7 @@ class AppLocalizationsHu extends AppLocalizations {
   String get tipShoppingList => 'Amikor hozzáadja egy recept hozzávalóit a bevásárlólistához, a recept is mentésre kerül. Több receptből is hozzáadhat hozzávalókat, és elérheti az egyes recepteket a címükre kattintva a bevásárlólistában.';
 
   @override
-  String get tipImport => 'Importálhat receptet úgy, hogy beilleszti a teljes URL-t egy támogatott weboldalról a forrás mezőbe a recept szerkesztésekor.\nJelenleg csak a www.marmiton.org támogatott.';
+  String get tipImport => 'Importálhat receptet úgy, hogy beilleszti a teljes URL-t egy támogatott weboldalról a forrás mezőbe a recept szerkesztésekor.';
 
   @override
   String get tipNutritionalValues => 'Amikor szerkeszt egy hozzávalót a receptben, kiválaszthat egy megfelelő tápanyagot és szorzót. Ha mindkettőt kiválasztja, a tápértékek automatikusan kiszámításra és hozzáadásra kerülnek a recepthez!';
@@ -642,4 +642,7 @@ class AppLocalizationsHu extends AppLocalizations {
   String piecesPerServing(Object pieces_count) {
     return '$pieces_count darab adagonként';
   }
+
+  @override
+  String get makeAhead => 'Előkészítés és tárolás';
 }

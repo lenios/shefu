@@ -4,6 +4,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
+import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:image/image.dart' as i;
 import 'package:image_picker/image_picker.dart';
@@ -40,33 +41,19 @@ class ImageCache {
   }
 }
 
-Future<String?> pickImage(String name) async {
-  final ImagePicker picker = ImagePicker();
-  final XFile? image = await picker.pickImage(source: ImageSource.gallery);
-
-  if (image != null) {
-    try {
-      // Use the existing saveImage function which handles XFile
-      final savedPath = await saveImage(image, name);
-      return savedPath;
-    } catch (e) {
-      print('Error saving picked image: $e');
-      return null; // Indicate error during saving
-    }
-  } else {
-    // User cancelled the picker
-    return null; // Indicate no image was selected or cancellation
-  }
-}
-
 // Update your saveImage method to handle XFile properly
-Future<String> saveImage(dynamic image, String? name) async {
+Future<String> saveImage({
+  required dynamic image,
+  required int recipeId,
+  int? stepIndex,
+  String? ext,
+}) async {
   final dirPath = await getApplicationDocumentsDirectory();
 
-  // Generate a unique filename if none provided
+  final validExt = ['.jpg', '.jpeg', '.png', '.gif', '.webp'].contains(ext) ? ext : '.jpg';
+  final name = "${recipeId}_${stepIndex ?? 'main'}$validExt";
 
-  name ??= '${DateTime.now().millisecondsSinceEpoch}.jpg'; // set default name
-  final String filePath = '${dirPath.path}/$name';
+  final filePath = p.join(dirPath.path, name);
 
   try {
     // Handle different image input types

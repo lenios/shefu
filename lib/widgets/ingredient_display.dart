@@ -45,7 +45,7 @@ class IngredientDisplay extends StatelessWidget {
                         color: ingredient.isChecked ? effectivePrimaryColor : null,
                       ),
                       overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
+                      maxLines: 4,
                     ),
                   ),
                   const SizedBox(width: 3),
@@ -59,7 +59,7 @@ class IngredientDisplay extends StatelessWidget {
                     color: effectivePrimaryColor,
                     decoration: ingredient.isChecked ? TextDecoration.lineThrough : null,
                   ),
-                  maxLines: 2,
+                  maxLines: 3,
                   overflow: TextOverflow.ellipsis,
                 ),
               if (!lineShape && ingredient.shape.isNotEmpty)

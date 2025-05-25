@@ -382,7 +382,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
       id: const obx_int.IdUid(4, 2416326191381789094),
       name: 'Recipe',
-      lastPropertyId: const obx_int.IdUid(13, 3183327091994391619),
+      lastPropertyId: const obx_int.IdUid(17, 2009893959184411872),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
@@ -449,6 +449,21 @@ final _entities = <obx_int.ModelEntity>[
             id: const obx_int.IdUid(13, 3183327091994391619),
             name: 'piecesPerServing',
             type: 6,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(15, 5302647336661836594),
+            name: 'cookTime',
+            type: 6,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(16, 174372293399345131),
+            name: 'prepTime',
+            type: 6,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(17, 2009893959184411872),
+            name: 'makeAhead',
+            type: 9,
             flags: 0)
       ],
       relations: <obx_int.ModelRelation>[],
@@ -570,7 +585,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
       lastSequenceId: const obx_int.IdUid(0, 0),
       retiredEntityUids: const [],
       retiredIndexUids: const [],
-      retiredPropertyUids: const [4179309004405117661],
+      retiredPropertyUids: const [4179309004405117661, 8847534544833626113],
       retiredRelationUids: const [],
       modelVersion: 5,
       modelVersionParserMinimum: 5,
@@ -928,7 +943,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
           final imagePathOffset = fbb.writeString(object.imagePath);
           final notesOffset = fbb.writeString(object.notes);
           final countryCodeOffset = fbb.writeString(object.countryCode);
-          fbb.startTable(14);
+          final makeAheadOffset = fbb.writeString(object.makeAhead);
+          fbb.startTable(18);
           fbb.addInt64(0, object.id);
           fbb.addOffset(1, titleOffset);
           fbb.addOffset(2, sourceOffset);
@@ -942,6 +958,9 @@ obx_int.ModelDefinition getObjectBoxModel() {
           fbb.addInt64(10, object.month);
           fbb.addInt64(11, object.carbohydrates);
           fbb.addInt64(12, object.piecesPerServing);
+          fbb.addInt64(14, object.cookTime);
+          fbb.addInt64(15, object.prepTime);
+          fbb.addOffset(16, makeAheadOffset);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -971,10 +990,16 @@ obx_int.ModelDefinition getObjectBoxModel() {
               const fb.Int64Reader().vTableGet(buffer, rootOffset, 20, 0);
           final timeParam =
               const fb.Int64Reader().vTableGet(buffer, rootOffset, 22, 0);
+          final cookTimeParam =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 32, 0);
+          final prepTimeParam =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 34, 0);
           final monthParam =
               const fb.Int64Reader().vTableGet(buffer, rootOffset, 24, 0);
           final carbohydratesParam =
               const fb.Int64Reader().vTableGet(buffer, rootOffset, 26, 0);
+          final makeAheadParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 36, '');
           final object = Recipe(
               id: idParam,
               title: titleParam,
@@ -987,8 +1012,11 @@ obx_int.ModelDefinition getObjectBoxModel() {
               countryCode: countryCodeParam,
               calories: caloriesParam,
               time: timeParam,
+              cookTime: cookTimeParam,
+              prepTime: prepTimeParam,
               month: monthParam,
-              carbohydrates: carbohydratesParam);
+              carbohydrates: carbohydratesParam,
+              makeAhead: makeAheadParam);
           obx_int.InternalToManyAccess.setRelInfo<Recipe>(
               object.steps,
               store,
@@ -1413,6 +1441,18 @@ class Recipe_ {
   /// See [Recipe.piecesPerServing].
   static final piecesPerServing =
       obx.QueryIntegerProperty<Recipe>(_entities[3].properties[12]);
+
+  /// See [Recipe.cookTime].
+  static final cookTime =
+      obx.QueryIntegerProperty<Recipe>(_entities[3].properties[13]);
+
+  /// See [Recipe.prepTime].
+  static final prepTime =
+      obx.QueryIntegerProperty<Recipe>(_entities[3].properties[14]);
+
+  /// See [Recipe.makeAhead].
+  static final makeAhead =
+      obx.QueryStringProperty<Recipe>(_entities[3].properties[15]);
 
   /// see [Recipe.steps]
   static final steps =

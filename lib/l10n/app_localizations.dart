@@ -840,7 +840,7 @@ abstract class AppLocalizations {
   /// No description provided for @tipImport.
   ///
   /// In en, this message translates to:
-  /// **'You can import a recipe by pasting the full URL from a supported website into the source field when editing a recipe.\nCurrently, only www.marmiton.org is supported.'**
+  /// **'You can import a recipe by pasting the full URL from a supported website into the source field when editing a recipe.'**
   String get tipImport;
 
   /// No description provided for @tipNutritionalValues.
@@ -1352,6 +1352,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{pieces_count} per serving'**
   String piecesPerServing(Object pieces_count);
+
+  /// No description provided for @makeAhead.
+  ///
+  /// In en, this message translates to:
+  /// **'Make ahead and storage'**
+  String get makeAhead;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -27,7 +27,6 @@ class RecipeImagePicker extends StatelessWidget {
       return _buildReadOnlyImage(context, imagePath);
     }
 
-    final String baseName = "${viewModel!.recipe.id}_${stepIndex ?? 'main'}";
     final l10n = AppLocalizations.of(context)!;
 
     return ValueListenableBuilder<int>(
@@ -99,7 +98,7 @@ class RecipeImagePicker extends StatelessWidget {
                     onPressed:
                         () => viewModel!.pickAndProcessImage(
                           stepIndex: stepIndex,
-                          name: baseName,
+                          recipeId: viewModel!.recipe.id,
                           context: context,
                         ),
                     constraints: const BoxConstraints(),
@@ -114,7 +113,7 @@ class RecipeImagePicker extends StatelessWidget {
             onTap:
                 () => viewModel!.pickAndProcessImage(
                   stepIndex: stepIndex,
-                  name: baseName,
+                  recipeId: viewModel!.recipe.id,
                   context: context,
                 ),
             borderRadius: BorderRadius.circular(8.0),

@@ -15,8 +15,11 @@ class Recipe {
   String countryCode; //ISO 3166-1-alpha-2 Flags
   int calories;
   int time;
+  int cookTime;
+  int prepTime;
   int month;
   int carbohydrates;
+  String makeAhead;
 
   @Backlink('recipe')
   final steps = ToMany<RecipeStep>();
@@ -35,8 +38,11 @@ class Recipe {
     this.countryCode = "WW",
     this.calories = 0,
     this.time = 0,
+    this.cookTime = 0,
+    this.prepTime = 0,
     this.month = 1,
     this.carbohydrates = 0,
+    this.makeAhead = "",
   });
 }
 

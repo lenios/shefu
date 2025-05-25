@@ -43,6 +43,8 @@ class EditRecipeViewModel extends ChangeNotifier {
   late TextEditingController notesController;
   late TextEditingController servingsController;
   late TextEditingController piecesPerServingController;
+  late TextEditingController makeAheadController;
+
   Country _country = Country.worldWide; // Default, will be updated in init
   Country get country => _country;
 
@@ -80,6 +82,7 @@ class EditRecipeViewModel extends ChangeNotifier {
     notesController = TextEditingController();
     servingsController = TextEditingController();
     piecesPerServingController = TextEditingController();
+    makeAheadController = TextEditingController();
     initializeCommand = Command.createAsyncNoParam<Recipe>(_initializeData, initialValue: Recipe());
   }
 
@@ -104,6 +107,7 @@ class EditRecipeViewModel extends ChangeNotifier {
       sourceController.text = _recipe.source;
       timeController.text = _recipe.time > 0 ? _recipe.time.toString() : '';
       notesController.text = _recipe.notes;
+      makeAheadController.text = _recipe.makeAhead;
       servingsController.text = _recipe.servings > 0 ? _recipe.servings.toString() : '';
       if (_recipe.piecesPerServing != null) {
         piecesPerServingController.text = _recipe.piecesPerServing.toString();
@@ -136,13 +140,6 @@ class EditRecipeViewModel extends ChangeNotifier {
   void updateSource(String value) {
     if (_recipe.source != value) {
       _recipe.source = value;
-    }
-  }
-
-  void updateNotes(String value) {
-    if (_recipe.notes != value) {
-      _recipe.notes = value;
-      // No notifyListeners needed if using TextEditingController
     }
   }
 
@@ -329,16 +326,25 @@ class EditRecipeViewModel extends ChangeNotifier {
     servingsController.text = recipe.servings.toString();
     recipe.category = scrapedData.category ?? recipe.category;
     recipe.notes = scrapedData.notes ?? recipe.notes;
+    recipe.makeAhead = scrapedData.makeAhead ?? recipe.makeAhead;
     notesController.text = recipe.notes;
 
-    // set prep timer if found
-    if (scrapedData.timer != null && scrapedData.timer! > 0) {
-      recipe.time = scrapedData.timer!;
-      timeController.text = scrapedData.timer.toString();
+    if (scrapedData.prepTime != null && scrapedData.prepTime! > 0) {
+      recipe.time = scrapedData.prepTime!;
+    }
+    if (scrapedData.cookTime != null && scrapedData.cookTime! > 0) {
+      _recipe.cookTime = scrapedData.cookTime!;
+    }
+    if ((_recipe.prepTime > 0 || _recipe.cookTime > 0) && timeController.text.isEmpty) {
+      _recipe.time = _recipe.prepTime + _recipe.cookTime;
+      timeController.text = _recipe.time.toString();
     }
 
     recipe.steps.clear();
-    recipe.steps.addAll(scrapedData.steps.map((stepText) => RecipeStep(instruction: stepText)));
+
+    recipe.steps.addAll(
+      scrapedData.steps.map((stepText) => RecipeStep(instruction: stepText.instruction)),
+    );
     recipe.steps.applyToDb();
 
     if (recipe.steps.isEmpty) {
@@ -357,34 +363,46 @@ class EditRecipeViewModel extends ChangeNotifier {
       }
     }
 
-    // Download and save image if present, and generate thumbnail
+    // Save recipe image
     if (scrapedData.imageUrl != null && scrapedData.imageUrl!.isNotEmpty) {
       try {
         final response = await http.get(Uri.parse(scrapedData.imageUrl!));
         if (response.statusCode == 200) {
-          final directory = await getApplicationDocumentsDirectory();
-          final ext = p.extension(scrapedData.imageUrl!).toLowerCase();
-          final validExt = ['.jpg', '.jpeg', '.png', '.gif', '.webp'].contains(ext) ? ext : '.jpg';
-          final fileName = "${recipe.id}_main$validExt";
-          final localPath = p.join(directory.path, fileName);
-          final imageFile = File(localPath);
+          final localPath = await saveImage(
+            image: response.bodyBytes,
+            recipeId: recipe.id,
+            ext: p.extension(scrapedData.imageUrl!),
+          );
 
-          await imageFile.parent.create(recursive: true);
-          await imageFile.writeAsBytes(response.bodyBytes);
           recipe.imagePath = localPath;
-
-          // --- Generate and save thumbnail ---
-          final decoded = img.decodeImage(response.bodyBytes);
-          if (decoded != null) {
-            final thumbnail = img.copyResize(decoded, width: 250);
-            final thumbPath = thumbnailPath(localPath);
-            await File(thumbPath).writeAsBytes(img.encodePng(thumbnail));
-          }
 
           imageVersion.value++; // Notify listeners for image update
         }
       } catch (e) {
         debugPrint("Error downloading or processing scraped image: $e");
+      }
+
+      // Save recipe step images if available
+      for (int i = 0; i < scrapedData.steps.length; i++) {
+        final stepImageUrl = scrapedData.steps[i].imagePath;
+        if (stepImageUrl != null && stepImageUrl.isNotEmpty) {
+          try {
+            final response = await http.get(Uri.parse(stepImageUrl));
+            if (response.statusCode == 200) {
+              final localPath = await saveImage(
+                image: response.bodyBytes,
+                recipeId: recipe.id,
+                stepIndex: i,
+                ext: p.extension(stepImageUrl),
+              );
+
+              recipe.steps[i].imagePath = localPath;
+              imageVersion.value++; // Notify listeners for image update
+            }
+          } catch (e) {
+            debugPrint("Error downloading or processing step image $i: $e");
+          }
+        }
       }
     }
 
@@ -531,75 +549,18 @@ class EditRecipeViewModel extends ChangeNotifier {
     }
   }
 
-  /// Saves image data (from picker or URL) locally and updates the recipe.
-  Future<bool> saveRecipeImage({
-    String? imageUrl,
-    Uint8List? imageBytes,
-    String? originalFileName,
-  }) async {
-    Uint8List? finalImageBytes = imageBytes;
-    String sourceForExtension = originalFileName ?? imageUrl ?? '';
-
-    // If URL is provided and bytes are not, download the image
-    if (imageUrl != null && imageUrl.isNotEmpty && finalImageBytes == null) {
-      try {
-        final response = await http.get(Uri.parse(imageUrl));
-        if (response.statusCode == 200) {
-          finalImageBytes = response.bodyBytes;
-        } else {
-          debugPrint(
-            "Failed to download image from URL: $imageUrl (Status: ${response.statusCode})",
-          );
-          return false; // Download failed
-        }
-      } catch (e) {
-        debugPrint("Error downloading image from URL $imageUrl: $e");
-        return false; // Network or other error
-      }
-    }
-
-    // If we don't have image bytes by now, we can't save
-    if (finalImageBytes == null) {
-      debugPrint("No image data provided or downloaded.");
-      return false;
-    }
-
-    try {
-      final directory = await getApplicationDocumentsDirectory();
-      final ext = p.extension(sourceForExtension).toLowerCase();
-      final validExt = ['.jpg', '.jpeg', '.png', '.gif', '.webp'].contains(ext) ? ext : '.jpg';
-      final fileName = "${recipe.id}_main$validExt";
-      final localPath = p.join(directory.path, fileName);
-      final imageFile = File(localPath);
-
-      await imageFile.parent.create(recursive: true); // TODO needed?
-      await imageFile.writeAsBytes(finalImageBytes);
-
-      if (await imageFile.exists()) {
-        // Update recipe state ONLY if save was successful
-        recipe.imagePath = localPath;
-        imageVersion.value++;
-        notifyListeners();
-        return true;
-      } else {
-        debugPrint("Failed to verify image file was created: $localPath");
-        return false;
-      }
-    } catch (e) {
-      debugPrint("Error saving image locally: $e");
-      return false;
-    }
-  }
-
   // TODO Method to be called from the image picker widget for code reuse?
   // Future<void> handlePickedImage(Uint8List imageBytes, String fileName) async {
   //   await saveRecipeImage(imageBytes: imageBytes, originalFileName: fileName);
   // }
 
   // --- Image Handling ---
-  final ImagePicker _picker = ImagePicker();
-  Future<void> pickAndProcessImage({int? stepIndex, String? name, BuildContext? context}) async {
-    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+  Future<void> pickAndProcessImage({
+    int? stepIndex,
+    required int recipeId,
+    BuildContext? context,
+  }) async {
+    final XFile? image = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (image == null) return; // user cancelled
 
     _isLoading = true;
@@ -615,9 +576,9 @@ class EditRecipeViewModel extends ChangeNotifier {
     try {
       if (ocrEnabled && stepIndex == null) {
         // Launch the image editor screen to select columns if needed
-        final XFile? editedImage = await Navigator.of(context!).push<XFile>(
-          MaterialPageRoute(builder: (context) => ImageEditorScreen(imageFile: image, name: name)),
-        );
+        final XFile? editedImage = await Navigator.of(
+          context!,
+        ).push<XFile>(MaterialPageRoute(builder: (context) => ImageEditorScreen(imageFile: image)));
 
         // If the user cancelled the editing, return
         if (editedImage == null) return;
@@ -634,7 +595,12 @@ class EditRecipeViewModel extends ChangeNotifier {
         _preventControllerListeners = false;
       }
 
-      savedImagePath = await saveImage(image, name); // Use repo method
+      savedImagePath = await saveImage(
+        image: image,
+        recipeId: recipeId,
+        stepIndex: stepIndex,
+        ext: p.extension(image.name),
+      ); // Use repo method
 
       String? oldPathToDelete;
       if (stepIndex == null) {
@@ -694,7 +660,11 @@ class EditRecipeViewModel extends ChangeNotifier {
       _recipe.title = titleController.text;
       _recipe.source = sourceController.text;
       _recipe.time = int.tryParse(timeController.text) ?? 0;
+      // if timecontroller is empty, addition  preptime and cooktime
+      if (_recipe.time == 0) _recipe.time = _recipe.prepTime + _recipe.cookTime;
+
       _recipe.notes = notesController.text;
+      _recipe.makeAhead = makeAheadController.text;
       _recipe.servings = int.tryParse(servingsController.text) ?? _recipe.servings;
       _recipe.piecesPerServing = int.tryParse(piecesPerServingController.text);
       _recipe.category = _category; // Ensure category is updated

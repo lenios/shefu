@@ -123,7 +123,7 @@
     "tipSearch": "You can search recipes by entering any information of a recipe: recipe name, ingredient name, notes, source or step instructions.\nFor instance, you can find chocolate mousse by searching for 'mousse', 'egg' or 'whisk'.",
     "tipIngredients": "On a recipe page, tap the 'Ingredients' tab or swipe left to view the ingredients list.",
     "tipShoppingList": "When you add ingredients from a recipe to the shopping list, the recipe is also saved there. You can add ingredients from multiple recipes and access each recipe by tapping its title in the shopping list.",
-    "tipImport": "You can import a recipe by pasting the full URL from a supported website into the source field when editing a recipe.\nCurrently, only www.marmiton.org is supported.",
+    "tipImport": "You can import a recipe by pasting the full URL from a supported website into the source field when editing a recipe.",
     "tipNutritionalValues": "When editing an ingredient in a recipe, you can select a matching nutrient and factor. If you select both, nutritional values will be automatically computed and added to the recipe!",
     "gatherIngredients": "Gather ingredients",
     "bowl": "bowl",
@@ -208,5 +208,6 @@
     "measurementSystem": "Measurement System",
     "metric": "Metric",
     "us": "US",
-    "piecesPerServing": "{pieces_count} per serving"
+    "piecesPerServing": "{pieces_count} per serving",
+    "makeAhead": "Make ahead and storage"
 }

@@ -365,7 +365,7 @@
     },
     {
       "id": "4:2416326191381789094",
-      "lastPropertyId": "13:3183327091994391619",
+      "lastPropertyId": "17:2009893959184411872",
       "name": "Recipe",
       "properties": [
         {
@@ -433,6 +433,21 @@
           "id": "13:3183327091994391619",
           "name": "piecesPerServing",
           "type": 6
+        },
+        {
+          "id": "15:5302647336661836594",
+          "name": "cookTime",
+          "type": 6
+        },
+        {
+          "id": "16:174372293399345131",
+          "name": "prepTime",
+          "type": 6
+        },
+        {
+          "id": "17:2009893959184411872",
+          "name": "makeAhead",
+          "type": 9
         }
       ],
       "relations": []
@@ -518,7 +533,8 @@
   "retiredEntityUids": [],
   "retiredIndexUids": [],
   "retiredPropertyUids": [
-    4179309004405117661
+    4179309004405117661,
+    8847534544833626113
   ],
   "retiredRelationUids": [],
   "version": 1

@@ -282,6 +282,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
       child: Column(
         children: [
           notesCard(viewModel.recipe?.notes, showTitle: true),
+          makeAheadCard(viewModel.recipe?.makeAhead),
           fullSource(viewModel.recipe?.source ?? ''),
         ],
       ),
@@ -350,6 +351,38 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
       );
     } else {
       return const SizedBox(); // Empty space if no notes
+    }
+  }
+
+  Widget makeAheadCard(String? makeAhead) {
+    if (makeAhead != null && makeAhead.isNotEmpty) {
+      return Card(
+        margin: const EdgeInsets.all(8.0),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Icon(Icons.access_time, size: 18),
+                  const SizedBox(width: 8),
+                  Text(
+                    AppLocalizations.of(context)!.makeAhead,
+                    style: Theme.of(
+                      context,
+                    ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              Text(makeAhead),
+            ],
+          ),
+        ),
+      );
+    } else {
+      return const SizedBox(); // Empty space if no make ahead info
     }
   }
 
