@@ -144,12 +144,11 @@ class DisplayRecipeViewModel extends ChangeNotifier {
   bool anyItemsChecked() {
     if (recipe == null) return false;
 
-    final allIngredients =
-        recipe!.steps
-            .toList()
-            .expand((step) => step.ingredients)
-            .map((ingredient) => ingredient.name)
-            .toList();
+    final allIngredients = recipe!.steps
+        .toList()
+        .expand((step) => step.ingredients)
+        .map((ingredient) => ingredient.name)
+        .toList();
 
     return allIngredients.any((name) => basket[name] == true);
   }

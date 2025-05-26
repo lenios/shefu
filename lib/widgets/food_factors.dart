@@ -38,15 +38,14 @@ Widget foodFactors(int stepIndex, int ingredientIndex, EditRecipeViewModel viewM
             isDense: true,
             contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
           ),
-          items:
-              conversions
-                  .map(
-                    (c) => DropdownMenuItem<int>(
-                      value: c.id,
-                      child: Text(getMeasureLabel(c), overflow: TextOverflow.ellipsis),
-                    ),
-                  )
-                  .toList(),
+          items: conversions
+              .map(
+                (c) => DropdownMenuItem<int>(
+                  value: c.id,
+                  child: Text(getMeasureLabel(c), overflow: TextOverflow.ellipsis),
+                ),
+              )
+              .toList(),
           onChanged: (int? newValue) {
             if (newValue != null) {
               viewModel.updateIngredientFactorId(stepIndex, ingredientIndex, newValue);

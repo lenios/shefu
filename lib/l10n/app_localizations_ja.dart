@@ -375,19 +375,22 @@ class AppLocalizationsJa extends AppLocalizations {
   String get tips => 'ヒント';
 
   @override
-  String get tipSearch => 'レシピは、レシピ名、材料名、メモ、出典、または手順などの情報を入力することで検索できます。\n例えば、「ムース」、「卵」、「泡立てる」などで検索してチョコレートムースを見つけることができます。';
+  String get tipSearch =>
+      'レシピは、レシピ名、材料名、メモ、出典、または手順などの情報を入力することで検索できます。\n例えば、「ムース」、「卵」、「泡立てる」などで検索してチョコレートムースを見つけることができます。';
 
   @override
   String get tipIngredients => 'レシピページでは、「材料」タブをタップするか、左にスワイプして材料リストを表示できます。';
 
   @override
-  String get tipShoppingList => 'レシピから買い物リストに材料を追加すると、レシピも保存されます。複数のレシピから材料を追加でき、買い物リストでレシピタイトルをタップすることでそれぞれのレシピにアクセスできます。';
+  String get tipShoppingList =>
+      'レシピから買い物リストに材料を追加すると、レシピも保存されます。複数のレシピから材料を追加でき、買い物リストでレシピタイトルをタップすることでそれぞれのレシピにアクセスできます。';
 
   @override
   String get tipImport => 'レシピの編集時に出典フィールドに対応ウェブサイトの完全なURLを貼り付けることで、レシピをインポートできます。';
 
   @override
-  String get tipNutritionalValues => 'レシピの材料を編集する際、対応する栄養素と係数を選択できます。両方を選択すると、栄養価が自動的に計算されレシピに追加されます！';
+  String get tipNutritionalValues =>
+      'レシピの材料を編集する際、対応する栄養素と係数を選択できます。両方を選択すると、栄養価が自動的に計算されレシピに追加されます！';
 
   @override
   String get gatherIngredients => '材料を収集';
@@ -441,10 +444,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get processing => '処理中';
 
   @override
-  String get rectangleInstructions => '重要：複数の列がある場合は、ブロックを選択してください！\n（一列だけの場合は、無視して「保存」をクリックしてください）';
+  String get rectangleInstructions =>
+      '重要：複数の列がある場合は、ブロックを選択してください！\n（一列だけの場合は、無視して「保存」をクリックしてください）';
 
   @override
-  String get rectangleDetails => '残念ながら、複数列のレイアウトではテキスト認識がうまく機能しません。画像を再フォーマットする必要があります。\n\nまずタイトル+材料のブロックを選択し、次に各列を選択してください。\nこれらは新しい画像に統合されます。';
+  String get rectangleDetails =>
+      '残念ながら、複数列のレイアウトではテキスト認識がうまく機能しません。画像を再フォーマットする必要があります。\n\nまずタイトル+材料のブロックを選択し、次に各列を選択してください。\nこれらは新しい画像に統合されます。';
 
   @override
   String get apple => 'リンゴ';

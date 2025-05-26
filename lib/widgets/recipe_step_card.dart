@@ -99,33 +99,31 @@ class RecipeStepCard extends StatelessWidget {
     // Create the cooking tools row
     final Widget toolsRow = ConstrainedBox(
       constraints: const BoxConstraints(maxWidth: 150),
-      child:
-          foundTools.isNotEmpty
-              ? Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  ...foundTools.entries
-                      .take(recipeStep.ingredients.isNotEmpty ? 2 : 4)
-                      .map(
-                        (tool) => Padding(
-                          padding: const EdgeInsets.only(right: 8.0),
-                          child: Tooltip(
-                            message: tool.key.capitalize(),
-                            child:
-                                tool.value is IconData
-                                    ? Icon(
-                                      tool.value as IconData,
-                                      color: Theme.of(context).colorScheme.primary,
-                                      size: 24,
-                                    )
-                                    : SvgPicture.asset(tool.value, width: 24, height: 24),
-                          ),
+      child: foundTools.isNotEmpty
+          ? Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                ...foundTools.entries
+                    .take(recipeStep.ingredients.isNotEmpty ? 2 : 4)
+                    .map(
+                      (tool) => Padding(
+                        padding: const EdgeInsets.only(right: 8.0),
+                        child: Tooltip(
+                          message: tool.key.capitalize(),
+                          child: tool.value is IconData
+                              ? Icon(
+                                  tool.value as IconData,
+                                  color: Theme.of(context).colorScheme.primary,
+                                  size: 24,
+                                )
+                              : SvgPicture.asset(tool.value, width: 24, height: 24),
                         ),
                       ),
-                ],
-              )
-              : const SizedBox.shrink(),
+                    ),
+              ],
+            )
+          : const SizedBox.shrink(),
     );
 
     return Padding(
@@ -164,21 +162,21 @@ class RecipeStepCard extends StatelessWidget {
   Widget stepImage(BuildContext context) {
     return recipeStep.imagePath.isNotEmpty
         ? GestureDetector(
-          onTap: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => FullScreenImage(imagePath: recipeStep.imagePath),
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => FullScreenImage(imagePath: recipeStep.imagePath),
+                ),
+              );
+            },
+            child: SizedBox(
+              height: 120,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8.0),
+                child: buildFutureImageWidget(context, thumbnailPath(recipeStep.imagePath)),
               ),
-            );
-          },
-          child: SizedBox(
-            height: 120,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(8.0),
-              child: buildFutureImageWidget(context, thumbnailPath(recipeStep.imagePath)),
             ),
-          ),
-        )
+          )
         : Container(); // Return empty container if no image path
   }
 
@@ -187,37 +185,37 @@ class RecipeStepCard extends StatelessWidget {
 
     return recipeStep.ingredients.isNotEmpty
         ? Expanded(
-          flex: 2,
-          child: Column(
-            children: [
-              ...recipeStep.ingredients.map((ingredient) {
-                final formattedIngredient = formatIngredient(
-                  context: context,
-                  name: ingredient.name,
-                  quantity: ingredient.quantity,
-                  unit: ingredient.unit,
-                  shape: ingredient.shape,
-                  foodId: ingredient.foodId,
-                  conversionId: ingredient.conversionId,
-                  servingsMultiplier: servings,
-                  nutrientRepository: nutrientRepository,
-                );
+            flex: 2,
+            child: Column(
+              children: [
+                ...recipeStep.ingredients.map((ingredient) {
+                  final formattedIngredient = formatIngredient(
+                    context: context,
+                    name: ingredient.name,
+                    quantity: ingredient.quantity,
+                    unit: ingredient.unit,
+                    shape: ingredient.shape,
+                    foodId: ingredient.foodId,
+                    conversionId: ingredient.conversionId,
+                    servingsMultiplier: servings,
+                    nutrientRepository: nutrientRepository,
+                  );
 
-                final String bulletType = ingredient.conversionId > 0 ? "■ " : "□ ";
+                  final String bulletType = ingredient.conversionId > 0 ? "■ " : "□ ";
 
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 3.0),
-                  child: IngredientDisplay(
-                    ingredient: formattedIngredient,
-                    bulletType: bulletType,
-                    primaryColor: Theme.of(context).colorScheme.primary,
-                    lineShape: false,
-                  ),
-                );
-              }),
-            ],
-          ),
-        )
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 3.0),
+                    child: IngredientDisplay(
+                      ingredient: formattedIngredient,
+                      bulletType: bulletType,
+                      primaryColor: Theme.of(context).colorScheme.primary,
+                      lineShape: false,
+                    ),
+                  );
+                }),
+              ],
+            ),
+          )
         : const SizedBox();
   }
 }

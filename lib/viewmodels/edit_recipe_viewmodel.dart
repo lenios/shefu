@@ -450,11 +450,10 @@ class EditRecipeViewModel extends ChangeNotifier {
     }
 
     // Strip leading French articles
-    final cleanName =
-        name
-            .replaceFirst(RegExp(r'^de\s+|^du\s+|^des\s+|^les\s+|^le\s+|^la\s+'), '')
-            .toLowerCase()
-            .trim();
+    final cleanName = name
+        .replaceFirst(RegExp(r'^de\s+|^du\s+|^des\s+|^les\s+|^le\s+|^la\s+'), '')
+        .toLowerCase()
+        .trim();
 
     // Expand word variants for partial matching
     final variants = _getWordVariants(cleanName);

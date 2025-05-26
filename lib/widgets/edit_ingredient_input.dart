@@ -125,9 +125,8 @@ class EditIngredientManager {
                           isDense: true,
                           contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
                         ),
-                        onChanged:
-                            (val) =>
-                                viewModel.updateIngredientQuantity(stepIndex, ingredientIndex, val),
+                        onChanged: (val) =>
+                            viewModel.updateIngredientQuantity(stepIndex, ingredientIndex, val),
                       ),
                     ),
                     const SizedBox(width: 8),
@@ -221,12 +220,8 @@ class EditIngredientManager {
                                 vertical: 12,
                               ),
                             ),
-                            onChanged:
-                                (val) => viewModel.updateIngredientShape(
-                                  stepIndex,
-                                  ingredientIndex,
-                                  val,
-                                ),
+                            onChanged: (val) =>
+                                viewModel.updateIngredientShape(stepIndex, ingredientIndex, val),
                           ),
                         ),
                       ],
@@ -285,8 +280,9 @@ class EditIngredientManager {
 
     // Create dropdown items
     return filteredUnits.map((unitText) {
-      String displayText =
-          unitText.isEmpty ? l10n.unit : formattedUnit(unitText, context).toLowerCase();
+      String displayText = unitText.isEmpty
+          ? l10n.unit
+          : formattedUnit(unitText, context).toLowerCase();
 
       return DropdownMenuItem<String>(value: unitText, child: Text(displayText));
     }).toList();

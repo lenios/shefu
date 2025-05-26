@@ -68,28 +68,27 @@ class _ImageEditorScreenState extends State<ImageEditorScreen> {
       body: Column(
         children: [
           Expanded(
-            child:
-                _image == null
-                    ? const Center(child: CircularProgressIndicator())
-                    : LayoutBuilder(
-                      builder: (context, constraints) {
-                        final canvasSize = Size(constraints.maxWidth, constraints.maxHeight);
-                        return GestureDetector(
-                          onPanStart: (details) => _onPanStart(details, canvasSize),
-                          onPanUpdate: (details) => _onPanUpdate(details, canvasSize),
-                          onPanEnd: (details) => _onPanEnd(details, canvasSize),
-                          child: CustomPaint(
-                            painter: _RectangleEditorPainter(
-                              image: _image!,
-                              rectangles: _rectangles,
-                              startPoint: _startPoint,
-                              currentPoint: _currentPoint,
-                            ),
-                            size: canvasSize,
+            child: _image == null
+                ? const Center(child: CircularProgressIndicator())
+                : LayoutBuilder(
+                    builder: (context, constraints) {
+                      final canvasSize = Size(constraints.maxWidth, constraints.maxHeight);
+                      return GestureDetector(
+                        onPanStart: (details) => _onPanStart(details, canvasSize),
+                        onPanUpdate: (details) => _onPanUpdate(details, canvasSize),
+                        onPanEnd: (details) => _onPanEnd(details, canvasSize),
+                        child: CustomPaint(
+                          painter: _RectangleEditorPainter(
+                            image: _image!,
+                            rectangles: _rectangles,
+                            startPoint: _startPoint,
+                            currentPoint: _currentPoint,
                           ),
-                        );
-                      },
-                    ),
+                          size: canvasSize,
+                        ),
+                      );
+                    },
+                  ),
           ),
           Container(
             padding: const EdgeInsets.all(16.0),

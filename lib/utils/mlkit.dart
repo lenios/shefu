@@ -56,12 +56,11 @@ Future<(bool, String?)> ocrParse(
           // Use RegExp to find sentences (start with capital letter, end with period)
           final sentenceRegex = RegExp(r'[A-Z][^.!?]*[.!?]');
           final matches = sentenceRegex.allMatches(allStepsText);
-          final sentences =
-              matches
-                  .map((m) => m.group(0)?.trim())
-                  .where((s) => s != null && s.isNotEmpty)
-                  .toList()
-                  .cast<String>();
+          final sentences = matches
+              .map((m) => m.group(0)?.trim())
+              .where((s) => s != null && s.isNotEmpty)
+              .toList()
+              .cast<String>();
 
           int stepsAdded = 0;
 
@@ -76,11 +75,10 @@ Future<(bool, String?)> ocrParse(
 
             // Process each block after ingredients as a separate step
             for (int blockIndex = 2; blockIndex < blocks.length; blockIndex++) {
-              final blockLines =
-                  blocks[blockIndex].lines
-                      .map((l) => l.text.trim())
-                      .where((t) => t.isNotEmpty)
-                      .toList();
+              final blockLines = blocks[blockIndex].lines
+                  .map((l) => l.text.trim())
+                  .where((t) => t.isNotEmpty)
+                  .toList();
 
               if (blockLines.isEmpty) continue;
 
@@ -183,19 +181,17 @@ Future<(bool, String?)> ocrParse(
           );
 
           // Split by period or marker, then clean up
-          ingredientNames =
-              ingredientsText
-                  .split(RegExp(r'\.|<UNIT_END>'))
-                  .map((s) => s.trim())
-                  .where((s) => s.isNotEmpty)
-                  .toList();
+          ingredientNames = ingredientsText
+              .split(RegExp(r'\.|<UNIT_END>'))
+              .map((s) => s.trim())
+              .where((s) => s.isNotEmpty)
+              .toList();
         } else {
           // process each line as an ingredient (no title found)
-          ingredientNames =
-              blocks[1].lines
-                  .map((line) => line.text.trim())
-                  .where((text) => text.isNotEmpty)
-                  .toList();
+          ingredientNames = blocks[1].lines
+              .map((line) => line.text.trim())
+              .where((text) => text.isNotEmpty)
+              .toList();
         }
 
         int ingredientsAdded = 0;

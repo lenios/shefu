@@ -78,9 +78,8 @@ class _EditRecipeState extends State<EditRecipe> {
 
     return CommandBuilder<void, Recipe>(
       command: viewModel.initializeCommand,
-      whileExecuting:
-          (context, _, __) =>
-              SizedBox(width: 50.0, height: 50.0, child: CircularProgressIndicator()),
+      whileExecuting: (context, _, __) =>
+          SizedBox(width: 50.0, height: 50.0, child: CircularProgressIndicator()),
       onData: (context, recipe, _) {
         return PopScope(
           canPop: false, // Prevent default pop behavior
@@ -133,31 +132,26 @@ class _EditRecipeState extends State<EditRecipe> {
                   selector: (_, vm) => vm.isLoading,
                   builder: (context, isLoading, child) {
                     return IconButton(
-                      icon:
-                          isLoading
-                              ? const SizedBox(
-                                width: 20,
-                                height: 20,
-                                child: CircularProgressIndicator(
-                                  color: Colors.white,
-                                  strokeWidth: 2,
-                                ),
-                              )
-                              : const Icon(Icons.save),
+                      icon: isLoading
+                          ? const SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
+                            )
+                          : const Icon(Icons.save),
                       tooltip: l10n.save,
-                      onPressed:
-                          isLoading
-                              ? null
-                              : () async {
-                                bool saved = await viewModel.saveRecipe(l10n);
-                                if (saved && context.mounted) {
-                                  context.pop(true);
-                                } else if (context.mounted) {
-                                  ScaffoldMessenger.of(
-                                    context,
-                                  ).showSnackBar(SnackBar(content: Text(l10n.saveError)));
-                                }
-                              },
+                      onPressed: isLoading
+                          ? null
+                          : () async {
+                              bool saved = await viewModel.saveRecipe(l10n);
+                              if (saved && context.mounted) {
+                                context.pop(true);
+                              } else if (context.mounted) {
+                                ScaffoldMessenger.of(
+                                  context,
+                                ).showSnackBar(SnackBar(content: Text(l10n.saveError)));
+                              }
+                            },
                     );
                   },
                 ),
@@ -298,17 +292,16 @@ class _EditRecipeState extends State<EditRecipe> {
                                                 border: const OutlineInputBorder(),
                                                 isDense: true,
                                               ),
-                                              items:
-                                                  Category.values.map((Category category) {
-                                                    return DropdownMenuItem<int>(
-                                                      value: category.index,
-                                                      child: formattedCategory(
-                                                        category.name,
-                                                        context,
-                                                        dark: true,
-                                                      ),
-                                                    );
-                                                  }).toList(),
+                                              items: Category.values.map((Category category) {
+                                                return DropdownMenuItem<int>(
+                                                  value: category.index,
+                                                  child: formattedCategory(
+                                                    category.name,
+                                                    context,
+                                                    dark: true,
+                                                  ),
+                                                );
+                                              }).toList(),
                                               onChanged: (int? newValue) {
                                                 if (newValue != null) {
                                                   viewModel.setCategory(newValue);
@@ -336,17 +329,16 @@ class _EditRecipeState extends State<EditRecipe> {
                                                   labelText: l10n.month,
                                                   border: const OutlineInputBorder(),
                                                 ),
-                                                items:
-                                                    List.generate(12, (i) => i + 1).map((m) {
-                                                      return DropdownMenuItem<int>(
-                                                        value: m,
-                                                        child: Text(
-                                                          DateFormat.MMMM(
-                                                            l10n.localeName,
-                                                          ).format(DateTime(2000, m)),
-                                                        ),
-                                                      );
-                                                    }).toList(),
+                                                items: List.generate(12, (i) => i + 1).map((m) {
+                                                  return DropdownMenuItem<int>(
+                                                    value: m,
+                                                    child: Text(
+                                                      DateFormat.MMMM(
+                                                        l10n.localeName,
+                                                      ).format(DateTime(2000, m)),
+                                                    ),
+                                                  );
+                                                }).toList(),
                                                 onChanged: (int? newValue) {
                                                   if (newValue != null) {
                                                     viewModel.setMonth(newValue);
@@ -452,49 +444,51 @@ class _EditRecipeState extends State<EditRecipe> {
                         onSelected: (String selection) {
                           viewModel.updateSource(selection);
                         },
-                        fieldViewBuilder: (
-                          BuildContext context,
-                          TextEditingController fieldTextEditingController,
-                          FocusNode fieldFocusNode,
-                          VoidCallback onFieldSubmitted,
-                        ) {
-                          return TextFormField(
-                            controller: fieldTextEditingController,
-                            focusNode: fieldFocusNode,
-                            decoration: InputDecoration(
-                              labelText: l10n.source,
-                              border: const OutlineInputBorder(),
-                              suffixIcon: Icon(Icons.arrow_drop_down),
-                            ),
-                            onFieldSubmitted: (text) {
-                              onFieldSubmitted();
+                        fieldViewBuilder:
+                            (
+                              BuildContext context,
+                              TextEditingController fieldTextEditingController,
+                              FocusNode fieldFocusNode,
+                              VoidCallback onFieldSubmitted,
+                            ) {
+                              return TextFormField(
+                                controller: fieldTextEditingController,
+                                focusNode: fieldFocusNode,
+                                decoration: InputDecoration(
+                                  labelText: l10n.source,
+                                  border: const OutlineInputBorder(),
+                                  suffixIcon: Icon(Icons.arrow_drop_down),
+                                ),
+                                onFieldSubmitted: (text) {
+                                  onFieldSubmitted();
 
-                              viewModel.updateSource(text);
+                                  viewModel.updateSource(text);
+                                },
+                              );
                             },
-                          );
-                        },
-                        optionsViewBuilder: (
-                          BuildContext context,
-                          AutocompleteOnSelected<String> onSelected,
-                          Iterable<String> options,
-                        ) {
-                          return Material(
-                            elevation: 4.0,
-                            child: ListView.builder(
-                              padding: EdgeInsets.zero,
-                              itemCount: options.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                final String option = options.elementAt(index);
-                                return ListTile(
-                                  title: Text(option),
-                                  onTap: () {
-                                    onSelected(option);
+                        optionsViewBuilder:
+                            (
+                              BuildContext context,
+                              AutocompleteOnSelected<String> onSelected,
+                              Iterable<String> options,
+                            ) {
+                              return Material(
+                                elevation: 4.0,
+                                child: ListView.builder(
+                                  padding: EdgeInsets.zero,
+                                  itemCount: options.length,
+                                  itemBuilder: (BuildContext context, int index) {
+                                    final String option = options.elementAt(index);
+                                    return ListTile(
+                                      title: Text(option),
+                                      onTap: () {
+                                        onSelected(option);
+                                      },
+                                    );
                                   },
-                                );
-                              },
-                            ),
-                          );
-                        },
+                                ),
+                              );
+                            },
                       );
                     },
                   ),
@@ -508,10 +502,9 @@ class _EditRecipeState extends State<EditRecipe> {
                   // Use Selector for the steps list
                   Selector<EditRecipeViewModel, (List<RecipeStep>, int)>(
                     selector: (_, vm) => (vm.recipe.steps, vm.imageVersion.value),
-                    shouldRebuild:
-                        (prev, next) =>
-                            prev.$1.length != next.$1.length || // Length changed
-                            prev.$2 != next.$2, // Image version changed
+                    shouldRebuild: (prev, next) =>
+                        prev.$1.length != next.$1.length || // Length changed
+                        prev.$2 != next.$2, // Image version changed
                     builder: (context, data, _) {
                       final steps = data.$1;
                       if (steps.isEmpty) {
@@ -550,8 +543,9 @@ class _EditRecipeState extends State<EditRecipe> {
                                   tooltip: l10n.insertStep,
 
                                   backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
-                                  foregroundColor:
-                                      Theme.of(context).colorScheme.onSecondaryContainer,
+                                  foregroundColor: Theme.of(
+                                    context,
+                                  ).colorScheme.onSecondaryContainer,
                                   child: const Icon(Icons.add),
                                 ),
                               ),

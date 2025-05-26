@@ -289,43 +289,39 @@ class ObjectBoxNutrientRepository {
     final normalizedFilter = filter.trim().toLowerCase();
 
     // Filter in-memory list with loose matching
-    var filtered =
-        _inMemoryNutrients
-            .where(
-              (n) =>
-                  n.descEN.toLowerCase().contains(normalizedFilter) ||
-                  n.descFR.toLowerCase().contains(normalizedFilter),
-            )
-            .toList();
+    var filtered = _inMemoryNutrients
+        .where(
+          (n) =>
+              n.descEN.toLowerCase().contains(normalizedFilter) ||
+              n.descFR.toLowerCase().contains(normalizedFilter),
+        )
+        .toList();
 
     if (filtered.isEmpty) {
       // Try with alternative capitalization
-      final capitalizedFilter =
-          normalizedFilter.isNotEmpty
-              ? "${normalizedFilter[0].toUpperCase()}${normalizedFilter.substring(1)}"
-              : "";
+      final capitalizedFilter = normalizedFilter.isNotEmpty
+          ? "${normalizedFilter[0].toUpperCase()}${normalizedFilter.substring(1)}"
+          : "";
 
-      filtered =
-          _inMemoryNutrients
-              .where(
-                (n) => n.descEN.contains(capitalizedFilter) || n.descFR.contains(capitalizedFilter),
-              )
-              .toList();
+      filtered = _inMemoryNutrients
+          .where(
+            (n) => n.descEN.contains(capitalizedFilter) || n.descFR.contains(capitalizedFilter),
+          )
+          .toList();
     }
 
     // Limit results to avoid overwhelming the UI
     if (filtered.length > 30) {
       // if more than 30 results, try to filter elements
-      final reducedList =
-          filtered
-              .where(
-                (n) =>
-                    n.descEN.toLowerCase().contains('$normalizedFilter,') ||
-                    n.descEN.toLowerCase().contains('${normalizedFilter}s,') ||
-                    n.descFR.toLowerCase().contains('$normalizedFilter,') ||
-                    n.descFR.toLowerCase().contains('${normalizedFilter}s,'),
-              )
-              .toList();
+      final reducedList = filtered
+          .where(
+            (n) =>
+                n.descEN.toLowerCase().contains('$normalizedFilter,') ||
+                n.descEN.toLowerCase().contains('${normalizedFilter}s,') ||
+                n.descFR.toLowerCase().contains('$normalizedFilter,') ||
+                n.descFR.toLowerCase().contains('${normalizedFilter}s,'),
+          )
+          .toList();
 
       if (reducedList.isNotEmpty) {
         // we found elements with the name followed by a comma, filter on them

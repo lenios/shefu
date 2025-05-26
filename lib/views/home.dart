@@ -221,29 +221,28 @@ class _HomePageState extends State<HomePage> {
           ),
           // Section 2 - Recipe List (Scrollable)
           Expanded(
-            child:
-                !hasBeenInitialized
-                    ? const Center(child: CircularProgressIndicator())
-                    : StreamBuilder<List<Recipe>>(
-                      stream: viewModel.recipeStream,
-                      builder: (context, snapshot) {
-                        if (!snapshot.hasData) {
-                          return const Center(child: CircularProgressIndicator());
-                        } else {
-                          final filteredRecipes = viewModel.getFilteredRecipes(
-                            snapshot.data!,
-                            viewModel.searchTerm,
-                          );
+            child: !hasBeenInitialized
+                ? const Center(child: CircularProgressIndicator())
+                : StreamBuilder<List<Recipe>>(
+                    stream: viewModel.recipeStream,
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else {
+                        final filteredRecipes = viewModel.getFilteredRecipes(
+                          snapshot.data!,
+                          viewModel.searchTerm,
+                        );
 
-                          return filteredRecipes.isEmpty
-                              ? Center(
+                        return filteredRecipes.isEmpty
+                            ? Center(
                                 child: Text(
                                   AppLocalizations.of(context)!.noRecipe,
                                   textAlign: TextAlign.center,
                                   style: theme.textTheme.bodyLarge,
                                 ),
                               )
-                              : GridView.builder(
+                            : GridView.builder(
                                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                                 itemCount: filteredRecipes.length,
                                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -264,9 +263,9 @@ class _HomePageState extends State<HomePage> {
                                   );
                                 },
                               );
-                        }
-                      },
-                    ),
+                      }
+                    },
+                  ),
           ),
         ],
       ),
@@ -302,26 +301,25 @@ class _HomePageState extends State<HomePage> {
             overflow: TextOverflow.ellipsis,
           ),
 
-          items:
-              categories.map((e) {
-                if (e == Category.all) {
-                  return DropdownMenuItem<Category>(
-                    value: e,
-                    child: Text(
-                      AppLocalizations.of(context)!.category,
-                      style: const TextStyle(color: Colors.white),
-                    ),
-                  );
-                }
+          items: categories.map((e) {
+            if (e == Category.all) {
+              return DropdownMenuItem<Category>(
+                value: e,
+                child: Text(
+                  AppLocalizations.of(context)!.category,
+                  style: const TextStyle(color: Colors.white),
+                ),
+              );
+            }
 
-                return DropdownMenuItem<Category>(
-                  value: e,
-                  child: formattedCategory(
-                    e == Category.all ? AppLocalizations.of(context)!.all : e.toString(),
-                    context,
-                  ),
-                );
-              }).toList(),
+            return DropdownMenuItem<Category>(
+              value: e,
+              child: formattedCategory(
+                e == Category.all ? AppLocalizations.of(context)!.all : e.toString(),
+                context,
+              ),
+            );
+          }).toList(),
           onChanged: (Category? value) {
             viewModel.setCategory(value ?? Category.all);
           },
@@ -354,39 +352,38 @@ class _HomePageState extends State<HomePage> {
             style: TextStyle(color: Colors.white.withAlpha(240)),
             overflow: TextOverflow.ellipsis,
           ),
-          items:
-              countries.map((e) {
-                if (e.isEmpty) {
-                  return DropdownMenuItem<String>(
-                    value: "",
+          items: countries.map((e) {
+            if (e.isEmpty) {
+              return DropdownMenuItem<String>(
+                value: "",
+                child: Text(
+                  AppLocalizations.of(context)!.allCountries,
+                  style: const TextStyle(color: Colors.white),
+                ),
+              );
+            }
+
+            final country = Country.parse(e);
+            final displayName = country.getTranslatedName(context) ?? country.name;
+
+            return DropdownMenuItem<String>(
+              value: e,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Flag.fromString(e, height: 15, width: 24),
+                  const SizedBox(width: 4),
+                  Expanded(
                     child: Text(
-                      AppLocalizations.of(context)!.allCountries,
-                      style: const TextStyle(color: Colors.white),
+                      e == "WW" ? AppLocalizations.of(context)!.other : displayName,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
                     ),
-                  );
-                }
-
-                final country = Country.parse(e);
-                final displayName = country.getTranslatedName(context) ?? country.name;
-
-                return DropdownMenuItem<String>(
-                  value: e,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Flag.fromString(e, height: 15, width: 24),
-                      const SizedBox(width: 4),
-                      Expanded(
-                        child: Text(
-                          e == "WW" ? AppLocalizations.of(context)!.other : displayName,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                        ),
-                      ),
-                    ],
                   ),
-                );
-              }).toList(),
+                ],
+              ),
+            );
+          }).toList(),
           onChanged: (String? value) {
             viewModel.setCountryCode(value ?? "");
           },

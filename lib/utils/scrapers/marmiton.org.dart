@@ -175,34 +175,32 @@ class MarmitonScraper implements RecipeWebScraper {
           servings = (nbPers is int) ? nbPers : int.tryParse('$nbPers');
 
           if (recipeData.containsKey('ingredients') && recipeData['ingredients'] is List) {
-            ingredients =
-                (recipeData['ingredients'] as List)
-                    .map((ing) {
-                      final map = ing as Map<String, dynamic>;
-                      final qty = map['qty']?.toString() ?? '';
-                      final unit = map['unit'] as String? ?? '';
-                      final name = map['name'] as String? ?? '';
-                      final shape = map['shape'] as String? ?? '';
-                      if (name.isNotEmpty) {
-                        return (qty, unit, name, shape);
-                      }
-                      return null;
-                    })
-                    .where((e) => e != null)
-                    .cast<(String, String, String, String)>()
-                    .toList();
+            ingredients = (recipeData['ingredients'] as List)
+                .map((ing) {
+                  final map = ing as Map<String, dynamic>;
+                  final qty = map['qty']?.toString() ?? '';
+                  final unit = map['unit'] as String? ?? '';
+                  final name = map['name'] as String? ?? '';
+                  final shape = map['shape'] as String? ?? '';
+                  if (name.isNotEmpty) {
+                    return (qty, unit, name, shape);
+                  }
+                  return null;
+                })
+                .where((e) => e != null)
+                .cast<(String, String, String, String)>()
+                .toList();
           }
         }
 
         // Extract Steps if we don't have them yet
         if (steps.isEmpty) {
-          steps =
-              doc
-                  .querySelectorAll('div.recipe-step-list__container p')
-                  .map((p) => p.text.trim())
-                  .where((step) => step.isNotEmpty)
-                  .toSet()
-                  .toList();
+          steps = doc
+              .querySelectorAll('div.recipe-step-list__container p')
+              .map((p) => p.text.trim())
+              .where((step) => step.isNotEmpty)
+              .toSet()
+              .toList();
         }
       }
 

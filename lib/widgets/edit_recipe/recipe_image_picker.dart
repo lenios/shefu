@@ -33,12 +33,11 @@ class RecipeImagePicker extends StatelessWidget {
       valueListenable: viewModel!.imageVersion,
       builder: (context, version, _) {
         // Get the CURRENT path from the view model INSIDE the builder
-        final String? path =
-            (stepIndex != null)
-                ? (stepIndex! < viewModel!.recipe.steps.length
-                    ? viewModel!.recipe.steps[stepIndex!].imagePath
-                    : null)
-                : viewModel!.recipe.imagePath;
+        final String? path = (stepIndex != null)
+            ? (stepIndex! < viewModel!.recipe.steps.length
+                  ? viewModel!.recipe.steps[stepIndex!].imagePath
+                  : null)
+            : viewModel!.recipe.imagePath;
 
         final bool pathIsValid = path != null && path.isNotEmpty && File(path).existsSync();
         if (pathIsValid) {
@@ -95,12 +94,11 @@ class RecipeImagePicker extends StatelessWidget {
                   child: IconButton(
                     icon: const Icon(Icons.edit_outlined, color: Colors.white),
                     tooltip: l10n.changeImage,
-                    onPressed:
-                        () => viewModel!.pickAndProcessImage(
-                          stepIndex: stepIndex,
-                          recipeId: viewModel!.recipe.id,
-                          context: context,
-                        ),
+                    onPressed: () => viewModel!.pickAndProcessImage(
+                      stepIndex: stepIndex,
+                      recipeId: viewModel!.recipe.id,
+                      context: context,
+                    ),
                     constraints: const BoxConstraints(),
                   ),
                 ),
@@ -110,12 +108,11 @@ class RecipeImagePicker extends StatelessWidget {
         } else {
           // No image - show placeholder with add button
           return InkWell(
-            onTap:
-                () => viewModel!.pickAndProcessImage(
-                  stepIndex: stepIndex,
-                  recipeId: viewModel!.recipe.id,
-                  context: context,
-                ),
+            onTap: () => viewModel!.pickAndProcessImage(
+              stepIndex: stepIndex,
+              recipeId: viewModel!.recipe.id,
+              context: context,
+            ),
             borderRadius: BorderRadius.circular(8.0),
             child: Container(
               height: 140,

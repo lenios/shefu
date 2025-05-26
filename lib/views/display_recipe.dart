@@ -50,10 +50,9 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
 
     return CommandBuilder<BuildContext, Recipe?>(
       command: viewModel.initializeCommand,
-      whileExecuting:
-          (context, _, __) => const Center(
-            child: SizedBox(width: 50.0, height: 50.0, child: CircularProgressIndicator()),
-          ),
+      whileExecuting: (context, _, __) => const Center(
+        child: SizedBox(width: 50.0, height: 50.0, child: CircularProgressIndicator()),
+      ),
       onData: (context, data, _) {
         return PopScope(
           child: Scaffold(
@@ -401,24 +400,23 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
           GestureDetector(
             onTap:
                 imagePath
-                        .isNotEmpty // Allow tap only if path exists
-                    ? () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => FullScreenImage(imagePath: imagePath),
-                        ),
-                      );
-                    }
-                    : null,
+                    .isNotEmpty // Allow tap only if path exists
+                ? () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => FullScreenImage(imagePath: imagePath),
+                      ),
+                    );
+                  }
+                : null,
             child: RepaintBoundary(
               child: SizedBox(
                 width: imageSize,
                 height: imageSize,
                 child: Container(
-                  decoration:
-                      imagePath.isNotEmpty
-                          ? BoxDecoration(border: Border.all(color: Colors.white, width: 0.5))
-                          : null, // No border if no image path
+                  decoration: imagePath.isNotEmpty
+                      ? BoxDecoration(border: Border.all(color: Colors.white, width: 0.5))
+                      : null, // No border if no image path
                   child: ClipRect(child: buildFutureImageWidget(context, imagePath)),
                 ),
               ),
@@ -466,10 +464,9 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                         icon: const Icon(Icons.arrow_drop_down, color: Colors.white),
                         dropdownColor: AppColor.primarySoft,
                         //underline: Container(), // Remove underline
-                        items:
-                            List.generate(12, (i) => i + 1).map((e) {
-                              return DropdownMenuItem<int>(value: e, child: Text(e.toString()));
-                            }).toList(),
+                        items: List.generate(12, (i) => i + 1).map((e) {
+                          return DropdownMenuItem<int>(value: e, child: Text(e.toString()));
+                        }).toList(),
                         onChanged: (int? newValue) {
                           if (newValue != null) {
                             viewModel.setServings(newValue);

@@ -234,7 +234,10 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
   void initState() {
     countDownController = widget.controller ?? CountDownController();
     super.initState();
-    _controller = AnimationController(vsync: this, duration: Duration(seconds: widget.duration));
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: widget.duration),
+    );
 
     _controller!.addStatusListener((status) {
       switch (status) {
@@ -297,15 +300,15 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
                   ),
                   widget.isTimerTextShown
                       ? Align(
-                        alignment: FractionalOffset.center,
-                        child: Text(
-                          time,
-                          style:
-                              widget.textStyle ??
-                              const TextStyle(fontSize: 16.0, color: Colors.black),
-                          textAlign: widget.textAlign,
-                        ),
-                      )
+                          alignment: FractionalOffset.center,
+                          child: Text(
+                            time,
+                            style:
+                                widget.textStyle ??
+                                const TextStyle(fontSize: 16.0, color: Colors.black),
+                            textAlign: widget.textAlign,
+                          ),
+                        )
                       : Container(),
                 ],
               ),
@@ -448,12 +451,11 @@ class CustomTimerPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    Paint paint =
-        Paint()
-          ..color = ringColor!
-          ..strokeWidth = strokeWidth!
-          ..strokeCap = strokeCap!
-          ..style = PaintingStyle.stroke;
+    Paint paint = Paint()
+      ..color = ringColor!
+      ..strokeWidth = strokeWidth!
+      ..strokeCap = strokeCap!
+      ..style = PaintingStyle.stroke;
 
     if (ringGradient != null) {
       final rect = Rect.fromCircle(center: size.center(Offset.zero), radius: size.width / 2);

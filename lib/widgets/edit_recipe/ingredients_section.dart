@@ -18,11 +18,8 @@ class IngredientsSection extends StatelessWidget {
 
     return Selector<EditRecipeViewModel, (List<IngredientItem>, int)>(
       // Select only the ingredients for this specific step
-      selector:
-          (_, vm) => (
-            vm.recipe.steps[stepIndex].ingredients,
-            vm.recipe.steps[stepIndex].ingredients.length,
-          ),
+      selector: (_, vm) =>
+          (vm.recipe.steps[stepIndex].ingredients, vm.recipe.steps[stepIndex].ingredients.length),
       builder: (context, data, _) {
         final ingredients = data.$1;
 

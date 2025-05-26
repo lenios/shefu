@@ -264,8 +264,9 @@ Widget formattedCategory(String category, context, {bool dark = false}) {
     default:
       categoryText = category;
   }
-  final textColor =
-      dark ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onTertiary;
+  final textColor = dark
+      ? Theme.of(context).colorScheme.onSurface
+      : Theme.of(context).colorScheme.onTertiary;
 
   return Row(
     mainAxisSize: MainAxisSize.min,

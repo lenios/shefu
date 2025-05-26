@@ -134,7 +134,8 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String get noRecipe => 'Aucune recette disponible.\nVeuillez en ajouter une avec le bouton + en bas.';
+  String get noRecipe =>
+      'Aucune recette disponible.\nVeuillez en ajouter une avec le bouton + en bas.';
 
   @override
   String get noStepsAddedYet => 'Aucune étape ajoutée.';
@@ -325,7 +326,8 @@ class AppLocalizationsFr extends AppLocalizations {
   String get hours_abbreviation => 'h';
 
   @override
-  String get timerUsage => 'Appuyez pour mettre en pause/reprendre,\nfaites un appui long pour arrêter le minuteur.';
+  String get timerUsage =>
+      'Appuyez pour mettre en pause/reprendre,\nfaites un appui long pour arrêter le minuteur.';
 
   @override
   String get noMatchingNutrient => 'Aucun ingrédient correspondant trouvé';
@@ -375,19 +377,24 @@ class AppLocalizationsFr extends AppLocalizations {
   String get tips => 'Astuces';
 
   @override
-  String get tipSearch => 'Vous pouvez rechercher des recettes en saisissant n\'importe quelle information : nom de recette, ingrédient, notes, source ou instructions.\nPar exemple, vous pouvez trouver une mousse au chocolat en cherchant \'mousse\', \'œuf\' ou \'fouetter\'.';
+  String get tipSearch =>
+      'Vous pouvez rechercher des recettes en saisissant n\'importe quelle information : nom de recette, ingrédient, notes, source ou instructions.\nPar exemple, vous pouvez trouver une mousse au chocolat en cherchant \'mousse\', \'œuf\' ou \'fouetter\'.';
 
   @override
-  String get tipIngredients => 'Sur la page d\'une recette, appuyez sur l\'onglet \'Ingrédients\' ou glissez vers la gauche pour voir la liste des ingrédients.';
+  String get tipIngredients =>
+      'Sur la page d\'une recette, appuyez sur l\'onglet \'Ingrédients\' ou glissez vers la gauche pour voir la liste des ingrédients.';
 
   @override
-  String get tipShoppingList => 'Lorsque vous ajoutez des ingrédients d\'une recette à la liste de courses, la recette y est également enregistrée. Vous pouvez ajouter des ingrédients de plusieurs recettes et accéder à chaque recette en appuyant sur son titre dans la liste de courses.';
+  String get tipShoppingList =>
+      'Lorsque vous ajoutez des ingrédients d\'une recette à la liste de courses, la recette y est également enregistrée. Vous pouvez ajouter des ingrédients de plusieurs recettes et accéder à chaque recette en appuyant sur son titre dans la liste de courses.';
 
   @override
-  String get tipImport => 'Vous pouvez importer une recette en collant l\'URL complète d\'un site web compatible dans le champ source lors de l\'édition d\'une recette.';
+  String get tipImport =>
+      'Vous pouvez importer une recette en collant l\'URL complète d\'un site web compatible dans le champ source lors de l\'édition d\'une recette.';
 
   @override
-  String get tipNutritionalValues => 'Lors de la modification d\'un ingrédient dans une recette, vous pouvez sélectionner un nutriment correspondant et un facteur. Si vous sélectionnez les deux, les valeurs nutritionnelles seront automatiquement calculées et ajoutées à la recette !';
+  String get tipNutritionalValues =>
+      'Lors de la modification d\'un ingrédient dans une recette, vous pouvez sélectionner un nutriment correspondant et un facteur. Si vous sélectionnez les deux, les valeurs nutritionnelles seront automatiquement calculées et ajoutées à la recette !';
 
   @override
   String get gatherIngredients => 'Réunissez les ingrédients';
@@ -441,10 +448,12 @@ class AppLocalizationsFr extends AppLocalizations {
   String get processing => 'Traitement en cours';
 
   @override
-  String get rectangleInstructions => 'Important: Si plusieurs colonnes, sélectionnez les blocs !\n(si une seule colonne, ignorez et cliquez sur \'Enregistrer\')';
+  String get rectangleInstructions =>
+      'Important: Si plusieurs colonnes, sélectionnez les blocs !\n(si une seule colonne, ignorez et cliquez sur \'Enregistrer\')';
 
   @override
-  String get rectangleDetails => 'Malheureusement, la reconnaissance de texte ne fonctionne pas bien sur les mises en page à colonnes multiples. Nous devons reformater l\'image.\n\nSélectionnez d\'abord le bloc titre+ingrédients, puis chaque colonne.\nIls seront fusionnés dans une nouvelle image.';
+  String get rectangleDetails =>
+      'Malheureusement, la reconnaissance de texte ne fonctionne pas bien sur les mises en page à colonnes multiples. Nous devons reformater l\'image.\n\nSélectionnez d\'abord le bloc titre+ingrédients, puis chaque colonne.\nIls seront fusionnés dans une nouvelle image.';
 
   @override
   String get apple => 'pomme';

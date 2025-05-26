@@ -40,13 +40,12 @@ Widget foodEntries(int stepIndex, int ingredientIndex, EditRecipeViewModel viewM
             isDense: true,
             contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
           ),
-          items:
-              nutrients.map((n) {
-                return DropdownMenuItem<int>(
-                  value: n.foodId,
-                  child: Text(translatedDesc(n, context), overflow: TextOverflow.ellipsis),
-                );
-              }).toList(),
+          items: nutrients.map((n) {
+            return DropdownMenuItem<int>(
+              value: n.foodId,
+              child: Text(translatedDesc(n, context), overflow: TextOverflow.ellipsis),
+            );
+          }).toList(),
           onChanged: (int? newValue) {
             if (newValue != null) {
               viewModel.updateIngredientFoodId(stepIndex, ingredientIndex, newValue);

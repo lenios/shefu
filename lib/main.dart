@@ -72,15 +72,13 @@ class _MyAppState extends State<MyApp> {
 
         // --- ViewModels (depend on Repositories) ---
         ChangeNotifierProxyProvider<ObjectBoxRecipeRepository, HomePageViewModel>(
-          create:
-              (context) => HomePageViewModel(
-                context.read<ObjectBoxRecipeRepository>(),
-                context.read<ObjectBoxNutrientRepository>(),
-              ),
-          update:
-              (context, objectBoxRepo, previousViewModel) =>
-                  previousViewModel ??
-                  HomePageViewModel(objectBoxRepo, context.read<ObjectBoxNutrientRepository>()),
+          create: (context) => HomePageViewModel(
+            context.read<ObjectBoxRecipeRepository>(),
+            context.read<ObjectBoxNutrientRepository>(),
+          ),
+          update: (context, objectBoxRepo, previousViewModel) =>
+              previousViewModel ??
+              HomePageViewModel(objectBoxRepo, context.read<ObjectBoxNutrientRepository>()),
         ),
       ],
       child: MaterialApp.router(

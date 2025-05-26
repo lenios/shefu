@@ -21,52 +21,51 @@ Future<bool?> confirmationDialog(
 
   final bool? result = await showDialog<bool?>(
     context: context,
-    builder:
-        (BuildContext dialogContext) => AlertDialog(
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(child: Text(title)),
-              IconButton(
-                icon: const Icon(Icons.close),
-                tooltip: l10n.cancel,
-                onPressed: () => Navigator.of(dialogContext).pop(null),
-                padding: EdgeInsets.zero,
-                constraints: const BoxConstraints(),
-                iconSize: 24,
-                splashRadius: 24,
-              ),
-            ],
+    builder: (BuildContext dialogContext) => AlertDialog(
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(child: Text(title)),
+          IconButton(
+            icon: const Icon(Icons.close),
+            tooltip: l10n.cancel,
+            onPressed: () => Navigator.of(dialogContext).pop(null),
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(),
+            iconSize: 24,
+            splashRadius: 24,
           ),
-          content: Text(content),
-          actions: <Widget>[
-            cancelIcon != null
-                ? OutlinedButton.icon(
-                  icon: cancelIcon,
-                  label: Text(cancelLabel),
-                  style: OutlinedButton.styleFrom(foregroundColor: theme.colorScheme.primary),
-                  onPressed: () {
-                    Navigator.of(dialogContext).pop(false);
-                  },
-                )
-                : TextButton(
-                  style: OutlinedButton.styleFrom(foregroundColor: theme.colorScheme.primary),
-                  onPressed: () {
-                    Navigator.of(dialogContext).pop(false);
-                  },
-                  child: Text(l10n.cancel),
-                ),
-            FilledButton.icon(
-              icon: Icon(icon, color: Colors.white),
-              label: Text(label),
-              style: FilledButton.styleFrom(
-                backgroundColor: warning ? theme.colorScheme.error : AppColor.primary,
-                foregroundColor: Colors.white,
+        ],
+      ),
+      content: Text(content),
+      actions: <Widget>[
+        cancelIcon != null
+            ? OutlinedButton.icon(
+                icon: cancelIcon,
+                label: Text(cancelLabel),
+                style: OutlinedButton.styleFrom(foregroundColor: theme.colorScheme.primary),
+                onPressed: () {
+                  Navigator.of(dialogContext).pop(false);
+                },
+              )
+            : TextButton(
+                style: OutlinedButton.styleFrom(foregroundColor: theme.colorScheme.primary),
+                onPressed: () {
+                  Navigator.of(dialogContext).pop(false);
+                },
+                child: Text(l10n.cancel),
               ),
-              onPressed: () => Navigator.of(dialogContext).pop(true),
-            ),
-          ],
+        FilledButton.icon(
+          icon: Icon(icon, color: Colors.white),
+          label: Text(label),
+          style: FilledButton.styleFrom(
+            backgroundColor: warning ? theme.colorScheme.error : AppColor.primary,
+            foregroundColor: Colors.white,
+          ),
+          onPressed: () => Navigator.of(dialogContext).pop(true),
         ),
+      ],
+    ),
   );
   return result;
 }

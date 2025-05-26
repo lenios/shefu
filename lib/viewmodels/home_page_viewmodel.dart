@@ -93,41 +93,39 @@ class HomePageViewModel extends ChangeNotifier {
 
   // Filter recipes based on search term, category, and country
   List<Recipe> getFilteredRecipes(List<Recipe> allRecipes, String searchTerm) {
-    final filteredRecipes =
-        allRecipes.where((recipe) {
-          bool matchesSearch = true;
-          if (searchTerm.isNotEmpty) {
-            final searchTerms =
-                searchTerm
-                    .toLowerCase()
-                    .split(',')
-                    .map((term) => term.trim().toLowerCase())
-                    .where((term) => term.isNotEmpty)
-                    .toList();
+    final filteredRecipes = allRecipes.where((recipe) {
+      bool matchesSearch = true;
+      if (searchTerm.isNotEmpty) {
+        final searchTerms = searchTerm
+            .toLowerCase()
+            .split(',')
+            .map((term) => term.trim().toLowerCase())
+            .where((term) => term.isNotEmpty)
+            .toList();
 
-            // Recipe must match ALL search terms
-            matchesSearch = searchTerms.every((term) {
-              return recipe.title.toLowerCase().contains(term) ||
-                  recipe.source.toLowerCase().contains(term) ||
-                  recipe.notes.toLowerCase().contains(term) ||
-                  recipe.steps.any(
-                    (step) =>
-                        step.instruction.toLowerCase().contains(term) ||
-                        step.name.toLowerCase().contains(term) ||
-                        step.ingredients.any((ing) => ing.name.toLowerCase().contains(term)),
-                  );
-            });
-          }
+        // Recipe must match ALL search terms
+        matchesSearch = searchTerms.every((term) {
+          return recipe.title.toLowerCase().contains(term) ||
+              recipe.source.toLowerCase().contains(term) ||
+              recipe.notes.toLowerCase().contains(term) ||
+              recipe.steps.any(
+                (step) =>
+                    step.instruction.toLowerCase().contains(term) ||
+                    step.name.toLowerCase().contains(term) ||
+                    step.ingredients.any((ing) => ing.name.toLowerCase().contains(term)),
+              );
+        });
+      }
 
-          bool matchesCategory =
-              selectedCategory == null ||
-              selectedCategory == Category.all ||
-              recipe.category == selectedCategory!.index;
+      bool matchesCategory =
+          selectedCategory == null ||
+          selectedCategory == Category.all ||
+          recipe.category == selectedCategory!.index;
 
-          bool matchesCountry = countryCode.isEmpty || recipe.countryCode == countryCode;
+      bool matchesCountry = countryCode.isEmpty || recipe.countryCode == countryCode;
 
-          return matchesSearch && matchesCategory && matchesCountry;
-        }).toList();
+      return matchesSearch && matchesCategory && matchesCountry;
+    }).toList();
     return filteredRecipes;
   }
 

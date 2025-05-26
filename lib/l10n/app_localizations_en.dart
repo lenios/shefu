@@ -375,19 +375,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tips => 'Tips';
 
   @override
-  String get tipSearch => 'You can search recipes by entering any information of a recipe: recipe name, ingredient name, notes, source or step instructions.\nFor instance, you can find chocolate mousse by searching for \'mousse\', \'egg\' or \'whisk\'.';
+  String get tipSearch =>
+      'You can search recipes by entering any information of a recipe: recipe name, ingredient name, notes, source or step instructions.\nFor instance, you can find chocolate mousse by searching for \'mousse\', \'egg\' or \'whisk\'.';
 
   @override
-  String get tipIngredients => 'On a recipe page, tap the \'Ingredients\' tab or swipe left to view the ingredients list.';
+  String get tipIngredients =>
+      'On a recipe page, tap the \'Ingredients\' tab or swipe left to view the ingredients list.';
 
   @override
-  String get tipShoppingList => 'When you add ingredients from a recipe to the shopping list, the recipe is also saved there. You can add ingredients from multiple recipes and access each recipe by tapping its title in the shopping list.';
+  String get tipShoppingList =>
+      'When you add ingredients from a recipe to the shopping list, the recipe is also saved there. You can add ingredients from multiple recipes and access each recipe by tapping its title in the shopping list.';
 
   @override
-  String get tipImport => 'You can import a recipe by pasting the full URL from a supported website into the source field when editing a recipe.';
+  String get tipImport =>
+      'You can import a recipe by pasting the full URL from a supported website into the source field when editing a recipe.';
 
   @override
-  String get tipNutritionalValues => 'When editing an ingredient in a recipe, you can select a matching nutrient and factor. If you select both, nutritional values will be automatically computed and added to the recipe!';
+  String get tipNutritionalValues =>
+      'When editing an ingredient in a recipe, you can select a matching nutrient and factor. If you select both, nutritional values will be automatically computed and added to the recipe!';
 
   @override
   String get gatherIngredients => 'Gather ingredients';
@@ -441,10 +446,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get processing => 'Processing';
 
   @override
-  String get rectangleInstructions => 'Important: If layout has multiple columns, select blocks!\n(if there is only one column, ignore and click on \'save\')';
+  String get rectangleInstructions =>
+      'Important: If layout has multiple columns, select blocks!\n(if there is only one column, ignore and click on \'save\')';
 
   @override
-  String get rectangleDetails => 'Unfortunately, OCR is not working well on layouts with multiple columns. We will need to reformat the image.\n\nFirst select the title+ingredients block, then each column.\nThey will be merged in a new image.';
+  String get rectangleDetails =>
+      'Unfortunately, OCR is not working well on layouts with multiple columns. We will need to reformat the image.\n\nFirst select the title+ingredients block, then each column.\nThey will be merged in a new image.';
 
   @override
   String get apple => 'apple';

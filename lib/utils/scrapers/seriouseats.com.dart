@@ -49,12 +49,9 @@ class SeriousEatsScraper implements RecipeWebScraper {
 
       // Extract steps with images and save them locally
       final rawStepsWithImages = await _extractStepsWithImages(recipeJson);
-      final structuredSteps =
-          rawStepsWithImages
-              .map(
-                (stepData) => ScrapedRecipeStep(instruction: stepData.$1, imagePath: stepData.$2),
-              )
-              .toList();
+      final structuredSteps = rawStepsWithImages
+          .map((stepData) => ScrapedRecipeStep(instruction: stepData.$1, imagePath: stepData.$2))
+          .toList();
 
       // Extract notes and storage information
       final notes = _extractNotes(recipeJson, doc);
@@ -264,12 +261,11 @@ class SeriousEatsScraper implements RecipeWebScraper {
         }
       }
     } else if (instructions is String) {
-      final steps =
-          instructions
-              .split(RegExp(r'\.\s+|\n'))
-              .map((s) => _decodeHtmlEntities(s.trim()))
-              .where((s) => s.isNotEmpty)
-              .toList();
+      final steps = instructions
+          .split(RegExp(r'\.\s+|\n'))
+          .map((s) => _decodeHtmlEntities(s.trim()))
+          .where((s) => s.isNotEmpty)
+          .toList();
       for (final step in steps) {
         stepsWithImageUrls.add((step, null));
       }

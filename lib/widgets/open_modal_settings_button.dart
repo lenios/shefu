@@ -63,13 +63,12 @@ void _showSettingsModal(BuildContext context, ThemeData theme) {
                         backgroundColor: theme.dialogBackgroundColor,
                       ),
                       icon: Icon(Icons.language, color: theme.colorScheme.primary),
-                      items:
-                          AppLocalizations.supportedLocales.map((l) => l.languageCode).map((
-                            String item,
-                          ) {
-                            String displayName = getLanguageDisplayName(item);
-                            return DropdownMenuItem<String>(value: item, child: Text(displayName));
-                          }).toList(),
+                      items: AppLocalizations.supportedLocales.map((l) => l.languageCode).map((
+                        String item,
+                      ) {
+                        String displayName = getLanguageDisplayName(item);
+                        return DropdownMenuItem<String>(value: item, child: Text(displayName));
+                      }).toList(),
                       onChanged: (String? newValue) async {
                         if (newValue != null && newValue != currentLanguage) {
                           // Close the current modal first
@@ -98,14 +97,12 @@ void _showSettingsModal(BuildContext context, ThemeData theme) {
                         Text(
                           l10n.metric,
                           style: TextStyle(
-                            color:
-                                appState.measurementSystem == MeasurementSystem.metric
-                                    ? theme.colorScheme.primary
-                                    : theme.colorScheme.onSurface.withOpacity(0.6),
-                            fontWeight:
-                                appState.measurementSystem == MeasurementSystem.metric
-                                    ? FontWeight.bold
-                                    : FontWeight.normal,
+                            color: appState.measurementSystem == MeasurementSystem.metric
+                                ? theme.colorScheme.primary
+                                : theme.colorScheme.onSurface.withOpacity(0.6),
+                            fontWeight: appState.measurementSystem == MeasurementSystem.metric
+                                ? FontWeight.bold
+                                : FontWeight.normal,
                           ),
                         ),
                         Switch(
@@ -121,14 +118,12 @@ void _showSettingsModal(BuildContext context, ThemeData theme) {
                         Text(
                           l10n.us,
                           style: TextStyle(
-                            color:
-                                appState.measurementSystem == MeasurementSystem.us
-                                    ? theme.colorScheme.primary
-                                    : theme.colorScheme.onSurface.withOpacity(0.6),
-                            fontWeight:
-                                appState.measurementSystem == MeasurementSystem.us
-                                    ? FontWeight.bold
-                                    : FontWeight.normal,
+                            color: appState.measurementSystem == MeasurementSystem.us
+                                ? theme.colorScheme.primary
+                                : theme.colorScheme.onSurface.withOpacity(0.6),
+                            fontWeight: appState.measurementSystem == MeasurementSystem.us
+                                ? FontWeight.bold
+                                : FontWeight.normal,
                           ),
                         ),
                       ],

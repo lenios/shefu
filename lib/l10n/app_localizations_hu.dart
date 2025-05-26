@@ -134,7 +134,8 @@ class AppLocalizationsHu extends AppLocalizations {
   }
 
   @override
-  String get noRecipe => 'Nincs elérhető recept.\nKérjük, hozzon létre egyet az alul található + gombbal.';
+  String get noRecipe =>
+      'Nincs elérhető recept.\nKérjük, hozzon létre egyet az alul található + gombbal.';
 
   @override
   String get noStepsAddedYet => 'Még nincsenek lépések hozzáadva.';
@@ -325,7 +326,8 @@ class AppLocalizationsHu extends AppLocalizations {
   String get hours_abbreviation => 'óra';
 
   @override
-  String get timerUsage => 'Érintse meg a szüneteltetéshez/folytatáshoz,\ntartsa lenyomva az időzítő leállításához.';
+  String get timerUsage =>
+      'Érintse meg a szüneteltetéshez/folytatáshoz,\ntartsa lenyomva az időzítő leállításához.';
 
   @override
   String get noMatchingNutrient => 'Nincs megfelelő hozzávaló';
@@ -375,19 +377,24 @@ class AppLocalizationsHu extends AppLocalizations {
   String get tips => 'Tippek';
 
   @override
-  String get tipSearch => 'Recepteket kereshet bármilyen recept információ beírásával: recept neve, hozzávaló neve, jegyzetek, forrás vagy lépések leírása.\nPéldául, csokoládé mousse-t találhat \'mousse\', \'tojás\' vagy \'felver\' keresésével.';
+  String get tipSearch =>
+      'Recepteket kereshet bármilyen recept információ beírásával: recept neve, hozzávaló neve, jegyzetek, forrás vagy lépések leírása.\nPéldául, csokoládé mousse-t találhat \'mousse\', \'tojás\' vagy \'felver\' keresésével.';
 
   @override
-  String get tipIngredients => 'A recept oldalon, érintse meg a \'Hozzávalók\' fület vagy húzza balra a képernyőt a hozzávalók listájának megtekintéséhez.';
+  String get tipIngredients =>
+      'A recept oldalon, érintse meg a \'Hozzávalók\' fület vagy húzza balra a képernyőt a hozzávalók listájának megtekintéséhez.';
 
   @override
-  String get tipShoppingList => 'Amikor hozzáadja egy recept hozzávalóit a bevásárlólistához, a recept is mentésre kerül. Több receptből is hozzáadhat hozzávalókat, és elérheti az egyes recepteket a címükre kattintva a bevásárlólistában.';
+  String get tipShoppingList =>
+      'Amikor hozzáadja egy recept hozzávalóit a bevásárlólistához, a recept is mentésre kerül. Több receptből is hozzáadhat hozzávalókat, és elérheti az egyes recepteket a címükre kattintva a bevásárlólistában.';
 
   @override
-  String get tipImport => 'Importálhat receptet úgy, hogy beilleszti a teljes URL-t egy támogatott weboldalról a forrás mezőbe a recept szerkesztésekor.';
+  String get tipImport =>
+      'Importálhat receptet úgy, hogy beilleszti a teljes URL-t egy támogatott weboldalról a forrás mezőbe a recept szerkesztésekor.';
 
   @override
-  String get tipNutritionalValues => 'Amikor szerkeszt egy hozzávalót a receptben, kiválaszthat egy megfelelő tápanyagot és szorzót. Ha mindkettőt kiválasztja, a tápértékek automatikusan kiszámításra és hozzáadásra kerülnek a recepthez!';
+  String get tipNutritionalValues =>
+      'Amikor szerkeszt egy hozzávalót a receptben, kiválaszthat egy megfelelő tápanyagot és szorzót. Ha mindkettőt kiválasztja, a tápértékek automatikusan kiszámításra és hozzáadásra kerülnek a recepthez!';
 
   @override
   String get gatherIngredients => 'Hozzávalók összegyűjtése';
@@ -441,10 +448,12 @@ class AppLocalizationsHu extends AppLocalizations {
   String get processing => 'Feldolgozás folyamatban';
 
   @override
-  String get rectangleInstructions => 'Fontos: Ha több oszlop van, jelölje ki a blokkokat!\n(ha csak egy oszlop van, hagyja figyelmen kívül és kattintson a \'Mentés\' gombra)';
+  String get rectangleInstructions =>
+      'Fontos: Ha több oszlop van, jelölje ki a blokkokat!\n(ha csak egy oszlop van, hagyja figyelmen kívül és kattintson a \'Mentés\' gombra)';
 
   @override
-  String get rectangleDetails => 'Sajnos a szövegfelismerés nem működik jól a többoszlopos elrendezéseknél. Át kell formáznunk a képet.\n\nElőször válassza ki a cím+hozzávalók blokkot, majd minden oszlopot.\nEzeket egy új képpé fogjuk egyesíteni.';
+  String get rectangleDetails =>
+      'Sajnos a szövegfelismerés nem működik jól a többoszlopos elrendezéseknél. Át kell formáznunk a képet.\n\nElőször válassza ki a cím+hozzávalók blokkot, majd minden oszlopot.\nEzeket egy új képpé fogjuk egyesíteni.';
 
   @override
   String get apple => 'alma';
