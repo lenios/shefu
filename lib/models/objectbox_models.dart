@@ -14,12 +14,16 @@ class Recipe {
   int category; // Corresponds to the enum Category
   String countryCode; //ISO 3166-1-alpha-2 Flags
   int calories;
+  int fat;
+  int carbohydrates;
+  int protein;
   int time;
   int cookTime;
   int prepTime;
+  int restTime;
   int month;
-  int carbohydrates;
   String makeAhead;
+  String? videoUrl;
 
   @Backlink('recipe')
   final steps = ToMany<RecipeStep>();
@@ -37,12 +41,16 @@ class Recipe {
     this.category = 0,
     this.countryCode = "WW",
     this.calories = 0,
+    this.fat = 0,
+    this.carbohydrates = 0,
+    this.protein = 0,
     this.time = 0,
     this.cookTime = 0,
     this.prepTime = 0,
+    this.restTime = 0,
     this.month = 1,
-    this.carbohydrates = 0,
     this.makeAhead = "",
+    this.videoUrl = "",
   });
 }
 

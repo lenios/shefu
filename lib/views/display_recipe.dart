@@ -14,6 +14,8 @@ import 'package:shefu/widgets/ingredient_display.dart';
 import 'package:shefu/widgets/misc.dart';
 import 'package:shefu/widgets/recipe_step_card.dart';
 import 'package:flutter_command/flutter_command.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
+// import 'package:video_player/video_player.dart';
 
 import '../widgets/header_stats.dart';
 
@@ -29,6 +31,7 @@ class DisplayRecipe extends StatefulWidget {
 
 class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateMixin {
   late TabController _tabController;
+  bool _cookModeActive = false;
 
   @override
   void initState() {
@@ -410,15 +413,52 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                   }
                 : null,
             child: RepaintBoundary(
-              child: SizedBox(
-                width: imageSize,
-                height: imageSize,
-                child: Container(
-                  decoration: imagePath.isNotEmpty
-                      ? BoxDecoration(border: Border.all(color: Colors.white, width: 0.5))
-                      : null, // No border if no image path
-                  child: ClipRect(child: buildFutureImageWidget(context, imagePath)),
-                ),
+              child: Stack(
+                children: [
+                  SizedBox(
+                    width: imageSize,
+                    height: imageSize,
+                    child: Container(
+                      decoration: imagePath.isNotEmpty
+                          ? BoxDecoration(border: Border.all(color: Colors.white, width: 0.5))
+                          : null, // No border if no image path
+                      child: ClipRect(child: buildFutureImageWidget(context, imagePath)),
+                    ),
+                  ),
+                  // Video play button
+                  // if (recipe.videoUrl != null && recipe.videoUrl!.isNotEmpty)
+                  //   Positioned(
+                  //     right: 8,
+                  //     bottom: 8,
+                  //     child: GestureDetector(
+                  //       onTap: () async {
+                  //         if (viewModel.recipe?.videoUrl != null) {
+                  //           _videoPlayerController =
+                  //               VideoPlayerController.networkUrl(
+                  //                   Uri.parse(viewModel.recipe!.videoUrl!),
+                  //                 )
+                  //                 ..initialize().then((_) {
+                  //                   // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+                  //                   setState(() {});
+                  //                 });
+                  //         }
+                  //         _showVideoPlayer(context, _videoPlayerController);
+                  //       },
+                  //       child: Container(
+                  //         padding: const EdgeInsets.all(8),
+                  //         decoration: BoxDecoration(
+                  //           color: Colors.black.withOpacity(0.6),
+                  //           shape: BoxShape.circle,
+                  //         ),
+                  //         child: const Icon(
+                  //           Icons.play_arrow_rounded,
+                  //           color: Colors.white,
+                  //           size: 28,
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                ],
               ),
             ),
           ),
@@ -509,12 +549,37 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                         unit: AppLocalizations.of(context)!.kcps,
                       ),
                       const SizedBox(width: 10),
-                      buildHeaderStat(
-                        context,
-                        iconData: Icons.alarm,
-                        value: recipe.time,
-                        unit: AppLocalizations.of(context)!.min,
-                      ),
+                      if (recipe.prepTime > 0 || recipe.cookTime > 0)
+                        Row(
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                if (recipe.prepTime > 0)
+                                  buildHeaderStat(
+                                    context,
+                                    iconData: Icons.restaurant_menu,
+                                    value: recipe.prepTime,
+                                    unit: AppLocalizations.of(context)!.min,
+                                  ),
+                                if (recipe.cookTime > 0)
+                                  buildHeaderStat(
+                                    context,
+                                    iconData: Icons.microwave,
+                                    value: recipe.cookTime,
+                                    unit: AppLocalizations.of(context)!.min,
+                                  ),
+                                if (recipe.restTime > 0)
+                                  buildHeaderStat(
+                                    context,
+                                    iconData: Icons.schedule,
+                                    value: recipe.restTime,
+                                    unit: AppLocalizations.of(context)!.min,
+                                  ),
+                              ],
+                            ),
+                          ],
+                        ),
                     ],
                   ),
                 ],
@@ -549,6 +614,39 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
           },
         ),
         actions: [
+          // Cook Mode Toggle
+          Tooltip(
+            message: AppLocalizations.of(context)!.keepScreenOn,
+            child: ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  _cookModeActive = !_cookModeActive;
+                  WakelockPlus.toggle(enable: _cookModeActive);
+                });
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: _cookModeActive
+                    ? Colors.amber.withAlpha(200)
+                    : Colors.white.withAlpha(50),
+                foregroundColor: _cookModeActive ? Colors.black : Colors.white,
+                visualDensity: VisualDensity.compact,
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+              ),
+              child: Row(
+                children: [
+                  Icon(_cookModeActive ? Icons.visibility_off : Icons.visibility, size: 18),
+                  const SizedBox(width: 4),
+                  Text(
+                    _cookModeActive
+                        ? AppLocalizations.of(context)!.disableCookMode
+                        : AppLocalizations.of(context)!.enableCookMode,
+                    style: const TextStyle(fontSize: 12),
+                  ),
+                ],
+              ),
+            ),
+          ),
+
           IconButton(
             onPressed: () {
               // TODO: implement
@@ -577,4 +675,78 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
       ),
     );
   }
+
+  // void _showVideoPlayer(BuildContext context, VideoPlayerController videoPlayerController) async {
+  //   await videoPlayerController.setLooping(true);
+  //   await videoPlayerController.play();
+
+  //   showDialog(
+  //     context: context,
+  //     builder: (context) => Dialog(
+  //       backgroundColor: Colors.transparent,
+  //       insetPadding: const EdgeInsets.all(10),
+  //       child: ClipRRect(
+  //         borderRadius: BorderRadius.circular(8.0),
+  //         child: Column(
+  //           mainAxisSize: MainAxisSize.min,
+  //           children: [
+  //             AppBar(
+  //               backgroundColor: Colors.black,
+  //               automaticallyImplyLeading: false,
+  //               actions: [
+  //                 IconButton(
+  //                   icon: const Icon(Icons.close, color: Colors.white),
+  //                   onPressed: () => Navigator.pop(context),
+  //                 ),
+  //               ],
+  //             ),
+  //             AspectRatio(
+  //               aspectRatio: 16 / 9,
+  //               child: Container(
+  //                 color: Colors.black,
+  //                 child: Center(
+  //                   child: Stack(
+  //                     alignment: Alignment.center,
+  //                     children: [
+  //                       Center(
+  //                         child: videoPlayerController.value.isInitialized
+  //                             ? Column(
+  //                                 children: [
+  //                                   AspectRatio(
+  //                                     aspectRatio: videoPlayerController!.value.aspectRatio,
+  //                                     child: videoPlayerController.value.isInitialized
+  //                                         ? AspectRatio(
+  //                                             aspectRatio: videoPlayerController.value.aspectRatio,
+  //                                             child: VideoPlayer(videoPlayerController),
+  //                                           )
+  //                                         : Container(),
+  //                                   ),
+  //                                   VideoProgressIndicator(
+  //                                     videoPlayerController,
+  //                                     allowScrubbing: true,
+  //                                     padding: const EdgeInsets.symmetric(
+  //                                       vertical: 8,
+  //                                       horizontal: 16,
+  //                                     ),
+  //                                     colors: VideoProgressColors(
+  //                                       playedColor: AppColor.primary,
+  //                                       bufferedColor: Colors.grey.shade400,
+  //                                       backgroundColor: Colors.grey.shade700,
+  //                                     ),
+  //                                   ),
+  //                                 ],
+  //                               )
+  //                             : Container(),
+  //                       ),
+  //                     ],
+  //                   ),
+  //                 ),
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 }

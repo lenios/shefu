@@ -210,5 +210,11 @@
     "metric": "Metrikus",
     "us": "Amerikai",
     "piecesPerServing": "{pieces_count} darab adagonként",
-    "makeAhead": "Előkészítés és tárolás"
+    "makeAhead": "Előkészítés és tárolás",
+    "preparation": "előkészítés",
+    "cooking": "sütés-főzés",
+    "rest": "pihentetés",
+    "enableCookMode": "Főzés mód",
+    "keepScreenOn": "képernyő ébren tartása (alvó mód megakadályozása)",
+    "disableCookMode": "Főzés mód kikapcsolása"
 }

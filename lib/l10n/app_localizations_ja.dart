@@ -650,4 +650,22 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get makeAhead => '事前準備と保存';
+
+  @override
+  String get preparation => '準備';
+
+  @override
+  String get cooking => '調理';
+
+  @override
+  String get rest => '休';
+
+  @override
+  String get enableCookMode => 'クッキングモード';
+
+  @override
+  String get keepScreenOn => '画面をオンのままにする（スリープモードを防止）';
+
+  @override
+  String get disableCookMode => 'クッキングモードを終了';
 }
