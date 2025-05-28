@@ -339,7 +339,8 @@ class AppLocalizationsFr extends AppLocalizations {
   String get leave => 'Quitter';
 
   @override
-  String get unsavedChanges => 'Vous avez peut-être des changements non enregistrés.';
+  String get unsavedChanges =>
+      'Vous avez peut-être des changements non enregistrés.';
 
   @override
   String get importRecipe => 'Importer la recette';
@@ -350,16 +351,20 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String get scrapeError => 'Échec de l\'importation de la recette depuis l\'URL.';
+  String get scrapeError =>
+      'Échec de l\'importation de la recette depuis l\'URL.';
 
   @override
-  String get checkIngredientsYouHave => 'Cochez les ingrédients que vous avez déjà :';
+  String get checkIngredientsYouHave =>
+      'Cochez les ingrédients que vous avez déjà :';
 
   @override
-  String get addAllToShoppingList => 'Ajouter tous les ingrédients\n à la liste de courses';
+  String get addAllToShoppingList =>
+      'Ajouter tous les ingrédients\n à la liste de courses';
 
   @override
-  String get addMissingToShoppingList => 'Ajouter les ingrédients manquants\nà la liste de courses';
+  String get addMissingToShoppingList =>
+      'Ajouter les ingrédients manquants\nà la liste de courses';
 
   @override
   String get shoppingListEmpty => 'Votre liste de courses est vide.';
@@ -371,7 +376,8 @@ class AppLocalizationsFr extends AppLocalizations {
   String get remove => 'Retirer';
 
   @override
-  String get itemsAddedToShoppingList => 'Articles ajoutés à la liste de courses';
+  String get itemsAddedToShoppingList =>
+      'Articles ajoutés à la liste de courses';
 
   @override
   String get tips => 'Astuces';
@@ -654,4 +660,23 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get makeAhead => 'Conservation';
+
+  @override
+  String get preparation => 'préparation';
+
+  @override
+  String get cooking => 'cuisson';
+
+  @override
+  String get rest => 'repos';
+
+  @override
+  String get enableCookMode => 'Mode cuisine';
+
+  @override
+  String get keepScreenOn =>
+      'garder l\'écran allumé (empêcher la mise en veille)';
+
+  @override
+  String get disableCookMode => 'Désactiver le mode cuisine';
 }

@@ -210,5 +210,11 @@
     "metric": "メートル法",
     "us": "米国単位",
     "piecesPerServing": "{pieces_count}個/人前",
-    "makeAhead": "事前準備と保存"
+    "makeAhead": "事前準備と保存",
+    "preparation": "準備",
+    "cooking": "調理",
+    "rest": "休",
+    "enableCookMode": "クッキングモード",
+    "keepScreenOn": "画面をオンのままにする（スリープモードを防止）",
+    "disableCookMode": "クッキングモードを終了"
 }

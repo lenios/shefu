@@ -353,13 +353,16 @@ class AppLocalizationsHu extends AppLocalizations {
   String get scrapeError => 'Nem sikerült importálni a receptet az URL-ről.';
 
   @override
-  String get checkIngredientsYouHave => 'Jelölje be a már meglévő hozzávalókat:';
+  String get checkIngredientsYouHave =>
+      'Jelölje be a már meglévő hozzávalókat:';
 
   @override
-  String get addAllToShoppingList => 'Összes hozzávaló hozzáadása\n a bevásárlólistához';
+  String get addAllToShoppingList =>
+      'Összes hozzávaló hozzáadása\n a bevásárlólistához';
 
   @override
-  String get addMissingToShoppingList => 'Hiányzó hozzávalók hozzáadása\n a bevásárlólistához';
+  String get addMissingToShoppingList =>
+      'Hiányzó hozzávalók hozzáadása\n a bevásárlólistához';
 
   @override
   String get shoppingListEmpty => 'A bevásárlólista üres.';
@@ -654,4 +657,23 @@ class AppLocalizationsHu extends AppLocalizations {
 
   @override
   String get makeAhead => 'Előkészítés és tárolás';
+
+  @override
+  String get preparation => 'előkészítés';
+
+  @override
+  String get cooking => 'sütés-főzés';
+
+  @override
+  String get rest => 'pihentetés';
+
+  @override
+  String get enableCookMode => 'Főzés mód';
+
+  @override
+  String get keepScreenOn =>
+      'képernyő ébren tartása (alvó mód megakadályozása)';
+
+  @override
+  String get disableCookMode => 'Főzés mód kikapcsolása';
 }

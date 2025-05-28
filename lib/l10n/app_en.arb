@@ -209,5 +209,11 @@
     "metric": "Metric",
     "us": "US",
     "piecesPerServing": "{pieces_count} per serving",
-    "makeAhead": "Make ahead and storage"
+    "makeAhead": "Make ahead and storage",
+    "preparation": "preparation",
+    "cooking": "cooking",
+    "rest": "rest",
+    "enableCookMode": "Cook mode",
+    "keepScreenOn": "keep the screen on (prevent sleep mode)",
+    "disableCookMode": "Disable cook mode"
 }

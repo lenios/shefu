@@ -386,7 +386,8 @@ class AppLocalizationsJa extends AppLocalizations {
       'レシピから買い物リストに材料を追加すると、レシピも保存されます。複数のレシピから材料を追加でき、買い物リストでレシピタイトルをタップすることでそれぞれのレシピにアクセスできます。';
 
   @override
-  String get tipImport => 'レシピの編集時に出典フィールドに対応ウェブサイトの完全なURLを貼り付けることで、レシピをインポートできます。';
+  String get tipImport =>
+      'レシピの編集時に出典フィールドに対応ウェブサイトの完全なURLを貼り付けることで、レシピをインポートできます。';
 
   @override
   String get tipNutritionalValues =>
@@ -650,4 +651,22 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get makeAhead => '事前準備と保存';
+
+  @override
+  String get preparation => '準備';
+
+  @override
+  String get cooking => '調理';
+
+  @override
+  String get rest => '休';
+
+  @override
+  String get enableCookMode => 'クッキングモード';
+
+  @override
+  String get keepScreenOn => '画面をオンのままにする（スリープモードを防止）';
+
+  @override
+  String get disableCookMode => 'クッキングモードを終了';
 }

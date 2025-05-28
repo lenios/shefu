@@ -209,5 +209,11 @@
     "metric": "Métrique",
     "us": "US",
     "piecesPerServing": "{pieces_count} par part",
-    "makeAhead": "Conservation"
+    "makeAhead": "Conservation",
+    "preparation": "préparation",
+    "cooking": "cuisson",
+    "rest": "repos",
+    "enableCookMode": "Mode cuisine",
+    "keepScreenOn": "garder l'écran allumé (empêcher la mise en veille)",
+    "disableCookMode": "Désactiver le mode cuisine"
 }

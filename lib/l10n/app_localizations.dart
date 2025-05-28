@@ -64,7 +64,8 @@ import 'app_localizations_ja.dart';
 /// be consistent with the languages listed in the AppLocalizations.supportedLocales
 /// property.
 abstract class AppLocalizations {
-  AppLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+  AppLocalizations(String locale)
+    : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
@@ -72,7 +73,8 @@ abstract class AppLocalizations {
     return Localizations.of<AppLocalizations>(context, AppLocalizations);
   }
 
-  static const LocalizationsDelegate<AppLocalizations> delegate = _AppLocalizationsDelegate();
+  static const LocalizationsDelegate<AppLocalizations> delegate =
+      _AppLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -1359,9 +1361,46 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Make ahead and storage'**
   String get makeAhead;
+
+  /// No description provided for @preparation.
+  ///
+  /// In en, this message translates to:
+  /// **'preparation'**
+  String get preparation;
+
+  /// No description provided for @cooking.
+  ///
+  /// In en, this message translates to:
+  /// **'cooking'**
+  String get cooking;
+
+  /// No description provided for @rest.
+  ///
+  /// In en, this message translates to:
+  /// **'rest'**
+  String get rest;
+
+  /// No description provided for @enableCookMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Cook mode'**
+  String get enableCookMode;
+
+  /// No description provided for @keepScreenOn.
+  ///
+  /// In en, this message translates to:
+  /// **'keep the screen on (prevent sleep mode)'**
+  String get keepScreenOn;
+
+  /// No description provided for @disableCookMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Disable cook mode'**
+  String get disableCookMode;
 }
 
-class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
+class _AppLocalizationsDelegate
+    extends LocalizationsDelegate<AppLocalizations> {
   const _AppLocalizationsDelegate();
 
   @override
@@ -1370,7 +1409,8 @@ class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> 
   }
 
   @override
-  bool isSupported(Locale locale) => <String>['en', 'fr', 'hu', 'ja'].contains(locale.languageCode);
+  bool isSupported(Locale locale) =>
+      <String>['en', 'fr', 'hu', 'ja'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;

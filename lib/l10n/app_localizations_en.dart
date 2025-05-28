@@ -134,7 +134,8 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get noRecipe => 'No recipe available.\nPlease add one, using the + button on the bottom.';
+  String get noRecipe =>
+      'No recipe available.\nPlease add one, using the + button on the bottom.';
 
   @override
   String get noStepsAddedYet => 'No steps added yet.';
@@ -325,7 +326,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get hours_abbreviation => 'h';
 
   @override
-  String get timerUsage => 'Tap to pause/resume,\nlong press to stop the timer.';
+  String get timerUsage =>
+      'Tap to pause/resume,\nlong press to stop the timer.';
 
   @override
   String get noMatchingNutrient => 'No matching nutrients found';
@@ -357,7 +359,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get addAllToShoppingList => 'Add all ingredients\n to shopping list';
 
   @override
-  String get addMissingToShoppingList => 'Add missing ingredients\n to shopping list';
+  String get addMissingToShoppingList =>
+      'Add missing ingredients\n to shopping list';
 
   @override
   String get shoppingListEmpty => 'Your shopping list is empty.';
@@ -652,4 +655,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get makeAhead => 'Make ahead and storage';
+
+  @override
+  String get preparation => 'preparation';
+
+  @override
+  String get cooking => 'cooking';
+
+  @override
+  String get rest => 'rest';
+
+  @override
+  String get enableCookMode => 'Cook mode';
+
+  @override
+  String get keepScreenOn => 'keep the screen on (prevent sleep mode)';
+
+  @override
+  String get disableCookMode => 'Disable cook mode';
 }
