@@ -39,11 +39,14 @@ class EditRecipeViewModel extends ChangeNotifier {
   // Controllers for text fields to manage state efficiently
   late TextEditingController titleController;
   late TextEditingController sourceController;
-  late TextEditingController timeController; // time is stored as string for simplicity
+  late TextEditingController prepTimeController;
+  late TextEditingController cookTimeController;
+  late TextEditingController restTimeController;
   late TextEditingController notesController;
   late TextEditingController servingsController;
   late TextEditingController piecesPerServingController;
   late TextEditingController makeAheadController;
+  late TextEditingController videoUrlController;
 
   Country _country = Country.worldWide; // Default, will be updated in init
   Country get country => _country;
@@ -78,11 +81,14 @@ class EditRecipeViewModel extends ChangeNotifier {
     // Initialize controllers here, they will be updated in initViewModel
     titleController = TextEditingController();
     sourceController = TextEditingController();
-    timeController = TextEditingController();
+    prepTimeController = TextEditingController();
+    cookTimeController = TextEditingController();
+    restTimeController = TextEditingController();
     notesController = TextEditingController();
     servingsController = TextEditingController();
     piecesPerServingController = TextEditingController();
     makeAheadController = TextEditingController();
+    videoUrlController = TextEditingController();
     initializeCommand = Command.createAsyncNoParam<Recipe>(_initializeData, initialValue: Recipe());
   }
 
@@ -105,9 +111,16 @@ class EditRecipeViewModel extends ChangeNotifier {
       _preventControllerListeners = true;
       titleController.text = _recipe.title;
       sourceController.text = _recipe.source;
-      timeController.text = _recipe.time > 0 ? _recipe.time.toString() : '';
+      prepTimeController.text =
+          (_recipe.prepTime == 0 && _recipe.cookTime == 0 && _recipe.restTime == 0)
+          ? _recipe.time.toString()
+          : recipe.prepTime.toString(); // Use total time if no other time set (backward compat)
+      cookTimeController.text = _recipe.cookTime.toString();
+      restTimeController.text = _recipe.restTime.toString();
       notesController.text = _recipe.notes;
       makeAheadController.text = _recipe.makeAhead;
+      videoUrlController.text = _recipe.videoUrl ?? '';
+
       servingsController.text = _recipe.servings > 0 ? _recipe.servings.toString() : '';
       if (_recipe.piecesPerServing != null) {
         piecesPerServingController.text = _recipe.piecesPerServing.toString();
@@ -328,17 +341,29 @@ class EditRecipeViewModel extends ChangeNotifier {
     recipe.notes = scrapedData.notes ?? recipe.notes;
     recipe.makeAhead = scrapedData.makeAhead ?? recipe.makeAhead;
     notesController.text = recipe.notes;
+    recipe.videoUrl = scrapedData.videoUrl ?? recipe.videoUrl;
 
     if (scrapedData.prepTime != null && scrapedData.prepTime! > 0) {
-      recipe.time = scrapedData.prepTime!;
+      recipe.prepTime = scrapedData.prepTime!;
+      prepTimeController.text = recipe.prepTime.toString();
     }
     if (scrapedData.cookTime != null && scrapedData.cookTime! > 0) {
       _recipe.cookTime = scrapedData.cookTime!;
+      cookTimeController.text = _recipe.cookTime.toString();
     }
-    if ((_recipe.prepTime > 0 || _recipe.cookTime > 0) && timeController.text.isEmpty) {
-      _recipe.time = _recipe.prepTime + _recipe.cookTime;
-      timeController.text = _recipe.time.toString();
+    if (scrapedData.restTime != null && scrapedData.restTime! > 0) {
+      _recipe.restTime = scrapedData.restTime!;
+      restTimeController.text = _recipe.restTime.toString();
     }
+
+    _recipe.time = _recipe.prepTime + _recipe.cookTime + _recipe.restTime;
+
+    _recipe.calories = scrapedData.calories ?? 0;
+    _recipe.fat = scrapedData.fat ?? 0;
+    _recipe.carbohydrates = scrapedData.carbohydrates ?? 0;
+    _recipe.protein = scrapedData.protein ?? 0;
+
+    // Clear existing steps
 
     recipe.steps.clear();
 
@@ -658,12 +683,14 @@ class EditRecipeViewModel extends ChangeNotifier {
       // 1. Update recipe object from controllers before saving
       _recipe.title = titleController.text;
       _recipe.source = sourceController.text;
-      _recipe.time = int.tryParse(timeController.text) ?? 0;
-      // if timecontroller is empty, addition  preptime and cooktime
-      if (_recipe.time == 0) _recipe.time = _recipe.prepTime + _recipe.cookTime;
+      _recipe.prepTime = int.tryParse(prepTimeController.text) ?? 0;
+      _recipe.cookTime = int.tryParse(cookTimeController.text) ?? 0;
+      _recipe.restTime = int.tryParse(restTimeController.text) ?? 0;
+      _recipe.time = _recipe.prepTime + _recipe.cookTime + _recipe.restTime;
 
       _recipe.notes = notesController.text;
       _recipe.makeAhead = makeAheadController.text;
+      _recipe.videoUrl = videoUrlController.text.isNotEmpty ? videoUrlController.text : "";
       _recipe.servings = int.tryParse(servingsController.text) ?? _recipe.servings;
       _recipe.piecesPerServing = int.tryParse(piecesPerServingController.text);
       _recipe.category = _category; // Ensure category is updated
@@ -720,8 +747,15 @@ class EditRecipeViewModel extends ChangeNotifier {
       }
 
       int servings = _recipe.servings;
-      _recipe.calories = servings > 0 ? totalCalories ~/ servings : 0;
-      _recipe.carbohydrates = servings > 0 ? totalCarbs ~/ servings : 0;
+      if (totalCalories > 0) {
+        // We managed to compute calories, override old or imported value
+        _recipe.calories = servings > 0 ? totalCalories ~/ servings : 0;
+      }
+      if (totalCarbs > 0) {
+        // We managed to compute carbohydrates, override old or imported value
+        _recipe.carbohydrates = servings > 0 ? totalCarbs ~/ servings : 0;
+      }
+
       if (_recipe.carbohydrates < 0) {
         _recipe.carbohydrates = 0;
       }
@@ -762,10 +796,14 @@ class EditRecipeViewModel extends ChangeNotifier {
   void dispose() {
     titleController.dispose();
     sourceController.dispose();
-    timeController.dispose();
+    prepTimeController.dispose();
+    cookTimeController.dispose();
+    restTimeController.dispose();
     notesController.dispose();
     servingsController.dispose();
     piecesPerServingController.dispose();
+    makeAheadController.dispose();
+    videoUrlController.dispose();
     _imageVersion.dispose();
 
     for (final timer in _debounceTimers.values) {

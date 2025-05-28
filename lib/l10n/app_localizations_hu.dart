@@ -654,4 +654,22 @@ class AppLocalizationsHu extends AppLocalizations {
 
   @override
   String get makeAhead => 'Előkészítés és tárolás';
+
+  @override
+  String get preparation => 'előkészítés';
+
+  @override
+  String get cooking => 'sütés-főzés';
+
+  @override
+  String get rest => 'pihentetés';
+
+  @override
+  String get enableCookMode => 'Főzés mód';
+
+  @override
+  String get keepScreenOn => 'képernyő ébren tartása (alvó mód megakadályozása)';
+
+  @override
+  String get disableCookMode => 'Főzés mód kikapcsolása';
 }

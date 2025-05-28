@@ -59,6 +59,7 @@ class SeriousEatsScraper implements RecipeWebScraper {
 
       // Combine notes and storage information
       final allNotes = _combineNotes(notes, storageInfo);
+      final nutritionInfo = _extractNutrition(recipeJson);
 
       return ScrapedRecipe(
         title: title,
@@ -71,6 +72,10 @@ class SeriousEatsScraper implements RecipeWebScraper {
         source: url,
         prepTime: prepTime,
         cookTime: cookTime,
+        calories: nutritionInfo?['calories'],
+        fat: nutritionInfo?['fatContent'],
+        carbohydrates: nutritionInfo?['carbohydrateContent'],
+        protein: nutritionInfo?['proteinContent'],
       );
     } catch (e, stackTrace) {
       logger.e('Error during scraping: $e\n$stackTrace');
@@ -309,28 +314,54 @@ class SeriousEatsScraper implements RecipeWebScraper {
     return notes;
   }
 
+  /// Extract nutrition information from the recipe JSON
+  ///
+  /// Converts JSON format:
+  /// "nutrition": {
+  ///   "@type": "NutritionInformation",
+  ///   "calories": "365 kcal",
+  ///   "carbohydrateContent": "68 g",
+  ///   ...
+  /// }
+  ///
+  /// Into a simplified map:
+  /// {
+  ///   "calories": 365,
+  ///   "carbohydrateContent": 68,
+  ///   ...
+  /// }
+  Map<String, int>? _extractNutrition(Map<String, dynamic> recipeJson) {
+    final nutrition = recipeJson['nutrition'];
+    if (nutrition is Map<String, dynamic>) {
+      final Map<String, int> nutritionInfo = {};
+      nutrition.forEach((key, value) {
+        if (value is String) {
+          // Extract numerical value
+          final match = RegExp(r'(\d+)').firstMatch(value);
+          nutritionInfo[key] = int.tryParse(match!.group(1)!) ?? 0;
+        } else if (value is num) {
+          nutritionInfo[key] = value.toInt();
+        }
+      });
+      return nutritionInfo.isNotEmpty ? nutritionInfo : null;
+    }
+    return null;
+  }
+
   List<String> _extractStorageInfo(html_parser.Document doc) {
     List<String> storageInfo = [];
 
-    // Look for storage and make-ahead information
-    final storageSelectors = ['h2', 'h3', '.recipe-storage', '.recipe-make-ahead'];
-
-    for (final selector in storageSelectors) {
-      final elements = doc.querySelectorAll(selector);
-
-      for (final element in elements) {
-        final text = element.text.toLowerCase();
-        if (text.contains('make-ahead') ||
-            text.contains('storage') ||
-            text.contains('storing') ||
-            text.contains('leftovers')) {
-          final nextElement = element.nextElementSibling;
-          if (nextElement != null && nextElement.text.isNotEmpty) {
-            final headerText = _decodeHtmlEntities(element.text.trim());
-            final contentText = _decodeHtmlEntities(nextElement.text.trim());
-            storageInfo.add("$headerText: $contentText");
-          }
+    final makeAheadSpans = doc.querySelectorAll('span.toc-make-ahead-and-storage');
+    for (final span in makeAheadSpans) {
+      var element = span.parent;
+      while (element != null) {
+        final nextP = element.nextElementSibling;
+        if (nextP != null && nextP.localName == 'p' && nextP.text.isNotEmpty) {
+          final contentText = _decodeHtmlEntities(nextP.text.trim());
+          storageInfo.add(contentText);
+          break;
         }
+        element = element.nextElementSibling;
       }
     }
 

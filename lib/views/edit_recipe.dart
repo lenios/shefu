@@ -261,26 +261,45 @@ class _EditRecipeState extends State<EditRecipe> {
                                   ),
                                   const SizedBox(height: 7),
 
-                                  // Second row: Timer input and category
+                                  // Second row: Month and Category
                                   Row(
                                     children: [
                                       Expanded(
-                                        flex: 2,
-                                        child: TextFormField(
-                                          controller: viewModel.timeController,
-                                          decoration: InputDecoration(
-                                            labelText: "${l10n.timer} (${l10n.minutes})",
-                                            border: const OutlineInputBorder(),
-                                            //prefixIcon: const Icon(Icons.timer_outlined),
-                                            isDense: true,
-                                          ),
-                                          keyboardType: TextInputType.number,
+                                        flex: 5,
+                                        child: Selector<EditRecipeViewModel, int>(
+                                          selector: (_, vm) => vm.month,
+                                          builder: (context, month, _) {
+                                            return DropdownButtonFormField<int>(
+                                              value: month,
+                                              decoration: InputDecoration(
+                                                labelText: l10n.month,
+                                                border: const OutlineInputBorder(),
+                                                isDense: true,
+                                              ),
+                                              items: List.generate(12, (i) => i + 1).map((m) {
+                                                return DropdownMenuItem<int>(
+                                                  value: m,
+                                                  child: Text(
+                                                    DateFormat.MMMM(
+                                                      l10n.localeName,
+                                                    ).format(DateTime(2000, m)),
+                                                  ),
+                                                );
+                                              }).toList(),
+                                              onChanged: (int? newValue) {
+                                                if (newValue != null) {
+                                                  viewModel.setMonth(newValue);
+                                                }
+                                              },
+                                            );
+                                          },
                                         ),
                                       ),
                                       const SizedBox(width: 7),
 
+                                      // Category dropdown - 1/2 of the row
                                       Expanded(
-                                        flex: 3,
+                                        flex: 4,
                                         child: Selector<EditRecipeViewModel, int>(
                                           selector: (_, vm) => vm.category,
                                           builder: (context, category, _) {
@@ -313,65 +332,98 @@ class _EditRecipeState extends State<EditRecipe> {
                                       ),
                                     ],
                                   ),
+                                  // Third row: Preparation, Cooking, Resting time
+                                  Card(
+                                    color: Theme.of(context).colorScheme.secondaryContainer,
 
-                                  // Third row: Month
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 8.0),
-                                    child: Row(
+                                    child: Column(
                                       children: [
-                                        Expanded(
-                                          child: Selector<EditRecipeViewModel, int>(
-                                            selector: (_, vm) => vm.month,
-                                            builder: (context, month, _) {
-                                              return DropdownButtonFormField<int>(
-                                                value: month,
-                                                decoration: InputDecoration(
-                                                  labelText: l10n.month,
-                                                  border: const OutlineInputBorder(),
-                                                ),
-                                                items: List.generate(12, (i) => i + 1).map((m) {
-                                                  return DropdownMenuItem<int>(
-                                                    value: m,
-                                                    child: Text(
-                                                      DateFormat.MMMM(
-                                                        l10n.localeName,
-                                                      ).format(DateTime(2000, m)),
-                                                    ),
-                                                  );
-                                                }).toList(),
-                                                onChanged: (int? newValue) {
-                                                  if (newValue != null) {
-                                                    viewModel.setMonth(newValue);
-                                                  }
-                                                },
-                                              );
-                                            },
+                                        Text(
+                                          "${l10n.timer} (${l10n.minutes})",
+                                          style: TextStyle(
+                                            color: Theme.of(
+                                              context,
+                                            ).colorScheme.onSecondaryContainer,
                                           ),
+                                        ),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              flex: 8,
+                                              child: TextFormField(
+                                                controller: viewModel.prepTimeController,
+                                                decoration: InputDecoration(
+                                                  labelText: l10n.preparation,
+                                                  border: const OutlineInputBorder(),
+                                                  isDense: true,
+                                                ),
+                                                keyboardType: TextInputType.number,
+                                                inputFormatters: [
+                                                  FilteringTextInputFormatter.digitsOnly,
+                                                ],
+                                              ),
+                                            ),
+                                            const SizedBox(width: 7),
+
+                                            Expanded(
+                                              flex: 7,
+                                              child: TextFormField(
+                                                controller: viewModel.cookTimeController,
+                                                decoration: InputDecoration(
+                                                  labelText: l10n.cooking,
+                                                  border: const OutlineInputBorder(),
+                                                  isDense: true,
+                                                ),
+                                                keyboardType: TextInputType.number,
+                                                inputFormatters: [
+                                                  FilteringTextInputFormatter.digitsOnly,
+                                                ],
+                                              ),
+                                            ),
+
+                                            const SizedBox(width: 7),
+
+                                            Expanded(
+                                              flex: 6,
+                                              child: TextFormField(
+                                                controller: viewModel.restTimeController,
+                                                decoration: InputDecoration(
+                                                  labelText: l10n.rest,
+                                                  border: const OutlineInputBorder(),
+                                                  isDense: true,
+                                                ),
+                                                keyboardType: TextInputType.number,
+                                                inputFormatters: [
+                                                  FilteringTextInputFormatter.digitsOnly,
+                                                ],
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ],
                                     ),
                                   ),
-                                  // --- Country Picker ---
-                                  // Use Selector only for country
-                                  Selector<EditRecipeViewModel, Country>(
-                                    selector: (_, vm) => vm.country,
-                                    builder: (context, country, _) {
-                                      // Use locale country as favorite.
-                                      final locale = l10n.localeName.substring(0, 2).toUpperCase();
-                                      final localeCountryCode = switch (locale) {
-                                        "EN" => ["US", "GB"],
-                                        "JA" => ["JP"],
-                                        _ => [locale], // All other locales match country code.
-                                      };
-                                      return Row(
-                                        children: [
-                                          Expanded(
-                                            child: ListTile(
-                                              contentPadding: EdgeInsets.zero,
-                                              title: Text(
-                                                "${l10n.country}: ${country.name} (${country.flagEmoji})",
-                                              ),
-                                              trailing: const Icon(Icons.arrow_drop_down),
+                                  const SizedBox(height: 7),
+
+                                  // Forth row: Country
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: Selector<EditRecipeViewModel, Country>(
+                                          selector: (_, vm) => vm.country,
+                                          builder: (context, country, _) {
+                                            // Use locale country as favorite.
+                                            final locale = l10n.localeName
+                                                .substring(0, 2)
+                                                .toUpperCase();
+                                            final localeCountryCode = switch (locale) {
+                                              "EN" => ["US", "GB"],
+                                              "JA" => ["JP"],
+                                              _ => [
+                                                locale,
+                                              ], // All other locales match country code.
+                                            };
+                                            return InkWell(
                                               onTap: () {
                                                 showCountryPicker(
                                                   context: context,
@@ -384,7 +436,6 @@ class _EditRecipeState extends State<EditRecipe> {
                                                     ),
                                                     inputDecoration: InputDecoration(
                                                       labelText: l10n.search,
-
                                                       prefixIcon: const Icon(Icons.search),
                                                       border: OutlineInputBorder(
                                                         borderSide: BorderSide(
@@ -398,18 +449,35 @@ class _EditRecipeState extends State<EditRecipe> {
                                                   onSelect: viewModel.setCountry,
                                                 );
                                               },
-                                            ),
-                                          ),
-                                          IconButton(
-                                            icon: const Icon(Icons.clear),
-                                            onPressed: () {
-                                              // Remove country selection
-                                              viewModel.setCountry(Country.parse("WW"));
-                                            },
-                                          ),
-                                        ],
-                                      );
-                                    },
+                                              child: InputDecorator(
+                                                decoration: InputDecoration(
+                                                  labelText: l10n.country,
+                                                  border: const OutlineInputBorder(),
+                                                  isDense: true,
+                                                  suffixIcon: IconButton(
+                                                    icon: const Icon(Icons.clear, size: 16),
+                                                    padding: EdgeInsets.zero,
+                                                    constraints: const BoxConstraints(),
+                                                    onPressed: () =>
+                                                        viewModel.setCountry(Country.parse("WW")),
+                                                  ),
+                                                ),
+                                                child: Row(
+                                                  children: [
+                                                    Text(
+                                                      "${country.flagEmoji} ${country.name}",
+                                                      style: const TextStyle(fontSize: 16),
+                                                    ),
+                                                    const Spacer(),
+                                                    const Icon(Icons.arrow_drop_down),
+                                                  ],
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
@@ -420,7 +488,7 @@ class _EditRecipeState extends State<EditRecipe> {
                     ],
                   ),
 
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 10),
 
                   // --- Source ---
                   Selector<EditRecipeViewModel, List<String>>(
@@ -492,9 +560,6 @@ class _EditRecipeState extends State<EditRecipe> {
                       );
                     },
                   ),
-                  const SizedBox(height: 10),
-
-                  const SizedBox(height: 10),
 
                   // --- Steps Section ---
                   const Divider(),
@@ -571,7 +636,6 @@ class _EditRecipeState extends State<EditRecipe> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 20),
 
                   // Make ahead
                   const SizedBox(height: 16),
@@ -583,6 +647,7 @@ class _EditRecipeState extends State<EditRecipe> {
                     ),
                     maxLines: 3,
                   ),
+                  const SizedBox(height: 10),
                   // --- Notes ---
                   TextFormField(
                     controller: viewModel.notesController,
@@ -593,6 +658,17 @@ class _EditRecipeState extends State<EditRecipe> {
                     maxLines: 5,
                     minLines: 2,
                   ),
+
+                  // // --- Video URL Field ---
+                  // TextFormField(
+                  //   controller: viewModel.videoUrlController,
+                  //   decoration: InputDecoration(
+                  //     border: const OutlineInputBorder(),
+                  //     hintText: 'https://<video>',
+                  //     prefixIcon: const Icon(Icons.videocam_outlined),
+                  //   ),
+                  //   keyboardType: TextInputType.url,
+                  // ),
                 ],
               ),
             ),

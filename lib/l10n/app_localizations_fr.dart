@@ -654,4 +654,22 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get makeAhead => 'Conservation';
+
+  @override
+  String get preparation => 'préparation';
+
+  @override
+  String get cooking => 'cuisson';
+
+  @override
+  String get rest => 'repos';
+
+  @override
+  String get enableCookMode => 'Mode cuisine';
+
+  @override
+  String get keepScreenOn => 'garder l\'écran allumé (empêcher la mise en veille)';
+
+  @override
+  String get disableCookMode => 'Désactiver le mode cuisine';
 }

@@ -21,10 +21,16 @@ class ScrapedRecipe {
   final int? servings;
   final int? prepTime;
   final int? cookTime;
+  final int? restTime;
   final int? category;
   final String? source;
   final String? notes;
   final String? makeAhead;
+  final String? videoUrl;
+  final int? calories;
+  final int? fat;
+  final int? carbohydrates;
+  final int? protein;
 
   ScrapedRecipe({
     required this.title,
@@ -34,10 +40,16 @@ class ScrapedRecipe {
     this.servings,
     this.prepTime,
     this.cookTime,
+    this.restTime,
     this.category,
     this.source,
     this.notes,
     this.makeAhead,
+    this.videoUrl,
+    this.calories,
+    this.fat,
+    this.carbohydrates,
+    this.protein,
   });
 }
 

@@ -1359,6 +1359,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Make ahead and storage'**
   String get makeAhead;
+
+  /// No description provided for @preparation.
+  ///
+  /// In en, this message translates to:
+  /// **'preparation'**
+  String get preparation;
+
+  /// No description provided for @cooking.
+  ///
+  /// In en, this message translates to:
+  /// **'cooking'**
+  String get cooking;
+
+  /// No description provided for @rest.
+  ///
+  /// In en, this message translates to:
+  /// **'rest'**
+  String get rest;
+
+  /// No description provided for @enableCookMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Cook mode'**
+  String get enableCookMode;
+
+  /// No description provided for @keepScreenOn.
+  ///
+  /// In en, this message translates to:
+  /// **'keep the screen on (prevent sleep mode)'**
+  String get keepScreenOn;
+
+  /// No description provided for @disableCookMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Disable cook mode'**
+  String get disableCookMode;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

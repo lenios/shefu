@@ -652,4 +652,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get makeAhead => 'Make ahead and storage';
+
+  @override
+  String get preparation => 'preparation';
+
+  @override
+  String get cooking => 'cooking';
+
+  @override
+  String get rest => 'rest';
+
+  @override
+  String get enableCookMode => 'Cook mode';
+
+  @override
+  String get keepScreenOn => 'keep the screen on (prevent sleep mode)';
+
+  @override
+  String get disableCookMode => 'Disable cook mode';
 }

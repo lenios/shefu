@@ -2,6 +2,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:html/dom.dart' as dom;
 import 'package:html/parser.dart' as html_parser;
 import 'package:http/http.dart' as http;
 import 'package:shefu/utils/recipe_web_scraper.dart';
@@ -25,6 +26,7 @@ class MarmitonScraper implements RecipeWebScraper {
       int? category;
       String? source;
       String? notes;
+      String? videoUrl;
       Map<String, dynamic>? recipeData;
 
       // First try to extract from JSON-LD (Schema.org)
@@ -53,26 +55,20 @@ class MarmitonScraper implements RecipeWebScraper {
             if (jsonData['cookTime'] is String) {
               final cookTimeMins = parseISODuration(jsonData['cookTime']);
               if (cookTimeMins > 0) {
-                prepTime = cookTimeMins;
+                cookTime = cookTimeMins;
               }
             }
 
             // Build notes with datePublished and cookTime
             final notesBuilder = StringBuffer();
+
+            final authorNotes = _extractAuthorNotes(doc);
+            if (authorNotes != null) {
+              notesBuilder.writeln(authorNotes);
+            }
+
             if (jsonData['datePublished'] is String) {
               notesBuilder.writeln('Date publiée: ${jsonData['datePublished']}');
-            }
-
-            if (jsonData['cookTime'] is String) {
-              final cookTimeStr = jsonData['cookTime'] as String;
-              final cookTimeMins = parseISODuration(cookTimeStr);
-              if (cookTimeMins > 0) {
-                notesBuilder.writeln('Temps de cuisson: $cookTimeMins min');
-              }
-            }
-
-            if (notesBuilder.isNotEmpty) {
-              notes = notesBuilder.toString();
             }
 
             // Set author as source
@@ -80,6 +76,10 @@ class MarmitonScraper implements RecipeWebScraper {
               notesBuilder.writeln('${jsonData['author']}@marmiton');
             } else if (jsonData['author'] is Map && jsonData['author']['name'] is String) {
               notesBuilder.writeln('${jsonData['author']['name']}@marmiton');
+            }
+
+            if (notesBuilder.isNotEmpty) {
+              notes = notesBuilder.toString();
             }
 
             // Set category from recipeCuisine
@@ -124,6 +124,12 @@ class MarmitonScraper implements RecipeWebScraper {
               if (match != null && match.group(1) != null) {
                 servings = int.tryParse(match.group(1)!);
               }
+            }
+
+            // extract video url if available
+            if (jsonData['video'] is Map<String, dynamic> &&
+                jsonData['video']['embedUrl'] is String) {
+              videoUrl = jsonData['video']['embedUrl'] as String?;
             }
 
             break; // We found what we needed
@@ -219,6 +225,7 @@ class MarmitonScraper implements RecipeWebScraper {
           category: category,
           source: source,
           notes: notes,
+          videoUrl: videoUrl,
         );
       } else {
         debugPrint('MarmitonScraper: Could not extract title.');
@@ -292,5 +299,18 @@ class MarmitonScraper implements RecipeWebScraper {
     }
 
     return (quantity, unit, name, shape);
+  }
+
+  String? _extractAuthorNotes(dom.Document doc) {
+    // Look for recipe author notes specifically in the i tag inside recipe-author-note div
+    final authorNoteDiv = doc.querySelector('.mrtn-hide-on-print.recipe-author-note');
+
+    if (authorNoteDiv != null) {
+      final noteItag = authorNoteDiv.querySelector('i');
+      if (noteItag != null && noteItag.text.isNotEmpty) {
+        return noteItag.text.trim();
+      }
+    }
+    return null; // No author note found
   }
 }
