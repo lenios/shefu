@@ -2,7 +2,7 @@
   "author": "Mirabelle",
   "canonical_url": "https://www.marmiton.org/recettes/recette_ratatouille_23223.aspx",
   "site_name": "Marmiton",
-  "host": "www.marmiton.org",
+  "host": "marmiton.org",
   "language": "fr",
   "title": "Ratatouille",
   "ingredients": [
@@ -55,5 +55,6 @@
     "ail",
     "facile",
     "moyen"
-  ]
+  ],
+  "description": ""
 }

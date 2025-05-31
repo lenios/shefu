@@ -20,10 +20,13 @@ Key Features:
 
 | Website | Status | Notes |
 |---------|--------|-------|
-| [Marmiton.org](https://www.marmiton.org) | ✅ Supported | Full recipe import |
-| [SeriousEats.com](https://www.seriouseats.com) | ✅ Supported | Full recipe import |
 | [Abeautifulmess.com](https://www.abeautifulmess.com) | ✅ Supported | Full recipe import |
 | [Allrecipes.com](https://www.allrecipes.com) | ✅ Supported | Full recipe import |
+| [Marmiton.org](https://www.marmiton.org) | ✅ Supported | Full recipe import |
+| [SeriousEats.com](https://www.seriouseats.com) | ✅ Supported | Full recipe import |
+| [Sugarhero.com](https://www.sugarhero.com) | ✅ Supported | Full recipe import |
+]
+
 
 | More sites | 🚧 In progress | Coming in future updates |
 

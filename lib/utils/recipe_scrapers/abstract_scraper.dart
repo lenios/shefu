@@ -144,7 +144,12 @@ class AbstractScraper {
       // Try schema first
       var schemaIngredients = schema.recipeIngredients;
       if (schemaIngredients != null && schemaIngredients.isNotEmpty) {
-        return schemaIngredients;
+        return schemaIngredients
+            .map(
+              (ingredient) =>
+                  decodeHtmlEntities(ingredient.replaceAll('((', '(').replaceAll('))', ')')),
+            )
+            .toList();
       }
     } catch (e) {
       debugPrint("Error extracting ingredients: $e");

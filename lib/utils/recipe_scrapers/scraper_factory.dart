@@ -14,6 +14,7 @@ class ScraperFactory {
     'marmiton.org': MarmitonScraper.new,
     'abeautifulmess.com': ABeautifulMessScraper.new,
     "allrecipes.com": AllRecipesScraper.new,
+    "sugarhero.com": AbstractScraper.new,
   };
 
   /// Extract host from URL or return null if invalid

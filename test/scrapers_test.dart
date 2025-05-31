@@ -80,43 +80,29 @@ void testScraper({
 }
 
 void main() {
-  testScraper(
-    siteName: 'SeriousEats.com',
-    scraperBuilder: (html, url) => SeriousEatsScraper(html, url),
-    htmlFilePath: 'test/test_data/seriouseats.com/seriouseats.testhtml',
-    jsonFilePath: 'test/test_data/seriouseats.com/seriouseats.json',
-    testUrl: 'https://www.seriouseats.com/old-fashioned-flaky-pie-dough-recipe',
-  );
+  // map site names to their respective scrapers
+  Map<String, (AbstractScraper Function(String, String), int)> scraperMap = {
+    'abeautifulmess.com': ((html, url) => ABeautifulMessScraper(html, url), 1),
+    'allrecipes.com': ((html, url) => AbstractScraper(html, url), 1), // fail groups on 2
+    'marmiton.org': ((html, url) => MarmitonScraper(html, url), 2),
+    'seriouseats.com': ((html, url) => SeriousEatsScraper(html, url), 1),
+    'sugarhero.com': ((html, url) => AbstractScraper(html, url), 1), // fail groups on 2
+  };
 
-  testScraper(
-    siteName: 'Marmiton.org',
-    scraperBuilder: (html, url) => MarmitonScraper(html, url),
-    htmlFilePath: 'test/test_data/marmiton.org/marmiton_1.testhtml',
-    jsonFilePath: 'test/test_data/marmiton.org/marmiton_1.json',
-    testUrl: 'https://www.marmiton.org/recettes/recette_exemple.aspx',
-  );
+  for (var entry in scraperMap.entries) {
+    final site = entry.key;
+    final scraperBuilder = entry.value.$1;
+    final numTests = entry.value.$2;
 
-  testScraper(
-    siteName: 'Marmiton.org',
-    scraperBuilder: (html, url) => MarmitonScraper(html, url),
-    htmlFilePath: 'test/test_data/marmiton.org/marmiton_2.testhtml',
-    jsonFilePath: 'test/test_data/marmiton.org/marmiton_2.json',
-    testUrl: 'https://www.marmiton.org/recettes/recette_courgettes-farcies_11192.aspx',
-  );
-
-  testScraper(
-    siteName: 'ABeautifulMess.com',
-    scraperBuilder: (html, url) => ABeautifulMessScraper(html, url),
-    htmlFilePath: 'test/test_data/abeautifulmess.com/abeautifulmess_1.testhtml',
-    jsonFilePath: 'test/test_data/abeautifulmess.com/abeautifulmess_1.json',
-    testUrl: 'https://abeautifulmess.com/homemade-cheese-crackers/',
-  );
-
-  testScraper(
-    siteName: 'allrecipes.com',
-    scraperBuilder: (html, url) => AbstractScraper(html, url),
-    htmlFilePath: 'test/test_data/allrecipes.com/allrecipescurated.testhtml',
-    jsonFilePath: 'test/test_data/allrecipes.com/allrecipescurated.json',
-    testUrl: 'https://www.allrecipes.com/recipe/228319/slow-cooker-chicken-tikka-masala/',
-  );
+    // Loop through each test
+    for (int i = 1; i <= numTests; i++) {
+      testScraper(
+        siteName: site,
+        scraperBuilder: scraperBuilder,
+        htmlFilePath: 'test/test_data/$site/${site.split('.')[0]}_$i.testhtml',
+        jsonFilePath: 'test/test_data/$site/${site.split('.')[0]}_$i.json',
+        testUrl: 'https://$site/test/recipe/test-recipe',
+      );
+    }
+  }
 }
