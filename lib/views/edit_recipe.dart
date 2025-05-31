@@ -9,12 +9,12 @@ import 'package:shefu/l10n/app_localizations.dart';
 import 'package:shefu/l10n/l10n_utils.dart';
 import 'package:shefu/models/objectbox_models.dart';
 import 'package:shefu/utils/app_color.dart';
+import 'package:shefu/utils/recipe_scrapers/scraper_factory.dart';
 import 'package:shefu/viewmodels/edit_recipe_viewmodel.dart';
 import 'package:shefu/widgets/confirmation_dialog.dart';
 import 'package:shefu/widgets/edit_ingredient_input.dart';
 import 'package:shefu/widgets/edit_recipe/recipe_image_picker.dart';
 import 'package:shefu/widgets/edit_recipe/recipe_step_card.dart';
-import 'package:shefu/widgets/edit_recipe/scraper_dialog_handler.dart';
 
 class EditRecipe extends StatefulWidget {
   const EditRecipe({super.key});
@@ -30,7 +30,6 @@ class _EditRecipeState extends State<EditRecipe> {
   late final FocusNode notesFocusNode;
   late final FocusNode servingsFocusNode;
 
-  final ScraperDialogHandler _scraperHandler = ScraperDialogHandler();
   EditRecipeViewModel? editRecipeViewModel;
 
   @override
@@ -43,7 +42,6 @@ class _EditRecipeState extends State<EditRecipe> {
     servingsFocusNode = FocusNode();
 
     final viewModel = Provider.of<EditRecipeViewModel>(context, listen: false);
-    viewModel.sourceController.addListener(_handleSourceUrlChange);
     viewModel.initializeCommand.execute(context);
   }
 
@@ -56,7 +54,6 @@ class _EditRecipeState extends State<EditRecipe> {
 
   @override
   void dispose() {
-    editRecipeViewModel!.sourceController.removeListener(_handleSourceUrlChange);
     titleFocusNode.dispose();
     sourceFocusNode.dispose();
     timeFocusNode.dispose();
@@ -66,8 +63,28 @@ class _EditRecipeState extends State<EditRecipe> {
     super.dispose();
   }
 
-  void _handleSourceUrlChange() {
-    _scraperHandler.handleSourceUrlChange(context, titleFocusNode);
+  void _importRecipe() async {
+    final viewModel = Provider.of<EditRecipeViewModel>(context, listen: false);
+    final url = viewModel.sourceController.text.trim();
+    final l10n = AppLocalizations.of(context)!;
+    await Future.microtask(() async {
+      try {
+        viewModel.scrapeData(url, l10n);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Recipe imported successfully!"), backgroundColor: Colors.green),
+        );
+      } catch (e) {
+        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l10n.scrapeError), backgroundColor: Colors.red));
+      } finally {
+        // Hide the snackbar regardless of result
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        }
+      }
+    });
   }
 
   @override
@@ -494,69 +511,94 @@ class _EditRecipeState extends State<EditRecipe> {
                   Selector<EditRecipeViewModel, List<String>>(
                     selector: (_, vm) => vm.availableSourceSuggestions,
                     builder: (context, suggestions, _) {
-                      return RawAutocomplete<String>(
-                        textEditingController: viewModel.sourceController,
-                        focusNode: sourceFocusNode,
-                        optionsBuilder: (TextEditingValue textEditingValue) {
-                          if (textEditingValue.text.isEmpty) {
-                            // If the input is empty, show all available (latest) suggestions
-                            return suggestions;
-                          }
-                          // Otherwise, filter suggestions based on the input
-                          return suggestions.where((String option) {
-                            return option.toLowerCase().contains(
-                              textEditingValue.text.toLowerCase(),
-                            );
-                          });
-                        },
-                        onSelected: (String selection) {
-                          viewModel.updateSource(selection);
-                        },
-                        fieldViewBuilder:
-                            (
-                              BuildContext context,
-                              TextEditingController fieldTextEditingController,
-                              FocusNode fieldFocusNode,
-                              VoidCallback onFieldSubmitted,
-                            ) {
-                              return TextFormField(
-                                controller: fieldTextEditingController,
-                                focusNode: fieldFocusNode,
-                                decoration: InputDecoration(
-                                  labelText: l10n.source,
-                                  border: const OutlineInputBorder(),
-                                  suffixIcon: Icon(Icons.arrow_drop_down),
-                                ),
-                                onFieldSubmitted: (text) {
-                                  onFieldSubmitted();
+                      return ValueListenableBuilder<TextEditingValue>(
+                        valueListenable: viewModel.sourceController,
+                        builder: (context, textValue, _) {
+                          final url = textValue.text.trim();
+                          final showImportButton =
+                              url.isNotEmpty && ScraperFactory.isSupported(url);
 
-                                  viewModel.updateSource(text);
+                          return RawAutocomplete<String>(
+                            textEditingController: viewModel.sourceController,
+                            focusNode: sourceFocusNode,
+                            optionsBuilder: (TextEditingValue textEditingValue) {
+                              if (textEditingValue.text.isEmpty) {
+                                // If the input is empty, show all available (latest) suggestions
+                                return suggestions;
+                              }
+                              // Otherwise, filter suggestions based on the input
+                              return suggestions.where((String option) {
+                                return option.toLowerCase().contains(
+                                  textEditingValue.text.toLowerCase(),
+                                );
+                              });
+                            },
+                            onSelected: (String selection) {
+                              viewModel.updateSource(selection);
+                            },
+                            fieldViewBuilder:
+                                (
+                                  BuildContext context,
+                                  TextEditingController fieldTextEditingController,
+                                  FocusNode fieldFocusNode,
+                                  VoidCallback onFieldSubmitted,
+                                ) {
+                                  return Row(
+                                    children: [
+                                      Expanded(
+                                        child: TextFormField(
+                                          controller: fieldTextEditingController,
+                                          focusNode: fieldFocusNode,
+                                          decoration: InputDecoration(
+                                            labelText: l10n.source,
+                                            border: const OutlineInputBorder(),
+                                            suffixIcon: const Icon(Icons.arrow_drop_down),
+                                          ),
+                                          onFieldSubmitted: (text) {
+                                            onFieldSubmitted();
+                                            viewModel.updateSource(text);
+                                          },
+                                        ),
+                                      ),
+                                      if (showImportButton)
+                                        FilledButton.icon(
+                                          icon: Icon(Icons.download, color: Colors.white),
+                                          label: Text(l10n.importRecipe),
+                                          style: FilledButton.styleFrom(
+                                            backgroundColor: AppColor.primary,
+                                            foregroundColor: Colors.white,
+                                          ),
+                                          onPressed: _importRecipe,
+                                        ),
+                                    ],
+                                  );
                                 },
-                              );
-                            },
-                        optionsViewBuilder:
-                            (
-                              BuildContext context,
-                              AutocompleteOnSelected<String> onSelected,
-                              Iterable<String> options,
-                            ) {
-                              return Material(
-                                elevation: 4.0,
-                                child: ListView.builder(
-                                  padding: EdgeInsets.zero,
-                                  itemCount: options.length,
-                                  itemBuilder: (BuildContext context, int index) {
-                                    final String option = options.elementAt(index);
-                                    return ListTile(
-                                      title: Text(option),
-                                      onTap: () {
-                                        onSelected(option);
+
+                            optionsViewBuilder:
+                                (
+                                  BuildContext context,
+                                  AutocompleteOnSelected<String> onSelected,
+                                  Iterable<String> options,
+                                ) {
+                                  return Material(
+                                    elevation: 4.0,
+                                    child: ListView.builder(
+                                      padding: EdgeInsets.zero,
+                                      itemCount: options.length,
+                                      itemBuilder: (BuildContext context, int index) {
+                                        final String option = options.elementAt(index);
+                                        return ListTile(
+                                          title: Text(option),
+                                          onTap: () {
+                                            onSelected(option);
+                                          },
+                                        );
                                       },
-                                    );
-                                  },
-                                ),
-                              );
-                            },
+                                    ),
+                                  );
+                                },
+                          );
+                        },
                       );
                     },
                   ),

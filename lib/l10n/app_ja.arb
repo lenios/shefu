@@ -109,7 +109,7 @@
     "leaveWithoutSaving": "保存せずに終了しますか？",
     "leave": "終了",
     "unsavedChanges": "保存されていない変更があるかもしれません。",
-    "importRecipe": "レシピをインポート",
+    "importRecipe": "インポート",
     "importRecipeConfirmation": "{url}からレシピをインポートしますか？この場合、現在のタイトル、手順、画像が上書きされます。",
     "scrapeError": "URLからレシピデータの取得に失敗しました。",
     "checkIngredientsYouHave": "すでに持っている材料をチェック:",

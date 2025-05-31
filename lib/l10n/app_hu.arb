@@ -109,7 +109,7 @@
     "leaveWithoutSaving": "Kilépés mentés nélkül?",
     "leave": "Kilépés",
     "unsavedChanges": "Lehet, hogy nem mentett változtatásai vannak.",
-    "importRecipe": "Recept importálása",
+    "import": "importálása",
     "importRecipeConfirmation": "Szeretné importálni a receptet az {url}? Ez felülírja a címet, a lépéseket és a képet.",
     "scrapeError": "Nem sikerült importálni a receptet az URL-ről.",
     "checkIngredientsYouHave": "Jelölje be a már meglévő hozzávalókat:",

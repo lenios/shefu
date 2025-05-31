@@ -16,14 +16,18 @@ Key Features:
 - **Shopping List Generation**: (Coming Soon!) Automatically generate a convenient shopping list based on the ingredients needed for your selected recipes.
 - **Multi-language Support**: Fully available in English, French, Japanese, and Hungarian.
 - **Works Offline**: Your recipes are stored locally on your device, ensuring you always have access. No internet required to use the application.
-- **Internet recipes import**: Put the source to a supported site url when creating a recipe, and the recipe will be imported.
+- **Internet recipes import**: Put a supported site url in source when creating a recipe to import it.
 
 | Website | Status | Notes |
 |---------|--------|-------|
 | [Marmiton.org](https://www.marmiton.org) | ✅ Supported | Full recipe import |
 | [SeriousEats.com](https://www.seriouseats.com) | ✅ Supported | Full recipe import |
+| [Abeautifulmess.com](https://www.abeautifulmess.com) | ✅ Supported | Full recipe import |
+
 | More sites | 🚧 In progress | Coming in future updates |
 
+
+**Recipe scraping now follows/uses https://github.com/hhursev/recipe-scrapers format to support as much websites as possible.**
 
 Feel free to help!
 

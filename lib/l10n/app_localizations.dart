@@ -373,67 +373,67 @@ abstract class AppLocalizations {
   /// No description provided for @snacks.
   ///
   /// In en, this message translates to:
-  /// **'Snacks'**
+  /// **'Snack'**
   String get snacks;
 
   /// No description provided for @cocktails.
   ///
   /// In en, this message translates to:
-  /// **'Cocktails'**
+  /// **'Cocktail'**
   String get cocktails;
 
   /// No description provided for @drinks.
   ///
   /// In en, this message translates to:
-  /// **'Drinks'**
+  /// **'Drink'**
   String get drinks;
 
   /// No description provided for @appetizers.
   ///
   /// In en, this message translates to:
-  /// **'Appetizers'**
+  /// **'Appetizer'**
   String get appetizers;
 
   /// No description provided for @starters.
   ///
   /// In en, this message translates to:
-  /// **'Starters'**
+  /// **'Starter'**
   String get starters;
 
   /// No description provided for @soups.
   ///
   /// In en, this message translates to:
-  /// **'Soups'**
+  /// **'Soup'**
   String get soups;
 
   /// No description provided for @mains.
   ///
   /// In en, this message translates to:
-  /// **'Mains'**
+  /// **'Main'**
   String get mains;
 
   /// No description provided for @sides.
   ///
   /// In en, this message translates to:
-  /// **'Sides'**
+  /// **'Side'**
   String get sides;
 
   /// No description provided for @desserts.
   ///
   /// In en, this message translates to:
-  /// **'Desserts'**
+  /// **'Dessert'**
   String get desserts;
 
   /// No description provided for @basics.
   ///
   /// In en, this message translates to:
-  /// **'Basics'**
+  /// **'Basic'**
   String get basics;
 
   /// No description provided for @sauces.
   ///
   /// In en, this message translates to:
-  /// **'Sauces'**
+  /// **'Sauce'**
   String get sauces;
 
   /// No description provided for @breakfast.
@@ -757,7 +757,7 @@ abstract class AppLocalizations {
   /// No description provided for @importRecipe.
   ///
   /// In en, this message translates to:
-  /// **'Import recipe'**
+  /// **'Import'**
   String get importRecipe;
 
   /// No description provided for @importRecipeConfirmation.

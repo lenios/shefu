@@ -1,20 +1,19 @@
 import 'dart:async';
 import 'dart:io'; // Import for File
-import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter_command/flutter_command.dart';
 import 'package:http/http.dart' as http;
-import 'package:image/image.dart' as img;
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as p;
-import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:shefu/l10n/l10n_utils.dart';
 import 'package:shefu/models/objectbox_models.dart';
 import 'package:shefu/repositories/objectbox_nutrient_repository.dart';
 import 'package:shefu/repositories/objectbox_recipe_repository.dart';
 import 'package:shefu/utils/mlkit.dart';
-import 'package:shefu/utils/recipe_web_scraper.dart';
+import 'package:shefu/utils/recipe_scrapers/scraper_factory.dart';
+import 'package:shefu/utils/recipe_scrapers/utils.dart';
 import 'package:shefu/widgets/edit_ingredient_input.dart';
 import 'package:shefu/widgets/edit_recipe/image_editor_screen.dart';
 import 'package:shefu/widgets/image_helper.dart';
@@ -331,44 +330,62 @@ class EditRecipeViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> updateFromScrapedData(ScrapedRecipe scrapedData) async {
+  Future<void> scrapeData(String url, AppLocalizations l10n) async {
+    final pscraper = await ScraperFactory.createFromUrl(url);
     // Overwrite title
-    recipe.title = scrapedData.title;
-    titleController.text = scrapedData.title;
-    recipe.servings = scrapedData.servings ?? recipe.servings;
-    servingsController.text = recipe.servings.toString();
-    recipe.category = scrapedData.category ?? recipe.category;
-    recipe.notes = scrapedData.notes ?? recipe.notes;
-    recipe.makeAhead = scrapedData.makeAhead ?? recipe.makeAhead;
-    notesController.text = recipe.notes;
-    recipe.videoUrl = scrapedData.videoUrl ?? recipe.videoUrl;
+    recipe.title = pscraper!.title();
+    titleController.text = pscraper.title();
 
-    if (scrapedData.prepTime != null && scrapedData.prepTime! > 0) {
-      recipe.prepTime = scrapedData.prepTime!;
+    // Get num of servings ("20 servings" -> 20)
+    recipe.servings =
+        int.tryParse(RegExp(r'(\d+)').firstMatch(pscraper.yields())!.group(1)!) ?? recipe.servings;
+
+    servingsController.text = recipe.servings.toString();
+    // Find matching category from scraped data
+    int matchedCategory = Category.values.indexWhere(
+      (c) =>
+          translatedCategory(c.toString(), l10n).toLowerCase() == pscraper.category().toLowerCase(),
+    );
+    if (matchedCategory >= 0) {
+      recipe.category = matchedCategory;
+      _category = matchedCategory;
+    }
+    recipe.notes = "${pscraper.description()}\n${pscraper.datePublished()}\n${pscraper.author()}";
+    notesController.text = recipe.notes;
+    recipe.makeAhead = pscraper.makeAhead();
+    makeAheadController.text = recipe.makeAhead;
+    //recipe.videoUrl = scrapedData.videoUrl ?? recipe.videoUrl;
+
+    if (pscraper.prepTime() != null && pscraper.prepTime()! > 0) {
+      recipe.prepTime = pscraper.prepTime() ?? 0;
       prepTimeController.text = recipe.prepTime.toString();
     }
-    if (scrapedData.cookTime != null && scrapedData.cookTime! > 0) {
-      _recipe.cookTime = scrapedData.cookTime!;
+    if (pscraper.cookTime() != null && pscraper.cookTime()! > 0) {
+      _recipe.cookTime = pscraper.cookTime() ?? 0;
       cookTimeController.text = _recipe.cookTime.toString();
     }
-    if (scrapedData.restTime != null && scrapedData.restTime! > 0) {
-      _recipe.restTime = scrapedData.restTime!;
-      restTimeController.text = _recipe.restTime.toString();
-    }
+    // TODO
+
+    // if (scrapedData.restTime != null && scrapedData.restTime! > 0) {
+    //   _recipe.restTime = scrapedData.restTime!;
+    //   restTimeController.text = _recipe.restTime.toString();
+    // }
 
     _recipe.time = _recipe.prepTime + _recipe.cookTime + _recipe.restTime;
 
-    _recipe.calories = scrapedData.calories ?? 0;
-    _recipe.fat = scrapedData.fat ?? 0;
-    _recipe.carbohydrates = scrapedData.carbohydrates ?? 0;
-    _recipe.protein = scrapedData.protein ?? 0;
+    _recipe.calories = pscraper.numericNutrients()['calories']?.toInt() ?? 0;
+    _recipe.fat = pscraper.numericNutrients()['fatContent']?.toInt() ?? 0;
+    _recipe.carbohydrates = pscraper.numericNutrients()['carbohydrateContent']?.toInt() ?? 0;
+    _recipe.protein = pscraper.numericNutrients()['proteinContent']?.toInt() ?? 0;
 
-    // Clear existing steps
+    setCountry(
+      Country.tryParse(pscraper.countryCode()) ?? Country.worldWide,
+    ); // Ensure country is updated
 
     recipe.steps.clear();
 
     recipe.steps.addAll(
-      scrapedData.steps.map((stepText) => RecipeStep(instruction: stepText.instruction)),
+      pscraper.instructionsList().map((instruction) => RecipeStep(instruction: instruction)),
     );
     recipe.steps.applyToDb();
 
@@ -377,8 +394,9 @@ class EditRecipeViewModel extends ChangeNotifier {
     }
 
     // Process ingredients
-    if (scrapedData.ingredients.isNotEmpty) {
-      for (var i in scrapedData.ingredients) {
+    var ingredients = pscraper.ingredients().map((e) => parseIngredient(e)).toList();
+    if (ingredients.isNotEmpty) {
+      for (var i in ingredients) {
         double quantity = double.tryParse(i.$1.replaceAll(',', '.')) ?? 0;
         String unit = i.$2;
         String name = i.$3;
@@ -389,14 +407,15 @@ class EditRecipeViewModel extends ChangeNotifier {
     }
 
     // Save recipe image
-    if (scrapedData.imageUrl != null && scrapedData.imageUrl!.isNotEmpty) {
+    String imageUrl = pscraper.image();
+    if (imageUrl.isNotEmpty) {
       try {
-        final response = await http.get(Uri.parse(scrapedData.imageUrl!));
+        final response = await http.get(Uri.parse(imageUrl));
         if (response.statusCode == 200) {
           final localPath = await saveImage(
             image: response.bodyBytes,
             recipeId: recipe.id,
-            ext: p.extension(scrapedData.imageUrl!),
+            ext: p.extension(imageUrl),
           );
 
           recipe.imagePath = localPath;
@@ -408,8 +427,17 @@ class EditRecipeViewModel extends ChangeNotifier {
       }
 
       // Save recipe step images if available
-      for (int i = 0; i < scrapedData.steps.length; i++) {
-        final stepImageUrl = scrapedData.steps[i].imagePath;
+      var steps = [
+        for (var i = 0; i < pscraper.instructionsList().length; i++)
+          ScrapedRecipeStep(
+            instruction: pscraper.instructionsList()[i],
+            imagePath: pscraper.stepImages().isNotEmpty
+                ? pscraper.stepImages()[i]
+                : null, // Use null if no image URL
+          ),
+      ];
+      for (int i = 0; i < steps.length; i++) {
+        final stepImageUrl = steps[i].imagePath;
         if (stepImageUrl != null && stepImageUrl.isNotEmpty) {
           try {
             final response = await http.get(Uri.parse(stepImageUrl));

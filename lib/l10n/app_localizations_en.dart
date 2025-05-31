@@ -146,37 +146,37 @@ class AppLocalizationsEn extends AppLocalizations {
   String get all => 'All';
 
   @override
-  String get snacks => 'Snacks';
+  String get snacks => 'Snack';
 
   @override
-  String get cocktails => 'Cocktails';
+  String get cocktails => 'Cocktail';
 
   @override
-  String get drinks => 'Drinks';
+  String get drinks => 'Drink';
 
   @override
-  String get appetizers => 'Appetizers';
+  String get appetizers => 'Appetizer';
 
   @override
-  String get starters => 'Starters';
+  String get starters => 'Starter';
 
   @override
-  String get soups => 'Soups';
+  String get soups => 'Soup';
 
   @override
-  String get mains => 'Mains';
+  String get mains => 'Main';
 
   @override
-  String get sides => 'Sides';
+  String get sides => 'Side';
 
   @override
-  String get desserts => 'Desserts';
+  String get desserts => 'Dessert';
 
   @override
-  String get basics => 'Basics';
+  String get basics => 'Basic';
 
   @override
-  String get sauces => 'Sauces';
+  String get sauces => 'Sauce';
 
   @override
   String get breakfast => 'Breakfast';
@@ -340,7 +340,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get unsavedChanges => 'You may have unsaved changes.';
 
   @override
-  String get importRecipe => 'Import recipe';
+  String get importRecipe => 'Import';
 
   @override
   String importRecipeConfirmation(Object url) {

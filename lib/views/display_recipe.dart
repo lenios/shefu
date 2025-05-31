@@ -14,6 +14,7 @@ import 'package:shefu/widgets/ingredient_display.dart';
 import 'package:shefu/widgets/misc.dart';
 import 'package:shefu/widgets/recipe_step_card.dart';
 import 'package:flutter_command/flutter_command.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 // import 'package:video_player/video_player.dart';
 
@@ -273,7 +274,12 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
         ...List.generate(recipe.steps.length, (index) {
           return RecipeStepCard(recipeStep: recipe.steps[index], servings: servingsMultiplier);
         }),
-        notesCard(recipe.notes),
+        noteCard(
+          context: context,
+          title: AppLocalizations.of(context)!.notes,
+          icon: Icons.notes,
+          text: Text(recipe.notes),
+        ),
       ],
     );
   }
@@ -284,109 +290,43 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
       padding: const EdgeInsets.all(4.0),
       child: Column(
         children: [
-          notesCard(viewModel.recipe?.notes, showTitle: true),
-          makeAheadCard(viewModel.recipe?.makeAhead),
-          fullSource(viewModel.recipe?.source ?? ''),
+          noteCard(
+            context: context,
+            title: AppLocalizations.of(context)!.notes,
+            icon: Icons.menu_book_outlined,
+            text: Text(viewModel.recipe?.notes ?? ""),
+          ),
+          if (viewModel.recipe?.makeAhead != null && viewModel.recipe!.makeAhead.isNotEmpty)
+            noteCard(
+              context: context,
+              title: AppLocalizations.of(context)!.makeAhead,
+              icon: Icons.access_time,
+              text: Text(viewModel.recipe?.makeAhead ?? ""),
+            ),
+          if (viewModel.recipe?.source != null && viewModel.recipe!.source.isNotEmpty)
+            noteCard(
+              context: context,
+              title: AppLocalizations.of(context)!.source,
+              icon: Icons.language,
+              text: GestureDetector(
+                onTap: () async {
+                  if (!await launchUrl(Uri.parse(viewModel.recipe!.source))) {
+                    throw Exception('Could not launch url');
+                  }
+                },
+                child: Text(
+                  viewModel.recipe!.source,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Theme.of(context).colorScheme.primary,
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+              ),
+            ),
         ],
       ),
     );
-  }
-
-  Widget fullSource(sourceUrl) {
-    if (sourceUrl.isEmpty) {
-      return const SizedBox();
-    }
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text("", style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-        const SizedBox(height: 4),
-        InkWell(
-          // Make the URL clickable
-          onTap: () async {
-            final Uri uri = Uri.parse(sourceUrl);
-            // TODO check what to do
-          },
-          child: Card(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("${AppLocalizations.of(context)!.source}:", style: TextStyle(fontSize: 16)),
-                Text(
-                  "$sourceUrl",
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Theme.of(context).colorScheme.primary, // Style as a link
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget notesCard(String? notes, {bool showTitle = false}) {
-    if (notes != null && notes.isNotEmpty) {
-      return Card(
-        margin: const EdgeInsets.all(8.0),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Title
-              if (showTitle)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 12.0),
-                  child: Text(
-                    AppLocalizations.of(context)!.notes,
-                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                ),
-              // Notes
-              SelectableText(notes, style: const TextStyle(fontSize: 16)),
-            ],
-          ),
-        ),
-      );
-    } else {
-      return const SizedBox(); // Empty space if no notes
-    }
-  }
-
-  Widget makeAheadCard(String? makeAhead) {
-    if (makeAhead != null && makeAhead.isNotEmpty) {
-      return Card(
-        margin: const EdgeInsets.all(8.0),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Icon(Icons.access_time, size: 18),
-                  const SizedBox(width: 8),
-                  Text(
-                    AppLocalizations.of(context)!.makeAhead,
-                    style: Theme.of(
-                      context,
-                    ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 8),
-              Text(makeAhead),
-            ],
-          ),
-        ),
-      );
-    } else {
-      return const SizedBox(); // Empty space if no make ahead info
-    }
   }
 
   Widget _buildHeader(BuildContext context, DisplayRecipeViewModel viewModel, String imagePath) {
@@ -505,7 +445,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                         icon: const Icon(Icons.arrow_drop_down, color: Colors.white),
                         dropdownColor: AppColor.primarySoft,
                         //underline: Container(), // Remove underline
-                        items: List.generate(12, (i) => i + 1).map((e) {
+                        items: List.generate(20, (i) => i + 1).map((e) {
                           return DropdownMenuItem<int>(value: e, child: Text(e.toString()));
                         }).toList(),
                         onChanged: (int? newValue) {

@@ -189,3 +189,36 @@ Widget categoryLine(int category, context) {
     );
   }
 }
+
+Widget noteCard({
+  required BuildContext context,
+  required String title,
+  required IconData icon,
+  required Widget text,
+}) {
+  return Card(
+    margin: const EdgeInsets.all(8.0),
+    child: Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(icon, size: 18),
+              const SizedBox(width: 8),
+              SelectableText(
+                title,
+                style: Theme.of(
+                  context,
+                ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          text,
+        ],
+      ),
+    ),
+  );
+}

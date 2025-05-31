@@ -225,44 +225,54 @@ String formattedUnit(String unit, BuildContext context) {
   }
 }
 
-// Translate category name to localized string
-// and add icon for cocktails
-Widget formattedCategory(String category, context, {bool dark = false}) {
+// Transalte category name to localized string
+String translatedCategory(String category, AppLocalizations l10n) {
   String categoryText;
-  IconData? categoryIcon;
-
   switch (category) {
     case "all":
-      categoryText = AppLocalizations.of(context)!.category;
+      categoryText = l10n.category;
     case "snacks":
-      categoryText = AppLocalizations.of(context)!.snacks;
+      categoryText = l10n.snacks;
     case "cocktails":
-      categoryText = AppLocalizations.of(context)!.cocktails;
-      categoryIcon = Icons.local_bar;
+      categoryText = l10n.cocktails;
     case "drinks":
-      categoryText = AppLocalizations.of(context)!.drinks;
-    //categoryIcon = Icons.water_full;
+      categoryText = l10n.drinks;
     case "appetizers":
-      categoryText = AppLocalizations.of(context)!.appetizers;
+      categoryText = l10n.appetizers;
     case "starters":
-      categoryText = AppLocalizations.of(context)!.starters;
+      categoryText = l10n.starters;
     case "soups":
-      categoryText = AppLocalizations.of(context)!.soups;
+      categoryText = l10n.soups;
     case "mains":
-      categoryText = AppLocalizations.of(context)!.mains;
+      categoryText = l10n.mains;
     case "sides":
-      categoryText = AppLocalizations.of(context)!.sides;
+      categoryText = l10n.sides;
     case "desserts":
-      categoryText = AppLocalizations.of(context)!.desserts;
+      categoryText = l10n.desserts;
     case "basics":
-      categoryText = AppLocalizations.of(context)!.basics;
+      categoryText = l10n.basics;
     case "sauces":
-      categoryText = AppLocalizations.of(context)!.sauces;
+      categoryText = l10n.sauces;
     case "breakfast":
-      categoryText = AppLocalizations.of(context)!.breakfast;
+      categoryText = l10n.breakfast;
 
     default:
       categoryText = category;
+  }
+  return categoryText;
+}
+
+// Translate and add icon for cocktails
+Widget formattedCategory(String category, context, {bool dark = false}) {
+  String categoryText = translatedCategory(category, AppLocalizations.of(context)!);
+  IconData? categoryIcon;
+
+  switch (category) {
+    case "cocktails":
+      categoryIcon = Icons.local_bar;
+    case "drinks":
+      categoryText = AppLocalizations.of(context)!.drinks;
+    default:
   }
   final textColor = dark
       ? Theme.of(context).colorScheme.onSurface

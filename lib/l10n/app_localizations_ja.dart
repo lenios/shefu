@@ -340,7 +340,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get unsavedChanges => '保存されていない変更があるかもしれません。';
 
   @override
-  String get importRecipe => 'レシピをインポート';
+  String get importRecipe => 'インポート';
 
   @override
   String importRecipeConfirmation(Object url) {
