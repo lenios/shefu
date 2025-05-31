@@ -360,11 +360,11 @@ class SchemaOrg {
     }
 
     // Otherwise try adding prep + cook time
-    final prepTime = getTime('prepTime') ?? 0;
-    final cookTime = getTime('cookTime') ?? 0;
+    final prepTime = getTime('prepTime');
+    final cookTime = getTime('cookTime');
 
-    if (prepTime > 0 || cookTime > 0) {
-      return prepTime + cookTime;
+    if (prepTime != null || cookTime != null) {
+      return (prepTime ?? 0) + (cookTime ?? 0);
     }
 
     return null;
@@ -539,7 +539,7 @@ class SchemaOrg {
 
   // Helper methods
   String _normalizeString(String text) {
-    return text.trim();
+    return text.replaceAll(RegExp(r'\s+'), ' ').trim();
   }
 
   List<String> _csvToTags(String csvText, {bool lowercase = false}) {

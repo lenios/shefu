@@ -1,7 +1,9 @@
 import '../abstract_scraper.dart';
 
 class ABeautifulMessScraper extends AbstractScraper {
-  ABeautifulMessScraper(super.html, super.url);
+  ABeautifulMessScraper(super.pageData, super.url) {
+    overrideDescription();
+  }
 
   @override
   List<String> equipment() {
@@ -18,26 +20,26 @@ class ABeautifulMessScraper extends AbstractScraper {
     return equipmentItems;
   }
 
-  @override
-  String description() {
+  void overrideDescription() {
     // get description + tips and notes
     final tipsHeading = soup.querySelector('#h-tips-and-notes');
-    if (tipsHeading == null) return '';
-
     final tipsList = soup.querySelector('#h-tips-and-notes + ul.wp-block-list');
-    if (tipsList == null) return '';
 
-    final notes = [];
-    notes.add(schema.description ?? '');
+    if (tipsHeading != null && tipsList != null) {
+      final notes = [];
+      notes.add(schema.description ?? '');
 
-    notes.addAll(
-      tipsList
-          .querySelectorAll('li')
-          .map((li) => li.text.trim())
-          .where((text) => text.isNotEmpty)
-          .toList(),
-    );
+      notes.addAll(
+        tipsList
+            .querySelectorAll('li')
+            .map((li) => li.text.trim())
+            .where((text) => text.isNotEmpty)
+            .toList(),
+      );
 
-    return notes.isEmpty ? '' : notes.join('\n- ');
+      if (notes.isNotEmpty) {
+        setOverride('description', notes.join('\n- '));
+      }
+    }
   }
 }

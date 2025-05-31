@@ -15,7 +15,7 @@ Key Features:
 - **Nutrient Tracking & Insights**: Link your ingredients to an extensive included offline nutrient database (Source: Santé Canada). Shefu automatically calculates estimated calories and carbohydrates per serving based on your ingredients and specified serving size, helping you make more informed dietary choices.
 - **Shopping List Generation**: (Coming Soon!) Automatically generate a convenient shopping list based on the ingredients needed for your selected recipes.
 - **Multi-language Support**: Fully available in English, French, Japanese, and Hungarian.
-- **Works Offline**: Your recipes are stored locally on your device, ensuring you always have access. No internet required to use the application.
+- **Works Offline**: Your recipes are stored locally on your device, ensuring you always have access. No internet required to use the application (except for recipe import, see below).
 - **Internet recipes import**: Put a supported site url in source when creating a recipe to import it.
 
 | Website | Status | Notes |
@@ -23,6 +23,7 @@ Key Features:
 | [Marmiton.org](https://www.marmiton.org) | ✅ Supported | Full recipe import |
 | [SeriousEats.com](https://www.seriouseats.com) | ✅ Supported | Full recipe import |
 | [Abeautifulmess.com](https://www.abeautifulmess.com) | ✅ Supported | Full recipe import |
+| [Allrecipes.com](https://www.allrecipes.com) | ✅ Supported | Full recipe import |
 
 | More sites | 🚧 In progress | Coming in future updates |
 

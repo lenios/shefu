@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:shefu/utils/recipe_scrapers/scrapers/abeautifulmess.com.dart';
+import 'package:shefu/utils/recipe_scrapers/scrapers/allrecipes.com.dart';
 import 'package:shefu/utils/recipe_scrapers/scrapers/marmiton.dart';
 import 'abstract_scraper.dart';
 import 'scrapers/seriouseats.dart';
@@ -12,6 +13,7 @@ class ScraperFactory {
     'seriouseats.com': SeriousEatsScraper.new,
     'marmiton.org': MarmitonScraper.new,
     'abeautifulmess.com': ABeautifulMessScraper.new,
+    "allrecipes.com": AllRecipesScraper.new,
   };
 
   /// Extract host from URL or return null if invalid
@@ -37,7 +39,7 @@ class ScraperFactory {
         }
 
         // Default scraper if no specific one is found
-        return AbstractScraper(response.body, url);
+        //return AbstractScraper(response.body, url);
       } catch (e, stackTrace) {
         throw ArgumentError('Invalid HTML content for URL: $url - $e');
       }

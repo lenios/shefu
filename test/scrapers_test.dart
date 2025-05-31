@@ -16,7 +16,6 @@ void testScraper({
   required String testUrl,
 }) {
   group('$siteName Scraper', () {
-    late AbstractScraper scraper;
     late String testHtml;
     late Map<String, dynamic> expectedJsonMap;
 
@@ -45,12 +44,10 @@ void testScraper({
       }
     });
 
-    setUp(() {
-      scraper = scraperBuilder(testHtml, testUrl);
-    });
+    setUp(() {});
 
     test('should extract recipe data and match expected JSON output', () {
-      final actualJsonMap = scraper.toJson();
+      final actualJsonMap = scraperBuilder(testHtml, testUrl).toJson();
 
       expect(actualJsonMap, isNotNull, reason: 'Scraper for $siteName returned null JSON.');
 
@@ -113,5 +110,13 @@ void main() {
     htmlFilePath: 'test/test_data/abeautifulmess.com/abeautifulmess_1.testhtml',
     jsonFilePath: 'test/test_data/abeautifulmess.com/abeautifulmess_1.json',
     testUrl: 'https://abeautifulmess.com/homemade-cheese-crackers/',
+  );
+
+  testScraper(
+    siteName: 'allrecipes.com',
+    scraperBuilder: (html, url) => AbstractScraper(html, url),
+    htmlFilePath: 'test/test_data/allrecipes.com/allrecipescurated.testhtml',
+    jsonFilePath: 'test/test_data/allrecipes.com/allrecipescurated.json',
+    testUrl: 'https://www.allrecipes.com/recipe/228319/slow-cooker-chicken-tikka-masala/',
   );
 }

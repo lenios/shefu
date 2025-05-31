@@ -15,6 +15,21 @@ class AbstractScraper {
   late SchemaOrg schema;
   late OpenGraph opengraph;
 
+  // Field to store override values
+  final Map<String, dynamic> _overrides = {};
+
+  // Add setter/getter methods
+  void setOverride(String key, dynamic value) {
+    _overrides[key] = value;
+  }
+
+  T? getOverride<T>(String key) {
+    if (_overrides.containsKey(key) && _overrides[key] is T) {
+      return _overrides[key] as T;
+    }
+    return null;
+  }
+
   static const version = "15.7.1";
   // Some sites close their content for 'bots', so user-agent must be supplied
   static final Map<String, String> headers = {
@@ -253,14 +268,8 @@ class AbstractScraper {
 
   /// Get cook time with fallback to HTML parsing
   int? cookTime() {
-    try {
-      // Try schema first
-      return schema.cookTime;
-    } catch (e) {
-      debugPrint("Error extracting cook time: $e");
-    }
-
-    return null;
+    final time = schema.cookTime;
+    return time != null && time > 0 ? time : null;
   }
 
   /// Get total time (cook + prep)
@@ -322,7 +331,37 @@ class AbstractScraper {
   }
 
   List<IngredientGroup> ingredientGroups() {
-    throw UnimplementedError("This should be implemented.");
+    // First check if we have an override set
+    final override = getOverride<List<IngredientGroup>>('ingredient_groups');
+    if (override != null) {
+      return override;
+    }
+
+    try {
+      // Try to get ingredients from schema data
+      final ingredientsList = ingredients();
+      if (ingredientsList.isEmpty) {
+        return [];
+      }
+
+      // Attempt to group the ingredients using the groupIngredients utility
+      return groupIngredients(ingredientsList, soup);
+    } catch (e) {
+      debugPrint("Error extracting ingredient groups: $e");
+
+      // If all else fails, return a single group with all ingredients
+      // try {
+      //   final allIngredients = ingredients();
+      //   if (allIngredients.isNotEmpty) {
+      //     return [IngredientGroup(ingredients: allIngredients)];
+      //   }
+      // } catch (ex) {
+      //   debugPrint("Error falling back to simple ingredient list: $ex");
+      // }
+    }
+
+    // Return empty list if nothing found
+    return [];
   }
 
   List<dynamic> reviews() {
@@ -331,17 +370,22 @@ class AbstractScraper {
 
   /// Get recipe description with fallback to OpenGraph
   String? description() {
+    final override = getOverride<String>('description');
+    if (override != null) {
+      return override;
+    }
+
     try {
       // Try schema first
-      var schemaDescription = schema.description;
-      if (schemaDescription != null && schemaDescription.isNotEmpty) {
-        return decodeHtmlEntities(schemaDescription);
+      final schemaDescription = schema.description;
+      if (schemaDescription?.isNotEmpty ?? false) {
+        return decodeHtmlEntities(schemaDescription!);
       }
 
       // Try OpenGraph next
-      var ogDescription = opengraph.description;
-      if (ogDescription != null && ogDescription.isNotEmpty) {
-        return decodeHtmlEntities(ogDescription);
+      final ogDescription = opengraph.description;
+      if (ogDescription?.isNotEmpty ?? false) {
+        return decodeHtmlEntities(ogDescription!);
       }
     } catch (e) {
       debugPrint("Error extracting description: $e");
@@ -444,13 +488,15 @@ class AbstractScraper {
       jsonDict['language'] = language();
     } catch (e) {}
     try {
-      jsonDict['title'] = title();
+      jsonDict['title'] = decodeHtmlEntities(title());
     } catch (e) {}
     try {
       jsonDict['ingredients'] = ingredients();
     } catch (e) {}
     try {
-      jsonDict['ingredient_groups'] = ingredientGroups().map((group) => group.toJson()).toList();
+      // if (ingredientGroups().isNotEmpty) {
+      //   jsonDict['ingredient_groups'] = ingredientGroups().map((group) => group.toJson()).toList();
+      // }
     } catch (e) {}
     try {
       jsonDict['instructions'] = instructions();
@@ -465,16 +511,15 @@ class AbstractScraper {
       jsonDict['yields'] = yields();
     } catch (e) {}
     try {
-      final desc = description();
-      if (desc != null && desc.isNotEmpty) {
-        jsonDict['description'] = desc;
-      }
+      jsonDict['description'] = description();
     } catch (e) {}
     try {
       jsonDict['total_time'] = totalTime();
     } catch (e) {}
     try {
-      jsonDict['cook_time'] = cookTime();
+      if (cookTime() != null) {
+        jsonDict['cook_time'] = cookTime();
+      }
     } catch (e) {}
     try {
       jsonDict['prep_time'] = prepTime();
@@ -510,8 +555,13 @@ class AbstractScraper {
       jsonDict['image'] = image();
     } catch (e) {}
     try {
-      jsonDict['keywords'] = keywords();
+      if (keywords().isNotEmpty) {
+        jsonDict['keywords'] = keywords();
+      }
     } catch (e) {}
+    // try {
+    //   jsonDict['makeAhead'] = makeAhead().isNotEmpty ? makeAhead() : null;
+    // } catch (e) {}
     try {
       final linksList = links();
       if (linksList.isNotEmpty) {
