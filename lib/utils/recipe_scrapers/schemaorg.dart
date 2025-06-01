@@ -219,7 +219,7 @@ class SchemaOrg {
       }
 
       return ingredients
-          .map((i) => _normalizeString(i.toString()))
+          .map((i) => _normalizeString(decodeHtmlEntities(i.toString())))
           .where((i) => i.isNotEmpty)
           .toList();
     } else if (ingredients is String) {
@@ -574,6 +574,6 @@ class SchemaOrg {
       (match) => '${match.group(1)} ${match.group(2)}',
     );
 
-    return spaced;
+    return '${spaced.trim()} Diet';
   }
 }

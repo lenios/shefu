@@ -15,6 +15,7 @@ class ScraperFactory {
     'seriouseats.com': SeriousEatsScraper.new,
     'marmiton.org': MarmitonScraper.new,
     'abeautifulmess.com': ABeautifulMessScraper.new,
+    "alexandracooks.com": AbstractScraper.new,
     "allrecipes.com": AllRecipesScraper.new,
     "sugarhero.com": AbstractScraper.new,
     "vanillaandbean.com": AbstractScraper.new,

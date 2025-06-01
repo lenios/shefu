@@ -21,6 +21,7 @@ Key Features:
 | Website | Status | Notes |
 |---------|--------|-------|
 | [ABeautifulMess.com](https://www.abeautifulmess.com) | ✅ Supported | Full recipe import |
+| [Alexandracooks.com](https://alexandracooks.com) | ✅ Supported | Full recipe import |
 | [AllRecipes.com](https://www.allrecipes.com) | ✅ Supported | Full recipe import |
 | [Marmiton.org](https://www.marmiton.org) | ✅ Supported | Full recipe import |
 | [SeriousEats.com](https://www.seriouseats.com) | ✅ Supported | Full recipe import |

@@ -85,6 +85,7 @@ void main() {
   // map site names to their respective scrapers
   Map<String, (AbstractScraper Function(String, String), int)> scraperMap = {
     'abeautifulmess.com': ((html, url) => ABeautifulMessScraper(html, url), 1),
+    'alexandracooks.com': ((html, url) => AbstractScraper(html, url), 1), // fail groups on 2
     'allrecipes.com': ((html, url) => AbstractScraper(html, url), 1), // fail groups on 2
     'marmiton.org': ((html, url) => MarmitonScraper(html, url), 2),
     'seriouseats.com': ((html, url) => SeriousEatsScraper(html, url), 1),

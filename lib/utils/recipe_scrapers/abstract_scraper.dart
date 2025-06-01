@@ -102,13 +102,13 @@ class AbstractScraper {
       // Try schema first
       var schemaSiteName = schema.siteName;
       if (schemaSiteName != null && schemaSiteName.isNotEmpty) {
-        return schemaSiteName;
+        return decodeHtmlEntities(schemaSiteName);
       }
 
       // Try OpenGraph next
       var ogSiteName = opengraph.siteName;
       if (ogSiteName != null && ogSiteName.isNotEmpty) {
-        return ogSiteName;
+        return decodeHtmlEntities(ogSiteName);
       }
     } catch (e) {
       debugPrint("Error extracting site name: $e");
@@ -470,8 +470,8 @@ class AbstractScraper {
     return {};
   }
 
-  List<String> dietaryRestrictions() {
-    throw UnimplementedError("This should be implemented.");
+  List<String>? dietaryRestrictions() {
+    return schema.dietaryRestrictions;
   }
 
   /// Keywords or tags used to describe the recipe
@@ -590,7 +590,9 @@ class AbstractScraper {
       }
     } catch (e) {}
     try {
-      jsonDict['dietary_restrictions'] = dietaryRestrictions();
+      if (dietaryRestrictions() != null) {
+        jsonDict['dietary_restrictions'] = dietaryRestrictions();
+      }
     } catch (e) {}
     try {
       jsonDict['image'] = image();
