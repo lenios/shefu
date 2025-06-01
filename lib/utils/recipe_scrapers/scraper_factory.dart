@@ -15,6 +15,7 @@ class ScraperFactory {
     'abeautifulmess.com': ABeautifulMessScraper.new,
     "allrecipes.com": AllRecipesScraper.new,
     "sugarhero.com": AbstractScraper.new,
+    "zenbelly.com": AbstractScraper.new,
     "zestfulkitchen.com": AbstractScraper.new,
   };
 

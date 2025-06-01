@@ -176,9 +176,11 @@ class AbstractScraper {
   List<String> instructionsList() {
     var schemaInstructions = schema.recipeInstructions;
     if (schemaInstructions != null && schemaInstructions.isNotEmpty) {
-      return decodeHtmlEntities(
-        schemaInstructions,
-      ).split('\n').where((instruction) => instruction.isNotEmpty).toList();
+      return decodeHtmlEntities(schemaInstructions)
+          .split('\n')
+          .map((instruction) => instruction.trim())
+          .where((instruction) => instruction.isNotEmpty)
+          .toList();
     }
     return [];
   }

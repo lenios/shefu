@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:html/parser.dart' as html_parser;
 import 'package:logger/logger.dart';
+import 'package:shefu/utils/recipe_scrapers/utils.dart';
 
 /// Parser for Schema.org structured data in HTML documents
 class SchemaOrg {
@@ -167,7 +168,7 @@ class SchemaOrg {
     return name != null ? _normalizeString(name.toString()) : null;
   }
 
-  String? get title => name;
+  String? get title => name != null ? normalizeString(name!) : null;
 
   String? get category {
     var recipe = getRecipeData();
