@@ -87,6 +87,7 @@ void main() {
     'marmiton.org': ((html, url) => MarmitonScraper(html, url), 2),
     'seriouseats.com': ((html, url) => SeriousEatsScraper(html, url), 1),
     'sugarhero.com': ((html, url) => AbstractScraper(html, url), 1), // fail groups on 2
+    'zestfulkitchen.com': ((html, url) => AbstractScraper(html, url), 1),
   };
 
   for (var entry in scraperMap.entries) {

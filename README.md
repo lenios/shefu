@@ -25,6 +25,7 @@ Key Features:
 | [Marmiton.org](https://www.marmiton.org) | ✅ Supported | Full recipe import |
 | [SeriousEats.com](https://www.seriouseats.com) | ✅ Supported | Full recipe import |
 | [Sugarhero.com](https://www.sugarhero.com) | ✅ Supported | Full recipe import |
+| [zestfulkitchen.com](https://www.zestfulkitchen.com) | ✅ Supported | Full recipe import]
 ]
 
 

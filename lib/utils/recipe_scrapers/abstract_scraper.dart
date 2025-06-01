@@ -510,7 +510,9 @@ class AbstractScraper {
       jsonDict['instructions_list'] = instructionsList();
     } catch (e) {}
     try {
-      jsonDict['category'] = category();
+      if (category().isNotEmpty) {
+        jsonDict['category'] = decodeHtmlEntities(category());
+      }
     } catch (e) {}
     try {
       jsonDict['yields'] = yields();
@@ -530,7 +532,9 @@ class AbstractScraper {
       jsonDict['prep_time'] = prepTime();
     } catch (e) {}
     try {
-      jsonDict['cuisine'] = cuisine();
+      if (cuisine().isNotEmpty) {
+        jsonDict['cuisine'] = decodeHtmlEntities(cuisine());
+      }
     } catch (e) {}
     try {
       jsonDict['cooking_method'] = cookingMethod();
