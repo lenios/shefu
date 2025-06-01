@@ -3,6 +3,8 @@ import 'package:http/http.dart' as http;
 import 'package:shefu/utils/recipe_scrapers/scrapers/abeautifulmess.com.dart';
 import 'package:shefu/utils/recipe_scrapers/scrapers/allrecipes.com.dart';
 import 'package:shefu/utils/recipe_scrapers/scrapers/marmiton.dart';
+import 'package:shefu/utils/recipe_scrapers/scrapers/zaubertopf.de.dart';
+import 'package:shefu/utils/recipe_scrapers/scrapers/zeit.de.dart';
 import 'abstract_scraper.dart';
 import 'scrapers/seriouseats.dart';
 
@@ -15,6 +17,8 @@ class ScraperFactory {
     'abeautifulmess.com': ABeautifulMessScraper.new,
     "allrecipes.com": AllRecipesScraper.new,
     "sugarhero.com": AbstractScraper.new,
+    "zaubertopf.de": ZaubertopfScraper.new,
+    "zeit.de": ZeitScraper.new,
     "zenbelly.com": AbstractScraper.new,
     "zestfulkitchen.com": AbstractScraper.new,
   };

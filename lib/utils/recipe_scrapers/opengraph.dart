@@ -21,7 +21,7 @@ class OpenGraph {
     return _data[property];
   }
 
-  String? get title => get('title');
+  String? get title => get('title')?.split(':')[0];
   String? get type => get('type');
   String? get image => get('image');
   String? get url => get('url');

@@ -20,14 +20,15 @@ Key Features:
 
 | Website | Status | Notes |
 |---------|--------|-------|
-| [Abeautifulmess.com](https://www.abeautifulmess.com) | ✅ Supported | Full recipe import |
-| [Allrecipes.com](https://www.allrecipes.com) | ✅ Supported | Full recipe import |
+| [ABeautifulMess.com](https://www.abeautifulmess.com) | ✅ Supported | Full recipe import |
+| [AllRecipes.com](https://www.allrecipes.com) | ✅ Supported | Full recipe import |
 | [Marmiton.org](https://www.marmiton.org) | ✅ Supported | Full recipe import |
 | [SeriousEats.com](https://www.seriouseats.com) | ✅ Supported | Full recipe import |
-| [Sugarhero.com](https://www.sugarhero.com) | ✅ Supported | Full recipe import |
-| [zestfulkitchen.com](https://www.zestfulkitchen.com) | ✅ Supported | Full recipe import]
-]
-
+| [SugarHero.com](https://www.sugarhero.com) | ✅ Supported | Full recipe import |
+| [Zaubertopf.de](https://www.zaubertopf.de) | ✅ Supported | Full recipe import |
+| [Zeit.de](https://www.zeit.de) | ✅ Supported | Full recipe import |
+| [ZenBelly.com](https://www.zenbelly.com) | ✅ Supported | Full recipe import |
+| [ZestfulKitchen.com](https://www.zestfulkitchen.com) | ✅ Supported | Full recipe import |
 
 | More sites | 🚧 In progress | Coming in future updates |
 

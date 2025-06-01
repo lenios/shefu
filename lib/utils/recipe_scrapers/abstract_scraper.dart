@@ -140,15 +140,17 @@ class AbstractScraper {
 
   /// Get ingredients with fallback to HTML parsing
   List<String> ingredients() {
+    final override = getOverride<List<String>>('ingredients');
+    if (override != null) {
+      return override;
+    }
+
     try {
       // Try schema first
       var schemaIngredients = schema.recipeIngredients;
       if (schemaIngredients != null && schemaIngredients.isNotEmpty) {
         return schemaIngredients
-            .map(
-              (ingredient) =>
-                  decodeHtmlEntities(ingredient.replaceAll('((', '(').replaceAll('))', ')')),
-            )
+            .map((ingredient) => ingredient.replaceAll('((', '(').replaceAll('))', ')'))
             .toList();
       }
     } catch (e) {
@@ -174,6 +176,11 @@ class AbstractScraper {
   }
 
   List<String> instructionsList() {
+    final override = getOverride<List<String>>('instructions_list');
+    if (override != null) {
+      return override;
+    }
+
     var schemaInstructions = schema.recipeInstructions;
     if (schemaInstructions != null && schemaInstructions.isNotEmpty) {
       return decodeHtmlEntities(schemaInstructions)
@@ -225,6 +232,11 @@ class AbstractScraper {
 
   /// Get yields/servings with fallback to parsing
   String yields() {
+    final override = getOverride<String>('yields');
+    if (override != null) {
+      return override;
+    }
+
     try {
       // Try schema first
       var schemaYield = schema.recipeYield;
@@ -242,6 +254,11 @@ class AbstractScraper {
 
   /// Get author with fallback to OpenGraph
   String author() {
+    final override = getOverride<String>('author');
+    if (override != null) {
+      return override;
+    }
+
     try {
       // Try schema first
       var schemaAuthor = schema.author;
@@ -281,6 +298,11 @@ class AbstractScraper {
 
   /// Get total time (cook + prep)
   int? totalTime() {
+    final override = getOverride<int>('total_time');
+    if (override != null) {
+      return override;
+    }
+
     try {
       // Try schema first
       return schema.totalTime;
@@ -531,7 +553,9 @@ class AbstractScraper {
       }
     } catch (e) {}
     try {
-      jsonDict['prep_time'] = prepTime();
+      if (prepTime() != null) {
+        jsonDict['prep_time'] = prepTime();
+      }
     } catch (e) {}
     try {
       if (cuisine().isNotEmpty) {
@@ -542,10 +566,14 @@ class AbstractScraper {
       jsonDict['cooking_method'] = cookingMethod();
     } catch (e) {}
     try {
-      jsonDict['ratings'] = ratings();
+      if (ratings() > 0) {
+        jsonDict['ratings'] = ratings();
+      }
     } catch (e) {}
     try {
-      jsonDict['ratings_count'] = ratingsCount();
+      if (ratingsCount() > 0) {
+        jsonDict['ratings_count'] = ratingsCount();
+      }
     } catch (e) {}
     try {
       jsonDict['equipment'] = equipment();

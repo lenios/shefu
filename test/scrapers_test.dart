@@ -6,6 +6,8 @@ import 'package:shefu/utils/recipe_scrapers/abstract_scraper.dart';
 import 'package:shefu/utils/recipe_scrapers/scrapers/seriouseats.dart';
 import 'package:shefu/utils/recipe_scrapers/scrapers/marmiton.dart';
 import 'package:shefu/utils/recipe_scrapers/scrapers/abeautifulmess.com.dart';
+import 'package:shefu/utils/recipe_scrapers/scrapers/zaubertopf.de.dart';
+import 'package:shefu/utils/recipe_scrapers/scrapers/zeit.de.dart';
 
 /// Generic function to test a scraper against an expected JSON output.
 void testScraper({
@@ -87,6 +89,8 @@ void main() {
     'marmiton.org': ((html, url) => MarmitonScraper(html, url), 2),
     'seriouseats.com': ((html, url) => SeriousEatsScraper(html, url), 1),
     'sugarhero.com': ((html, url) => AbstractScraper(html, url), 1), // fail groups on 2
+    'zaubertopf.de': ((html, url) => ZaubertopfScraper(html, url), 1),
+    'zeit.de': ((html, url) => ZeitScraper(html, url), 1),
     'zenbelly.com': ((html, url) => AbstractScraper(html, url), 1), // fail groups on 2
     'zestfulkitchen.com': ((html, url) => AbstractScraper(html, url), 1),
   };
