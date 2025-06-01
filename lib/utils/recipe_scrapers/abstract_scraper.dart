@@ -343,8 +343,8 @@ class AbstractScraper {
     return cuisineMap[lowerCuisine] ?? 'WW';
   }
 
-  String cookingMethod() {
-    throw UnimplementedError("This should be implemented.");
+  String? cookingMethod() {
+    return schema.cookingMethod;
   }
 
   double ratings() {
@@ -563,7 +563,9 @@ class AbstractScraper {
       }
     } catch (e) {}
     try {
-      jsonDict['cooking_method'] = cookingMethod();
+      if (cookingMethod() != null && cookingMethod()!.isNotEmpty) {
+        jsonDict['cooking_method'] = cookingMethod();
+      }
     } catch (e) {}
     try {
       if (ratings() > 0) {

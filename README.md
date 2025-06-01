@@ -25,6 +25,9 @@ Key Features:
 | [Marmiton.org](https://www.marmiton.org) | ✅ Supported | Full recipe import |
 | [SeriousEats.com](https://www.seriouseats.com) | ✅ Supported | Full recipe import |
 | [SugarHero.com](https://www.sugarhero.com) | ✅ Supported | Full recipe import |
+| [Vanillaandbean.com](https://vanillaandbean.com) | ✅ Supported | Full recipe import |
+| [WhatsGabyCooking.com](https://www.whatsgabycooking.com) | ✅ Supported | Full recipe import |
+| [Yemek.com](https://www.yemek.com) | ✅ Supported | Full recipe import |
 | [Zaubertopf.de](https://www.zaubertopf.de) | ✅ Supported | Full recipe import |
 | [Zeit.de](https://www.zeit.de) | ✅ Supported | Full recipe import |
 | [ZenBelly.com](https://www.zenbelly.com) | ✅ Supported | Full recipe import |

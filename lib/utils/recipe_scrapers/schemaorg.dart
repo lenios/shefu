@@ -256,6 +256,10 @@ class SchemaOrg {
 
     if (schemaItem is String) {
       instructionsGist.add(schemaItem);
+    } else if (schemaItem is List) {
+      for (var item in schemaItem) {
+        instructionsGist.addAll(_extractHowToInstructionsText(item));
+      }
     } else if (schemaItem is Map<String, dynamic>) {
       if (schemaItem['@type'] == 'HowToStep') {
         if (schemaItem.containsKey('name') && schemaItem.containsKey('text')) {

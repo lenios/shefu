@@ -89,6 +89,9 @@ void main() {
     'marmiton.org': ((html, url) => MarmitonScraper(html, url), 2),
     'seriouseats.com': ((html, url) => SeriousEatsScraper(html, url), 1),
     'sugarhero.com': ((html, url) => AbstractScraper(html, url), 1), // fail groups on 2
+    'vanillaandbean.com': ((html, url) => AbstractScraper(html, url), 1), // fail groups on 2
+    'whatsgabycooking.com': ((html, url) => AbstractScraper(html, url), 1), // fail groups on 2
+    'yemek.com': ((html, url) => AbstractScraper(html, url), 1), // TODO step images
     'zaubertopf.de': ((html, url) => ZaubertopfScraper(html, url), 1),
     'zeit.de': ((html, url) => ZeitScraper(html, url), 1),
     'zenbelly.com': ((html, url) => AbstractScraper(html, url), 1), // fail groups on 2
