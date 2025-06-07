@@ -27,7 +27,7 @@ Supported languages:
   - Magyar (🇭🇺)
 
 
-Supported Recipe Websites for import (**19**):
+Supported Recipe Websites for import (**23**):
 
 | Supported Website | Country |
 |-------------------|:--------|
@@ -38,6 +38,10 @@ Supported Recipe Websites for import (**19**):
 | ✅ [Atelierdeschefs.fr](https://www.atelierdeschefs.fr) | 🇫🇷 France |
 | ✅ [Bakewithzoha.com](https://www.bakewithzoha.com) | 🇺🇸 USA |
 | ✅ [BBCgoodfood.com](https://www.bbcgoodfood.com) | 🇬🇧 UK |
+| ✅ [Cafedelites.com](https://www.cafedelites.com) | 🇺🇸 USA |
+| ✅ [Cakemehometonight.com](https://www.cakemehometonight.com) | 🇺🇸 USA |
+| ✅ [Cambreabakes.com](https://www.cambreabakes.com) | 🇺🇸 USA |
+| ✅ [castironketo.net](https://www.castironketo.net) | 🇺🇸 USA |
 | ✅ [Evolvingtable.com](https://www.evolvingtable.com) | 🇺🇸 USA |
 | ✅ [Foodnetwork.co.uk](https://www.foodnetwork.co.uk) | 🇬🇧 UK |
 | ✅ [Marmiton.org](https://www.marmiton.org) | 🇫🇷 France |

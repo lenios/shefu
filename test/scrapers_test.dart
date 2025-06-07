@@ -92,6 +92,10 @@ void main() {
     'atelierdeschefs.fr': ((html, url) => AbstractScraper(html, url), 1),
     'bakewithzoha.com': ((html, url) => AbstractScraper(html, url), 2),
     'bbcgoodfood.com': ((html, url) => AbstractScraper(html, url), 1), // fail groups on 2
+    'cafedelites.com': ((html, url) => AbstractScraper(html, url), 1), // fail groups on 2
+    'cambreabakes.com': ((html, url) => AbstractScraper(html, url), 1), // fail groups on 2
+    'castironketo.net': ((html, url) => AbstractScraper(html, url), 1),
+    'cakemehometonight.com': ((html, url) => AbstractScraper(html, url), 1), // fail groups on 2
     'evolvingtable.com': ((html, url) => AbstractScraper(html, url), 1), // fail groups on 2
     'foodnetwork.co.uk': ((html, url) => AbstractScraper(html, url), 1),
     'marmiton.org': ((html, url) => MarmitonScraper(html, url), 2),

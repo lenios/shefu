@@ -382,7 +382,15 @@ class AbstractScraper {
   }
 
   List<String> equipment() {
-    throw UnimplementedError("This should be implemented.");
+    final override = getOverride<List<String>>('equipment');
+    if (override != null) {
+      return override;
+    }
+
+    final equipmentItems = soup.querySelectorAll(
+      '.wprm-recipe-equipment-list .wprm-recipe-equipment-item .wprm-recipe-equipment-name',
+    );
+    return equipmentItems.map((item) => item.text.trim()).toList();
   }
 
   List<IngredientGroup> ingredientGroups() {
@@ -604,7 +612,9 @@ class AbstractScraper {
       }
     } catch (e) {}
     try {
-      jsonDict['equipment'] = equipment();
+      if (equipment().isNotEmpty) {
+        jsonDict['equipment'] = equipment();
+      }
     } catch (e) {}
     try {
       jsonDict['reviews'] = reviews();
