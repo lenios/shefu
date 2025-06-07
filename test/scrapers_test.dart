@@ -91,6 +91,7 @@ void main() {
     'allrecipes.com': ((html, url) => AbstractScraper(html, url), 1), // fail groups on 2
     'atelierdeschefs.fr': ((html, url) => AbstractScraper(html, url), 1),
     'bakewithzoha.com': ((html, url) => AbstractScraper(html, url), 2),
+    'evolvingtable.com': ((html, url) => AbstractScraper(html, url), 1), // fail groups on 2
     'foodnetwork.co.uk': ((html, url) => AbstractScraper(html, url), 1),
     'marmiton.org': ((html, url) => MarmitonScraper(html, url), 2),
     'seriouseats.com': ((html, url) => SeriousEatsScraper(html, url), 1),

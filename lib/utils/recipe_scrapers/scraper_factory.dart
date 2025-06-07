@@ -19,6 +19,7 @@ class ScraperFactory {
     "allrecipes.com": AllRecipesScraper.new,
     "atelierdeschefs.fr": AbstractScraper.new,
     "bakewithzoha.com": AbstractScraper.new,
+    "evolvingtable.com": AbstractScraper.new,
     "foodnetwork.co.uk": AbstractScraper.new,
     "marmiton.org": MarmitonScraper.new,
     "seriouseats.com": SeriousEatsScraper.new,

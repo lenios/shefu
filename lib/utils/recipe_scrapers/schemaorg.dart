@@ -425,6 +425,17 @@ class SchemaOrg {
     return imageUrl;
   }
 
+  String? get video {
+    var recipe = getRecipeData();
+    var video = recipe?['video'];
+
+    if (video is Map<String, dynamic> && video.containsKey('contentUrl')) {
+      return video['contentUrl'];
+    }
+
+    return null;
+  }
+
   List<String>? get keywords {
     var recipe = getRecipeData();
     var keywords = recipe?['keywords'];

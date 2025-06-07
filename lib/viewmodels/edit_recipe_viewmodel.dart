@@ -354,8 +354,6 @@ class EditRecipeViewModel extends ChangeNotifier {
     notesController.text = recipe.notes;
     recipe.makeAhead = pscraper.makeAhead();
     makeAheadController.text = recipe.makeAhead;
-    //recipe.videoUrl = scrapedData.videoUrl ?? recipe.videoUrl;
-
     if (pscraper.prepTime() != null && pscraper.prepTime()! > 0) {
       recipe.prepTime = pscraper.prepTime() ?? 0;
       prepTimeController.text = recipe.prepTime.toString();
@@ -377,6 +375,9 @@ class EditRecipeViewModel extends ChangeNotifier {
     _recipe.fat = pscraper.numericNutrients()['fatContent']?.toInt() ?? 0;
     _recipe.carbohydrates = pscraper.numericNutrients()['carbohydrateContent']?.toInt() ?? 0;
     _recipe.protein = pscraper.numericNutrients()['proteinContent']?.toInt() ?? 0;
+
+    _recipe.videoUrl = pscraper.video() ?? '';
+    videoUrlController.text = _recipe.videoUrl;
 
     setCountry(
       Country.tryParse(pscraper.countryCode()) ?? Country.worldWide,

@@ -700,17 +700,18 @@ class _EditRecipeState extends State<EditRecipe> {
                     maxLines: 5,
                     minLines: 2,
                   ),
-
-                  // // --- Video URL Field ---
-                  // TextFormField(
-                  //   controller: viewModel.videoUrlController,
-                  //   decoration: InputDecoration(
-                  //     border: const OutlineInputBorder(),
-                  //     hintText: 'https://<video>',
-                  //     prefixIcon: const Icon(Icons.videocam_outlined),
-                  //   ),
-                  //   keyboardType: TextInputType.url,
-                  // ),
+                  const SizedBox(height: 10),
+                  // --- Video URL Field ---
+                  TextFormField(
+                    controller: viewModel.videoUrlController,
+                    decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
+                      labelText: l10n.videoUrl,
+                      hintText: 'https://<video>',
+                      prefixIcon: const Icon(Icons.videocam_outlined),
+                    ),
+                    keyboardType: TextInputType.url,
+                  ),
                 ],
               ),
             ),

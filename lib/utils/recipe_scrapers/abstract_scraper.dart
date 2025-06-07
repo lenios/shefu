@@ -236,6 +236,15 @@ class AbstractScraper {
     throw ElementNotFoundInHtml("Could not find image");
   }
 
+  String? video() {
+    var schemaVideo = schema.video;
+    if (schemaVideo != null && schemaVideo.isNotEmpty) {
+      return schemaVideo;
+    }
+
+    return null; // No video found
+  }
+
   /// Get yields/servings with fallback to parsing
   String yields() {
     final override = getOverride<String>('yields');
@@ -613,6 +622,11 @@ class AbstractScraper {
     } catch (e) {}
     try {
       jsonDict['image'] = image();
+    } catch (e) {}
+    try {
+      if (video() != null && video()!.isNotEmpty) {
+        jsonDict['video'] = video();
+      }
     } catch (e) {}
     try {
       if (keywords().isNotEmpty) {

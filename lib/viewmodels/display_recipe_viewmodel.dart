@@ -5,6 +5,7 @@ import 'package:shefu/models/shopping_basket.dart';
 import 'package:shefu/provider/my_app_state.dart';
 import 'package:shefu/repositories/objectbox_nutrient_repository.dart';
 import 'package:shefu/repositories/objectbox_recipe_repository.dart';
+import 'package:video_player/video_player.dart';
 
 class DisplayRecipeViewModel extends ChangeNotifier {
   final ObjectBoxRecipeRepository _recipeRepository;
@@ -15,6 +16,8 @@ class DisplayRecipeViewModel extends ChangeNotifier {
   BuildContext? _context;
 
   late Command<BuildContext, Recipe?> initializeCommand;
+
+  VideoPlayerController? videoPlayerController;
 
   DisplayRecipeViewModel(
     this._recipeRepository,

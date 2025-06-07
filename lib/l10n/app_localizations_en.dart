@@ -111,6 +111,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get changeImage => 'Change the image';
 
   @override
+  String get videoUrl => 'Video url';
+
+  @override
   String get source => 'Source';
 
   @override

@@ -27,7 +27,7 @@ Supported languages:
   - Magyar (🇭🇺)
 
 
-Supported Recipe Websites for import (**17**):
+Supported Recipe Websites for import (**18**):
 
 | Supported Website | Country |
 |-------------------|:--------|
@@ -36,7 +36,8 @@ Supported Recipe Websites for import (**17**):
 | ✅ [Alexandracooks.com](https://alexandracooks.com) | 🇺🇸 USA |
 | ✅ [AllRecipes.com](https://www.allrecipes.com) | 🇺🇸 USA |
 | ✅ [Atelierdeschefs.fr](https://www.atelierdeschefs.fr) | 🇫🇷 France |
-| ✅ [Bakewithzoha.com](https://bakewithzoha.com) | 🇺🇸 USA |
+| ✅ [Bakewithzoha.com](https://www.bakewithzoha.com) | 🇺🇸 USA |
+| ✅ [Evolvingtable.com](https://www.evolvingtable.com) | 🇺🇸 USA |
 | ✅ [Foodnetwork.co.uk](https://www.foodnetwork.co.uk) | 🇬🇧 UK |
 | ✅ [Marmiton.org](https://www.marmiton.org) | 🇫🇷 France |
 | ✅ [SeriousEats.com](https://www.seriouseats.com) | 🇺🇸 USA |

@@ -304,6 +304,12 @@ abstract class AppLocalizations {
   /// **'Change the image'**
   String get changeImage;
 
+  /// No description provided for @videoUrl.
+  ///
+  /// In en, this message translates to:
+  /// **'Video url'**
+  String get videoUrl;
+
   /// No description provided for @source.
   ///
   /// In en, this message translates to:

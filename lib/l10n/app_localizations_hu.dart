@@ -111,6 +111,9 @@ class AppLocalizationsHu extends AppLocalizations {
   String get changeImage => 'Kép megváltoztatása';
 
   @override
+  String get videoUrl => 'Videó URL';
+
+  @override
   String get source => 'Forrás';
 
   @override

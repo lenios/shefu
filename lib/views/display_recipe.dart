@@ -16,7 +16,8 @@ import 'package:shefu/widgets/recipe_step_card.dart';
 import 'package:flutter_command/flutter_command.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
-// import 'package:video_player/video_player.dart';
+import 'package:video_player/video_player.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import '../widgets/header_stats.dart';
 
@@ -366,39 +367,41 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                       child: ClipRect(child: buildFutureImageWidget(context, imagePath)),
                     ),
                   ),
-                  // Video play button
-                  // if (recipe.videoUrl != null && recipe.videoUrl!.isNotEmpty)
-                  //   Positioned(
-                  //     right: 8,
-                  //     bottom: 8,
-                  //     child: GestureDetector(
-                  //       onTap: () async {
-                  //         if (viewModel.recipe?.videoUrl != null) {
-                  //           _videoPlayerController =
-                  //               VideoPlayerController.networkUrl(
-                  //                   Uri.parse(viewModel.recipe!.videoUrl!),
-                  //                 )
-                  //                 ..initialize().then((_) {
-                  //                   // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-                  //                   setState(() {});
-                  //                 });
-                  //         }
-                  //         _showVideoPlayer(context, _videoPlayerController);
-                  //       },
-                  //       child: Container(
-                  //         padding: const EdgeInsets.all(8),
-                  //         decoration: BoxDecoration(
-                  //           color: Colors.black.withOpacity(0.6),
-                  //           shape: BoxShape.circle,
-                  //         ),
-                  //         child: const Icon(
-                  //           Icons.play_arrow_rounded,
-                  //           color: Colors.white,
-                  //           size: 28,
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ),
+                  //Video play button
+                  if (recipe.videoUrl.isNotEmpty)
+                    Positioned(
+                      right: 8,
+                      bottom: 8,
+                      child: GestureDetector(
+                        onTap: () async {
+                          if (recipe.videoUrl.isEmpty) return;
+
+                          if (recipe.videoUrl.contains('youtube.com') ||
+                              recipe.videoUrl.contains('youtu.be')) {
+                            _showYoutubePlayer(context, recipe.videoUrl);
+                          } else {
+                            // For direct video URLs (mp4, etc.)
+                            viewModel.videoPlayerController =
+                                VideoPlayerController.networkUrl(Uri.parse(recipe.videoUrl))
+                                  ..initialize().then((_) {
+                                    _showVideoPlayer(context, viewModel.videoPlayerController!);
+                                  });
+                          }
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: Colors.black.withOpacity(0.6),
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(
+                            Icons.play_arrow_rounded,
+                            color: Colors.white,
+                            size: 28,
+                          ),
+                        ),
+                      ),
+                    ),
                 ],
               ),
             ),
@@ -617,77 +620,131 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
     );
   }
 
-  // void _showVideoPlayer(BuildContext context, VideoPlayerController videoPlayerController) async {
-  //   await videoPlayerController.setLooping(true);
-  //   await videoPlayerController.play();
+  void _showVideoPlayer(BuildContext context, VideoPlayerController videoPlayerController) async {
+    try {
+      await videoPlayerController.setLooping(true);
+      await videoPlayerController.play();
 
-  //   showDialog(
-  //     context: context,
-  //     builder: (context) => Dialog(
-  //       backgroundColor: Colors.transparent,
-  //       insetPadding: const EdgeInsets.all(10),
-  //       child: ClipRRect(
-  //         borderRadius: BorderRadius.circular(8.0),
-  //         child: Column(
-  //           mainAxisSize: MainAxisSize.min,
-  //           children: [
-  //             AppBar(
-  //               backgroundColor: Colors.black,
-  //               automaticallyImplyLeading: false,
-  //               actions: [
-  //                 IconButton(
-  //                   icon: const Icon(Icons.close, color: Colors.white),
-  //                   onPressed: () => Navigator.pop(context),
-  //                 ),
-  //               ],
-  //             ),
-  //             AspectRatio(
-  //               aspectRatio: 16 / 9,
-  //               child: Container(
-  //                 color: Colors.black,
-  //                 child: Center(
-  //                   child: Stack(
-  //                     alignment: Alignment.center,
-  //                     children: [
-  //                       Center(
-  //                         child: videoPlayerController.value.isInitialized
-  //                             ? Column(
-  //                                 children: [
-  //                                   AspectRatio(
-  //                                     aspectRatio: videoPlayerController!.value.aspectRatio,
-  //                                     child: videoPlayerController.value.isInitialized
-  //                                         ? AspectRatio(
-  //                                             aspectRatio: videoPlayerController.value.aspectRatio,
-  //                                             child: VideoPlayer(videoPlayerController),
-  //                                           )
-  //                                         : Container(),
-  //                                   ),
-  //                                   VideoProgressIndicator(
-  //                                     videoPlayerController,
-  //                                     allowScrubbing: true,
-  //                                     padding: const EdgeInsets.symmetric(
-  //                                       vertical: 8,
-  //                                       horizontal: 16,
-  //                                     ),
-  //                                     colors: VideoProgressColors(
-  //                                       playedColor: AppColor.primary,
-  //                                       bufferedColor: Colors.grey.shade400,
-  //                                       backgroundColor: Colors.grey.shade700,
-  //                                     ),
-  //                                   ),
-  //                                 ],
-  //                               )
-  //                             : Container(),
-  //                       ),
-  //                     ],
-  //                   ),
-  //                 ),
-  //               ),
-  //             ),
-  //           ],
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
+      if (context.mounted) {
+        showDialog(
+          context: context,
+          barrierDismissible: true,
+          builder: (context) => Dialog(
+            backgroundColor: Colors.transparent,
+            insetPadding: const EdgeInsets.all(10),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  AppBar(
+                    backgroundColor: Colors.black,
+                    automaticallyImplyLeading: false,
+                    actions: [
+                      IconButton(
+                        icon: const Icon(Icons.close, color: Colors.white),
+                        onPressed: () {
+                          videoPlayerController.pause();
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ],
+                  ),
+                  Container(
+                    color: Colors.black,
+                    child: AspectRatio(
+                      aspectRatio: videoPlayerController.value.aspectRatio,
+                      child: VideoPlayer(videoPlayerController),
+                    ),
+                  ),
+                  // Controls
+                  Container(
+                    color: Colors.black,
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: VideoProgressIndicator(
+                      videoPlayerController,
+                      allowScrubbing: true,
+                      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                      colors: VideoProgressColors(
+                        playedColor: AppColor.primary,
+                        bufferedColor: Colors.grey.shade400,
+                        backgroundColor: Colors.grey.shade700,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ).then((_) {
+          videoPlayerController.pause();
+        });
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error playing video: $e')));
+      }
+    }
+  }
+
+  void _showYoutubePlayer(BuildContext context, String youtubeUrl) {
+    // Extract video ID from YouTube URL
+    String? videoId;
+    if (youtubeUrl.contains('youtu.be')) {
+      // Short YouTube URL format: https://youtu.be/VIDEO_ID
+      videoId = youtubeUrl.split('/').last;
+    } else if (youtubeUrl.contains('youtube.com')) {
+      // Regular YouTube URL format: https://www.youtube.com/watch?v=VIDEO_ID
+      videoId = Uri.parse(youtubeUrl).queryParameters['v'];
+    }
+
+    if (videoId == null) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Invalid YouTube URL format')));
+      return;
+    }
+
+    YoutubePlayerController _controller = YoutubePlayerController(
+      initialVideoId: videoId,
+      flags: const YoutubePlayerFlags(autoPlay: true, mute: false),
+    );
+
+    showDialog(
+      context: context,
+      builder: (context) => Dialog(
+        backgroundColor: Colors.transparent,
+        insetPadding: const EdgeInsets.all(10),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(8.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              AppBar(
+                backgroundColor: Colors.black,
+                automaticallyImplyLeading: false,
+                actions: [
+                  IconButton(
+                    icon: const Icon(Icons.close, color: Colors.white),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                ],
+              ),
+              YoutubePlayer(
+                controller: _controller,
+                showVideoProgressIndicator: true,
+                progressIndicatorColor: AppColor.primary,
+                progressColors: ProgressBarColors(
+                  playedColor: AppColor.primary,
+                  handleColor: AppColor.primary,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }
