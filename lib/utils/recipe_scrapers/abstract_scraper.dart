@@ -126,7 +126,7 @@ class AbstractScraper {
   /// Get title with fallback to OpenGraph
   String title() {
     try {
-      // Try schema first
+      // Try schema
       var schemaTitle = schema.name;
       if (schemaTitle != null && schemaTitle.isNotEmpty) {
         return schemaTitle;
@@ -136,6 +136,12 @@ class AbstractScraper {
       var ogTitle = opengraph.title;
       if (ogTitle != null && ogTitle.isNotEmpty) {
         return ogTitle;
+      }
+
+      // Try element with itemprop="name" first
+      Element? nameElement = soup.querySelector('[itemprop="name"]');
+      if (nameElement != null && nameElement.text.isNotEmpty) {
+        return nameElement.text.trim();
       }
     } catch (e) {
       debugPrint("Error extracting title: $e");
@@ -161,6 +167,15 @@ class AbstractScraper {
       }
     } catch (e) {
       debugPrint("Error extracting ingredients: $e");
+    }
+
+    // Try HTML element with itemprop="recipeIngredient"
+    final ingredientElements = soup.querySelectorAll('span[itemprop="recipeIngredient"]');
+    if (ingredientElements.isNotEmpty) {
+      return ingredientElements
+          .map((element) => element.text.trim().replaceAll(RegExp(r'\s+'), ' '))
+          .where((text) => text.isNotEmpty)
+          .toList();
     }
 
     throw ElementNotFoundInHtml("Could not find ingredients");
@@ -195,6 +210,17 @@ class AbstractScraper {
           .where((instruction) => instruction.isNotEmpty)
           .toList();
     }
+
+    // Try to find element with itemprop="recipeInstructions"
+    List<Element>? instructionsElements = soup.querySelectorAll('[itemprop="recipeInstructions"]');
+    if (instructionsElements.isNotEmpty) {
+      List<String> result = [];
+      for (var element in instructionsElements) {
+        result.addAll(phrases(element.text.trim()).where((text) => text.isNotEmpty));
+      }
+      return result;
+    }
+
     return [];
   }
 
@@ -259,6 +285,14 @@ class AbstractScraper {
         return getYields(schemaYield);
       }
 
+      // Try element with itemprop="recipeYield"
+      Element? yieldElement = soup.querySelector('[itemprop="recipeYield"]');
+      if (yieldElement != null) {
+        if (yieldElement.attributes.containsKey('content')) {
+          return getYields(yieldElement.attributes['content']!.trim());
+        }
+      }
+
       var soupYield = soup.querySelector("option.yield")?.text;
       if (soupYield != null && soupYield.isNotEmpty) {
         return getYields(soupYield);
@@ -301,6 +335,12 @@ class AbstractScraper {
       debugPrint("Error extracting author: $e");
     }
 
+    // Try element with itemprop="author"
+    Element? authorElement = soup.querySelector('[itemprop="author"]');
+    if (authorElement != null && authorElement.text.isNotEmpty) {
+      return authorElement.text.trim();
+    }
+
     throw ElementNotFoundInHtml("Could not find author");
   }
 
@@ -331,7 +371,17 @@ class AbstractScraper {
 
     try {
       // Try schema first
-      return schema.totalTime;
+      var schemaTotalTime = schema.totalTime;
+      if (schemaTotalTime != null && schemaTotalTime > 0) {
+        return schemaTotalTime;
+      }
+
+      Element? totalTimeElement = soup.querySelector('[itemprop="totalTime"]');
+      if (totalTimeElement != null) {
+        if (totalTimeElement.attributes.containsKey('content')) {
+          return parseISODuration(totalTimeElement.attributes['content']!.trim());
+        }
+      }
     } catch (e) {
       debugPrint("Error extracting cook time: $e");
     }

@@ -27,7 +27,7 @@ Supported languages:
   - Magyar (🇭🇺)
 
 
-Supported Recipe Websites for import (**23**):
+Supported Recipe Websites for import (**27**):
 
 | Supported Website | Country |
 |-------------------|:--------|
@@ -41,10 +41,14 @@ Supported Recipe Websites for import (**23**):
 | ✅ [Cafedelites.com](https://www.cafedelites.com) | 🇺🇸 USA |
 | ✅ [Cakemehometonight.com](https://www.cakemehometonight.com) | 🇺🇸 USA |
 | ✅ [Cambreabakes.com](https://www.cambreabakes.com) | 🇺🇸 USA |
-| ✅ [castironketo.net](https://www.castironketo.net) | 🇺🇸 USA |
+| ✅ [Castironketo.net](https://www.castironketo.net) | 🇺🇸 USA |
+| ✅ [Cdkitchen.com](https://www.cdkitchen.com) | 🇺🇸 USA |
+| ✅ [Cookpad.com](https://www.cookpad.com) | 🌏 World |
 | ✅ [Evolvingtable.com](https://www.evolvingtable.com) | 🇺🇸 USA |
 | ✅ [Foodnetwork.co.uk](https://www.foodnetwork.co.uk) | 🇬🇧 UK |
 | ✅ [Marmiton.org](https://www.marmiton.org) | 🇫🇷 France |
+| ✅ [mybakingaddiction.com](https://www.mybakingaddiction.com) | 🇺🇸 USA |
+| ✅ [Recipetineats.com](https://www.recipetineats.com) | 🇺🇸 USA |
 | ✅ [SeriousEats.com](https://www.seriouseats.com) | 🇺🇸 USA |
 | ✅ [SugarHero.com](https://www.sugarhero.com) | 🇺🇸 USA |
 | ✅ [Vanillaandbean.com](https://vanillaandbean.com) | 🇺🇸 USA |

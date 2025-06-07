@@ -96,9 +96,13 @@ void main() {
     'cambreabakes.com': ((html, url) => AbstractScraper(html, url), 1), // fail groups on 2
     'castironketo.net': ((html, url) => AbstractScraper(html, url), 1),
     'cakemehometonight.com': ((html, url) => AbstractScraper(html, url), 1), // fail groups on 2
+    'cdkitchen.com': ((html, url) => AbstractScraper(html, url), 1),
+    'cookpad.com': ((html, url) => AbstractScraper(html, url), 1),
     'evolvingtable.com': ((html, url) => AbstractScraper(html, url), 1), // fail groups on 2
     'foodnetwork.co.uk': ((html, url) => AbstractScraper(html, url), 1),
     'marmiton.org': ((html, url) => MarmitonScraper(html, url), 2),
+    'mybakingaddiction.com': ((html, url) => AbstractScraper(html, url), 1),
+    'recipetineats.com': ((html, url) => AbstractScraper(html, url), 1), // fail groups on 2
     'seriouseats.com': ((html, url) => SeriousEatsScraper(html, url), 1),
     'sugarhero.com': ((html, url) => AbstractScraper(html, url), 1), // fail groups on 2
     'vanillaandbean.com': ((html, url) => AbstractScraper(html, url), 1), // fail groups on 2

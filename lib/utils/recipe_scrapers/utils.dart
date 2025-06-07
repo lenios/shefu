@@ -713,3 +713,15 @@ String decodeHtmlEntities(String text) {
   final decoded = parseFragment(text).text;
   return decoded ?? text;
 }
+
+List<String> phrases(String text) {
+  /// Returns a list of phrases from a given text
+  List<String> phrases = text.split(RegExp(r'[.!?]+'));
+
+  // If the text ends with a delimiter, the last part will be empty
+  if (phrases.isNotEmpty && phrases.last.trim().isEmpty) {
+    phrases.removeLast();
+  }
+
+  return phrases.map((phrase) => phrase.trim()).where((phrase) => phrase.isNotEmpty).toList();
+}

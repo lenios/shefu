@@ -277,7 +277,7 @@ class SchemaOrg {
           final name = schemaItem['name'].toString();
           final text = schemaItem['text'].toString();
           // Add name only if it's not a truncated version of text
-          if (!text.startsWith(name.replaceAll(RegExp(r'\.$'), ''))) {
+          if (!text.startsWith(name.replaceAll(RegExp(r'\.+$'), ''))) {
             instructionsGist.add(name);
           }
         }
