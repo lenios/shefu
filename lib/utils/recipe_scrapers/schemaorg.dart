@@ -18,7 +18,7 @@ class SchemaOrg {
   }
 
   void _parse() {
-    final doc = html_parser.parse(html);
+    final doc = html_parser.parse(html.replaceAll(r'\r', r''));
 
     try {
       final scripts = doc.querySelectorAll('script[type="application/ld+json"]');
@@ -29,14 +29,22 @@ class SchemaOrg {
           final parsed = jsonDecode(script.innerHtml);
           _processJsonLdData(parsed);
         } catch (e) {
-          logger.w("Failed to parse JSON-LD script: $e");
+          // If regular parsing fails, try with sanitized JSON
+          try {
+            final sanitizedJson = _sanitizeJsonString(script.innerHtml);
+            final parsed = jsonDecode(sanitizedJson);
+            _processJsonLdData(parsed);
+          } catch (e2) {
+            logger.w("Failed to parse JSON-LD script: $e2");
+          }
         }
       }
 
       // Second pass - extract all schemas
       for (final script in scripts) {
         try {
-          final parsed = jsonDecode(script.innerHtml);
+          dynamic parsed = jsonDecode(_sanitizeJsonString(script.innerHtml));
+
           if (parsed is Map<String, dynamic>) {
             if (_isSchemaOrgContext(parsed)) {
               _schemas.add(parsed);
@@ -193,13 +201,16 @@ class SchemaOrg {
       if (authorKey != null && _people.containsKey(authorKey)) {
         author = _people[authorKey];
       }
-    }
 
-    if (author is Map<String, dynamic>) {
-      author = author['name'];
+      author = author["name"];
     }
 
     return author?.toString().trim();
+  }
+
+  String? get copyrightNotice {
+    var recipe = getRecipeData();
+    return recipe?['copyrightNotice'] ?? recipe?['copyright'];
   }
 
   List<String>? get recipeIngredients {
@@ -544,7 +555,7 @@ class SchemaOrg {
 
   // Helper methods
   String _normalizeString(String text) {
-    return text.replaceAll(RegExp(r'\s+'), ' ').trim();
+    return decodeHtmlEntities(text).replaceAll(RegExp(r'\s+'), ' ').trim();
   }
 
   List<String> _csvToTags(String csvText, {bool lowercase = false}) {
@@ -575,5 +586,17 @@ class SchemaOrg {
     );
 
     return '${spaced.trim()} Diet';
+  }
+
+  String _sanitizeJsonString(String jsonStr) {
+    return jsonStr
+        // Fix apostrophes in French text - properly escape with backslash
+        .replaceAllMapped(RegExp(r"([^\\])\'"), (match) => "${match.group(1)}'")
+        .replaceAll('\n', '')
+        .replaceAll('\r', '\\r')
+        .replaceAll('\t', '\\t')
+        // Fix potential trailing commas in objects/arrays
+        .replaceAll(RegExp(r',\s*}'), '}')
+        .replaceAll(RegExp(r',\s*\]'), ']');
   }
 }

@@ -12,11 +12,16 @@ import 'scrapers/seriouseats.dart';
 class ScraperFactory {
   // Map of domains to scraper constructors
   static final Map<String, AbstractScraper Function(String, String)> _scrapers = {
-    'seriouseats.com': SeriousEatsScraper.new,
-    'marmiton.org': MarmitonScraper.new,
-    'abeautifulmess.com': ABeautifulMessScraper.new,
+    //"101cookbooks.com": AbstractScraper.new,
+    "750g.com": AbstractScraper.new,
+    "abeautifulmess.com": ABeautifulMessScraper.new,
     "alexandracooks.com": AbstractScraper.new,
     "allrecipes.com": AllRecipesScraper.new,
+    "atelierdeschefs.fr": AbstractScraper.new,
+    "bakewithzoha.com": AbstractScraper.new,
+    "foodnetwork.co.uk": AbstractScraper.new,
+    "marmiton.org": MarmitonScraper.new,
+    "seriouseats.com": SeriousEatsScraper.new,
     "sugarhero.com": AbstractScraper.new,
     "vanillaandbean.com": AbstractScraper.new,
     "whatsgabycooking.com": AbstractScraper.new,

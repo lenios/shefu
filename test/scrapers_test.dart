@@ -84,9 +84,14 @@ void testScraper({
 void main() {
   // map site names to their respective scrapers
   Map<String, (AbstractScraper Function(String, String), int)> scraperMap = {
+    //'101cookbooks.com': ((html, url) => AbstractScraper(html, url), 1),
+    '750g.com': ((html, url) => AbstractScraper(html, url), 1),
     'abeautifulmess.com': ((html, url) => ABeautifulMessScraper(html, url), 1),
     'alexandracooks.com': ((html, url) => AbstractScraper(html, url), 1), // fail groups on 2
     'allrecipes.com': ((html, url) => AbstractScraper(html, url), 1), // fail groups on 2
+    'atelierdeschefs.fr': ((html, url) => AbstractScraper(html, url), 1),
+    'bakewithzoha.com': ((html, url) => AbstractScraper(html, url), 2),
+    'foodnetwork.co.uk': ((html, url) => AbstractScraper(html, url), 1),
     'marmiton.org': ((html, url) => MarmitonScraper(html, url), 2),
     'seriouseats.com': ((html, url) => SeriousEatsScraper(html, url), 1),
     'sugarhero.com': ((html, url) => AbstractScraper(html, url), 1), // fail groups on 2

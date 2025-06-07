@@ -46,10 +46,16 @@ class AbstractScraper {
   }
 
   String canonicalUrl() {
-    Element? canonicalLink = soup.querySelector("link[rel='canonical'][href]");
+    Element? canonicalLink = soup.querySelector("link[rel='canonical']");
     if (canonicalLink != null && canonicalLink.attributes.containsKey('href')) {
       return joinUrl(url, canonicalLink.attributes['href']!);
     }
+
+    Element? ogUrlElement = soup.querySelector('meta[property="og:url"]');
+    if (ogUrlElement != null && ogUrlElement.attributes.containsKey('content')) {
+      return ogUrlElement.attributes['content']!;
+    }
+
     return url;
   }
 
@@ -243,6 +249,11 @@ class AbstractScraper {
       if (schemaYield != null && schemaYield.isNotEmpty) {
         return getYields(schemaYield);
       }
+
+      var soupYield = soup.querySelector("option.yield")?.text;
+      if (soupYield != null && soupYield.isNotEmpty) {
+        return getYields(soupYield);
+      }
     } catch (e) {
       debugPrint("Error extracting yields: $e");
     }
@@ -260,7 +271,13 @@ class AbstractScraper {
     }
 
     try {
-      // Try schema first
+      // try copyright notice first
+      String? copyrightNotice = schema.copyrightNotice;
+      if (copyrightNotice != null && copyrightNotice.isNotEmpty) {
+        return copyrightNotice;
+      }
+
+      // Try schema
       var schemaAuthor = schema.author;
       if (schemaAuthor != null && schemaAuthor.isNotEmpty) {
         return schemaAuthor;
