@@ -87,6 +87,7 @@ void main() {
     //'101cookbooks.com': ((html, url) => AbstractScraper(html, url), 1),
     '750g.com': ((html, url) => AbstractScraper(html, url), 1),
     'abeautifulmess.com': ((html, url) => ABeautifulMessScraper(html, url), 1),
+    "akispetretzikis.com": ((html, url) => AbstractScraper(html, url), 1),
     'alexandracooks.com': ((html, url) => AbstractScraper(html, url), 1), // fail groups on 2
     'allrecipes.com': ((html, url) => AbstractScraper(html, url), 1), // fail groups on 2
     'atelierdeschefs.fr': ((html, url) => AbstractScraper(html, url), 1),
@@ -98,8 +99,10 @@ void main() {
     'cakemehometonight.com': ((html, url) => AbstractScraper(html, url), 1), // fail groups on 2
     'cdkitchen.com': ((html, url) => AbstractScraper(html, url), 1),
     'cookpad.com': ((html, url) => AbstractScraper(html, url), 1),
+    'cuisineaz.com': ((html, url) => AbstractScraper(html, url), 1),
     'evolvingtable.com': ((html, url) => AbstractScraper(html, url), 1), // fail groups on 2
     'foodnetwork.co.uk': ((html, url) => AbstractScraper(html, url), 1),
+    'greatbritishchefs.com': ((html, url) => AbstractScraper(html, url), 1),
     'marmiton.org': ((html, url) => MarmitonScraper(html, url), 2),
     'mybakingaddiction.com': ((html, url) => AbstractScraper(html, url), 1),
     'recipetineats.com': ((html, url) => AbstractScraper(html, url), 1), // fail groups on 2
