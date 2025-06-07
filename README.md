@@ -27,7 +27,7 @@ Supported languages:
   - Magyar (🇭🇺)
 
 
-Supported Recipe Websites for import (**18**):
+Supported Recipe Websites for import (**19**):
 
 | Supported Website | Country |
 |-------------------|:--------|
@@ -37,6 +37,7 @@ Supported Recipe Websites for import (**18**):
 | ✅ [AllRecipes.com](https://www.allrecipes.com) | 🇺🇸 USA |
 | ✅ [Atelierdeschefs.fr](https://www.atelierdeschefs.fr) | 🇫🇷 France |
 | ✅ [Bakewithzoha.com](https://www.bakewithzoha.com) | 🇺🇸 USA |
+| ✅ [BBCgoodfood.com](https://www.bbcgoodfood.com) | 🇬🇧 UK |
 | ✅ [Evolvingtable.com](https://www.evolvingtable.com) | 🇺🇸 USA |
 | ✅ [Foodnetwork.co.uk](https://www.foodnetwork.co.uk) | 🇬🇧 UK |
 | ✅ [Marmiton.org](https://www.marmiton.org) | 🇫🇷 France |
@@ -56,6 +57,8 @@ Supported Recipe Websites for import (**18**):
 Feel free to help!
 
 ## News
+
+New in 3.4.0: Video player
 
 New in v2: nutritional informations are automatically generated (for EN and FR only)! Source: Santé Canada (Fichier canadien sur les éléments nutritifs, 2015)-> https://www.canada.ca/fr/sante-canada/services/aliments-nutrition/saine-alimentation/donnees-nutritionnelles/fichier-canadien-elements-nutritifs-fcen-2015.html. This is all done on-device with no internet access required.
 

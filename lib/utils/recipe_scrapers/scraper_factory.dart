@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:shefu/utils/recipe_scrapers/scrapers/abeautifulmess.com.dart';
 import 'package:shefu/utils/recipe_scrapers/scrapers/allrecipes.com.dart';
+import 'package:shefu/utils/recipe_scrapers/scrapers/bbcgoodfood.dart';
 import 'package:shefu/utils/recipe_scrapers/scrapers/marmiton.dart';
 import 'package:shefu/utils/recipe_scrapers/scrapers/zaubertopf.de.dart';
 import 'package:shefu/utils/recipe_scrapers/scrapers/zeit.de.dart';
@@ -19,6 +20,7 @@ class ScraperFactory {
     "allrecipes.com": AllRecipesScraper.new,
     "atelierdeschefs.fr": AbstractScraper.new,
     "bakewithzoha.com": AbstractScraper.new,
+    "bbcgoodfood.com": BBCGoodFoodScraper.new,
     "evolvingtable.com": AbstractScraper.new,
     "foodnetwork.co.uk": AbstractScraper.new,
     "marmiton.org": MarmitonScraper.new,

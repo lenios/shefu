@@ -433,6 +433,13 @@ class SchemaOrg {
       return video['contentUrl'];
     }
 
+    for (var schema in _schemas) {
+      final videoObj = _findEntity(schema, 'VideoObject');
+      if (videoObj != null && videoObj.containsKey('contentUrl')) {
+        return videoObj['contentUrl'];
+      }
+    }
+
     return null;
   }
 
