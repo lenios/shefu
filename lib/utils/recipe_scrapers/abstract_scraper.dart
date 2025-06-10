@@ -437,9 +437,7 @@ class AbstractScraper {
       return override;
     }
 
-    final equipmentItems = soup.querySelectorAll(
-      '.wprm-recipe-equipment-list .wprm-recipe-equipment-item .wprm-recipe-equipment-name',
-    );
+    final equipmentItems = soup.querySelectorAll('.wprm-recipe-equipment-name');
     return equipmentItems.map((item) => item.text.trim()).toList();
   }
 
@@ -498,7 +496,7 @@ class AbstractScraper {
       // Try OpenGraph next
       final ogDescription = opengraph.description;
       if (ogDescription?.isNotEmpty ?? false) {
-        return decodeHtmlEntities(ogDescription!);
+        return decodeHtmlEntities(ogDescription!).replaceAll(RegExp(r'\s+'), ' ').trim();
       }
     } catch (e) {
       debugPrint("Error extracting description: $e");

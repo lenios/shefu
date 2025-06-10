@@ -557,7 +557,7 @@ class SchemaOrg {
       description = description[0];
     }
 
-    return description != null ? _normalizeString(description.toString()) : null;
+    return description != null ? _normalizeString(description) : null;
   }
 
   String? get cookingMethod {
