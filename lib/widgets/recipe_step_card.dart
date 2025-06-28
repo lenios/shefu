@@ -199,6 +199,7 @@ class RecipeStepCard extends StatelessWidget {
                     conversionId: ingredient.conversionId,
                     servingsMultiplier: servings,
                     nutrientRepository: nutrientRepository,
+                    optional: ingredient.optional,
                   );
 
                   final String bulletType = ingredient.conversionId > 0 ? "■ " : "□ ";

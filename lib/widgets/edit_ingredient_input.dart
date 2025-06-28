@@ -112,6 +112,31 @@ class EditIngredientManager {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Wrap(
+                      direction: Axis.vertical,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      spacing: -10,
+                      children: [
+                        Text(
+                          l10n.optional,
+                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color: Theme.of(context).hintColor,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        Checkbox(
+                          value: ingredient.optional,
+                          onChanged: (bool? val) {
+                            if (val != null) {
+                              setLocalState(() {
+                                viewModel.updateIngredientOptional(stepIndex, ingredientIndex, val);
+                              });
+                            }
+                          },
+                        ),
+                      ],
+                    ),
+                    const SizedBox(width: 8),
                     // Quantity
                     Expanded(
                       flex: 2,

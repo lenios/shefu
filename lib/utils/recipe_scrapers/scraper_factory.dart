@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:shefu/utils/recipe_scrapers/scrapers/abeautifulmess.com.dart';
 import 'package:shefu/utils/recipe_scrapers/scrapers/allrecipes.com.dart';
 import 'package:shefu/utils/recipe_scrapers/scrapers/bbcgoodfood.dart';
+import 'package:shefu/utils/recipe_scrapers/scrapers/cookpad.dart';
 import 'package:shefu/utils/recipe_scrapers/scrapers/marmiton.dart';
 import 'package:shefu/utils/recipe_scrapers/scrapers/zaubertopf.de.dart';
 import 'package:shefu/utils/recipe_scrapers/scrapers/zeit.de.dart';
@@ -28,7 +29,7 @@ class ScraperFactory {
     "cambreabakes.com": AbstractScraper.new,
     "castironketo.net": AbstractScraper.new,
     "cdkitchen.com": AbstractScraper.new,
-    "cookpad.com": AbstractScraper.new,
+    "cookpad.com": CookpadScraper.new,
     "cuisineaz.com": AbstractScraper.new,
     "damndelicious.net": AbstractScraper.new,
     "eatingwell.com": AbstractScraper.new,

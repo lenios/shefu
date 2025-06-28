@@ -1401,6 +1401,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Disable cook mode'**
   String get disableCookMode;
+
+  /// No description provided for @optional.
+  ///
+  /// In en, this message translates to:
+  /// **'optional'**
+  String get optional;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

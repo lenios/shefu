@@ -671,4 +671,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get disableCookMode => 'クッキングモードを終了';
+
+  @override
+  String get optional => 'オプション';
 }

@@ -76,7 +76,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
     id: const obx_int.IdUid(2, 4044495939055305156),
     name: 'IngredientItem',
-    lastPropertyId: const obx_int.IdUid(9, 780675996808017377),
+    lastPropertyId: const obx_int.IdUid(10, 2183153733735357717),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
@@ -127,6 +127,12 @@ final _entities = <obx_int.ModelEntity>[
         id: const obx_int.IdUid(9, 780675996808017377),
         name: 'conversionId',
         type: 6,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(10, 2183153733735357717),
+        name: 'optional',
+        type: 1,
         flags: 0,
       ),
     ],
@@ -814,7 +820,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final nameOffset = fbb.writeString(object.name);
         final unitOffset = fbb.writeString(object.unit);
         final shapeOffset = fbb.writeString(object.shape);
-        fbb.startTable(10);
+        fbb.startTable(11);
         fbb.addInt64(0, object.id);
         fbb.addOffset(1, nameOffset);
         fbb.addOffset(2, unitOffset);
@@ -823,6 +829,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
         fbb.addInt64(5, object.foodId);
         fbb.addInt64(7, object.step.targetId);
         fbb.addInt64(8, object.conversionId);
+        fbb.addBool(9, object.optional);
         fbb.finish(fbb.endTable());
         return object.id;
       },
@@ -862,6 +869,12 @@ obx_int.ModelDefinition getObjectBoxModel() {
           20,
           0,
         );
+        final optionalParam = const fb.BoolReader().vTableGet(
+          buffer,
+          rootOffset,
+          22,
+          false,
+        );
         final object = IngredientItem(
           id: idParam,
           name: nameParam,
@@ -870,6 +883,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
           shape: shapeParam,
           foodId: foodIdParam,
           conversionId: conversionIdParam,
+          optional: optionalParam,
         );
         object.step.targetId = const fb.Int64Reader().vTableGet(
           buffer,
@@ -1695,6 +1709,11 @@ class IngredientItem_ {
   /// See [IngredientItem.conversionId].
   static final conversionId = obx.QueryIntegerProperty<IngredientItem>(
     _entities[1].properties[7],
+  );
+
+  /// See [IngredientItem.optional].
+  static final optional = obx.QueryBooleanProperty<IngredientItem>(
+    _entities[1].properties[8],
   );
 }
 

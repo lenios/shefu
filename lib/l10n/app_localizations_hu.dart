@@ -675,4 +675,7 @@ class AppLocalizationsHu extends AppLocalizations {
 
   @override
   String get disableCookMode => 'Főzés mód kikapcsolása';
+
+  @override
+  String get optional => 'opcionális';
 }

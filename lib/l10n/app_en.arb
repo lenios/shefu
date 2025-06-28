@@ -216,5 +216,6 @@
     "rest": "rest",
     "enableCookMode": "Cook mode",
     "keepScreenOn": "keep the screen on (prevent sleep mode)",
-    "disableCookMode": "Disable cook mode"
+    "disableCookMode": "Disable cook mode",
+    "optional": "optional"
 }

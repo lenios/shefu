@@ -864,6 +864,14 @@ class EditRecipeViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void updateIngredientOptional(int stepIndex, int ingredientIndex, bool value) {
+    if (stepIndex < _recipe.steps.length &&
+        ingredientIndex < _recipe.steps[stepIndex].ingredients.length) {
+      _recipe.steps[stepIndex].ingredients[ingredientIndex].optional = value;
+      notifyListeners();
+    }
+  }
+
   void moveIngredientToNextStep(int currentStepIndex, int ingredientIndex) {
     if (currentStepIndex < _recipe.steps.length - 1 &&
         currentStepIndex >= 0 &&

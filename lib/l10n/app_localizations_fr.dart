@@ -675,4 +675,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get disableCookMode => 'Désactiver le mode cuisine';
+
+  @override
+  String get optional => 'optionel';
 }

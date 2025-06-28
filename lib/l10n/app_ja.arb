@@ -217,5 +217,6 @@
     "rest": "休",
     "enableCookMode": "クッキングモード",
     "keepScreenOn": "画面をオンのままにする（スリープモードを防止）",
-    "disableCookMode": "クッキングモードを終了"
+    "disableCookMode": "クッキングモードを終了",
+    "optional": "オプション"
 }

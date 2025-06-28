@@ -163,6 +163,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                   isChecked: isInBasket,
                   servingsMultiplier: viewModel.servings / recipe.servings,
                   nutrientRepository: viewModel.nutrientRepository,
+                  optional: ingredient.optional,
                 );
 
                 return CheckboxListTile(

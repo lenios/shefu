@@ -52,7 +52,7 @@
     },
     {
       "id": "2:4044495939055305156",
-      "lastPropertyId": "9:780675996808017377",
+      "lastPropertyId": "10:2183153733735357717",
       "name": "IngredientItem",
       "properties": [
         {
@@ -98,6 +98,11 @@
           "id": "9:780675996808017377",
           "name": "conversionId",
           "type": 6
+        },
+        {
+          "id": "10:2183153733735357717",
+          "name": "optional",
+          "type": 1
         }
       ],
       "relations": []

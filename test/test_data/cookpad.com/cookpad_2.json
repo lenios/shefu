@@ -1,0 +1,28 @@
+{
+  "author": "horseland",
+  "canonical_url": "https://cookpad.com/jp/recipes/24799892",
+  "site_name": "Cookpad",
+  "host": "cookpad.com",
+  "language": "fr",
+  "title": "トマトとパセリのサラダ",
+  "ingredients": ["パセリ(茎除く) 8g", "トマト 1個135g", "大蒜 少々", "オリーブオイル 大匙1.5", "塩 ひとつまみ", "お酢 大匙1/2"],
+  "instructions_list": [
+              "パセリは良く洗う。微塵切りにして水気を切る。トマトは一口大にカット。大蒜はすりおろす(チューブでも)",
+              "ボールにオリーブオイル、塩、酢を入れ良く撹拌する。大蒜も入れ混ぜたらパセリも投入して混ぜ合わせる。",
+              "カットしたトマトと②のパセリドレッシングを和えて出来上がりです！",
+              "冷蔵庫で冷やすと更に美味しいですよ♪水分が出たらバケットなどお好きなパンを添えて召し上がれ♪"
+            ],
+  "step_images": [
+              "https://img-global-jp.cpcdn.com/steps/40971a0ef0fc5bac/640x640sq80/photo.webp",
+              "https://img-global-jp.cpcdn.com/steps/1ae730da653810cd/640x640sq80/photo.webp",
+              "https://img-global-jp.cpcdn.com/steps/857dce85e0e80141/640x640sq80/photo.webp",
+              "https://img-global-jp.cpcdn.com/steps/70dcec6d1ef3e3c3/640x640sq80/photo.webp",
+              "https://img-global-jp.cpcdn.com/steps/5bf3cb8a0b0cd88c/640x640sq80/photo.webp"
+            ],
+  "yields": "0 servings",
+  "total_time": null,
+  "cuisine": "日本語",
+  "keywords": ["パセリ(茎除く)", "トマト", "大蒜", "オリーブオイル", "塩", "お酢"],
+  "description": "夏に向かってプランターのパセリがモリモリ！夏バテしない体力作りに♡パセリを食べよう！",
+  "image": "https://img-global-jp.cpcdn.com/recipes/0570ef2b761540f0/400x400cq80/photo.jpg"
+}

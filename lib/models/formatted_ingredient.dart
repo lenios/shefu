@@ -5,6 +5,7 @@ class FormattedIngredient {
   final String descriptionText;
   final bool showDescription;
   final bool isChecked;
+  final bool optional;
 
   FormattedIngredient({
     required this.primaryQuantityDisplay,
@@ -13,5 +14,6 @@ class FormattedIngredient {
     this.descriptionText = '',
     required this.showDescription,
     this.isChecked = false,
+    this.optional = false,
   });
 }

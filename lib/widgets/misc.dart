@@ -98,6 +98,7 @@ FormattedIngredient formatIngredient({
   bool isChecked = false,
   double servingsMultiplier = 1.0,
   required ObjectBoxNutrientRepository nutrientRepository,
+  bool optional = false,
 }) {
   final appState = Provider.of<MyAppState>(context, listen: false);
 
@@ -112,6 +113,7 @@ FormattedIngredient formatIngredient({
       descriptionText: "",
       showDescription: false,
       isChecked: isChecked,
+      optional: optional,
     );
   }
 
@@ -159,6 +161,7 @@ FormattedIngredient formatIngredient({
     descriptionText: desc,
     showDescription: showDesc,
     isChecked: isChecked,
+    optional: optional,
   );
 }
 

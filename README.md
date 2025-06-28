@@ -48,7 +48,7 @@ Sample:
 
 Documentation will come later.
 
-Supported Recipe Websites for import (**30**):
+Supported Recipe Websites for import (**40**):
 
 | Supported Website | Country |
 |-------------------|:--------|

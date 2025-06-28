@@ -216,5 +216,6 @@
     "rest": "repos",
     "enableCookMode": "Mode cuisine",
     "keepScreenOn": "garder l'écran allumé (empêcher la mise en veille)",
-    "disableCookMode": "Désactiver le mode cuisine"
+    "disableCookMode": "Désactiver le mode cuisine",
+    "optional": "optionel"
 }

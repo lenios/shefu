@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:shefu/l10n/app_localizations.dart';
 import 'package:shefu/models/formatted_ingredient.dart';
+import 'package:shefu/utils/app_color.dart';
 import 'package:shefu/widgets/recipe_step_card.dart';
 
 class IngredientDisplay extends StatelessWidget {
@@ -27,8 +29,8 @@ class IngredientDisplay extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          bulletType,
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: effectivePrimaryColor),
+          ingredient.optional ? "⬚ " : bulletType,
+          style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: effectivePrimaryColor),
         ),
         Expanded(
           child: Column(
@@ -39,10 +41,14 @@ class IngredientDisplay extends StatelessWidget {
                 children: [
                   Flexible(
                     child: Text(
-                      "${ingredient.primaryQuantityDisplay} ${ingredient.name}${lineShape && ingredient.shape.isNotEmpty ? ', ${ingredient.shape}' : ''}",
+                      "${ingredient.primaryQuantityDisplay} ${ingredient.name}"
+                      "${lineShape && ingredient.shape.isNotEmpty ? ', ${ingredient.shape}' : ''}",
                       style: TextStyle(
+                        fontStyle: ingredient.optional ? FontStyle.italic : null,
+                        color: ingredient.optional
+                            ? AppColor.optionalColor
+                            : (ingredient.isChecked ? effectivePrimaryColor : null),
                         decoration: ingredient.isChecked ? TextDecoration.lineThrough : null,
-                        color: ingredient.isChecked ? effectivePrimaryColor : null,
                       ),
                       overflow: TextOverflow.ellipsis,
                       maxLines: 4,
@@ -62,12 +68,12 @@ class IngredientDisplay extends StatelessWidget {
                   maxLines: 3,
                   overflow: TextOverflow.ellipsis,
                 ),
-              if (!lineShape && ingredient.shape.isNotEmpty)
+              if ((!lineShape && ingredient.shape.isNotEmpty) || ingredient.optional)
                 Text(
-                  ingredient.shape,
+                  "${ingredient.shape} ${ingredient.optional ? '(${AppLocalizations.of(context)?.optional})' : ''}",
                   style: theme.textTheme.bodyMedium?.copyWith(
                     fontStyle: FontStyle.italic,
-                    color: effectivePrimaryColor,
+                    color: ingredient.optional ? AppColor.optionalColor : effectivePrimaryColor,
                     decoration: ingredient.isChecked ? TextDecoration.lineThrough : null,
                   ),
                   maxLines: 3,

@@ -108,6 +108,7 @@ class IngredientItem {
   String shape;
   int foodId;
   int conversionId;
+  bool optional;
 
   final step = ToOne<RecipeStep>();
 
@@ -119,6 +120,7 @@ class IngredientItem {
     this.shape = "",
     this.foodId = 0,
     this.conversionId = 0,
+    this.optional = false,
   });
 }
 

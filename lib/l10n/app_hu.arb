@@ -217,5 +217,6 @@
     "rest": "pihentetés",
     "enableCookMode": "Főzés mód",
     "keepScreenOn": "képernyő ébren tartása (alvó mód megakadályozása)",
-    "disableCookMode": "Főzés mód kikapcsolása"
+    "disableCookMode": "Főzés mód kikapcsolása",
+    "optional": "opcionális"
 }

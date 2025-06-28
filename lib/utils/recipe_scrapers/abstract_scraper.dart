@@ -616,6 +616,11 @@ class AbstractScraper {
       jsonDict['instructions_list'] = instructionsList();
     } catch (e) {}
     try {
+      if (stepImages().isNotEmpty) {
+        jsonDict['step_images'] = stepImages();
+      }
+    } catch (e) {}
+    try {
       if (category().isNotEmpty) {
         jsonDict['category'] = decodeHtmlEntities(category());
       }
