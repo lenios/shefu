@@ -4,7 +4,7 @@ description: Offline recipes manager
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 3.4.2+244
+version: 3.5.0+245
 
 environment:
   sdk: ^3.8.0
@@ -44,6 +44,9 @@ dependencies:
   url_launcher: ^6.3.1
   video_player: ^2.10.0
   youtube_player_flutter: ^9.1.1
+  pdf: ^3.10.0
+  share_plus: ^7.2.1
+  printing: ^5.14.2
 
 dev_dependencies:
   flutter_test:

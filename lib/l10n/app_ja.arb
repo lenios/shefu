@@ -218,5 +218,7 @@
     "enableCookMode": "クッキングモード",
     "keepScreenOn": "画面をオンのままにする（スリープモードを防止）",
     "disableCookMode": "クッキングモードを終了",
-    "optional": "オプション"
+    "optional": "オプション",
+    "export": "エクスポート",
+    "generatingPdf": "PDFを生成しています..."
 }

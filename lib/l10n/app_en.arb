@@ -217,5 +217,7 @@
     "enableCookMode": "Cook mode",
     "keepScreenOn": "keep the screen on (prevent sleep mode)",
     "disableCookMode": "Disable cook mode",
-    "optional": "optional"
+    "optional": "optional",
+    "export": "export",
+    "generatingPdf": "Generating PDF..."
 }

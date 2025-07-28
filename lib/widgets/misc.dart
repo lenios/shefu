@@ -225,3 +225,35 @@ Widget noteCard({
     ),
   );
 }
+
+/// Detects cooking tools in instruction text using localized names
+Map<String, dynamic> detectCookingTools(String instruction, BuildContext context) {
+  // Use dynamic for values so we can mix IconData and drawable strings
+  final Map<String, dynamic> cookingTools = {
+    'paddle': 'assets/icons/paddle.svg',
+    'knife': 'assets/icons/knife.svg',
+    'whisk': 'assets/icons/whisk.svg',
+    'rolling-pin': 'assets/icons/rolling-pin.svg',
+    'bowl': 'assets/icons/bowl.svg',
+    'blender': Icons.blender_outlined,
+    'mixer': 'assets/icons/mixer.svg',
+    'pot': 'assets/icons/cooking-pot.svg',
+    'fridge': 'assets/icons/fridge.svg',
+    'freezer': 'assets/icons/freezer.svg',
+    'microwave': Icons.microwave_outlined,
+    'skillet': 'assets/icons/skillet_24.svg',
+    'oven': 'assets/icons/oven-outline.svg',
+  };
+
+  final String instructionLower = instruction.toLowerCase();
+  final Map<String, dynamic> foundTools = {};
+
+  for (final tool in cookingTools.keys) {
+    // Use localized tool name for matching
+    if (instructionLower.contains(formattedTool(tool, context))) {
+      foundTools[tool] = cookingTools[tool]!;
+    }
+  }
+
+  return foundTools;
+}

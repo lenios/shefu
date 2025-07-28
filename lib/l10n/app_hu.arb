@@ -110,7 +110,7 @@
     "leaveWithoutSaving": "Kilépés mentés nélkül?",
     "leave": "Kilépés",
     "unsavedChanges": "Lehet, hogy nem mentett változtatásai vannak.",
-    "import": "importálása",
+    "importRecipe": "importálása",
     "importRecipeConfirmation": "Szeretné importálni a receptet az {url}? Ez felülírja a címet, a lépéseket és a képet.",
     "scrapeError": "Nem sikerült importálni a receptet az URL-ről.",
     "checkIngredientsYouHave": "Jelölje be a már meglévő hozzávalókat:",
@@ -218,5 +218,7 @@
     "enableCookMode": "Főzés mód",
     "keepScreenOn": "képernyő ébren tartása (alvó mód megakadályozása)",
     "disableCookMode": "Főzés mód kikapcsolása",
-    "optional": "opcionális"
+    "optional": "opcionális",
+    "export": "exportálása",
+    "generatingPdf": "PDF generálása..."
 }

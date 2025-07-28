@@ -345,7 +345,7 @@ class AppLocalizationsHu extends AppLocalizations {
   String get unsavedChanges => 'Lehet, hogy nem mentett változtatásai vannak.';
 
   @override
-  String get importRecipe => 'Import';
+  String get importRecipe => 'importálása';
 
   @override
   String importRecipeConfirmation(Object url) {
@@ -678,4 +678,10 @@ class AppLocalizationsHu extends AppLocalizations {
 
   @override
   String get optional => 'opcionális';
+
+  @override
+  String get export => 'exportálása';
+
+  @override
+  String get generatingPdf => 'PDF generálása...';
 }

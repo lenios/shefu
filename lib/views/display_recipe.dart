@@ -368,6 +368,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                       child: ClipRect(child: buildFutureImageWidget(context, imagePath)),
                     ),
                   ),
+
                   //Video play button
                   if (recipe.videoUrl.isNotEmpty)
                     Positioned(
@@ -592,6 +593,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
             ),
           ),
 
+          // Favorite
           IconButton(
             onPressed: () {
               // TODO: implement
@@ -605,6 +607,12 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
               color: Colors.white,
             ),
           ),
+
+          IconButton(
+            onPressed: () => viewModel.exportRecipeToPdf(context, viewModel),
+            icon: Icon(Icons.share, color: Colors.white),
+          ),
+
           buildIconButton(Icons.edit_outlined, AppLocalizations.of(context)!.editRecipe, () async {
             final result = await context.push('/edit-recipe/${viewModel.recipe!.id}');
             if (result == true && context.mounted) {

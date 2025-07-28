@@ -217,5 +217,8 @@
     "enableCookMode": "Mode cuisine",
     "keepScreenOn": "garder l'écran allumé (empêcher la mise en veille)",
     "disableCookMode": "Désactiver le mode cuisine",
-    "optional": "optionel"
+    "optional": "optionel",
+    "export": "exporter",
+    "generatingPdf": "Création du PDF en cours..."
+    
 }

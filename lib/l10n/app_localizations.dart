@@ -1407,6 +1407,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'optional'**
   String get optional;
+
+  /// No description provided for @export.
+  ///
+  /// In en, this message translates to:
+  /// **'export'**
+  String get export;
+
+  /// No description provided for @generatingPdf.
+  ///
+  /// In en, this message translates to:
+  /// **'Generating PDF...'**
+  String get generatingPdf;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

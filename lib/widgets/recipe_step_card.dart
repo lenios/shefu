@@ -66,32 +66,7 @@ class RecipeStepCard extends StatelessWidget {
   }
 
   Widget stepDirection(BuildContext context) {
-    // Use dynamic for values so we can mix IconData and drawable strings
-    final Map<String, dynamic> cookingTools = {
-      'paddle': 'assets/icons/paddle.svg',
-      'knife': 'assets/icons/knife.svg',
-      'whisk': 'assets/icons/whisk.svg',
-      'rolling-pin': 'assets/icons/rolling-pin.svg',
-      'bowl': 'assets/icons/bowl.svg',
-      'blender': Icons.blender_outlined,
-      'mixer': 'assets/icons/mixer.svg',
-      'pot': 'assets/icons/cooking-pot.svg',
-      'fridge': 'assets/icons/fridge.svg',
-      'freezer': 'assets/icons/freezer.svg',
-      'microwave': Icons.microwave_outlined,
-      'skillet': 'assets/icons/skillet_24.svg',
-      'oven': 'assets/icons/oven-outline.svg',
-    };
-
-    final String instruction = recipeStep.instruction.toLowerCase();
-    final Map<String, dynamic> foundTools = {};
-
-    for (final tool in cookingTools.keys) {
-      // if instruction contains l10n name of the tool
-      if (instruction.contains(formattedTool(tool, context))) {
-        foundTools[tool] = cookingTools[tool]!;
-      }
-    }
+    final foundTools = detectCookingTools(recipeStep.instruction, context);
 
     final bool hasTimer = recipeStep.timer > 0;
     final bool hasImage = recipeStep.imagePath.isNotEmpty;

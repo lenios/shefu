@@ -678,4 +678,10 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get optional => 'optionel';
+
+  @override
+  String get export => 'exporter';
+
+  @override
+  String get generatingPdf => 'Création du PDF en cours...';
 }
