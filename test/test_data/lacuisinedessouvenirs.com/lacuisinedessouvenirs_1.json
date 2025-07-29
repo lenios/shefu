@@ -1,0 +1,49 @@
+{
+  "author": "Emma",
+  "canonical_url": "https://www.lacuisinedessouvenirs.com/croissants-au-beurre-maison/",
+  "site_name": "la cuisine des souvenirs",
+  "host": "lacuisinedessouvenirs.com",
+  "language": "en-US",
+  "title": "Croissants au beurre maison",
+  "description": "Des croissants au beurre maison ultra feuilletés, croustillants et dorés à souhait. Une recette authentique et accessible.\nⓘ Utilisez du beurre à 82 % MG pour un feuilletage optimal.\nⓘ Respectez les temps de repos pour éviter les fuites de beurre.\nⓘ Vous pouvez congeler les croissants façonnés avant cuisson.",
+  "ingredients": [
+    "500 g de farine T45",
+    "275 ml de lait tiède",
+    "60 g de sucre",
+    "10 g de sel",
+    "10 g de levure boulangère sèche (ou 20 g fraîche)",
+    "250 g de beurre froid pour le tourage",
+    "1 œuf battu pour la dorure"
+  ],
+  "instructions_list": [
+    "Mélangez le lait tiède avec la levure, laissez reposer 10 min.",
+    "Dans un saladier, mélangez farine, sucre, sel (sans contact direct avec la levure).",
+    "Ajoutez le mélange lait-levure, pétrissez 10 min. Formez une boule.",
+    "Laissez lever 1h30 à température ambiante ou 12h au réfrigérateur.",
+    "Étalez la pâte en rectangle, enfermez le beurre au centre. Réalisez 3 tours (simples ou doubles), en reposant la pâte 30 min entre chaque.",
+    "Abaissez la pâte, découpez des triangles, roulez-les pour former les croissants.",
+    "Laissez lever 1h30 à 2h dans un endroit tiède.",
+    "Dorez les croissants avec l’œuf battu.",
+    "Enfournez 15 à 20 min à 200 °C chaleur tournante."
+  ],
+  "image": "https://www.lacuisinedessouvenirs.com/wp-content/uploads/2025/07/Croissants-au-beurre-maison-1.webp",
+  "yields": "12",
+  "cook_time": 20,
+  "total_time": 0,
+  "prep_time": 0,
+  "category": "Viennoiseries",
+  "nutrients": {
+    "servingSize": "1 croissant",
+    "calories": "280 calories",
+    "sugarContent": "6g",
+    "sodiumContent": "190mg",
+    "fatContent": "17g",
+    "saturatedFatContent": "10g",
+    "unsaturatedFatContent": "6g",
+    "transFatContent": "0g",
+    "carbohydrateContent": "28g",
+    "fiberContent": "1g",
+    "proteinContent": "5g",
+    "cholesterolContent": "45mg"
+  }
+}

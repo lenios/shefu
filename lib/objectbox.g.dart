@@ -595,7 +595,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
     id: const obx_int.IdUid(5, 4388955433426848727),
     name: 'RecipeStep',
-    lastPropertyId: const obx_int.IdUid(6, 7763688450360137610),
+    lastPropertyId: const obx_int.IdUid(8, 5842203084657558908),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
@@ -635,6 +635,12 @@ final _entities = <obx_int.ModelEntity>[
         flags: 520,
         indexId: const obx_int.IdUid(3, 4653395338623598876),
         relationTarget: 'Recipe',
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(8, 5842203084657558908),
+        name: 'order',
+        type: 6,
+        flags: 0,
       ),
     ],
     relations: <obx_int.ModelRelation>[],
@@ -727,6 +733,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
       4179309004405117661,
       8847534544833626113,
       6476738803012066954,
+      8533523967133434343,
     ],
     retiredRelationUids: const [],
     modelVersion: 5,
@@ -1526,13 +1533,14 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final nameOffset = fbb.writeString(object.name);
         final instructionOffset = fbb.writeString(object.instruction);
         final imagePathOffset = fbb.writeString(object.imagePath);
-        fbb.startTable(7);
+        fbb.startTable(9);
         fbb.addInt64(0, object.id);
         fbb.addOffset(1, nameOffset);
         fbb.addOffset(2, instructionOffset);
         fbb.addOffset(3, imagePathOffset);
         fbb.addInt64(4, object.timer);
         fbb.addInt64(5, object.recipe.targetId);
+        fbb.addInt64(7, object.order);
         fbb.finish(fbb.endTable());
         return object.id;
       },
@@ -1560,12 +1568,19 @@ obx_int.ModelDefinition getObjectBoxModel() {
           12,
           0,
         );
+        final orderParam = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          18,
+          0,
+        );
         final object = RecipeStep(
           id: idParam,
           name: nameParam,
           instruction: instructionParam,
           imagePath: imagePathParam,
           timer: timerParam,
+          order: orderParam,
         );
         object.recipe.targetId = const fb.Int64Reader().vTableGet(
           buffer,
@@ -2113,6 +2128,11 @@ class RecipeStep_ {
   /// See [RecipeStep.recipe].
   static final recipe = obx.QueryRelationToOne<RecipeStep, Recipe>(
     _entities[4].properties[5],
+  );
+
+  /// See [RecipeStep.order].
+  static final order = obx.QueryIntegerProperty<RecipeStep>(
+    _entities[4].properties[6],
   );
 
   /// see [RecipeStep.ingredients]

@@ -199,10 +199,29 @@ class EditRecipeViewModel extends ChangeNotifier {
   // --- Step Management ---
 
   void addEmptyStep() {
-    _recipe.steps.add(RecipeStep());
+    final newStep = RecipeStep();
+    newStep.order = _recipe.steps.length; // Set order to last position
+    _recipe.steps.add(newStep);
     _imageVersion.value++;
 
     notifyListeners();
+  }
+
+  /// Insert a new empty step at the specified index
+  void insertStepAt(int index) {
+    if (index >= 0 && index <= _recipe.steps.length) {
+      final newStep = RecipeStep();
+      newStep.order = index;
+
+      // Update order of all steps at and after this index
+      for (int i = index; i < _recipe.steps.length; i++) {
+        _recipe.steps[i].order = i + 1;
+      }
+
+      _recipe.steps.insert(index, newStep);
+      _imageVersion.value++;
+      notifyListeners();
+    }
   }
 
   void removeStep(int index) {
@@ -212,6 +231,12 @@ class EditRecipeViewModel extends ChangeNotifier {
       _recipeRepository.deleteImageFile(imagePath); // Use repository method
 
       _recipe.steps.removeAt(index);
+
+      // Update order of all steps after the removed step
+      for (int i = index; i < _recipe.steps.length; i++) {
+        _recipe.steps[i].order = i;
+      }
+
       _imageVersion.value++;
 
       notifyListeners();
@@ -888,16 +913,6 @@ class EditRecipeViewModel extends ChangeNotifier {
       ingredientToMove.step.target = nextStep;
       nextStep.ingredients.add(ingredientToMove);
 
-      notifyListeners();
-    }
-  }
-
-  /// Insert a new empty step at the specified index
-  void insertStepAt(int index) {
-    if (index >= 0 && index <= _recipe.steps.length) {
-      final newStep = RecipeStep();
-      _recipe.steps.insert(index, newStep);
-      _imageVersion.value++;
       notifyListeners();
     }
   }

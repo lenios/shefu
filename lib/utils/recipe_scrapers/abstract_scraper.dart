@@ -225,6 +225,11 @@ class AbstractScraper {
   }
 
   String category() {
+    final override = getOverride<String>('category');
+    if (override != null) {
+      return override;
+    }
+
     var schemaCategory = schema.category;
     if (schemaCategory != null && schemaCategory.isNotEmpty) {
       return decodeHtmlEntities(schemaCategory);
@@ -346,6 +351,11 @@ class AbstractScraper {
 
   /// Get prep time with fallback to HTML parsing
   int? prepTime() {
+    final override = getOverride<int>('prep_time');
+    if (override != null) {
+      return override;
+    }
+
     try {
       // Try schema first
       return schema.prepTime;
@@ -358,6 +368,11 @@ class AbstractScraper {
 
   /// Get cook time with fallback to HTML parsing
   int? cookTime() {
+    final override = getOverride<int>('cook_time');
+    if (override != null) {
+      return override;
+    }
+
     final time = schema.cookTime;
     return time != null && time > 0 ? time : null;
   }
@@ -507,6 +522,11 @@ class AbstractScraper {
 
   /// Get nutritional information
   Map<String, dynamic> nutrients() {
+    final override = getOverride<Map<String, dynamic>>('nutrients');
+    if (override != null) {
+      return override;
+    }
+
     try {
       // Try schema
       final nutrition = schema.nutrition;

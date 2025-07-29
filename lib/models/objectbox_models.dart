@@ -82,6 +82,7 @@ class RecipeStep {
   String instruction;
   String imagePath;
   int timer;
+  int order;
 
   final recipe = ToOne<Recipe>();
 
@@ -94,6 +95,7 @@ class RecipeStep {
     this.instruction = "",
     this.imagePath = "",
     this.timer = 0,
+    this.order = 0,
   });
 }
 

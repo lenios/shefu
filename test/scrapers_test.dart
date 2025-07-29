@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shefu/utils/recipe_scrapers/abstract_scraper.dart';
 import 'package:shefu/utils/recipe_scrapers/scrapers/cookpad.dart';
+import 'package:shefu/utils/recipe_scrapers/scrapers/lacuisinedessouvenirs.com.dart';
 import 'package:shefu/utils/recipe_scrapers/scrapers/seriouseats.dart';
 import 'package:shefu/utils/recipe_scrapers/scrapers/marmiton.dart';
 import 'package:shefu/utils/recipe_scrapers/scrapers/abeautifulmess.com.dart';
@@ -110,6 +111,7 @@ void main() {
     'kitchenstories.com': ((html, url) => AbstractScraper(html, url), 1),
     'kochbar.de': ((html, url) => AbstractScraper(html, url), 1),
     'koket.se': ((html, url) => AbstractScraper(html, url), 1),
+    'lacuisinedessouvenirs.com': ((html, url) => LaCuisineDesSouvenirsScraper(html, url), 1),
     'lanascooking.com': ((html, url) => AbstractScraper(html, url), 1), // fail groups on 2
     'lecremedelacrumb.com': ((html, url) => AbstractScraper(html, url), 1),
     'marmiton.org': ((html, url) => MarmitonScraper(html, url), 2),

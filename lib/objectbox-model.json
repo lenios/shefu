@@ -479,7 +479,7 @@
     },
     {
       "id": "5:4388955433426848727",
-      "lastPropertyId": "6:7763688450360137610",
+      "lastPropertyId": "8:5842203084657558908",
       "name": "RecipeStep",
       "properties": [
         {
@@ -515,6 +515,11 @@
           "flags": 520,
           "indexId": "3:4653395338623598876",
           "relationTarget": "Recipe"
+        },
+        {
+          "id": "8:5842203084657558908",
+          "name": "order",
+          "type": 6
         }
       ],
       "relations": []
@@ -560,7 +565,8 @@
   "retiredPropertyUids": [
     4179309004405117661,
     8847534544833626113,
-    6476738803012066954
+    6476738803012066954,
+    8533523967133434343
   ],
   "retiredRelationUids": [],
   "version": 1

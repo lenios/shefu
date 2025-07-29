@@ -48,7 +48,7 @@ Sample:
 
 Documentation will come later.
 
-Supported Recipe Websites for import (**40**):
+Supported Recipe Websites for import (**41**):
 
 | Supported Website | Country |
 |-------------------|:--------|
@@ -77,6 +77,7 @@ Supported Recipe Websites for import (**40**):
 | ✅ [Kochbar.de](https://www.kochbar.de) | 🇩🇪 Germany |
 | ✅ [Koket.se](https://www.koket.se) | 🇸🇪 Sweden |
 | ✅ [Marmiton.org](https://www.marmiton.com) | 🇫🇷 France |
+| ✅ [Lacuisinedessouvenirs.com](https://www.lacuisinedessouvenirs.com) | 🇫🇷 France |
 | ✅ [Lanascooking.com](https://www.lanascooking.com) | 🇺🇸 USA |
 | ✅ [Lecremedelacrumb.com](https://www.lecremedelacrumb.com) | 🇺🇸 USA |
 | ✅ [mybakingaddiction.com](https://www.mybakingaddiction.com) | 🇺🇸 USA |

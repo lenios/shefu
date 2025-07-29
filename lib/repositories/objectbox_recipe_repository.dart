@@ -48,7 +48,11 @@ class ObjectBoxRecipeRepository {
     if (id <= 0) {
       return null;
     }
-    return _objectBox.recipeBox.get(id);
+    final recipe = _objectBox.recipeBox.get(id);
+    if (recipe != null) {
+      recipe.steps.sort((a, b) => a.order.compareTo(b.order)); // Sort steps by order
+    }
+    return recipe;
   }
 
   Future<int> saveRecipe(Recipe recipe) async {
@@ -71,9 +75,14 @@ class ObjectBoxRecipeRepository {
         }
       }
 
+      // Sort steps by order before saving
+      recipe.steps.sort((a, b) => a.order.compareTo(b.order));
+
       for (int i = 0; i < recipe.steps.length; i++) {
         final step = recipe.steps[i];
         step.recipe.target = recipe;
+
+        step.order = i; // Ensure order is updated to match position (in case it was changed)
 
         for (int j = 0; j < step.ingredients.length; j++) {
           final ingredient = step.ingredients[j];
