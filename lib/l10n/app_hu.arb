@@ -6,6 +6,7 @@
     "addRecipe": "Recept hozzáadása",
     "addStep": "Lépés hozzáadása",
     "insertStep": "Köztes lépés beszúrása",
+    "moveToPreviousStep": "Lépés előtti lépésre",
     "moveToNextStep": "Lépés a következő lépésre",
     "calories": "Kalória",
     "carbohydrates": "Szénhidrát",

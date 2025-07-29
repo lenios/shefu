@@ -7,6 +7,7 @@
     "add": "追加",
     "addStep": "手順を追加",
     "insertStep": "中間手順を追加",
+    "moveToPreviousStep": "前の手順に戻る",
     "moveToNextStep": "次の手順へ進む",
     "calories": "カロリー",
     "carbohydrates": "炭水化物",

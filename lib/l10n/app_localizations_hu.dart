@@ -30,6 +30,9 @@ class AppLocalizationsHu extends AppLocalizations {
   String get insertStep => 'Köztes lépés beszúrása';
 
   @override
+  String get moveToPreviousStep => 'Lépés előtti lépésre';
+
+  @override
   String get moveToNextStep => 'Lépés a következő lépésre';
 
   @override

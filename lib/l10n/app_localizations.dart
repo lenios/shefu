@@ -142,6 +142,12 @@ abstract class AppLocalizations {
   /// **'Add intermediate step'**
   String get insertStep;
 
+  /// No description provided for @moveToPreviousStep.
+  ///
+  /// In en, this message translates to:
+  /// **'Move to previous step'**
+  String get moveToPreviousStep;
+
   /// No description provided for @moveToNextStep.
   ///
   /// In en, this message translates to:

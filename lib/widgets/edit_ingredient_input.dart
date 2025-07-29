@@ -179,6 +179,21 @@ class EditIngredientManager {
                     ),
                     const SizedBox(width: 8),
 
+                    // Move to Previous Step Button
+                    if (stepIndex > 0)
+                      IconButton(
+                        icon: Icon(
+                          Icons.arrow_upward_sharp,
+                          color: Theme.of(context).colorScheme.primary,
+                          size: 20,
+                        ),
+                        tooltip: l10n.moveToPreviousStep,
+                        onPressed: () {
+                          viewModel.moveIngredientToPreviousStep(stepIndex, ingredientIndex);
+                        },
+                        constraints: const BoxConstraints(),
+                        padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                      ),
                     // Move to Next Step Button
                     if (!isLastStep)
                       IconButton(

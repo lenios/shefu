@@ -6,6 +6,7 @@
     "addRecipe": "Add recipe",
     "addStep": "Add step",
     "insertStep": "Add intermediate step",
+    "moveToPreviousStep": "Move to previous step",
     "moveToNextStep": "Move to next step",
     "calories": "Calories",
     "carbohydrates": "Carbohydrates",

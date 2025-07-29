@@ -912,6 +912,28 @@ class EditRecipeViewModel extends ChangeNotifier {
 
       ingredientToMove.step.target = nextStep;
       nextStep.ingredients.add(ingredientToMove);
+      _recipeRepository.saveRecipe(_recipe); // ensure atomic change is correctly saved to db
+
+      notifyListeners();
+    }
+  }
+
+  void moveIngredientToPreviousStep(int currentStepIndex, int ingredientIndex) {
+    if (currentStepIndex > 0 &&
+        currentStepIndex < _recipe.steps.length &&
+        ingredientIndex >= 0 &&
+        ingredientIndex < _recipe.steps[currentStepIndex].ingredients.length) {
+      // Dispose the controller for the ingredient at its current position
+      EditIngredientManager.disposeController(currentStepIndex, ingredientIndex);
+
+      final ingredientToMove = _recipe.steps[currentStepIndex].ingredients.removeAt(
+        ingredientIndex,
+      );
+      final prevStep = _recipe.steps[currentStepIndex - 1];
+
+      ingredientToMove.step.target = prevStep;
+      prevStep.ingredients.add(ingredientToMove);
+      _recipeRepository.saveRecipe(_recipe); // ensure atomic change is correctly saved to db
 
       notifyListeners();
     }

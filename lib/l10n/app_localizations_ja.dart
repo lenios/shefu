@@ -30,6 +30,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get insertStep => '中間手順を追加';
 
   @override
+  String get moveToPreviousStep => '前の手順に戻る';
+
+  @override
   String get moveToNextStep => '次の手順へ進む';
 
   @override

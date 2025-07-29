@@ -30,6 +30,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get insertStep => 'Ajouter une étape intermédiaire';
 
   @override
+  String get moveToPreviousStep => 'Déplacer à l\'étape précédente';
+
+  @override
   String get moveToNextStep => 'Déplacer à l\'étape suivante';
 
   @override
