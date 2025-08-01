@@ -31,14 +31,14 @@
         "1 13oz. can coconut milk ($1.99)",
         "3 cups fresh baby spinach ($1.61)"
       ],
-      "purpose": null
+      "heading": null
     },
     {
       "ingredients": [
         "4 cups cooked rice ($0.60)",
         "1/4 cup chopped fresh cilantro ($0.15)"
       ],
-      "purpose": "For Serving (optional)"
+      "heading": "For Serving (optional)"
     }
   ],
   "instructions_list": [
@@ -68,6 +68,7 @@
     "fiberContent": "8 g"
   },
   "image": "https://www.budgetbytes.com/wp-content/uploads/2019/07/Creamy-Coconut-Curry-Lentils-with-Spinach-dip-naan.jpg",
+  "video": "https://mediavine-res.cloudinary.com/video/upload/t_original/v1569265779/cszu5igarnurncpmbfcm.mp4",
   "keywords": [
     "meal prep",
     "Vegan Dinner"

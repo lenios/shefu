@@ -687,4 +687,7 @@ class AppLocalizationsHu extends AppLocalizations {
 
   @override
   String get generatingPdf => 'PDF generálása...';
+
+  @override
+  String get questions => 'Kérdések';
 }

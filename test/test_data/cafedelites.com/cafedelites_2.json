@@ -23,7 +23,7 @@
         "1/2 cup sugar",
         "1/2 teaspoon ground cinnamon"
       ],
-      "purpose": "COATING"
+      "heading": "COATING"
     },
     {
       "ingredients": [
@@ -36,7 +36,7 @@
         "1 1/4 cups all-purpose or plain flour, (6.3oz | 180g)",
         "2 large eggs, (at room temperature)"
       ],
-      "purpose": "CHURROS"
+      "heading": "CHURROS"
     }
   ],
   "instructions_list": [

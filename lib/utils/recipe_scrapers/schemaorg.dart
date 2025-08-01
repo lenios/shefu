@@ -26,17 +26,11 @@ class SchemaOrg {
       // First pass - extract website data and people
       for (final script in scripts) {
         try {
-          final parsed = jsonDecode(script.innerHtml);
+          final sanitizedJson = _sanitizeJsonString(script.innerHtml);
+          final parsed = jsonDecode(sanitizedJson);
           _processJsonLdData(parsed);
-        } catch (e) {
-          // If regular parsing fails, try with sanitized JSON
-          try {
-            final sanitizedJson = _sanitizeJsonString(script.innerHtml);
-            final parsed = jsonDecode(sanitizedJson);
-            _processJsonLdData(parsed);
-          } catch (e2) {
-            logger.w("Failed to parse JSON-LD script: $e2");
-          }
+        } catch (e2) {
+          logger.w("Failed to parse JSON-LD script: $e2");
         }
       }
 
@@ -247,7 +241,7 @@ class SchemaOrg {
     if (instructions is String) {
       return instructions;
     } else if (instructions is List) {
-      final instructionsText = <String>[];
+      final instructionsText = <String>{};
 
       for (var item in instructions) {
         instructionsText.addAll(_extractHowToInstructionsText(item));
@@ -273,15 +267,6 @@ class SchemaOrg {
       }
     } else if (schemaItem is Map<String, dynamic>) {
       if (schemaItem['@type'] == 'HowToStep') {
-        if (schemaItem.containsKey('name') && schemaItem.containsKey('text')) {
-          final name = schemaItem['name'].toString();
-          final text = schemaItem['text'].toString();
-          // Add name only if it's not a truncated version of text
-          if (!text.startsWith(name.replaceAll(RegExp(r'\.+$'), ''))) {
-            instructionsGist.add(name);
-          }
-        }
-
         if (schemaItem.containsKey('itemListElement')) {
           final subInstructions = _extractHowToInstructionsText(schemaItem['itemListElement']);
           instructionsGist.addAll(subInstructions);
@@ -306,6 +291,43 @@ class SchemaOrg {
     }
 
     return instructionsGist;
+  }
+
+  List<Map<String, String>> questions() {
+    final List<Map<String, String>> questionList = [];
+
+    for (var schema in _schemas) {
+      // Search in mainEntity
+      final mainEntity = schema['mainEntity'];
+      if (mainEntity is List) {
+        for (var item in mainEntity) {
+          if (item is Map<String, dynamic> && item['@type'] == 'Question') {
+            final question = _normalizeString(item['name']?.toString() ?? '');
+            final answer = _normalizeString(item['acceptedAnswer']?['text']?.toString() ?? '');
+
+            if (question.isNotEmpty && answer.isNotEmpty) {
+              questionList.add({'question': question, 'answer': answer});
+            }
+          }
+        }
+      }
+
+      // Search in @graph
+      final graph = schema['@graph'];
+      if (graph is List) {
+        for (var node in graph) {
+          if (node is Map<String, dynamic> && node['@type'] == 'Question') {
+            final question = _normalizeString(node['name']?.toString() ?? '');
+            final answer = _normalizeString(node['acceptedAnswer']?['text']?.toString() ?? '');
+
+            if (question.isNotEmpty && answer.isNotEmpty) {
+              questionList.add({'question': question, 'answer': answer});
+            }
+          }
+        }
+      }
+    }
+    return questionList;
   }
 
   Map<String, dynamic>? get nutrition {
@@ -338,9 +360,15 @@ class SchemaOrg {
       int minutes = 0;
       RegExp hourRegex = RegExp(r'(\d+)H');
       RegExp minuteRegex = RegExp(r'(\d+)M');
+      RegExp secondRegex = RegExp(r'(\d+)S');
 
       var hourMatch = hourRegex.firstMatch(time);
       var minuteMatch = minuteRegex.firstMatch(time);
+      var secondMatch = secondRegex.firstMatch(time);
+
+      if (secondMatch != null) {
+        minutes += int.parse(secondMatch.group(1)!) ~/ 60;
+      }
 
       if (hourMatch != null) {
         minutes += int.parse(hourMatch.group(1)!) * 60;
@@ -433,6 +461,16 @@ class SchemaOrg {
       return video['contentUrl'];
     }
 
+    // Handle array of video objects
+    if (video is List) {
+      for (var item in video) {
+        if (item is Map<String, dynamic> && item.containsKey('contentUrl')) {
+          return item['contentUrl'];
+        }
+      }
+    }
+
+    // Look for VideoObject in all schemas as fallback
     for (var schema in _schemas) {
       final videoObj = _findEntity(schema, 'VideoObject');
       if (videoObj != null && videoObj.containsKey('contentUrl')) {
@@ -453,7 +491,7 @@ class SchemaOrg {
       return _csvToTags(keywords);
     } else if (keywords is List) {
       final joined = keywords.join(', ');
-      return _csvToTags(joined);
+      return _csvToTags(decodeHtmlEntities(joined));
     }
 
     return null;
@@ -474,6 +512,16 @@ class SchemaOrg {
         .join(', ');
 
     return _csvToTags(formattedDiets);
+  }
+
+  String? get howtoTip {
+    var recipe = getRecipeData();
+    var tip = recipe?['HowtoTip'];
+
+    if (tip is Map<String, dynamic> && tip.containsKey('text')) {
+      return _normalizeString(tip['text'].toString());
+    }
+    return null;
   }
 
   double? get ratings {
@@ -573,7 +621,10 @@ class SchemaOrg {
 
   // Helper methods
   String _normalizeString(String text) {
-    return decodeHtmlEntities(text).replaceAll(RegExp(r'\s+'), ' ').trim();
+    return decodeHtmlEntities(text)
+        .replaceAll(RegExp(r'\s+'), ' ')
+        .trim()
+        .replaceAll('u003cbr/u003e', ''); // Remove JSON-escaped <br/> tags
   }
 
   List<String> _csvToTags(String csvText, {bool lowercase = false}) {
@@ -610,9 +661,24 @@ class SchemaOrg {
     return jsonStr
         // Fix apostrophes in French text - properly escape with backslash
         .replaceAllMapped(RegExp(r"([^\\])\'"), (match) => "${match.group(1)}'")
+        // Handle common special characters in French
+        .replaceAll('\u00e0', '\\u00e0') // à
+        .replaceAll('\u00e2', '\\u00e2') // â
+        .replaceAll('\u00e7', '\\u00e7') // ç
+        .replaceAll('\u00e8', '\\u00e8') // è
+        .replaceAll('\u00e9', '\\u00e9') // é
+        .replaceAll('\u00ea', '\\u00ea') // ê
+        .replaceAll('\u00eb', '\\u00eb') // ë
+        .replaceAll('\u00ee', '\\u00ee') // î
+        .replaceAll('\u00ef', '\\u00ef') // ï
+        .replaceAll('\u00f4', '\\u00f4') // ô
+        .replaceAll('\u00f9', '\\u00f9') // ù
+        .replaceAll('\u00fb', '\\u00fb') // û
+        .replaceAll('\u00fc', '\\u00fc') // ü
+        .replaceAll('\u0027', '\\u0027') // '
+        // Normalize whitespace
         .replaceAll('\n', '')
         .replaceAll('\r', '\\r')
-        .replaceAll('\t', '\\t')
         // Fix potential trailing commas in objects/arrays
         .replaceAll(RegExp(r',\s*}'), '}')
         .replaceAll(RegExp(r',\s*\]'), ']');

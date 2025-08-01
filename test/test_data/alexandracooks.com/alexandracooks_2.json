@@ -21,7 +21,7 @@
         "water",
         "foil, heavy-duty is nice here"
       ],
-      "purpose": "For the ham:"
+      "heading": "For the ham:"
     },
     {
       "ingredients": [
@@ -29,21 +29,19 @@
         "1/4 cup maple syrup",
         "1/4 cup fresh orange juice"
       ],
-      "purpose": "For the glaze (halve this recipe if making a half ham):"
+      "heading": "For the glaze (halve this recipe if making a half ham):"
     },
     {
       "ingredients": [
         "my grandmother’s mustard sauce, aka “the ham sauce”"
       ],
-      "purpose": "For serving:"
+      "heading": "For serving:"
     }
   ],
   "instructions_list": [
     "Heat oven to 325ºF.",
-    "Calculate your ham's cooking time",
     "For this recipe, you’re going to roast your ham for 10 minutes a pound total, but you’re going to crank the oven temperature up to 425ºF during the last 30 minutes, during which time you’ll glaze it twice. So, calculate your ham’s total cooking time; then subtract 30 minutes to calculate how long the ham will be in the oven for the first portion of the cooking period. (For example, if your ham weighs 13.69 lbs, you’ll roast it for 1 hour and 45 minutes at 325ºF; then 30 minutes at 425ºF.)",
     "Place ham, fat side up, in a roasting pan large enough to fit it. Add 2 cups of water or enough so that the water reaches about 1/2 inch up the sides of the pan. Cover the pan tightly with foil and transfer to the oven. Set the timer for the amount of time you calculated in step 2.",
-    "Meanwhile, make the glaze",
     "whisk together the brown sugar, maple syrup, and freshly squeezed orange juice. Set aside.",
     "After the first portion of the cooking is complete, remove the ham from the oven, and increase the oven temperature to 425ºF. Remove the foil. Brush the ham all over generously with the glaze and return the ham to the oven for 15 minutes. Brush the ham again generously all over with the glaze and cook for another 15 minutes. (If you have any leftover glaze, dump it over the ham during the last 5 minutes of cooking time.)",
     "Remove ham from the oven and let rest for at least 20 minutes before carving.",
@@ -60,6 +58,7 @@
   "ratings": 5.0,
   "ratings_count": 16,
   "image": "https://alexandracooks.com/wp-content/uploads/2021/03/haminoven_alexandraskitchen-225x225.jpg",
+  "video": "https://www.youtube.com/watch?v=twAUu-rKIEE",
   "keywords": [
     "baked",
     "ham",

@@ -27,43 +27,6 @@
     "juice of one lime",
     "pinch salt"
   ],
-  "ingredient_groups": [
-    {
-      "ingredients": [
-        "1/2 can coconut milk",
-        "Juice of one lime",
-        "4 cloves Garlic, minced",
-        "1 teaspoon Salt",
-        "1 teaspoon Onion powder",
-        "1/4 teaspoon Oregano",
-        "1 1/2 pounds firm fleshed fish such as mahi, cod, halibut",
-        "1 cup Beth Blends flour blend",
-        "tortillas and sliced avocado, for serving"
-      ],
-      "purpose": "for the fish:"
-    },
-    {
-      "ingredients": [
-        "1/2 head green or purple cabbage, shredded",
-        "1 handful cilantro leaves and stems, chopped",
-        "juice of one lime",
-        "1/2 teaspoon ground coriander (optional)",
-        "pinch salt"
-      ],
-      "purpose": "for the slaw:"
-    },
-    {
-      "ingredients": [
-        "2 cups diced mango (thawed from frozen)",
-        "1/2 large shallot, roughly chopped",
-        "1 jalapeño, seeds and membrane removed if preferred, roughly chopped (optional)",
-        "small handful cilantro leaves and stems",
-        "juice of one lime",
-        "pinch salt"
-      ],
-      "purpose": "for the mango salsa:"
-    }
-  ],
   "instructions_list": [
     "for the fish",
     "In a medium bowl, combine the marinade ingredients (coconut milk, lime juice, garlic, salt, onion powder, and oregano.",
@@ -84,5 +47,6 @@
     "fish",
     "tacos",
     "AIP"
-  ]
+  ],
+  "description": "super crispy fish tacos that are not only gluten-free but AIP compliant as well, plus the simplest slaw and 1 minute mango salsa"
 }

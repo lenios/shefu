@@ -20,14 +20,10 @@
     "Red pepper flakes (Sriracha, or hot sauce of choice (optional)"
   ],
   "instructions_list": [
-    "Stir",
     "In a small bowl, stir together the oyster sauce and soy sauce. Set aside. Grab a small bowl and a large, flexible rubber spatula, and keep both handy.",
     "Heat a 12-inch nonstick skillet over medium heat until hot, about 2 minutes. Add 1/2 tablespoon butter and swirl to coat the bottom of the pan. Add the eggs, and cook without stirring until they barely start to set, about 20 seconds. With your spatula, scramble and break the eggs into little, bite-sized pieces. Continue to cook, stirring constantly, until eggs are just cooked through but not yet browned, about 1 additional minute. Transfer eggs to the small bowl and set aside.",
-    "Add",
     "Return the skillet to the heat, and increase the heat to high. Let the skillet warm until it is nice and hot, about 1 minute. Add the canola oil, and swirl to coat. Add the diced bell pepper, and cook until it is crisp-tender, about 4 minutes.",
-    "Brown",
     "Add the remaining 1 1/2 tablespoons butter, peas and carrots, and edamame. Cook, stirring constantly, for 30 seconds. Stir in the garlic and cook until fragrant, about 30 seconds (do not let the garlic burn!).",
-    "Cook",
     "Add the brown rice and the oyster sauce mixture. Continue cooking, stirring constantly and breaking up any remaining rice clumps, until the mixture is heated through, about 3 minutes.",
     "Add reserved eggs and green onions. Cook and stir until the mixture is completely heated through, about 1 minute more. Enjoy immediately with a sprinkle of red pepper flakes or dash of hot sauce and additional soy sauce as desired."
   ],
@@ -54,6 +50,14 @@
     "cholesterolContent": "103 mg"
   },
   "image": "https://www.wellplated.com/wp-content/uploads/2023/07/Egg-Fried-Rice-Recipe.jpg",
+  "step_images": [
+    "",
+    "https://www.wellplated.com/wp-content/uploads/2019/09/Best-Homemade-Fried-Rice.jpg",
+    "https://www.wellplated.com/wp-content/uploads/2022/09/asian-fried-rice.jpg",
+    "https://www.wellplated.com/wp-content/uploads/2022/09/How-to-Make-Fried-Rice-3.jpg",
+    "https://www.wellplated.com/wp-content/uploads/2022/09/How-to-Make-Fried-Rice-4.jpg",
+    "https://www.wellplated.com/wp-content/uploads/2019/09/Homemade-Fried-Rice-with-Egg.jpg"
+  ],
   "video": "https://mediavine-res.cloudinary.com/video/upload/t_original/v1695654557/iF8Fqjygb.mp4",
   "keywords": [
     "Asian fried rice recipe",
@@ -75,5 +79,23 @@
     "simple fried rice recipe",
     "simple homemade fried rice",
     "vegetable fried rice"
+  ],
+  "questions": [
+    {
+      "question": "Can You Make Fried Rice With Fresh Rice?",
+      "answer": "You can make fried rice with fresh rice, but let the rice chill completely in the refrigerator before starting the recipe. This is CRUCIAL for the recipe to turn out properly. For best results, stick to day-old rice (or rice that's been in the freezer and then thawed)."
+    },
+    {
+      "question": "What Makes Chinese Fried Rice Taste So Good?",
+      "answer": "Takeout fried rice is typically loaded with unhealthy fats and sodium and sugar-heavy sauces. While these DO taste divine, they're not the healthiest option to eat on the regular. I think this healthy fried rice gives you the best of both worlds."
+    },
+    {
+      "question": "Can Fried Rice Be Eaten Cold?",
+      "answer": "Truth be told, I love this dish leftover just as much as I do when it's fresh. The flavors marry, and it becomes extra irresistible. And, yes, I’ve been known to eat it cold right out of the container (sometimes at breakfast with cold Beef Lo Mein)."
+    },
+    {
+      "question": "Does Mixing Egg Into Rice Cook It?",
+      "answer": "As long as you heat and stir the eggs over high heat for a few minutes, they will cook. While I prefer to cook the eggs before frying the rice, then add them in at the end so you get those tasty bits of egg, if you forget to cook the eggs first, you can pour beaten eggs into the rice at the end, then stir to cook them through."
+    }
   ]
 }

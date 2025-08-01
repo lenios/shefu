@@ -46,7 +46,7 @@
         "2 tsp vanilla extract",
         "1 cup boiling water or hot coffee"
       ],
-      "purpose": "Chocolate Cake"
+      "heading": "Chocolate Cake"
     },
     {
       "ingredients": [
@@ -58,7 +58,7 @@
         "½ tsp salt",
         "¼ cup heavy cream"
       ],
-      "purpose": "Creamy Chocolate Buttercream Frosting"
+      "heading": "Creamy Chocolate Buttercream Frosting"
     },
     {
       "ingredients": [
@@ -68,13 +68,13 @@
         "2 tbsp cornstarch",
         "2 tbsp water"
       ],
-      "purpose": "Raspberry Filling"
+      "heading": "Raspberry Filling"
     },
     {
       "ingredients": [
         "1 cup fresh raspberries"
       ],
-      "purpose": "Additional Ingredients"
+      "heading": "Additional Ingredients"
     }
   ],
   "instructions_list": [
@@ -105,6 +105,7 @@
   "cuisine": "American",
   "ratings": 4.67,
   "ratings_count": 3,
+  "total_time": null,
   "equipment": [
     "3 7-inch round cake pans",
     "Stand mixer fitted with a paddle attachment or electric hand mixer"

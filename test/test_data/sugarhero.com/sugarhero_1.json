@@ -64,5 +64,28 @@
     "pinwheel cookies",
     "sugar cookie",
     "sugar cookie pinwheels"
-  ]
+  ],
+    "questions": [
+      {
+      "question": "What kind of sprinkles should I use?",
+      "answer": "Many common sprinkle types will work for pinwheel cookies. You can use just 1 type of sprinkle, or a mix of multiple types–I like to make my own mixes by combining different sprinkles I own, so that my cookies have a variety of colors, shapes, and textures around the edges.Sprinkles that work well include: jimmies, nonpareils, sparkling sugar, sanding sugar, sequins, confetti/quins, and edible metallic glitter shapes. Sprinkles to avoid include: anything with chocolate (like Sixlets), anything made of hard candy (like candy cane pieces), anything too large (like some sugar pearls), or any royal icing pieces. If you aren’t sure if your sprinkles will work, you can always bake a test cookie using some dough scraps and see how they do!"
+      },
+      {
+      "question": "Is it okay to bake the sprinkles?",
+      "answer": "Yes! As long as you stick to the sprinkle types mentioned above, you should be fine. Some of them will probably bleed or melt a little, but you’ll still get the sparkling sprinkle effect. (This is also why I like using sprinkle mixes, because even if some melt, others will most likely be fine.) And of course, you can always skip the sprinkles entirely!"
+      },
+      {
+      "question": "Tips for keeping your cookies round",
+      "answer": "Here are my top tips for making sure the cookies look round when you bake them. 1. After wrapping the cookie dough log in plastic wrap, roll it until it seems nice and round before putting it in the fridge to chill. 2. If the cookie log develops a flat spot after removing it from the fridge, you can also do a little more rolling before cutting it. 3. Make sure that the cookie log is quite cold when you start to slice it. If it isn't well chilled the pressure of cutting with a knife can warp the shape of the cookies. 4. And, if despite your best efforts you still have a few wonky cookies, you can always do a little last minute shaping by hand. Just gently press them into a round shape as you place them on the cookie sheet."
+      },
+      {
+      "question": "Will this pinwheel method work with other recipes?",
+      "answer": "I can’t guarantee it will work with your favorite recipe, but I can tell you that it is pretty flexible and forgiving! If you have a sugar/rolled cookie recipe that’s medium textured–meaning not too dry/stiff, and not extremely soft/sticky, then odds are good you can use this technique. If you do try other recipes, please come back and let us know how it goes!"
+      },
+      {
+      "question": "Make-ahead and storage information",
+      "answer": "Pinwheel cookies can be stored in an airtight container at room temperature and should be enjoyed within 4-5 days for maximum freshness.If you want to make the dough in advance, you have a few options. You can freeze the whole rolled cookie log, wrapped well, for up to 3 months. I recommend letting it defrost in the refrigerator overnight, then adding the sprinkle layer, slicing, and baking as directed.You can also freeze individual unbaked cookie slices. I don’t recommend adding sprinkles if you are planning on freezing unbaked cookies, since many sprinkles will bleed color due to condensation. Freeze the sliced cookies in single layers in an airtight container or freezer zip-top bags for up to 3 months. To bake, let the frozen cookies sit at room temperature while the oven preheats, then add a few extra minutes to the baking time to make sure they’re baked all the way through.Finally, you can freeze baked cookies to eat later. Make sure to wrap them tightly and place them in a freezer safe container/storage bag to prevent freezer burn. For the best taste, thaw at room temperature, and enjoy the cookies within 3 months of their freeze date."
+      }
+    ]
+
 }

@@ -29,7 +29,7 @@
         "12 fl oz heavy cream (1 ½ cups)",
         "2 tbsp unsalted butter (softened)"
       ],
-      "purpose": "For the Chocolate Ganache"
+      "heading": "For the Chocolate Ganache"
     },
     {
       "ingredients": [
@@ -40,7 +40,7 @@
         "3/4 tsp cream of tartar",
         "Unsweetened cocoa powder (to sprinkle over greased baking sheet and cooling cake)"
       ],
-      "purpose": "For the Chocolate Cake"
+      "heading": "For the Chocolate Cake"
     },
     {
       "ingredients": [
@@ -49,14 +49,14 @@
         "1 tsp vanilla extract",
         "1/2 tsp ground cinnamon"
       ],
-      "purpose": "For the Whipped Cream"
+      "heading": "For the Whipped Cream"
     },
     {
       "ingredients": [
         "Meringue mushrooms",
         "Other edible nature decorations (Such as chocolate shavings, chocolate rocks, cocoa powder, powdered sugar, coconut, etc., optional)"
       ],
-      "purpose": "To Decorate"
+      "heading": "To Decorate"
     }
   ],
   "instructions_list": [
@@ -118,5 +118,40 @@
     "Christmas",
     "flourless",
     "yule log"
-  ]
+  ],
+    "questions": [
+      {
+        "question": "How to quickly cool down ganache",
+        "answer": "If you are in a hurry and need to speed up the cooling process for the ganache, you can place it in the refrigerator and whisk every 15 minutes until it has a spoonable consistency. You need to be vigilant about stirring it and watching that the texture doesn't start to get too hard. If you accidentally leave it in the fridge too long, let it rest at room temperature (or microwave briefly) to make it spreadable again."
+      },
+      {
+        "question": "What will happen if I accidentally boil the cream?",
+        "answer": "To make the smoothest, creamiest ganache the cream needs to be hot enough to melt the chocolate and butter but cool enough it doesn't overheat the chocolate. When chocolate is overheated it will seize (become lumpy and grainy). The temperature of boiling the cream is too hot for chocolate and will ruin the texture of the ganache. If you accidentally overheat the cream, let it cool slightly before pouring it over the chocolate and butter."
+      },
+      {
+        "question": "What is the Ribbon stage?",
+        "answer": "If you've never heard the term before, you've come to the right place! When egg yolks and sugar are mixed together they go through a series of different stages. These stages help to identify when the mixture is ready to be used. For this cake, the mixture needs to come to the ribbon stage which means that when you raise the whisk (or beaters), the batter will fall back into the bowl in a slow ribbon that gradually reincorporates itself into the rest of the mixture. It should take about 5 minutes to reach this stage (a little longer if using a hand mixer)."
+      },
+      {
+        "question": "How will I know the cake is done baking?",
+        "answer": "You'll know your sheet cake is ready when it looks puffed, has lost its shine, and springs back when gently pressed. For the best taste and texture, don't overbake the cake."
+      },
+      {
+        "question": "What are soft and stiff peaks?",
+        "answer": "Learning to recognize the various stages cream goes through as it is whipped is important for any baker. In this recipe you'll be watching for soft and stiff/firm peaks. You can test for both of these stages by raising the whisk or beaters out of the cream. As the attachment leaves the mixture the cream should extend upward like little mountain peaks. Soft peaks will flop over on top and slowly sink back into the mixture, whereas stiff peaks will be pointy and hold their shape well. Be careful not to whip past firm peaks or the cream will begin to curdle, look more buttery and take on a chunky texture. If you accidentally whip the cream too much, it will still taste fine but the texture won't be as smooth as it should be. It also might be a little harder to smooth into an even layer over the cake."
+      },
+      {
+        "question": "How to remove the cake from the pan",
+        "answer": "If you want to remove the cake from the pan before rolling it, here's an easy trick to try. When you prep the baking pan, leave a little excess foil to fold around the edges. You can unroll the excess foil and use it like handles to gently and quickly move the cake from the pan to a flat surface."
+      },
+      {
+        "question": "How to get clean cut slices",
+        "answer": "There are a few things you can do to make clean cut slices of cake. My first recommendation is to give yourself enough time to refrigerate the cake for 30 minutes before adding the decorations. This brief chilling period firms up the layers of the cake, making them easier to cut. The next thing you'll want to do is use a sharp knife to cut the cake. Run the knife under hot water for a few seconds, wipe it dry and then begin cutting the cake in 1-inch slices, reheating the blade under hot water and cleaning the blade off between slices as needed. Viola!"
+      },
+      {
+        "question": "Storage Information",
+        "answer": "If you have leftovers, remove the mushrooms and place them in an airtight container at room temperture before refrigerating the rest of the cake. Place the cake in an airtight container or wrap it with a light covering of plastic wrap. For best taste and texture, enjoy within 5 days."
+      }
+    ]
+
 }

@@ -377,7 +377,17 @@ class EditRecipeViewModel extends ChangeNotifier {
     }
     recipe.notes = "${pscraper.description()}\n${pscraper.datePublished()}\n${pscraper.author()}";
     notesController.text = recipe.notes;
-    recipe.makeAhead = pscraper.makeAhead();
+
+    final scrapedQuestions = pscraper.questions();
+    if (scrapedQuestions.isNotEmpty) {
+      recipe.questions = scrapedQuestions.map((qa) {
+        return "Q: ${qa['question']}\nA: ${qa['answer']}";
+      }).toList();
+    }
+
+    if (pscraper.makeAhead() != null) {
+      recipe.makeAhead = pscraper.makeAhead()!;
+    }
     makeAheadController.text = recipe.makeAhead;
     if (pscraper.prepTime() != null && pscraper.prepTime()! > 0) {
       recipe.prepTime = pscraper.prepTime() ?? 0;

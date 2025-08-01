@@ -48,52 +48,82 @@ Sample:
 
 Documentation will come later.
 
-Supported Recipe Websites for import (**41**):
+Supported Recipe Websites for import:
 
-| Supported Website | Country |
+<table>
+  <tr>
+    <td valign="top">
+
+| USA 🇺🇸 Supported Website **(28)** |
+|-------------------|
+| ✅ [ABeautifulMess.com](https://www.abeautifulmess.com) |
+| ✅ [Aflavorjournal.com](https://www.aflavorjournal.com) |
+| ✅ [Alexandracooks.com](https://alexandracooks.com) |
+| ✅ [AllRecipes.com](https://www.allrecipes.com) |
+| ✅ [Ambitiouskitchen.com](https://www.ambitiouskitchen.com) |
+| ✅ [Bakewithzoha.com](https://www.bakewithzoha.com) |
+| ✅ [Budgetbytes.com](https://www.budgetbytes.com) |
+| ✅ [Cafedelites.com](https://www.cafedelites.com) |
+| ✅ [Cakemehometonight.com](https://www.cakemehometonight.com) |
+| ✅ [Cambreabakes.com](https://www.cambreabakes.com) |
+| ✅ [Castironketo.net](https://www.castironketo.net) |
+| ✅ [Cdkitchen.com](https://www.cdkitchen.com) |
+| ✅ [Damndelicious.net](https://www.damndelicious.net) |
+| ✅ [Eatingwell.com](https://www.eatingwell.com) |
+| ✅ [Evolvingtable.com](https://www.evolvingtable.com) |
+| ✅ [Lanascooking.com](https://www.lanascooking.com) |
+| ✅ [Lecremedelacrumb.com](https://www.lecremedelacrumb.com) |
+| ✅ [mybakingaddiction.com](https://www.mybakingaddiction.com) |
+| ✅ [Recipetineats.com](https://www.recipetineats.com) |
+| ✅ [SeriousEats.com](https://www.seriouseats.com) |
+| ✅ [SugarHero.com](https://www.sugarhero.com) |
+| ✅ [Thekitchn.com](https://www.thekitchn.com) |
+| ✅ [Therecipecritic.com](https://www.therecipecritic.com) |
+| ✅ [Vanillaandbean.com](https://www.vanillaandbean.com) |
+| ✅ [Wellplated.com](https://www.wellplated.com) |
+| ✅ [WhatsGabyCooking.com](https://www.whatsgabycooking.com) |
+| ✅ [ZenBelly.com](https://www.zenbelly.com) |
+| ✅ [ZestfulKitchen.com](https://www.zestfulkitchen.com) |
+| More sites 🚧 In progress |
+
+</td>
+<td valign="top">
+
+| France 🇫🇷 Supported Website **(8)** |
+|-------------------|
+| ✅ [750g.com](https://www.750g.com) |
+| ✅ [Atelierdeschefs.fr](https://www.atelierdeschefs.fr) |
+| ✅ [Cuisineaz.com](https://www.cuisineaz.com) |
+| ✅ [Cuisine.journaldesfemmes.fr](https://cuisine.journaldesfemmes.fr) |
+| ✅ [Marmiton.org](https://www.marmiton.com) |
+| ✅ [Lacuisinedessouvenirs.com](https://www.lacuisinedessouvenirs.com) |
+| ✅ [Ptitchef.com](https://www.ptitchef.com) |
+| ✅ [Supertoinette.com](https://www.supertoinette.com) |
+| More sites 🚧 In progress |
+
+</td>
+<td valign="top">
+
+| Other Supported Websites **(12)** | Country |
 |-------------------|:--------|
-| ✅ [750g.com](https://www.750g.com) | 🇫🇷 France |
-| ✅ [ABeautifulMess.com](https://www.abeautifulmess.com) | 🇺🇸 USA |
 | ✅ [Akispetretzikis.com](https://www.akispetretzikis.com) | 🇬🇷 Greece |
-| ✅ [Alexandracooks.com](https://alexandracooks.com) | 🇺🇸 USA |
-| ✅ [AllRecipes.com](https://www.allrecipes.com) | 🇺🇸 USA |
-| ✅ [Atelierdeschefs.fr](https://www.atelierdeschefs.fr) | 🇫🇷 France |
-| ✅ [Bakewithzoha.com](https://www.bakewithzoha.com) | 🇺🇸 USA |
 | ✅ [BBCgoodfood.com](https://www.bbcgoodfood.com) | 🇬🇧 UK |
-| ✅ [Budgetbytes.com](https://www.budgetbytes.com) | 🇺🇸 USA |
-| ✅ [Cafedelites.com](https://www.cafedelites.com) | 🇺🇸 USA |
-| ✅ [Cakemehometonight.com](https://www.cakemehometonight.com) | 🇺🇸 USA |
-| ✅ [Cambreabakes.com](https://www.cambreabakes.com) | 🇺🇸 USA |
-| ✅ [Castironketo.net](https://www.castironketo.net) | 🇺🇸 USA |
-| ✅ [Cdkitchen.com](https://www.cdkitchen.com) | 🇺🇸 USA |
-| ✅ [Cookpad.com](https://www.cookpad.com) | 🌏 World |
-| ✅ [Cuisineaz.com](https://www.cuisineaz.com) | 🇫🇷 France |
-| ✅ [Damndelicious.net](https://www.damndelicious.net) | 🇺🇸 USA |
-| ✅ [Eatingwell.com](https://www.eatingwell.com) | 🇺🇸 USA |
-| ✅ [Evolvingtable.com](https://www.evolvingtable.com) | 🇺🇸 USA |
 | ✅ [Foodnetwork.co.uk](https://www.foodnetwork.co.uk) | 🇬🇧 UK |
 | ✅ [Greatbritishchefs.com](https://www.greatbritishchefs.com) | 🇬🇧 UK |
 | ✅ [Kitchenstories.com](https://www.kitchenstories.com) | 🇩🇪 Germany |
 | ✅ [Kochbar.de](https://www.kochbar.de) | 🇩🇪 Germany |
 | ✅ [Koket.se](https://www.koket.se) | 🇸🇪 Sweden |
-| ✅ [Marmiton.org](https://www.marmiton.com) | 🇫🇷 France |
-| ✅ [Lacuisinedessouvenirs.com](https://www.lacuisinedessouvenirs.com) | 🇫🇷 France |
-| ✅ [Lanascooking.com](https://www.lanascooking.com) | 🇺🇸 USA |
-| ✅ [Lecremedelacrumb.com](https://www.lecremedelacrumb.com) | 🇺🇸 USA |
-| ✅ [mybakingaddiction.com](https://www.mybakingaddiction.com) | 🇺🇸 USA |
 | ✅ [miljuschka.nl](https://miljuschka.nl) | 🇳🇱 Netherlands |
-| ✅ [Recipetineats.com](https://www.recipetineats.com) | 🇺🇸 USA |
-| ✅ [SeriousEats.com](https://www.seriouseats.com) | 🇺🇸 USA |
-| ✅ [SugarHero.com](https://www.sugarhero.com) | 🇺🇸 USA |
-| ✅ [Vanillaandbean.com](https://www.vanillaandbean.com) | 🇺🇸 USA |
-| ✅ [Wellplated.com](https://www.wellplated.com) | 🇺🇸 USA |
-| ✅ [WhatsGabyCooking.com](https://www.whatsgabycooking.com) | 🇺🇸 USA |
 | ✅ [Yemek.com](https://www.yemek.com) | 🇹🇷 Turkey |
 | ✅ [Zaubertopf.de](https://www.zaubertopf.de) | 🇩🇪 Germany |
 | ✅ [Zeit.de](https://www.zeit.de) | 🇩🇪 Germany |
-| ✅ [ZenBelly.com](https://www.zenbelly.com) | 🇺🇸 USA |
-| ✅ [ZestfulKitchen.com](https://www.zestfulkitchen.com) | 🇺🇸 USA |
+| ✅ [Cookpad.com](https://www.cookpad.com) | 🌏 World |
 | More sites | 🚧 In progress |
+
+</td>
+  </tr>
+</table>
+
 
 **Recipe scraping now follows/uses https://github.com/hhursev/recipe-scrapers format to support as much websites as possible.**
 

@@ -707,6 +707,12 @@ int parseISODuration(String isoDuration) {
     minutes += (int.tryParse(hourMatch.group(1)!) ?? 0) * 60;
   }
 
+  // Also add seconds (converted to minutes, rounded up)
+  final secMatch = RegExp(r'PT(\d+)S').firstMatch(isoDuration);
+  if (secMatch != null && secMatch.group(1) != null) {
+    minutes += (int.tryParse(secMatch.group(1)!) ?? 0 / 60).ceil();
+  }
+
   return minutes;
 }
 

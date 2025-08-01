@@ -305,6 +305,34 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
               icon: Icons.access_time,
               text: Text(viewModel.recipe?.makeAhead ?? ""),
             ),
+
+          // Display FAQ
+          if (viewModel.recipe != null && viewModel.recipe!.questions.isNotEmpty)
+            noteCard(
+              context: context,
+              title: AppLocalizations.of(context)!.questions,
+              icon: Icons.question_answer_outlined,
+              text: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: viewModel.recipe!.questions.map((qaString) {
+                  final parts = qaString.split('\nA: ');
+                  final question = parts[0].replaceFirst('Q: ', '');
+                  final answer = parts.length > 1 ? parts[1] : '';
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 12.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(question, style: const TextStyle(fontWeight: FontWeight.bold)),
+                        const SizedBox(height: 4),
+                        Text(answer),
+                      ],
+                    ),
+                  );
+                }).toList(),
+              ),
+            ),
+
           if (viewModel.recipe?.source != null && viewModel.recipe!.source.isNotEmpty)
             noteCard(
               context: context,

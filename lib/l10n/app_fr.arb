@@ -220,6 +220,7 @@
     "disableCookMode": "Désactiver le mode cuisine",
     "optional": "optionel",
     "export": "exporter",
-    "generatingPdf": "Création du PDF en cours..."
+    "generatingPdf": "Création du PDF en cours...",
+    "questions": "Questions"
     
 }

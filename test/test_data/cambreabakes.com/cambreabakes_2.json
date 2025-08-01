@@ -33,14 +33,14 @@
       "ingredients": [
         "1 1/2 cups unsalted butter"
       ],
-      "purpose": "Brown butter"
+      "heading": "Brown butter"
     },
     {
       "ingredients": [
         "3/4 cup water",
         "1/4 cup bread flour (*See notes below for measuring*)"
       ],
-      "purpose": "Tangzhong"
+      "heading": "Tangzhong"
     },
     {
       "ingredients": [
@@ -55,7 +55,7 @@
         "Tangzhong from above",
         "1/2 cup browned butter"
       ],
-      "purpose": "Cinnamon Roll Dough"
+      "heading": "Cinnamon Roll Dough"
     },
     {
       "ingredients": [
@@ -63,7 +63,7 @@
         "2/3 cup light brown sugar (packed)",
         "2 tablespoons ground cinnamon"
       ],
-      "purpose": "Brown Butter Filling"
+      "heading": "Brown Butter Filling"
     },
     {
       "ingredients": [
@@ -73,7 +73,7 @@
         "2 tablespoons heavy cream",
         "1/2 teaspoon vanilla bean paste or extract"
       ],
-      "purpose": "Brown Butter Cream Cheese Frosting"
+      "heading": "Brown Butter Cream Cheese Frosting"
     }
   ],
   "instructions_list": [
@@ -118,11 +118,35 @@
     "cholesterolContent": "98 mg"
   },
   "image": "https://cambreabakes.com/wp-content/uploads/2024/08/brown-butter-cinnamon-rolls-featured-2.jpg",
+  "video": "https://content.jwplatform.com/videos/p6UxeV7i.mp4",
   "keywords": [
     "bakery cinnamon rolls",
     "Brown butter cinnamon rolls",
     "Brown butter rolls",
     "Browned butter cinnamon rolls",
     "Cinnamon rolls with brown butter"
+  ],
+  "questions": [
+    {
+      "question": "Why are my cinnamon rolls dense instead of light and fluffy?",
+      "answer": "This could be due to not allowing the dough to rise enough or using too much flour. Make sure the dough is soft and slightly sticky, and allow it to rise until doubled in size."
+    },
+    {
+      "question": "Why did my brown butter burn?",
+      "answer": "Brown butter can burn quickly if not monitored closely. Cook it over medium heat and remove it from the heat as soon as it turns golden brown and starts to smell nutty."
+    },
+    {
+      "question": "How do I get evenly sized cinnamon rolls?",
+      "answer": "Use a ruler to measure and mark the dough before cutting it into rolls!"
+    },
+    {
+      "question": "How do I know when the dough is kneaded enough?",
+      "answer": "The dough should be smooth, elastic, and slightly tacky to the touch. If you gently press a finger into the dough, it should slowly bounce back."
+    },
+    {
+      "question": "Can I use regular butter instead of brown butter?",
+      "answer": "If you don't care for brown butter or don't have time to make it, try my classic homemade cinnamon rolls instead!"
+    }
   ]
+
 }

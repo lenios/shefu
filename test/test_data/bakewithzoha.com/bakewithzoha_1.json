@@ -38,5 +38,35 @@
   "video": "https://content.jwplatform.com/videos/Sl3e52Hm.mp4",
   "keywords": [
     "Molten Lava Mug Cake"
+  ],
+  "questions": [
+    {
+      "question": "What size mug should I use for this mug cake?",
+      "answer": "You should use a microwave safe mug that is between 10-12oz, and ideally not too wide or too narrow."
+    },
+    {
+      "question": "Can I use any kind of chocolate for the molten lava interior?",
+      "answer": "Yes, you can use any kind of plain chocolate (i.e., not with nuts / wafers / other add ins). I like to use Lindt chocolate truffles as they have a chocolatey filling inside, but you can also add chocolate chunks or chips. The more, the merrier!"
+    },
+    {
+      "question": "Can I substitute the cocoa powder in this mug cake?",
+      "answer": "Unfortunately, no, as that is the main chocolate component in this mug cake."
+    },
+    {
+      "question": "Can I reduce the sugar in this recipe?",
+      "answer": "Yes, you can reduce the sugar to as low as 1.5 tbsp."
+    },
+    {
+      "question": "Why are there lumps in my molten lava chocolate mug cake?",
+      "answer": "This happens if the dry ingredients aren't well combined. To avoid this, first add the wet ingredients to the cup, then sift in the wet ingredients and mix until no streaks of flour remain."
+    },
+    {
+      "question": "Why did my mug cake explode?",
+      "answer": "This is likely because your mug is too small, or you added too much baking powder. Measure accurately and make sure your mug is at least 10oz in volume."
+    },
+    {
+      "question": "Why is my molten lava chocolate mug cake rubbery or dry?",
+      "answer": "A rubbery mug cake is indicative of being overcooked, or incorrect measurements. Please be precise with the measurements and stop cooking once the cake is soft but not wet on the top."
+    }
   ]
 }

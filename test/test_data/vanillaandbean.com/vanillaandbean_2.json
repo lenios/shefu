@@ -22,7 +22,7 @@
         "1 C (100g) Whole Rolled Oats (plus 2 Tbs for the top)",
         "1/2 C (105g) Water (room temperature)"
       ],
-      "purpose": "For the Soaker:"
+      "heading": "For the Soaker:"
     },
     {
       "ingredients": [
@@ -34,7 +34,7 @@
         "2 C + 3 1/2 Tbs (300g) Bread Flour",
         "1 1/2 tsp (10g) Fine Sea Salt"
       ],
-      "purpose": "For the Dough:"
+      "heading": "For the Dough:"
     }
   ],
   "instructions_list": [

@@ -24,6 +24,7 @@ class Recipe {
   int month;
   String makeAhead;
   String videoUrl;
+  List<String> questions;
 
   @Backlink('recipe')
   final steps = ToMany<RecipeStep>();
@@ -51,6 +52,7 @@ class Recipe {
     this.month = 1,
     this.makeAhead = "",
     this.videoUrl = "",
+    this.questions = const [],
   });
 }
 

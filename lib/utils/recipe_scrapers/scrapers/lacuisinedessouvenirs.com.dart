@@ -125,22 +125,6 @@ class LaCuisineDesSouvenirsScraper extends AbstractScraper {
         });
         setOverride('nutrients', nutrients);
       }
-
-      // Look for step URLs to extract possible step images
-      if (jsonData.containsKey('recipeInstructions') && jsonData['recipeInstructions'] is List) {
-        final stepImages = <String>[];
-        for (final step in jsonData['recipeInstructions']) {
-          if (step is Map && step.containsKey('image')) {
-            stepImages.add(step['image'].toString());
-          } else {
-            // Add empty placeholder if step has no image
-            stepImages.add('');
-          }
-        }
-        if (stepImages.isNotEmpty) {
-          setOverride('step_images', stepImages);
-        }
-      }
     }
   }
 }

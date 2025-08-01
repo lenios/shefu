@@ -37,7 +37,7 @@
         "1½ teaspoons kosher salt",
         "1/2 teaspoon freshly ground black pepper"
       ],
-      "purpose": null
+      "heading": null
     },
     {
       "ingredients": [
@@ -50,7 +50,7 @@
         "1/2 cup feta",
         "chopped parsley (to garnish)"
       ],
-      "purpose": "For the Tzatziki"
+      "heading": "For the Tzatziki"
     }
   ],
   "instructions_list": [

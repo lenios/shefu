@@ -58,5 +58,16 @@
   "keywords": [
     "Mini cheesecake pavlovas",
     "mini pavlovas"
+  ],
+  "questions": [
+    {
+      "question": "Can I make these mini cheesecake pavlovas ahead of time?",
+      "answer": "You can bake the pavlova cups ahead of time, but do not fill them. They must be served immediately once the cheesecake filling is added, as pavlova starts to become sticky due to moisture. See section above on storing pavlova."
+    },
+    {
+      "question": "Can I turn this into one giant pavlova?",
+      "answer": "Yes, you can turn this into one giant pavlova, too! I only recommend this if you have experience making pavlovas, though, so you know how to shape and bake appropriately."
+    }
   ]
+
 }

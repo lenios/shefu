@@ -53,5 +53,15 @@
     "southern tomato cracker salad",
     "tomato salad",
     "vintage salad recipe"
-  ]
+  ],
+    "questions": [
+      {
+      "question": "Can I make cracker salad ahead of time?",
+      "answer": "Because this salad wilts and becomes soggy pretty quickly, it's best when eaten within minutes of being made. You can, however, prepare all the ingredients ahead of time and combine them when you're ready to serve."
+      },
+      {
+      "question": "How do I store leftover tomato cracker salad?",
+      "answer": "It's best to make the quantity of salad that you think you'll need for one meal. Leftovers simply don't keep well."
+      }
+    ]
 }

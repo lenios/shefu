@@ -22,7 +22,7 @@ class BBCGoodFoodScraper extends AbstractScraper {
         groupElement: '.recipe__ingredients li',
       );
 
-      if (groups.isNotEmpty) {
+      if (groups != null && groups.isNotEmpty) {
         setOverride('ingredient_groups', groups);
       }
     } catch (e) {

@@ -685,4 +685,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get generatingPdf => 'Generating PDF...';
+
+  @override
+  String get questions => 'Questions';
 }

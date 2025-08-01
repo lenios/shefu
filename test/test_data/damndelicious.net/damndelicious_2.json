@@ -37,7 +37,7 @@
         "Kosher salt and freshly ground black pepper (to taste)",
         "4 cups ciabatta bread cubes"
       ],
-      "purpose": "for the croutons"
+      "heading": "for the croutons"
     },
     {
       "ingredients": [
@@ -48,7 +48,7 @@
         "Kosher salt and freshly ground black pepper (to taste)",
         "1 1/2 pounds boneless, skinless chicken breasts"
       ],
-      "purpose": "for the chicken"
+      "heading": "for the chicken"
     },
     {
       "ingredients": [
@@ -61,14 +61,14 @@
         "1/2 teaspoon Worcestershire sauce",
         "Kosher salt and freshly ground black pepper (to taste)"
       ],
-      "purpose": "for the dressing"
+      "heading": "for the dressing"
     },
     {
       "ingredients": [
         "2 heads romaine (roughly chopped)",
         "1/4 cup freshly grated Parmesan"
       ],
-      "purpose": "for the salad"
+      "heading": "for the salad"
     }
   ],
   "instructions_list": [

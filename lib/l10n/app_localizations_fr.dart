@@ -687,4 +687,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get generatingPdf => 'Création du PDF en cours...';
+
+  @override
+  String get questions => 'Questions';
 }

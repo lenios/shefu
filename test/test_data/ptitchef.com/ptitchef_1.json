@@ -1,0 +1,81 @@
+{
+  "author": "Juliette Hess",
+  "canonical_url": "https://www.ptitchef.com/recettes/dessert/glace-a-la-whey-a-la-vanille-proteinee-rapide-et-avec-3-ingredients-fid-1597087",
+  "site_name": "Ptitchef",
+  "host": "ptitchef.com",
+  "language": "fr",
+  "title": "Glace à la whey à la vanille, protéinée, rapide et avec 3 ingrédients!",
+  "ingredients": [
+    "1 banane",
+    "30 gr de whey vanille (1 scoop)",
+    "3 cuillères à soupe de lait (animal ou végétal)"
+  ],
+  "instructions_list": [
+    "Couper une banane en petits morceaux et la placer dans un sac congélation au congélateur pendant au moins 2 heures.",
+    "Mettre les morceaux de banane dans un hachoir. Ajouter la whey vanille et le lait.",
+    "Mixer le tout jusqu'à obtenir un mélange bien homogène.",
+    "Transférer dans un petit pot et déguster directement ou placer au congélateur pour déguster plus tard!"
+  ],
+  "category": "Dessert",
+  "cuisine": "Fr",
+  "yields": "1 serving",
+  "description": "Envie d’une glace maison rapide , saine et gourmande ? Cette version à la whey vanille coche toutes les cases ! Avec seulement 3 ingrédients — une banane, de la whey et un peu de lait — vous obtenez une texture crémeuse façon nice cream , sans sucre ajouté et riche en protéines. Parfaite pour une collation post-sport , un dessert léger ou une pause glacée sans culpabilité, cette recette se prépare en un clin d’œil au mixeur. Simple, efficace, et surtout délicieuse :)",
+  "total_time": 125,
+  "prep_time": 5,
+  "image": "https://www.ptitchef.com/imgupl/recipe/glace-a-la-whey-a-la-vanille-proteinee-rapide-et-avec-3-ingredients--484479p820501.webp",
+  "step_images": [
+    "https://www.ptitchef.com/imgupl/recipe-step/484479s2264717.jpg",
+    "https://www.ptitchef.com/imgupl/recipe-step/484479s2264718.jpg",
+    "https://www.ptitchef.com/imgupl/recipe-step/484479s2264719.jpg",
+    "https://www.ptitchef.com/imgupl/recipe-step/484479s2264720.jpg"
+  ],
+  "video": "https://media.ptitchef.com/video/63803.mp4",
+  "nutrients": {
+    "servingSize": "175g",
+    "calories": "231Kcal",
+    "carbohydrateContent": "26.9g",
+    "fatContent": "3.3g",
+    "saturatedFatContent": "2g",
+    "proteinContent": "25.2g",
+    "fiberContent": "2.5g",
+    "sugarContent": "19.8g",
+    "sodiumContent": "0.3g"
+  },
+  "keywords": [
+    "desserts sans oeufs",
+    "rapide",
+    "glace",
+    "recettes de desserts glaces",
+    "dessert rapide a faire",
+    "vanille",
+    "dessert a la vanille",
+    "glace a la vanille",
+    "dessert"
+  ],
+  "questions": [
+    {
+      "question": "Comment la whey améliore-t-elle la valeur nutritionnelle de cette glace maison?",
+      "answer": "La whey ajoute une source de protéines, ce qui rend cette glace idéale pour la récupération musculaire et la satiété."
+    },
+    {
+      "question": "Peut-on remplacer la banane par un autre fruit dans cette recette?",
+      "answer": "La banane apporte une texture crémeuse et une douceur naturelle difficile à remplacer. D'autres fruits congelés peuvent être utilisés, mais la consistance et le goût changeront. Nous vous recommandons plutôt d'ajouter des fruits entiers après avoir mixé le tout si vous le souhaitez comme des fruits rouges par exemple. Vous pourrez aussi ajouter des fruits à coque pour donner de la texture à la glace."
+    },
+    {
+      "question": "Pourquoi est-il important de congeler la banane avant de mixer?",
+      "answer": "Congeler la banane permet d'obtenir une texture glacée et onctueuse sans utiliser de crème ou de sorbetière, ce qui rend la recette rapide et facile."
+    },
+    {
+      "question": "Quel type de lait est préférable pour cette recette : animal ou végétal?",
+      "answer": "Les deux conviennent. Le lait animal apporte une texture plus riche, tandis que le lait végétal (amande, soja, avoine) offre une option plus légère et adaptée aux régimes végétaliens."
+    },
+    {
+      "question": "Peut-on préparer cette glace à l'avance et la conserver?",
+      "answer": "Oui, vous pouvez la conserver au congélateur dans un récipient hermétique. Il est conseillé de la sortir quelques minutes avant dégustation pour qu'elle retrouve une texture agréable."
+    },
+    {
+      "question": "Quelle whey utiliser pour réaliser une glace protéinée?",
+      "answer": "Ici nous avons utilisé une whey à la vanille, vous pourrez utiliser la saveur de votre choix. N'importe quelle marque fonctionnera, vous pouvez utiliser votre whey habituelle sans soucis. Attention à bien vérifier la contenance de la cuillère incluse dans le paquet, la notre fait 30 gr (la contenance de la cuillère est indiquée sur le paquet)."
+    }
+  ]
+}

@@ -1425,6 +1425,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Generating PDF...'**
   String get generatingPdf;
+
+  /// No description provided for @questions.
+  ///
+  /// In en, this message translates to:
+  /// **'Questions'**
+  String get questions;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -221,5 +221,6 @@
     "disableCookMode": "Főzés mód kikapcsolása",
     "optional": "opcionális",
     "export": "exportálása",
-    "generatingPdf": "PDF generálása..."
+    "generatingPdf": "PDF generálása...",
+    "questions": "Kérdések"
 }

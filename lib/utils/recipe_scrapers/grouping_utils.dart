@@ -113,7 +113,7 @@ String bestMatch(String testString, List<String> targetStrings) {
 // ValueError
 //     If the number of elements selected does not match the length of ingredients_list.
 // """
-List<IngredientGroup> groupIngredients(
+List<IngredientGroup>? groupIngredients(
   List<String> allIngredients,
   Document soup, {
   String? groupHeading,
@@ -147,14 +147,15 @@ List<IngredientGroup> groupIngredients(
 
   // If no valid group selectors found or can't apply grouping, return all ingredients as one group
   if (groupHeading == null || groupElement == null) {
-    return [IngredientGroup(heading: null, ingredients: allIngredients)];
+    // If only one group with heading: null, return nothing
+    return null;
   }
 
   // Verify we can match the expected number of ingredients
   final foundIngredients = soup.querySelectorAll(groupElement);
   if (foundIngredients.length != allIngredients.length) {
     // If counts don't match, fall back to a single group
-    return [IngredientGroup(heading: null, ingredients: allIngredients)];
+    return null;
   }
 
   // Group ingredients by heading
@@ -183,10 +184,17 @@ List<IngredientGroup> groupIngredients(
   }
 
   // Convert the map to a list of IngredientGroup objects
-  return groupings.entries
+  final result = groupings.entries
       .where((entry) => entry.value.isNotEmpty)
       .map((entry) => IngredientGroup(heading: entry.key, ingredients: entry.value))
       .toList();
+
+  // If only one group with heading: null, return nothing
+  if (result.length == 1 && result[0].heading == null) {
+    return null;
+  }
+
+  return result;
 }
 
 /// Clean and normalize a string by removing HTML and normalizing whitespace

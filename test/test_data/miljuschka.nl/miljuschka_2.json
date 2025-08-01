@@ -36,7 +36,7 @@
         "3 el limoensap",
         "1 el plantaardige olie"
       ],
-      "purpose": "Dressing"
+      "heading": "Dressing"
     },
     {
       "ingredients": [
@@ -50,14 +50,14 @@
         "1 bosje koriander (fijn gesneden)",
         "1 bosje munt (fijn gesneden)"
       ],
-      "purpose": "Salade"
+      "heading": "Salade"
     },
     {
       "ingredients": [
         "1 el geroosterde pinda's (gehakt)",
         "extra koriander om te serveren"
       ],
-      "purpose": "Om te serveren"
+      "heading": "Om te serveren"
     }
   ],
   "instructions_list": [
@@ -98,5 +98,6 @@
   "image": "https://miljuschka.nl/wp-content/uploads/2021/04/thaise-biefstuksalade.jpg",
   "keywords": [
     "biefstuk"
-  ]
+  ],
+  "description": "Eetgeheimen de Podcast - Met Peter R. de Vries De laatste aflevering van het eerste seizoen van Eetgeheimen staat online! Ik sluit het seizoen af met een (voor mij) hele bijzondere gast, namelijk misdaadjournalist Peter R. de Vries. Hij vertelt waar hij al jaren dagelijks mee ontbijt, met welk gerecht hij zijn kinderen doet verbazen én"
 }

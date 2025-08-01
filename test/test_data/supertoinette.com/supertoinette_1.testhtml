@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="content-language" content="fr"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="p:domain_verify" content="1ddadfca6b0c2ee3d4c8fa4f012ba8f9"/>
+    <meta name="robots" content="max-image-preview:large">
+
+    <meta name="og:title" content="Recette quesadillas fromage &amp; poivrons grillés | Supertoinette"/>
+    <meta name="og:url" content="https://www.supertoinette.com/recette/11540/quesadillas-fromage-poivrons-grilles.html"/>
+    <meta name="og:image" content="https://recette.supertoinette.com/new/2025-07/quesadillas-fromage-poivrons-grilles-dioa-1200.webp"/>
+    <meta name="twitter:image" content="https://recette.supertoinette.com/new/2025-07/quesadillas-fromage-poivrons-grilles-dioa-1200.webp"/>
+    <meta name="og:description" content="Quesadillas fromage &amp; poivrons grillés : Découvrez cette recette facile et savoureuse de quesadillas au fromage fondant et poivrons grillés. Parfaites pour un repas rapide ou un apéro dînatoire !"/>
+    <meta name="twitter:description" content="Quesadillas fromage &amp; poivrons grillés : Découvrez cette recette facile et savoureuse de quesadillas au fromage fondant et poivrons grillés. Parfaites pour un repas rapide ou un apéro dînatoire !"/>
+    <meta name="og:site_name" content="Supertoinette"/>
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:title" content="Recette quesadillas fromage &amp; poivrons grillés | Supertoinette"/>
+    <meta name="twitter:site" content="Supertoinette">
+    <meta name="twitter:app:country" content="FR"/>
+    <meta name="og:locale" content="fr_FR"/>
+    <meta name="description" content="Quesadillas fromage &amp; poivrons grillés : Découvrez cette recette facile et savoureuse de quesadillas au fromage fondant et poivrons grillés. Parfaites pour un repas rapide ou un apéro dînatoire !"/>
+    <title>Recette quesadillas fromage &amp; poivrons grillés | Supertoinette</title>
+
+    <link rel="apple-touch-icon" sizes="57x57" href="/img/favicon/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/img/favicon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/img/favicon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/img/favicon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/img/favicon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/img/favicon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/img/favicon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/img/favicon/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/img/favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#ff6666">
+
+    <script src="/js/st.js?id=3295c37dd7369bd4840bcda333154f86" defer></script>
+    <link href="/css/app.css?id=dd48a5ee2d12296a78bf3aa678b307c1" rel="stylesheet">
+
+    <link rel="alternate" type="application/atom+xml" href="https://www.supertoinette.com/articles/actu-cuisine.xml" title="Supertoinette">
+    <link rel="alternate" type="application/atom+xml" href="https://www.supertoinette.com/diaporama.xml" title="Supertoinette Diaporama">
+    <link rel="alternate" type="application/atom+xml" href="https://www.supertoinette.com/feed.xml" title="Supertoinette">
+    <link rel="alternate" type="application/atom+xml" href="https://www.supertoinette.com/trick.xml" title="Supertoinette">
+
+    <script>
+    const PAGE_TYPE = 'recipe';
+    </script>
+    <!-- BEGIN FastCMP -->
+    <script>
+    window.FAST_CMP_OPTIONS = {
+        publisherName: 'Supertoinette',
+        domainUid: '4b5dc894-d20f-5c98-a01a-b9918b5acdf8',
+        countryCode: 'FR',
+        policyUrl: 'https://www.supertoinette.com/infos/politique-de-protection-des-donnees-personnel',
+        displaySynchronous: false,
+        bootstrap: {
+            excludedIABVendors: [],
+            excludedGoogleVendors: []
+        },
+        publisherLogo: function(c) {
+            return c.createElement('img', {
+                src: 'https://cdn.tagadamedia.com/media/fr/11/logo-supertoinette-couleur-11631.png',
+                height: '40'
+            })
+        },
+        translations: {
+            fr: {
+                buttons: {
+                    accept: 'Fermer et Accepter',
+                }
+            },
+        },
+    };
+    (function() {
+        var e = {
+            617: function(e) {
+                window.FAST_CMP_T0 = Date.now();
+                window.FAST_CMP_QUEUE = {};
+                window.FAST_CMP_QUEUE_ID = 0;
+                function a() {
+                    var e = Array.prototype.slice.call(arguments);
+                    if (!e.length)
+                        return Object.values(window.FAST_CMP_QUEUE);
+                    else if ("ping" === e[0]) {
+                        if ("function" === typeof e[2])
+                            e[2]({
+                                cmpLoaded: false,
+                                cmpStatus: "stub",
+                                apiVersion: "2.0",
+                                cmpId: parseInt("388", 10)
+                            })
+                    } else
+                        window.FAST_CMP_QUEUE[window.FAST_CMP_QUEUE_ID++] = e
+                }
+                e.exports = {
+                    name: "light",
+                    handler: a
+                }
+            }
+        };
+        var a = {};
+        function t(r) {
+            var n = a[r];
+            if (void 0 !== n)
+                return n.exports;
+            var i = a[r] = {
+                exports: {}
+            };
+            e[r](i, i.exports, t);
+            return i.exports
+        }
+        var r = {};
+        !function() {
+            var e = t(617);
+            var a = "__tcfapiLocator";
+            var r = window;
+            var n = r;
+            var i;
+            function o() {
+                var e = r.document;
+                var t = !!r.frames[a];
+                if (!t)
+                    if (e.body) {
+                        var n = e.createElement("iframe");
+                        n.style.cssText = "display:none";
+                        n.name = a;
+                        e.body.appendChild(n)
+                    } else
+                        setTimeout(o, 5);
+                return !t
+            }
+            function s(e) {
+                var a = "string" === typeof e.data;
+                var t = {};
+                if (a)
+                    try {
+                        t = JSON.parse(e.data)
+                    } catch (e) {}
+                else
+                    t = e.data;
+                var r = "object" === typeof t ? t.__tcfapiCall : null;
+                if (r)
+                    window.__tcfapi(r.command, r.version, (function(t, n) {
+                        var i = {
+                            __tcfapiReturn: {
+                                returnValue: t,
+                                success: n,
+                                callId: r.callId
+                            }
+                        };
+                        if (e && e.source && e.source.postMessage)
+                            e.source.postMessage(a ? JSON.stringify(i) : i, "*")
+                    }), r.parameter)
+            }
+            while (n) {
+                try {
+                    if (n.frames[a]) {
+                        i = n;
+                        break
+                    }
+                } catch (e) {}
+                if (n === r.top)
+                    break;
+                n = n.parent
+            }
+            if ("custom" !== r.FAST_CMP_HANDLER)
+                if (!i) {
+                    o();
+                    r.__tcfapi = e.handler;
+                    r.FAST_CMP_HANDLER = e.name;
+                    r.addEventListener("message", s, false)
+                } else {
+                    r.__tcfapi = e.handler;
+                    r.FAST_CMP_HANDLER = e.name
+                }
+        }()
+    })();
+    </script>
+    <script src="https://static.fastcmp.com/fast-cmp-stub.js" async="true" data-no-optimize="1"></script>
+    <!-- END FastCMP -->
+
+    <!-- BEGIN Viously -->
+    <script async id="xieg6Sie" src="https://cdn.viously.com/js/sdk/boot.js"></script>
+    <!-- END Viously -->
+
+    <!-- BEGIN Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YT2D1X93LV"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+    gtag('config', 'G-YT2D1X93LV');
+    </script>
+    <!-- END Google Analytics -->
+
+    <!-- BEGIN Actirise desktop -->
+    <script src="https://www.flashb.id/universal/cf54099b-4b7e-5649-a7a9-587489bc88de.js" async data-cfasync="false"></script>
+    <script type="text/javascript" data-cfasync="false">
+    window._hbdbrk = window._hbdbrk || [];
+    window._hbdbrk.push(['_vars', {
+        page_type: (typeof PAGE_TYPE === 'undefined' ? '' : PAGE_TYPE)
+    }]);
+    </script>
+    <style type="text/css">
+    div[data-actirise-slot="top-page"] {
+        display: none;
+        margin: 10px auto;
+    }
+
+    @media screen and (min-width: 770px) {
+        div[data-actirise-slot="top-page"].device-desktop {
+            display: flex !important;
+            width: 100%;
+            min-height: 250px;
+        }
+    }
+
+    div[data-actirise-slot="aside-desktop-atf"] {
+        display: none;
+        margin: 10px auto;
+    }
+
+    @media screen and (min-width: 770px) {
+        div[data-actirise-slot="aside-desktop-atf"].device-desktop {
+            display: flex !important;
+            width: 100%;
+            min-height: 620px;
+        }
+    }
+    </style>
+    <!-- END Actirise desktop -->
+
+    <!-- BEGIN Taboola (FastCMP) -->
+    <script>
+    window._taboola = window._taboola || [];
+    _taboola.push({
+        article: 'auto'
+    });
+    !function(e, f, u, i) {
+        if (!document.getElementById(i)) {
+            e.async = 1;
+            e.setAttribute('data-fast-cmp-src', u);
+            e.setAttribute('data-fast-cmp-purposes-consent', '1,3');
+            e.setAttribute('data-fast-cmp-vendors-consent', '42');
+            e.id = i;
+            f.parentNode.insertBefore(e, f);
+        }
+    }(document.createElement('script'),
+    document.getElementsByTagName('script')[0],
+    '//cdn.taboola.com/libtrc/supertoinetteforums/loader.js',
+    'tb_loader_script');
+    if (window.performance && typeof window.performance.mark == 'function')
+    {
+        window.performance.mark('tbl_ic');
+    }
+    </script>
+    <!-- END Taboola (FastCMP) -->
+
+    <!-- BEGIN Ividence (FastCMP) -->
+    <script data-fast-cmp-src="https://itm.ivitrack.com/v1/tagadamedia-tag/itm.js" data-fast-cmp-purposes-consent="1,5"></script>
+    <!-- END Ividence (FastCMP) -->
+
+</head>
+<body id="top">
+
+    <div id="header-logo">
+        <div>
+            <a class="logo" href="https://www.supertoinette.com" title="Supertoinette, recettes de cuisine faciles">
+                <img src="https://recette.supertoinette.com/logo-st.webp" width="90" height="50" alt="Recettes de cuisine faciles, simples et rapides : Supertoinette"/>
+                <span>Supertoinette, recettes de cuisine faciles</span>
+            </a>
+            <ul>
+                <li>
+                    <a href="#">☰</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="content-wrapper">
+
+        <!-- BEGIN Taboola (FastCMP) -->
+        <script>
+        window._taboola = window._taboola || [];
+        _taboola.push({
+            flush: true
+        });
+        </script>
+        <!-- END Taboola (FastCMP) -->
+
+        <div id="site-content" class="container">
+            <div class="lmp_banner">
+                <i class="fas fa-gift"></i>
+                <a href="https://www.supertoinette.com/form-lmp-sante" target="_blank">
+                        Guide et recettes minceur &gt;&gt;
+                    </a>
+            </div>
+
+            <style>
+            div.lmp_banner {
+                background: #c446dd;
+                color: #ffffff;
+                padding: 5px 25px;
+                margin: 0 -15px;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 11;
+                font-size: 1.6em;
+            }
+
+            div.lmp_banner a {
+                text-decoration: underline;
+                color: #ffffff;
+            }
+
+            body {
+                margin-top: 37px;
+            }
+
+            @media (max-width: 767px) {
+                body {
+                    margin-top: 37px;
+                }
+
+                a.lmp_banner {
+                    font-size: 0.9em;
+                }
+
+                div#header-logo ul {
+                    top: 48px;
+                }
+            }
+            </style>
+            <div id="main-inner">
+                <div id="nav">
+                    <nav class="navbar navbar-expand-lg" id="page-header">
+                        <ul class="navbar-nav mr-auto">
+                            <li class="nav-item">
+                                <a href="https://www.supertoinette.com" class="nav-link ">Accueil</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link active" data-toggle="dropdown">
+                                    Recettes de cuisine 
+                                    <i class="fas fa-angle-down"></i>
+                                </a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="https://www.supertoinette.com/recettes-cuisine-photos">Recettes en photos</a>
+                                    <a class="dropdown-item" href="https://www.supertoinette.com/diaporamas-de-recettes-de-cuisine">Diaporamas de recettes</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="/recettes/137/recettes-au-micro-ondes">Au micro-ondes</a>
+                                    <a class="dropdown-item" href="/recettes/135/recettes-cuisine-dietetique">Cuisine diététique</a>
+                                    <a class="dropdown-item" href="/recettes/138/recettes-la-cuisine-des-grand-meres">La cuisine des grand-mères</a>
+                                    <a class="dropdown-item" href="/recettes/134/recettes-les-grands-classiques">Les grands classiques</a>
+                                    <a class="dropdown-item" href="/recettes/133/recettes-pour-debutants">Pour débutants</a>
+                                    <a class="dropdown-item" href="/recettes/7024/recettes-recettes-elaborees">Recettes élaborées</a>
+                                    <a class="dropdown-item" href="/recettes/136/recettes-recettes-rapides">Recettes rapides</a>
+                                    <a class="dropdown-item" href="/recettes/3472/recettes-recettes-sans-gluten">Recettes sans gluten</a>
+                                    <a class="dropdown-item" href="/recettes/66/recettes-recettes-vegetariennes">Recettes végétariennes</a>
+                                    <a class="dropdown-item" href="/recettes/72/recettes-automne">Recettes Automne</a>
+                                    <a class="dropdown-item" href="/recettes/73/recettes-hiver">Recettes Hiver</a>
+                                    <a class="dropdown-item" href="/recettes/71/recettes-printemps">Recettes Printemps</a>
+                                    <a class="dropdown-item" href="/recettes/70/recettes-ete">Recettes Été</a>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown" data-skip-responsive="true">
+                                <a href="#" class="nav-link " data-toggle="dropdown">
+                                    Cuisine pratique 
+                                    <i class="fas fa-angle-down"></i>
+                                </a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="https://www.supertoinette.com/fiche-cuisine">Fiches de cuisine</a>
+                                    <a class="dropdown-item" href="https://www.supertoinette.com/trucs-astuces-cuisine">Trucs et astuces</a>
+                                    <a class="dropdown-item" href="https://www.supertoinette.com/glossaire-cuisine">Glossaire de cuisine</a>
+                                    <a class="dropdown-item" href="https://www.supertoinette.com/mesures-equivalences-culinaires.html">Mesures et équivalences</a>
+                                    <a class="dropdown-item" href="https://www.supertoinette.com/accords-mets-vins">Accords mets-vins</a>
+                                </div>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://www.supertoinette.com/magazine/actu-cuisine" class="nav-link ">L&#039;actu cuisine</a>
+                            </li>
+                            <li>
+                                <div id="search">
+                                    <div class="searchbar">
+                                        <form action="https://www.supertoinette.com/liste-recettes">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" name="q" value="">
+                                                <div class="input-group-append">
+                                                    <button type="submit" class="btn btn-sm" aria-label="Rechercher">
+                                                        <i class="fas fa-search"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <a href="https://www.supertoinette.com/login" class="btn btn-login">
+                                    <i class="fa fa-user"></i>
+                                    <span>Connexion</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="clearfix"></div>
+                <!-- BEGIN Actirise desktop -->
+                <div data-actirise-slot="top-page" class="device-desktop ads"></div>
+                <!-- END Actirise desktop -->
+
+                <ul id="breadcrumb">
+                    <li>
+                        <a href="/">
+                            <strong>Accueil</strong>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.supertoinette.com/recettes-cuisine-photos">
+                                                        Recettes en photos
+                                                    </a>
+                    </li>
+                    <li>
+                        <a href="https://www.supertoinette.com/recette/11540/quesadillas-fromage-poivrons-grilles.html">
+                                                        Quesadillas fromage &amp; poivrons grillés
+                                                    </a>
+                    </li>
+                </ul>
+
+                <div class="main-inner-col">
+                    <div class="row">
+                        <div class="col-md-9 left pt-2">
+
+                            <div id="recipe">
+
+                                <h1>Quesadillas fromage &amp; poivrons grillés</h1>
+                                <p class="subtitle mb-3">Découvrez cette recette facile et savoureuse de quesadillas au fromage fondant et poivrons grillés. Parfaites pour un repas rapide ou un apéro dînatoire !</p>
+
+                                <a href="#comments" class="recipe-stars">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <div class="mr-2">
+                                            <strong>4,6/5</strong>
+                                        </div>
+                                        <div class="stars">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star-half-alt"></i>
+                                        </div>
+                                        <small class="ml-2">5 avis</small>
+                                        <div class="recipe-stars-sep"></div>
+                                        <small>Déposez le premier commentaire !</small>
+                                    </div>
+                                </a>
+
+                                <div class="row toprecipe">
+                                    <div class="col-12">
+
+                                        <picture>
+                                            <source type="image/webp" srcset="https://recette.supertoinette.com/new/2025-07/quesadillas-fromage-poivrons-grilles-dioa-400.webp" media="(max-width: 479px)"/>
+                                            <source type="image/webp" srcset="https://recette.supertoinette.com/new/2025-07/quesadillas-fromage-poivrons-grilles-dioa-800.webp" media="(min-width: 480px) and (max-width: 768px)"/>
+                                            <source type="image/webp" srcset="https://recette.supertoinette.com/new/2025-07/quesadillas-fromage-poivrons-grilles-dioa-1200.webp" media="(min-width: 769px)"/>
+                                            <img class="b-lazy w-100 h-auto" data-src="https://recette.supertoinette.com/new/2025-07/quesadillas-fromage-poivrons-grilles-dioa-1200.webp" alt="Quesadillas fromage & poivrons grillés" width="1200" height="686"/>
+                                        </picture>
+
+                                        <ul class="list-inline details mt-3 d-flex flex-wrap justify-content-center">
+                                            <li class="list-inline-item mb-2 mb-md-3">
+                                                <i class="fas fa-utensils"></i>
+                                                <span>Recette facile</span>
+                                            </li>
+                                            <li class="list-inline-item mb-2 mb-md-3">
+                                                <i class="fas fa-euro-sign"></i>
+                                                <i class="fas fa-euro-sign grey"></i>
+                                                <i class="fas fa-euro-sign grey"></i>
+                                                <span>Economique</span>
+                                            </li>
+                                            <li class="list-inline-item mb-2 mb-md-3">
+                                                <i class="far fa-clock"></i>
+                                                <span class="hideMobile">Temps total:</span>
+                                                <span>20 min</span>
+                                            </li>
+                                            <li class="list-inline-item mb-2 mb-md-3">
+                                                <i class="fas fa-utensil-spoon"></i>
+                                                <span>Préparation: 10 min</span>
+                                            </li>
+                                            <li class="list-inline-item mb-2 mb-md-3">
+                                                <i class="fas fa-burn"></i>
+                                                <span>Cuisson: 10 min</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <p class="mb-1 mt-O my-md-2">
+                                    <small>
+                                        <strong>Tags:</strong>
+                                        <a href="https://www.supertoinette.com/recettes/133/recettes-pour-debutants">Pour débutants</a>
+
+                                                                                    |
+                                                                                                
+                                        <a href="https://www.supertoinette.com/recettes/136/recettes-recettes-rapides">Recettes rapides</a>
+
+                                                                                    |
+                                                                                                
+                                        <a href="https://www.supertoinette.com/recettes/3302/recettes-poivron-rouge-vert-jaune">Poivron rouge, vert, jaune</a>
+
+                                                                                    |
+                                                                                                
+                                        <a href="https://www.supertoinette.com/recettes/5538/recettes-cuisson-a-la-poele">Cuisson à la poêle</a>
+
+                                                                                    |
+                                                                                                
+                                        <a href="https://www.supertoinette.com/recettes/5815/recettes-entrees-chaudes">Entrées chaudes</a>
+
+                                                                                    |
+                                                                                                
+                                        <a href="https://www.supertoinette.com/recettes/9493/recettes-fromage">Fromage</a>
+
+                                                                                    |
+                                                                                                
+                                        <a href="https://www.supertoinette.com/recettes/9956/recettes-quesadillas">Quesadillas</a>
+                                    </small>
+                                </p>
+
+                                <div class="noprint mb-3">
+                                    <!-- BEGIN Shopfully -->
+                                    <div class="mj-pf-widget" style="width: 100%; height: 300px;" data-client="supertoinette_com_spotlight" data-country-code="FR" data-zipcode-fallback="75001" data-color-background="f0f0f0" data-color-button="9dc42e" data-heading="Découvrez les promos du moment" data-subheading="Profitez des meilleurs prix" data-gdpr="1" data-component="slider"></div>
+                                    <script async src="https://widget.marktjagd.de/dist/latest/js/init.min.js"></script>
+                                    <!-- END Shopfully -->
+
+                                </div>
+
+                                <div class="row ingredients">
+                                    <div class="col-6">
+                                        <h2>Ingrédients</h2>
+                                    </div>
+                                    <div class="col-6">
+                                        <p class="text-right">
+                                            <span>Recette pour</span>
+                                            <strong>4 personnes</strong>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <hr/>
+
+                                <ul class="ingredientsList mb-3">
+                                    <li class="pb-1">
+                                        <i class="fas fa-angle-right"></i>
+
+                                                                    4
+                                                    
+                                                                    
+                                        <a href="https://www.supertoinette.com/fiche-cuisine/694/tortilla.html">
+                                                            tortillas de blé
+                                                        </a>
+                                    </li>
+                                    <li class="pb-1">
+                                        <i class="fas fa-angle-right"></i>
+
+                                                                    2
+                                                    
+                                                                    
+                                        <a href="https://www.supertoinette.com/fiche-cuisine/166/poivron.html">
+                                                            poivrons
+                                                        </a>
+                                    </li>
+                                    <li class="pb-1">
+                                        <i class="fas fa-angle-right"></i>
+
+                                                                    1
+                                                    
+                                                                    
+                                        <a href="https://www.supertoinette.com/fiche-cuisine/233/oignon.html">
+                                                            oignon rouge
+                                                        </a>
+                                    </li>
+                                    <li class="pb-1">
+                                        <i class="fas fa-angle-right"></i>
+
+                                                                    150 g
+                                                    
+                                                                    
+                                        <a href="https://www.supertoinette.com/fiche-cuisine/388/fromages.html">
+                                                            de fromage râpé
+                                                        </a>
+                                    </li>
+                                    <li class="pb-1">
+                                        <i class="fas fa-angle-right"></i>
+
+                                                                    1 cuillère à soupe
+                                                    
+                                                                    
+                                        <a href="https://www.supertoinette.com/fiche-cuisine/344/huile-d-olive.html">
+                                                            d’huile d’olive
+                                                        </a>
+                                    </li>
+                                    <li class="pb-1">
+                                        <i class="fas fa-angle-right"></i>
+
+                                        <a href="https://www.supertoinette.com/fiche-cuisine/168/poivre.html">
+                                                            Poivre
+                                                        </a>
+                                    </li>
+                                    <li class="pb-1">
+                                        <i class="fas fa-angle-right"></i>
+
+                                        <a href="https://www.supertoinette.com/fiche-cuisine/95/sel.html">
+                                                            Sel
+                                                        </a>
+                                    </li>
+                                </ul>
+                                <h2>Le top des recettes en vidéo</h2>
+                                <hr/>
+                                <div class="mb-3">
+                                    <!-- BEGIN Viously -->
+                                    <div class="no-print">
+                                        <div class="vsly-player" id="PLSmseFd-iPRg" data-player="PVSCq4c_lsbxF" style="background:#ddd;padding-top:56.25%;font-size:0;position:relative;overflow:hidden;width:100%;"></div>
+                                    </div>
+                                    <!-- END Viously -->
+
+                                </div>
+
+                                <h2>Préparation</h2>
+                                <hr/>
+
+                                <div class="recipe-prepa">
+                                    <ol>
+                                        <li>Laver et couper les poivrons en fines lani&egrave;res. &Eacute;mincer l&rsquo;oignon.</li>
+                                        <li>Faire revenir dans une po&ecirc;le avec l&rsquo;huile d&rsquo;olive pendant 8 &agrave; 10 minutes jusqu&rsquo;&agrave; ce que les l&eacute;gumes soient tendres et l&eacute;g&egrave;rement grill&eacute;s.</li>
+                                        <li>Saler, poivrer, et r&eacute;server.</li>
+                                        <li>Chauffer une po&ecirc;le propre, d&eacute;poser une tortilla, garnir une moiti&eacute; de fromage r&acirc;p&eacute;, puis ajouter les poivrons et oignons grill&eacute;s. Refermer la tortilla en deux.</li>
+                                        <li>Faire cuire 2-3 minutes de chaque c&ocirc;t&eacute;, jusqu&rsquo;&agrave; ce que la quesadilla soit dor&eacute;e et croustillante.</li>
+                                        <li>Couper en triangles.</li>
+                                        <li>Servir les quesadillas fromage &amp; poivrons grill&eacute;s.</li>
+                                    </ol>
+
+                                    <p>
+
+                                            Auteur: 
+                                        <a href="https://www.supertoinette.com/author/46">
+                                                Marco B.
+                                            </a>
+                                    </p>
+                                </div>
+
+                                <div id="comments" class="mb-5"></div>
+                                <div class="comments no-print mb-4">
+                                    <h2>
+                                        <span class="fa fa-star"></span>
+                                         Laisser un commentaire
+                                    </h2>
+                                    <hr/>
+
+                                    <div class="mb-4">
+                                        <form action="https://www.supertoinette.com/comment" method="post" id="form-comment">
+
+                                            <div class="rating-stars d-flex align-items-center mb-2">
+                                                <p class="mb-2 mr-2">
+                                                                    Votre note
+                                                                </p>
+                                                <span class="star-rating d-flex align-items-center" data-rating=0></span>
+                                                <span class="live-rating"></span>
+                                            </div>
+                                            <p class="invalid-feedback" id="alert-rate" style="display: none;">
+                                                <strong>Veuillez donner une note à la recette</strong>
+                                            </p>
+                                            <input type="hidden" name="rate"/>
+                                            <input type="hidden" name="intended_recipe" value="https://www.supertoinette.com/recette/11540/quesadillas-fromage-poivrons-grilles.html"/>
+
+                                            <p>
+                                                <textarea class="form-control" minlength="3" name="comment" style="height: 120px;" placeholder="Votre message ici (optionnel)"></textarea>
+                                            </p>
+                                            <p>
+                                                <input type="submit" value="Valider" class="btn btn-primary px-5 py-2"/>
+                                            </p>
+                                            <input type="hidden" name="recipe_id" value="11540"/>
+                                        </form>
+                                    </div>
+
+                                </div>
+
+                                <div class="hideMobile noprint">
+                                    <div class="row social mb-3 only-desktop">
+                                        <div class="col-sm-4">
+                                            <a href="https://www.facebook.com/dialog/share?app_id=140586622674265&amp;display=popup&amp;href=https%3A%2F%2Fwww.supertoinette.com%2Frecette%2F11540%2Fquesadillas-fromage-poivrons-grilles.html" rel="noopener" class="social-facebook" target="_blank">
+                                                <i class="fab fa-facebook-square icon-facebook"></i>
+
+                                                            Partager
+                                                        
+                                            </a>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <a href="#" class="social-print">
+                                                <i class="fas fa-print icon-print"></i>
+
+                                                            Imprimer la recette
+                                                        
+                                            </a>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <a href="#" class="social-send" title="Envoyer par email" data-toggle="modal" data-target="#modalSocialSend">
+                                                <i class="fas fa-envelope icon-send"></i>
+
+                                                            Envoyer par email
+                                                        
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal fade" id="modalSocialSend">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <form action="https://www.supertoinette.com/social/email" method="post">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">Envoyer par email</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>Veuillez renseigner les informations suivantes (nous ne conservons pas ces informations) :</p>
+                                                        <div class="form-group row">
+                                                            <label for="social-name-input" class="col-sm-3 col-form-label">Votre nom</label>
+                                                            <div class="col-sm-9">
+                                                                <input class="form-control" name="name" type="text" value="" id="social-name-input">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label for="social-email-input" class="col-sm-3 col-form-label">Email du destinataire</label>
+                                                            <div class="col-sm-9">
+                                                                <input class="form-control" name="email" type="email" value="" id="social-email-input">
+                                                            </div>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                                        <button type="submit" class="btn btn-primary">Envoyer</button>
+                                                    </div>
+                                                    <input type="hidden" name="uri" value="https://www.supertoinette.com/recette/11540/quesadillas-fromage-poivrons-grilles.html"/>
+                                                    <input type="hidden" name="title" value="Quesadillas fromage &amp; poivrons grillés"/>
+                                                    <input type="hidden" name="g-recaptcha-response" id="recaptcha-d5av6vok"/>
+
+                                                    <!-- Google recaptcha -->
+                                                    <script src="https://www.recaptcha.net/recaptcha/api.js?render=6LfORD4aAAAAAOhAqhp4MuGuTDC9JDIoBB_l-dug"></script>
+                                                    <script>
+                                                    grecaptcha.ready(function() {
+                                                        function SetCaptchaToken(inputId) {
+                                                            grecaptcha.execute('6LfORD4aAAAAAOhAqhp4MuGuTDC9JDIoBB_l-dug').then(function(token) {
+                                                                $(inputId).val(token);
+                                                            });
+                                                        }
+                                                        SetCaptchaToken('input#recaptcha-d5av6vok');
+                                                        setInterval(function() {
+                                                            SetCaptchaToken('input#recaptcha-d5av6vok');
+                                                        }, 2 * 60 * 1000);
+                                                    });
+                                                    </script>
+                                                    <input type="hidden" name="_token" value="fDI5kkV8AlzBXpsiCOleUxty0ysaJwlslezeFu8Y" autocomplete="off">
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <a href="https://www.supertoinette.com/form-lmp-sante" class="lmp_link mb-3">
+                                    <div class="row">
+                                        <div class="col-4 d-flex align-items-center justify-content-center">
+                                            <img src="https://recette.supertoinette.com/lmp-icon.webp" alt="Ustensiles de cuisine" width="100" height="78" class="img-fluid"/>
+                                        </div>
+                                        <div class="col-8 d-flex align-items-center justify-content-center">
+                                            <div>
+                                                <p>
+
+                                                                        Perdez jusqu'à 7 kg en 1 mois
+                                                    <br/>
+
+                                                                        Votre bilan minceur gratuit
+                                                                    
+                                                </p>
+                                                <i class="fas fa-angle-right"></i>
+
+                                                                Cliquez ici
+                                                            
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+
+                                <style>
+                                .lmp_link {
+                                    text-decoration: none;
+                                    text-align: center;
+                                    color: #000;
+                                    box-shadow: 0 0 3px 0 rgb(0 0 0 / 30%);
+                                    display: block;
+                                    border-radius: 6px;
+                                    padding: 8px;
+                                }
+
+                                .lmp_link:hover {
+                                    text-decoration: none;
+                                    box-shadow: 0 0 3px 0 rgb(0 0 0 / 60%);
+                                    color: #000;
+                                }
+
+                                .lmp_link p {
+                                    font-size: 1.3em;
+                                    font-weight: bold;
+                                    color: #038394;
+                                }
+
+                                .lmp-icon {
+                                    background-image: url("/img/food-icons.jpg");
+                                    background-repeat: no-repeat;
+                                    background-size: 900px;
+                                    background-position: -400px -610px;
+                                    height: 100px;
+                                    width: 100px;
+                                }
+                                </style>
+
+                                <div class="noprint">
+                                </div>
+
+                                <div class="row navigation noprint my-3">
+                                    <div class="col-6 text-left">
+                                        <a class="link-prev" href="https://www.supertoinette.com/recette/3710/quesadillas-au-thon-et-epinards.html">
+                                            <i class="fas fa-2x fa-chevron-circle-left pink"></i>
+
+                                                                    Recette précédente
+                                                                
+                                        </a>
+                                    </div>
+                                    <div class="col-6 text-right">
+                                        <a class="link-next" href="https://www.supertoinette.com/recette/8863/quesadillas-au-boeuf.html">
+
+                                                                    Recette suivante
+                                                                    
+                                            <i class="fas fa-2x fa-chevron-circle-right pink"></i>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="noprint">
+                                    <!-- BEGIN Taboola (FastCMP) -->
+                                    <div id="taboola-below-article-thumbnails" class="noprint"></div>
+                                    <script>
+                                    window._taboola = window._taboola || [];
+                                    _taboola.push({
+                                        mode: 'thumbnails-a',
+                                        container: 'taboola-below-article-thumbnails',
+                                        placement: 'Below Article Thumbnails',
+                                        target_type: 'mix'
+                                    });
+                                    </script>
+                                    <!-- END Taboola (FastCMP) -->
+
+                                </div>
+
+                                <div class="randomRecipes noprint mb-3 px-3">
+                                    <h2>Suggestions de recettes</h2>
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="randomRecipe mb-3 mb-md-0">
+                                                <a href="https://www.supertoinette.com/recette/3710/quesadillas-au-thon-et-epinards.html">
+                                                    <picture>
+                                                        <source type="image/webp" srcset="https://recette.supertoinette.com/new/2017-09/quesadillasthonepinard-1lsw-400.webp" media="(max-width: 479px)"/>
+                                                        <source type="image/webp" srcset="https://recette.supertoinette.com/new/2017-09/quesadillasthonepinard-1lsw-800.webp" media="(min-width: 480px)"/>
+                                                        <img class="b-lazy w-100 h-auto" data-src="https://recette.supertoinette.com/new/2017-09/quesadillasthonepinard-1lsw-800.webp" alt="Quesadillas au thon et épinards" width="800" height="457"/>
+                                                    </picture>
+                                                </a>
+                                                <h5>
+                                                    <a href="https://www.supertoinette.com/recette/3710/quesadillas-au-thon-et-epinards.html">Quesadillas au thon et épinards</a>
+                                                </h5>
+                                                <p class="linkRecipe">
+                                                    <a href="https://www.supertoinette.com/recette/3710/quesadillas-au-thon-et-epinards.html">
+                                                        <i class="fas fa-angle-right"></i>
+                                                        <span>Voir la recette</span>
+                                                    </a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="randomRecipe mb-3 mb-md-0">
+                                                <a href="https://www.supertoinette.com/recette/8863/quesadillas-au-boeuf.html">
+                                                    <picture>
+                                                        <source type="image/webp" srcset="https://recette.supertoinette.com/new/2023-02/quesadillas-au-boeuf-g4bi-400.webp" media="(max-width: 479px)"/>
+                                                        <source type="image/webp" srcset="https://recette.supertoinette.com/new/2023-02/quesadillas-au-boeuf-g4bi-800.webp" media="(min-width: 480px)"/>
+                                                        <img class="b-lazy w-100 h-auto" data-src="https://recette.supertoinette.com/new/2023-02/quesadillas-au-boeuf-g4bi-800.webp" alt="Quesadillas au boeuf" width="800" height="457"/>
+                                                    </picture>
+                                                </a>
+                                                <h5>
+                                                    <a href="https://www.supertoinette.com/recette/8863/quesadillas-au-boeuf.html">Quesadillas au boeuf</a>
+                                                </h5>
+                                                <p class="linkRecipe">
+                                                    <a href="https://www.supertoinette.com/recette/8863/quesadillas-au-boeuf.html">
+                                                        <i class="fas fa-angle-right"></i>
+                                                        <span>Voir la recette</span>
+                                                    </a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="randomRecipe mb-3 mb-md-0">
+                                                <a href="https://www.supertoinette.com/recette/10517/quesadillas-a-la-viande-hachee.html">
+                                                    <picture>
+                                                        <source type="image/webp" srcset="https://recette.supertoinette.com/new/2024-07/quesadillas-a-la-viande-hachee-pgij-400.webp" media="(max-width: 479px)"/>
+                                                        <source type="image/webp" srcset="https://recette.supertoinette.com/new/2024-07/quesadillas-a-la-viande-hachee-pgij-800.webp" media="(min-width: 480px)"/>
+                                                        <img class="b-lazy w-100 h-auto" data-src="https://recette.supertoinette.com/new/2024-07/quesadillas-a-la-viande-hachee-pgij-800.webp" alt="Quesadillas à la viande hachée" width="800" height="457"/>
+                                                    </picture>
+                                                </a>
+                                                <h5>
+                                                    <a href="https://www.supertoinette.com/recette/10517/quesadillas-a-la-viande-hachee.html">Quesadillas à la viande hachée</a>
+                                                </h5>
+                                                <p class="linkRecipe">
+                                                    <a href="https://www.supertoinette.com/recette/10517/quesadillas-a-la-viande-hachee.html">
+                                                        <i class="fas fa-angle-right"></i>
+                                                        <span>Voir la recette</span>
+                                                    </a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <script type="application/ld+json">
+                                    {"@context":"http:\/\/schema.org\/","@type":"Recipe","name":"Quesadillas fromage & poivrons grill\u00e9s","datePublished":"2025-08-01T13:52:08Z","image":["https:\/\/recette.supertoinette.com\/new\/2025-07\/quesadillas-fromage-poivrons-grilles-dioa-1200.webp","https:\/\/recette.supertoinette.com\/new\/2025-07\/quesadillas-fromage-poivrons-grilles-dioa-800.webp","https:\/\/recette.supertoinette.com\/new\/2025-07\/quesadillas-fromage-poivrons-grilles-dioa-400.webp"],"description":"D\u00e9couvrez cette recette facile et savoureuse de quesadillas au fromage fondant et poivrons grill\u00e9s. Parfaites pour un repas rapide ou un ap\u00e9ro d\u00eenatoire !","prepTime":"PT10M","cookTime":"PT10M","totalTime":"PT20M","recipeYield":"4 personnes","recipeInstructions":[{"@type":"HowToStep","text":"Laver et couper les poivrons en fines lani\u00e8res. \u00c9mincer l\u2019oignon."},{"@type":"HowToStep","text":"Faire revenir dans une po\u00eale avec l\u2019huile d\u2019olive pendant 8 \u00e0 10 minutes jusqu\u2019\u00e0 ce que les l\u00e9gumes soient tendres et l\u00e9g\u00e8rement grill\u00e9s."},{"@type":"HowToStep","text":"Saler, poivrer, et r\u00e9server."},{"@type":"HowToStep","text":"Chauffer une po\u00eale propre, d\u00e9poser une tortilla, garnir une moiti\u00e9 de fromage r\u00e2p\u00e9, puis ajouter les poivrons et oignons grill\u00e9s. Refermer la tortilla en deux."},{"@type":"HowToStep","text":"Faire cuire 2-3 minutes de chaque c\u00f4t\u00e9, jusqu\u2019\u00e0 ce que la quesadilla soit dor\u00e9e et croustillante."},{"@type":"HowToStep","text":"Couper en triangles."},{"@type":"HowToStep","text":"Servir les quesadillas fromage & poivrons grill\u00e9s."},{"@type":"HowToStep","text":"Servir les quesadillas fromage & poivrons grill\u00e9s."}],"author":{"@type":"Person","name":"Marco B."},"aggregateRating":{"@type":"AggregateRating","ratingValue":"4.60","reviewCount":"5","bestRating":"5","worstRating":"1"},"keywords":["Pour d\u00e9butants","Recettes rapides","Poivron rouge, vert, jaune","Cuisson \u00e0 la po\u00eale","Entr\u00e9es chaudes","Fromage","Quesadillas"],"recipeCategory":"Entr\u00e9es chaudes","recipeIngredient":["4 tortillas de bl\u00e9","2 poivrons","1 oignon rouge","150 g de fromage r\u00e2p\u00e9","1 cuill\u00e8re \u00e0 soupe d\u2019huile d\u2019olive","Poivre","Sel"]}
+                                </script>
+
+                            <div class="clearfix"></div>
+
+                        </div>
+                        <div class="col-md-3 no-print" id="right">
+                            <div class="row flex-column h-100 mt-3">
+
+                                <div class="col">
+                                    <div class="sticky mb-3">
+                                        <!-- BEGIN Actirise desktop -->
+                                        <div data-actirise-slot="aside-desktop-atf" class="device-desktop ads"></div>
+                                        <!-- END Actirise desktop -->
+
+                                    </div>
+                                </div>
+
+                                <div class="col">
+                                    <div class="sticky mb-3">
+
+                                        <a href="https://www.supertoinette.com/newsletter" title="Inscription newsletter" class="mb-3 d-block">
+                                            <img data-src="https://recette.supertoinette.com/pave_news.webp" alt="Inscription à la newsletter" width="300" height="200" class="w-100 h-auto b-lazy"/>
+                                        </a>
+
+                                        <div class="hideMobile">
+                                            <div class="trick">
+                                                <h2>
+                                                    <span class="big">Trucs</span>
+                                                     et 
+                                                    <span class="grey">astuces de cuisine</span>
+                                                </h2>
+                                                <p>
+                                                    <strong>Soulager les brûlures superficielles</strong>
+                                                </p>
+                                                <p>Éplucher un concombre et le couper en fines rondelles. Couvrir la blessure avec autant de...</p>
+                                                <p class="link">
+                                                    <a href="https://www.supertoinette.com/trucs-astuces-cuisine/490/soulager-les-brulures-superficielles.html">
+
+                                                                                    Lire la suite 
+                                                        <i class="glyphicon glyphicon-chevron-right"></i>
+                                                    </a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col">
+                                    <div class="sticky mb-3">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tag_top_footer"></div>
+
+            <div id="footer" role="contentinfo">
+                <div class="footer-navbar" role="navigation">
+                    <div class="inner">
+                        <ul id="nav-footer">
+                            <li>
+                                <a title="Recettes faciles" href="https://www.supertoinette.com/recettes/133/recettes-pour-debutants" target="_self">Recettes faciles</a>
+                            </li>
+                            <li class="separator"></li>
+                            <li>
+                                <a title="Recettes en photos" href="https://www.supertoinette.com/recettes-cuisine-photos" target="_self">Recettes en photos</a>
+                            </li>
+                            <li class="separator"></li>
+                            <li>
+                                <a title="Fiches techniques" href="https://www.supertoinette.com/fiche-cuisine" target="_self">Fiches techniques</a>
+                            </li>
+                            <li class="separator"></li>
+                            <li>
+                                <a title="Trucs et astuces" href="https://www.supertoinette.com/trucs-astuces-cuisine" target="_self">Trucs et astuces</a>
+                            </li>
+                        </ul>
+
+                        <ul id="nav-footer2">
+                            <li>
+                                <a href="https://www.supertoinette.com/recettes/98/recettes-abats" title="Abats">Abats</a>
+                            </li>
+                            <li class="separator"></li>
+                            <li>
+                                <a href="https://www.supertoinette.com/recettes/93/recettes-amuse-bouche" title="Amuse-bouche">Amuse-bouche</a>
+                            </li>
+                            <li class="separator"></li>
+                            <li>
+                                <a href="https://www.supertoinette.com/recettes/5987/recettes-beurres" title="Beurres">Beurres</a>
+                            </li>
+                            <li class="separator"></li>
+                            <li>
+                                <a href="https://www.supertoinette.com/recettes/92/recettes-boissons" title="Boissons">Boissons</a>
+                            </li>
+                            <li class="separator"></li>
+                            <li>
+                                <a href="https://www.supertoinette.com/recettes/9776/recettes-cereales" title="Céréales">Céréales</a>
+                            </li>
+                            <li class="separator"></li>
+                            <li>
+                                <a href="https://www.supertoinette.com/recettes/105/recettes-confitures" title="Confitures">Confitures</a>
+                            </li>
+                            <li class="separator"></li>
+                            <li>
+                                <a href="https://www.supertoinette.com/recettes/104/recettes-conserves" title="Conserves">Conserves</a>
+                            </li>
+                            <li class="separator"></li>
+                            <li>
+                                <a href="https://www.supertoinette.com/recettes/6014/recettes-coquillages-et-crustaces" title="Coquillages et crustacés">Coquillages et crustacés</a>
+                            </li>
+                            <li class="separator"></li>
+                            <li>
+                                <a href="https://www.supertoinette.com/recettes/5988/recettes-coulis" title="Coulis">Coulis</a>
+                            </li>
+                            <li class="separator"></li>
+                            <li>
+                                <a href="https://www.supertoinette.com/recettes/107/recettes-desserts" title="Desserts">Desserts</a>
+                            </li>
+                            <li class="separator"></li>
+                            <li>
+                                <a href="https://www.supertoinette.com/recettes/108/recettes-entrees-salades" title="Entrées &amp; salades">Entrées &amp; salades</a>
+                            </li>
+                            <li class="separator"></li>
+                            <li>
+                                <a href="https://www.supertoinette.com/recettes/5815/recettes-entrees-chaudes" title="Entrées chaudes">Entrées chaudes</a>
+                            </li>
+                            <li class="separator"></li>
+                            <li>
+                                <a href="https://www.supertoinette.com/recettes/5814/recettes-entrees-froides" title="Entrées froides">Entrées froides</a>
+                            </li>
+                            <li class="separator"></li>
+                            <li>
+                                <a href="https://www.supertoinette.com/recettes/102/recettes-fromages" title="Fromages">Fromages</a>
+                            </li>
+                            <li class="separator"></li>
+                            <li>
+                                <a href="https://www.supertoinette.com/recettes/10312/recettes-ig-bas" title="IG bas">IG bas</a>
+                            </li>
+                            <li class="separator"></li>
+                            <li>
+                                <a href="https://www.supertoinette.com/recettes/100/recettes-legumes" title="Légumes">Légumes</a>
+                            </li>
+                            <li class="separator"></li>
+                            <li>
+                                <a href="https://www.supertoinette.com/recettes/103/recettes-oeufs" title="Oeufs ">Oeufs </a>
+                            </li>
+                            <li class="separator"></li>
+                            <li>
+                                <a href="https://www.supertoinette.com/recettes/106/recettes-pains-pates" title="Pains &amp; pâtes">Pains &amp; pâtes</a>
+                            </li>
+                            <li class="separator"></li>
+                            <li>
+                                <a href="https://www.supertoinette.com/recettes/101/recettes-pates-alimentaires" title="Pâtes alimentaires">Pâtes alimentaires</a>
+                            </li>
+                            <li class="separator"></li>
+                            <li>
+                                <a href="https://www.supertoinette.com/recettes/95/recettes-poissons" title="Poissons">Poissons</a>
+                            </li>
+                            <li class="separator"></li>
+                            <li>
+                                <a href="https://www.supertoinette.com/recettes/10309/recettes-salees" title="salées">salées</a>
+                            </li>
+                            <li class="separator"></li>
+                            <li>
+                                <a href="https://www.supertoinette.com/recettes/94/recettes-sauces" title="Sauces">Sauces</a>
+                            </li>
+                            <li class="separator"></li>
+                            <li>
+                                <a href="https://www.supertoinette.com/recettes/91/recettes-soupes-potages" title="Soupes &amp; potages">Soupes &amp; potages</a>
+                            </li>
+                            <li class="separator"></li>
+                            <li>
+                                <a href="https://www.supertoinette.com/recettes/10310/recettes-sucrees" title="sucrées">sucrées</a>
+                            </li>
+                            <li class="separator"></li>
+                            <li>
+                                <a href="https://www.supertoinette.com/recettes/6355/recettes-viandes" title="Viandes">Viandes</a>
+                            </li>
+                            <li class="separator"></li>
+                            <li>
+                                <a href="https://www.supertoinette.com/recettes/9130/recettes-vins-et-alcools" title="Vins et Alcools">Vins et Alcools</a>
+                            </li>
+                            <li class="separator"></li>
+                            <li>
+                                <a href="https://www.supertoinette.com/recettes/99/recettes-volailles-et-gibiers" title="Volailles et gibiers">Volailles et gibiers</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="copyright">
+                    <p>Tous droits réservés Supertoinette.com, 2001-2025. L'utilisation du site de cuisine et des forums implique l'acceptation pleine et entière des Conditions Générales
+                                d'Utilisation</p>
+                    <ul>
+                        <li>
+                            <a title="Annonceurs et publicité" href="https://www.supertoinette.com/infos/publicite.html">Annonceurs et publicité</a>
+                        </li>
+                        <li class="separator"></li>
+                        <li>
+                            <a title="Contact" href="https://www.supertoinette.com/infos/contact.html">Contact</a>
+                        </li>
+                        <li class="separator"></li>
+                        <li>
+                            <a title="Mentions légales et conditions générales d&#039;utilisation du site" href="https://www.supertoinette.com/infos/mentions-legales-et-conditions-generales-duti">Mentions légales et conditions générales d&#039;utilisation du site</a>
+                        </li>
+                        <li class="separator"></li>
+                        <li>
+                            <a title="Charte de bonne conduite" href="https://www.supertoinette.com/infos/charte-de-bonne-conduite">Charte de bonne conduite</a>
+                        </li>
+                        <li class="separator"></li>
+                        <li>
+                            <a title="Politique de cookies" href="https://www.supertoinette.com/infos/politique-de-cookies">Politique de cookies</a>
+                        </li>
+                        <li class="separator"></li>
+                        <li>
+                            <a title="Politique de protection des données personnelles" href="https://www.supertoinette.com/infos/politique-de-protection-des-donnees-personnel">Politique de protection des données personnelles</a>
+                        </li>
+                        <li class="separator"></li>
+                        <li>
+                            <a href="javascript:window.FastCMP.open()">Choix du consentement</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BEGIN K-words -->
+    <script data-kwords-site-id="c059d1de-7bcb-4e7e-9a8e-416b4ab84b13" src="https://sdk.k-words.io/script.js"></script>
+    <!-- END K-words -->
+
+    <!-- BEGIN Tradedoubler (FastCMP) -->
+    <img data-fast-cmp-src="https://impfr.tradedoubler.com/imp?type(inv)g(24085332)a(2789177)" height="1" width="1" data-fast-cmp-addtl-vendors="486" data-fast-cmp-purposes-consent="1,3"/>
+    <!-- END Tradedoubler (FastCMP) -->
+
+    <!-- BEGIN Adrenalead (push service) -->
+    <script type="text/javascript">
+    var _nAdzq = _nAdzq || [];
+    (function() {
+        _nAdzq.push(["setIds", "5734914196a75bbb"]);
+        var e = "https://notifpush.com/scripts/";
+        var t = document.createElement("script");
+        t.type = "text/javascript";
+        t.defer = true;
+        t.async = true;
+        t.src = e + "nadz-sdk.js";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(t, s)
+    })();
+    </script>
+
+    <script type="text/javascript">
+    window._nAdzqTriggers = window._nAdzqTriggers || [];
+    var runNadzTriggers = function() {
+        window._nAdzqTriggers.push(["setIds", "5734914196a75bbb"]);
+        var e = "https://notifpush.com/scripts/";
+        var t = document.createElement("script");
+        t.type = "text/javascript";
+        t.defer = true;
+        t.async = true;
+        t.src = e + "full-script-trigger.min.js";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(t, s);
+    };
+    runNadzTriggers();
+    </script>
+    <!-- END Adrenalead (push service) -->
+
+</body>
+</html>

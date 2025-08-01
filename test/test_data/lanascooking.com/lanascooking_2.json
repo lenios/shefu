@@ -20,7 +20,7 @@
         "2 tablespoons seasoned salt (recommended: Jane's Crazy Mixed-Up Salt)",
         "10 pounds turkey (fresh or frozen)"
       ],
-      "purpose": "For the Turkey:"
+      "heading": "For the Turkey:"
     },
     {
       "ingredients": [
@@ -28,7 +28,7 @@
         "½ cup all-purpose flour",
         "3 ¾ cups turkey or chicken broth or stock"
       ],
-      "purpose": "For the Gravy:"
+      "heading": "For the Gravy:"
     }
   ],
   "instructions_list": [
@@ -71,8 +71,27 @@
     "cholesterolContent": "472 mg"
   },
   "image": "https://www.lanascooking.com/wp-content/uploads/2020/11/oven-roasted-turkey-feature-1200x1200-1.jpg",
+  "video": "https://mediavine-res.cloudinary.com/video/upload/t_original/v1642443575/i8lhVpycD.mp4",
   "keywords": [
     "oven roasted turkey",
     "turkey gravy"
-  ]
+  ],
+    "questions": [
+      {
+      "question": "What if I don't have a roasting rack?",
+      "answer": "If you don't have a roasting rack, you can form a coil of scrunched up aluminum foil to place in the bottom of your pan or use a bed of vegetables such as carrots and celery to keep the turkey raised off the bottom of the pan."
+      },
+      {
+      "question": "How often should I baste the turkey?",
+      "answer": "I skip it completely. Basting a turkey means frequently opening the oven door, which results in temperature fluctuations that can cause a dry turkey (particularly the breast meat). The butter rubbed all over will keep the turkey moist without the need for basting"
+      },
+      {
+      "question": "I'm a little nervous about trying to handle that big bird. Advice?",
+      "answer": "I get it. Moving that big, hot turkey around can be intimidating. So, you could always consider roasting two small ones instead! They'll cook faster, too, since you'll base your cooking time on the smaller weights."
+      },
+      {
+      "question": "Do you cover the turkey when roasting?",
+      "answer": "No. Don't cover the turkey while roasting. If you notice later in the cooking that the breast or legs are getting too brown, you can lightly place some foil over the top, but don't completely cover the turkey."
+      }
+    ]
 }

@@ -66,5 +66,16 @@
     "Oreo cookie brownies",
     "Oreo topped brownies",
     "Ultimate oreo brownie"
+  ],
+  "questions": [
+    {
+      "question": "Why aren't my brownies fudgy?",
+      "answer": "Too much flour or overbaking the brownies can make them drier and cakier. I highly recommend using a scale to measure the ingredients!"
+    },
+    {
+      "question": "Can I use a boxed brownie mix instead?",
+      "answer": "Definitely! Follow the mixing and baking instructions on the back of the box for the best results."
+    }
   ]
+
 }

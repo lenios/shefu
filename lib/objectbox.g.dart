@@ -459,7 +459,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
     id: const obx_int.IdUid(4, 2416326191381789094),
     name: 'Recipe',
-    lastPropertyId: const obx_int.IdUid(22, 6785083818053683859),
+    lastPropertyId: const obx_int.IdUid(23, 5793297687219281229),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
@@ -580,6 +580,12 @@ final _entities = <obx_int.ModelEntity>[
         id: const obx_int.IdUid(22, 6785083818053683859),
         name: 'protein',
         type: 6,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(23, 5793297687219281229),
+        name: 'questions',
+        type: 30,
         flags: 0,
       ),
     ],
@@ -1356,7 +1362,10 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final countryCodeOffset = fbb.writeString(object.countryCode);
         final makeAheadOffset = fbb.writeString(object.makeAhead);
         final videoUrlOffset = fbb.writeString(object.videoUrl);
-        fbb.startTable(23);
+        final questionsOffset = fbb.writeList(
+          object.questions.map(fbb.writeString).toList(growable: false),
+        );
+        fbb.startTable(24);
         fbb.addInt64(0, object.id);
         fbb.addOffset(1, titleOffset);
         fbb.addOffset(2, sourceOffset);
@@ -1377,6 +1386,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
         fbb.addInt64(19, object.restTime);
         fbb.addInt64(20, object.fat);
         fbb.addInt64(21, object.protein);
+        fbb.addOffset(22, questionsOffset);
         fbb.finish(fbb.endTable());
         return object.id;
       },
@@ -1481,6 +1491,10 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final videoUrlParam = const fb.StringReader(
           asciiOptimization: true,
         ).vTableGet(buffer, rootOffset, 38, '');
+        final questionsParam = const fb.ListReader<String>(
+          fb.StringReader(asciiOptimization: true),
+          lazy: false,
+        ).vTableGet(buffer, rootOffset, 48, []);
         final object = Recipe(
           id: idParam,
           title: titleParam,
@@ -1502,6 +1516,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
           month: monthParam,
           makeAhead: makeAheadParam,
           videoUrl: videoUrlParam,
+          questions: questionsParam,
         );
         obx_int.InternalToManyAccess.setRelInfo<Recipe>(
           object.steps,
@@ -2090,6 +2105,11 @@ class Recipe_ {
   /// See [Recipe.protein].
   static final protein = obx.QueryIntegerProperty<Recipe>(
     _entities[3].properties[19],
+  );
+
+  /// See [Recipe.questions].
+  static final questions = obx.QueryStringVectorProperty<Recipe>(
+    _entities[3].properties[20],
   );
 
   /// see [Recipe.steps]

@@ -51,7 +51,7 @@ class AbstractScraper {
       return joinUrl(url, canonicalLink.attributes['href']!);
     }
 
-    Element? ogUrlElement = soup.querySelector('meta[property="og:url"]');
+    Element? ogUrlElement = soup.querySelector('meta[property="og:url"], meta[name="og:url"]');
     if (ogUrlElement != null && ogUrlElement.attributes.containsKey('content')) {
       return ogUrlElement.attributes['content']!;
     }
@@ -163,6 +163,10 @@ class AbstractScraper {
       if (schemaIngredients != null && schemaIngredients.isNotEmpty) {
         return schemaIngredients
             .map((ingredient) => ingredient.replaceAll('((', '(').replaceAll('))', ')'))
+            .where(
+              (ingredient) =>
+                  !(ingredient.toLowerCase().startsWith('for ') && ingredient.endsWith(':')),
+            )
             .toList();
       }
     } catch (e) {
@@ -175,6 +179,10 @@ class AbstractScraper {
       return ingredientElements
           .map((element) => element.text.trim().replaceAll(RegExp(r'\s+'), ' '))
           .where((text) => text.isNotEmpty)
+          .where(
+            (ingredient) =>
+                !(ingredient.toLowerCase().startsWith('for ') && ingredient.endsWith(':')),
+          )
           .toList();
     }
 
@@ -237,9 +245,18 @@ class AbstractScraper {
     return "";
   }
 
-  String makeAhead() {
-    // TODO: Implement makeAhead logic
-    return "";
+  String? makeAhead() {
+    final override = getOverride<String>('makeAhead');
+    if (override != null) {
+      return override;
+    }
+
+    // Try to extract from schema HowtoTip
+    final howtoTip = schema.howtoTip;
+    if (howtoTip != null && howtoTip.startsWith("Storage: ")) {
+      return howtoTip.substring(9).trim();
+    }
+    return null;
   }
 
   String datePublished() {
@@ -456,7 +473,7 @@ class AbstractScraper {
     return equipmentItems.map((item) => item.text.trim()).toList();
   }
 
-  List<IngredientGroup> ingredientGroups() {
+  List<IngredientGroup>? ingredientGroups() {
     // First check if we have an override set
     final override = getOverride<List<IngredientGroup>>('ingredient_groups');
     if (override != null) {
@@ -581,8 +598,47 @@ class AbstractScraper {
     return schema.keywords ?? [];
   }
 
+  List<Map<String, String>> questions() {
+    return schema.questions();
+  }
+
   List<String> stepImages() {
-    return []; // Default empty list, should be overridden by specific scrapers
+    final schema = this.schema;
+    List<String> imageUrls = [];
+
+    // for each step, add the image URL (or empty string if not found) to imageUrls
+    var recipeData = schema.getRecipeData();
+    if (recipeData != null && recipeData.containsKey('recipeInstructions')) {
+      final instructions = recipeData['recipeInstructions'];
+
+      if (instructions is List) {
+        for (final instruction in instructions) {
+          String stepImageUrl = '';
+          if (instruction is Map<String, dynamic> && instruction.containsKey('image')) {
+            final image = instruction['image'];
+            if (image is String) {
+              stepImageUrl = image;
+            } else if (image is List && image.isNotEmpty) {
+              final firstImg = image.first;
+              if (firstImg is String) {
+                stepImageUrl = firstImg;
+              } else if (firstImg is Map && firstImg.containsKey('url')) {
+                stepImageUrl = firstImg['url'] as String? ?? '';
+              }
+            } else if (image is Map && image.containsKey('url')) {
+              stepImageUrl = image['url'] as String? ?? '';
+            }
+          }
+          imageUrls.add(stepImageUrl);
+        }
+        // If all instructions returned '', return empty list
+        if (imageUrls.every((url) => url.isEmpty)) {
+          imageUrls.clear();
+        }
+      }
+    }
+
+    return imageUrls;
   }
 
   /// Links found in the recipe.
@@ -625,9 +681,9 @@ class AbstractScraper {
       jsonDict['ingredients'] = ingredients();
     } catch (e) {}
     try {
-      // if (ingredientGroups().isNotEmpty) {
-      //   jsonDict['ingredient_groups'] = ingredientGroups().map((group) => group.toJson()).toList();
-      // }
+      if (ingredientGroups() != null && ingredientGroups()!.isNotEmpty) {
+        jsonDict['ingredient_groups'] = ingredientGroups()!.map((group) => group.toJson()).toList();
+      }
     } catch (e) {}
     try {
       jsonDict['instructions'] = instructions();
@@ -716,9 +772,16 @@ class AbstractScraper {
         jsonDict['keywords'] = keywords();
       }
     } catch (e) {}
-    // try {
-    //   jsonDict['makeAhead'] = makeAhead().isNotEmpty ? makeAhead() : null;
-    // } catch (e) {}
+    try {
+      if (questions().isNotEmpty) {
+        jsonDict['questions'] = questions();
+      }
+    } catch (e) {}
+    try {
+      if (makeAhead() != null && makeAhead()!.isNotEmpty) {
+        jsonDict['makeAhead'] = makeAhead();
+      }
+    } catch (e) {}
     try {
       final linksList = links();
       if (linksList.isNotEmpty) {

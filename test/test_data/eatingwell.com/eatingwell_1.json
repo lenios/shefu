@@ -44,5 +44,10 @@
     "cholesterolContent": "86 mg"
   },
   "image": "https://www.eatingwell.com/thmb/32d8L6W6cwt652tjjXAHosP3ViE=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/cheesy-ground-beef-and-cauliflower-casserole-8791b22c92404d958e2ac5aa92af8aa7.jpg",
+  "step_images": [
+    "",
+    "",
+    "https://www.eatingwell.com/thmb/32d8L6W6cwt652tjjXAHosP3ViE=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/cheesy-ground-beef-and-cauliflower-casserole-8791b22c92404d958e2ac5aa92af8aa7.jpg"
+  ],
   "video": "https://content.jwplatform.com/videos/1op2ypJN-ZrSBkzFI.mp4"
 }

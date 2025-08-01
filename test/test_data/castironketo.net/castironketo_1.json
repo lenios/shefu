@@ -52,5 +52,35 @@
     "keto",
     "keto casserole",
     "low carb"
-  ]
-}
+  ],
+    "questions": [
+      {
+        "question": "<strong>Do jalapenos have carbs?</strong>",
+        "answer": "Yes, jalapenos contain low carbohydrates, with about 1 gram of net carbs in a medium-sized pepper. The majority of their carbs come from dietary fiber. Moderately including jalapenos in a keto or low-carb diet won't greatly affect carb intake."
+      },
+      {
+        "question": "<strong>Can I adjust the spiciness of the casserole?</strong>",
+        "answer": "Yes, you can adjust the spiciness of the casserole to your liking. Remove jalapeno seeds and membranes for milder heat, or add more jalapenos for extra spiciness."
+      },
+      {
+        "question": "<strong>Can I add other vegetables to the casserole?</strong>",
+        "answer": "Absolutely! You can customize the recipe for flavor and nutrition by adding vegetables like diced bell peppers, spinach, or mushrooms."
+      },
+      {
+        "question": "<strong>Can I store the leftovers?</strong>",
+        "answer": "Yes! Leftovers can be stored in an airtight container in the refrigerator for up to 3-4 days. Reheat individual portions in the microwave or oven."
+      },
+      {
+        "question": "<strong>Can I make this casserole ahead of time?</strong>",
+        "answer": "Yes, you can prepare the casserole ahead of time and refrigerate it. When ready to serve, reheat it in the oven until warmed."
+      },
+      {
+        "question": "<strong>Can I use substitutes for cream cheese in the casserole?</strong>",
+        "answer": "Yes, you can use alternative options like Greek yogurt, sour cream, or a dairy-free cream cheese substitute to suit your dietary needs or preferences."
+      },
+      {
+        "question": "<strong>Are jalapenos hotter than bell peppers?</strong>",
+        "answer": "Yes, jalapenos are hotter than bell peppers. Jalapenos fall into the medium heat range, while bell peppers are mild."
+      }
+    ]
+    }

@@ -26,12 +26,14 @@
     "Dorez les croissants avec l’œuf battu.",
     "Enfournez 15 à 20 min à 200 °C chaleur tournante."
   ],
-  "image": "https://www.lacuisinedessouvenirs.com/wp-content/uploads/2025/07/Croissants-au-beurre-maison-1.webp",
+  "image": "https://www.lacuisinedessouvenirs.com/wp-content/uploads/2025/07/Croissants-au-beurre-maison-1-225x225.webp",
   "yields": "12",
   "cook_time": 20,
   "total_time": 0,
   "prep_time": 0,
   "category": "Viennoiseries",
+  "cuisine": "Française",
+  "cooking_method": "Cuisson au four",
   "nutrients": {
     "servingSize": "1 croissant",
     "calories": "280 calories",
@@ -45,5 +47,11 @@
     "fiberContent": "1g",
     "proteinContent": "5g",
     "cholesterolContent": "45mg"
-  }
+  },
+  "keywords": [
+    "croissants au beurre maison",
+    "croissants maison",
+    "recette de croissants",
+    "viennoiserie maison"
+  ]
 }

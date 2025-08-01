@@ -221,5 +221,6 @@
     "disableCookMode": "クッキングモードを終了",
     "optional": "オプション",
     "export": "エクスポート",
-    "generatingPdf": "PDFを生成しています..."
+    "generatingPdf": "PDFを生成しています...",
+    "questions": "質問"
 }
