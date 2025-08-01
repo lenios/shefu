@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:http/http.dart' as http;
+import 'package:shefu/utils/recipe_scrapers/scrapers/giallozafferano.dart';
 import 'abstract_scraper.dart';
 import 'package:shefu/utils/recipe_scrapers/scrapers/abeautifulmess.com.dart';
 import 'package:shefu/utils/recipe_scrapers/scrapers/allrecipes.com.dart';
@@ -32,6 +33,7 @@ class ScraperFactory {
     "cambreabakes.com": AbstractScraper.new,
     "castironketo.net": AbstractScraper.new,
     "cdkitchen.com": AbstractScraper.new,
+    "chefsimon.com": AbstractScraper.new,
     "cookpad.com": CookpadScraper.new,
     "cuisine.journaldesfemmes.fr": AbstractScraper.new,
     "cuisineaz.com": AbstractScraper.new,
@@ -39,6 +41,7 @@ class ScraperFactory {
     "eatingwell.com": AbstractScraper.new,
     "evolvingtable.com": AbstractScraper.new,
     "foodnetwork.co.uk": AbstractScraper.new,
+    "giallozafferano.fr": GiallozafferanoScraper.new,
     "greatbritishchefs.com": AbstractScraper.new,
     "kitchenstories.com": AbstractScraper.new,
     "kochbar.de": AbstractScraper.new,

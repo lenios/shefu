@@ -50,9 +50,6 @@ Documentation will come later.
 
 Supported Recipe Websites for import:
 
-<table>
-  <tr>
-    <td valign="top">
 
 | USA 🇺🇸 Supported Website **(28)** |
 |-------------------|
@@ -86,23 +83,19 @@ Supported Recipe Websites for import:
 | ✅ [ZestfulKitchen.com](https://www.zestfulkitchen.com) |
 | More sites 🚧 In progress |
 
-</td>
-<td valign="top">
-
-| France 🇫🇷 Supported Website **(8)** |
+| France 🇫🇷 Supported Website **(10)** |
 |-------------------|
 | ✅ [750g.com](https://www.750g.com) |
 | ✅ [Atelierdeschefs.fr](https://www.atelierdeschefs.fr) |
+| ✅ [Chefsimon.com](https://www.chefsimon.com) |
 | ✅ [Cuisineaz.com](https://www.cuisineaz.com) |
 | ✅ [Cuisine.journaldesfemmes.fr](https://cuisine.journaldesfemmes.fr) |
+| ✅ [Giallozafferano.fr](https://www.giallozafferano.fr) |
 | ✅ [Marmiton.org](https://www.marmiton.com) |
 | ✅ [Lacuisinedessouvenirs.com](https://www.lacuisinedessouvenirs.com) |
 | ✅ [Ptitchef.com](https://www.ptitchef.com) |
 | ✅ [Supertoinette.com](https://www.supertoinette.com) |
 | More sites 🚧 In progress |
-
-</td>
-<td valign="top">
 
 | Other Supported Websites **(12)** | Country |
 |-------------------|:--------|
@@ -119,10 +112,6 @@ Supported Recipe Websites for import:
 | ✅ [Zeit.de](https://www.zeit.de) | 🇩🇪 Germany |
 | ✅ [Cookpad.com](https://www.cookpad.com) | 🌏 World |
 | More sites | 🚧 In progress |
-
-</td>
-  </tr>
-</table>
 
 
 **Recipe scraping now follows/uses https://github.com/hhursev/recipe-scrapers format to support as much websites as possible.**

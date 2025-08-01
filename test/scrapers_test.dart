@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shefu/utils/recipe_scrapers/abstract_scraper.dart';
 import 'package:shefu/utils/recipe_scrapers/scrapers/cookpad.dart';
+import 'package:shefu/utils/recipe_scrapers/scrapers/giallozafferano.dart';
 import 'package:shefu/utils/recipe_scrapers/scrapers/lacuisinedessouvenirs.com.dart';
 import 'package:shefu/utils/recipe_scrapers/scrapers/seriouseats.dart';
 import 'package:shefu/utils/recipe_scrapers/scrapers/marmiton.dart';
@@ -103,6 +104,7 @@ void main() {
     'castironketo.net': ((html, url) => AbstractScraper(html, url), 1),
     'cakemehometonight.com': ((html, url) => AbstractScraper(html, url), 2),
     'cdkitchen.com': ((html, url) => AbstractScraper(html, url), 1),
+    'chefsimon.com': ((html, url) => AbstractScraper(html, url), 1),
     'cookpad.com': ((html, url) => CookpadScraper(html, url), 2),
     'cuisineaz.com': ((html, url) => AbstractScraper(html, url), 1),
     'cuisine.journaldesfemmes.fr': ((html, url) => AbstractScraper(html, url), 1),
@@ -110,6 +112,7 @@ void main() {
     'eatingwell.com': ((html, url) => AbstractScraper(html, url), 1),
     'evolvingtable.com': ((html, url) => AbstractScraper(html, url), 2),
     'foodnetwork.co.uk': ((html, url) => AbstractScraper(html, url), 1),
+    'giallozafferano.fr': ((html, url) => GiallozafferanoScraper(html, url), 1),
     'greatbritishchefs.com': ((html, url) => AbstractScraper(html, url), 1),
     'kitchenstories.com': ((html, url) => AbstractScraper(html, url), 1),
     'kochbar.de': ((html, url) => AbstractScraper(html, url), 1),

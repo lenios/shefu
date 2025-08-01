@@ -1,0 +1,3294 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <script type="text/javascript">
+    window.NREUM || (NREUM = {});
+    NREUM.info = {
+        "beacon": "bam.nr-data.net",
+        "errorBeacon": "bam.nr-data.net",
+        "licenseKey": "NRJS-e86eeb1d9764caab06e",
+        "applicationID": "1081200860",
+        "transactionName": "ew5ZRkpZCFlSQRtBA1sIR1dLGRddWEQ=",
+        "queueTime": 2,
+        "applicationTime": 10,
+        "agent": ""
+    }
+    </script>
+    <script type="text/javascript">
+    (window.NREUM || (NREUM = {})).init = {
+        privacy: {
+            cookies_enabled: true
+        },
+        ajax: {
+            deny_list: ["bam.nr-data.net"]
+        }
+    };
+    (window.NREUM || (NREUM = {})).loader_config = {
+        licenseKey: "NRJS-e86eeb1d9764caab06e",
+        applicationID: "1081200860"
+    };
+    ; /*! For license information please see nr-loader-rum-1.293.0.min.js.LICENSE.txt */
+    (() => {
+        var e,
+            t,
+            r = {
+                122: (e, t, r) => {
+                    "use strict";
+                    r.d(t, {
+                        a: () => i
+                    });
+                    var n = r(944);
+                    function i(e, t) {
+                        try {
+                            if (!e || "object" != typeof e)
+                                return (0, n.R)(3);
+                            if (!t || "object" != typeof t)
+                                return (0, n.R)(4);
+                            const r = Object.create(Object.getPrototypeOf(t), Object.getOwnPropertyDescriptors(t)),
+                                a = 0 === Object.keys(r).length ? e : r;
+                            for (let o in a)
+                                if (void 0 !== e[o])
+                                    try {
+                                        if (null === e[o]) {
+                                            r[o] = null;
+                                            continue
+                                        }
+                                        Array.isArray(e[o]) && Array.isArray(t[o]) ? r[o] = Array.from(new Set([...e[o], ...t[o]])) : "object" == typeof e[o] && "object" == typeof t[o] ? r[o] = i(e[o], t[o]) : r[o] = e[o]
+                                    } catch (e) {
+                                        r[o] || (0, n.R)(1, e)
+                                    }
+                            return r
+                        } catch (e) {
+                            (0, n.R)(2, e)
+                        }
+                    }
+                },
+                555: (e, t, r) => {
+                    "use strict";
+                    r.d(t, {
+                        D: () => s,
+                        f: () => o
+                    });
+                    var n = r(384),
+                        i = r(122);
+                    const a = {
+                        beacon: n.NT.beacon,
+                        errorBeacon: n.NT.errorBeacon,
+                        licenseKey: void 0,
+                        applicationID: void 0,
+                        sa: void 0,
+                        queueTime: void 0,
+                        applicationTime: void 0,
+                        ttGuid: void 0,
+                        user: void 0,
+                        account: void 0,
+                        product: void 0,
+                        extra: void 0,
+                        jsAttributes: {},
+                        userAttributes: void 0,
+                        atts: void 0,
+                        transactionName: void 0,
+                        tNamePlain: void 0
+                    };
+                    function o(e) {
+                        try {
+                            return !!e.licenseKey && !!e.errorBeacon && !!e.applicationID
+                        } catch (e) {
+                            return !1
+                        }
+                    }
+                    const s = e => (0, i.a)(e, a)
+                },
+                324: (e, t, r) => {
+                    "use strict";
+                    r.d(t, {
+                        F3: () => i,
+                        Xs: () => a,
+                        xv: () => n
+                    });
+                    const n = "1.293.0",
+                        i = "PROD",
+                        a = "CDN"
+                },
+                154: (e, t, r) => {
+                    "use strict";
+                    r.d(t, {
+                        OF: () => c,
+                        RI: () => i,
+                        WN: () => d,
+                        bv: () => a,
+                        gm: () => o,
+                        mw: () => s,
+                        sb: () => u
+                    });
+                    var n = r(863);
+                    const i = "undefined" != typeof window && !!window.document,
+                        a = "undefined" != typeof WorkerGlobalScope && ("undefined" != typeof self && self instanceof WorkerGlobalScope && self.navigator instanceof WorkerNavigator || "undefined" != typeof globalThis && globalThis instanceof WorkerGlobalScope && globalThis.navigator instanceof WorkerNavigator),
+                        o = i ? window : "undefined" != typeof WorkerGlobalScope && ("undefined" != typeof self && self instanceof WorkerGlobalScope && self || "undefined" != typeof globalThis && globalThis instanceof WorkerGlobalScope && globalThis),
+                        s = Boolean("hidden"===o?.document?.visibilityState),
+                        c = /iPad|iPhone|iPod/.test(o.navigator?.userAgent),
+                        u = c && "undefined" == typeof SharedWorker,
+                        d = ((() => {
+                            const e=o.navigator?.userAgent?.match(/Firefox[/\s](\d+\.\d+)/);
+                            Array.isArray(e) && e.length >= 2 && e[1]
+                        })(), Date.now() - (0, n.t)())
+                },
+                241: (e, t, r) => {
+                    "use strict";
+                    r.d(t, {
+                        W: () => a
+                    });
+                    var n = r(154);
+                    const i = "newrelic";
+                    function a(e={}) {
+                        try {
+                            n.gm.dispatchEvent(new CustomEvent(i, {
+                                detail: e
+                            }))
+                        } catch (e) {}
+                    }
+                },
+                687: (e, t, r) => {
+                    "use strict";
+                    r.d(t, {
+                        Ak: () => u,
+                        Ze: () => f,
+                        x3: () => d
+                    });
+                    var n = r(241),
+                        i = r(836),
+                        a = r(606),
+                        o = r(860),
+                        s = r(646);
+                    const c = {};
+                    function u(e, t) {
+                        const r = {
+                            staged: !1,
+                            priority: o.P3[t] || 0
+                        };
+                        l(e),
+                        c[e].get(t) || c[e].set(t, r)
+                    }
+                    function d(e, t) {
+                        e && c[e] && (c[e].get(t) && c[e].delete(t), p(e, t, !1), c[e].size && g(e))
+                    }
+                    function l(e) {
+                        if (!e)
+                            throw new Error("agentIdentifier required");
+                        c[e] || (c[e] = new Map)
+                    }
+                    function f(e="", t="feature", r=!1) {
+                        if (l(e), !e || !c[e].get(t) || r)
+                            return p(e, t);
+                        c[e].get(t).staged = !0,
+                        g(e)
+                    }
+                    function g(e) {
+                        const t = Array.from(c[e]);
+                        t.every((([e, t]) => t.staged)) && (t.sort(((e, t) => e[1].priority - t[1].priority)), t.forEach((([t]) => {
+                            c[e].delete(t),
+                            p(e, t)
+                        })))
+                    }
+                    function p(e, t, r=!0) {
+                        const o = e ? i.ee.get(e) : i.ee,
+                            c = a.i.handlers;
+                        if (!o.aborted && o.backlog && c) {
+                            if ((0, n.W)({
+                                agentIdentifier: e,
+                                type: "lifecycle",
+                                name: "drain",
+                                feature: t
+                            }), r) {
+                                const e = o.backlog[t],
+                                    r = c[t];
+                                if (r) {
+                                    for (let t = 0; e && t < e.length; ++t)
+                                        m(e[t], r);
+                                    Object.entries(r).forEach((([e, t]) => {
+                                        Object.values(t || {}).forEach((t => {
+                                            t[0]?.on && t[0]?.context() instanceof s.y && t[0].on(e, t[1])
+                                        }))
+                                    }))
+                                }
+                            }
+                            o.isolatedBacklog || delete c[t],
+                            o.backlog[t] = null,
+                            o.emit("drain-" + t, [])
+                        }
+                    }
+                    function m(e, t) {
+                        var r = e[1];
+                        Object.values(t[r] || {}).forEach((t => {
+                            var r = e[0];
+                            if (t[0] === r) {
+                                var n = t[1],
+                                    i = e[3],
+                                    a = e[2];
+                                n.apply(i, a)
+                            }
+                        }))
+                    }
+                },
+                836: (e, t, r) => {
+                    "use strict";
+                    r.d(t, {
+                        P: () => s,
+                        ee: () => c
+                    });
+                    var n = r(384),
+                        i = r(990),
+                        a = r(646),
+                        o = r(607);
+                    const s = "nr@context:".concat(o.W),
+                        c = function e(t, r) {
+                            var n = {},
+                                o = {},
+                                d = {},
+                                l = !1;
+                            try {
+                                l = 16 === r.length&&u.initializedAgents?.[r]?.runtime.isolatedBacklog
+                            } catch (e) {}
+                            var f = {
+                                on: p,
+                                addEventListener: p,
+                                removeEventListener: function(e, t) {
+                                    var r = n[e];
+                                    if (!r)
+                                        return;
+                                    for (var i = 0; i < r.length; i++)
+                                        r[i] === t && r.splice(i, 1)
+                                },
+                                emit: function(e, r, n, i, a) {
+                                    !1 !== a && (a = !0);
+                                    if (c.aborted && !i)
+                                        return;
+                                    t && a && t.emit(e, r, n);
+                                    for (var s = g(n), u = m(e), d = u.length, l = 0; l < d; l++)
+                                        u[l].apply(s, r);
+                                    var p = v()[o[e]];
+                                    p && p.push([f, e, r, s]);
+                                    return s
+                                },
+                                get: h,
+                                listeners: m,
+                                context: g,
+                                buffer: function(e, t) {
+                                    const r = v();
+                                    if (t = t || "feature", f.aborted)
+                                        return;
+                                    Object.entries(e || {}).forEach((([e, n]) => {
+                                        o[n] = t,
+                                        t in r || (r[t] = [])
+                                    }))
+                                },
+                                abort: function() {
+                                    f._aborted = !0,
+                                    Object.keys(f.backlog).forEach((e => {
+                                        delete f.backlog[e]
+                                    }))
+                                },
+                                isBuffering: function(e) {
+                                    return !!v()[o[e]]
+                                },
+                                debugId: r,
+                                backlog: l ? {} : t && "object" == typeof t.backlog ? t.backlog : {},
+                                isolatedBacklog: l
+                            };
+                            return Object.defineProperty(f, "aborted", {
+                                get: () => {
+                                    let e = f._aborted || !1;
+                                    return e || (t && (e = t.aborted), e)
+                                }
+                            }), f;
+                            function g(e) {
+                                return e && e instanceof a.y ? e : e ? (0, i.I)(e, s, (() => new a.y(s))) : new a.y(s)
+                            }
+                            function p(e, t) {
+                                n[e] = m(e).concat(t)
+                            }
+                            function m(e) {
+                                return n[e] || []
+                            }
+                            function h(t) {
+                                return d[t] = d[t] || e(f, t)
+                            }
+                            function v() {
+                                return f.backlog
+                            }
+                        }(void 0, "globalEE"),
+                        u = (0, n.Zm)();
+                    u.ee || (u.ee = c)
+                },
+                646: (e, t, r) => {
+                    "use strict";
+                    r.d(t, {
+                        y: () => n
+                    });
+                    class n {
+                        constructor(e)
+                        {
+                            this.contextId = e
+                        }
+                    }
+                },
+                908: (e, t, r) => {
+                    "use strict";
+                    r.d(t, {
+                        d: () => n,
+                        p: () => i
+                    });
+                    var n = r(836).ee.get("handle");
+                    function i(e, t, r, i, a) {
+                        a ? (a.buffer([e], i), a.emit(e, t, r)) : (n.buffer([e], i), n.emit(e, t, r))
+                    }
+                },
+                606: (e, t, r) => {
+                    "use strict";
+                    r.d(t, {
+                        i: () => a
+                    });
+                    var n = r(908);
+                    a.on = o;
+                    var i = a.handlers = {};
+                    function a(e, t, r, a) {
+                        o(a || n.d, i, e, t, r)
+                    }
+                    function o(e, t, r, i, a) {
+                        a || (a = "feature"),
+                        e || (e = n.d);
+                        var o = t[a] = t[a] || {};
+                        (o[r] = o[r] || []).push([e, i])
+                    }
+                },
+                878: (e, t, r) => {
+                    "use strict";
+                    function n(e, t) {
+                        return {
+                            capture: e,
+                            passive: !1,
+                            signal: t
+                        }
+                    }
+                    function i(e, t, r=!1, i) {
+                        window.addEventListener(e, t, n(r, i))
+                    }
+                    function a(e, t, r=!1, i) {
+                        document.addEventListener(e, t, n(r, i))
+                    }
+                    r.d(t, {
+                        DD: () => a,
+                        jT: () => n,
+                        sp: () => i
+                    })
+                },
+                607: (e, t, r) => {
+                    "use strict";
+                    r.d(t, {
+                        W: () => n
+                    });
+                    const n = (0, r(566).bz)()
+                },
+                566: (e, t, r) => {
+                    "use strict";
+                    r.d(t, {
+                        LA: () => s,
+                        bz: () => o
+                    });
+                    var n = r(154);
+                    const i = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx";
+                    function a(e, t) {
+                        return e ? 15 & e[t] : 16 * Math.random() | 0
+                    }
+                    function o() {
+                        const e = n.gm?.crypto||n.gm?.msCrypto;
+                        let t,
+                            r = 0;
+                        return e && e.getRandomValues && (t = e.getRandomValues(new Uint8Array(30))), i.split("").map((e => "x" === e ? a(t, r++).toString(16) : "y" === e ? (3 & a() | 8).toString(16) : e)).join("")
+                    }
+                    function s(e) {
+                        const t = n.gm?.crypto||n.gm?.msCrypto;
+                        let r,
+                            i = 0;
+                        t && t.getRandomValues && (r = t.getRandomValues(new Uint8Array(e)));
+                        const o = [];
+                        for (var s = 0; s < e; s++)
+                            o.push(a(r, i++).toString(16));
+                        return o.join("")
+                    }
+                },
+                614: (e, t, r) => {
+                    "use strict";
+                    r.d(t, {
+                        BB: () => o,
+                        H3: () => n,
+                        g: () => u,
+                        iL: () => c,
+                        tS: () => s,
+                        uh: () => i,
+                        wk: () => a
+                    });
+                    const n = "NRBA",
+                        i = "SESSION",
+                        a = 144e5,
+                        o = 18e5,
+                        s = {
+                            STARTED: "session-started",
+                            PAUSE: "session-pause",
+                            RESET: "session-reset",
+                            RESUME: "session-resume",
+                            UPDATE: "session-update"
+                        },
+                        c = {
+                            SAME_TAB: "same-tab",
+                            CROSS_TAB: "cross-tab"
+                        },
+                        u = {
+                            OFF: 0,
+                            FULL: 1,
+                            ERROR: 2
+                        }
+                },
+                863: (e, t, r) => {
+                    "use strict";
+                    function n() {
+                        return Math.floor(performance.now())
+                    }
+                    r.d(t, {
+                        t: () => n
+                    })
+                },
+                944: (e, t, r) => {
+                    "use strict";
+                    r.d(t, {
+                        R: () => i
+                    });
+                    var n = r(241);
+                    function i(e, t) {
+                        "function" == typeof console.debug && (console.debug("New Relic Warning: https://github.com/newrelic/newrelic-browser-agent/blob/main/docs/warning-codes.md#".concat(e), t), (0, n.W)({
+                            agentIdentifier: null,
+                            drained: null,
+                            type: "data",
+                            name: "warn",
+                            feature: "warn",
+                            data: {
+                                code: e,
+                                secondary: t
+                            }
+                        }))
+                    }
+                },
+                701: (e, t, r) => {
+                    "use strict";
+                    r.d(t, {
+                        B: () => a,
+                        t: () => o
+                    });
+                    var n = r(241);
+                    const i = new Set,
+                        a = {};
+                    function o(e, t) {
+                        const r = t.agentIdentifier;
+                        a[r] ??= {},
+                        e && "object" == typeof e && (i.has(r) || (t.ee.emit("rumresp", [e]), a[r] = e, i.add(r), (0, n.W)({
+                            agentIdentifier: r,
+                            loaded: !0,
+                            drained: !0,
+                            type: "lifecycle",
+                            name: "load",
+                            feature: void 0,
+                            data: e
+                        })))
+                    }
+                },
+                990: (e, t, r) => {
+                    "use strict";
+                    r.d(t, {
+                        I: () => i
+                    });
+                    var n = Object.prototype.hasOwnProperty;
+                    function i(e, t, r) {
+                        if (n.call(e, t))
+                            return e[t];
+                        var i = r();
+                        if (Object.defineProperty && Object.keys)
+                            try {
+                                return Object.defineProperty(e, t, {
+                                    value: i,
+                                    writable: !0,
+                                    enumerable: !1
+                                }), i
+                            } catch (e) {}
+                        return e[t] = i, i
+                    }
+                },
+                389: (e, t, r) => {
+                    "use strict";
+                    function n(e, t=500, r={}) {
+                        const n = r?.leading || !1;
+                        let i;
+                        return (...r) => {
+                            n && void 0 === i && (e.apply(this, r), i = setTimeout((() => {
+                                i = clearTimeout(i)
+                            }), t)),
+                            n || (clearTimeout(i), i = setTimeout((() => {
+                                e.apply(this, r)
+                            }), t))
+                        }
+                    }
+                    function i(e) {
+                        let t = !1;
+                        return (...r) => {
+                            t || (t = !0, e.apply(this, r))
+                        }
+                    }
+                    r.d(t, {
+                        J: () => i,
+                        s: () => n
+                    })
+                },
+                289: (e, t, r) => {
+                    "use strict";
+                    r.d(t, {
+                        GG: () => a,
+                        Qr: () => s,
+                        sB: () => o
+                    });
+                    var n = r(878);
+                    function i() {
+                        return "undefined" == typeof document || "complete" === document.readyState
+                    }
+                    function a(e, t) {
+                        if (i())
+                            return e();
+                        (0, n.sp)("load", e, t)
+                    }
+                    function o(e) {
+                        if (i())
+                            return e();
+                        (0, n.DD)("DOMContentLoaded", e)
+                    }
+                    function s(e) {
+                        if (i())
+                            return e();
+                        (0, n.sp)("popstate", e)
+                    }
+                },
+                384: (e, t, r) => {
+                    "use strict";
+                    r.d(t, {
+                        NT: () => a,
+                        US: () => u,
+                        Zm: () => o,
+                        bQ: () => c,
+                        dV: () => s,
+                        pV: () => d
+                    });
+                    var n = r(154),
+                        i = r(863);
+                    const a = {
+                        beacon: "bam.nr-data.net",
+                        errorBeacon: "bam.nr-data.net"
+                    };
+                    function o() {
+                        return n.gm.NREUM || (n.gm.NREUM = {}), void 0 === n.gm.newrelic && (n.gm.newrelic = n.gm.NREUM), n.gm.NREUM
+                    }
+                    function s() {
+                        let e = o();
+                        return e.o || (e.o = {
+                            ST: n.gm.setTimeout,
+                            SI: n.gm.setImmediate,
+                            CT: n.gm.clearTimeout,
+                            XHR: n.gm.XMLHttpRequest,
+                            REQ: n.gm.Request,
+                            EV: n.gm.Event,
+                            PR: n.gm.Promise,
+                            MO: n.gm.MutationObserver,
+                            FETCH: n.gm.fetch,
+                            WS: n.gm.WebSocket
+                        }), e
+                    }
+                    function c(e, t) {
+                        let r = o();
+                        r.initializedAgents ??= {},
+                        t.initializedAt = {
+                            ms: (0, i.t)(),
+                            date: new Date
+                        },
+                        r.initializedAgents[e] = t
+                    }
+                    function u(e, t) {
+                        o()[e] = t
+                    }
+                    function d() {
+                        return function() {
+                            let e = o();
+                            const t = e.info || {};
+                            e.info = {
+                                beacon: a.beacon,
+                                errorBeacon: a.errorBeacon,
+                                ...t
+                            }
+                        }(), function() {
+                            let e = o();
+                            const t = e.init || {};
+                            e.init = {
+                                ...t
+                            }
+                        }(), s(), function() {
+                            let e = o();
+                            const t = e.loader_config || {};
+                            e.loader_config = {
+                                ...t
+                            }
+                        }(), o()
+                    }
+                },
+                843: (e, t, r) => {
+                    "use strict";
+                    r.d(t, {
+                        u: () => i
+                    });
+                    var n = r(878);
+                    function i(e, t=!1, r, i) {
+                        (0, n.DD)("visibilitychange", (function() {
+                            if (t)
+                                return void ("hidden" === document.visibilityState && e());
+                            e(document.visibilityState)
+                        }), r, i)
+                    }
+                },
+                773: (e, t, r) => {
+                    "use strict";
+                    r.d(t, {
+                        z_: () => a,
+                        XG: () => s,
+                        TZ: () => n,
+                        rs: () => i,
+                        xV: () => o
+                    });
+                    r(154),
+                    r(566),
+                    r(384);
+                    const n = r(860).K7.metrics,
+                        i = "sm",
+                        a = "cm",
+                        o = "storeSupportabilityMetrics",
+                        s = "storeEventMetrics"
+                },
+                630: (e, t, r) => {
+                    "use strict";
+                    r.d(t, {
+                        T: () => n
+                    });
+                    const n = r(860).K7.pageViewEvent
+                },
+                782: (e, t, r) => {
+                    "use strict";
+                    r.d(t, {
+                        T: () => n
+                    });
+                    const n = r(860).K7.pageViewTiming
+                },
+                234: (e, t, r) => {
+                    "use strict";
+                    r.d(t, {
+                        W: () => a
+                    });
+                    var n = r(836),
+                        i = r(687);
+                    class a {
+                        constructor(e, t)
+                        {
+                            this.agentIdentifier = e,
+                            this.ee = n.ee.get(e),
+                            this.featureName = t,
+                            this.blocked = !1
+                        }
+                        deregisterDrain()
+                        {
+                            (0, i.x3)(this.agentIdentifier, this.featureName)
+                        }
+                    }
+                },
+                741: (e, t, r) => {
+                    "use strict";
+                    r.d(t, {
+                        W: () => a
+                    });
+                    var n = r(944),
+                        i = r(261);
+                    class a {
+                        #e(e, ...t)
+                        {
+                            if (this[e] !== a.prototype[e])
+                                return this[e](...t);
+                            (0, n.R)(35, e)
+                        }
+                        addPageAction(e, t)
+                        {
+                            return this.#e(i.hG, e, t)
+                        }
+                        register(e)
+                        {
+                            return this.#e(i.eY, e)
+                        }
+                        recordCustomEvent(e, t)
+                        {
+                            return this.#e(i.fF, e, t)
+                        }
+                        setPageViewName(e, t)
+                        {
+                            return this.#e(i.Fw, e, t)
+                        }
+                        setCustomAttribute(e, t, r)
+                        {
+                            return this.#e(i.cD, e, t, r)
+                        }
+                        noticeError(e, t)
+                        {
+                            return this.#e(i.o5, e, t)
+                        }
+                        setUserId(e)
+                        {
+                            return this.#e(i.Dl, e)
+                        }
+                        setApplicationVersion(e)
+                        {
+                            return this.#e(i.nb, e)
+                        }
+                        setErrorHandler(e)
+                        {
+                            return this.#e(i.bt, e)
+                        }
+                        addRelease(e, t)
+                        {
+                            return this.#e(i.k6, e, t)
+                        }
+                        log(e, t)
+                        {
+                            return this.#e(i.$9, e, t)
+                        }
+                        start()
+                        {
+                            return this.#e(i.d3)
+                        }
+                        finished(e)
+                        {
+                            return this.#e(i.BL, e)
+                        }
+                        recordReplay()
+                        {
+                            return this.#e(i.CH)
+                        }
+                        pauseReplay()
+                        {
+                            return this.#e(i.Tb)
+                        }
+                        addToTrace(e)
+                        {
+                            return this.#e(i.U2, e)
+                        }
+                        setCurrentRouteName(e)
+                        {
+                            return this.#e(i.PA, e)
+                        }
+                        interaction()
+                        {
+                            return this.#e(i.dT)
+                        }
+                        wrapLogger(e, t, r)
+                        {
+                            return this.#e(i.Wb, e, t, r)
+                        }
+                        measure(e, t)
+                        {
+                            return this.#e(i.V1, e, t)
+                        }
+                    }
+                },
+                261: (e, t, r) => {
+                    "use strict";
+                    r.d(t, {
+                        $9: () => u,
+                        BL: () => s,
+                        CH: () => g,
+                        Dl: () => _,
+                        Fw: () => y,
+                        PA: () => h,
+                        Pl: () => n,
+                        Tb: () => l,
+                        U2: () => a,
+                        V1: () => k,
+                        Wb: () => x,
+                        bt: () => b,
+                        cD: () => v,
+                        d3: () => w,
+                        dT: () => c,
+                        eY: () => p,
+                        fF: () => f,
+                        hG: () => i,
+                        k6: () => o,
+                        nb: () => m,
+                        o5: () => d
+                    });
+                    const n = "api-",
+                        i = "addPageAction",
+                        a = "addToTrace",
+                        o = "addRelease",
+                        s = "finished",
+                        c = "interaction",
+                        u = "log",
+                        d = "noticeError",
+                        l = "pauseReplay",
+                        f = "recordCustomEvent",
+                        g = "recordReplay",
+                        p = "register",
+                        m = "setApplicationVersion",
+                        h = "setCurrentRouteName",
+                        v = "setCustomAttribute",
+                        b = "setErrorHandler",
+                        y = "setPageViewName",
+                        _ = "setUserId",
+                        w = "start",
+                        x = "wrapLogger",
+                        k = "measure"
+                },
+                163: (e, t, r) => {
+                    "use strict";
+                    r.d(t, {
+                        j: () => E
+                    });
+                    var n = r(384),
+                        i = r(741);
+                    var a = r(555);
+                    r(860).K7.genericEvents;
+                    const o = "experimental.marks",
+                        s = "experimental.measures",
+                        c = "experimental.resources",
+                        u = e => {
+                            if (!e || "string" != typeof e)
+                                return !1;
+                            try {
+                                document.createDocumentFragment().querySelector(e)
+                            } catch {
+                                return !1
+                            }
+                            return !0
+                        };
+                    var d = r(614),
+                        l = r(944),
+                        f = r(122);
+                    const g = "[data-nr-mask]",
+                        p = e => (0, f.a)(e, (() => {
+                            const e = {
+                                feature_flags: [],
+                                experimental: {
+                                    marks: !1,
+                                    measures: !1,
+                                    resources: !1
+                                },
+                                mask_selector: "*",
+                                block_selector: "[data-nr-block]",
+                                mask_input_options: {
+                                    color: !1,
+                                    date: !1,
+                                    "datetime-local": !1,
+                                    email: !1,
+                                    month: !1,
+                                    number: !1,
+                                    range: !1,
+                                    search: !1,
+                                    tel: !1,
+                                    text: !1,
+                                    time: !1,
+                                    url: !1,
+                                    week: !1,
+                                    textarea: !1,
+                                    select: !1,
+                                    password: !0
+                                }
+                            };
+                            return {
+                                ajax: {
+                                    deny_list: void 0,
+                                    block_internal: !0,
+                                    enabled: !0,
+                                    autoStart: !0
+                                },
+                                api: {
+                                    allow_registered_children: !0,
+                                    duplicate_registered_data: !1
+                                },
+                                distributed_tracing: {
+                                    enabled: void 0,
+                                    exclude_newrelic_header: void 0,
+                                    cors_use_newrelic_header: void 0,
+                                    cors_use_tracecontext_headers: void 0,
+                                    allowed_origins: void 0
+                                },
+                                get feature_flags() {
+                                    return e.feature_flags
+                                },
+                                set feature_flags(t) {
+                                    e.feature_flags = t
+                                },
+                                generic_events: {
+                                    enabled: !0,
+                                    autoStart: !0
+                                },
+                                harvest: {
+                                    interval: 30
+                                },
+                                jserrors: {
+                                    enabled: !0,
+                                    autoStart: !0
+                                },
+                                logging: {
+                                    enabled: !0,
+                                    autoStart: !0
+                                },
+                                metrics: {
+                                    enabled: !0,
+                                    autoStart: !0
+                                },
+                                obfuscate: void 0,
+                                page_action: {
+                                    enabled: !0
+                                },
+                                page_view_event: {
+                                    enabled: !0,
+                                    autoStart: !0
+                                },
+                                page_view_timing: {
+                                    enabled: !0,
+                                    autoStart: !0
+                                },
+                                performance: {
+                                    get capture_marks() {
+                                        return e.feature_flags.includes(o) || e.experimental.marks
+                                    },
+                                    set capture_marks(t) {
+                                        e.experimental.marks = t
+                                    },
+                                    get capture_measures() {
+                                        return e.feature_flags.includes(s) || e.experimental.measures
+                                    },
+                                    set capture_measures(t) {
+                                        e.experimental.measures = t
+                                    },
+                                    capture_detail: !0,
+                                    resources: {
+                                        get enabled() {
+                                            return e.feature_flags.includes(c) || e.experimental.resources
+                                        },
+                                        set enabled(t) {
+                                            e.experimental.resources = t
+                                        },
+                                        asset_types: [],
+                                        first_party_domains: [],
+                                        ignore_newrelic: !0
+                                    }
+                                },
+                                privacy: {
+                                    cookies_enabled: !0
+                                },
+                                proxy: {
+                                    assets: void 0,
+                                    beacon: void 0
+                                },
+                                session: {
+                                    expiresMs: d.wk,
+                                    inactiveMs: d.BB
+                                },
+                                session_replay: {
+                                    autoStart: !0,
+                                    enabled: !1,
+                                    preload: !1,
+                                    sampling_rate: 10,
+                                    error_sampling_rate: 100,
+                                    collect_fonts: !1,
+                                    inline_images: !1,
+                                    fix_stylesheets: !0,
+                                    mask_all_inputs: !0,
+                                    get mask_text_selector() {
+                                        return e.mask_selector
+                                    },
+                                    set mask_text_selector(t) {
+                                        u(t) ? e.mask_selector = "".concat(t, ",").concat(g) : "" === t || null === t ? e.mask_selector = g : (0, l.R)(5, t)
+                                    },
+                                    get block_class() {
+                                        return "nr-block"
+                                    },
+                                    get ignore_class() {
+                                        return "nr-ignore"
+                                    },
+                                    get mask_text_class() {
+                                        return "nr-mask"
+                                    },
+                                    get block_selector() {
+                                        return e.block_selector
+                                    },
+                                    set block_selector(t) {
+                                        u(t) ? e.block_selector += ",".concat(t) : "" !== t && (0, l.R)(6, t)
+                                    },
+                                    get mask_input_options() {
+                                        return e.mask_input_options
+                                    },
+                                    set mask_input_options(t) {
+                                        t && "object" == typeof t ? e.mask_input_options = {
+                                            ...t,
+                                            password: !0
+                                        } : (0, l.R)(7, t)
+                                    }
+                                },
+                                session_trace: {
+                                    enabled: !0,
+                                    autoStart: !0
+                                },
+                                soft_navigations: {
+                                    enabled: !0,
+                                    autoStart: !0
+                                },
+                                spa: {
+                                    enabled: !0,
+                                    autoStart: !0
+                                },
+                                ssl: void 0,
+                                user_actions: {
+                                    enabled: !0,
+                                    elementAttributes: ["id", "className", "tagName", "type"]
+                                }
+                            }
+                        })());
+                    var m = r(154),
+                        h = r(324);
+                    let v = 0;
+                    const b = {
+                            buildEnv: h.F3,
+                            distMethod: h.Xs,
+                            version: h.xv,
+                            originTime: m.WN
+                        },
+                        y = {
+                            appMetadata: {},
+                            customTransaction: void 0,
+                            denyList: void 0,
+                            disabled: !1,
+                            entityManager: void 0,
+                            harvester: void 0,
+                            isolatedBacklog: !1,
+                            isRecording: !1,
+                            loaderType: void 0,
+                            maxBytes: 3e4,
+                            obfuscator: void 0,
+                            onerror: void 0,
+                            ptid: void 0,
+                            releaseIds: {},
+                            session: void 0,
+                            timeKeeper: void 0,
+                            get harvestCount() {
+                                return ++v
+                            }
+                        },
+                        _ = e => {
+                            const t = (0, f.a)(e, y),
+                                r = Object.keys(b).reduce(((e, t) => (e[t] = {
+                                    value: b[t],
+                                    writable: !1,
+                                    configurable: !0,
+                                    enumerable: !0
+                                }, e)), {});
+                            return Object.defineProperties(t, r)
+                        };
+                    var w = r(701);
+                    const x = e => {
+                        const t = e.startsWith("http");
+                        e += "/",
+                        r.p = t ? e : "https://" + e
+                    };
+                    var k = r(836),
+                        A = r(241);
+                    const S = {
+                            accountID: void 0,
+                            trustKey: void 0,
+                            agentID: void 0,
+                            licenseKey: void 0,
+                            applicationID: void 0,
+                            xpid: void 0
+                        },
+                        T = e => (0, f.a)(e, S),
+                        R = new Set;
+                    function E(e, t={}, r, o) {
+                        let {init: s, info: c, loader_config: u, runtime: d={}, exposed: l=!0} = t;
+                        if (!c) {
+                            const e = (0, n.pV)();
+                            s = e.init,
+                            c = e.info,
+                            u = e.loader_config
+                        }
+                        e.init = p(s || {}),
+                        e.loader_config = T(u || {}),
+                        c.jsAttributes ??= {},
+                        m.bv && (c.jsAttributes.isWorker = !0),
+                        e.info = (0, a.D)(c);
+                        const f = e.init,
+                            g = [c.beacon, c.errorBeacon];
+                        R.has(e.agentIdentifier) || (f.proxy.assets && (x(f.proxy.assets), g.push(f.proxy.assets)), f.proxy.beacon && g.push(f.proxy.beacon), function(e) {
+                            const t = (0, n.pV)();
+                            Object.getOwnPropertyNames(i.W.prototype).forEach((r => {
+                                const n = i.W.prototype[r];
+                                if ("function" != typeof n || "constructor" === n)
+                                    return;
+                                let a = t[r];
+                                e[r] && !1 !== e.exposed && "micro-agent"!==e.runtime?.loaderType && (t[r] = (...t) => {
+                                    const n = e[r](...t);
+                                    return a ? a(...t) : n
+                                })
+                            }))
+                        }(e), (0, n.US)("activatedFeatures", w.B), e.runSoftNavOverSpa &&= !0 === f.soft_navigations.enabled && f.feature_flags.includes("soft_nav")),
+                        d.denyList = [...f.ajax.deny_list || [], ...f.ajax.block_internal ? g : []],
+                        d.ptid = e.agentIdentifier,
+                        d.loaderType = r,
+                        e.runtime = _(d),
+                        R.has(e.agentIdentifier) || (e.ee = k.ee.get(e.agentIdentifier), e.exposed = l, (0, A.W)({
+                            agentIdentifier: e.agentIdentifier,
+                            drained: !!w.B?.[e.agentIdentifier],
+                            type: "lifecycle",
+                            name: "initialize",
+                            feature: void 0,
+                            data: e.config
+                        })),
+                        R.add(e.agentIdentifier)
+                    }
+                },
+                374: (e, t, r) => {
+                    r.nc = (() => {
+                        try {
+                            returndocument?.currentScript?.nonce
+                        } catch (e) {}
+                        return ""
+                    })()
+                },
+                860: (e, t, r) => {
+                    "use strict";
+                    r.d(t, {
+                        $J: () => d,
+                        K7: () => c,
+                        P3: () => u,
+                        XX: () => i,
+                        Yy: () => s,
+                        df: () => a,
+                        qY: () => n,
+                        v4: () => o
+                    });
+                    const n = "events",
+                        i = "jserrors",
+                        a = "browser/blobs",
+                        o = "rum",
+                        s = "browser/logs",
+                        c = {
+                            ajax: "ajax",
+                            genericEvents: "generic_events",
+                            jserrors: i,
+                            logging: "logging",
+                            metrics: "metrics",
+                            pageAction: "page_action",
+                            pageViewEvent: "page_view_event",
+                            pageViewTiming: "page_view_timing",
+                            sessionReplay: "session_replay",
+                            sessionTrace: "session_trace",
+                            softNav: "soft_navigations",
+                            spa: "spa"
+                        },
+                        u = {
+                            [c.pageViewEvent]: 1,
+                            [c.pageViewTiming]: 2,
+                            [c.metrics]: 3,
+                            [c.jserrors]: 4,
+                            [c.spa]: 5,
+                            [c.ajax]: 6,
+                            [c.sessionTrace]: 7,
+                            [c.softNav]: 8,
+                            [c.sessionReplay]: 9,
+                            [c.logging]: 10,
+                            [c.genericEvents]: 11
+                        },
+                        d = {
+                            [c.pageViewEvent]: o,
+                            [c.pageViewTiming]: n,
+                            [c.ajax]: n,
+                            [c.spa]: n,
+                            [c.softNav]: n,
+                            [c.metrics]: i,
+                            [c.jserrors]: i,
+                            [c.sessionTrace]: a,
+                            [c.sessionReplay]: a,
+                            [c.logging]: s,
+                            [c.genericEvents]: "ins"
+                        }
+                }
+            },
+            n = {};
+        function i(e) {
+            var t = n[e];
+            if (void 0 !== t)
+                return t.exports;
+            var a = n[e] = {
+                exports: {}
+            };
+            return r[e](a, a.exports, i), a.exports
+        }
+        i.m = r,
+        i.d = (e, t) => {
+            for (var r in t)
+                i.o(t, r) && !i.o(e, r) && Object.defineProperty(e, r, {
+                    enumerable: !0,
+                    get: t[r]
+                })
+        },
+        i.f = {},
+        i.e = e => Promise.all(Object.keys(i.f).reduce(((t, r) => (i.f[r](e, t), t)), [])),
+        i.u = e => "nr-rum-1.293.0.min.js",
+        i.o = (e, t) => Object.prototype.hasOwnProperty.call(e, t),
+        e = {},
+        t = "NRBA-1.293.0.PROD:",
+        i.l = (r, n, a, o) => {
+            if (e[r])
+                e[r].push(n);
+            else {
+                var s,
+                    c;
+                if (void 0 !== a)
+                    for (var u = document.getElementsByTagName("script"), d = 0; d < u.length; d++) {
+                        var l = u[d];
+                        if (l.getAttribute("src") == r || l.getAttribute("data-webpack") == t + a) {
+                            s = l;
+                            break
+                        }
+                    }
+                if (!s) {
+                    c = !0;
+                    var f = {
+                        296: "sha512-M1viQxU/Sd10c/wA0iJyMGykq7mUO4/cNh2pUlWVWSRdp2RUo2Lmen9N19KuzHKjUln7vOC7HGbkzvGvRT/yQg=="
+                    };
+                    (s = document.createElement("script")).charset = "utf-8",
+                    s.timeout = 120,
+                    i.nc && s.setAttribute("nonce", i.nc),
+                    s.setAttribute("data-webpack", t + a),
+                    s.src = r,
+                    0 !== s.src.indexOf(window.location.origin + "/") && (s.crossOrigin = "anonymous"),
+                    f[o] && (s.integrity = f[o])
+                }
+                e[r] = [n];
+                var g = (t, n) => {
+                        s.onerror = s.onload = null,
+                        clearTimeout(p);
+                        var i = e[r];
+                        if (delete e[r], s.parentNode && s.parentNode.removeChild(s), i && i.forEach((e => e(n))), t)
+                            return t(n)
+                    },
+                    p = setTimeout(g.bind(null, void 0, {
+                        type: "timeout",
+                        target: s
+                    }), 12e4);
+                s.onerror = g.bind(null, s.onerror),
+                s.onload = g.bind(null, s.onload),
+                c && document.head.appendChild(s)
+            }
+        },
+        i.r = e => {
+            "undefined" != typeof Symbol && Symbol.toStringTag && Object.defineProperty(e, Symbol.toStringTag, {
+                value: "Module"
+            }),
+            Object.defineProperty(e, "__esModule", {
+                value: !0
+            })
+        },
+        i.p = "https://js-agent.newrelic.com/",
+        (() => {
+            var e = {
+                374: 0,
+                840: 0
+            };
+            i.f.j = (t, r) => {
+                var n = i.o(e, t) ? e[t] : void 0;
+                if (0 !== n)
+                    if (n)
+                        r.push(n[2]);
+                    else {
+                        var a = new Promise(((r, i) => n = e[t] = [r, i]));
+                        r.push(n[2] = a);
+                        var o = i.p + i.u(t),
+                            s = new Error;
+                        i.l(o, (r => {
+                            if (i.o(e, t) && (0 !== (n = e[t]) && (e[t] = void 0), n)) {
+                                var a = r && ("load" === r.type ? "missing" : r.type),
+                                    o = r && r.target && r.target.src;
+                                s.message = "Loading chunk " + t + " failed.\n(" + a + ": " + o + ")",
+                                s.name = "ChunkLoadError",
+                                s.type = a,
+                                s.request = o,
+                                n[1](s)
+                            }
+                        }), "chunk-" + t, t)
+                    }
+            };
+            var t = (t, r) => {
+                    var n,
+                        a,
+                        [o, s, c] = r,
+                        u = 0;
+                    if (o.some((t => 0 !== e[t]))) {
+                        for (n in s)
+                            i.o(s, n) && (i.m[n] = s[n]);
+                        if (c)
+                            c(i)
+                    }
+                    for (t && t(r); u < o.length; u++)
+                        a = o[u],
+                        i.o(e, a) && e[a] && e[a][0](),
+                        e[a] = 0
+                },
+                r = self["webpackChunk:NRBA-1.293.0.PROD"] = self["webpackChunk:NRBA-1.293.0.PROD"] || [];
+            r.forEach(t.bind(null, 0)),
+            r.push = t.bind(null, r.push.bind(r))
+        })(),
+        (() => {
+            "use strict";
+            i(374);
+            var e = i(566),
+                t = i(741);
+            class r extends t.W {
+                agentIdentifier = (0, e.LA)(16)
+            }
+            var n = i(860);
+            const a = Object.values(n.K7);
+            var o = i(163);
+            var s = i(908),
+                c = i(863),
+                u = i(261),
+                d = i(241),
+                l = i(944),
+                f = i(701),
+                g = i(773);
+            function p(e, t, i, a) {
+                const o = a || i;
+                !o || o[e] && o[e] !== r.prototype[e] || (o[e] = function() {
+                    (0, s.p)(g.xV, ["API/" + e + "/called"], void 0, n.K7.metrics, i.ee),
+                    (0, d.W)({
+                        agentIdentifier: i.agentIdentifier,
+                        drained: !!f.B?.[i.agentIdentifier],
+                        type: "data",
+                        name: "api",
+                        feature: u.Pl + e,
+                        data: {}
+                    });
+                    try {
+                        return t.apply(this, arguments)
+                    } catch (e) {
+                        (0, l.R)(23, e)
+                    }
+                })
+            }
+            function m(e, t, r, n, i) {
+                const a = e.info;
+                null === r ? delete a.jsAttributes[t] : a.jsAttributes[t] = r,
+                (i || null === r) && (0, s.p)(u.Pl + n, [(0, c.t)(), t, r], void 0, "session", e.ee)
+            }
+            var h = i(687),
+                v = i(234),
+                b = i(289),
+                y = i(154),
+                _ = i(384);
+            const w = e => y.RI && !0===e?.privacy.cookies_enabled;
+            function x(e) {
+                return !!(0, _.dV)().o.MO && w(e) && !0===e?.session_trace.enabled
+            }
+            var k = i(389);
+            class A extends v.W {
+                constructor(e, t)
+                {
+                    super(e.agentIdentifier, t),
+                    this.abortHandler = void 0,
+                    this.featAggregate = void 0,
+                    this.onAggregateImported = void 0,
+                    this.deferred = Promise.resolve(),
+                    !1 === e.init[this.featureName].autoStart ? this.deferred = new Promise(((t, r) => {
+                        this.ee.on("manual-start-all", (0, k.J)((() => {
+                            (0, h.Ak)(e.agentIdentifier, this.featureName),
+                            t()
+                        })))
+                    })) : (0, h.Ak)(e.agentIdentifier, t)
+                }
+                importAggregator(e, t, r={})
+                {
+                    if (this.featAggregate)
+                        return;
+                    let a;
+                    this.onAggregateImported = new Promise((e => {
+                        a = e
+                    }));
+                    const o = async () => {
+                        let o;
+                        await this.deferred;
+                        try {
+                            if (w(e.init)) {
+                                const {setupAgentSession: t} = await i.e(296).then(i.bind(i, 663));
+                                o = t(e)
+                            }
+                        } catch (e) {
+                            (0, l.R)(20, e),
+                            this.ee.emit("internal-error", [e]),
+                            this.featureName === n.K7.sessionReplay&&this.abortHandler?.()
+                        }
+                        try {
+                            if (!this.#t(this.featureName, o, e.init))
+                                return (0, h.Ze)(this.agentIdentifier, this.featureName), void a(!1);
+                            const {Aggregate: n} = await t();
+                            this.featAggregate = new n(e, r),
+                            e.runtime.harvester.initializedAggregates.push(this.featAggregate),
+                            a(!0)
+                        } catch (e) {
+                            (0, l.R)(34, e), this.abortHandler?.(),
+                            (0, h.Ze)(this.agentIdentifier, this.featureName, !0),
+                            a(!1),
+                            this.ee && this.ee.abort()
+                        }
+                    };
+                    y.RI ? (0, b.GG)((() => o()), !0) : o()
+                }
+                #t(e, t, r)
+                {
+                    switch (e) {
+                    case n.K7.sessionReplay:
+                        return x(r) && !!t;
+                    case n.K7.sessionTrace:
+                        return !!t;
+                    default:
+                        return !0
+                    }
+                }
+            }
+            var S = i(630),
+                T = i(614);
+            class R extends A {
+                static featureName = S.T;
+                constructor(e)
+                {
+                    var t;
+                    super(e, S.T),
+                    this.setupInspectionEvents(e.agentIdentifier),
+                    t = e,
+                    p(u.Fw, (function(e, r) {
+                        "string" == typeof e && ("/" !== e.charAt(0) && (e = "/" + e), t.runtime.customTransaction = (r || "http://custom.transaction") + e, (0, s.p)(u.Pl + u.Fw, [(0, c.t)()], void 0, void 0, t.ee))
+                    }), t),
+                    this.ee.on("api-send-rum", ((e, t) => (0, s.p)("send-rum", [e, t], void 0, this.featureName, this.ee))),
+                    this.importAggregator(e, (() => i.e(296).then(i.bind(i, 108))))
+                }
+                setupInspectionEvents(e)
+                {
+                    const t = (t, r) => {
+                        t && (0, d.W)({
+                            agentIdentifier: e,
+                            timeStamp: t.timeStamp,
+                            loaded: "complete" === t.target.readyState,
+                            type: "window",
+                            name: r,
+                            data: t.target.location + ""
+                        })
+                    };
+                    (0, b.sB)((e => {
+                        t(e, "DOMContentLoaded")
+                    })),
+                    (0, b.GG)((e => {
+                        t(e, "load")
+                    })),
+                    (0, b.Qr)((e => {
+                        t(e, "navigate")
+                    })),
+                    this.ee.on(T.tS.UPDATE, ((t, r) => {
+                        (0, d.W)({
+                            agentIdentifier: e,
+                            type: "lifecycle",
+                            name: "session",
+                            data: r
+                        })
+                    }))
+                }
+            }
+            var E = i(843),
+                N = i(878),
+                j = i(782);
+            class I extends A {
+                static featureName = j.T;
+                constructor(e)
+                {
+                    super(e, j.T),
+                    y.RI && ((0, E.u)((() => (0, s.p)("docHidden", [(0, c.t)()], void 0, j.T, this.ee)), !0), (0, N.sp)("pagehide", (() => (0, s.p)("winPagehide", [(0, c.t)()], void 0, j.T, this.ee))), this.importAggregator(e, (() => i.e(296).then(i.bind(i, 350)))))
+                }
+            }
+            class O extends A {
+                static featureName = g.TZ;
+                constructor(e)
+                {
+                    super(e, g.TZ),
+                    y.RI && document.addEventListener("securitypolicyviolation", (e => {
+                        (0, s.p)(g.xV, ["Generic/CSPViolation/Detected"], void 0, this.featureName, this.ee)
+                    })),
+                    this.importAggregator(e, (() => i.e(296).then(i.bind(i, 373))))
+                }
+            }
+            new class  extends r{
+                constructor(e)
+                {
+                    var t;
+                    (super(), y.gm) ? (this.features = {}, (0, _.bQ)(this.agentIdentifier, this), this.desiredFeatures = new Set(e.features || []), this.desiredFeatures.add(R), this.runSoftNavOverSpa = [...this.desiredFeatures].some((e => e.featureName === n.K7.softNav)), (0, o.j)(this, e, e.loaderType || "agent"), t = this, p(u.cD, (function(e, r, n=!1) {
+                        if ("string" == typeof e) {
+                            if (["string", "number", "boolean"].includes(typeof r) || null === r)
+                                return m(t, e, r, u.cD, n);
+                            (0, l.R)(40, typeof r)
+                        } else
+                            (0, l.R)(39, typeof e)
+                    }), t), function(e) {
+                        p(u.Dl, (function(t) {
+                            if ("string" == typeof t || null === t)
+                                return m(e, "enduser.id", t, u.Dl, !0);
+                            (0, l.R)(41, typeof t)
+                        }), e)
+                    }(this), function(e) {
+                        p(u.nb, (function(t) {
+                            if ("string" == typeof t || null === t)
+                                return m(e, "application.version", t, u.nb, !1);
+                            (0, l.R)(42, typeof t)
+                        }), e)
+                    }(this), function(e) {
+                        p(u.d3, (function() {
+                            e.ee.emit("manual-start-all")
+                        }), e)
+                    }(this), this.run()) : (0, l.R)(21)
+                }
+                get config()
+                {
+                    return {
+                        info: this.info,
+                        init: this.init,
+                        loader_config: this.loader_config,
+                        runtime: this.runtime
+                    }
+                }
+                get api()
+                {
+                    return this
+                }
+                run()
+                {
+                    try {
+                        const e = function(e) {
+                                const t = {};
+                                return a.forEach((r => {
+                                    t[r] = !!e[r]?.enabled
+                                })), t
+                            }(this.init),
+                            t = [...this.desiredFeatures];
+                        t.sort(((e, t) => n.P3[e.featureName] - n.P3[t.featureName])),
+                        t.forEach((t => {
+                            if (!e[t.featureName] && t.featureName !== n.K7.pageViewEvent)
+                                return;
+                            if (this.runSoftNavOverSpa && t.featureName === n.K7.spa)
+                                return;
+                            if (!this.runSoftNavOverSpa && t.featureName === n.K7.softNav)
+                                return;
+                            const r = function(e) {
+                                switch (e) {
+                                case n.K7.ajax:
+                                    return [n.K7.jserrors];
+                                case n.K7.sessionTrace:
+                                    return [n.K7.ajax, n.K7.pageViewEvent];
+                                case n.K7.sessionReplay:
+                                    return [n.K7.sessionTrace];
+                                case n.K7.pageViewTiming:
+                                    return [n.K7.pageViewEvent];
+                                default:
+                                    return []
+                                }
+                            }(t.featureName).filter((e => !(e in this.features)));
+                            r.length > 0 && (0, l.R)(36, {
+                                targetFeature: t.featureName,
+                                missingDependencies: r
+                            }),
+                            this.features[t.featureName] = new t(this)
+                        }))
+                    } catch (e) {
+                        (0, l.R)(22, e);
+                        for (const e in this.features)
+                            this.features[e].abortHandler?.();
+                        const t = (0, _.Zm)();
+                        deletet.initializedAgents[this.agentIdentifier]?.features,
+                        delete this.sharedAggregator;
+                        return t.ee.get(this.agentIdentifier).abort(), !1
+                    }
+                }
+            }
+            ({
+                features: [R, I, O],
+                loaderType: "lite"
+            })
+        })()
+    })();
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta http-equiv="Accept-CH" content="DPR, Viewport-Width, Width">
+    <meta name="robots" content="index, follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1">
+    <meta property="og:title" content="Charlotte aux pêches">
+    <meta name="keywords" content="recette, cuisine, charlotte, pêches, dessert, charlotte aux pêches, entremets, framboises, crème Chantilly, nectarines, biscuits roses de Reims, pêche Melba, fruits rouges, bavarois, brugnons, crème bavaroise, Chef Simon">
+    <meta name="description" content="Charlotte aux pêches. Une autre façon d&#39;envisager la pêche Melba.. Recette par Chef Simon.">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Chef Simon, le plaisir de cuisiner. Cuisine, cours, techniques, partage de recettes, photos, vidéos.">
+    <meta property="og:locale" content="fr_FR">
+    <meta property="og:url" content="https://chefsimon.com/gourmets/chef-simon/recettes/charlotte-aux-peches--3">
+    <meta property="og:image" content="https://res.cloudinary.com/hv9ssmzrz/image/fetch/c_fill,f_auto,h_976,q_auto,w_1300/https://s3-eu-west-1.amazonaws.com/images-ca-1-0-1-eu/recipe_photos/original/154/charlotte-aux-peches-0.jpg">
+    <meta property="og:image:alt" content="Charlotte aux pêches">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:description" content="Charlotte aux pêches. Une autre façon d&#39;envisager la pêche Melba.. Recette par Chef Simon.">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@lechefsimon">
+    <meta name="twitter:creator" content="@lechefsimon">
+    <meta name="twitter:title" content="Charlotte aux pêches">
+    <meta name="twitter:description" content="Charlotte aux pêches. Une autre façon d&#39;envisager la pêche Melba.. Recette par Chef Simon.">
+    <meta name="twitter:image" content="https://res.cloudinary.com/hv9ssmzrz/image/fetch/c_fill,f_auto,h_630,q_auto,w_1200/https://s3-eu-west-1.amazonaws.com/images-ca-1-0-1-eu/recipe_photos/original/154/charlotte-aux-peches-0.jpg">
+
+    <meta name="publish-date" content="2024-10-14">
+    <meta name="modified_time" content="2024-10-14">
+
+    <meta name="csrf-param" content="authenticity_token"/>
+    <meta name="csrf-token" content="XxVQ2aHQiFOWpCT3--lp8AerXlwbiO55YLecYKgbfU7hHcBbe4Nbqs4eh6R0wNmI6IEhN4GFpggMGzWOin6V0A"/>
+
+    <meta property="fb:admins" content="100001357562061">
+    <meta property="fb:app_id" content="224137210976119">
+    <meta name="google-site-verification" content="5kRGAt1Ho6y-Y72aztA8lI1tIgmjSbplJ3m3iKWWPKI">
+
+    <!-- Bing Webmaster -->
+    <meta name="msvalidate.01" content="C4619142E9948D0816E11A7F2768CF66">
+
+    <link rel="canonical" href="https://chefsimon.com/gourmets/chef-simon/recettes/charlotte-aux-peches--3">
+
+    <!--
+      <link rel="preload" as="font" type="font/woff2" crossorigin="anonymous" href="https://cdn.chefsimon.com/fonts/poppins-v21-latin-regular.woff2" />
+      <link rel="preload" as="font" type="font/woff2" crossorigin="anonymous" href="https://cdn.chefsimon.com/fonts/poppins-v21-latin-500.woff2" />
+      <link rel="preload" as="font" type="font/woff2" crossorigin="anonymous" href="https://cdn.chefsimon.com/fonts/poppins-v21-latin-600.woff2" />
+      <link rel="preload" as="font" type="font/woff2" crossorigin="anonymous" href="https://cdn.chefsimon.com/fonts/poppins-v21-latin-800.woff2" />
+    -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="alternate" type="application/rss+xml" title="Chef Simon - Actualités" href="/news_rss.xml"/>
+
+    <title>Charlotte aux pêches façon Melba - Recette par Chef Simon</title>
+
+    <link rel="stylesheet" href="/packs/css/application-a1c79ad2.css" media="all"/>
+
+    <script type="application/ld+json">
+      {"@context":"https://schema.org","@type":"Recipe","name":"Charlotte aux pêches","url":"https://chefsimon.com/gourmets/chef-simon/recettes/charlotte-aux-peches--3","recipeCategory":"charlotte","image":["https://s3-eu-west-1.amazonaws.com/images-ca-1-0-1-eu/recipe_photos/original/154/charlotte-aux-peches-0.jpg","https://res.cloudinary.com/hv9ssmzrz/image/fetch/c_fill,f_auto,h_600,q_auto,w_800/https://s3-eu-west-1.amazonaws.com/images-ca-1-0-1-eu/recipe_photos/original/154/charlotte-aux-peches-0.jpg","https://res.cloudinary.com/hv9ssmzrz/image/fetch/c_fill,f_auto,h_360,q_auto,w_740/https://s3-eu-west-1.amazonaws.com/images-ca-1-0-1-eu/recipe_photos/original/154/charlotte-aux-peches-0.jpg"],"datePublished":"2024-10-14T14:16:26+02:00","prepTime":"PT02H00M","cookTime":"PT00H00M","totalTime":"PT02H00M","recipeYield":"8 personnes","recipeIngredient":["1/2 litre de lait entier","5 jaunes d'oeufs","100 à 150 g de sucre","1 gousse de vanille","25 cl de crème fraîche liquide entière","14 g de gélatine","500 g de pêches ou nectarines pochées et dénoyautées","biscuits roses de Reims","coulis de framboises","quelques framboises fraîches pour le décor","amandes effilées grillées","crème Chantilly"],"recipeInstructions":[{"@type":"HowToStep","name":"Etape 1","text":"Couper les pêches pochées et refroidies en gros dés.","image":"https://s3-eu-west-1.amazonaws.com/images-site-chefsimon-eu/image8/charlotte-aux-peches-2.jpg"},{"@type":"HowToStep","name":"Etape 2","text":"Préparer la crème bavaroise.","image":"https://s3-eu-west-1.amazonaws.com/images-site-chefsimon-eu/image8/charlotte-aux-peches-3.jpg"},{"@type":"HowToStep","name":"Etape 3","text":"Installer les biscuits roses non trempés contre la paroi du moule.","image":"https://s3-eu-west-1.amazonaws.com/images-site-chefsimon-eu/image8/charlotte-aux-peches-1.jpg"},{"@type":"HowToStep","name":"Etape 4","text":"Mélanger délicatement les fruits et la crème.","image":"https://s3-eu-west-1.amazonaws.com/images-site-chefsimon-eu/image8/charlotte-aux-peches-4.jpg"},{"@type":"HowToStep","name":"Etape 5","text":"Commencer à remplir le moule avec le mélange.","image":"https://s3-eu-west-1.amazonaws.com/images-site-chefsimon-eu/image8/charlotte-aux-peches-5.jpg"},{"@type":"HowToStep","name":"Etape 6","text":"A mi-hauteur ajouter quelques brisures de biscuits roses.","image":"https://s3-eu-west-1.amazonaws.com/images-site-chefsimon-eu/image8/charlotte-aux-peches-6.jpg"},{"@type":"HowToStep","name":"Etape 7","text":"Finir de remplir le moule à charlotte jusqu'à hauteur des biscuits.","image":"https://s3-eu-west-1.amazonaws.com/images-site-chefsimon-eu/image8/charlotte-aux-peches-7.jpg"},{"@type":"HowToStep","name":"Etape 8","text":"Poser un couvercle au-dessus de la charlotte pour éviter que les biscuits remontent et mettre au frais.","image":"https://s3-eu-west-1.amazonaws.com/images-site-chefsimon-eu/image8/charlotte-aux-peches-8.jpg"},{"@type":"HowToStep","name":"Etape 9","text":"Le lendemain, démouler la charlotte délicatement sur assiette.","image":"https://s3-eu-west-1.amazonaws.com/images-site-chefsimon-eu/image8/charlotte-aux-peches-9.jpg"},{"@type":"HowToStep","name":"Etape 10","text":"Napper mais sans excès avec le coulis de framboises.","image":"https://s3-eu-west-1.amazonaws.com/images-site-chefsimon-eu/image8/charlotte-aux-peches-10.jpg"},{"@type":"HowToStep","name":"Etape 11","text":"Décorer avec quelques framboises, de la crème Chantilly et des amandes effilées légèrement grillées.","image":"https://s3-eu-west-1.amazonaws.com/images-site-chefsimon-eu/image8/charlotte-aux-peches-11.jpg"}],"author":{"@type":"Person","name":"Chef Simon"},"description":"Une autre façon d'envisager la pêche Melba.","keywords":"charlotte, pêches, dessert, charlotte aux pêches, entremets, framboises, crème Chantilly, nectarines, biscuits roses de Reims, pêche Melba, fruits rouges, bavarois, brugnons, crème bavaroise","recipeCuisine":"charlotte","aggregateRating":{"@type":"AggregateRating","ratingValue":4.3,"ratingCount":7}}
+    </script>
+    <script type="application/ld+json">
+      {"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://chefsimon.com/recettes","name":"Recettes"}},{"@type":"ListItem","position":2,"item":{"@id":"https://chefsimon.com/recettes/chef-simon.charlotte-aux-peches--3","name":"Charlotte aux pêches"}}]}
+    </script>
+
+    <script async="" type="text/javascript" src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"></script>
+    <script>
+    var optidigitalQueue = optidigitalQueue || {};
+    optidigitalQueue.cmd = optidigitalQueue.cmd || [];
+    </script>
+    <script type='text/javascript' id='optidigital-ad-init' async data-config='{"adUnit": "/22963265510,21715542326/21715542326/od.chefsimon.com/recette-chefsimon"}' src='//scripts.opti-digital.com/tags/?site=chefsimon'>
+    </script>
+
+    <script>
+    window.pushMST_config = {
+        "vapidPK": "BDJ22PKPkDTI0qfy_iVfJsy8Zkbc3y1N9Y78q3DCQsReLbM14U__Ek0Fz4mxLZTMWvgm3zDHLclebJq1Yf9E4Ig",
+        "enableOverlay": true,
+        "swPath": "/sw.js",
+        "i18n": {}
+    };
+    var pushmasterTag = document.createElement('script');
+    pushmasterTag.src = "https://cdn.pushmaster-cdn.xyz/scripts/publishers/649c12efccb5e8000811661d/SDK.js";
+    pushmasterTag.setAttribute('defer', '');
+
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(pushmasterTag, firstScriptTag);
+    </script>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KDJ3E23MZK"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+
+    gtag('config', 'G-KDJ3E23MZK');
+    </script>
+
+    <!-- Favicon by realfavicongenerator.net -->
+    <link rel="apple-touch-icon" sizes="180x180" href="https://cdn.chefsimon.com/webapp_icons/apple-touch-icon.png?v=ngk6L0KkzR">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://cdn.chefsimon.com/webapp_icons/favicon-32x32.png?v=ngk6L0KkzR">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://cdn.chefsimon.com/webapp_icons/favicon-16x16.png?v=ngk6L0KkzR">
+    <link rel="manifest" href="/site.webmanifest?v=ngk6L0KkzR">
+    <link rel="mask-icon" href="https://cdn.chefsimon.com/webapp_icons/safari-pinned-tab.svg?v=ngk6L0KkzR" color="#c90003">
+    <link rel="shortcut icon" href="https://cdn.chefsimon.com/webapp_icons/favicon.ico?v=ngk6L0KkzR">
+    <meta name="msapplication-TileColor" content="#c90003">
+    <meta name="theme-color" content="#ffffff">
+
+    <script type="text/javascript">
+    window._taboola = window._taboola || [];
+    _taboola.push({
+        article: 'auto'
+    });
+    !function(e, f, u, i) {
+        if (!document.getElementById(i)) {
+            e.async = 1;
+            e.src = u;
+            e.id = i;
+            f.parentNode.insertBefore(e, f);
+        }
+    }(document.createElement('script'),
+    document.getElementsByTagName('script')[0],
+    '//cdn.taboola.com/libtrc/chefsimon-publisher/loader.js',
+    'tb_loader_script');
+    if (window.performance && typeof window.performance.mark == 'function')
+    {
+        window.performance.mark('tbl_ic');
+    }
+    </script>
+
+    <link href="https://mastodon.social/@chefsimon" rel="me">
+</head>
+
+<body class="font-sans bg-white">
+    <div class="max-w-screen-lg mx-auto">
+
+        <div class="relative print:hidden" data-controller="mobile-menu">
+            <div class="max-w-7xl mx-auto px-3 lg:px-6">
+
+                <div class="flex py-2 lg:pt-4 justify-between">
+
+                    <div class="flex">
+                        <!-- Burger -->
+                        <!-- See mobile-menu -->
+                        <button id="open-mobile-menu" data-action="click->mobile-menu#toggle" type="button" aria-label="Ouvrir le menu" class="md:hidden mr-2 bg-white rounded-md focus:outline-none focus:ring-2 focus:ring-inset focus:ring-red-500" aria-expanded="false">
+                            <span class="sr-only">Ouvrir menu</span>
+                            <!-- Heroicon name: outline/menu -->
+                            <svg class="h-7 w-7 fill-current text-black-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                            </svg>
+                        </button>
+
+                        <!-- Logo , mobile and desktop -->
+                        <div class="">
+                            <a href="/">
+                                <span class="sr-only">Logo ChefSimon.com</span>
+                                <img class="h-11 w-auto sm:h-16" src="https://res.cloudinary.com/hv9ssmzrz/image/fetch/c_fill,f_auto,q_auto,h_64,w_202,dpr_2.0/https://cdn.chefsimon.com/images/logos/logo-chefsimon.svg" width="202" height="64" alt="ChefSimon.com" title="ChefSimon.com">
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Desktop main navbar including Event + Login + Search -->
+                    <nav class="hidden md:flex items-end pb-2 pt-2 pl-4">
+                        <div class="hidden md:flex flex-col space-y-4 justify-end text-sm font-medium">
+
+                            <!-- Première ligne : Event -->
+                            <div class="flex flex-auto space-x-2">
+                                <a class="block text-sm hover:text-red pr-4" aria-label="Actus" href="/actus">Actus</a>
+                                <a class="block text-sm hover:text-red h-5 w-5 fill-current" style="color:#aa4100;" aria-label="Barbecue" href="/recettes/tag/barbecue">
+                                    <svg fill="currentColor" version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve">
+                                        <g>
+                                            <path class="st0" d="M498.268,83.64c-3.426-6.862-8.517-13.483-19.147-11.894c-8.634,1.29-16.353,3.693-29.927-4.632
+                                            		c-40.041-33.945-111.581-56.56-193.202-56.56c-81.654,0-153.22,22.632-193.244,56.593c-13.541,8.284-21.252,5.889-29.868,4.599
+                                            		c-10.63-1.588-15.72,5.032-19.148,11.894c-4.758,9.524-24.13,43.293-6.388,57.492c13.766,11.021,20.487,17.924,23.789,22
+                                            		c14.174,96.917,94.588,196.63,224.859,196.63c130.288,0,210.703-99.712,224.875-196.63c3.302-4.076,10.023-10.979,23.789-22
+                                            		C522.398,126.933,503.026,93.164,498.268,83.64z M71.506,129.769c0-36.473,42.396-67.93,104.02-83.043l-101.542,97.5
+                                            		C72.488,139.501,71.506,134.702,71.506,129.769z M89.606,169.685c-0.723-0.748-1.355-1.538-2.046-2.304L221.124,39.165
+                                            		c1.698-0.166,3.319-0.433,5.04-0.574c10.198-0.923,20.636-1.355,31.25-1.355c6.804,0,13.466,0.274,20.078,0.674l-159.59,153.053
+                                            		C106.591,184.557,96.992,177.471,89.606,169.685z M187.438,215.566c-15.571-3.111-30.06-7.32-43.194-12.294
+                                            		c-0.308-0.117-0.582-0.25-0.881-0.374L311.762,41.22c0.374,0.05,0.766,0.083,1.132,0.141c16.077,2.529,31.149,6.156,45.048,10.613
+                                            		c0.166,0.05,0.324,0.117,0.49,0.175l-170.42,163.517C187.829,215.632,187.629,215.607,187.438,215.566z M276.179,221.879
+                                            		c-6.138,0.341-12.452,0.507-18.764,0.507c-12.601,0-24.937-0.648-36.847-1.88L385.074,62.638
+                                            		c13.49,6.263,25.111,13.607,34.326,21.842c0.715,0.616,1.356,1.265,2.047,1.897L280.579,221.538
+                                            		C279.098,221.621,277.668,221.813,276.179,221.879z M323.997,216.148l113.577-108.978c3.685,7.245,5.731,14.822,5.731,22.599
+                                            		C443.305,169.27,393.807,202.848,323.997,216.148z"/>
+                                            <path class="st0" d="M377.754,340.414c-13.109,8.01-27.324,14.738-42.578,19.962l17.409,43.551H159.407l17.866-44.716
+                                            		c-15.637-3.926-30.259-9.465-43.892-16.261L89.24,473.696c-4.018,10.946,0.956,22.874,11.129,26.616
+                                            		c10.181,3.751,21.692-2.105,25.726-13.042l19.838-49.632h220.126l19.838,49.632c4.035,10.937,15.546,16.792,25.726,13.042
+                                            		c10.173-3.742,15.147-15.67,11.13-26.616L377.754,340.414z"/>
+                                        </g>
+                                    </svg>
+                                    <a class="block text-sm hover:text-red pr-4" style="color:#aa4100;" aria-label="Barbecue" href="/recettes/tag/barbecue">Barbecue</a>
+                                </a>
+                            </div>
+
+                            <!-- Deuxième ligne : navbar -->
+                            <div class="flex flex-auto space-x-8">
+                                <a class="block hover:text-red" href="/recettes">Recettes</a>
+                                <a class="block hover:text-red" href="/articles/sommaire-techniques-culinaires">Techniques</a>
+                                <a class="block hover:text-red" href="/articles/sommaire-tutoriels-cuisine-et-patisserie">Tutos</a>
+                                <a class="block hover:text-red" href="/articles/sommaire-produits-alimentaires">Produits</a>
+                                <a class="block hover:text-red" href="/culture">Culture</a>
+                                <a class="block hover:text-red" href="/ustensiles">Matériel</a>
+                                <a class="block hover:text-red" href="/club">Club</a>
+                            </div>
+
+                        </div>
+                    </nav>
+
+                    <!-- Event, Connexion and Search -->
+                    <div class="flex justify-end space-x-2 p-2 justify-items-end">
+
+                        <div class="flex items-center space-x-2 md:hidden">
+                            <!-- Event -->
+
+                            <a class="h-7 w-7 fill-current block text-sm hover:text-red" style="color:#aa4100;" href="/recettes/tag/barbecue">
+                                <svg fill="currentColor" version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve">
+                                    <g>
+                                        <path class="st0" d="M498.268,83.64c-3.426-6.862-8.517-13.483-19.147-11.894c-8.634,1.29-16.353,3.693-29.927-4.632
+                                        		c-40.041-33.945-111.581-56.56-193.202-56.56c-81.654,0-153.22,22.632-193.244,56.593c-13.541,8.284-21.252,5.889-29.868,4.599
+                                        		c-10.63-1.588-15.72,5.032-19.148,11.894c-4.758,9.524-24.13,43.293-6.388,57.492c13.766,11.021,20.487,17.924,23.789,22
+                                        		c14.174,96.917,94.588,196.63,224.859,196.63c130.288,0,210.703-99.712,224.875-196.63c3.302-4.076,10.023-10.979,23.789-22
+                                        		C522.398,126.933,503.026,93.164,498.268,83.64z M71.506,129.769c0-36.473,42.396-67.93,104.02-83.043l-101.542,97.5
+                                        		C72.488,139.501,71.506,134.702,71.506,129.769z M89.606,169.685c-0.723-0.748-1.355-1.538-2.046-2.304L221.124,39.165
+                                        		c1.698-0.166,3.319-0.433,5.04-0.574c10.198-0.923,20.636-1.355,31.25-1.355c6.804,0,13.466,0.274,20.078,0.674l-159.59,153.053
+                                        		C106.591,184.557,96.992,177.471,89.606,169.685z M187.438,215.566c-15.571-3.111-30.06-7.32-43.194-12.294
+                                        		c-0.308-0.117-0.582-0.25-0.881-0.374L311.762,41.22c0.374,0.05,0.766,0.083,1.132,0.141c16.077,2.529,31.149,6.156,45.048,10.613
+                                        		c0.166,0.05,0.324,0.117,0.49,0.175l-170.42,163.517C187.829,215.632,187.629,215.607,187.438,215.566z M276.179,221.879
+                                        		c-6.138,0.341-12.452,0.507-18.764,0.507c-12.601,0-24.937-0.648-36.847-1.88L385.074,62.638
+                                        		c13.49,6.263,25.111,13.607,34.326,21.842c0.715,0.616,1.356,1.265,2.047,1.897L280.579,221.538
+                                        		C279.098,221.621,277.668,221.813,276.179,221.879z M323.997,216.148l113.577-108.978c3.685,7.245,5.731,14.822,5.731,22.599
+                                        		C443.305,169.27,393.807,202.848,323.997,216.148z"/>
+                                        <path class="st0" d="M377.754,340.414c-13.109,8.01-27.324,14.738-42.578,19.962l17.409,43.551H159.407l17.866-44.716
+                                        		c-15.637-3.926-30.259-9.465-43.892-16.261L89.24,473.696c-4.018,10.946,0.956,22.874,11.129,26.616
+                                        		c10.181,3.751,21.692-2.105,25.726-13.042l19.838-49.632h220.126l19.838,49.632c4.035,10.937,15.546,16.792,25.726,13.042
+                                        		c10.173-3.742,15.147-15.67,11.13-26.616L377.754,340.414z"/>
+                                    </g>
+                                </svg>
+                            </a>
+
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end items-center space-x-2 p-2 relative">
+                        <!-- User Menu -->
+                        <div data-controller="user-menu" class="relative">
+                            <!-- Bouton utilisateur non connecté -->
+                            <button type="button" data-action="click->user-menu#toggle" id="connection-user-input" aria-label="Ouvrir le menu utilisateur" class="h-8 w-8 rounded-full flex items-center justify-center bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 transition-all duration-200">
+                                <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 122.88 122.88" fill="currentColor">
+                                    <path d="M61.44,0c8.32,0,16.25,1.66,23.5,4.66l0.11,0.05c7.47,3.11,14.2,7.66,19.83,13.3l0,0c5.66,5.65,10.22,12.42,13.34,19.95 c3.01,7.24,4.66,15.18,4.66,23.49c0,8.32-1.66,16.25-4.66,23.5l-0.05,0.11c-3.12,7.47-7.66,14.2-13.3,19.83l0,0 c-5.65,5.66-12.42,10.22-19.95,13.34c-7.24,3.01-15.18,4.66-23.49,4.66c-8.31,0-16.25-1.66-23.5-4.66l-0.11-0.05 c-7.47-3.11-14.2-7.66-19.83-13.29L18,104.87C12.34,99.21,7.78,92.45,4.66,84.94C1.66,77.69,0,69.76,0,61.44s1.66-16.25,4.66-23.5 l0.05-0.11c3.11-7.47,7.66-14.2,13.29-19.83L18.01,18c5.66-5.66,12.42-10.22,19.94-13.34C45.19,1.66,53.12,0,61.44,0L61.44,0z M16.99,94.47l0.24-0.14c5.9-3.29,21.26-4.38,27.64-8.83c0.47-0.7,0.97-1.72,1.46-2.83c0.73-1.67,1.4-3.5,1.82-4.74 c-1.78-2.1-3.31-4.47-4.77-6.8l-4.83-7.69c-1.76-2.64-2.68-5.04-2.74-7.02c-0.03-0.93,0.13-1.77,0.48-2.52 c0.36-0.78,0.91-1.43,1.66-1.93c0.35-0.24,0.74-0.44,1.17-0.59c-0.32-4.17-0.43-9.42-0.23-13.82c0.1-1.04,0.31-2.09,0.59-3.13 c1.24-4.41,4.33-7.96,8.16-10.4c2.11-1.35,4.43-2.36,6.84-3.04c1.54-0.44-1.31-5.34,0.28-5.51c7.67-0.79,20.08,6.22,25.44,12.01 c2.68,2.9,4.37,6.75,4.73,11.84l-0.3,12.54l0,0c1.34,0.41,2.2,1.26,2.54,2.63c0.39,1.53-0.03,3.67-1.33,6.6l0,0 c-0.02,0.05-0.05,0.11-0.08,0.16l-5.51,9.07c-2.02,3.33-4.08,6.68-6.75,9.31C73.75,80,74,80.35,74.24,80.7 c1.09,1.6,2.19,3.2,3.6,4.63c0.05,0.05,0.09,0.1,0.12,0.15c6.34,4.48,21.77,5.57,27.69,8.87l0.24,0.14 c6.87-9.22,10.93-20.65,10.93-33.03c0-15.29-6.2-29.14-16.22-39.15c-10-10.03-23.85-16.23-39.14-16.23 c-15.29,0-29.14,6.2-39.15,16.22C12.27,32.3,6.07,46.15,6.07,61.44C6.07,73.82,10.13,85.25,16.99,94.47L16.99,94.47L16.99,94.47z"/>
+                                </svg>
+                            </button>
+
+                            <!-- Menu utilisateur non connecté -->
+                            <div id="connection-user-menu" data-user-menu-target="menu" class="hidden absolute right-0 top-full mt-2 w-56 bg-white rounded-md shadow-lg border border-gray-200 py-1 z-20" role="menu" aria-orientation="vertical" aria-labelledby="connection-user-input">
+                                <a href="/club" class="block px-4 py-3 text-sm text-gray-900 font-medium hover:bg-gray-50">
+                                                Qu'est‑ce que le Club ?
+                                              </a>
+
+                                <div class="border-t border-gray-100"></div>
+
+                                <a href="/users/sign_up" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900">
+                                                M'inscrire
+                                              </a>
+                                <a href="/users/sign_in" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900">
+                                                Me connecter
+                                              </a>
+                            </div>
+                        </div>
+
+                        <!-- Search Button -->
+                        <div data-controller="search" class="relative">
+                            <button id="open-search-menu" data-action="click->search#toggle" aria-label="Ouvrir la recherche" class="h-8 w-8 rounded-full flex items-center justify-center bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 transition-all duration-200">
+                                <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M21.71,20.29l-3.388-3.388C19.365,15.471,20,13.826,20,12c0-4.418-3.582-8-8-8s-8,3.582-8,8s3.582,8,8,8c1.826,0,3.471-0.635,4.901-1.677l3.388,3.388C19.488,21.902,19.744,22,20,22s0.512-0.098,0.71-0.29C22.098,21.323,22.098,20.677,21.71,20.29z M12,18c-3.313,0-6-2.687-6-6s2.687-6,6-6s6,2.687,6,6S15.313,18,12,18z"/>
+                                </svg>
+                            </button>
+
+                            <!-- Search Menu -->
+                            <div id="search-menu" data-search-target="menu" class="hidden absolute right-0 top-full mt-2 w-80 bg-white rounded-md shadow-lg border border-gray-200 p-4 z-20" role="menu" aria-orientation="vertical" aria-labelledby="open-search-menu">
+                                <form id="search-form" class="flex gap-3" action="/recettes/search" accept-charset="UTF-8" method="get">
+                                    <input data-search-target="input" class="flex-1 px-3 py-2 border border-gray-300 rounded-md text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" type="text" placeholder="Chercher : crêpes, Escoffier, couteau" aria-label="Rechercher" id="search_string" name="search_string" value="" required/>
+                                    <button data-action="click->search#submit" type="submit" id="search-button" class="px-4 py-2 red_button text-white text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors duration-200">
+                                                    OK
+                                                  </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Mobile menu including login, account management -->
+            <div id="mobile-menu" data-mobile-menu-target="menu" class="z-50 hidden absolute top-0 inset-x-0 p-2 transition origin-top-right md:hidden">
+
+                <div class="w-full shadow-lg ring-1 ring-black ring-opacity-5 bg-white">
+                    <div class="flex items-end justify-start py-6">
+                        <button id="close-mobile-menu" data-action="click->mobile-menu#toggle" type="button" aria-label="Fermer le menu" class="bg-white rounded-md p-2 inline-flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-inset focus:ring-red-500">
+                            <span class="sr-only">Fermer menu</span>
+                            <!-- Heroicon name: outline/x -->
+                            <svg class="h-7 w-7 fill-current text-black-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="px-2 space-y-6">
+
+                        <!-- Mobile login, account management -->
+                        <div class="grid grid-cols-2 gap-y-4 gap-x-8">
+
+                            <a class="text-sm hover:text-red font-extrabold border-b col-span-2" href="/club">Club</a>
+
+                            <!-- Not connected-->
+
+                            <div class="text-sm col-span-2">
+                                          Partagez vos recettes, commentez, échanger dans le forum en créant votre profil de Gourmet gratuitement&nbsp;!
+                                        </div>
+
+                            <div class="flex justify-center">
+                                <div class="text-center text-sm">
+                                    Vous n'avez pas de compte&nbsp;?
+                                                    
+                                    <a href="/users/sign_up" class="block mt-4 text-red">M'inscrire</a>
+                                </div>
+                            </div>
+                            <div class="flex justify-center">
+                                <div class="text-center text-sm">
+                                    Vous avez déjà un compte&nbsp;?
+                                                    
+                                    <a href="/users/sign_in" class="block mt-4 text-red">Me connecter</a>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-y-4 gap-x-8">
+                            <a class="text-sm hover:text-red" href="/club">Connaître le Club</a>
+                            <a class="text-sm hover:text-red" href="/gourmets">Découvrir les Gourmets</a>
+                            <a class="text-sm hover:text-red" href="/newsletters">M&#39;inscrire à la newsletter</a>
+                            <a class="text-sm hover:text-red" href="https://forum.chefsimon.com">Participer au forum</a>
+                        </div>
+
+                        <!-- Nav bar links-->
+                        <div class="grid grid-cols-2 gap-y-4 gap-x-8">
+
+                            <a class="text-sm font-extrabold border-b col-span-2" style="color:#ffb300;" aria-label="En plein coeur de l&#39;été !" href="/recettes/tag/été">En plein coeur de l&#39;été !</a>
+                            <a class="text-sm" aria-label="Pêches" href="/recettes/tag/pêches">Pêches</a>
+                            <a class="text-sm" aria-label="Melon" href="/recettes/tag/melon">Melon</a>
+                            <a class="text-sm" aria-label="Pastèque" href="/recettes/tag/pastèque">Pastèque</a>
+                            <a class="text-sm" aria-label="Poires" href="/recettes/tag/poires">Poires</a>
+                            <a class="text-sm" aria-label="Mirabelles" href="/recettes/tag/mirabelles">Mirabelles</a>
+                            <a class="text-sm" aria-label="Reine-claude" href="/recettes/tag/reine-claude">Reine-claude</a>
+                            <a class="text-sm" aria-label="Courgettes" href="/recettes/tag/courgettes">Courgettes</a>
+                            <a class="text-sm" aria-label="Poivrons" href="/recettes/tag/poivrons">Poivrons</a>
+                            <a class="text-sm" aria-label="Aubergines" href="/recettes/tag/aubergines">Aubergines</a>
+                            <a class="text-sm" aria-label="Concombre" href="/recettes/tag/concombre">Concombre</a>
+                            <a class="text-sm" aria-label="Tomates" href="/recettes/tag/tomates">Tomates</a>
+                            <a class="text-sm" aria-label="Haricots verts" href="/recettes/tag/haricots verts">Haricots verts</a>
+
+                            <a class="text-sm font-extrabold border-b col-span-2" style="color:#aa4100;" aria-label="Barbecue" href="/recettes/tag/barbecue">Barbecue</a>
+                            <a class="text-sm" aria-label="8 sauces indispensables pour le barbecue" href="/selections/8-sauces-indispensables-pour-le-barbecue">8 sauces indispensables pour le barbecue</a>
+                            <a class="text-sm" aria-label="Êtes-vous le maître absolu du barbecue ?" href="/quiz/etes-vous-un-pro-des-barbecues-et-des-grillades">Êtes-vous le maître absolu du barbecue ?</a>
+                            <a class="text-sm" aria-label="Les conseils du chef pour un bbq réussi" href="/articles/pratique-la-cuisine-au-barbecue">Les conseils du chef pour un bbq réussi</a>
+                            <a class="text-sm" aria-label="Nos recettes de barbecue à découvrir" href="/recettes/tag/barbecue">Nos recettes de barbecue à découvrir</a>
+
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-y-4 gap-x-8">
+                            <a class="text-sm hover:text-red font-extrabold border-b col-span-2" href="/recettes">Recettes</a>
+
+                            <a class="text-sm text-red hover:text-red" href="/gourmets/chef-simon">Recettes du Chef</a>
+                            <a class="text-sm hover:text-red" href="/recettes/tag/boissons">Boissons</a>
+                            <a class="text-sm hover:text-red" href="/recettes/tag/amuse-bouches">Amuses-bouches</a>
+                            <a class="text-sm hover:text-red" href="/recettes/tag/entrée">Entrée</a>
+                            <a class="text-sm hover:text-red" href="/recettes/tag/plat%20principal">Plat principal</a>
+                            <a class="text-sm hover:text-red" href="/recettes/tag/sauce">Sauces</a>
+                            <a class="text-sm hover:text-red" href="/recettes/tag/dessert">Dessert</a>
+                            <a class="text-sm hover:text-red" href="/recettes/tag/fêtes">Fêtes</a>
+
+                            <a class="text-sm hover:text-red" href="/videos">Recettes en vidéo</a>
+                            <a class="text-sm hover:text-red" href="/selections">Sélections de recettes</a>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-y-4 gap-x-8">
+                            <a class="text-sm hover:text-red font-extrabold border-b col-span-2" href="/articles/sommaire-techniques-culinaires">Techniques culinaires</a>
+
+                            <a class="text-sm hover:text-red" href="/articles/sommaire-techniques-appliquees-aux-viandes-aux-abats-et-gibier-a-poils">Viandes, abats, gibier à poils</a>
+                            <a class="text-sm hover:text-red" href="/articles/sommaire-techniques-appliquees-aux-volailles-et-gibier-a-plumes">Volailes, gibiers à plumes</a>
+                            <a class="text-sm hover:text-red" href="/articles/sommaire-techniques-appliquees-aux-poissons-et-fruits-de-mer">Poissons, fruits de mer</a>
+                            <a class="text-sm hover:text-red" href="/articles/sommaire-techniques-de-cuisine-appliquees-aux-legumes-et-aux-fruits">Fruits et légumes</a>
+                            <a class="text-sm hover:text-red" href="/articles/sommaire-techniques-appliquees-aux-oeufs">Oeufs</a>
+                            <a class="text-sm hover:text-red" href="/articles/sommaire-techniques-appliquees-aux-cereales-et-pates-alimentaires">Céréales et pâtes</a>
+                            <a class="text-sm hover:text-red" href="/articles/sommaire-techniques-appliquees-aux-farces-et-foie-gras">Farces et foie gras</a>
+                            <a class="text-sm hover:text-red" href="/articles/sommaire-techniques-appliquees-aux-sauces-fonds-et-fumets">Sauces, fonds et fumets</a>
+                            <a class="text-sm hover:text-red" href="/articles/sommaire-techniques-appliquees-a-la-patisserie">Pâtisserie</a>
+                            <a class="text-sm hover:text-red" href="/articles/sommaire-techniques-de-cuisson-sous-vide-et-basse-temperature">Cuisson sous-vide, basse température</a>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-y-4 gap-x-8">
+                            <a class="text-sm hover:text-red font-extrabold border-b col-span-2" href="/articles/sommaire-tutoriels-cuisine-et-patisserie">Tutos</a>
+
+                            <a class="text-sm hover:text-red" href="/articles/sommaire-tutoriels-de-cuisine">Tutoriels de cuisine</a>
+                            <a class="text-sm hover:text-red" href="/articles/sommaire-tutoriels-de-patisserie">Tutoriels de pâtisserie</a>
+                            <a class="text-sm hover:text-red" href="/pratique">Pratique, lexique, grammages</a>
+                            <a class="text-sm hover:text-red" href="/articles/pratique-temperatures-de-cuisson-a-coeur">Températures de cuissons</a>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-y-4 gap-x-8">
+                            <a class="text-sm hover:text-red font-extrabold border-b col-span-2" href="/articles/sommaire-produits-alimentaires">Produits alimentaires</a>
+
+                            <a class="text-sm hover:text-red" href="/articles/produits-viandes-de-boucherie">Viandes</a>
+                            <a class="text-sm hover:text-red" href="/articles/produits-volailles-et-foie-gras">Volailles et foie gras</a>
+                            <a class="text-sm hover:text-red" href="/articles/produits-poissons">Poissons</a>
+                            <a class="text-sm hover:text-red" href="/articles/produits-fruits-de-mer">Fruits de mer</a>
+                            <a class="text-sm hover:text-red" href="/articles/produits-legumes">Légumes</a>
+                            <a class="text-sm hover:text-red" href="/articles/produits-fruits">Fruits</a>
+                            <a class="text-sm hover:text-red" href="/articles/produits-les-champignons-289f3d8b-9bd6-4cbe-8458-f0fbc4b4f688">Champignons</a>
+                            <a class="text-sm hover:text-red" href="/articles/produits-fromages">Fromages</a>
+                            <a class="text-sm hover:text-red" href="/articles/produits-oeufs-et-produits-laitiers">Oeufs et produits laitiers</a>
+                            <a class="text-sm hover:text-red" href="/articles/produits-pates-nouilles-riz">Pâtes, nouilles, riz</a>
+                            <a class="text-sm hover:text-red" href="/articles/produits-farines-et-levures">Farines et levures</a>
+                            <a class="text-sm hover:text-red" href="/articles/produits-produits-vegan">Produits vegan</a>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-y-4 gap-x-8">
+                            <a class="text-sm hover:text-red font-extrabold border-b col-span-2" href="/culture">Culture et cuisine</a>
+
+                            <a class="text-sm hover:text-red" href="/articles/cinema-la-cuisine-fait-son-cinema">La cuisine fait son cinéma</a>
+                            <a class="text-sm hover:text-red" href="/litterature">Littérature</a>
+                            <a class="text-sm hover:text-red" href="/articles/litterature-bibliotheque-scolaire-et-personnelle">Bibliothèque scolaire et personnelle</a>
+                            <a class="text-sm hover:text-red" href="/articles/sommaire-grands-noms-de-la-cuisine-francaise">Grands noms de la cuisine française</a>
+                            <a class="text-sm hover:text-red" href="/edito">Editos du Chef</a>
+                            <a class="text-sm hover:text-red" href="/articles/sommaire-quiz">Quiz</a>
+                            <a class="text-sm hover:text-red" href="/actus">Actualités</a>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-y-4 gap-x-8">
+                            <a class="text-sm hover:text-red font-extrabold border-b col-span-2" href="/boissons">Boissons</a>
+
+                            <a class="text-sm hover:text-red" href="/boissons">Toutes les boissons</a>
+                            <a class="text-sm hover:text-red" href="/articles/sommaire-accords-mets-et-vins">Accords mets et vins</a>
+                            <a class="text-sm hover:text-red" href="/recettes/tag/cocktails">Cocktails</a>
+                            <a class="text-sm hover:text-red" href="/recettes/tag/cocktails%20sans%20alcool">Cocktails sans alcool</a>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-y-4 gap-x-8">
+                            <a class="text-sm hover:text-red font-extrabold border-b col-span-2" href="/ustensiles">Matériel</a>
+
+                            <a class="text-sm hover:text-red" href="/ustensiles/couteaux-de-cuisine">Couteaux</a>
+                            <a class="text-sm hover:text-red" href="/ustensiles/cuisine">Cuisine</a>
+                            <a class="text-sm hover:text-red" href="/ustensiles/patisserie">Pâtisserie</a>
+                            <a class="text-sm hover:text-red" href="/ustensiles/lettre/A">Tous les ustensiles</a>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="bg-gray-for-bg text-center mt-1 mb-1 ml-3 mr-3 pt-1 pb-1 print:hidden hidden md:block" style="width:976px;height:258px;">
+
+            <!-- Billboard_1 -->
+            <div style='display:none;' class="Billboard_1"></div>
+
+        </div>
+
+    </div>
+
+    <div class="relative max-w-screen-lg mx-auto pb-6 px-3 lg:px-6">
+
+        <ol class="flex flex-wrap text-gray-breadcrumb text-xs md:text-sm py-3 lg:py-5 print:hidden">
+            <li class="inline-flex items-center">
+                <a title="Accueil" href="/">
+                    <span>Accueil</span>
+                </a>
+                <span class="px-2 w-auto">&gt;</span>
+            </li>
+            <li class="inline-flex items-center">
+                <a title="Recettes" href="/recettes">
+                    <span>Recettes</span>
+                </a>
+                <span class="px-2 w-auto">&gt;</span>
+            </li>
+            <li class="inline-flex items-center text-red">
+                <span>Charlotte aux pêches</span>
+            </li>
+        </ol>
+
+        <div class="flex flex-col lg:flex-row lg:space-x-4">
+
+            <!-- Column 1 Content -->
+            <div class="lg:w-8/12 lg:pr-8 space-y-8 mb-5 md:mb-0">
+
+                <div>
+
+                    <div class="relative">
+                        <img src="https://res.cloudinary.com/hv9ssmzrz/image/fetch/c_fill,f_auto,h_488,q_auto,w_650/https://s3-eu-west-1.amazonaws.com/images-ca-1-0-1-eu/recipe_photos/original/154/charlotte-aux-peches-0.jpg" class="rounded shadow w-screen" alt="Charlotte aux fruits façon Pêche Melba" title="Charlotte aux fruits façon Pêche Melba" width="650px" height="488px">
+                        <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-75 p-2 text-white text-xs">
+                              Quand la charlotte rencontre la Pêche Melba...
+                          </div>
+                    </div>
+
+                    <h1>Charlotte aux pêches</h1>
+
+                    <h5 class="text-black-header text-lg font-normal link_cs">
+                        Une autre façon d'envisager la 
+                        <a href="/gourmets/cuisine-maison-d-autrefois-comme-grand-mere/recettes/peche-melba-aux-fruits-frais-a-la-maniere-du-chef-escoffier">pêche Melba</a>
+                        .
+                    </h5>
+
+                    <div class="my-8 print:hidden">
+
+                        <div class="flex flex-row items-center mb-2">
+                            <!-- Sharingbutton Facebook -->
+                            <a class="mr-2" href="https://facebook.com/sharer/sharer.php?u=/gourmets/chef-simon/recettes/charlotte-aux-peches--3" target="_blank" rel="noopener" title="Partager sur Facebook" aria-label="Partager sur Facebook">
+                                <div class="sharing-toolbar-button sharing-toolbar-facebook">
+                                    <div aria-hidden="true" class="sharing-toolbar-button-icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                            <path d="M18.77 7.46H14.5v-1.9c0-.9.6-1.1 1-1.1h3V.5h-4.33C10.24.5 9.5 3.44 9.5 5.32v2.15h-3v4h3v12h5v-12h3.85l.42-4z"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </a>
+
+                            <!-- Sharingbutton X ex Twitter-->
+                            <a class="mr-2" href="https://twitter.com/intent/tweet/?text=Charlotte aux pêches façon Melba - Recette par Chef Simon&amp;url=/gourmets/chef-simon/recettes/charlotte-aux-peches--3" target="_blank" rel="noopener" title="Partager sur Twitter" aria-label="Partager sur Twitter">
+                                <div class="sharing-toolbar-button sharing-toolbar-x-ex-twitter">
+                                    <div aria-hidden="true" class="sharing-toolbar-button-icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </a>
+
+                            <!-- Sharingbutton Pinterest -->
+                            <a class="mr-2" href="https://pinterest.com/pin/create/button/?url=/gourmets/chef-simon/recettes/charlotte-aux-peches--3&amp;media=https://s3-eu-west-1.amazonaws.com/images-ca-1-0-1-eu/recipe_photos/original/154/charlotte-aux-peches-0.jpg&amp;description=Charlotte aux pêches façon Melba - Recette par Chef Simon" target="_blank" rel="noopener" title="Partager sur Pinterest" aria-label="Partager sur Pinterest">
+                                <div class="sharing-toolbar-button sharing-toolbar-pinterest">
+                                    <div aria-hidden="true" class="sharing-toolbar-button-icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                            <path d="M12.14.5C5.86.5 2.7 5 2.7 8.75c0 2.27.86 4.3 2.7 5.05.3.12.57 0 .66-.33l.27-1.06c.1-.32.06-.44-.2-.73-.52-.62-.86-1.44-.86-2.6 0-3.33 2.5-6.32 6.5-6.32 3.55 0 5.5 2.17 5.5 5.07 0 3.8-1.7 7.02-4.2 7.02-1.37 0-2.4-1.14-2.07-2.54.4-1.68 1.16-3.48 1.16-4.7 0-1.07-.58-1.98-1.78-1.98-1.4 0-2.55 1.47-2.55 3.42 0 1.25.43 2.1.43 2.1l-1.7 7.2c-.5 2.13-.08 4.75-.04 5 .02.17.22.2.3.1.14-.18 1.82-2.26 2.4-4.33.16-.58.93-3.63.93-3.63.45.88 1.8 1.65 3.22 1.65 4.25 0 7.13-3.87 7.13-9.05C20.5 4.15 17.18.5 12.14.5z"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </a>
+
+                            <!-- Sharingbutton Print -->
+                            <a class="mr-2" onclick="window.print();return false;" href="#" target="_self" rel="noopener" title="Imprimer" aria-label="Imprimer">
+                                <div class="sharing-toolbar-button sharing-toolbar-print">
+                                    <div aria-hidden="true" class="sharing-toolbar-button-icon">
+                                        <!--    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22 4H2C.9 4 0 4.9 0 6v12c0 1.1.9 2 2 2h20c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zM7.25 14.43l-3.5 2c-.08.05-.17.07-.25.07-.17 0-.34-.1-.43-.25-.14-.24-.06-.55.18-.68l3.5-2c.24-.14.55-.06.68.18.14.24.06.55-.18.68zm4.75.07c-.1 0-.2-.03-.27-.08l-8.5-5.5c-.23-.15-.3-.46-.15-.7.15-.22.46-.3.7-.14L12 13.4l8.23-5.32c.23-.15.54-.08.7.15.14.23.07.54-.16.7l-8.5 5.5c-.08.04-.17.07-.27.07zm8.93 1.75c-.1.16-.26.25-.43.25-.08 0-.17-.02-.25-.07l-3.5-2c-.24-.13-.32-.44-.18-.68s.44-.32.68-.18l3.5 2c.24.13.32.44.18.68z"/></svg>-->
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 my-6 w-full">
+
+                        <div class="w-1/2 flex flex-row space-x-3 text-sm w-full items-center">
+                            <a href="/gourmets/chef-simon">
+                                <img alt="Chef Simon" title="Chef Simon" width="86" height="86" class="w-20 rounded-full shadow" loading="lazy" src="https://res.cloudinary.com/hv9ssmzrz/image/fetch/c_fill,f_auto,h_86,q_auto,w_86/https://s3-eu-west-1.amazonaws.com/images-ca-1-0-1-eu/user_avatars/original/148/logo-chef-simon.png"/>
+                            </a>
+                            <a class="hover:underline" href="/gourmets/chef-simon">Chef Simon</a>
+                        </div>
+
+                        <div class="w-1/2 w-full grid justify-items-center text-sm space-x-5 border-l border-gray-200">
+
+                            <div class="flex items-center">Difficulté moyenne</div>
+
+                            <div class="flex flex-row items-center print:hidden">
+
+                                <div class="text-red">
+                                    <a aria-label="Aimer la recette" title="Aimer la recette" rel="nofollow" href="/lovings?recipe_id=154">
+                                        <svg class="h-5 w-5 mr-1 heart" style="fill: white; stroke: red; stroke-width: 1px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                            <path d="M10 3.22l-.61-.6a5.5 5.5 0 0 0-7.78 7.77L10 18.78l8.39-8.4a5.5 5.5 0 0 0-7.78-7.77l-.61.61z"/>
+                                        </svg>
+                                    </a>
+                                </div>
+
+                                <script>
+                                // Détecter le clic et ajouter/retirer la classe pour l'animation
+                                document.querySelector('.heart').addEventListener('click', function(e) {
+                                    e.target.classList.add('heart-animate');
+
+                                    // Retirer la classe après l'animation pour permettre la répétition
+                                    setTimeout(() => {
+                                        e.target.classList.remove('heart-animate');
+                                    }, 500); // 500 ms = durée de l'animation
+                                });
+                                </script>
+
+                                <div class="text-lg flex-initial mr-4">
+                                  11
+                                </div>
+
+                                <a aria-label="Commenter la recette" class="flex items-center" href="#comment" title="Commenter la recette">
+                                    <!--  <svg aria-hidden="true" class="fill-current text-red h-5 w-5 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">-->
+                                    <svg aria-hidden="true" class="h-5 w-5 mr-1" style="fill: white; stroke: red; stroke-width: 1px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                        <path d="M17 11v3l-3-3H8a2 2 0 0 1-2-2V2c0-1.1.9-2 2-2h10a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-1zm-3 2v2a2 2 0 0 1-2 2H6l-3 3v-3H2a2 2 0 0 1-2-2V8c0-1.1.9-2 2-2h2v3a4 4 0 0 0 4 4h6z"/>
+                                    </svg>
+                                    <div class="text-lg flex-initial">
+                                        1
+                                      </div>
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="text-center bg-gray-for-bg3 p-4 space-x-2">
+                        <span>Préparation&nbsp;:&nbsp;2 h</span>
+
+                    </div>
+
+                </div>
+
+                <!--Ingredients-->
+
+                <div data-controller="recipe-show" data-recipe-show-target="ingredientsBloc" data-recipe-show-nb-persons-value="8" data-recipe-show-initial-values-value="">
+
+                    <h2>Ingrédients</h2>
+
+                    <div class="flex mb-5 space-x-4">
+
+                        <span data-recipe-show-target="nbPersons">Pour 8 personnes</span>
+
+                    </div>
+
+                    <div class="w-full bg-gray-for-bg2 p-7 border-2 border-dashed">
+
+                        <h5 class="mb-3">Pour la crème bavaroise</h5>
+
+                        <div class="grid grid-cols-1 gap-2 mb-3">
+                            <div class="flex flex-row items-start">
+                                <svg aria-hidden="true" class="w-3 mt-1 flex-none fill-current text-red mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                    <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                                </svg>
+                                <div class="text-sm text-black-header link_cs">
+                                    1/2 litre de 
+                                    <a href="/articles/produits-le-lait-entre-saveur-et-conservation-quel-est-le-lait-qui-vous-convient">lait entier</a>
+                                </div>
+                            </div>
+                            <div class="flex flex-row items-start">
+                                <svg aria-hidden="true" class="w-3 mt-1 flex-none fill-current text-red mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                    <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                                </svg>
+                                <div class="text-sm text-black-header link_cs">
+                                    5 
+                                    <a href="/articles/pratique-fraicheur-et-conservation-des-oeufs">jaunes d'oeufs</a>
+                                </div>
+                            </div>
+                            <div class="flex flex-row items-start">
+                                <svg aria-hidden="true" class="w-3 mt-1 flex-none fill-current text-red mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                    <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                                </svg>
+                                <div class="text-sm text-black-header link_cs">
+                                    100 à 150 g de 
+                                    <a href="/articles/produits-sucres">sucre</a>
+                                </div>
+                            </div>
+                            <div class="flex flex-row items-start">
+                                <svg aria-hidden="true" class="w-3 mt-1 flex-none fill-current text-red mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                    <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                                </svg>
+                                <div class="text-sm text-black-header link_cs">
+                                    1 
+                                    <a href="/articles/herbes-epices-la-vanille">gousse de vanille</a>
+                                </div>
+                            </div>
+                            <div class="flex flex-row items-start">
+                                <svg aria-hidden="true" class="w-3 mt-1 flex-none fill-current text-red mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                    <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                                </svg>
+                                <div class="text-sm text-black-header link_cs">
+                                    25 cl de 
+                                    <a href="/articles/produits-la-creme">crème fraîche</a>
+                                     liquide entière
+                                </div>
+                            </div>
+                            <div class="flex flex-row items-start">
+                                <svg aria-hidden="true" class="w-3 mt-1 flex-none fill-current text-red mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                    <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                                </svg>
+                                <div class="text-sm text-black-header link_cs">
+                                    14 g de 
+                                    <a href="/recettes/tag/gélatine">gélatine</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h5 class="mb-3">Pour la charlotte</h5>
+
+                        <div class="grid grid-cols-1 gap-2 mb-3">
+                            <div class="flex flex-row items-start">
+                                <svg aria-hidden="true" class="w-3 mt-1 flex-none fill-current text-red mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                    <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                                </svg>
+                                <div class="text-sm text-black-header link_cs">
+                                    500 g de 
+                                    <a href="/gourmets/chef-simon/recettes/pocher-des-fruits-au-sirop">pêches ou nectarines pochées</a>
+                                     et dénoyautées
+                                </div>
+                            </div>
+                            <div class="flex flex-row items-start">
+                                <svg aria-hidden="true" class="w-3 mt-1 flex-none fill-current text-red mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                    <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                                </svg>
+                                <div class="text-sm text-black-header link_cs">
+                                    <a href="/recettes/tag/biscuits%20roses%20de%20Reims">biscuits roses de Reims</a>
+                                </div>
+                            </div>
+                            <div class="flex flex-row items-start">
+                                <svg aria-hidden="true" class="w-3 mt-1 flex-none fill-current text-red mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                    <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                                </svg>
+                                <div class="text-sm text-black-header link_cs">
+                                    <a href="/gourmets/chef-simon/recettes/coulis-de-fruits-rouges--4">coulis de framboises</a>
+                                </div>
+                            </div>
+                            <div class="flex flex-row items-start">
+                                <svg aria-hidden="true" class="w-3 mt-1 flex-none fill-current text-red mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                    <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                                </svg>
+                                <div class="text-sm text-black-header link_cs">
+                                    quelques 
+                                    <a href="/articles/produits-les-framboises">framboises fraîches</a>
+                                     pour le décor
+                                </div>
+                            </div>
+                            <div class="flex flex-row items-start">
+                                <svg aria-hidden="true" class="w-3 mt-1 flex-none fill-current text-red mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                    <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                                </svg>
+                                <div class="text-sm text-black-header link_cs">
+                                    <a href="/articles/produits-l-amande">amandes effilées</a>
+                                     grillées
+                                </div>
+                            </div>
+                            <div class="flex flex-row items-start">
+                                <svg aria-hidden="true" class="w-3 mt-1 flex-none fill-current text-red mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                    <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                                </svg>
+                                <div class="text-sm text-black-header link_cs">
+                                    <a href="/gourmets/chef-simon/recettes/creme-chantilly--6">crème Chantilly</a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <span class="text-xs text-black-200 hover:underline print:hidden">
+                        <a href="/convertisseur-mesures.html" title="Convertir">Convertir les mesures ou températures</a>
+                    </span>
+
+                </div>
+
+                <div class="bg-gray-for-bg text-center print:hidden hidden md:block">
+
+                    <!-- Content_1 -->
+                    <div style='display:none;' class="Content_1"></div>
+
+                </div>
+                <div class="block bg-gray-for-bg text-center print:hidden md:hidden">
+
+                    <!-- Mobile_Pos1 -->
+                    <div style='display:none;' class="Mobile_Pos1"></div>
+
+                </div>
+
+                <!-- Preparation-->
+                <div>
+                    <h2>
+                        <span class="text-red">Préparation</span>
+                         de la recette 
+                    </h2>
+
+                    <div class="flex flex-col">
+
+                        <div class="flex flex-col md:flex-row w-full my-3 print:my-2 p-3 border-2 border-dashed">
+                            <div class="md:pr-5 pb-3 md:pb-0 w-full md:w-8/12">
+                                <img height="252" width="378" alt="Charlotte aux pêches - Etape 1" title="Charlotte aux pêches - Etape 1" loading="lazy" src="https://res.cloudinary.com/hv9ssmzrz/image/fetch/c_fill,dpr_2.0,f_auto,h_252,q_auto,w_378/https://s3-eu-west-1.amazonaws.com/images-site-chefsimon-eu/image8/charlotte-aux-peches-2.jpg?_a=BACCg+GT"/>
+                            </div>
+
+                            <div class="text-sm text-black-200 w-full md:w-4/12 pt-2 md:pt-0 link_cs leading-relaxed">
+                                <span class="bg-red text-white rounded-full px-2 mr-3">1</span>
+                                Couper les 
+                                <a href="/gourmets/chef-simon/recettes/pocher-des-fruits-au-sirop">pêches pochées</a>
+                                 et refroidies en gros dés.
+
+                                              
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col md:flex-row w-full my-3 print:my-2 p-3 border-2 border-dashed">
+                            <div class="md:pr-5 pb-3 md:pb-0 w-full md:w-8/12">
+                                <img height="252" width="378" alt="Charlotte aux pêches - Etape 2" title="Charlotte aux pêches - Etape 2" loading="lazy" src="https://res.cloudinary.com/hv9ssmzrz/image/fetch/c_fill,dpr_2.0,f_auto,h_252,q_auto,w_378/https://s3-eu-west-1.amazonaws.com/images-site-chefsimon-eu/image8/charlotte-aux-peches-3.jpg?_a=BACCg+GT"/>
+                            </div>
+
+                            <div class="text-sm text-black-200 w-full md:w-4/12 pt-2 md:pt-0 link_cs leading-relaxed">
+                                <span class="bg-red text-white rounded-full px-2 mr-3">2</span>
+                                Préparer la 
+                                <a href="/gourmets/chef-simon/recettes/creme-bavaroise">crème bavaroise</a>
+                                .
+
+                                              
+                            </div>
+                        </div>
+
+                        <div class="bg-gray-for-bg text-center print:hidden hidden md:block">
+
+                            <!-- Content_2 -->
+                            <div style='display:none;' class="Content_2"></div>
+
+                        </div>
+                        <div class="block bg-gray-for-bg text-center print:hidden md:hidden">
+
+                            <!-- Mobile_Pos2 -->
+                            <div style='display:none;' class="Mobile_Pos2"></div>
+
+                        </div>
+
+                        <div class="flex flex-col md:flex-row w-full my-3 print:my-2 p-3 border-2 border-dashed">
+                            <div class="md:pr-5 pb-3 md:pb-0 w-full md:w-8/12">
+                                <img height="252" width="378" alt="Charlotte aux pêches - Etape 3" title="Charlotte aux pêches - Etape 3" loading="lazy" src="https://res.cloudinary.com/hv9ssmzrz/image/fetch/c_fill,dpr_2.0,f_auto,h_252,q_auto,w_378/https://s3-eu-west-1.amazonaws.com/images-site-chefsimon-eu/image8/charlotte-aux-peches-1.jpg?_a=BACCg+GT"/>
+                            </div>
+
+                            <div class="text-sm text-black-200 w-full md:w-4/12 pt-2 md:pt-0 link_cs leading-relaxed">
+                                <span class="bg-red text-white rounded-full px-2 mr-3">3</span>
+                                Installer les biscuits 
+                                <a href="/gourmets/chef-simon/recettes/roses-en-pate-d-amande">roses</a>
+                                 non trempés contre la paroi du moule.
+
+                                              
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col md:flex-row w-full my-3 print:my-2 p-3 border-2 border-dashed">
+                            <div class="md:pr-5 pb-3 md:pb-0 w-full md:w-8/12">
+                                <img height="252" width="378" alt="Charlotte aux pêches - Etape 4" title="Charlotte aux pêches - Etape 4" loading="lazy" src="https://res.cloudinary.com/hv9ssmzrz/image/fetch/c_fill,dpr_2.0,f_auto,h_252,q_auto,w_378/https://s3-eu-west-1.amazonaws.com/images-site-chefsimon-eu/image8/charlotte-aux-peches-4.jpg?_a=BACCg+GT"/>
+                            </div>
+
+                            <div class="text-sm text-black-200 w-full md:w-4/12 pt-2 md:pt-0 link_cs leading-relaxed">
+                                <span class="bg-red text-white rounded-full px-2 mr-3">4</span>
+                                Mélanger délicatement les fruits et la crème.
+
+                                              
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col md:flex-row w-full my-3 print:my-2 p-3 border-2 border-dashed">
+                            <div class="md:pr-5 pb-3 md:pb-0 w-full md:w-8/12">
+                                <img height="252" width="378" alt="Charlotte aux pêches - Etape 5" title="Charlotte aux pêches - Etape 5" loading="lazy" src="https://res.cloudinary.com/hv9ssmzrz/image/fetch/c_fill,dpr_2.0,f_auto,h_252,q_auto,w_378/https://s3-eu-west-1.amazonaws.com/images-site-chefsimon-eu/image8/charlotte-aux-peches-5.jpg?_a=BACCg+GT"/>
+                            </div>
+
+                            <div class="text-sm text-black-200 w-full md:w-4/12 pt-2 md:pt-0 link_cs leading-relaxed">
+                                <span class="bg-red text-white rounded-full px-2 mr-3">5</span>
+                                Commencer à remplir le moule avec le mélange.
+
+                                              
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col md:flex-row w-full my-3 print:my-2 p-3 border-2 border-dashed">
+                            <div class="md:pr-5 pb-3 md:pb-0 w-full md:w-8/12">
+                                <img height="252" width="378" alt="Charlotte aux pêches - Etape 6" title="Charlotte aux pêches - Etape 6" loading="lazy" src="https://res.cloudinary.com/hv9ssmzrz/image/fetch/c_fill,dpr_2.0,f_auto,h_252,q_auto,w_378/https://s3-eu-west-1.amazonaws.com/images-site-chefsimon-eu/image8/charlotte-aux-peches-6.jpg?_a=BACCg+GT"/>
+                            </div>
+
+                            <div class="text-sm text-black-200 w-full md:w-4/12 pt-2 md:pt-0 link_cs leading-relaxed">
+                                <span class="bg-red text-white rounded-full px-2 mr-3">6</span>
+                                A mi-hauteur ajouter quelques brisures de biscuits roses.
+
+                                              
+                            </div>
+                        </div>
+
+                        <div class="bg-gray-for-bg text-center print:hidden hidden md:block">
+
+                            <!-- Content_3 -->
+                            <div style='display:none;' class="Content_3"></div>
+
+                        </div>
+                        <div class="block bg-gray-for-bg text-center print:hidden md:hidden">
+
+                            <!-- Mobile_Pos3 -->
+                            <div style='display:none;' class="Mobile_Pos3"></div>
+
+                        </div>
+
+                        <div class="flex flex-col md:flex-row w-full my-3 print:my-2 p-3 border-2 border-dashed">
+                            <div class="md:pr-5 pb-3 md:pb-0 w-full md:w-8/12">
+                                <img height="252" width="378" alt="Charlotte aux pêches - Etape 7" title="Charlotte aux pêches - Etape 7" loading="lazy" src="https://res.cloudinary.com/hv9ssmzrz/image/fetch/c_fill,dpr_2.0,f_auto,h_252,q_auto,w_378/https://s3-eu-west-1.amazonaws.com/images-site-chefsimon-eu/image8/charlotte-aux-peches-7.jpg?_a=BACCg+GT"/>
+                            </div>
+
+                            <div class="text-sm text-black-200 w-full md:w-4/12 pt-2 md:pt-0 link_cs leading-relaxed">
+                                <span class="bg-red text-white rounded-full px-2 mr-3">7</span>
+                                Finir de remplir le moule à charlotte jusqu'à hauteur des biscuits.
+
+                                              
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col md:flex-row w-full my-3 print:my-2 p-3 border-2 border-dashed">
+                            <div class="md:pr-5 pb-3 md:pb-0 w-full md:w-8/12">
+                                <img height="252" width="378" alt="Charlotte aux pêches - Etape 8" title="Charlotte aux pêches - Etape 8" loading="lazy" src="https://res.cloudinary.com/hv9ssmzrz/image/fetch/c_fill,dpr_2.0,f_auto,h_252,q_auto,w_378/https://s3-eu-west-1.amazonaws.com/images-site-chefsimon-eu/image8/charlotte-aux-peches-8.jpg?_a=BACCg+GT"/>
+                            </div>
+
+                            <div class="text-sm text-black-200 w-full md:w-4/12 pt-2 md:pt-0 link_cs leading-relaxed">
+                                <span class="bg-red text-white rounded-full px-2 mr-3">8</span>
+                                Poser un couvercle au-dessus de la charlotte pour éviter que les biscuits remontent et mettre au frais.
+
+                                              
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col md:flex-row w-full my-3 print:my-2 p-3 border-2 border-dashed">
+                            <div class="md:pr-5 pb-3 md:pb-0 w-full md:w-8/12">
+                                <img height="252" width="378" alt="Charlotte aux pêches - Etape 9" title="Charlotte aux pêches - Etape 9" loading="lazy" src="https://res.cloudinary.com/hv9ssmzrz/image/fetch/c_fill,dpr_2.0,f_auto,h_252,q_auto,w_378/https://s3-eu-west-1.amazonaws.com/images-site-chefsimon-eu/image8/charlotte-aux-peches-9.jpg?_a=BACCg+GT"/>
+                            </div>
+
+                            <div class="text-sm text-black-200 w-full md:w-4/12 pt-2 md:pt-0 link_cs leading-relaxed">
+                                <span class="bg-red text-white rounded-full px-2 mr-3">9</span>
+                                Le lendemain, démouler la charlotte délicatement sur assiette.
+
+                                              
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col md:flex-row w-full my-3 print:my-2 p-3 border-2 border-dashed">
+                            <div class="md:pr-5 pb-3 md:pb-0 w-full md:w-8/12">
+                                <img height="252" width="378" alt="Charlotte aux pêches - Etape 10" title="Charlotte aux pêches - Etape 10" loading="lazy" src="https://res.cloudinary.com/hv9ssmzrz/image/fetch/c_fill,dpr_2.0,f_auto,h_252,q_auto,w_378/https://s3-eu-west-1.amazonaws.com/images-site-chefsimon-eu/image8/charlotte-aux-peches-10.jpg?_a=BACCg+GT"/>
+                            </div>
+
+                            <div class="text-sm text-black-200 w-full md:w-4/12 pt-2 md:pt-0 link_cs leading-relaxed">
+                                <span class="bg-red text-white rounded-full px-2 mr-3">10</span>
+                                <a href="/articles/lexique-napper">Napper</a>
+                                 mais sans excès avec le coulis de framboises.
+
+                                              
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col md:flex-row w-full my-3 print:my-2 p-3 border-2 border-dashed">
+                            <div class="md:pr-5 pb-3 md:pb-0 w-full md:w-8/12">
+                                <img height="252" width="378" alt="Charlotte aux pêches - Etape 11" title="Charlotte aux pêches - Etape 11" loading="lazy" src="https://res.cloudinary.com/hv9ssmzrz/image/fetch/c_fill,dpr_2.0,f_auto,h_252,q_auto,w_378/https://s3-eu-west-1.amazonaws.com/images-site-chefsimon-eu/image8/charlotte-aux-peches-11.jpg?_a=BACCg+GT"/>
+                            </div>
+
+                            <div class="text-sm text-black-200 w-full md:w-4/12 pt-2 md:pt-0 link_cs leading-relaxed">
+                                <span class="bg-red text-white rounded-full px-2 mr-3">11</span>
+                                Décorer avec quelques framboises, de la 
+                                <a href="/gourmets/chef-simon/recettes/creme-chantilly--6">crème Chantilly</a>
+                                 et des amandes effilées légèrement grillées. 
+                                              
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="bg-gray-for-bg text-center print:hidden hidden md:block">
+
+                    <!-- Content_4 -->
+                    <div style='display:none;' class="Content_4"></div>
+
+                </div>
+                <div class="block bg-gray-for-bg text-center print:hidden md:hidden">
+
+                    <!-- Mobile_Pos4 -->
+                    <div style='display:none;' class="Mobile_Pos4"></div>
+
+                </div>
+
+                <div class="bg-gray-for-bg3 p-3">
+                    <h2>
+                        <span class="text-red">Quelques mots</span>
+                         sur cette recette de dessert
+                    </h2>
+
+                    <p>
+                        L'idéal est de réaliser cette charlotte la veille pour le lendemain. Une nuit au réfrigérateur sera nécessaire pour une bonne tenue de la charlotte et un démoulage sans risque.
+                        <br>
+                         
+                        Ici les biscuits roses ne sont pas trempés pour pouvoir absorber l'humidité relâchée par les fruits pochés.
+                        <br>
+                        <br>
+
+                        Pour faciliter le démoulage vous pouvez tapisser votre moule avec du film alimentaire sinon il vous suffira de passer une lame de couteau le long de la paroi et de tremper le fond du moule quelques secondes dans l'eau chaude pour la démouler. Vous pouvez aussi faciliter le démoulage en pratiquant un appel d'air comme pour la crème renversée.
+                        <br>
+                        <br>
+                        <strong>Quelle différence entre une charlotte et un bavarois ?</strong>
+                         L'appellation 
+                        <a href="/articles/lexique-bavarois" target="_blank">bavarois</a>
+                         est utilisée lorsque l'appareil est versé "brut" dans le moule. Si le moule est au préalable chemisé de biscuits alors il devient "charlotte"
+                        <br>
+                        <br>
+
+                        <strong>Les charlottes aux fruits peuvent être réalisées de deux façons</strong>
+                         : 
+                        <br>
+                        <br>
+
+
+                        * La première est à base de crème au fromage blanc et de mascarpone comme pour la 
+                        <a href="/gourmets/chef-simon/recettes/charlotte-aux-fraises--14">charlotte aux fraises</a>
+                        . Cette méthode à l'avantage d'être simple et inratable et donne un résultat très frais.
+                        <br>
+                        <br>
+
+                        * La seconde est, comme ici à base de crème bavaroise. Méthode un peu plus compliquée, plus classique mais au final plus "gastronomique" grâce au moelleux de la crème.
+                        <br>
+                        <br>
+
+
+                        On retrouve bien ici les marqueurs de la pêche Melba : un appareil vanille, des pêches pochées, un coulis de framboise, de la crème Chantilly et des amandes effilées grillées.
+                    </p>
+
+                </div>
+
+                <div class="text-xs my-2 flex flex-wrap text-black-text-for-tag">
+                    <a class="border border-gray-ulight p-2 mr-2 my-1 rounded rounded-lg hover:text-white hover:bg-red bg-gray-for-tag" href="/recettes/tag/bavarois">bavarois</a>
+                    <a class="border border-gray-ulight p-2 mr-2 my-1 rounded rounded-lg hover:text-white hover:bg-red bg-gray-for-tag" href="/recettes/tag/biscuits%20roses%20de%20Reims">biscuits roses de Reims</a>
+                    <a class="border border-gray-ulight p-2 mr-2 my-1 rounded rounded-lg hover:text-white hover:bg-red bg-gray-for-tag" href="/recettes/tag/brugnons">brugnons</a>
+                    <a class="border border-gray-ulight p-2 mr-2 my-1 rounded rounded-lg hover:text-white hover:bg-red bg-gray-for-tag" href="/recettes/tag/charlotte">charlotte</a>
+                    <a class="border border-gray-ulight p-2 mr-2 my-1 rounded rounded-lg hover:text-white hover:bg-red bg-gray-for-tag" href="/recettes/tag/charlotte%20aux%20p%C3%AAches">charlotte aux pêches</a>
+                    <a class="border border-gray-ulight p-2 mr-2 my-1 rounded rounded-lg hover:text-white hover:bg-red bg-gray-for-tag" href="/recettes/tag/cr%C3%A8me%20bavaroise">crème bavaroise</a>
+                    <a class="border border-gray-ulight p-2 mr-2 my-1 rounded rounded-lg hover:text-white hover:bg-red bg-gray-for-tag" href="/recettes/tag/cr%C3%A8me%20Chantilly">crème Chantilly</a>
+                    <a class="border border-gray-ulight p-2 mr-2 my-1 rounded rounded-lg hover:text-white hover:bg-red bg-gray-for-tag" href="/recettes/tag/dessert">dessert</a>
+                    <a class="border border-gray-ulight p-2 mr-2 my-1 rounded rounded-lg hover:text-white hover:bg-red bg-gray-for-tag" href="/recettes/tag/entremets">entremets</a>
+                    <a class="border border-gray-ulight p-2 mr-2 my-1 rounded rounded-lg hover:text-white hover:bg-red bg-gray-for-tag" href="/recettes/tag/framboises">framboises</a>
+                    <a class="border border-gray-ulight p-2 mr-2 my-1 rounded rounded-lg hover:text-white hover:bg-red bg-gray-for-tag" href="/recettes/tag/fruits%20rouges">fruits rouges</a>
+                    <a class="border border-gray-ulight p-2 mr-2 my-1 rounded rounded-lg hover:text-white hover:bg-red bg-gray-for-tag" href="/recettes/tag/nectarines">nectarines</a>
+                    <a class="border border-gray-ulight p-2 mr-2 my-1 rounded rounded-lg hover:text-white hover:bg-red bg-gray-for-tag" href="/recettes/tag/p%C3%AAche%20Melba">pêche Melba</a>
+                    <a class="border border-gray-ulight p-2 mr-2 my-1 rounded rounded-lg hover:text-white hover:bg-red bg-gray-for-tag" href="/recettes/tag/p%C3%AAches">pêches</a>
+                </div>
+
+                <div class="text-xs leading-tight text-gray-500">
+                  Publié le 7 décembre 2011 à 22h55, Modifié le 14 octobre 2024 à 14h16
+                </div>
+
+                <div class="bg-gray-for-bg text-center print:hidden hidden md:block">
+
+                    <!-- Content_5 -->
+                    <div style='display:none;' class="Content_5"></div>
+
+                </div>
+                <div class="block bg-gray-for-bg text-center print:hidden md:hidden">
+
+                    <!-- Mobile_Pos5 -->
+                    <div style='display:none;' class="Mobile_Pos5"></div>
+
+                </div>
+
+            </div>
+
+            <!-- Column 2 Ads-->
+            <div class="lg:w-4/12 space-y-7">
+
+                <div class="link_cs print:hidden">
+                    <h2 class="mt-0">
+                        Accord mets et 
+                        <span class="text-red">musique</span>
+                    </h2>
+
+                    <div class="flex justify-center relative mb-3">
+                        <a target="_blank" href="https://www.youtube.com/watch?v=53N99Nim6WE
+                        ">
+                            <img alt="A écouter en préparant Charlotte aux pêches" title="A écouter en préparant Charlotte aux pêches" class="w-screen" width="480" height="360" loading="lazy" src="https://img.youtube.com/vi/53N99Nim6WE/hqdefault.jpg"/>
+                        </a>
+                        <a aria-label="Ecouter l'accord musical avec la recette" href="https://www.youtube.com/watch?v=53N99Nim6WE
+                        " rel="noopener" target="_blank">
+                            <svg aria-hidden="true" class="absolute bottom-0 right-0" width="58px" height="51px" viewBox="0 0 58 51" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                                <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <g id="Recipes-by-theme" transform="translate(-947.000000, -512.000000)">
+                                        <g id="youtube_square" transform="translate(947.000000, 512.000000)">
+                                            <rect id="Rectangle" fill="#E1001B" x="0" y="0" width="58" height="51"></rect>
+                                            <polygon id="Triangle" fill="#FFFFFF" transform="translate(31.000000, 25.000000) scale(-1, -1) rotate(-90.000000) translate(-31.000000, -25.000000)" points="31 17 42 33 20 33"></polygon>
+                                        </g>
+                                    </g>
+                                </g>
+                            </svg>
+                        </a>
+                    </div>
+
+                    <div>
+                        <p class="text-center text-xs">
+                            Cette vidéo s'affichera dans une 
+                            <a href="https://www.youtube.com/watch?v=53N99Nim6WE
+                            " rel="noopener" target="_blank">nouvelle fenêtre</a>
+                            .
+                        </p>
+                    </div>
+
+                    <div>
+                        <p>
+                            Rien de tel pour préparer cette charlotte que "Echoes" qui n'a pas pris une seule ride, de 
+                            <a href="http://pinkfloyds.free.fr/histoire.htm">Pink Floyd</a>
+                            .
+                        </p>
+                    </div>
+                </div>
+
+                <div class="sticky top-0 pt-3">
+
+                    <div class="bg-gray-for-bg text-center pt-1 pb-3 print:hidden hidden md:block" style="width:312px;height:616px;">
+
+                        <!-- HalfpageAd_1 -->
+                        <div style='display:none;' class="HalfpageAd_1"></div>
+
+                    </div>
+
+                    <div class="">
+                    </div>
+
+                    <div class="mt-8 print:hidden">
+                        <h2>
+                            <span class="text-red">Une recette</span>
+                             dans...
+                        </h2>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-3">
+
+                            <div>
+                                <div class="relative">
+
+                                    <a title="Pêches, brugnons et nectarines" href="/selections/peches-brugnons-et-nectarines">
+                                        <img class="rounded w-screen" width="325" height="244" alt="Pêches, brugnons et nectarines" title="Pêches, brugnons et nectarines" loading="lazy" src="https://res.cloudinary.com/hv9ssmzrz/image/fetch/c_fill,f_auto,h_244,q_auto,w_325/https://s3-eu-west-1.amazonaws.com/images-ca-1-0-1-eu/recipe_photos/original/163719/IMG_9250-1024x682.jpg"/>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="space-y-3">
+                                <h5>
+                                    <a title="Pêches, brugnons et nectarines" href="/selections/peches-brugnons-et-nectarines">Pêches, brugnons et nectarines</a>
+                                </h5>
+
+                            </div>
+
+                            <div>
+                                <div class="relative">
+
+                                    <a title="Charlotte for ever " href="/selections/charlotte-for-ever">
+                                        <img class="rounded w-screen" width="325" height="244" alt="Charlotte for ever " title="Charlotte for ever " loading="lazy" src="https://res.cloudinary.com/hv9ssmzrz/image/fetch/c_fill,f_auto,h_244,q_auto,w_325/https://s3-eu-west-1.amazonaws.com/images-ca-1-0-1-eu/recipe_photos/original/233885/open-uri20230508-2389-1rynl1h"/>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="space-y-3">
+                                <h5>
+                                    <a title="Charlotte for ever " href="/selections/charlotte-for-ever">Charlotte for ever </a>
+                                </h5>
+
+                            </div>
+
+                            <div>
+                                <div class="relative">
+
+                                    <a title="Régalons nous des fruits du pêcher" href="/selections/regalons-nous-des-fruits-du-pecher">
+                                        <img class="rounded w-screen" width="325" height="244" alt="Régalons nous des fruits du pêcher" title="Régalons nous des fruits du pêcher" loading="lazy" src="https://res.cloudinary.com/hv9ssmzrz/image/fetch/c_fill,f_auto,h_244,q_auto,w_325/https://s3-eu-west-1.amazonaws.com/images-ca-1-0-1-eu/recipe_photos/original/109042/20150822_145438_2BHR_2BRET_2BMCC.jpg"/>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="space-y-3">
+                                <h5>
+                                    <a title="Régalons nous des fruits du pêcher" href="/selections/regalons-nous-des-fruits-du-pecher">Régalons nous des fruits du pêcher</a>
+                                </h5>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="flex flex-col lg:flex-row lg:space-x-4">
+            <!-- Column 3 Content -->
+            <div class="lg:w-12/12 space-y-8 mb-5 md:mb-0">
+
+                <div class="print:hidden">
+                    <h2>
+                        D'autres recettes 
+                        <span class="text-red">du Chef Simon</span>
+                    </h2>
+                    <p>
+                        <a class="hover:underline" href="/gourmets/chef-simon">Chef Simon</a>
+
+                                partage également ces recettes.
+                              
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+                        <div class="mt-4 md:mt-0">
+
+                            <div class="relative">
+                                <a href="/gourmets/chef-simon/recettes/bavarois-d-asperges-en-aspics">
+                                    <img alt="Bavarois d&#39;asperges en aspics" class="rounded w-screen shadow" title="Bavarois d&#39;asperges en aspics" width="325" height="244" loading="lazy" src="https://res.cloudinary.com/hv9ssmzrz/image/fetch/c_fill,f_auto,h_244,q_auto,w_325/https://s3-eu-west-1.amazonaws.com/images-ca-1-0-1-eu/recipe_photos/original/33/mouasp14.jpg"/>
+
+                                </a>
+                            </div>
+
+                            <div>
+
+                                <h5 class="lg:mt-7 mt-4 mb-2 line-clamp-2 leading-tight md:h-11">
+                                    <a title="Bavarois d&#39;asperges en aspics" href="/gourmets/chef-simon/recettes/bavarois-d-asperges-en-aspics">Bavarois d&#39;asperges en aspics</a>
+                                </h5>
+
+                                <div class="flex flex-row items-center space-x-3 text-sm text-avatar-title my-5">
+                                    <a href="/gourmets/chef-simon">
+                                        <img alt="Chef Simon" title="Chef Simon" width="60" height="60" class="w-10 rounded-full shadow" loading="lazy" src="https://res.cloudinary.com/hv9ssmzrz/image/fetch/c_fill,f_auto,h_60,q_auto,w_60/https://s3-eu-west-1.amazonaws.com/images-ca-1-0-1-eu/user_avatars/original/148/logo-chef-simon.png"/>
+                                    </a>
+                                    <a class="line-clamp-2" href="/gourmets/chef-simon">Chef Simon</a>
+                                </div>
+
+                                <div class="text-sm text-image-subtitle link_cs line-clamp-4 max-h-24 leading-normal">
+                                              Joli, frais et léger idéal pour une mise en bouche.
+                                          </div>
+
+                                <div class="flex flex-row mt-4 mb-2 text-xs text-black-200  items-center">
+                                    <svg class="fill-current text-red h-3 w-3 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                        <path d="M10 3.22l-.61-.6a5.5 5.5 0 0 0-7.78 7.77L10 18.78l8.39-8.4a5.5 5.5 0 0 0-7.78-7.77l-.61.61z"/>
+                                    </svg>
+
+                                                1
+                                              
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="mt-4 md:mt-0">
+
+                            <div class="relative">
+                                <a href="/gourmets/chef-simon/recettes/bavarois-aux-fruits-rouges">
+                                    <img alt="Bavarois aux fruits rouges" class="rounded w-screen shadow" title="Bavarois aux fruits rouges" width="325" height="244" loading="lazy" src="https://res.cloudinary.com/hv9ssmzrz/image/fetch/c_fill,f_auto,h_244,q_auto,w_325/https://s3-eu-west-1.amazonaws.com/images-ca-1-0-1-eu/recipe_photos/original/34/bavarois-fruits-rouges-3.jpg"/>
+
+                                </a>
+                            </div>
+
+                            <div>
+
+                                <h5 class="lg:mt-7 mt-4 mb-2 line-clamp-2 leading-tight md:h-11">
+                                    <a title="Bavarois aux fruits rouges" href="/gourmets/chef-simon/recettes/bavarois-aux-fruits-rouges">Bavarois aux fruits rouges</a>
+                                </h5>
+
+                                <div class="flex flex-row items-center space-x-3 text-sm text-avatar-title my-5">
+                                    <a href="/gourmets/chef-simon">
+                                        <img alt="Chef Simon" title="Chef Simon" width="60" height="60" class="w-10 rounded-full shadow" loading="lazy" src="https://res.cloudinary.com/hv9ssmzrz/image/fetch/c_fill,f_auto,h_60,q_auto,w_60/https://s3-eu-west-1.amazonaws.com/images-ca-1-0-1-eu/user_avatars/original/148/logo-chef-simon.png"/>
+                                    </a>
+                                    <a class="line-clamp-2" href="/gourmets/chef-simon">Chef Simon</a>
+                                </div>
+
+                                <div class="text-sm text-image-subtitle link_cs line-clamp-4 max-h-24 leading-normal">
+                                    <a href="/articles/lexique-appareil">Appareil</a>
+                                     à base de sirop et purée de fruits (framboises, fraises...).
+                                              
+                                </div>
+
+                                <div class="flex flex-row mt-4 mb-2 text-xs text-black-200  items-center">
+                                    <svg class="fill-current text-red h-3 w-3 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                        <path d="M10 3.22l-.61-.6a5.5 5.5 0 0 0-7.78 7.77L10 18.78l8.39-8.4a5.5 5.5 0 0 0-7.78-7.77l-.61.61z"/>
+                                    </svg>
+
+                                                3
+                                              
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="mt-4 md:mt-0">
+
+                            <div class="relative">
+                                <a href="/gourmets/chef-simon/recettes/bavarois-de-legumes">
+                                    <img alt="Bavarois de légumes" class="rounded w-screen shadow" title="Bavarois de légumes" width="325" height="244" loading="lazy" src="https://res.cloudinary.com/hv9ssmzrz/image/fetch/c_fill,f_auto,h_244,q_auto,w_325/https://s3-eu-west-1.amazonaws.com/images-ca-1-0-1-eu/recipe_photos/original/35/bavarois-legumes-008.jpg"/>
+
+                                </a>
+                            </div>
+
+                            <div>
+
+                                <h5 class="lg:mt-7 mt-4 mb-2 line-clamp-2 leading-tight md:h-11">
+                                    <a title="Bavarois de légumes" href="/gourmets/chef-simon/recettes/bavarois-de-legumes">Bavarois de légumes</a>
+                                </h5>
+
+                                <div class="flex flex-row items-center space-x-3 text-sm text-avatar-title my-5">
+                                    <a href="/gourmets/chef-simon">
+                                        <img alt="Chef Simon" title="Chef Simon" width="60" height="60" class="w-10 rounded-full shadow" loading="lazy" src="https://res.cloudinary.com/hv9ssmzrz/image/fetch/c_fill,f_auto,h_60,q_auto,w_60/https://s3-eu-west-1.amazonaws.com/images-ca-1-0-1-eu/user_avatars/original/148/logo-chef-simon.png"/>
+                                    </a>
+                                    <a class="line-clamp-2" href="/gourmets/chef-simon">Chef Simon</a>
+                                </div>
+
+                                <div class="text-sm text-image-subtitle link_cs line-clamp-4 max-h-24 leading-normal">
+                                              Jouez sur les couleurs.
+                                          </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div id="taboola-below-recette-thumbnails-wide"></div>
+                <script type="text/javascript">
+                window._taboola = window._taboola || [];
+                _taboola.push({
+                    mode: 'alternating-thumbnails-a',
+                    container: 'taboola-below-recette-thumbnails-wide',
+                    placement: 'Below Recette Thumbnails Wide',
+                    target_type: 'mix'
+                });
+                </script>
+
+                <div class="print:hidden">
+                    <h2>Commentaires</h2>
+                    <a href="#comment" title="Commenter la recette"></a>
+
+                    <div class="w-full bg-gray-for-bg my-7 p-7 border-2 border-dashed">
+                        <form class="edit_recipe" id="edit_recipe_154" action="/recettes/charlotte-aux-peches--3/comment" accept-charset="UTF-8" method="post">
+                            <input type="hidden" name="authenticity_token" value="Dvo3447kW2Zc8UN-NVamYwCT6SZiRxkScvNKsESlx5tY_pdz2LhE6mrYOGWI3mGoc7G7IRiJMOQqL30K5ZwPIw" autocomplete="off"/>
+                            <fieldset>
+
+                                <label class="block">
+                                    <span class="text-black-300 text-sm">Donnez votre avis sur cette recette de Charlotte aux pêches
+                                                !</span>
+                                    <textarea id="comment" name="comment" rows="3" cols="" class="mt-1 block w-full border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"></textarea>
+                                </label>
+
+                                <span class="text-black-300 text-xs link_cs">
+                                    Rejoignez le Club Chef Simon pour commenter : 
+                                    <a href="/users/sign_up">inscription gratuite en quelques instants</a>
+                                    &nbsp;! 
+                                </span>
+                            </fieldset>
+
+                            <input type="submit" name="commit" value="Valider" class="red_button mt-2" data-disable-with="Valider"/>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 gap-4 print:hidden">
+                    <!-- Chaque commentaire prendra une colonne complète dans la grille -->
+
+                    <div class="col-span-1">
+                        <div class="grid grid-cols-5 gap-4">
+                            <!-- Gourmet avatar -->
+                            <div class="col-span-1">
+                                <a href="/gourmets/jean-louis-garot">
+                                    <img alt="JEAN-LOUIS GAROT" title="JEAN-LOUIS GAROT" class="w-12 md:w-24 rounded-full shadow" width="177" height="177" loading="lazy" src="https://res.cloudinary.com/hv9ssmzrz/image/fetch/c_fill,f_auto,h_177,q_auto,w_177/https://cdn.chefsimon.com/missing/missing_gourmet.svg"/>
+                                </a>
+                            </div>
+
+                            <!-- Gourmet title, date and comment -->
+                            <div class="col-span-4">
+                                <h5 class="text-xl text-black-header-2 font-normal mt-2 md:mt-4">
+                                    <a href="/gourmets/jean-louis-garot">JEAN-LOUIS GAROT</a>
+                                </h5>
+                                <div class="text-sm text-black-200">05 fév. 2018 à 19:22</div>
+                                <div class="text-black-200 mt-8">
+                                    <p>
+                                        Bonjour Chef, merci pour toutes ces recettes et ces conseils. Ce site c'est du caviar !!!
+                                        <br>
+                                        J'ai tenté le bavarois aux pêches, à part un léger problème de démoulage (je ne l'ai pas préparé la veille)et de présentation (forcement) rien à redire, mes invités m'ont encensés. Perso, je me suis régalé! Merci encore...
+                                    </p>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <p>
+                    <a href="/gourmets/chef-simon/recettes/charlotte-aux-peches--3/commentaires">Voir tous les commentaires...</a>
+                </p>
+
+                <div class="print:hidden">
+
+                    <h2>
+                        Voir 
+                        <span class="text-red">aussi</span>
+                    </h2>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+                        <span class="text-sm underline text-black-200 break-words">
+                            <a href="https://chefsimon.com/articles/lexique-bourdaloue">Bourdaloue</a>
+                        </span>
+                        <span class="text-sm underline text-black-200 break-words">
+                            <a href="https://chefsimon.com/articles/lexique-bavarois">Bavarois</a>
+                        </span>
+                        <span class="text-sm underline text-black-200 break-words">
+                            <a href="https://chefsimon.com/articles/lexique-blanc-manger">Blanc-manger</a>
+                        </span>
+                        <span class="text-sm underline text-black-200 break-words">
+                            <a href="https://chefsimon.com/articles/lexique-vanner">Vanner</a>
+                        </span>
+                        <span class="text-sm underline text-black-200 break-words">
+                            <a href="https://chefsimon.com/articles/lexique-bloquer-au-froid">Bloquer au froid</a>
+                        </span>
+                        <span class="text-sm underline text-black-200 break-words">
+                            <a href="https://chefsimon.com/articles/bibliotheque-des-fruits-petite-encyclopedie-gourmande">Des fruits - Petite encyclopédie gourmande</a>
+                        </span>
+                    </div>
+
+                </div>
+
+                <div class="print:hidden pt-2 md:pt-5">
+                    <h2>
+                        Plus de recettes des Gourmets 
+                        <span class="text-red">sur le même thème</span>
+                    </h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 text-sm text-black-200">
+                        <div class="mr-3">
+                            <div class="mb-2">
+                                <a class="underline" href="/gourmets/syndicat-national-des-industriels-et-professionnels-de-l-oeuf/recettes/charlotte-aux-fraises-67d85a4c-9a9d-487f-943d-6764625bb65a">Charlotte aux fraises</a>
+                                 de 
+                                <a href="https://chefsimon.com/gourmets/syndicat-national-des-industriels-et-professionnels-de-l-oeuf">Syndicat national des industriels et professionnels de l’œuf</a>
+                            </div>
+                            <div class="mb-2">
+                                <a class="underline" href="/gourmets/lacuisinedunetoquee/recettes/charlotte-a-l-ananas-express">Charlotte à l’ananas express</a>
+                                 de 
+                                <a href="https://chefsimon.com/gourmets/lacuisinedunetoquee">Lacuisinedunetoquee</a>
+                            </div>
+                            <div class="mb-2">
+                                <a class="underline" href="/gourmets/lacuisinedunetoquee/recettes/charlotte-girly-a-la-framboise">Charlotte girly à la framboise</a>
+                                 de 
+                                <a href="https://chefsimon.com/gourmets/lacuisinedunetoquee">Lacuisinedunetoquee</a>
+                            </div>
+                            <div class="mb-2">
+                                <a class="underline" href="/gourmets/plat-et-recette/recettes/charlotte-aux-fraises-d5a134cd-a829-4c2c-8b7c-f8f93f617021">Charlotte aux fraises</a>
+                                 de 
+                                <a href="https://chefsimon.com/gourmets/plat-et-recette">Plat et recette</a>
+                            </div>
+                        </div>
+                        <div class="mr-3">
+                            <div class="mb-2">
+                                <a class="underline" href="/gourmets/le-popoteur/recettes/charlotte-aux-framboises-891346d3-3fb2-4085-b15b-8154be7c4330">Charlotte aux framboises</a>
+                                 de 
+                                <a href="https://chefsimon.com/gourmets/le-popoteur">Le popoteur</a>
+                            </div>
+                            <div class="mb-2">
+                                <a class="underline" href="/gourmets/oh-la-gourmande/recettes/charlotte-aux-deux-chocolats">Charlotte aux deux chocolats</a>
+                                 de 
+                                <a href="https://chefsimon.com/gourmets/oh-la-gourmande">Oh la gourmande</a>
+                            </div>
+                            <div class="mb-2">
+                                <a class="underline" href="/gourmets/docteur-chocolatine/recettes/charlotte-vanille-et-chocolat">Charlotte vanille et chocolat</a>
+                                 de 
+                                <a href="https://chefsimon.com/gourmets/docteur-chocolatine">Docteur chocolatine</a>
+                            </div>
+                            <div class="mb-2">
+                                <a class="underline" href="/gourmets/lacuisinedunetoquee/recettes/charlotte-au-citron-8d18b6f4-f1d2-4f6a-9917-1198a0278693">Charlotte au citron</a>
+                                 de 
+                                <a href="https://chefsimon.com/gourmets/lacuisinedunetoquee">Lacuisinedunetoquee</a>
+                            </div>
+                        </div>
+                        <div class="mr-3">
+                            <div class="mb-2">
+                                <a class="underline" href="/gourmets/epicetout/recettes/charlotte-au-citron-c80441e4-942e-4120-862c-b0da065c4902">Charlotte au citron</a>
+                                 de 
+                                <a href="https://chefsimon.com/gourmets/epicetout">Épicétout</a>
+                            </div>
+                            <div class="mb-2">
+                                <a class="underline" href="/gourmets/la-fille-du-boulanger-cuisine/recettes/vin-de-peche">Vin de pêche</a>
+                                 de 
+                                <a href="https://chefsimon.com/gourmets/la-fille-du-boulanger-cuisine">La fille du boulanger cuisine </a>
+                            </div>
+                            <div class="mb-2">
+                                <a class="underline" href="/gourmets/leroy/recettes/charlottes-aux-fraises-0b138147-39ed-49dd-80cd-54d5d63a04b5">Charlottes aux fraises</a>
+                                 de 
+                                <a href="https://chefsimon.com/gourmets/leroy">Pimprenelle</a>
+                            </div>
+                            <div class="mb-2">
+                                <a class="underline" href="/gourmets/domi-t/recettes/charlotte-poires-chocolat-de8acb94-ff90-4ec3-8e12-cd1681bf66e7">Charlotte poires chocolat</a>
+                                 de 
+                                <a href="https://chefsimon.com/gourmets/domi-t">Du pain sur la planche ou nourrir sa tribu</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <div id="footer" class="bg-bg_cs w-screen mt-10 md:mt-20 print:hidden">
+
+        <div class="max-w-screen-lg mx-auto py-6 px-3 lg:px-6">
+
+            <a href="/">
+                <img class="h-10 w-auto sm:h-14" src="https://cdn.chefsimon.com/images/logos/logo-chefsimon.svg" width="500" height="151" alt="ChefSimon.com" title="ChefSimon.com" loading="lazy">
+            </a>
+
+            <div class="flex flex-col lg:flex-row lg:space-x-10 py-6 mb-5">
+
+                <div class="flex-initial lg:w-4/12">
+                    <p class="text-lg mb-5">
+                        A propos de 
+                        <span class="text-red">Chef Simon</span>
+                    </p>
+
+                    <p>Je souhaite que cet espace reste délibérément, obstinément, volontairement gratuit, libre, sans abonnement
+                              et sans visa.</p>
+
+                    <div class="flex flex-row space-x-2 mt-4">
+
+                        <a target="_blank" href="https://www.facebook.com/lechefsimon" title="Facebook">
+                            <svg fill="#727D85" role="img" viewBox="0 0 24 24" width="28" height="28" xmlns="http://www.w3.org/2000/svg">
+                                <title>Facebook</title>
+                                <path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"/>
+                            </svg>
+                        </a>
+                        <a target="_blank" href="https://x.com/lechefsimon" title="X (Twitter)">
+                            <svg fill="#727D85" role="img" viewBox="0 0 24 24" width="28" height="28" xmlns="http://www.w3.org/2000/svg">
+                                <title>X</title>
+                                <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/>
+                            </svg>
+                        </a>
+                        <a target="_blank" href="https://www.instagram.com/chefsimon/?hl=fr" title="Instagram">
+                            <svg fill="#727D85" role="img" viewBox="0 0 24 24" width="28" height="28" xmlns="http://www.w3.org/2000/svg">
+                                <title>Instagram</title>
+                                <path d="M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077"/>
+                            </svg>
+                        </a>
+                        <a target="_blank" href="https://www.youtube.com/user/lechefsimon" title="YouTube">
+                            <svg fill="#727D85" role="img" viewBox="0 0 24 24" width="28" height="28" xmlns="http://www.w3.org/2000/svg">
+                                <title>YouTube</title>
+                                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                            </svg>
+                        </a>
+                        <a target="_blank" href="https://www.threads.net/@chefsimon" title="Threads">
+                            <svg fill="#727D85" role="img" viewBox="0 0 24 24" width="28" height="28" xmlns="http://www.w3.org/2000/svg">
+                                <title>Threads</title>
+                                <path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.96-3.898-5.984-8.304-6.015-2.91.022-5.11.936-6.54 2.717C4.307 6.504 3.616 8.914 3.589 12c.027 3.086.718 5.496 2.057 7.164 1.43 1.783 3.631 2.698 6.54 2.717 2.623-.02 4.358-.631 5.8-2.045 1.647-1.613 1.618-3.593 1.09-4.798-.31-.71-.873-1.3-1.634-1.75-.192 1.352-.622 2.446-1.284 3.272-.886 1.102-2.14 1.704-3.73 1.79-1.202.065-2.361-.218-3.259-.801-1.063-.689-1.685-1.74-1.752-2.964-.065-1.19.408-2.285 1.33-3.082.88-.76 2.119-1.207 3.583-1.291a13.853 13.853 0 0 1 3.02.142c-.126-.742-.375-1.332-.75-1.757-.513-.586-1.308-.883-2.359-.89h-.029c-.844 0-1.992.232-2.721 1.32L7.734 7.847c.98-1.454 2.568-2.256 4.478-2.256h.044c3.194.02 5.097 1.975 5.287 5.388.108.046.216.094.321.142 1.49.7 2.58 1.761 3.154 3.07.797 1.82.871 4.79-1.548 7.158-1.85 1.81-4.094 2.628-7.277 2.65Zm1.003-11.69c-.242 0-.487.007-.739.021-1.836.103-2.98.946-2.916 2.143.067 1.256 1.452 1.839 2.784 1.767 1.224-.065 2.818-.543 3.086-3.71a10.5 10.5 0 0 0-2.215-.221z"/>
+                            </svg>
+                        </a>
+                        <a target="_blank" href="https://mastodon.social/@chefsimon" title="Mastodon">
+                            <svg fill="#727D85" role="img" viewBox="0 0 24 24" width="28" height="28" xmlns="http://www.w3.org/2000/svg">
+                                <title>Mastodon</title>
+                                <path d="M23.268 5.313c-.35-2.578-2.617-4.61-5.304-5.004C17.51.242 15.792 0 11.813 0h-.03c-3.98 0-4.835.242-5.288.309C3.882.692 1.496 2.518.917 5.127.64 6.412.61 7.837.661 9.143c.074 1.874.088 3.745.26 5.611.118 1.24.325 2.47.62 3.68.55 2.237 2.777 4.098 4.96 4.857 2.336.792 4.849.923 7.256.38.265-.061.527-.132.786-.213.585-.184 1.27-.39 1.774-.753a.057.057 0 0 0 .023-.043v-1.809a.052.052 0 0 0-.02-.041.053.053 0 0 0-.046-.01 20.282 20.282 0 0 1-4.709.545c-2.73 0-3.463-1.284-3.674-1.818a5.593 5.593 0 0 1-.319-1.433.053.053 0 0 1 .066-.054c1.517.363 3.072.546 4.632.546.376 0 .75 0 1.125-.01 1.57-.044 3.224-.124 4.768-.422.038-.008.077-.015.11-.024 2.435-.464 4.753-1.92 4.989-5.604.008-.145.03-1.52.03-1.67.002-.512.167-3.63-.024-5.545zm-3.748 9.195h-2.561V8.29c0-1.309-.55-1.976-1.67-1.976-1.23 0-1.846.79-1.846 2.35v3.403h-2.546V8.663c0-1.56-.617-2.35-1.848-2.35-1.112 0-1.668.668-1.67 1.977v6.218H4.822V8.102c0-1.31.337-2.35 1.011-3.12.696-.77 1.608-1.164 2.74-1.164 1.311 0 2.302.5 2.962 1.498l.638 1.06.638-1.06c.66-.999 1.65-1.498 2.96-1.498 1.13 0 2.043.395 2.74 1.164.675.77 1.012 1.81 1.012 3.12z"/>
+                            </svg>
+                        </a>
+                        <a target="_blank" href="https://bsky.app/profile/chefsimon.bsky.social" title="Bluesky">
+                            <svg fill="#727D85" role="img" viewBox="0 0 24 24" width="28" height="28" xmlns="http://www.w3.org/2000/svg">
+                                <title>Bluesky</title>
+                                <path d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566.944 1.561 1.266.902 1.565.139 1.908 0 3.08 0 3.768c0 .69.378 5.65.624 6.479.815 2.736 3.713 3.66 6.383 3.364.136-.02.275-.039.415-.056-.138.022-.276.04-.415.056-3.912.58-7.387 2.005-2.83 7.078 5.013 5.19 6.87-1.113 7.823-4.308.953 3.195 2.05 9.271 7.733 4.308 4.267-4.308 1.172-6.498-2.74-7.078a8.741 8.741 0 0 1-.415-.056c.14.017.279.036.415.056 2.67.297 5.568-.628 6.383-3.364.246-.828.624-5.79.624-6.478 0-.69-.139-1.861-.902-2.206-.659-.298-1.664-.62-4.3 1.24C16.046 4.748 13.087 8.687 12 10.8Z"/>
+                            </svg>
+                        </a>
+                        <a target="_blank" href="https://whatsapp.com/channel/0029VaONJkk3LdQdmRBtki30" title="WhatsApp">
+                            <svg fill="#727D85" role="img" viewBox="0 0 24 24" width="28" height="28" xmlns="http://www.w3.org/2000/svg">
+                                <title>WhatsApp</title>
+                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+                            </svg>
+                        </a>
+                        <a target="_blank" href="https://www.tiktok.com/@chefsimon.com?_t=ZN-8ueaaPgWFt8&amp;_r=1" title="TikTok">
+                            <svg fill="#727D85" role="img" viewBox="0 0 24 24" width="28" height="28" xmlns="http://www.w3.org/2000/svg">
+                                <title>TikTok</title>
+                                <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
+                            </svg>
+                        </a>
+
+                    </div>
+
+                </div>
+
+                <div class="lg:flex lg:w-2/12 flex-col">
+                    <p class="text-lg mt-7 lg:mt-0 lg:mb-5">Notre société</p>
+
+                    <ul class="text-sm space-y-4">
+                        <li>
+                            <a href="/articles/corporate-a-propos-de-chef-simon">Chef Simon</a>
+                        </li>
+                        <li>
+                            <a href="/articles/corporate-qui-sommes-nous">L&#39;équipe</a>
+                        </li>
+                        <li>
+                            <a href="/articles/corporate-publicite">Publicité</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="lg:flex lg:w-3/12 flex-col">
+                    <p class="text-lg mt-7 lg:mt-0 lg:mb-5">Dura lex sed lex</p>
+
+                    <ul class="text-sm space-y-4">
+                        <li>
+                            <a href="/articles/corporate-mentions-legales">Mentions légales</a>
+                        </li>
+                        <li>
+                            <a href="/articles/corporate-conditions-generales-d-utilisation">CGU</a>
+                        </li>
+                        <li>
+                            <a href="/articles/corporate-contacts">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="lg:flex lg:w-3/12 flex-col">
+                    <p class="text-lg mt-7 lg:mt-0 lg:mb-5">Newsletter</p>
+
+                    <div class="search-form w-full flex flex-row space-x-2">
+
+                        <form class="w-full flex flex-row" action="/newsletters/subscribe" accept-charset="UTF-8" method="post">
+                            <input type="hidden" name="authenticity_token" value="3KvepmZFgnXF3xEic11g1hPldV1bC3_EZDiwp8KaZPzKcA1BEQJQg5mSnwXTA8lVn8vsM4HTpJr-yPXf9W3b0w" autocomplete="off"/>
+
+                            <input pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$" class="input_form_white flex-grow px-3 py-2" placeholder="Votre email" required="required" type="email" name="email" id="email"/>
+
+                            <input type="submit" name="commit" value="OK" class="ml-4 w-10 h-10 flex items-center justify-center text-white bg-red-500" data-disable-with="OK"/>
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="bg-bg_cs w-screen m-0 pb-2 print:hidden">
+        <p class="text-xs text-gray-400 text-center">ChefSimon.com 2025. Tous droits réservés. v4.1</p>
+    </div>
+
+    <script src="/packs/js/runtime-a0d2efd68438abf6b66f.js" cache="cached/all" rel="preload" defer="defer"></script>
+    <script src="/packs/js/769-aad887af3711978f834c.js" cache="cached/all" rel="preload" defer="defer"></script>
+    <script src="/packs/js/application-7c9b3c9f926c23e36ade.js" cache="cached/all" rel="preload" defer="defer"></script>
+
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@justinribeiro/lite-youtube@1.5.0/lite-youtube.js"></script>
+
+    <script type="text/javascript">
+    window._taboola = window._taboola || [];
+    _taboola.push({
+        flush: true
+    });
+    </script>
+
+</body>
+</html>
