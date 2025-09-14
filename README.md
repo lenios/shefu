@@ -83,7 +83,7 @@ Supported Recipe Websites for import:
 | ✅ [ZestfulKitchen.com](https://www.zestfulkitchen.com) |
 | More sites 🚧 In progress |
 
-| France 🇫🇷 Supported Website **(10)** |
+| France 🇫🇷 Supported Website **(11)** |
 |-------------------|
 | ✅ [750g.com](https://www.750g.com) |
 | ✅ [Atelierdeschefs.fr](https://www.atelierdeschefs.fr) |
@@ -91,6 +91,7 @@ Supported Recipe Websites for import:
 | ✅ [Cuisineaz.com](https://www.cuisineaz.com) |
 | ✅ [Cuisine.journaldesfemmes.fr](https://cuisine.journaldesfemmes.fr) |
 | ✅ [Giallozafferano.fr](https://www.giallozafferano.fr) |
+| ✅ [HelloFresh.fr](https://www.hellofresh.fr) |
 | ✅ [Marmiton.org](https://www.marmiton.com) |
 | ✅ [Lacuisinedessouvenirs.com](https://www.lacuisinedessouvenirs.com) |
 | ✅ [Ptitchef.com](https://www.ptitchef.com) |
