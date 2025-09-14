@@ -12,13 +12,13 @@ class IngredientDisplay extends StatelessWidget {
   final bool lineShape;
 
   const IngredientDisplay({
-    Key? key,
+    super.key,
     required this.ingredient,
     this.bulletType = "□ ",
     this.descBullet = "",
     this.primaryColor,
     this.lineShape = true,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

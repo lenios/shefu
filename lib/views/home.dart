@@ -64,17 +64,30 @@ class _HomePageState extends State<HomePage> {
     final colorScheme = theme.colorScheme;
 
     bool isHandset = MediaQuery.of(context).size.width < 550;
+
     return AppScaffold(
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: addNewRecipe,
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        tooltip: AppLocalizations.of(context)!.addRecipe,
-        icon: const Icon(Icons.add, color: Colors.white),
-        label: Text(
-          AppLocalizations.of(context)!.addRecipe,
-          style: const TextStyle(color: Colors.white),
-        ),
-        heroTag: 'homePageAddRecipe',
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            onPressed: () => context.go('/online-search'),
+            tooltip: 'Online Search',
+            child: const Icon(Icons.travel_explore),
+          ),
+          const SizedBox(width: 5),
+          FloatingActionButton.extended(
+            onPressed: addNewRecipe,
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            tooltip: AppLocalizations.of(context)!.addRecipe,
+            icon: const Icon(Icons.add, color: Colors.white),
+            label: Text(
+              AppLocalizations.of(context)!.addRecipe,
+              style: const TextStyle(color: Colors.white),
+            ),
+            heroTag: 'homePageAddRecipe',
+            key: const Key('AddRecipe'),
+          ),
+        ],
       ),
       child: Column(
         children: [
@@ -286,6 +299,8 @@ class _HomePageState extends State<HomePage> {
 
     if (categories.length <= 1) return const SizedBox.shrink();
 
+    if (!mounted) return const SizedBox.shrink(); // Context safeguard
+
     return DropdownButtonHideUnderline(
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 130),
@@ -334,6 +349,8 @@ class _HomePageState extends State<HomePage> {
 
     // Check if the countries list is empty or contains only "WW" (no specific country)
     if (countries.length <= 2) return const SizedBox.shrink();
+
+    if (!mounted) return const SizedBox.shrink(); // Context safeguard
 
     return DropdownButtonHideUnderline(
       key: _countryDropdownKey,

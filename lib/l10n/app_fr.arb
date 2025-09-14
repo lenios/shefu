@@ -221,6 +221,13 @@
     "optional": "optionel",
     "export": "exporter",
     "generatingPdf": "Création du PDF en cours...",
-    "questions": "Questions"
-    
+    "questions": "Questions",
+    "searchRecipesOnline": "Rechercher en ligne",
+    "selectSitesToSearch": "Choix des sites",
+    "tryAgain": "Réessayer",
+    "searchForOnlineRecipes": "Rechercher des recettes à importer",
+    "recipeImportedSuccessfully": "Recette importée avec succès !",
+    "importFailed": "Échec de l'importation de la recette",
+    "selectAll": "Tous",
+    "deselectAll": "Aucun"
 }

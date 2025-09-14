@@ -7,13 +7,14 @@ import 'package:shefu/utils/string_extension.dart';
 import 'package:shefu/views/full_screen_image.dart';
 import 'package:shefu/utils/app_color.dart';
 import 'package:shefu/viewmodels/display_recipe_viewmodel.dart';
+import 'package:shefu/widgets/back_button.dart';
 import 'package:shefu/widgets/confirmation_dialog.dart';
 import 'package:shefu/widgets/icon_button.dart';
 import 'package:shefu/widgets/image_helper.dart';
 import 'package:shefu/widgets/ingredient_display.dart';
 import 'package:shefu/widgets/misc.dart';
 import 'package:shefu/widgets/recipe_step_card.dart';
-import 'package:flutter_command/flutter_command.dart';
+import 'package:command_it/command_it.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 import 'package:video_player/video_player.dart';
@@ -56,7 +57,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
 
     return CommandBuilder<BuildContext, Recipe?>(
       command: viewModel.initializeCommand,
-      whileExecuting: (context, _, __) => const Center(
+      whileExecuting: (context, _, _) => const Center(
         child: SizedBox(width: 50.0, height: 50.0, child: CircularProgressIndicator()),
       ),
       onData: (context, data, _) {
@@ -411,17 +412,20 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                             _showYoutubePlayer(context, recipe.videoUrl);
                           } else {
                             // For direct video URLs (mp4, etc.)
+
                             viewModel.videoPlayerController =
                                 VideoPlayerController.networkUrl(Uri.parse(recipe.videoUrl))
                                   ..initialize().then((_) {
-                                    _showVideoPlayer(context, viewModel.videoPlayerController!);
+                                    if (context.mounted) {
+                                      _showVideoPlayer(context, viewModel.videoPlayerController!);
+                                    }
                                   });
                           }
                         },
                         child: Container(
                           padding: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
-                            color: Colors.black.withOpacity(0.6),
+                            color: Colors.black.withAlpha(150),
                             shape: BoxShape.circle,
                           ),
                           child: const Icon(
@@ -572,21 +576,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
-        leading: BackButton(
-          color: Colors.white,
-          style: ButtonStyle(
-            backgroundColor: WidgetStateProperty.all(Colors.black.withAlpha(80)),
-            shape: WidgetStateProperty.all(const CircleBorder()),
-            padding: WidgetStateProperty.all(const EdgeInsets.all(2)),
-          ),
-          onPressed: () {
-            if (context.canPop()) {
-              context.pop(true);
-            } else {
-              context.go('/');
-            }
-          },
-        ),
+        leading: backButton(context),
         actions: [
           // Cook Mode Toggle
           Tooltip(
@@ -744,7 +734,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
       return;
     }
 
-    YoutubePlayerController _controller = YoutubePlayerController(
+    YoutubePlayerController controller = YoutubePlayerController(
       initialVideoId: videoId,
       flags: const YoutubePlayerFlags(autoPlay: true, mute: false),
     );
@@ -770,7 +760,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                 ],
               ),
               YoutubePlayer(
-                controller: _controller,
+                controller: controller,
                 showVideoProgressIndicator: true,
                 progressIndicatorColor: AppColor.primary,
                 progressColors: ProgressBarColors(

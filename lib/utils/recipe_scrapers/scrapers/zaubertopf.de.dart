@@ -1,12 +1,10 @@
 import '../abstract_scraper.dart';
 
 class ZaubertopfScraper extends AbstractScraper {
-  ZaubertopfScraper(super.pageData, super.url) {
-    overrideIngredients();
-    overrideInstructionsList();
-  }
+  ZaubertopfScraper(super.pageData, super.url);
 
-  void overrideIngredients() {
+  @override
+  List<String> ingredients() {
     final ingredients = <String>[];
 
     // Find all h2 elements in the document
@@ -21,7 +19,7 @@ class ZaubertopfScraper extends AbstractScraper {
             final liElements = current.querySelectorAll('li');
             // Found the ul, now extract all li elements
             for (var li in liElements) {
-              final text = li.text?.trim() ?? '';
+              final text = li.text.trim();
               if (text.isNotEmpty) {
                 ingredients.add(text);
               }
@@ -33,13 +31,11 @@ class ZaubertopfScraper extends AbstractScraper {
       }
       break;
     }
-
-    if (ingredients.isNotEmpty) {
-      setOverride('ingredients', ingredients);
-    }
+    return ingredients;
   }
 
-  void overrideInstructionsList() {
+  @override
+  List<String> instructionsList() {
     final instructionsList = <String>[];
 
     // Find all h2 elements in the document
@@ -54,7 +50,7 @@ class ZaubertopfScraper extends AbstractScraper {
           if (current.localName == 'ol') {
             final liElements = current.querySelectorAll('li');
             for (var li in liElements) {
-              final text = li.text?.trim() ?? '';
+              final text = li.text.trim();
               if (text.isNotEmpty) {
                 instructionsList.add(text);
               }
@@ -67,8 +63,6 @@ class ZaubertopfScraper extends AbstractScraper {
       }
     }
 
-    if (instructionsList.isNotEmpty) {
-      setOverride('instructions_list', instructionsList);
-    }
+    return instructionsList;
   }
 }

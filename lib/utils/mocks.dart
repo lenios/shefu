@@ -282,12 +282,13 @@ List<Recipe> populateMockRecipes() {
   ]);
 
   // // Add all steps to the pancake recipe
-  // pancakeRecipe.steps.addAll([
-  //   dryIngredientsStep,
-  //   wetIngredientsStep,
-  //   cookPancakesStep,
-  //   servePancakesStep,
-  // ]);
+  pancakeRecipe.steps.addAll([
+    preheatStep,
+    dryIngredientsStep,
+    wetIngredientsStep,
+    cookPancakesStep,
+    servePancakesStep,
+  ]);
 
   // Return all three recipes
   return [harvestRecipe, chocolateMousse, pancakeRecipe];

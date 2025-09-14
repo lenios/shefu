@@ -690,4 +690,28 @@ class AppLocalizationsHu extends AppLocalizations {
 
   @override
   String get questions => 'Kérdések';
+
+  @override
+  String get searchRecipesOnline => 'Online keresés';
+
+  @override
+  String get selectSitesToSearch => 'Receptoldalak kiválasztása';
+
+  @override
+  String get tryAgain => 'Próbálja újra';
+
+  @override
+  String get searchForOnlineRecipes => 'Receptek keresése importáláshoz';
+
+  @override
+  String get recipeImportedSuccessfully => 'A recept sikeresen importálva!';
+
+  @override
+  String get importFailed => 'Nem sikerült importálni a receptet';
+
+  @override
+  String get selectAll => 'Összes oldal';
+
+  @override
+  String get deselectAll => 'Nincs';
 }

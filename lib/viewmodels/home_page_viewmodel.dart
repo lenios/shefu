@@ -4,27 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:shefu/l10n/app_localizations.dart';
 import 'package:shefu/models/objectbox_models.dart';
 import 'package:shefu/objectbox.g.dart';
-import 'package:shefu/repositories/objectbox_nutrient_repository.dart';
 import 'package:shefu/repositories/objectbox_recipe_repository.dart';
-import 'package:shefu/utils/mocks.dart';
 
 class HomePageViewModel extends ChangeNotifier {
-  late ObjectBoxRecipeRepository _objectBoxRepository;
-  late ObjectBoxNutrientRepository _objectBoxNutrientRepository;
+  late final ObjectBoxRecipeRepository _objectBoxRepository;
 
   Store? _store;
   Box<Recipe>? _recipeBox;
-  Box<RecipeStep>? _recipeStepBox;
-  Box<IngredientItem>? _ingredientBox;
-  Box<Nutrient>? _nutrientBox;
-  Box<Conversion>? _conversionBox;
 
   late Stream<List<Recipe>> _stream;
   Stream<List<Recipe>> get stream => _stream;
 
   bool hasBeenInitialized = false;
 
-  List<Recipe> _recipes = [];
+  final List<Recipe> _recipes = [];
   List<Recipe> get recipes => _recipes;
 
   bool _isLoading = false;
@@ -32,11 +25,11 @@ class HomePageViewModel extends ChangeNotifier {
 
   Stream<List<Recipe>> get recipeStream => _objectBoxRepository.watchAllRecipes();
 
-  String _filter = '';
+  final String _filter = '';
   String get filter => _filter;
   Category? _selectedCategory;
   Category? get selectedCategory => _selectedCategory;
-  setCategory(Category category) {
+  void setCategory(Category category) {
     // If 'all' is selected in the UI, set the internal filter to null
     if (category == Category.all) {
       _selectedCategory = null;
@@ -48,7 +41,7 @@ class HomePageViewModel extends ChangeNotifier {
 
   String _countryCode = "";
   String get countryCode => _countryCode;
-  setCountryCode(String value) {
+  void setCountryCode(String value) {
     if (_countryCode != value) {
       _countryCode = value;
       notifyListeners();
@@ -63,7 +56,7 @@ class HomePageViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  HomePageViewModel(this._objectBoxRepository, this._objectBoxNutrientRepository) {
+  HomePageViewModel(this._objectBoxRepository) {
     _checkMigrationStatus();
   }
 
@@ -129,7 +122,7 @@ class HomePageViewModel extends ChangeNotifier {
     return filteredRecipes;
   }
 
-  Future<int?> addNewRecipe(context) async {
+  Future<int?> addNewRecipe(BuildContext context) async {
     _setLoading(true);
     try {
       return _objectBoxRepository.createNewRecipe(AppLocalizations.of(context)!.newRecipe);
@@ -144,7 +137,7 @@ class HomePageViewModel extends ChangeNotifier {
   Future<bool> initializeObjectBoxAndMigrate(Store? store) async {
     // Ensure store is properly initialized
     if (store == null) {
-      _store = await _objectBoxRepository.getStore();
+      _store = _objectBoxRepository.getStore();
     } else {
       _store = store;
     }
@@ -156,15 +149,11 @@ class HomePageViewModel extends ChangeNotifier {
 
     // Initialize boxes using the proper accessors
     _recipeBox = _objectBoxRepository.recipeBox;
-    _recipeStepBox = _objectBoxRepository.recipeStepBox;
-    _ingredientBox = _objectBoxRepository.ingredientBox;
-    _nutrientBox = _objectBoxRepository.nutrientBox;
-    _conversionBox = _objectBoxRepository.conversionBox;
 
     // TODO: Remove this in production
     // Clear all existing data in ObjectBox on startup
-    // if (_ingredientBox != null) _ingredientBox!.removeAll();
-    // if (_recipeStepBox != null) _recipeStepBox!.removeAll();
+    // if (_ingredientBox != null) _objectBoxRepository.ingredientBox!.removeAll();
+    // if (_recipeStepBox != null) _objectBoxRepository.recipeStepBox!.removeAll();
     // if (_recipeBox != null) _recipeBox!.removeAll();
     // debugPrint("Cleared all ObjectBox data on startup");
     // final mockRecipes = populateMockRecipes();

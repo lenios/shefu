@@ -4,14 +4,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:shefu/l10n/app_localizations.dart';
 import 'package:shefu/models/objectbox_models.dart';
 
-// Return a tuple: (structureChanged, potentialTitle)
-Future<(bool, String?)> ocrParse(
-  XFile image,
-  Recipe recipe,
-  AppLocalizations l10n,
-  viewModel,
-) async {
-  bool structureChanged = false; // changed after OCR processing
+// Return potentialTitle
+Future<String?> ocrParse(XFile image, Recipe recipe, AppLocalizations l10n, viewModel) async {
   String? potentialTitle;
 
   final TextRecognizer textRecognizer = TextRecognizer(script: TextRecognitionScript.latin);
@@ -39,7 +33,6 @@ Future<(bool, String?)> ocrParse(
       // Ensure we have at least a preparation step
       if (recipe.steps.isEmpty) {
         recipe.steps.add(RecipeStep(instruction: l10n.gatherIngredients));
-        structureChanged = true; // Structure changed
       }
 
       // 2. Process Steps (Third Block onwards, second step is ingredients)
@@ -142,7 +135,6 @@ Future<(bool, String?)> ocrParse(
           }
 
           if (stepsAdded > 0) {
-            structureChanged = true;
             debugPrint("OCR added $stepsAdded steps from sentences.");
           }
         }
@@ -233,13 +225,12 @@ Future<(bool, String?)> ocrParse(
         }
 
         if (ingredientsAdded > 0) {
-          structureChanged = true;
           debugPrint("OCR added $ingredientsAdded ingredients matched to appropriate steps.");
         }
       }
       debugPrint("--- Finished OCR Text Processing ---");
     }
-    return (structureChanged, potentialTitle);
+    return potentialTitle;
   } finally {
     // Ensure the recognizer is always closed to free resources
     await textRecognizer.close();

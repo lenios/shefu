@@ -222,5 +222,13 @@
     "optional": "opcionális",
     "export": "exportálása",
     "generatingPdf": "PDF generálása...",
-    "questions": "Kérdések"
+    "questions": "Kérdések",
+    "searchRecipesOnline": "Online keresés",
+    "selectSitesToSearch": "Receptoldalak kiválasztása",
+    "tryAgain": "Próbálja újra",
+    "searchForOnlineRecipes": "Receptek keresése importáláshoz",
+    "recipeImportedSuccessfully": "A recept sikeresen importálva!",
+    "importFailed": "Nem sikerült importálni a receptet",
+    "selectAll": "Összes oldal",
+    "deselectAll": "Nincs"
 }

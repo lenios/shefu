@@ -20,7 +20,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: 3.32.8
+          flutter-version: 3.35.5
 
       - name: Get Flutter dependencies
         run: flutter pub get
@@ -58,27 +58,6 @@ jobs:
           name: app-release.aab
           path: build/app/outputs/bundle/release/app-release.aab
 
-
-      - name: Build APK for fdroid reproducible builds (no mlkit OCR)
-        env:
-            SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
-            SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
-        run: |
-          rm lib/utils/mlkit.dart
-          sed -i '/import.*utils\/mlkit.dart/d' "lib/viewmodels/edit_recipe_viewmodel.dart"
-          sed -i 's/await ocrParse(.*)/(false, null)/g' "lib/viewmodels/edit_recipe_viewmodel.dart"
-          sed -i '/com\.google\.mlkit/d' android/app/build.gradle.kts
-          flutter pub remove google_mlkit_text_recognition
-          flutter pub get
-          flutter build apk --release --split-per-abi  --target-platform="android-arm64"
-          mv build/app/outputs/flutter-apk/app-arm64-v8a-release{,-fdroid}.apk # rename to avoid overwriting
-
-      - name: Upload fdroid APK as artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-arm64-v8a-release-fdroid.apk
-          path: build/app/outputs/flutter-apk/app-arm64-v8a-release-fdroid.apk
-
   release:
     needs: build
     runs-on: ubuntu-latest
@@ -105,12 +84,6 @@ jobs:
           name: app-release.aab
           path: ./apk
 
-      - name: Download fdroid APK from build
-        uses: actions/download-artifact@v4
-        with:
-          name: app-arm64-v8a-release-fdroid.apk
-          path: ./apk
-
       - name: Get Version from pubspec.yaml
         id: package_version
         run: |
@@ -129,4 +102,3 @@ jobs:
           files: |
             ./apk/app-arm64-v8a-release.apk
             ./apk/app-release.aab
-            ./apk/app-arm64-v8a-release-fdroid.apk

@@ -1,0 +1,24 @@
+repos:
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v6.0.0
+  hooks:
+  - id: end-of-file-fixer
+  - id: check-yaml
+- repo: local
+  hooks:
+    - id: flutter-format
+      name: Flutter Format
+      entry: dart format --output=none --set-exit-if-changed .
+      language: system
+      types: [dart]
+    - id: flutter-analyze
+      name: Flutter Analyze (lint)
+      entry: flutter analyze
+      language: system
+      types: [dart]
+      pass_filenames: false
+      always_run: true
+    # - id: flutter-test
+    #   name: Flutter Test
+    #   entry: flutter test
+    #   language: system

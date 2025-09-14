@@ -1,4 +1,3 @@
-import 'dart:collection';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -11,7 +10,7 @@ import 'package:image_picker/image_picker.dart';
 
 // Simple LRU cache for image data
 class ImageCache {
-  static final _cache = LinkedHashMap<String, Uint8List>();
+  static final _cache = <String, Uint8List>{};
   static const _maxSize = 20; // Maximum number of images to keep in memory
 
   static Uint8List? get(String key) {
@@ -102,7 +101,7 @@ Future<String> saveImage({
 
     return filePath;
   } catch (e) {
-    print('Error saving image: $e');
+    debugPrint('Error saving image: $e');
     rethrow;
   }
 }
@@ -123,6 +122,7 @@ Widget buildFutureImageWidget(
   double? height,
 }) {
   Widget imageWidget;
+
   final imageSize = MediaQuery.of(context).size.width * 1 / 3;
   if (imagePath.isNotEmpty) {
     final file = File(imagePath);
@@ -249,7 +249,6 @@ Future<void> regenerateThumbnail(String imagePath) async {
         await File(thumbPath).writeAsBytes(i.encodePng(thumbnail));
         // Clear from cache to ensure fresh load
         ImageCache.remove(thumbPath);
-        debugPrint("Regenerated thumbnail: $thumbPath");
       }
     }
   } catch (e) {
@@ -268,6 +267,6 @@ Future<void> updateImageWithThumbnail(String sourcePath, String destinationPath)
     }
     clearImageCache(destinationPath);
   } catch (e) {
-    print('Error updating image and thumbnail: $e');
+    debugPrint('Error updating image and thumbnail: $e');
   }
 }

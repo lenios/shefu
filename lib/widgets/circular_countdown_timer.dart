@@ -75,11 +75,11 @@ class CircularCountDownTimer extends StatefulWidget {
   /// Handles the timer start.
   final bool autoStart;
 
-  /* 
+  /*
    * Function to format the text.
    * Allows you to format the current duration to any String.
    * It also provides the default function in case you want to format specific moments
-     as in reverse when reaching '0' show 'GO', and for the rest of the instances follow 
+     as in reverse when reaching '0' show 'GO', and for the rest of the instances follow
      the default behavior.
   */
   final Function(Function(Duration duration) defaultFormatterFunction, Duration duration)?
@@ -212,7 +212,7 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
     }
   }
 
-  _defaultFormat(Duration duration) {
+  String _defaultFormat(Duration duration) {
     if (duration.inHours != 0) {
       return '${duration.inHours.toString().padLeft(2, '0')}:${(duration.inMinutes % 60).toString().padLeft(2, '0')}:${(duration.inSeconds % 60).toString().padLeft(2, '0')}';
     } else if (duration.inMinutes != 0) {
@@ -258,8 +258,6 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
           /// Only call the [_onComplete] block when the animation is not reversed.
           if (!widget.isReverse) _onComplete();
           break;
-        default:
-        // Do nothing
       }
     });
 

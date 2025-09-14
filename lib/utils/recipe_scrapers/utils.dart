@@ -566,7 +566,6 @@ String? getUrlSlug(String url) {
   // Check for metric measurements in parentheses first (keeping existing logic)
   final parentheticalMatch = RegExp(r'\(([^)]+)\)').firstMatch(ingredient);
   bool foundMetricInParentheses = false;
-  String? metricParenthesis;
 
   if (parentheticalMatch != null) {
     final parentheticalContent = parentheticalMatch.group(1) ?? '';

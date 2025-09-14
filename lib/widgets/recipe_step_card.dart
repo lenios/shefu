@@ -68,9 +68,6 @@ class RecipeStepCard extends StatelessWidget {
   Widget stepDirection(BuildContext context) {
     final foundTools = detectCookingTools(recipeStep.instruction, context);
 
-    final bool hasTimer = recipeStep.timer > 0;
-    final bool hasImage = recipeStep.imagePath.isNotEmpty;
-
     // Create the cooking tools row
     final Widget toolsRow = ConstrainedBox(
       constraints: const BoxConstraints(maxWidth: 150),

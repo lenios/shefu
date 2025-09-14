@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-buildIconButton(icon, tooltip, onPressed) {
+IconButton buildIconButton(IconData icon, String tooltip, VoidCallback onPressed) {
   return IconButton(
     tooltip: tooltip,
     icon: Container(

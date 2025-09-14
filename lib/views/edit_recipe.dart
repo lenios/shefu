@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_command/flutter_command.dart';
+import 'package:command_it/command_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -42,7 +42,7 @@ class _EditRecipeState extends State<EditRecipe> {
     servingsFocusNode = FocusNode();
 
     final viewModel = Provider.of<EditRecipeViewModel>(context, listen: false);
-    viewModel.initializeCommand.execute(context);
+    viewModel.initializeCommand.execute();
   }
 
   @override
@@ -68,19 +68,20 @@ class _EditRecipeState extends State<EditRecipe> {
     final url = viewModel.sourceController.text.trim();
     final l10n = AppLocalizations.of(context)!;
     await Future.microtask(() async {
-      try {
-        viewModel.scrapeData(url, l10n);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Recipe imported successfully!"), backgroundColor: Colors.green),
-        );
-      } catch (e) {
-        ScaffoldMessenger.of(context).hideCurrentSnackBar();
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(l10n.scrapeError), backgroundColor: Colors.red));
-      } finally {
-        // Hide the snackbar regardless of result
-        if (context.mounted) {
+      if (mounted) {
+        try {
+          viewModel.scrapeData(url, l10n);
+
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(l10n.recipeImportedSuccessfully), backgroundColor: Colors.green),
+          );
+        } catch (e) {
+          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(l10n.scrapeError), backgroundColor: Colors.red));
+        } finally {
+          // Hide the snackbar regardless of result
           ScaffoldMessenger.of(context).hideCurrentSnackBar();
         }
       }
@@ -95,7 +96,7 @@ class _EditRecipeState extends State<EditRecipe> {
 
     return CommandBuilder<void, Recipe>(
       command: viewModel.initializeCommand,
-      whileExecuting: (context, _, __) =>
+      whileExecuting: (context, _, _) =>
           SizedBox(width: 50.0, height: 50.0, child: CircularProgressIndicator()),
       onData: (context, recipe, _) {
         return PopScope(
@@ -228,7 +229,7 @@ class _EditRecipeState extends State<EditRecipe> {
                                       Switch(
                                         value: ocrEnabled,
                                         onChanged: (value) => viewModel.toggleOcr(value),
-                                        activeColor: AppColor.primary,
+                                        activeThumbColor: AppColor.primary,
                                         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                                       ),
                                     ],
@@ -282,25 +283,26 @@ class _EditRecipeState extends State<EditRecipe> {
                                   Row(
                                     children: [
                                       Expanded(
-                                        flex: 5,
+                                        flex: 2,
                                         child: Selector<EditRecipeViewModel, int>(
                                           selector: (_, vm) => vm.month,
                                           builder: (context, month, _) {
                                             return DropdownButtonFormField<int>(
-                                              value: month,
+                                              initialValue: month,
                                               decoration: InputDecoration(
                                                 labelText: l10n.month,
                                                 border: const OutlineInputBorder(),
                                                 isDense: true,
                                               ),
                                               items: List.generate(12, (i) => i + 1).map((m) {
+                                                // Format month as 3 letters with a dot, e.g. "Jan."
+                                                final monthStr = DateFormat(
+                                                  'MMM',
+                                                  l10n.localeName,
+                                                ).format(DateTime(2000, m));
                                                 return DropdownMenuItem<int>(
                                                   value: m,
-                                                  child: Text(
-                                                    DateFormat.MMMM(
-                                                      l10n.localeName,
-                                                    ).format(DateTime(2000, m)),
-                                                  ),
+                                                  child: Text(monthStr),
                                                 );
                                               }).toList(),
                                               onChanged: (int? newValue) {
@@ -316,12 +318,12 @@ class _EditRecipeState extends State<EditRecipe> {
 
                                       // Category dropdown - 1/2 of the row
                                       Expanded(
-                                        flex: 4,
+                                        flex: 3,
                                         child: Selector<EditRecipeViewModel, int>(
                                           selector: (_, vm) => vm.category,
                                           builder: (context, category, _) {
                                             return DropdownButtonFormField<int>(
-                                              value: category,
+                                              initialValue: category,
                                               isExpanded: true,
                                               decoration: InputDecoration(
                                                 labelText: l10n.category,

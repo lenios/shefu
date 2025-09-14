@@ -154,7 +154,7 @@ String? getLocalizedNutrientName(String nutrientName, BuildContext context) {
   return null;
 }
 
-formattedTool(String tool, context) {
+String formattedTool(String tool, context) {
   switch (tool) {
     case "paddle":
       return AppLocalizations.of(context)!.paddle;

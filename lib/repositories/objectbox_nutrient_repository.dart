@@ -181,8 +181,6 @@ class ObjectBoxNutrientRepository {
       );
     }
 
-    print(foodId);
-
     final nutrient = getNutrientByFoodId(foodId);
     if (nutrient == null || nutrient.id == 0) return [];
 

@@ -18,7 +18,7 @@ Widget flagIcon(String countryCode) {
   return Container();
 }
 
-formattedQuantity(double quantity, {bool fraction = true}) {
+dynamic formattedQuantity(double quantity, {bool fraction = true}) {
   if (quantity == 0) {
     return ""; // No display for zero quantity
   }
@@ -55,7 +55,7 @@ formattedQuantity(double quantity, {bool fraction = true}) {
   }
 }
 
-String formattedDesc(multiplier, descText) {
+String formattedDesc(double multiplier, String descText) {
   if (descText.isEmpty) return "";
 
   final match = RegExp(r'^(\d+(\.\d+)?)\s?(.+)$').firstMatch(descText);

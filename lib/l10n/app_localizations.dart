@@ -1431,6 +1431,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Questions'**
   String get questions;
+
+  /// No description provided for @searchRecipesOnline.
+  ///
+  /// In en, this message translates to:
+  /// **'Search Online'**
+  String get searchRecipesOnline;
+
+  /// No description provided for @selectSitesToSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Recipe Sites'**
+  String get selectSitesToSearch;
+
+  /// No description provided for @tryAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Try Again'**
+  String get tryAgain;
+
+  /// No description provided for @searchForOnlineRecipes.
+  ///
+  /// In en, this message translates to:
+  /// **'Search for recipes to import'**
+  String get searchForOnlineRecipes;
+
+  /// No description provided for @recipeImportedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Recipe imported successfully!'**
+  String get recipeImportedSuccessfully;
+
+  /// No description provided for @importFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to import recipe'**
+  String get importFailed;
+
+  /// No description provided for @selectAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All Sites'**
+  String get selectAll;
+
+  /// No description provided for @deselectAll.
+  ///
+  /// In en, this message translates to:
+  /// **'None'**
+  String get deselectAll;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

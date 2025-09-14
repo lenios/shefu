@@ -690,4 +690,28 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get questions => 'Questions';
+
+  @override
+  String get searchRecipesOnline => 'Rechercher en ligne';
+
+  @override
+  String get selectSitesToSearch => 'Choix des sites';
+
+  @override
+  String get tryAgain => 'Réessayer';
+
+  @override
+  String get searchForOnlineRecipes => 'Rechercher des recettes à importer';
+
+  @override
+  String get recipeImportedSuccessfully => 'Recette importée avec succès !';
+
+  @override
+  String get importFailed => 'Échec de l\'importation de la recette';
+
+  @override
+  String get selectAll => 'Tous';
+
+  @override
+  String get deselectAll => 'Aucun';
 }

@@ -9,7 +9,6 @@ import 'package:shefu/repositories/objectbox_nutrient_repository.dart';
 import 'package:shefu/repositories/objectbox_recipe_repository.dart';
 import 'package:shefu/widgets/ingredient_display.dart';
 import 'package:shefu/widgets/misc.dart';
-import 'package:shefu/widgets/recipe_step_card.dart';
 
 class ShoppingBasketModal extends StatelessWidget {
   const ShoppingBasketModal({super.key});

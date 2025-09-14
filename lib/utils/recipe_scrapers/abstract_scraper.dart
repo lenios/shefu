@@ -37,12 +37,10 @@ class AbstractScraper {
         "Mozilla/5.0 (compatible; Windows NT 10.0; Win64; x64; rv:$version) recipe-scrapers/$version",
   };
 
-  AbstractScraper(String pageData, String url) {
-    this.pageData = pageData;
-    this.url = url;
-    soup = parse(this.pageData);
+  AbstractScraper(this.pageData, this.url) {
+    soup = parse(pageData);
     opengraph = OpenGraph(soup);
-    schema = SchemaOrg(this.pageData);
+    schema = SchemaOrg(pageData);
   }
 
   String canonicalUrl() {
@@ -69,7 +67,7 @@ class AbstractScraper {
     }
   }
 
-  String language() {
+  String? language() {
     Map<String, bool> candidateLanguages = <String, bool>{};
     Element? html = soup.querySelector("html[lang]");
     if (html != null && html.attributes.containsKey('lang')) {
@@ -98,7 +96,7 @@ class AbstractScraper {
     if (candidateLanguages.isNotEmpty) {
       return candidateLanguages.keys.first;
     } else {
-      throw ElementNotFoundInHtml("Could not find language.");
+      return null;
     }
   }
 
@@ -187,21 +185,6 @@ class AbstractScraper {
     }
 
     throw ElementNotFoundInHtml("Could not find ingredients");
-  }
-
-  /// Get instructions with fallback to HTML parsing
-  String instructions() {
-    // try {
-    //   // Try schema first
-    //   var schemaInstructions = schema.recipeInstructions;
-    //   if (schemaInstructions != null && schemaInstructions.isNotEmpty) {
-    //     return decodeHtmlEntities(schemaInstructions);
-    //   }
-    // } catch (e) {
-    //   debugPrint("Error extracting instructions: $e");
-    // }
-
-    throw ElementNotFoundInHtml("Could not find instructions");
   }
 
   List<String> instructionsList() {
@@ -508,7 +491,8 @@ class AbstractScraper {
   }
 
   List<dynamic> reviews() {
-    throw UnimplementedError("This should be implemented.");
+    return [];
+    //throw UnimplementedError("This should be implemented.");
   }
 
   /// Get recipe description with fallback to OpenGraph
@@ -643,9 +627,8 @@ class AbstractScraper {
 
   /// Links found in the recipe.
   List<Map<String, String>> links() {
-    Set<String> invalidHref = {"#", ""};
-    List<Element> linksHtml = soup.querySelectorAll("a[href]");
-    return [];
+    //Set<String> invalidHref = {"#", ""};
+    //List<Element> linksHtml = soup.querySelectorAll("a[href]");
     // TODO fix
     // return linksHtml
     //     .where(
@@ -654,6 +637,7 @@ class AbstractScraper {
     //     )
     //     .map((link) => {'href': link.attributes['href'] ?? '', 'text': link.text})
     //     .toList();
+    return [];
   }
 
   Map<String, dynamic> toJson() {
@@ -661,134 +645,56 @@ class AbstractScraper {
 
     try {
       jsonDict['author'] = author();
-    } catch (e) {}
-    try {
       jsonDict['canonical_url'] = canonicalUrl();
-    } catch (e) {}
-    try {
       jsonDict['site_name'] = siteName();
-    } catch (e) {}
-    try {
       jsonDict['host'] = host();
-    } catch (e) {}
-    try {
-      jsonDict['language'] = language();
-    } catch (e) {}
-    try {
+
+      if (language() != null) jsonDict['language'] = language();
+
       jsonDict['title'] = decodeHtmlEntities(title());
-    } catch (e) {}
-    try {
       jsonDict['ingredients'] = ingredients();
-    } catch (e) {}
-    try {
       if (ingredientGroups() != null && ingredientGroups()!.isNotEmpty) {
         jsonDict['ingredient_groups'] = ingredientGroups()!.map((group) => group.toJson()).toList();
       }
-    } catch (e) {}
-    try {
-      jsonDict['instructions'] = instructions();
-    } catch (e) {}
-    try {
       jsonDict['instructions_list'] = instructionsList();
-    } catch (e) {}
-    try {
-      if (stepImages().isNotEmpty) {
-        jsonDict['step_images'] = stepImages();
-      }
-    } catch (e) {}
-    try {
-      if (category().isNotEmpty) {
-        jsonDict['category'] = decodeHtmlEntities(category());
-      }
-    } catch (e) {}
-    try {
+
+      if (stepImages().isNotEmpty) jsonDict['step_images'] = stepImages();
+      if (category().isNotEmpty) jsonDict['category'] = decodeHtmlEntities(category());
       jsonDict['yields'] = yields();
-    } catch (e) {}
-    try {
       jsonDict['description'] = description();
-    } catch (e) {}
-    try {
       jsonDict['total_time'] = totalTime();
-    } catch (e) {}
-    try {
-      if (cookTime() != null) {
-        jsonDict['cook_time'] = cookTime();
-      }
-    } catch (e) {}
-    try {
-      if (prepTime() != null) {
-        jsonDict['prep_time'] = prepTime();
-      }
-    } catch (e) {}
-    try {
-      if (cuisine().isNotEmpty) {
-        jsonDict['cuisine'] = decodeHtmlEntities(cuisine());
-      }
-    } catch (e) {}
-    try {
+      if (cookTime() != null) jsonDict['cook_time'] = cookTime();
+      if (prepTime() != null) jsonDict['prep_time'] = prepTime();
+      if (cuisine().isNotEmpty) jsonDict['cuisine'] = decodeHtmlEntities(cuisine());
+
       if (cookingMethod() != null && cookingMethod()!.isNotEmpty) {
         jsonDict['cooking_method'] = cookingMethod();
       }
-    } catch (e) {}
-    try {
-      if (ratings() > 0) {
-        jsonDict['ratings'] = ratings();
-      }
-    } catch (e) {}
-    try {
-      if (ratingsCount() > 0) {
-        jsonDict['ratings_count'] = ratingsCount();
-      }
-    } catch (e) {}
-    try {
-      if (equipment().isNotEmpty) {
-        jsonDict['equipment'] = equipment();
-      }
-    } catch (e) {}
-    try {
-      jsonDict['reviews'] = reviews();
-    } catch (e) {}
-    try {
+      if (ratings() > 0) jsonDict['ratings'] = ratings();
+      if (ratingsCount() > 0) jsonDict['ratings_count'] = ratingsCount();
+      if (equipment().isNotEmpty) jsonDict['equipment'] = equipment();
+
+      //jsonDict['reviews'] = reviews();
       final nutrientData = nutrients();
       if (nutrientData.isNotEmpty) {
         jsonDict['nutrients'] = nutrientData;
       }
-    } catch (e) {}
-    try {
       if (dietaryRestrictions() != null) {
         jsonDict['dietary_restrictions'] = dietaryRestrictions();
       }
-    } catch (e) {}
-    try {
       jsonDict['image'] = image();
-    } catch (e) {}
-    try {
-      if (video() != null && video()!.isNotEmpty) {
-        jsonDict['video'] = video();
-      }
-    } catch (e) {}
-    try {
-      if (keywords().isNotEmpty) {
-        jsonDict['keywords'] = keywords();
-      }
-    } catch (e) {}
-    try {
-      if (questions().isNotEmpty) {
-        jsonDict['questions'] = questions();
-      }
-    } catch (e) {}
-    try {
-      if (makeAhead() != null && makeAhead()!.isNotEmpty) {
-        jsonDict['makeAhead'] = makeAhead();
-      }
-    } catch (e) {}
-    try {
+      if (video() != null && video()!.isNotEmpty) jsonDict['video'] = video();
+      if (keywords().isNotEmpty) jsonDict['keywords'] = keywords();
+      if (questions().isNotEmpty) jsonDict['questions'] = questions();
+      if (makeAhead() != null && makeAhead()!.isNotEmpty) jsonDict['makeAhead'] = makeAhead();
+
       final linksList = links();
       if (linksList.isNotEmpty) {
         jsonDict['links'] = linksList;
       }
-    } catch (e) {}
-
+    } catch (e) {
+      debugPrint("Error extracting JSON: $e");
+    }
     return jsonDict;
   }
 
@@ -800,7 +706,7 @@ class AbstractScraper {
     return Uri(
       scheme: baseUri.scheme,
       host: baseUri.host,
-      path: path.startsWith('/') ? path : '/${path}',
+      path: path.startsWith('/') ? path : '/$path',
     ).toString();
   }
 

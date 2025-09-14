@@ -686,4 +686,28 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get questions => '質問';
+
+  @override
+  String get searchRecipesOnline => 'オンラインで検索';
+
+  @override
+  String get selectSitesToSearch => 'レシピサイトを選択';
+
+  @override
+  String get tryAgain => 'もう一度試す';
+
+  @override
+  String get searchForOnlineRecipes => 'インポートするレシピを検索';
+
+  @override
+  String get recipeImportedSuccessfully => 'レシピが正常にインポートされました！';
+
+  @override
+  String get importFailed => 'レシピのインポートに失敗しました';
+
+  @override
+  String get selectAll => 'すべてのサイト';
+
+  @override
+  String get deselectAll => 'なし';
 }

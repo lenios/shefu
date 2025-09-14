@@ -76,7 +76,7 @@ class RecipeImagePicker extends StatelessWidget {
                     tooltip: l10n.delete,
                     onPressed: () async {
                       clearImageCache(path);
-                      await viewModel!.deleteImage(stepIndex: stepIndex);
+                      viewModel!.deleteImage(stepIndex: stepIndex);
                     },
                     constraints: const BoxConstraints(),
                   ),

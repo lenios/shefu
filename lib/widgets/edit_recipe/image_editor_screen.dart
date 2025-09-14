@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:image/image.dart' as img;
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
@@ -21,7 +20,6 @@ class _ImageEditorScreenState extends State<ImageEditorScreen> {
   final List<Rect> _rectangles = [];
   bool _isProcessing = false;
   ui.Image? _image;
-  Size _imageSize = Size.zero;
 
   // For rectangle drawing
   Offset? _startPoint;
@@ -40,7 +38,6 @@ class _ImageEditorScreenState extends State<ImageEditorScreen> {
 
     setState(() {
       _image = frame.image;
-      _imageSize = Size(_image!.width.toDouble(), _image!.height.toDouble());
     });
   }
 
@@ -215,7 +212,7 @@ class _ImageEditorScreenState extends State<ImageEditorScreen> {
 
       if (originalImage == null) {
         debugPrint('Failed to decode original image');
-        Navigator.of(context).pop(widget.imageFile);
+        if (mounted) Navigator.of(context).pop(widget.imageFile);
         return;
       }
 
@@ -249,7 +246,7 @@ class _ImageEditorScreenState extends State<ImageEditorScreen> {
       // If no rectangles were successfully extracted, return original
       if (extractedImages.isEmpty) {
         debugPrint('No rectangles were successfully extracted');
-        Navigator.of(context).pop(widget.imageFile);
+        if (mounted) Navigator.of(context).pop(widget.imageFile);
         return;
       }
 
@@ -257,7 +254,7 @@ class _ImageEditorScreenState extends State<ImageEditorScreen> {
       int totalHeight = extractedImages.fold(0, (sum, image) => sum + image.height);
       int maxWidth = extractedImages.fold(0, (max, image) => image.width > max ? image.width : max);
 
-      debugPrint('Creating merged image of size ${maxWidth}x${totalHeight}');
+      debugPrint('Creating merged image of size ${maxWidth}x$totalHeight');
       final mergedImage = img.Image(width: maxWidth, height: totalHeight);
 
       // Merge the images in the order they were drawn
@@ -284,12 +281,12 @@ class _ImageEditorScreenState extends State<ImageEditorScreen> {
       // Return the edited image as XFile
       final XFile editedImage = XFile(path);
       debugPrint('Returning edited image: ${editedImage.path}');
-      Navigator.of(context).pop(editedImage);
+      if (mounted) Navigator.of(context).pop(editedImage);
     } catch (e, stackTrace) {
       debugPrint('Error processing image: $e');
       debugPrint(stackTrace.toString());
       // Return the original image if processing fails
-      Navigator.of(context).pop(widget.imageFile);
+      if (mounted) Navigator.of(context).pop(widget.imageFile);
     } finally {
       setState(() {
         _isProcessing = false;
@@ -356,7 +353,7 @@ class _RectangleEditorPainter extends CustomPainter {
       canvas.drawRect(
         screenRect,
         Paint()
-          ..color = Colors.blue.withOpacity(0.3)
+          ..color = Colors.blue.withAlpha(80)
           ..style = PaintingStyle.fill,
       );
 
@@ -396,7 +393,7 @@ class _RectangleEditorPainter extends CustomPainter {
       canvas.drawRect(
         currentRect,
         Paint()
-          ..color = Colors.red.withOpacity(0.3)
+          ..color = Colors.red.withAlpha(80)
           ..style = PaintingStyle.fill,
       );
 

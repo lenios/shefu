@@ -1,26 +1,23 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:path/path.dart';
 import 'package:shefu/utils/recipe_scrapers/utils.dart';
 
 import '../abstract_scraper.dart';
 
 class ZeitScraper extends AbstractScraper {
-  ZeitScraper(super.pageData, super.url) {
-    overrideAuthor();
-    overrideIngredients();
-    overrideInstructionsList();
-    overrideYields();
-    overrideTotalTime();
-  }
+  ZeitScraper(super.pageData, super.url);
 
-  void overrideAuthor() {
+  @override
+  String author() {
     final authorElement = soup.querySelector('a[rel="author"]');
     final author = authorElement != null ? authorElement.text.trim() : "";
-    setOverride('author', author);
+    return author;
   }
 
-  void overrideIngredients() {
+  @override
+  List<String> ingredients() {
     final ingredients = <String>[];
 
     final divElements = soup.querySelectorAll('.recipe-list-collection');
@@ -53,12 +50,11 @@ class ZeitScraper extends AbstractScraper {
         }
       }
     }
-    if (ingredients.isNotEmpty) {
-      setOverride('ingredients', ingredients);
-    }
+    return ingredients;
   }
 
-  void overrideInstructionsList() {
+  @override
+  List<String> instructionsList() {
     final instructionsList = <String>[];
 
     // Find the h2 element with the specified class
@@ -81,13 +77,12 @@ class ZeitScraper extends AbstractScraper {
       }
     }
 
-    if (instructionsList.isNotEmpty) {
-      setOverride('instructions_list', instructionsList);
-    }
+    return instructionsList;
   }
 
-  void overrideYields() {
-    // First try to get yields from JSON-LD schema data
+  @override
+  String yields() {
+    // Try to get yields from JSON-LD schema data
     final scriptElements = soup.querySelectorAll('script[type="application/ld+json"]');
     for (final scriptElement in scriptElements) {
       try {
@@ -99,19 +94,22 @@ class ZeitScraper extends AbstractScraper {
               if (item['item'] != null && item['item']['@type'] == 'Recipe') {
                 final recipeYield = item['item']['recipeYield'];
                 if (recipeYield != null && recipeYield.toString().isNotEmpty) {
-                  setOverride('yields', getYields(recipeYield));
-                  return;
+                  return getYields(recipeYield);
                 }
               }
             }
           }
         }
-      } catch (e) {}
+      } catch (e) {
+        debugPrint("Error extracting yields: $e");
+      }
     }
+    return super.yields();
   }
 
-  void overrideTotalTime() {
-    // First try to get total time from JSON-LD schema data
+  @override
+  int? totalTime() {
+    // Try to get total time from JSON-LD schema data
     final scriptElements = soup.querySelectorAll('script[type="application/ld+json"]');
     for (final scriptElement in scriptElements) {
       try {
@@ -124,15 +122,17 @@ class ZeitScraper extends AbstractScraper {
                 if (item['item'] != null && item['item']['@type'] == 'Recipe') {
                   final totalTime = item['item']['totalTime'];
                   if (totalTime != null && totalTime.toString().isNotEmpty) {
-                    setOverride('total_time', parseISODuration(totalTime));
-                    return;
+                    return parseISODuration(totalTime);
                   }
                 }
               }
             }
           }
         }
-      } catch (e) {}
+      } catch (e) {
+        debugPrint("Error extracting total time: $e");
+      }
     }
+    return null;
   }
 }

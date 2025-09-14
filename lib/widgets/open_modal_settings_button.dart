@@ -60,7 +60,7 @@ void _showSettingsModal(BuildContext context, ThemeData theme) {
                     DropdownButton<String>(
                       style: TextStyle(
                         color: theme.colorScheme.onSurface,
-                        backgroundColor: theme.dialogBackgroundColor,
+                        backgroundColor: theme.dialogTheme.backgroundColor,
                       ),
                       icon: Icon(Icons.language, color: theme.colorScheme.primary),
                       items: AppLocalizations.supportedLocales.map((l) => l.languageCode).map((
@@ -83,7 +83,7 @@ void _showSettingsModal(BuildContext context, ThemeData theme) {
                         }
                       },
                       value: currentLanguage,
-                      dropdownColor: theme.dialogBackgroundColor,
+                      dropdownColor: theme.dialogTheme.backgroundColor,
                     ),
                   ],
                 ),
@@ -99,7 +99,7 @@ void _showSettingsModal(BuildContext context, ThemeData theme) {
                           style: TextStyle(
                             color: appState.measurementSystem == MeasurementSystem.metric
                                 ? theme.colorScheme.primary
-                                : theme.colorScheme.onSurface.withOpacity(0.6),
+                                : theme.colorScheme.onSurface.withAlpha(153),
                             fontWeight: appState.measurementSystem == MeasurementSystem.metric
                                 ? FontWeight.bold
                                 : FontWeight.normal,
@@ -107,7 +107,7 @@ void _showSettingsModal(BuildContext context, ThemeData theme) {
                         ),
                         Switch(
                           value: appState.measurementSystem == MeasurementSystem.us,
-                          activeColor: theme.colorScheme.primary,
+                          activeThumbColor: theme.colorScheme.primary,
                           onChanged: (bool isUS) {
                             appState.setMeasurementSystem(
                               isUS ? MeasurementSystem.us : MeasurementSystem.metric,
@@ -120,7 +120,7 @@ void _showSettingsModal(BuildContext context, ThemeData theme) {
                           style: TextStyle(
                             color: appState.measurementSystem == MeasurementSystem.us
                                 ? theme.colorScheme.primary
-                                : theme.colorScheme.onSurface.withOpacity(0.6),
+                                : theme.colorScheme.onSurface.withAlpha(153),
                             fontWeight: appState.measurementSystem == MeasurementSystem.us
                                 ? FontWeight.bold
                                 : FontWeight.normal,

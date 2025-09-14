@@ -1,9 +1,7 @@
 import 'package:html/dom.dart';
-import 'package:collection/collection.dart';
-import 'utils.dart';
 
 /// Default grouping selectors for popular recipe formats
-final List<(String, List<String>, List<String>)> DEFAULT_GROUPINGS = [
+final List<(String, List<String>, List<String>)> defaultGroupings = [
   (
     "wprm",
     [".wprm-recipe-ingredient-group h4", ".wprm-recipe-group-name"],
@@ -126,7 +124,7 @@ List<IngredientGroup>? groupIngredients(
 
   // Auto-detect group selectors if not provided
   if (groupHeading == null || groupElement == null) {
-    for (final groupConfig in DEFAULT_GROUPINGS) {
+    for (final groupConfig in defaultGroupings) {
       final headingOpts = groupConfig.$2;
       final elementOpts = groupConfig.$3;
 

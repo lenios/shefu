@@ -32,7 +32,7 @@ Widget foodEntries(int stepIndex, int ingredientIndex, EditRecipeViewModel viewM
         padding: const EdgeInsets.only(top: 8.0),
         child: DropdownButtonFormField<int>(
           key: ValueKey('nutrient_${stepIndex}_${ingredientIndex}_$name'),
-          value: ingredient.foodId != 0 ? ingredient.foodId : null,
+          initialValue: ingredient.foodId != 0 ? ingredient.foodId : null,
           hint: Text(AppLocalizations.of(context)!.selectNutrient),
           isExpanded: true,
           decoration: const InputDecoration(

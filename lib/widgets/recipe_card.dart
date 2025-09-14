@@ -34,7 +34,7 @@ class RecipeCard extends StatelessWidget {
                 child: Container(
                   child: buildFutureImageWidget(
                     context,
-                    thumbnailPath(recipe.imagePath ?? ''),
+                    thumbnailPath(recipe.imagePath),
                     width: 100,
                     height: 100,
                   ),

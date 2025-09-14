@@ -1,9 +1,8 @@
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
-import 'package:flutter_command/flutter_command.dart';
+import 'package:command_it/command_it.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:path/path.dart';
 import 'package:printing/printing.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shefu/l10n/app_localizations.dart';
@@ -25,8 +24,6 @@ class DisplayRecipeViewModel extends ChangeNotifier {
   final ObjectBoxNutrientRepository nutrientRepository;
   final MyAppState _appState;
   final int _recipeId;
-
-  BuildContext? _context;
 
   late Command<BuildContext, Recipe?> initializeCommand;
 
@@ -54,7 +51,7 @@ class DisplayRecipeViewModel extends ChangeNotifier {
   int _servings = 4; // Default value
   int get servings => _servings;
 
-  Map<String, bool> _basket = {};
+  final Map<String, bool> _basket = {};
   Map<String, bool> get basket => _basket;
 
   bool isBookmarked = false; // TODO: Implement bookmark logic
@@ -66,12 +63,11 @@ class DisplayRecipeViewModel extends ChangeNotifier {
   final Map<String, String> _prefetchedDescriptions = {};
 
   Future<Recipe?> _initializeAndLoadData(BuildContext context) async {
-    _context = context;
     try {
       await nutrientRepository.initialize();
       _recipe = _recipeRepository.getRecipeById(_recipeId);
       _initializeBasket();
-      _prefetchNutrientData(context);
+      if (context.mounted) _prefetchNutrientData(context);
 
       return _recipe;
     } catch (e, stackTrace) {
@@ -181,7 +177,7 @@ class DisplayRecipeViewModel extends ChangeNotifier {
         _appState.removeRecipeFromShoppingBasket(_recipe);
         await _recipeRepository.deleteRecipe(_recipe!.id);
       } catch (e) {
-        print("Error deleting recipe: $e");
+        debugPrint("Error deleting recipe: $e");
       }
     }
   }
@@ -279,7 +275,7 @@ class DisplayRecipeViewModel extends ChangeNotifier {
 
           pictureInfo.picture.dispose();
         } catch (e) {
-          print('Error loading cooking tool ${entry.key}: $e');
+          debugPrint('Error loading cooking tool ${entry.key}: $e');
         }
       }
 
@@ -289,7 +285,7 @@ class DisplayRecipeViewModel extends ChangeNotifier {
         final iconData = iconBytes.buffer.asUint8List();
         appIcon = pw.MemoryImage(iconData);
       } catch (e) {
-        print('Error loading app icon: $e');
+        debugPrint('Error loading app icon: $e');
       }
 
       // Load recipe main image
@@ -301,7 +297,7 @@ class DisplayRecipeViewModel extends ChangeNotifier {
             recipeImage = pw.MemoryImage(imageBytes);
           }
         } catch (e) {
-          print('Error loading recipe image: $e');
+          debugPrint('Error loading recipe image: $e');
         }
       }
 
@@ -316,7 +312,7 @@ class DisplayRecipeViewModel extends ChangeNotifier {
               stepImages[i] = pw.MemoryImage(imageBytes);
             }
           } catch (e) {
-            print('Error loading step image: $e');
+            debugPrint('Error loading step image: $e');
           }
         }
       }
@@ -417,7 +413,7 @@ class DisplayRecipeViewModel extends ChangeNotifier {
                                     style: pw.TextStyle(font: regularFont, fontSize: 11),
                                   ),
                                 );
-                              }).toList(),
+                              }),
                             ],
                           ],
                         ),
@@ -509,10 +505,10 @@ class DisplayRecipeViewModel extends ChangeNotifier {
 
       // Show options to save or share
       if (context.mounted) {
-        final result = await Share.shareXFiles([XFile(file.path)], text: recipe.title);
+        await SharePlus.instance.share(ShareParams(text: recipe.title, files: [XFile(file.path)]));
       }
     } catch (e) {
-      print('Error generating PDF: $e');
+      debugPrint('Error generating PDF: $e');
       if (context.mounted) {
         ScaffoldMessenger.of(
           context,
@@ -596,23 +592,6 @@ class DisplayRecipeViewModel extends ChangeNotifier {
         pw.Text(value, style: pw.TextStyle(font: boldFont, fontSize: 12)),
       ],
     );
-  }
-
-  // Helper function to load step images
-  Future<pw.MemoryImage?> _loadStepImage(String imagePath) async {
-    try {
-      if (imagePath.isNotEmpty) {
-        final File imageFile = File(imagePath);
-        if (await imageFile.exists()) {
-          final imageBytes = await imageFile.readAsBytes();
-          return pw.MemoryImage(imageBytes);
-        }
-      }
-      return null;
-    } catch (e) {
-      print('Error loading step image: $e');
-      return null;
-    }
   }
 
   @override

@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io'; // Import for File
 import 'package:flutter/material.dart';
 import 'package:country_picker/country_picker.dart';
-import 'package:flutter_command/flutter_command.dart';
+import 'package:command_it/command_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as p;
@@ -32,7 +32,6 @@ class EditRecipeViewModel extends ChangeNotifier {
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
-  bool _preventControllerListeners = false;
   final Map<String, Timer> _debounceTimers = {};
 
   // Controllers for text fields to manage state efficiently
@@ -59,7 +58,7 @@ class EditRecipeViewModel extends ChangeNotifier {
   int _month = DateTime.now().month;
   int get month => _month;
 
-  ValueNotifier<int> _imageVersion = ValueNotifier<int>(0);
+  final ValueNotifier<int> _imageVersion = ValueNotifier<int>(0);
   ValueNotifier<int> get imageVersion => _imageVersion;
 
   bool _ocrEnabled = true;
@@ -107,7 +106,6 @@ class EditRecipeViewModel extends ChangeNotifier {
       }
 
       // --- Initialize Controllers Silently ---
-      _preventControllerListeners = true;
       titleController.text = _recipe.title;
       sourceController.text = _recipe.source;
       prepTimeController.text =
@@ -118,7 +116,7 @@ class EditRecipeViewModel extends ChangeNotifier {
       restTimeController.text = _recipe.restTime.toString();
       notesController.text = _recipe.notes;
       makeAheadController.text = _recipe.makeAhead;
-      videoUrlController.text = _recipe.videoUrl ?? '';
+      videoUrlController.text = _recipe.videoUrl;
 
       servingsController.text = _recipe.servings > 0 ? _recipe.servings.toString() : '';
       if (_recipe.piecesPerServing != null) {
@@ -131,7 +129,6 @@ class EditRecipeViewModel extends ChangeNotifier {
           Country.tryParse(_recipe.countryCode.isNotEmpty ? _recipe.countryCode : 'WW') ??
           Country.worldWide;
       _availableSourceSuggestions = await _recipeRepository.getUniqueSources();
-      _preventControllerListeners = false;
 
       return _recipe;
     } catch (e, stackTrace) {
@@ -419,14 +416,37 @@ class EditRecipeViewModel extends ChangeNotifier {
     ); // Ensure country is updated
 
     recipe.steps.clear();
+    final instructions = pscraper.instructionsList();
 
-    recipe.steps.addAll(
-      pscraper.instructionsList().map((instruction) => RecipeStep(instruction: instruction)),
-    );
-    recipe.steps.applyToDb();
-
+    for (int i = 0; i < instructions.length; i++) {
+      final step = RecipeStep(instruction: instructions[i]);
+      step.order = i;
+      recipe.steps.add(step);
+    }
     if (recipe.steps.isEmpty) {
       recipe.steps.add(RecipeStep());
+    }
+
+    // Save recipe step images if available
+    final stepImages = pscraper.stepImages();
+    for (int i = 0; i < recipe.steps.length; i++) {
+      if (stepImages.isNotEmpty && i < stepImages.length && stepImages[i].isNotEmpty) {
+        try {
+          final response = await http.get(Uri.parse(stepImages[i]));
+          if (response.statusCode == 200) {
+            final localPath = await saveImage(
+              image: response.bodyBytes,
+              recipeId: recipe.id,
+              stepIndex: i,
+              ext: p.extension(stepImages[i]),
+            );
+            recipe.steps[i].imagePath = localPath;
+            imageVersion.value++; // Notify listeners for image update
+          }
+        } catch (e) {
+          debugPrint("Error downloading or processing step image $i: $e");
+        }
+      }
     }
 
     // Process ingredients
@@ -460,38 +480,6 @@ class EditRecipeViewModel extends ChangeNotifier {
         }
       } catch (e) {
         debugPrint("Error downloading or processing scraped image: $e");
-      }
-
-      // Save recipe step images if available
-      var steps = [
-        for (var i = 0; i < pscraper.instructionsList().length; i++)
-          ScrapedRecipeStep(
-            instruction: pscraper.instructionsList()[i],
-            imagePath: pscraper.stepImages().isNotEmpty
-                ? pscraper.stepImages()[i]
-                : null, // Use null if no image URL
-          ),
-      ];
-      for (int i = 0; i < steps.length; i++) {
-        final stepImageUrl = steps[i].imagePath;
-        if (stepImageUrl != null && stepImageUrl.isNotEmpty) {
-          try {
-            final response = await http.get(Uri.parse(stepImageUrl));
-            if (response.statusCode == 200) {
-              final localPath = await saveImage(
-                image: response.bodyBytes,
-                recipeId: recipe.id,
-                stepIndex: i,
-                ext: p.extension(stepImageUrl),
-              );
-
-              recipe.steps[i].imagePath = localPath;
-              imageVersion.value++; // Notify listeners for image update
-            }
-          } catch (e) {
-            debugPrint("Error downloading or processing step image $i: $e");
-          }
-        }
       }
     }
 
@@ -560,7 +548,7 @@ class EditRecipeViewModel extends ChangeNotifier {
             ..shape = shape,
         );
         found = true;
-        debugPrint("✅ DIRECT MATCH: '$name' found in step #$step");
+        debugPrint("✅ DIRECT MATCH: '$name' found in step #${step.toString()}");
         break;
       }
     }
@@ -579,7 +567,7 @@ class EditRecipeViewModel extends ChangeNotifier {
                 ..shape = shape,
             );
             found = true;
-            debugPrint("✅ WORD MATCH: word '$word' found in step #$step");
+            debugPrint("✅ WORD MATCH: word '$word' found in step #${step.toString()}");
             break;
           }
         }
@@ -654,33 +642,33 @@ class EditRecipeViewModel extends ChangeNotifier {
     _isLoading = true;
     notifyListeners(); // Notify loading START (for save button)
 
-    bool structureChanged = false;
     String? savedImagePath;
     String? ocrTitle;
-    var l10n = AppLocalizations.of(context!);
-
-    final viewModel = Provider.of<EditRecipeViewModel>(context, listen: false);
+    var l10n = context!.mounted ? AppLocalizations.of(context) : null;
+    final viewModel = context.mounted
+        ? Provider.of<EditRecipeViewModel>(context, listen: false)
+        : null;
 
     try {
       if (ocrEnabled && stepIndex == null) {
-        // Launch the image editor screen to select columns if needed
-        final XFile? editedImage = await Navigator.of(
-          context!,
-        ).push<XFile>(MaterialPageRoute(builder: (context) => ImageEditorScreen(imageFile: image)));
-
+        XFile? editedImage;
+        if (context.mounted) {
+          // Launch the image editor screen to select columns if needed
+          editedImage = await Navigator.of(context).push<XFile>(
+            MaterialPageRoute(builder: (context) => ImageEditorScreen(imageFile: image)),
+          );
+        }
         // If the user cancelled the editing, return
         if (editedImage == null) return;
-        (structureChanged, ocrTitle) = await ocrParse(editedImage, _recipe, l10n!, viewModel);
+        ocrTitle = await ocrParse(editedImage, _recipe, l10n!, viewModel);
       } else {
-        (structureChanged, ocrTitle) = (false, null);
+        ocrTitle = null;
       }
 
       // --- Handle potential title update ---
       if (ocrTitle != null && _recipe.title != ocrTitle) {
-        _preventControllerListeners = true; // Prevent listener loop
         _recipe.title = ocrTitle;
         titleController.text = ocrTitle; // Update controller
-        _preventControllerListeners = false;
       }
 
       savedImagePath = await saveImage(
@@ -738,7 +726,7 @@ class EditRecipeViewModel extends ChangeNotifier {
   }
 
   // --- Save Recipe ---
-  Future<bool> saveRecipe(l10n) async {
+  Future<bool> saveRecipe(AppLocalizations l10n) async {
     _isLoading = true;
     notifyListeners(); // Show loading indicator
 
@@ -841,7 +829,7 @@ class EditRecipeViewModel extends ChangeNotifier {
       _recipe.id = await _recipeRepository.saveRecipe(_recipe); // TODO needed assignment?
       success = true;
     } catch (e) {
-      print("Error saving recipe: $e");
+      debugPrint("Error saving recipe: $e");
       success = false;
     } finally {
       _isLoading = false;
@@ -888,7 +876,7 @@ class EditRecipeViewModel extends ChangeNotifier {
     }
   }
 
-  deleteImage({int? stepIndex}) {
+  void deleteImage({int? stepIndex}) {
     // TODO rm image from the filesystem?
     if (stepIndex == null) {
       _recipe.imagePath = '';

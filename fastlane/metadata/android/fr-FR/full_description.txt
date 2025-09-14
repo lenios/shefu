@@ -9,4 +9,3 @@ Fonctionnalités clés :
 - Génération de liste de courses : (Bientôt disponible !) Générez automatiquement une liste de courses basée sur les ingrédients manquants de vos recettes sélectionnées.
 - Prise en charge multilingue : Entièrement disponible en anglais, français et japonais.
 - Fonctionne totalement hors-ligne : Vos recettes sont stockées localement sur votre appareil, vous assurant un accès permanent. Aucune connexion Internet n'est requise pour utiliser l'application!
-

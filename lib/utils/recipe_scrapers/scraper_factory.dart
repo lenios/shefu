@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:shefu/utils/recipe_scrapers/scrapers/giallozafferano.dart';
+import 'package:shefu/utils/recipe_scrapers/scrapers/hellofresh.com.dart';
 import 'abstract_scraper.dart';
 import 'package:shefu/utils/recipe_scrapers/scrapers/abeautifulmess.com.dart';
 import 'package:shefu/utils/recipe_scrapers/scrapers/allrecipes.com.dart';
@@ -43,6 +44,8 @@ class ScraperFactory {
     "foodnetwork.co.uk": AbstractScraper.new,
     "giallozafferano.fr": GiallozafferanoScraper.new,
     "greatbritishchefs.com": AbstractScraper.new,
+    "hellofresh.com": HelloFreshScraper.new,
+    "hellofresh.fr": HelloFreshScraper.new,
     "kitchenstories.com": AbstractScraper.new,
     "kochbar.de": AbstractScraper.new,
     "koket.se": AbstractScraper.new,
@@ -70,6 +73,10 @@ class ScraperFactory {
     "zestfulkitchen.com": AbstractScraper.new,
   };
 
+  static Set<String> get supportedSites {
+    return ScraperFactory._scrapers.keys.toSet();
+  }
+
   /// Extract host from URL or return null if invalid
   static String? _extractHost(String url) {
     return Uri.parse(url).host.toLowerCase();
@@ -94,12 +101,13 @@ class ScraperFactory {
 
         // Default scraper if no specific one is found
         //return AbstractScraper(response.body, url);
-      } catch (e, stackTrace) {
+      } catch (e) {
         throw ArgumentError('Invalid HTML content for URL: $url - $e');
       }
     } else {
       throw Exception('Failed to scrape');
     }
+    return null;
   }
 
   /// Checks if the given URL is from a supported recipe site

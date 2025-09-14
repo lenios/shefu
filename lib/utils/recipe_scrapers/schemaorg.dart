@@ -236,7 +236,8 @@ class SchemaOrg {
 
   String? get recipeInstructions {
     var recipe = getRecipeData();
-    var instructions = recipe?['recipeInstructions'] ?? recipe?['RecipeInstructions'];
+    var instructions =
+        recipe?['recipeInstructions'] ?? recipe?['RecipeInstructions']; // recipe fallback to Recipe
 
     if (instructions is String) {
       return instructions;
@@ -270,9 +271,7 @@ class SchemaOrg {
         if (schemaItem.containsKey('itemListElement')) {
           final subInstructions = _extractHowToInstructionsText(schemaItem['itemListElement']);
           instructionsGist.addAll(subInstructions);
-        }
-
-        if (schemaItem.containsKey('text')) {
+        } else if (schemaItem.containsKey('text')) {
           instructionsGist.add(schemaItem['text'].toString());
         }
       } else if (schemaItem['@type'] == 'HowToSection') {
@@ -507,7 +506,7 @@ class SchemaOrg {
       dietaryRestrictions = [dietaryRestrictions];
     }
 
-    final formattedDiets = (dietaryRestrictions as List)
+    final formattedDiets = (dietaryRestrictions)
         .map((diet) => _formatDietName(diet.toString()))
         .join(', ');
 

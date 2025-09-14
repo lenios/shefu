@@ -5,7 +5,7 @@ class GiallozafferanoScraper extends AbstractScraper {
 
   @override
   List<String> stepImages() {
-    // TODO scrap recipe steps images
+    // TODO implement stepImages
     return [];
   }
 }

@@ -51,7 +51,7 @@ Documentation will come later.
 Supported Recipe Websites for import:
 
 
-| USA 🇺🇸 Supported Website **(28)** |
+| USA 🇺🇸 Supported Website **(29)** |
 |-------------------|
 | ✅ [ABeautifulMess.com](https://www.abeautifulmess.com) |
 | ✅ [Aflavorjournal.com](https://www.aflavorjournal.com) |
@@ -68,6 +68,7 @@ Supported Recipe Websites for import:
 | ✅ [Damndelicious.net](https://www.damndelicious.net) |
 | ✅ [Eatingwell.com](https://www.eatingwell.com) |
 | ✅ [Evolvingtable.com](https://www.evolvingtable.com) |
+| ✅ [HelloFresh.com](https://www.hellofresh.com) |
 | ✅ [Lanascooking.com](https://www.lanascooking.com) |
 | ✅ [Lecremedelacrumb.com](https://www.lecremedelacrumb.com) |
 | ✅ [mybakingaddiction.com](https://www.mybakingaddiction.com) |
@@ -83,7 +84,7 @@ Supported Recipe Websites for import:
 | ✅ [ZestfulKitchen.com](https://www.zestfulkitchen.com) |
 | More sites 🚧 In progress |
 
-| France 🇫🇷 Supported Website **(10)** |
+| France 🇫🇷 Supported Website **(11)** |
 |-------------------|
 | ✅ [750g.com](https://www.750g.com) |
 | ✅ [Atelierdeschefs.fr](https://www.atelierdeschefs.fr) |
@@ -91,6 +92,7 @@ Supported Recipe Websites for import:
 | ✅ [Cuisineaz.com](https://www.cuisineaz.com) |
 | ✅ [Cuisine.journaldesfemmes.fr](https://cuisine.journaldesfemmes.fr) |
 | ✅ [Giallozafferano.fr](https://www.giallozafferano.fr) |
+| ✅ [HelloFresh.fr](https://www.hellofresh.fr) |
 | ✅ [Marmiton.org](https://www.marmiton.com) |
 | ✅ [Lacuisinedessouvenirs.com](https://www.lacuisinedessouvenirs.com) |
 | ✅ [Ptitchef.com](https://www.ptitchef.com) |

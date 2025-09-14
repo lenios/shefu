@@ -1,0 +1,55 @@
+{
+  "author": "HelloFresh",
+  "canonical_url": "https://www.hellofresh.fr/recipes/poulet-and-sauce-fraise-balsamique-61c34f1c139ea80b8d2ab69b",
+  "site_name": "HelloFresh",
+  "host": "hellofresh.fr",
+  "language": "fr-FR",
+  "title": "Porc doré & réduction fraise balsamique avec des légumes rissolés au romarin",
+  "ingredients": [
+    "500 g Pommes de terre",
+    "½ sachet(s) Romarin séché",
+    "1 pièce(s) Gousse d'ail",
+    "¾ pièce(s) Brocoli",
+    "2 pièce(s) Tranches de carré de porc",
+    "½ pièce(s) Échalote",
+    "2 pot(s) Confiture de fraises",
+    "3 cs Huile d'olive",
+    "250 ml Bouillon de légumes",
+    "1 cs Vinaigre balsamique noir",
+    "2 cc Beurre",
+    "selon le goût Poivre et sel"
+  ],
+  "instructions_list": [
+    "Veillez à bien respecter les quantités indiquées à gauche pour préparer votre recette ! Préchauffez le four à 220°C (200°C chaleur tournante). Lavez bien ou épluchez les pommes de terre, puis coupez-les en potatoes de 1 cm de large. Placez-les sur une plaque recouverte de papier sulfurisé. Arrosez-les d'un filet d'huile d'olive, salez et saupoudrez-les de 1 pincée de romarin séché (selon votre goût). Mélangez bien. Enfournez-les 25-35 min dans la partie haute du four, ou jusqu’à ce qu’elles soient dorées et croustillantes. Remuez à mi-cuisson.",
+    "Pendant ce temps, préparez le bouillon avec de l'eau chaude. Ciselez l'ail. Coupez les bouquets du brocoli en fleurettes et les tiges en dés de taille égale. Faites chauffer un filet d'huile d'olive dans une grande sauteuse à feu vif. Faites-y revenir le brocoli, l'ail et ½ cc de romarin séché par personne 2-3 min. À feu moyen-doux, ajoutez le bouillon. Couvrez et laissez étuver 10-12 min, ou jusqu'à ce que la pointe d'un couteau y rentre facilement. Égouttez-le, puis réservez-le à couvert.",
+    "Salez et poivrez les tranches de carré de porc. Ciselez finement 1/4 d'échalote par personne.",
+    "Faites chauffer un filet d’huile d’olive dans la sauteuse du brocoli à feu moyen-vif. Faites-y dorer le porc des deux côtés 2-4 min en l'arrosant d'huile, ou jusqu'à ce qu'il ne soit plus rosé à cœur. Réservez-le dans une assiette recouverte d'aluminium jusqu’au service. Conservez les sucs de cuisson dans la sauteuse.",
+    "Remettez la sauteuse à chauffer à feu moyen. Faites-y cuire l'échalote avec une pincée de romarin 3-5 min. Ajoutez la confiture de fraises (voir L'ASTUCE), le vinaigre balsamique noir et 2-3 cs d'eau par personne. Remuez bien et laissez réduire 1-2 min, ou jusqu'à obtenir une consistance légèrement sirupeuse. Éteignez le feu. Juste avant de servir, ajoutez une noix de beurre à la sauce. Mélangez, salez et poivrez. L'ASTUCE DU CHEF : Si vous n'appréciez pas le sucré-salé, utilisez seulement la moitié de la confiture.",
+    "Servez le porc dans les assiettes ainsi que les potatoes et le brocoli. Nappez le tout de sauce fraise-balsamique. Ajustez l'assaisonnement en sel et en poivre."
+  ],
+  "category": "Plat principal",
+  "yields": "2 servings",
+  "description": "Bœuf, porc, poulet, agneau... Nos viandes sont 100% origine France*, et nos charcuteries origine UE. *En cas de problème d'approvisionnement nous favorisons des fournisseurs européens de qualité équivalente.",
+  "total_time": 80,
+  "cook_time": 35,
+  "prep_time": 45,
+  "cuisine": "Française",
+  "nutrients": {
+    "calories": "745 kcal",
+    "fatContent": "33.2 g",
+    "saturatedFatContent": "8.6 g",
+    "carbohydrateContent": "72.3 g",
+    "sugarContent": "23.8 g",
+    "proteinContent": "37 g",
+    "fiberContent": "10.9 g",
+    "cholesterolContent": "0.9 mg",
+    "sodiumContent": "1.7 g",
+    "servingSize": "733"
+  },
+  "image": "https://img.hellofresh.com/f_auto,fl_lossy,h_640,q_auto,w_1200/hellofresh_s3/image/HF_Y25_R228_W02_FR_RFR20161865-20_MAIN_high-fad0e1cd.jpg",
+  "keywords": [
+    "SEO",
+    "Famille",
+    "Moins de CO2"
+  ]
+}

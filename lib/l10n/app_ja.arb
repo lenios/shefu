@@ -222,5 +222,13 @@
     "optional": "オプション",
     "export": "エクスポート",
     "generatingPdf": "PDFを生成しています...",
-    "questions": "質問"
+    "questions": "質問",
+    "searchRecipesOnline": "オンラインで検索",
+    "selectSitesToSearch": "レシピサイトを選択",
+    "tryAgain": "もう一度試す",
+    "searchForOnlineRecipes": "インポートするレシピを検索",
+    "recipeImportedSuccessfully": "レシピが正常にインポートされました！",
+    "importFailed": "レシピのインポートに失敗しました",
+    "selectAll": "すべてのサイト",
+    "deselectAll": "なし"
 }
