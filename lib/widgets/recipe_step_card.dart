@@ -117,9 +117,13 @@ class RecipeStepCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     const SizedBox(width: 5),
-                    toolsRow,
-                    StepTimerWidget(timerDurationSeconds: recipeStep.timer * 60),
-                    const SizedBox(width: 5),
+                    Column(
+                      children: [
+                        toolsRow,
+                        StepTimerWidget(timerDurationSeconds: recipeStep.timer * 60),
+                      ],
+                    ),
+                    const SizedBox(width: 7),
                     stepImage(context),
                   ],
                 ),

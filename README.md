@@ -51,13 +51,14 @@ Documentation will come later.
 Supported Recipe Websites for import:
 
 
-| USA 🇺🇸 Supported Website **(29)** |
+| USA 🇺🇸 Supported Website **(30)** |
 |-------------------|
 | ✅ [ABeautifulMess.com](https://www.abeautifulmess.com) |
 | ✅ [Aflavorjournal.com](https://www.aflavorjournal.com) |
 | ✅ [Alexandracooks.com](https://alexandracooks.com) |
 | ✅ [AllRecipes.com](https://www.allrecipes.com) |
 | ✅ [Ambitiouskitchen.com](https://www.ambitiouskitchen.com) |
+| ✅ [Anovaculinary.com](https://www.anovaculinary.com) |
 | ✅ [Bakewithzoha.com](https://www.bakewithzoha.com) |
 | ✅ [Budgetbytes.com](https://www.budgetbytes.com) |
 | ✅ [Cafedelites.com](https://www.cafedelites.com) |

@@ -457,21 +457,38 @@ class AbstractScraper {
   }
 
   List<IngredientGroup>? ingredientGroups() {
-    // First check if we have an override set
     final override = getOverride<List<IngredientGroup>>('ingredient_groups');
     if (override != null) {
       return override;
     }
 
+    // first try to find groups in HTML
+    final groups = soup.querySelectorAll('.Recipe__ingredientsGroup');
+    if (groups.isNotEmpty) {
+      final ingredientGroups = <IngredientGroup>[];
+      for (final group in groups) {
+        final purposeElement = group.querySelector('.Recipe__ingredientsGroupName');
+        final heading = purposeElement?.text.trim();
+        final ingredients = group
+            .querySelectorAll('.Recipe__ingredient')
+            .map((e) => normalizeString(e.text))
+            .toList();
+        ingredientGroups.add(IngredientGroup(ingredients: ingredients, heading: heading));
+      }
+      if (ingredientGroups.any((g) => g.ingredients.isNotEmpty)) {
+        return ingredientGroups;
+      }
+    }
+
     try {
       // Try to get ingredients from schema data
       final ingredientsList = ingredients();
-      if (ingredientsList.isEmpty) {
-        return [];
+      if (ingredientsList.isNotEmpty) {
+        return groupIngredients(ingredientsList, soup);
       }
+      return [];
 
       // Attempt to group the ingredients using the groupIngredients utility
-      return groupIngredients(ingredientsList, soup);
     } catch (e) {
       debugPrint("Error extracting ingredient groups: $e");
 

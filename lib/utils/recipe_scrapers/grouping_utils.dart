@@ -1,4 +1,5 @@
 import 'package:html/dom.dart';
+import 'package:shefu/utils/recipe_scrapers/utils.dart';
 
 /// Default grouping selectors for popular recipe formats
 final List<(String, List<String>, List<String>)> defaultGroupings = [
@@ -193,25 +194,4 @@ List<IngredientGroup>? groupIngredients(
   }
 
   return result;
-}
-
-/// Clean and normalize a string by removing HTML and normalizing whitespace
-String normalizeString(String string) {
-  // HTML unescape
-  String unescapedString = string
-      .replaceAll('&amp;', '&')
-      .replaceAll('&lt;', '<')
-      .replaceAll('&gt;', '>')
-      .replaceAll('&quot;', '"')
-      .replaceAll('&#39;', "'");
-
-  // Normalize whitespace
-  return unescapedString
-      .replaceAll('\u00A0', ' ') // non-breaking space
-      .replaceAll('\u200b', '') // zero-width space
-      .replaceAll('\r\n', ' ')
-      .replaceAll('\n', ' ')
-      .replaceAll('\t', ' ')
-      .replaceAll(RegExp(r'\s+'), ' ')
-      .trim();
 }

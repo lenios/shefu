@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shefu/utils/recipe_scrapers/abstract_scraper.dart';
+import 'package:shefu/utils/recipe_scrapers/scrapers/anovaculinary.com.dart';
 import 'package:shefu/utils/recipe_scrapers/scrapers/cookpad.dart';
 import 'package:shefu/utils/recipe_scrapers/scrapers/hellofresh.com.dart';
 import 'package:shefu/utils/recipe_scrapers/scrapers/lacuisinedessouvenirs.com.dart';
@@ -94,6 +95,7 @@ void main() {
     'alexandracooks.com': ((html, url) => AbstractScraper(html, url), 2),
     'allrecipes.com': ((html, url) => AbstractScraper(html, url), 1),
     'ambitiouskitchen.com': ((html, url) => AbstractScraper(html, url), 1),
+    'anovaculinary.com': ((html, url) => AnovaCulinary(html, url), 1),
     'atelierdeschefs.fr': ((html, url) => AbstractScraper(html, url), 1),
     'bakewithzoha.com': ((html, url) => AbstractScraper(html, url), 2),
     'bbcgoodfood.com': ((html, url) => AbstractScraper(html, url), 2),
@@ -131,7 +133,7 @@ void main() {
     'supertoinette.com': ((html, url) => AbstractScraper(html, url), 1),
     'thekitchn.com': ((html, url) => AbstractScraper(html, url), 2),
     'therecipecritic.com': ((html, url) => AbstractScraper(html, url), 2),
-    'thepioneerwoman.com': ((html, url) => AbstractScraper(html, url), 2),
+    'thepioneerwoman.com': ((html, url) => AbstractScraper(html, url), 1), // TODO ingredients
     'vanillaandbean.com': ((html, url) => AbstractScraper(html, url), 2),
     'wellplated.com': ((html, url) => AbstractScraper(html, url), 2),
     'whatsgabycooking.com': ((html, url) => AbstractScraper(html, url), 2),

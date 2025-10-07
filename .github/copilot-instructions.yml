@@ -7,3 +7,4 @@ Ensure scalability, maintainability, and performance.
 When I ask for source code, always answer with the code, without explaination, except when I ask you to comment it.
 When modifying files, align with the project's structure, updating related files (e.g. routes, dependencies, tests) as needed
 Follow Effective Dart guidelines, and DRY, KISS, YAGNI and MVVM patterns.
+When generating arrays of strings, prefer " to '.
