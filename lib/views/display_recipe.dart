@@ -41,7 +41,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
     final viewModel = Provider.of<DisplayRecipeViewModel>(context, listen: false);
-    viewModel.initializeCommand.execute(context);
+    viewModel.initializeCommand.run(context);
   }
 
   @override
@@ -57,7 +57,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
 
     return CommandBuilder<BuildContext, Recipe?>(
       command: viewModel.initializeCommand,
-      whileExecuting: (context, _, _) => const Center(
+      whileRunning: (context, _, _) => const Center(
         child: SizedBox(width: 50.0, height: 50.0, child: CircularProgressIndicator()),
       ),
       onData: (context, data, _) {
@@ -634,7 +634,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
           buildIconButton(Icons.edit_outlined, AppLocalizations.of(context)!.editRecipe, () async {
             final result = await context.push('/edit-recipe/${viewModel.recipe!.id}');
             if (result == true && context.mounted) {
-              viewModel.initializeCommand.execute(context);
+              viewModel.initializeCommand.run(context);
             }
           }),
           buildIconButton(

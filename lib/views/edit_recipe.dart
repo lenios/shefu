@@ -42,7 +42,7 @@ class _EditRecipeState extends State<EditRecipe> {
     servingsFocusNode = FocusNode();
 
     final viewModel = Provider.of<EditRecipeViewModel>(context, listen: false);
-    viewModel.initializeCommand.execute();
+    viewModel.initializeCommand.run();
   }
 
   @override
@@ -96,7 +96,7 @@ class _EditRecipeState extends State<EditRecipe> {
 
     return CommandBuilder<void, Recipe>(
       command: viewModel.initializeCommand,
-      whileExecuting: (context, _, _) =>
+      whileRunning: (context, _, _) =>
           SizedBox(width: 50.0, height: 50.0, child: CircularProgressIndicator()),
       onData: (context, recipe, _) {
         return PopScope(
