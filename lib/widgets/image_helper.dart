@@ -11,7 +11,7 @@ import 'package:image_picker/image_picker.dart';
 // Simple LRU cache for image data
 class ImageCache {
   static final _cache = <String, Uint8List>{};
-  static const _maxSize = 20; // Maximum number of images to keep in memory
+  static const _maxSize = 30; // Maximum number of images to keep in memory
 
   static Uint8List? get(String key) {
     final data = _cache[key];

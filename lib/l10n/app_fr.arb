@@ -10,6 +10,7 @@
     "moveToNextStep": "Déplacer à l'étape suivante",
     "calories": "Calories",
     "carbohydrates": "Glucides",
+    "showCarbohydrates": "Afficher les glucides",
     "kcps": "Kcal/part",
     "kc": "Kcal",
     "gps": "g/part",

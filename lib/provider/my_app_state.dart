@@ -5,6 +5,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shefu/models/shopping_basket.dart';
 import '../models/objectbox_models.dart';
 
+final _prefs = SharedPreferencesAsync();
+
 enum MeasurementSystem { metric, us }
 
 class MyAppState extends ChangeNotifier {
@@ -25,24 +27,33 @@ class MyAppState extends ChangeNotifier {
   MeasurementSystem _measurementSystem = MeasurementSystem.metric;
   MeasurementSystem get measurementSystem => _measurementSystem;
 
+  bool _showCarbohydrates = true;
+  bool get showCarbohydrates => _showCarbohydrates;
+
   MyAppState() {
     _loadPreferences();
   }
 
   Future<void> _loadPreferences() async {
-    final prefs = await SharedPreferences.getInstance();
-    final isUS = prefs.getBool('use_us_units') ?? false;
+    final isUS = await _prefs.getBool('use_us_units') ?? false;
     _measurementSystem = isUS ? MeasurementSystem.us : MeasurementSystem.metric;
+    _showCarbohydrates = await _prefs.getBool('show_carbohydrates') ?? true;
+
     notifyListeners();
   }
 
   Future<void> setMeasurementSystem(MeasurementSystem system) async {
     if (_measurementSystem != system) {
       _measurementSystem = system;
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setBool('use_us_units', system == MeasurementSystem.us);
+      await _prefs.setBool('use_us_units', system == MeasurementSystem.us);
       notifyListeners();
     }
+  }
+
+  Future<void> setShowCarbohydrates(bool show) async {
+    _showCarbohydrates = show;
+    await _prefs.setBool('show_carbohydrates', show);
+    notifyListeners();
   }
 
   final List<BasketItem> _shoppingBasket = [];

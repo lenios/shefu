@@ -264,9 +264,7 @@ class DisplayRecipeViewModel extends ChangeNotifier {
           // Load SVG and convert to image
           final svgString = await rootBundle.loadString(entry.value);
           final pictureInfo = await vg.loadPicture(SvgStringLoader(svgString), null);
-
-          // Convert to image
-          final image = await pictureInfo.picture.toImage(24, 24); // 24x24 pixels
+          final image = await pictureInfo.picture.toImage(24, 24);
           final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
 
           if (byteData != null) {
@@ -404,13 +402,23 @@ class DisplayRecipeViewModel extends ChangeNotifier {
                           children: [
                             if (step.ingredients.isNotEmpty) ...[
                               ...step.ingredients.map((ingredient) {
-                                final quantity = ingredient.quantity * servingsMultiplier;
+                                final formatted = formatIngredient(
+                                  context: context,
+                                  name: ingredient.name,
+                                  quantity: ingredient.quantity,
+                                  unit: ingredient.unit,
+                                  shape: ingredient.shape,
+                                  foodId: ingredient.foodId,
+                                  conversionId: ingredient.conversionId,
+                                  servingsMultiplier: servingsMultiplier,
+                                  nutrientRepository: nutrientRepository,
+                                  optional: ingredient.optional,
+                                );
+
                                 return pw.Padding(
                                   padding: const pw.EdgeInsets.only(bottom: 2),
                                   child: pw.Text(
-                                    '• ${quantity > 0 ? quantity.toStringAsFixed(quantity.truncateToDouble() == quantity ? 0 : 1) : ""} '
-                                    '${ingredient.unit} ${ingredient.name}',
-                                    style: pw.TextStyle(font: regularFont, fontSize: 11),
+                                    '- ${formatted.primaryQuantityDisplay} ${formatted.name}  ',
                                   ),
                                 );
                               }),
@@ -490,7 +498,7 @@ class DisplayRecipeViewModel extends ChangeNotifier {
             if (recipe.source.isNotEmpty) ...[
               pw.SizedBox(height: 16),
               pw.Text(
-                '${l10n.source}: ${recipe.source}',
+                '${l10n.source}: ${formattedSource(recipe.source)}',
                 style: pw.TextStyle(font: regularFont, fontSize: 10),
               ),
             ],

@@ -42,6 +42,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get carbohydrates => '炭水化物';
 
   @override
+  String get showCarbohydrates => '炭水化物を表示';
+
+  @override
   String get kcps => 'kcal/人前';
 
   @override

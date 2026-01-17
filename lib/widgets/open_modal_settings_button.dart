@@ -54,7 +54,7 @@ void _showSettingsModal(BuildContext context, ThemeData theme) {
               children: [
                 // Language Selection
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: .spaceBetween,
                   children: [
                     Text(l10n.language, style: theme.textTheme.titleMedium),
                     DropdownButton<String>(
@@ -89,7 +89,7 @@ void _showSettingsModal(BuildContext context, ThemeData theme) {
                 ),
                 // Measurement System Selection
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: .spaceBetween,
                   children: [
                     Text(l10n.measurementSystem, style: theme.textTheme.titleMedium),
                     Row(
@@ -130,6 +130,17 @@ void _showSettingsModal(BuildContext context, ThemeData theme) {
                     ),
                   ],
                 ),
+                // Carbohydrates Toggle
+                SwitchListTile(
+                  contentPadding: EdgeInsets.zero,
+                  title: Text(l10n.showCarbohydrates, style: theme.textTheme.titleMedium),
+                  value: appState.showCarbohydrates,
+                  onChanged: (bool value) {
+                    appState.setShowCarbohydrates(value);
+                    setModalState(() {});
+                  },
+                  secondary: Icon(Icons.bakery_dining_outlined, color: theme.colorScheme.primary),
+                ),
                 const Divider(),
                 Text(l10n.tips, style: theme.textTheme.titleMedium),
                 _buildTipTile(theme, Icons.search, l10n.tipSearch),
@@ -148,7 +159,7 @@ void _showSettingsModal(BuildContext context, ThemeData theme) {
                 // // Gender Selection
 
                 // Row(
-                //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                //   mainAxisAlignment: .spaceEvenly,
                 //   children: [
                 //     Text(l10n.gender, // Use l10n here
                 //         style: theme.textTheme.titleMedium),
@@ -236,7 +247,7 @@ Widget _buildTipTile(ThemeData theme, IconData icon, String text) {
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 4.0),
     child: Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: .start,
       children: [
         Icon(icon, size: 20.0, color: theme.colorScheme.primary),
         const SizedBox(width: 12.0),

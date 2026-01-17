@@ -41,7 +41,7 @@ class RecipeStepCard extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(12.0),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: .start,
                     children: [
                       // Step Header with Step Title, Name Field, and Remove Button
                       Row(

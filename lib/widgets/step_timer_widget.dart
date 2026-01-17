@@ -30,7 +30,7 @@ class _StepTimerWidgetState extends State<StepTimerWidget> {
     final l10n = AppLocalizations.of(context)!; // Get localizations
 
     return Column(
-      mainAxisSize: MainAxisSize.min,
+      mainAxisSize: .min,
       children: [
         // Display timer duration as text
         Text(

@@ -91,7 +91,7 @@ class _ImageEditorScreenState extends State<ImageEditorScreen> {
             padding: const EdgeInsets.all(16.0),
             color: Colors.grey[200],
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: .start,
               children: [
                 Text(
                   l10n.rectangleInstructions,
@@ -101,7 +101,7 @@ class _ImageEditorScreenState extends State<ImageEditorScreen> {
                 Text(l10n.rectangleDetails),
                 const SizedBox(height: 8),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: .spaceEvenly,
                   children: [
                     ElevatedButton.icon(
                       onPressed: () {

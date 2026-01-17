@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:shefu/l10n/app_localizations.dart';
 import 'package:shefu/models/objectbox_models.dart';
+import 'package:shefu/provider/my_app_state.dart';
 import 'package:shefu/utils/string_extension.dart';
 import 'package:shefu/views/full_screen_image.dart';
 import 'package:shefu/utils/app_color.dart';
@@ -67,7 +68,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
             appBar: _buildAppBar(context, viewModel),
             body: Column(
               children: [
-                _buildHeader(context, viewModel, data!.imagePath),
+                _buildHeader(context, viewModel, thumbnailPath(data!.imagePath)),
                 // TabBar
                 Container(
                   height: 40,
@@ -139,7 +140,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
 
     return SingleChildScrollView(
       child: Column(
-        mainAxisSize: MainAxisSize.min,
+        mainAxisSize: .min,
         children: [
           Text(l10n.checkIngredientsYouHave),
           ConstrainedBox(
@@ -256,7 +257,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
       padding: const EdgeInsets.all(8.0),
       children: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: .spaceAround,
           children: [
             Text(
               AppLocalizations.of(context)!.ingredients,
@@ -314,7 +315,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
               title: AppLocalizations.of(context)!.questions,
               icon: Icons.question_answer_outlined,
               text: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: .start,
                 children: viewModel.recipe!.questions.map((qaString) {
                   final parts = qaString.split('\nA: ');
                   final question = parts[0].replaceFirst('Q: ', '');
@@ -322,7 +323,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 12.0),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: .start,
                       children: [
                         Text(question, style: const TextStyle(fontWeight: FontWeight.bold)),
                         const SizedBox(height: 4),
@@ -445,7 +446,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
             child: Container(
               padding: const EdgeInsets.only(top: 10, bottom: 5, left: 15, right: 5),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: .start,
                 children: [
                   Row(
                     // Title and Flag
@@ -511,14 +512,28 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                   const SizedBox(height: 3),
                   // Stats Row
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisAlignment: .end,
                     children: [
-                      buildHeaderStat(
-                        context,
-                        iconPath: 'assets/icons/carbohydrates.svg',
-                        value: recipe.carbohydrates,
-                        unit: AppLocalizations.of(context)!.gps,
+                      Selector<MyAppState, bool>(
+                        selector: (context, appState) => appState.showCarbohydrates,
+                        builder: (context, showCarbohydrates, child) {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              if (showCarbohydrates && recipe.carbohydrates > 0) ...[
+                                buildHeaderStat(
+                                  context,
+                                  iconPath: 'assets/icons/carbohydrates.svg',
+                                  value: recipe.carbohydrates,
+                                  unit: AppLocalizations.of(context)!.gps,
+                                ),
+                                const SizedBox(width: 10),
+                              ],
+                            ],
+                          );
+                        },
                       ),
+
                       const SizedBox(width: 10),
                       buildHeaderStat(
                         context,
@@ -531,7 +546,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                         Row(
                           children: [
                             Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                              crossAxisAlignment: .start,
                               children: [
                                 if (recipe.prepTime > 0)
                                   buildHeaderStat(
@@ -662,7 +677,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
             child: ClipRRect(
               borderRadius: BorderRadius.circular(8.0),
               child: Column(
-                mainAxisSize: MainAxisSize.min,
+                mainAxisSize: .min,
                 children: [
                   AppBar(
                     backgroundColor: Colors.black,
@@ -747,7 +762,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
         child: ClipRRect(
           borderRadius: BorderRadius.circular(8.0),
           child: Column(
-            mainAxisSize: MainAxisSize.min,
+            mainAxisSize: .min,
             children: [
               AppBar(
                 backgroundColor: Colors.black,

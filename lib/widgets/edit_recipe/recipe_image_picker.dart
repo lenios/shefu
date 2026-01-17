@@ -123,7 +123,7 @@ class RecipeImagePicker extends StatelessWidget {
                 border: Border.all(color: Theme.of(context).colorScheme.outline.withAlpha(75)),
               ),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: .center,
                 children: [
                   Icon(
                     Icons.add_photo_alternate_outlined,

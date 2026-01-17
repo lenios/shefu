@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:shefu/widgets/image_helper.dart';
 
 class FullScreenImage extends StatelessWidget {
   final String imagePath;
@@ -29,11 +30,23 @@ class FullScreenImage extends StatelessWidget {
           minScale: 0.5,
           maxScale: 4,
           child: FutureBuilder<Uint8List>(
-            // Load image bytes
             key: ValueKey('fullscreen-$imagePath'),
             future: File(imagePath).readAsBytes(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
+                // Show thumbnail while loading full image
+                final thumbPath = thumbnailPath(imagePath);
+                if (thumbPath.isNotEmpty && File(thumbPath).existsSync()) {
+                  return FutureBuilder<Uint8List>(
+                    future: File(thumbPath).readAsBytes(),
+                    builder: (context, thumbSnapshot) {
+                      if (thumbSnapshot.hasData) {
+                        return Image.memory(thumbSnapshot.data!, fit: BoxFit.contain);
+                      }
+                      return const CircularProgressIndicator(color: Colors.white);
+                    },
+                  );
+                }
                 return const CircularProgressIndicator(color: Colors.white);
               } else if (snapshot.hasError) {
                 return const Icon(Icons.broken_image, color: Colors.white, size: 60);

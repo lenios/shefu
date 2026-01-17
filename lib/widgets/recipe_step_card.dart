@@ -73,8 +73,8 @@ class RecipeStepCard extends StatelessWidget {
       constraints: const BoxConstraints(maxWidth: 150),
       child: foundTools.isNotEmpty
           ? Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisSize: .min,
+              mainAxisAlignment: .end,
               children: [
                 ...foundTools.entries
                     .take(recipeStep.ingredients.isNotEmpty ? 2 : 4)
@@ -101,7 +101,7 @@ class RecipeStepCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 8.0),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: .start,
         children: [
           stepIngredientsList(context),
           if (recipeStep.ingredients.isNotEmpty) const SizedBox(width: 20.0),
@@ -109,12 +109,12 @@ class RecipeStepCard extends StatelessWidget {
           Expanded(
             flex: 3,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: .start,
               children: [
                 _buildInstructionText(recipeStep.instruction, context),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: .end,
+                  crossAxisAlignment: .center,
                   children: [
                     const SizedBox(width: 5),
                     Column(

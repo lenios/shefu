@@ -279,16 +279,16 @@ Widget formattedCategory(String category, context, {bool dark = false}) {
       : Theme.of(context).colorScheme.onTertiary;
 
   return Row(
-    mainAxisSize: MainAxisSize.min,
+    mainAxisSize: .min,
     children: [
       Text(
         categoryText,
-        overflow: TextOverflow.ellipsis,
+        overflow: .ellipsis,
         style: TextStyle(fontSize: 14, color: textColor),
       ),
       if (categoryIcon != null)
         Padding(
-          padding: EdgeInsets.only(left: 4.0),
+          padding: .only(left: 4.0),
           child: Icon(categoryIcon, size: 16, color: textColor),
         ),
     ],

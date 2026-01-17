@@ -63,7 +63,7 @@ class ShoppingBasketModal extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 16, 10, 8),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: .spaceBetween,
                   children: [
                     Text(l10n.shoppingList, style: theme.textTheme.titleLarge),
                     if (appState.isShoppingBasketNotEmpty)

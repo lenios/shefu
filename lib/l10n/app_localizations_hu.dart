@@ -42,6 +42,9 @@ class AppLocalizationsHu extends AppLocalizations {
   String get carbohydrates => 'Szénhidrát';
 
   @override
+  String get showCarbohydrates => 'Szénhidrát megjelenítése';
+
+  @override
   String get kcps => 'Kcal/adag';
 
   @override

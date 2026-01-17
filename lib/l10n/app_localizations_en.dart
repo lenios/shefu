@@ -42,6 +42,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get carbohydrates => 'Carbohydrates';
 
   @override
+  String get showCarbohydrates => 'Display carbohydrates';
+
+  @override
   String get kcps => 'Kcal/serv.';
 
   @override

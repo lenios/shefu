@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+import 'package:shefu/provider/my_app_state.dart';
 import 'package:shefu/utils/string_extension.dart';
 import '../l10n/app_localizations.dart';
 import '../models/objectbox_models.dart';
@@ -46,19 +48,19 @@ class RecipeCard extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 3.0),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: .spaceBetween,
+                  crossAxisAlignment: .start,
                   children: [
                     // Top Row: Title and Flag
                     Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: .start,
                       children: [
                         Expanded(
                           child: Text(
                             recipe.title.capitalize(),
                             style: textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
                             maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
+                            overflow: .ellipsis,
                           ),
                         ),
                         const SizedBox(width: 8),
@@ -70,22 +72,36 @@ class RecipeCard extends StatelessWidget {
                       Text(
                         formattedSource(recipe.source),
                         maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
+                        overflow: .ellipsis,
                         style: textTheme.bodySmall?.copyWith(
                           color: colorScheme.onSurfaceVariant,
                         ), // Use theme text style and color
                       ),
                     // Stats Row
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisAlignment: .end,
                       children: [
-                        buildHeaderStat(
-                          context,
-                          iconPath: 'assets/icons/carbohydrates.svg',
-                          value: recipe.carbohydrates,
-                          unit: AppLocalizations.of(context)!.g,
-                          color: Colors.black,
+                        Selector<MyAppState, bool>(
+                          selector: (context, appState) => appState.showCarbohydrates,
+                          builder: (context, showCarbohydrates, child) {
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                if (showCarbohydrates) ...[
+                                  buildHeaderStat(
+                                    context,
+                                    iconPath: 'assets/icons/carbohydrates.svg',
+                                    value: recipe.carbohydrates,
+                                    unit: AppLocalizations.of(context)!.gps,
+                                    color: Colors.black,
+                                  ),
+                                  const SizedBox(width: 10),
+                                ],
+                              ],
+                            );
+                          },
                         ),
+
                         const SizedBox(width: 8),
                         buildHeaderStat(
                           context,

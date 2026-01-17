@@ -166,6 +166,12 @@ abstract class AppLocalizations {
   /// **'Carbohydrates'**
   String get carbohydrates;
 
+  /// No description provided for @showCarbohydrates.
+  ///
+  /// In en, this message translates to:
+  /// **'Display carbohydrates'**
+  String get showCarbohydrates;
+
   /// No description provided for @kcps.
   ///
   /// In en, this message translates to:
