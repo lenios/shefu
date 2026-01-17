@@ -25,7 +25,7 @@ class FullScreenImage extends StatelessWidget {
       body: Center(
         child: InteractiveViewer(
           // Allow zooming/panning
-          panEnabled: false, // Optional: disable panning
+          panEnabled: false,
           boundaryMargin: const EdgeInsets.all(20),
           minScale: 0.5,
           maxScale: 4,
@@ -41,7 +41,7 @@ class FullScreenImage extends StatelessWidget {
                     future: File(thumbPath).readAsBytes(),
                     builder: (context, thumbSnapshot) {
                       if (thumbSnapshot.hasData) {
-                        return Image.memory(thumbSnapshot.data!, fit: BoxFit.contain);
+                        return Image.memory(thumbSnapshot.data!, fit: BoxFit.cover);
                       }
                       return const CircularProgressIndicator(color: Colors.white);
                     },
@@ -54,6 +54,8 @@ class FullScreenImage extends StatelessWidget {
                 return Image.memory(
                   snapshot.data!,
                   fit: BoxFit.contain, // Fit whole image on screen
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
                   errorBuilder: (context, error, stackTrace) {
                     return const Icon(Icons.broken_image, color: Colors.white, size: 60);
                   },
