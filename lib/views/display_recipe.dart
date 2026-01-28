@@ -68,7 +68,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
             appBar: _buildAppBar(context, viewModel),
             body: Column(
               children: [
-                _buildHeader(context, viewModel, thumbnailPath(data!.imagePath)),
+                _buildHeader(context, viewModel, data!.imagePath),
                 // TabBar
                 Container(
                   height: 40,
@@ -363,7 +363,11 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
 
   Widget _buildHeader(BuildContext context, DisplayRecipeViewModel viewModel, String imagePath) {
     final recipe = viewModel.recipe!;
-    final imageSize = MediaQuery.of(context).size.width * 1 / 3;
+    final screenSize = MediaQuery.of(context).size;
+    final isLandscape = screenSize.width > screenSize.height;
+
+    // Get one-third of smaller dimension
+    final imageSize = (isLandscape ? screenSize.height : screenSize.width) * 1 / 3;
 
     final totalTopPadding = MediaQuery.of(context).padding.top + 50.0; // Status bar + AppBar
 
@@ -395,7 +399,9 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                       decoration: imagePath.isNotEmpty
                           ? BoxDecoration(border: Border.all(color: Colors.white, width: 0.5))
                           : null, // No border if no image path
-                      child: ClipRect(child: buildFutureImageWidget(context, imagePath)),
+                      child: ClipRect(
+                        child: buildFutureImageWidget(context, thumbnailPath(imagePath)),
+                      ),
                     ),
                   ),
 
@@ -447,6 +453,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
               padding: const EdgeInsets.only(top: 10, bottom: 5, left: 15, right: 5),
               child: Column(
                 crossAxisAlignment: .start,
+                mainAxisSize: .min,
                 children: [
                   Row(
                     // Title and Flag
@@ -482,6 +489,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                         ),
                         icon: const Icon(Icons.arrow_drop_down, color: Colors.white),
                         dropdownColor: AppColor.primarySoft,
+                        isDense: isLandscape,
                         //underline: Container(), // Remove underline
                         items: List.generate(20, (i) => i + 1).map((e) {
                           return DropdownMenuItem<int>(value: e, child: Text(e.toString()));
