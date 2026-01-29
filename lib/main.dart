@@ -77,25 +77,36 @@ class _MyAppState extends State<MyApp> {
               previousViewModel ?? HomePageViewModel(objectBoxRepo),
         ),
       ],
-      child: MaterialApp.router(
-        routerConfig: AppRouter.router,
-        locale: _locale,
-        debugShowCheckedModeBanner: false,
-        title: 'Shefu',
-        theme: AppColor().theme.copyWith(
-          inputDecorationTheme: AppColor().theme.inputDecorationTheme.copyWith(
-            contentPadding: const EdgeInsets.all(8.0),
-            floatingLabelBehavior: FloatingLabelBehavior.always,
-          ),
-        ),
-        localizationsDelegates: const [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-          CountryLocalizations.delegate,
-        ],
-        supportedLocales: AppLocalizations.supportedLocales,
+      child: Consumer<MyAppState>(
+        builder: (context, appState, child) {
+          return MaterialApp.router(
+            routerConfig: AppRouter.router,
+            locale: _locale,
+            debugShowCheckedModeBanner: false,
+            title: 'Shefu',
+            themeMode: appState.themeMode,
+            theme: AppColor().theme.copyWith(
+              inputDecorationTheme: AppColor().theme.inputDecorationTheme.copyWith(
+                contentPadding: const EdgeInsets.all(8.0),
+                floatingLabelBehavior: FloatingLabelBehavior.always,
+              ),
+            ),
+            darkTheme: AppColor().darkTheme.copyWith(
+              inputDecorationTheme: AppColor().darkTheme.inputDecorationTheme.copyWith(
+                contentPadding: const EdgeInsets.all(8.0),
+                floatingLabelBehavior: FloatingLabelBehavior.always,
+              ),
+            ),
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+              CountryLocalizations.delegate,
+            ],
+            supportedLocales: AppLocalizations.supportedLocales,
+          );
+        },
       ),
     );
   }

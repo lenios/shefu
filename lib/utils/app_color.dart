@@ -33,6 +33,11 @@ class AppColor {
     brightness: Brightness.light,
   );
 
+  static ColorScheme darkColorScheme = ColorScheme.fromSeed(
+    seedColor: const Color.fromARGB(255, 91, 202, 148),
+    brightness: Brightness.dark,
+  );
+
   final theme = ThemeData(
     colorScheme: colorScheme,
     useMaterial3: true,
@@ -43,6 +48,19 @@ class AppColor {
     floatingActionButtonTheme: FloatingActionButtonThemeData(
       backgroundColor: colorScheme.secondary,
       foregroundColor: colorScheme.onSecondary,
+    ),
+  );
+
+  final darkTheme = ThemeData(
+    colorScheme: darkColorScheme,
+    useMaterial3: true,
+    appBarTheme: AppBarTheme(
+      backgroundColor: darkColorScheme.primary,
+      foregroundColor: darkColorScheme.onPrimary,
+    ),
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      backgroundColor: darkColorScheme.secondary,
+      foregroundColor: darkColorScheme.onSecondary,
     ),
   );
 }

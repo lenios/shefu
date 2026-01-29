@@ -142,6 +142,39 @@ void _showSettingsModal(BuildContext context, ThemeData theme) {
                   secondary: Icon(Icons.bakery_dining_outlined, color: theme.colorScheme.primary),
                 ),
                 const Divider(),
+
+                ListTile(
+                  title: Text("Theme", style: theme.textTheme.titleMedium),
+                  contentPadding: EdgeInsets.zero,
+                  subtitle: Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: SegmentedButton<ThemeMode>(
+                      segments: const <ButtonSegment<ThemeMode>>[
+                        ButtonSegment<ThemeMode>(
+                          value: ThemeMode.system,
+                          label: Text('System'),
+                          icon: Icon(Icons.brightness_auto),
+                        ),
+                        ButtonSegment<ThemeMode>(
+                          value: ThemeMode.light,
+                          label: Text('Light'),
+                          icon: Icon(Icons.wb_sunny),
+                        ),
+                        ButtonSegment<ThemeMode>(
+                          value: ThemeMode.dark,
+                          label: Text('Dark'),
+                          icon: Icon(Icons.dark_mode),
+                        ),
+                      ],
+                      selected: <ThemeMode>{appState.themeMode},
+                      onSelectionChanged: (Set<ThemeMode> newSelection) {
+                        appState.setThemeMode(newSelection.first);
+                        setModalState(() {});
+                      },
+                    ),
+                  ),
+                ),
+
                 Text(l10n.tips, style: theme.textTheme.titleMedium),
                 _buildTipTile(theme, Icons.search, l10n.tipSearch),
                 _buildTipTile(theme, Icons.egg_outlined, l10n.tipIngredients),

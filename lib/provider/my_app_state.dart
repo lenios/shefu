@@ -30,6 +30,9 @@ class MyAppState extends ChangeNotifier {
   bool _showCarbohydrates = true;
   bool get showCarbohydrates => _showCarbohydrates;
 
+  ThemeMode _themeMode = ThemeMode.system;
+  ThemeMode get themeMode => _themeMode;
+
   MyAppState() {
     _loadPreferences();
   }
@@ -38,6 +41,11 @@ class MyAppState extends ChangeNotifier {
     final isUS = await _prefs.getBool('use_us_units') ?? false;
     _measurementSystem = isUS ? MeasurementSystem.us : MeasurementSystem.metric;
     _showCarbohydrates = await _prefs.getBool('show_carbohydrates') ?? true;
+    final themeModeString = await _prefs.getString('theme_mode') ?? 'system';
+    _themeMode = ThemeMode.values.firstWhere(
+      (mode) => mode.name == themeModeString,
+      orElse: () => ThemeMode.system,
+    );
 
     notifyListeners();
   }
@@ -54,6 +62,14 @@ class MyAppState extends ChangeNotifier {
     _showCarbohydrates = show;
     await _prefs.setBool('show_carbohydrates', show);
     notifyListeners();
+  }
+
+  Future<void> setThemeMode(ThemeMode mode) async {
+    if (_themeMode != mode) {
+      _themeMode = mode;
+      await _prefs.setString('theme_mode', mode.name);
+      notifyListeners();
+    }
   }
 
   final List<BasketItem> _shoppingBasket = [];
