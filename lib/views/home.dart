@@ -67,7 +67,7 @@ class _HomePageState extends State<HomePage> {
 
     return AppScaffold(
       floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisAlignment: .end,
         children: [
           FloatingActionButton(
             onPressed: () => context.go('/online-search'),
@@ -166,7 +166,7 @@ class _HomePageState extends State<HomePage> {
           Container(
             color: AppColor.primarySoft,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: .end,
               children: [
                 // reinitialize filters button
                 if ((viewModel.selectedCategory != null &&
@@ -236,48 +236,75 @@ class _HomePageState extends State<HomePage> {
           Expanded(
             child: !hasBeenInitialized
                 ? const Center(child: CircularProgressIndicator())
-                : StreamBuilder<List<Recipe>>(
-                    stream: viewModel.recipeStream,
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData) {
-                        return const Center(child: CircularProgressIndicator());
-                      } else {
-                        final filteredRecipes = viewModel.getFilteredRecipes(
-                          snapshot.data!,
-                          viewModel.searchTerm,
-                        );
+                : Stack(
+                    children: [
+                      StreamBuilder<List<Recipe>>(
+                        stream: viewModel.recipeStream,
+                        builder: (context, snapshot) {
+                          if (!snapshot.hasData) {
+                            return const Center(child: CircularProgressIndicator());
+                          } else {
+                            final filteredRecipes = viewModel.getFilteredRecipes(
+                              snapshot.data!,
+                              viewModel.searchTerm,
+                            );
 
-                        return filteredRecipes.isEmpty
-                            ? Center(
-                                child: Text(
-                                  AppLocalizations.of(context)!.noRecipe,
-                                  textAlign: TextAlign.center,
-                                  style: theme.textTheme.bodyLarge,
-                                ),
-                              )
-                            : GridView.builder(
-                                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                itemCount: filteredRecipes.length,
-                                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: isHandset ? 1 : 2,
-                                  childAspectRatio:
-                                      (MediaQuery.of(context).size.width / (isHandset ? 1 : 2) -
-                                          (isHandset
-                                              ? 32 // Total horizontal padding
-                                              : 42)) / // Padding + spacing for 2 columns
-                                      100, // Target height
-                                ),
-                                cacheExtent: 500,
-                                itemBuilder: (context, index) {
-                                  // Reverse the index to show the last recipe first
-                                  final reverseIndex = filteredRecipes.length - 1 - index;
-                                  return RepaintBoundary(
-                                    child: RecipeCard(recipe: filteredRecipes[reverseIndex]),
+                            return filteredRecipes.isEmpty
+                                ? Center(
+                                    child: Text(
+                                      AppLocalizations.of(context)!.noRecipe,
+                                      textAlign: TextAlign.center,
+                                      style: theme.textTheme.bodyLarge,
+                                    ),
+                                  )
+                                : GridView.builder(
+                                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                    itemCount: filteredRecipes.length,
+                                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: isHandset ? 1 : 2,
+                                      childAspectRatio:
+                                          (MediaQuery.of(context).size.width / (isHandset ? 1 : 2) -
+                                              (isHandset
+                                                  ? 32 // Total horizontal padding
+                                                  : 42)) / // Padding + spacing for 2 columns
+                                          100, // Target height
+                                    ),
+                                    cacheExtent: 500,
+                                    itemBuilder: (context, index) {
+                                      // Reverse the index to show the last recipe first
+                                      final reverseIndex = filteredRecipes.length - 1 - index;
+                                      return RepaintBoundary(
+                                        child: RecipeCard(recipe: filteredRecipes[reverseIndex]),
+                                      );
+                                    },
                                   );
-                                },
-                              );
-                      }
-                    },
+                          }
+                        },
+                      ),
+                      // Gradient fade at the bottom, behind the FAB
+                      Positioned(
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        height: 140,
+                        child: IgnorePointer(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: [
+                                  theme.scaffoldBackgroundColor.withAlpha(0),
+                                  theme.scaffoldBackgroundColor.withAlpha(180),
+                                  theme.scaffoldBackgroundColor.withAlpha(240),
+                                ],
+                                stops: const [0.0, 0.5, 1.0],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
           ),
         ],
@@ -386,7 +413,7 @@ class _HomePageState extends State<HomePage> {
             return DropdownMenuItem<String>(
               value: e,
               child: Row(
-                mainAxisSize: MainAxisSize.min,
+                mainAxisSize: .min,
                 children: [
                   Flag.fromString(e, height: 15, width: 24),
                   const SizedBox(width: 4),
