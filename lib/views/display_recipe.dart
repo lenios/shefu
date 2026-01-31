@@ -256,27 +256,78 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
     return ListView(
       padding: const EdgeInsets.all(8.0),
       children: [
-        Row(
-          mainAxisAlignment: .spaceAround,
+        Stack(
+          alignment: Alignment.center,
           children: [
-            Text(
-              AppLocalizations.of(context)!.ingredients,
-              style: theme.textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: theme.colorScheme.primary,
-              ),
+            Row(
+              mainAxisAlignment: .spaceAround,
+              children: [
+                Text(
+                  AppLocalizations.of(context)!.ingredients,
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: theme.colorScheme.primary,
+                  ),
+                ),
+                Text(
+                  AppLocalizations.of(context)!.instructions,
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: theme.colorScheme.primary,
+                  ),
+                ),
+              ],
             ),
-            Text(
-              AppLocalizations.of(context)!.instructions,
-              style: theme.textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: theme.colorScheme.primary,
+            Positioned(
+              right: 0,
+              child: Tooltip(
+                message: viewModel.isSpeaking
+                    ? AppLocalizations.of(context)!.pauseUsage
+                    : AppLocalizations.of(context)!.speak,
+                child: GestureDetector(
+                  onLongPress: () {
+                    viewModel.stopSpeak();
+                  },
+                  child: IconButton(
+                    onPressed: () {
+                      if (viewModel.isSpeaking) {
+                        viewModel.pauseSpeak();
+                      } else if (viewModel.isPaused) {
+                        // Resume from current step
+                        viewModel.resumeSpeak(context);
+                      } else {
+                        viewModel.speakAllSteps(context, 0);
+                      }
+                    },
+                    icon: Icon(
+                      viewModel.isSpeaking
+                          ? Icons.pause_circle
+                          : viewModel.isPaused
+                          ? Icons.play_circle
+                          : Icons.record_voice_over,
+                      color: viewModel.isSpeaking || viewModel.isPaused
+                          ? Colors.amber
+                          : theme.colorScheme.primary,
+                      size: 28,
+                    ),
+                  ),
+                ),
               ),
             ),
           ],
         ),
+
         ...List.generate(recipe.steps.length, (index) {
-          return RecipeStepCard(recipeStep: recipe.steps[index], servings: servingsMultiplier);
+          final isCurrentStep =
+              (viewModel.isSpeaking || viewModel.isPaused) && viewModel.currentStepIndex == index;
+
+          return Container(
+            decoration: BoxDecoration(
+              border: isCurrentStep ? Border.all(color: theme.colorScheme.primary, width: 3) : null,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: RecipeStepCard(recipeStep: recipe.steps[index], servings: servingsMultiplier),
+          );
         }),
         noteCard(
           context: context,

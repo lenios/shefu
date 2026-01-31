@@ -742,11 +742,11 @@ abstract class AppLocalizations {
   /// **'h'**
   String get hours_abbreviation;
 
-  /// No description provided for @timerUsage.
+  /// No description provided for @pauseUsage.
   ///
   /// In en, this message translates to:
-  /// **'Tap to pause/resume,\nlong press to stop the timer.'**
-  String get timerUsage;
+  /// **'Tap to pause/resume,\nlong press to stop.'**
+  String get pauseUsage;
 
   /// No description provided for @noMatchingNutrient.
   ///
@@ -1485,6 +1485,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'None'**
   String get deselectAll;
+
+  /// No description provided for @speak.
+  ///
+  /// In en, this message translates to:
+  /// **'Read recipe aloud'**
+  String get speak;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

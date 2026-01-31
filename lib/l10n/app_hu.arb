@@ -107,7 +107,7 @@
     "hours": "óra",
     "minutes_abbreviation": "perc",
     "hours_abbreviation": "óra",
-    "timerUsage": "Érintse meg a szüneteltetéshez/folytatáshoz,\ntartsa lenyomva az időzítő leállításához.",
+    "pauseUsage": "Koppintson a szüneteltetéshez/folytatáshoz,\ntartsa hosszan lenyomva a leállításhoz.",
     "noMatchingNutrient": "Nincs megfelelő hozzávaló",
     "leaveWithoutSaving": "Kilépés mentés nélkül?",
     "leave": "Kilépés",
@@ -231,5 +231,6 @@
     "recipeImportedSuccessfully": "A recept sikeresen importálva!",
     "importFailed": "Nem sikerült importálni a receptet",
     "selectAll": "Összes oldal",
-    "deselectAll": "Nincs"
+    "deselectAll": "Nincs",
+    "speak": "Recept felolvasása"
 }

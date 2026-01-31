@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
@@ -18,6 +19,7 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter_tts/flutter_tts.dart';
 
 class DisplayRecipeViewModel extends ChangeNotifier {
   final ObjectBoxRecipeRepository _recipeRepository;
@@ -29,6 +31,16 @@ class DisplayRecipeViewModel extends ChangeNotifier {
 
   VideoPlayerController? videoPlayerController;
 
+  // TTS properties
+  late FlutterTts _flutterTts;
+  bool _isSpeaking = false;
+  bool get isSpeaking => _isSpeaking;
+  bool _isPaused = false;
+  bool get isPaused => _isPaused;
+  int _currentStepIndex = 0;
+  int get currentStepIndex => _currentStepIndex;
+  bool _ttsReady = false;
+
   DisplayRecipeViewModel(
     this._recipeRepository,
     this._appState,
@@ -38,7 +50,6 @@ class DisplayRecipeViewModel extends ChangeNotifier {
     _servings = _appState.servings;
     _measurementSystem = _appState.measurementSystem;
     _appState.addListener(_onAppStateChanged);
-
     initializeCommand = Command.createAsync<BuildContext, Recipe?>(
       _initializeAndLoadData,
       initialValue: null,
@@ -64,10 +75,15 @@ class DisplayRecipeViewModel extends ChangeNotifier {
 
   Future<Recipe?> _initializeAndLoadData(BuildContext context) async {
     try {
+      final languageCode = Localizations.localeOf(context).languageCode;
+
       await nutrientRepository.initialize();
       _recipe = _recipeRepository.getRecipeById(_recipeId);
       _initializeBasket();
       if (context.mounted) _prefetchNutrientData(context);
+
+      // Start TTS init in background, don't await it to avoid blocking UI
+      _initializeTts(languageCode);
 
       return _recipe;
     } catch (e, stackTrace) {
@@ -604,8 +620,187 @@ class DisplayRecipeViewModel extends ChangeNotifier {
 
   @override
   void dispose() {
+    _flutterTts.stop();
     _appState.removeListener(_onAppStateChanged);
     super.dispose();
+  }
+
+  Future<void> _initializeTts(String languageCode) async {
+    _flutterTts = FlutterTts();
+
+    _flutterTts.setErrorHandler((msg) {
+      debugPrint("TTS Error: $msg");
+      _isSpeaking = false;
+      _isPaused = false;
+      notifyListeners();
+    });
+
+    _flutterTts.setCompletionHandler(() {
+      debugPrint("TTS: Speech completed for step $_currentStepIndex");
+
+      // If we are currently in "speaking" mode (not paused or stopped), move to next step.
+      if (_isSpeaking && !_isPaused) {
+        _nextStep();
+      }
+    });
+    // END: Changed Logic
+
+    _flutterTts.setStartHandler(() {
+      debugPrint("TTS: Speech started");
+    });
+
+    // Wait longer for Android TTS engine to fully bind
+    if (Platform.isAndroid) {
+      // Wait for engine to be ready
+      await Future.delayed(const Duration(milliseconds: 1000));
+
+      // Check language availability
+      var isLanguageAvailable = await _flutterTts.isLanguageAvailable(languageCode);
+
+      if (isLanguageAvailable != true) {
+        // Try without region code (e.g., "fr" instead of "fr-FR")
+        if (languageCode.contains('-')) {
+          final baseLanguage = languageCode.split('-')[0];
+          languageCode = baseLanguage;
+        }
+      }
+    }
+
+    // Set default parameters AFTER engine is ready
+    await _flutterTts.setVolume(1.0);
+    await _flutterTts.setSpeechRate(0.5);
+    await _flutterTts.setPitch(1.0);
+    await _flutterTts.setLanguage(languageCode);
+
+    _ttsReady = true;
+  }
+
+  Future<void> speakStep(BuildContext context, int stepIndex) async {
+    if (!_ttsReady) {
+      return;
+    }
+
+    if (_recipe == null || stepIndex >= _recipe!.steps.length) return;
+    if (!context.mounted) return;
+
+    final step = _recipe!.steps[stepIndex];
+
+    StringBuffer textToSpeak = StringBuffer();
+    // Add step number
+    textToSpeak.write("${AppLocalizations.of(context)!.step} ${stepIndex + 1}. ");
+    if (step.name.isNotEmpty) {
+      textToSpeak.write('${step.name}. ');
+    }
+
+    // Add ingredients if any
+    if (step.ingredients.isNotEmpty) {
+      textToSpeak.write("${AppLocalizations.of(context)!.ingredients}: ");
+      for (var ingredient in step.ingredients) {
+        final formatted = formatIngredient(
+          context: context,
+          name: ingredient.name,
+          quantity: ingredient.quantity,
+          unit: ingredient.unit,
+          shape: ingredient.shape,
+          foodId: ingredient.foodId,
+          conversionId: ingredient.conversionId,
+          servingsMultiplier: _servings / _recipe!.servings,
+          nutrientRepository: nutrientRepository,
+          optional: ingredient.optional,
+        );
+        textToSpeak.write("${formatted.primaryQuantityDisplay} ${formatted.name}. ");
+      }
+    }
+
+    textToSpeak.write(step.instruction);
+
+    final text = textToSpeak.toString();
+    debugPrint("TTS: Speaking step $stepIndex: $text");
+
+    _isSpeaking = true;
+    _isPaused = false;
+    notifyListeners();
+
+    try {
+      var result = await _flutterTts.speak(text);
+      if (result == 0) {
+        debugPrint("TTS: Speak command failed");
+        _isSpeaking = false;
+        notifyListeners();
+      }
+    } catch (e) {
+      debugPrint("Error speaking step: $e");
+      _isSpeaking = false;
+      notifyListeners();
+    }
+  }
+
+  // Helper to handle transition to next step
+  BuildContext? _savedContext; // Store context for chaining steps
+
+  void _nextStep() async {
+    if (_recipe == null || _savedContext == null || !_savedContext!.mounted) {
+      _isSpeaking = false;
+      notifyListeners();
+      return;
+    }
+
+    int nextIndex = _currentStepIndex + 1;
+    if (nextIndex < _recipe!.steps.length) {
+      _currentStepIndex = nextIndex;
+      notifyListeners();
+      // Small natural pause between steps
+      await Future.delayed(const Duration(milliseconds: 1000));
+      if (_isSpeaking && !_isPaused) {
+        speakStep(_savedContext!, nextIndex);
+      }
+    } else {
+      // Finished all steps
+      _isSpeaking = false;
+      _currentStepIndex = 0;
+      notifyListeners();
+    }
+  }
+
+  Future<void> speakAllSteps(BuildContext context, int startIndex) async {
+    if (_recipe == null) return;
+
+    _savedContext = context; // Save context for the automatic next steps
+    _currentStepIndex = startIndex;
+
+    // Explicitly set state to speaking
+    _isSpeaking = true;
+    _isPaused = false;
+    notifyListeners();
+
+    // Start speaking the requested step.
+    // The completion handler will take care of calling _nextStep()
+    await speakStep(context, startIndex);
+  }
+
+  Future<void> stopSpeak() async {
+    // Complete stop - resets position
+    await _flutterTts.stop();
+    _isSpeaking = false;
+    _isPaused = false;
+    _currentStepIndex = 0;
+    notifyListeners();
+  }
+
+  Future<void> pauseSpeak() async {
+    // Pause - stops audio but remembers state
+    await _flutterTts.stop();
+    _isPaused = true;
+    _isSpeaking = false;
+    // _currentStepIndex is preserved
+    debugPrint("TTS: Paused at step $_currentStepIndex");
+    notifyListeners();
+  }
+
+  Future<void> resumeSpeak(BuildContext context) async {
+    // Just call speakAllSteps starting from current index
+    debugPrint("TTS: Resuming from step $_currentStepIndex");
+    await speakAllSteps(context, _currentStepIndex);
   }
 
   String getNutrientDescById(int foodId, int factorId) {

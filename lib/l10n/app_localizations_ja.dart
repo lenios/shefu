@@ -334,7 +334,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get hours_abbreviation => '時間';
 
   @override
-  String get timerUsage => 'タップすると一時停止/再開し、\n長押しするとタイマーを停止します。';
+  String get pauseUsage => 'タップすると一時停止/再開し、\n長押しすると停止します。';
 
   @override
   String get noMatchingNutrient => '該当する栄養素が見つかりませんでした';
@@ -713,4 +713,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get deselectAll => 'なし';
+
+  @override
+  String get speak => 'レシピを話しかけ';
 }

@@ -335,8 +335,8 @@ class AppLocalizationsHu extends AppLocalizations {
   String get hours_abbreviation => 'óra';
 
   @override
-  String get timerUsage =>
-      'Érintse meg a szüneteltetéshez/folytatáshoz,\ntartsa lenyomva az időzítő leállításához.';
+  String get pauseUsage =>
+      'Koppintson a szüneteltetéshez/folytatáshoz,\ntartsa hosszan lenyomva a leállításhoz.';
 
   @override
   String get noMatchingNutrient => 'Nincs megfelelő hozzávaló';
@@ -717,4 +717,7 @@ class AppLocalizationsHu extends AppLocalizations {
 
   @override
   String get deselectAll => 'Nincs';
+
+  @override
+  String get speak => 'Recept felolvasása';
 }
