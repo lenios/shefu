@@ -107,7 +107,7 @@
     "hours": "hours",
     "minutes_abbreviation": "min",
     "hours_abbreviation": "h",
-    "timerUsage": "Tap to pause/resume,\nlong press to stop the timer.",
+    "pauseUsage": "Tap to pause/resume,\nlong press to stop.",
     "noMatchingNutrient": "No matching nutrients found",
     "leaveWithoutSaving": "Leave without saving?",
     "leave": "Leave",
@@ -230,5 +230,6 @@
     "recipeImportedSuccessfully": "Recipe imported successfully!",
     "importFailed": "Failed to import recipe",
     "selectAll": "All Sites",
-    "deselectAll": "None"
+    "deselectAll": "None",
+    "speak": "Read recipe aloud"
 }

@@ -457,7 +457,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
     id: const obx_int.IdUid(4, 2416326191381789094),
     name: 'Recipe',
-    lastPropertyId: const obx_int.IdUid(23, 5793297687219281229),
+    lastPropertyId: const obx_int.IdUid(24, 2604237780556884374),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
@@ -584,6 +584,12 @@ final _entities = <obx_int.ModelEntity>[
         id: const obx_int.IdUid(23, 5793297687219281229),
         name: 'questions',
         type: 30,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(24, 2604237780556884374),
+        name: 'languageTag',
+        type: 9,
         flags: 0,
       ),
     ],
@@ -1067,7 +1073,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final questionsOffset = fbb.writeList(
           object.questions.map(fbb.writeString).toList(growable: false),
         );
-        fbb.startTable(24);
+        final languageTagOffset = fbb.writeString(object.languageTag);
+        fbb.startTable(25);
         fbb.addInt64(0, object.id);
         fbb.addOffset(1, titleOffset);
         fbb.addOffset(2, sourceOffset);
@@ -1089,6 +1096,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
         fbb.addInt64(20, object.fat);
         fbb.addInt64(21, object.protein);
         fbb.addOffset(22, questionsOffset);
+        fbb.addOffset(23, languageTagOffset);
         fbb.finish(fbb.endTable());
         return object.id;
       },
@@ -1137,6 +1145,9 @@ obx_int.ModelDefinition getObjectBoxModel() {
           fb.StringReader(asciiOptimization: true),
           lazy: false,
         ).vTableGet(buffer, rootOffset, 48, []);
+        final languageTagParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 50, '');
         final object = Recipe(
           id: idParam,
           title: titleParam,
@@ -1159,6 +1170,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
           makeAhead: makeAheadParam,
           videoUrl: videoUrlParam,
           questions: questionsParam,
+          languageTag: languageTagParam,
         );
         obx_int.InternalToManyAccess.setRelInfo<Recipe>(
           object.steps,
@@ -1549,6 +1561,9 @@ class Recipe_ {
 
   /// See [Recipe.questions].
   static final questions = obx.QueryStringVectorProperty<Recipe>(_entities[3].properties[20]);
+
+  /// See [Recipe.languageTag].
+  static final languageTag = obx.QueryStringProperty<Recipe>(_entities[3].properties[21]);
 
   /// see [Recipe.steps]
   static final steps = obx.QueryBacklinkToMany<RecipeStep, Recipe>(RecipeStep_.recipe);

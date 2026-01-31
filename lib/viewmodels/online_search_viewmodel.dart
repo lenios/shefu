@@ -143,8 +143,9 @@ class OnlineSearchViewModel extends ChangeNotifier {
     editViewModel.recipe.id = newRecipeId;
 
     try {
+      String languageTag = Localizations.localeOf(context).toLanguageTag();
       await editViewModel.scrapeData(url, l10n);
-      success = await editViewModel.saveRecipe(l10n);
+      success = await editViewModel.saveRecipe(l10n, languageTag);
 
       if (success) {
         recipeId = editViewModel.recipe.id;

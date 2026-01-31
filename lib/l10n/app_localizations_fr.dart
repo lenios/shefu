@@ -335,8 +335,8 @@ class AppLocalizationsFr extends AppLocalizations {
   String get hours_abbreviation => 'h';
 
   @override
-  String get timerUsage =>
-      'Appuyez pour mettre en pause/reprendre,\nfaites un appui long pour arrêter le minuteur.';
+  String get pauseUsage =>
+      'Appuyez pour mettre en pause/reprendre,\nfaites un appui long pour arrêter.';
 
   @override
   String get noMatchingNutrient => 'Aucun ingrédient correspondant trouvé';
@@ -717,4 +717,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get deselectAll => 'Aucun';
+
+  @override
+  String get speak => 'Lire la recette';
 }

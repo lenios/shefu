@@ -27,6 +27,7 @@ class Recipe {
   String makeAhead;
   String videoUrl;
   List<String> questions;
+  String languageTag; // Unicode BCP 47 locale identifier
 
   @Backlink('recipe')
   final steps = ToMany<RecipeStep>();
@@ -55,6 +56,7 @@ class Recipe {
     this.makeAhead = "",
     this.videoUrl = "",
     this.questions = const [],
+    this.languageTag = "",
   });
 }
 

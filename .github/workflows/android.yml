@@ -20,7 +20,7 @@ jobs:
         uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e # v2.21.0
         with:
           channel: 'stable'
-          flutter-version: 3.38.7
+          flutter-version: 3.38.9
 
       - name: Get Flutter dependencies
         run: flutter pub get

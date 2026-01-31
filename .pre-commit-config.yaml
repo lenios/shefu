@@ -8,12 +8,12 @@ repos:
   hooks:
     - id: flutter-format
       name: Flutter Format
-      entry: dart format --output=none --set-exit-if-changed .
+      entry: dart format .
       language: system
       types: [dart]
     - id: flutter-analyze
       name: Flutter Analyze (lint)
-      entry: flutter analyze
+      entry: flutter analyze  --no-pub
       language: system
       types: [dart]
       pass_filenames: false

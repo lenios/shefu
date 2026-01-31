@@ -90,7 +90,7 @@ class _StepTimerWidgetState extends State<StepTimerWidget> {
             onStart: () {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text(l10n.timerUsage),
+                  content: Text(l10n.pauseUsage),
                   duration: const Duration(seconds: 5),
                   backgroundColor: colorScheme.secondary,
                   // TODO only display once?

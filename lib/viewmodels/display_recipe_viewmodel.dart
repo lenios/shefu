@@ -1,8 +1,12 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:async';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:command_it/command_it.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:printing/printing.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shefu/l10n/app_localizations.dart';
@@ -19,6 +23,8 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
+enum TtsState { start, stop, pause }
+
 class DisplayRecipeViewModel extends ChangeNotifier {
   final ObjectBoxRecipeRepository _recipeRepository;
   final ObjectBoxNutrientRepository nutrientRepository;
@@ -29,6 +35,18 @@ class DisplayRecipeViewModel extends ChangeNotifier {
 
   VideoPlayerController? videoPlayerController;
 
+  late FlutterTts flutterTts;
+  bool _ttsInitialized = false;
+  bool _isInitializing = false;
+
+  TtsState ttsState = TtsState.stop;
+  bool get isPlaying => ttsState == TtsState.start;
+  bool get isStopped => ttsState == TtsState.stop;
+  bool get isPaused => ttsState == TtsState.pause;
+
+  int _currentStepIndex = 0;
+  int get currentStepIndex => _currentStepIndex;
+
   DisplayRecipeViewModel(
     this._recipeRepository,
     this._appState,
@@ -38,11 +56,103 @@ class DisplayRecipeViewModel extends ChangeNotifier {
     _servings = _appState.servings;
     _measurementSystem = _appState.measurementSystem;
     _appState.addListener(_onAppStateChanged);
-
     initializeCommand = Command.createAsync<BuildContext, Recipe?>(
       _initializeAndLoadData,
       initialValue: null,
     );
+  }
+
+  void initTts(BuildContext context) {
+    if (_isInitializing || _ttsInitialized) {
+      return;
+    }
+
+    _isInitializing = true;
+    flutterTts = FlutterTts();
+
+    flutterTts.setStartHandler(() {
+      ttsState = TtsState.start;
+      notifyListeners();
+    });
+
+    flutterTts.setCompletionHandler(() {
+      ttsState = TtsState.stop;
+      _handleStepCompletion(context);
+      notifyListeners();
+    });
+
+    flutterTts.setCancelHandler(() {
+      _updateTtsState(TtsState.stop, isSpeaking: false);
+    });
+
+    flutterTts.setPauseHandler(() {
+      _updateTtsState(TtsState.pause, isSpeaking: false);
+    });
+
+    flutterTts.setErrorHandler((msg) {
+      debugPrint("TTS Error: $msg");
+      _updateTtsState(TtsState.stop, isSpeaking: false, resetStep: true);
+    });
+
+    _configureTts(context);
+
+    _ttsInitialized = true;
+    _isInitializing = false;
+  }
+
+  void _updateTtsState(TtsState newState, {required bool isSpeaking, bool resetStep = false}) {
+    ttsState = newState;
+    if (resetStep) {
+      _currentStepIndex = 0;
+    }
+    notifyListeners();
+  }
+
+  void _handleStepCompletion(BuildContext context) {
+    if (_recipe != null && _currentStepIndex < _recipe!.steps.length - 1) {
+      _currentStepIndex++;
+      notifyListeners();
+
+      Future.delayed(const Duration(milliseconds: 1000), () {
+        speakStep(context, _currentStepIndex);
+      });
+    } else {
+      _currentStepIndex = 0;
+    }
+  }
+
+  Future<void> _configureTts(BuildContext context) async {
+    try {
+      String languageToUse;
+      // Try to use recipe's language tag first
+      if (_recipe != null && _recipe!.languageTag.isNotEmpty) {
+        languageToUse = _recipe!.languageTag;
+
+        // Verify the language is supported by TTS
+        final availableLanguages = await flutterTts.getLanguages;
+        if (availableLanguages is List) {
+          final supported = availableLanguages.any(
+            (lang) => lang.toString().toLowerCase().startsWith(languageToUse.toLowerCase()),
+          );
+
+          if (!supported) {
+            // Fallback to locale language
+            languageToUse = Localizations.localeOf(context).languageCode;
+          }
+        }
+      } else {
+        // Default to locale language
+        languageToUse = Localizations.localeOf(context).languageCode;
+      }
+
+      await flutterTts.setLanguage(languageToUse);
+      await flutterTts.setSpeechRate(0.5);
+      await flutterTts.setVolume(1.0);
+      await flutterTts.setPitch(1.0);
+      await flutterTts.awaitSpeakCompletion(true);
+    } catch (e) {
+      debugPrint("TTS Configuration error: $e");
+    }
   }
 
   Recipe? _recipe;
@@ -575,8 +685,8 @@ class DisplayRecipeViewModel extends ChangeNotifier {
             pw.Container(
               width: 80,
               height: 80,
-              child: pw.Image(recipeImage, fit: pw.BoxFit.cover),
               margin: const pw.EdgeInsets.only(right: 16),
+              child: pw.Image(recipeImage, fit: pw.BoxFit.cover),
             ),
           pw.Expanded(
             child: pw.Text(recipe.title, style: pw.TextStyle(font: headerFont, fontSize: 24)),
@@ -604,8 +714,95 @@ class DisplayRecipeViewModel extends ChangeNotifier {
 
   @override
   void dispose() {
+    if (_ttsInitialized) {
+      try {
+        flutterTts.stop();
+      } catch (e) {
+        debugPrint("TTS stop error on dispose: $e");
+      }
+    }
     _appState.removeListener(_onAppStateChanged);
     super.dispose();
+  }
+
+  Future<void> speakStep(BuildContext context, int stepIndex) async {
+    if (_recipe == null) return;
+
+    if (!_ttsInitialized) {
+      initTts(context);
+      await Future.delayed(const Duration(milliseconds: 100));
+    }
+
+    final step = _recipe!.steps[stepIndex];
+    final l10n = AppLocalizations.of(context)!;
+
+    String text = "${l10n.step} ${stepIndex + 1}. ";
+
+    if (step.name.isNotEmpty) {
+      text += "${step.name}. ";
+    }
+
+    if (step.ingredients.isNotEmpty) {
+      text += "${l10n.ingredients}: ";
+      for (var ingredient in step.ingredients) {
+        final formatted = formatIngredient(
+          context: context,
+          name: ingredient.name,
+          quantity: ingredient.quantity,
+          unit: ingredient.unit,
+          shape: ingredient.shape,
+          foodId: ingredient.foodId,
+          conversionId: ingredient.conversionId,
+          servingsMultiplier: _servings / _recipe!.servings,
+          nutrientRepository: nutrientRepository,
+          optional: ingredient.optional,
+        );
+        text += "${formatted.primaryQuantityDisplay} ${formatted.name}. ";
+      }
+    }
+
+    text += step.instruction;
+
+    try {
+      await flutterTts.speak(text);
+    } catch (e) {
+      debugPrint("TTS Error speaking: $e");
+    }
+  }
+
+  Future<void> speakAllSteps(BuildContext context, int startIndex) async {
+    if (_recipe == null) return;
+
+    if (!_ttsInitialized) {
+      initTts(context);
+    }
+
+    _currentStepIndex = startIndex;
+    _updateTtsState(TtsState.start, isSpeaking: true);
+
+    await speakStep(context, startIndex);
+  }
+
+  Future<void> stopSpeak() async {
+    if (_ttsInitialized) {
+      try {
+        await flutterTts.stop();
+      } catch (e) {
+        debugPrint("TTS stop error: $e");
+      }
+    }
+    _updateTtsState(TtsState.stop, isSpeaking: false, resetStep: true);
+  }
+
+  Future<void> pauseSpeak() async {
+    if (_ttsInitialized) {
+      try {
+        await flutterTts.pause();
+      } catch (e) {
+        debugPrint("TTS pause error: $e");
+      }
+    }
+    _updateTtsState(TtsState.pause, isSpeaking: false);
   }
 
   String getNutrientDescById(int foodId, int factorId) {

@@ -107,7 +107,7 @@
     "hours": "heures",
     "minutes_abbreviation": "min",
     "hours_abbreviation": "h",
-    "timerUsage": "Appuyez pour mettre en pause/reprendre,\nfaites un appui long pour arrêter le minuteur.",
+    "pauseUsage": "Appuyez pour mettre en pause/reprendre,\nfaites un appui long pour arrêter.",
     "noMatchingNutrient": "Aucun ingrédient correspondant trouvé",
     "leaveWithoutSaving": "Quitter sans enregistrer ?",
     "leave": "Quitter",
@@ -230,5 +230,6 @@
     "recipeImportedSuccessfully": "Recette importée avec succès !",
     "importFailed": "Échec de l'importation de la recette",
     "selectAll": "Tous",
-    "deselectAll": "Aucun"
+    "deselectAll": "Aucun",
+    "speak": "Lire la recette"
 }

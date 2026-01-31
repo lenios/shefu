@@ -3,6 +3,7 @@ import 'dart:io'; // Import for File
 import 'package:flutter/material.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:command_it/command_it.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as p;
@@ -382,6 +383,11 @@ class EditRecipeViewModel extends ChangeNotifier {
       }).toList();
     }
 
+    final scrapedLanguage = pscraper.language();
+    if (scrapedLanguage != null && scrapedLanguage.isNotEmpty) {
+      _recipe.languageTag = scrapedLanguage;
+    }
+
     if (pscraper.makeAhead() != null) {
       recipe.makeAhead = pscraper.makeAhead()!;
     }
@@ -726,7 +732,7 @@ class EditRecipeViewModel extends ChangeNotifier {
   }
 
   // --- Save Recipe ---
-  Future<bool> saveRecipe(AppLocalizations l10n) async {
+  Future<bool> saveRecipe(AppLocalizations l10n, String languageCode) async {
     _isLoading = true;
     notifyListeners(); // Show loading indicator
 
@@ -748,6 +754,10 @@ class EditRecipeViewModel extends ChangeNotifier {
       _recipe.category = _category; // Ensure category is updated
       _recipe.month = _month; // Ensure month is updated
       _recipe.countryCode = _country.countryCode;
+
+      if (_recipe.languageTag.isEmpty) {
+        _recipe.languageTag = languageCode; // set default language to user defined language
+      }
 
       // Automatically set timer from step instructions
       if (_recipe.steps.isNotEmpty) {
@@ -978,5 +988,35 @@ class EditRecipeViewModel extends ChangeNotifier {
         }
       }
     });
+  }
+
+  Future<List<dynamic>> getAvailableTtsLanguages() async {
+    try {
+      final FlutterTts tts = FlutterTts();
+      final languages = await tts.getLanguages;
+
+      if (languages is List) {
+        // Extract unique language codes (remove regional variants)
+        final Set<String> uniqueLangCodes = {};
+        for (var lang in languages) {
+          final langStr = lang.toString();
+          uniqueLangCodes.add(langStr); // Keep full language tag for display
+        }
+
+        // Sort and return
+        final sortedLanguages = uniqueLangCodes.toList()..sort();
+        return sortedLanguages;
+      }
+    } catch (e) {
+      debugPrint("Error getting TTS languages: $e");
+    }
+
+    // Return default supported languages if TTS query fails
+    return ['en-US', 'fr-FR', 'ja-JP', 'hu-HU'];
+  }
+
+  void setLanguageTag(String languageTag) {
+    _recipe.languageTag = languageTag;
+    notifyListeners();
   }
 }

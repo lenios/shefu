@@ -107,7 +107,7 @@
     "hours": "時間",
     "minutes_abbreviation": "分",
     "hours_abbreviation": "時間",
-    "timerUsage": "タップすると一時停止/再開し、\n長押しするとタイマーを停止します。",
+    "pauseUsage": "タップすると一時停止/再開し、\n長押しすると停止します。",
     "noMatchingNutrient": "該当する栄養素が見つかりませんでした",
     "leaveWithoutSaving": "保存せずに終了しますか？",
     "leave": "終了",
@@ -231,5 +231,6 @@
     "recipeImportedSuccessfully": "レシピが正常にインポートされました！",
     "importFailed": "レシピのインポートに失敗しました",
     "selectAll": "すべてのサイト",
-    "deselectAll": "なし"
+    "deselectAll": "なし",
+    "speak": "レシピを話しかけ"
 }

@@ -104,6 +104,7 @@ class _EditRecipeState extends State<EditRecipe> {
           onPopInvokedWithResult: (didPop, result) async {
             if (didPop) return;
             final navigator = Navigator.of(context);
+            final languageTag = Localizations.localeOf(context).toLanguageTag();
 
             // Show confirmation dialog when clicking back button without saving
             final bool? shouldSave = await confirmationDialog(
@@ -117,7 +118,7 @@ class _EditRecipeState extends State<EditRecipe> {
             );
 
             if (shouldSave == true) {
-              bool saved = await viewModel.saveRecipe(l10n);
+              bool saved = await viewModel.saveRecipe(l10n, languageTag);
               if (!context.mounted) return;
               if (saved) {
                 if (navigator.canPop()) {
@@ -161,7 +162,10 @@ class _EditRecipeState extends State<EditRecipe> {
                       onPressed: isLoading
                           ? null
                           : () async {
-                              bool saved = await viewModel.saveRecipe(l10n);
+                              bool saved = await viewModel.saveRecipe(
+                                l10n,
+                                Localizations.localeOf(context).toLanguageTag(),
+                              );
                               if (saved && context.mounted) {
                                 context.pop(true);
                               } else if (context.mounted) {
@@ -199,15 +203,15 @@ class _EditRecipeState extends State<EditRecipe> {
                   const SizedBox(height: 10),
 
                   Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: .start,
                     children: [
                       Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: .start,
                         children: [
                           // --- Left Column: Image and OCR Switch ---
                           Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisSize: .min,
+                            crossAxisAlignment: .center,
                             children: [
                               SizedBox(width: 130, child: RecipeImagePicker(viewModel: viewModel)),
                               const SizedBox(height: 8),
@@ -216,7 +220,7 @@ class _EditRecipeState extends State<EditRecipe> {
                                 selector: (_, vm) => vm.ocrEnabled,
                                 builder: (context, ocrEnabled, _) {
                                   return Row(
-                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisSize: .min,
                                     children: [
                                       Text(
                                         "OCR:",
@@ -243,7 +247,7 @@ class _EditRecipeState extends State<EditRecipe> {
                             child: Padding(
                               padding: const EdgeInsets.only(left: 6.0),
                               child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                                crossAxisAlignment: .start,
                                 children: [
                                   // First row: Servings and Pieces per serving
                                   Row(
@@ -714,6 +718,63 @@ class _EditRecipeState extends State<EditRecipe> {
                     ),
                     keyboardType: TextInputType.url,
                   ),
+                  const SizedBox(height: 10),
+                  // --- Language Selection ---
+                  FutureBuilder<List<dynamic>>(
+                    future: viewModel.getAvailableTtsLanguages(),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) {
+                        return const SizedBox.shrink();
+                      }
+
+                      final availableLanguages = snapshot.data!;
+                      if (availableLanguages.isEmpty) {
+                        return const SizedBox.shrink();
+                      }
+
+                      // Extract unique language codes (without locale variants)
+                      final uniqueLanguageCodes =
+                          availableLanguages
+                              .map((lang) => lang.toString().split('-')[0].toLowerCase())
+                              .toSet()
+                              .toList()
+                            ..sort();
+
+                      return Selector<EditRecipeViewModel, String>(
+                        selector: (_, vm) => vm.recipe.languageTag,
+                        builder: (context, languageTag, _) {
+                          // Default to current locale if not set
+                          final currentLanguage = languageTag.isEmpty
+                              ? Localizations.localeOf(context).languageCode
+                              : languageTag;
+
+                          return DropdownButtonFormField<String>(
+                            initialValue: uniqueLanguageCodes.contains(currentLanguage)
+                                ? currentLanguage
+                                : uniqueLanguageCodes.first,
+                            decoration: InputDecoration(
+                              labelText: l10n.language,
+                              border: const OutlineInputBorder(),
+                              prefixIcon: const Icon(Icons.language),
+                            ),
+                            isExpanded: true,
+                            items: uniqueLanguageCodes.map((langCode) {
+                              final displayName = _getLanguageDisplayName(langCode);
+                              return DropdownMenuItem<String>(
+                                value: langCode,
+                                child: Text(displayName),
+                              );
+                            }).toList(),
+                            onChanged: (String? newValue) {
+                              if (newValue != null) {
+                                viewModel.setLanguageTag(newValue);
+                              }
+                            },
+                          );
+                        },
+                      );
+                    },
+                  ),
                 ],
               ),
             ),
@@ -721,5 +782,40 @@ class _EditRecipeState extends State<EditRecipe> {
         );
       },
     );
+  }
+
+  String _getLanguageDisplayName(String languageCode) {
+    final Map<String, String> languageNames = {
+      'en': 'English',
+      'fr': 'Français',
+      'hu': 'Magyar',
+      'ja': '日本語',
+      'es': 'Español',
+      'de': 'Deutsch',
+      'it': 'Italiano',
+      'pt': 'Português',
+      'ru': 'Русский',
+      'zh': '中文',
+      'ar': 'العربية',
+      'ko': '한국어',
+      'nl': 'Nederlands',
+      'sv': 'Svenska',
+      'pl': 'Polski',
+      'tr': 'Türkçe',
+      'cs': 'Čeština',
+      'da': 'Dansk',
+      'fi': 'Suomi',
+      'el': 'Ελληνικά',
+      'he': 'עברית',
+      'hi': 'हिन्दी',
+      'id': 'Bahasa Indonesia',
+      'no': 'Norsk',
+      'ro': 'Română',
+      'sk': 'Slovenčina',
+      'th': 'ไทย',
+      'uk': 'Українська',
+      'vi': 'Tiếng Việt',
+    };
+    return languageNames[languageCode] ?? languageCode.toUpperCase();
   }
 }

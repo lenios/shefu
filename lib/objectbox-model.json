@@ -370,7 +370,7 @@
     },
     {
       "id": "4:2416326191381789094",
-      "lastPropertyId": "23:5793297687219281229",
+      "lastPropertyId": "24:2604237780556884374",
       "name": "Recipe",
       "properties": [
         {
@@ -478,6 +478,11 @@
           "id": "23:5793297687219281229",
           "name": "questions",
           "type": 30
+        },
+        {
+          "id": "24:2604237780556884374",
+          "name": "languageTag",
+          "type": 9
         }
       ],
       "relations": []
