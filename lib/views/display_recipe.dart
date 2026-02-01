@@ -548,37 +548,57 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                       flagIcon(recipe.countryCode),
                     ],
                   ),
-                  // Servings Dropdown
+                  // Servings Controls
                   Row(
                     children: [
                       Text(
                         "${AppLocalizations.of(context)!.servings}: ",
                         style: const TextStyle(color: Colors.white),
                       ),
-                      DropdownButton<int>(
-                        value: viewModel.servings,
-                        style: TextStyle(
-                          color: Colors.white,
-                          backgroundColor: AppColor.primarySoft,
+                      // Minus button
+                      IconButton(
+                        icon: Icon(
+                          Icons.remove_circle_outline,
+                          color: Theme.of(context).colorScheme.onPrimary,
                         ),
-                        icon: const Icon(Icons.arrow_drop_down, color: Colors.white),
-                        dropdownColor: AppColor.primarySoft,
-                        isDense: isLandscape,
-                        //underline: Container(), // Remove underline
-                        items: List.generate(20, (i) => i + 1).map((e) {
-                          return DropdownMenuItem<int>(value: e, child: Text(e.toString()));
-                        }).toList(),
-                        onChanged: (int? newValue) {
-                          if (newValue != null) {
-                            viewModel.setServings(newValue);
+                        visualDensity: .compact,
+                        onPressed: () {
+                          if (viewModel.servings > 1) {
+                            viewModel.setServings(viewModel.servings - 1);
                           }
+                        },
+                      ),
+                      GestureDetector(
+                        onTap: () => _showServingsDialog(context, viewModel),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 4),
+
+                          child: Text(
+                            viewModel.servings.toString(),
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.onPrimary,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
+                      ),
+                      // Plus button
+                      IconButton(
+                        icon: Icon(
+                          Icons.add_circle_outline,
+                          color: Theme.of(context).colorScheme.onPrimary,
+                        ),
+                        visualDensity: .compact,
+                        onPressed: () {
+                          viewModel.setServings(viewModel.servings + 1);
                         },
                       ),
                       const SizedBox(width: 10),
                       if (recipe.piecesPerServing != null)
                         Text(
                           "(${AppLocalizations.of(context)!.piecesPerServing(recipe.piecesPerServing.toString())})",
-                          style: const TextStyle(color: Colors.white),
+                          style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
                         ),
                     ],
                   ),
@@ -870,5 +890,49 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
         ),
       ),
     );
+  }
+
+  void _showServingsDialog(BuildContext context, DisplayRecipeViewModel viewModel) {
+    final l10n = AppLocalizations.of(context)!;
+
+    final TextEditingController servingsController = TextEditingController(
+      text: viewModel.servings.toString(),
+    );
+
+    showDialog(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: Text(l10n.servings),
+        content: TextField(
+          controller: servingsController,
+          keyboardType: TextInputType.number,
+          autofocus: true,
+          decoration: InputDecoration(labelText: l10n.servings, border: const OutlineInputBorder()),
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.of(dialogContext).pop(), child: Text(l10n.cancel)),
+          TextButton(
+            onPressed: () {
+              final newServings = int.tryParse(servingsController.text);
+              if (newServings != null && newServings > 0 && newServings <= 99) {
+                viewModel.setServings(newServings);
+                Navigator.of(dialogContext).pop();
+              } else {
+                // Show error snackbar
+                ScaffoldMessenger.of(
+                  context,
+                ).showSnackBar(SnackBar(content: Text(l10n.enterValidServings)));
+              }
+            },
+            child: Text(l10n.save),
+          ),
+        ],
+      ),
+    ).then((_) {
+      // Delay disposal to ensure TextField is fully unmounted
+      Future.delayed(const Duration(milliseconds: 200), () {
+        servingsController.dispose();
+      });
+    });
   }
 }

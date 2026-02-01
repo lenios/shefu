@@ -720,4 +720,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get speak => 'Lire la recette';
+
+  @override
+  String get enterValidServings => 'Merci de saisir un nombre entier';
 }

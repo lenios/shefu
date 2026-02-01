@@ -232,5 +232,6 @@
     "importFailed": "Nem sikerült importálni a receptet",
     "selectAll": "Összes oldal",
     "deselectAll": "Nincs",
-    "speak": "Recept felolvasása"
+    "speak": "Recept felolvasása",
+    "enterValidServings": "Kérjük, egész számot adjon meg"
 }

@@ -716,4 +716,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get speak => 'レシピを話しかけ';
+
+  @override
+  String get enterValidServings => '整数を入力してください';
 }

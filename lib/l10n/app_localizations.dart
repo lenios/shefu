@@ -1491,6 +1491,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Read recipe aloud'**
   String get speak;
+
+  /// No description provided for @enterValidServings.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter an integer number'**
+  String get enterValidServings;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

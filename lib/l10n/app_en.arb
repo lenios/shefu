@@ -231,5 +231,6 @@
     "importFailed": "Failed to import recipe",
     "selectAll": "All Sites",
     "deselectAll": "None",
-    "speak": "Read recipe aloud"
+    "speak": "Read recipe aloud",
+    "enterValidServings": "Please enter an integer number"
 }

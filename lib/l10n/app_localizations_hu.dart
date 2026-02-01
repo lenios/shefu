@@ -720,4 +720,7 @@ class AppLocalizationsHu extends AppLocalizations {
 
   @override
   String get speak => 'Recept felolvasása';
+
+  @override
+  String get enterValidServings => 'Kérjük, egész számot adjon meg';
 }

@@ -232,5 +232,6 @@
     "importFailed": "レシピのインポートに失敗しました",
     "selectAll": "すべてのサイト",
     "deselectAll": "なし",
-    "speak": "レシピを話しかけ"
+    "speak": "レシピを話しかけ",
+    "enterValidServings": "整数を入力してください"
 }

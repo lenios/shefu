@@ -231,5 +231,6 @@
     "importFailed": "Échec de l'importation de la recette",
     "selectAll": "Tous",
     "deselectAll": "Aucun",
-    "speak": "Lire la recette"
+    "speak": "Lire la recette",
+    "enterValidServings": "Merci de saisir un nombre entier"
 }

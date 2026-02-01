@@ -718,4 +718,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get speak => 'Read recipe aloud';
+
+  @override
+  String get enterValidServings => 'Please enter an integer number';
 }
