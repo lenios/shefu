@@ -6,6 +6,8 @@ import 'package:shefu/utils/app_color.dart';
 import 'package:shefu/l10n/app_localizations.dart';
 import 'package:shefu/l10n/l10n_utils.dart';
 import 'package:provider/provider.dart';
+import 'package:shefu/widgets/tips_modal.dart';
+import 'package:shefu/widgets/app_info_modal.dart';
 
 Widget openModalSettingsButton(BuildContext context, ThemeData theme, [AppLocalizations? l10n]) {
   return GestureDetector(
@@ -47,10 +49,10 @@ void _showSettingsModal(BuildContext context, ThemeData theme) {
         builder: (BuildContext context, StateSetter setModalState) {
           return Padding(
             padding: const EdgeInsets.all(
-              20.0,
-            ).copyWith(bottom: MediaQuery.of(context).viewInsets.bottom + 20.0),
+              15.0,
+            ).copyWith(bottom: MediaQuery.of(context).viewInsets.bottom + 15.0),
             child: Wrap(
-              runSpacing: 16.0,
+              runSpacing: 10.0,
               children: [
                 // Language Selection
                 Row(
@@ -84,6 +86,37 @@ void _showSettingsModal(BuildContext context, ThemeData theme) {
                       },
                       value: currentLanguage,
                       dropdownColor: theme.dialogTheme.backgroundColor,
+                    ),
+                  ],
+                ),
+                // Theme Selector Row
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("Theme", style: theme.textTheme.titleMedium),
+                    SegmentedButton<ThemeMode>(
+                      segments: const <ButtonSegment<ThemeMode>>[
+                        ButtonSegment<ThemeMode>(
+                          value: ThemeMode.system,
+                          label: Text('System'),
+                          icon: Icon(Icons.brightness_auto),
+                        ),
+                        ButtonSegment<ThemeMode>(
+                          value: ThemeMode.light,
+                          label: Text('Light'),
+                          icon: Icon(Icons.wb_sunny),
+                        ),
+                        ButtonSegment<ThemeMode>(
+                          value: ThemeMode.dark,
+                          label: Text('Dark'),
+                          icon: Icon(Icons.dark_mode),
+                        ),
+                      ],
+                      selected: <ThemeMode>{appState.themeMode},
+                      onSelectionChanged: (Set<ThemeMode> newSelection) {
+                        appState.setThemeMode(newSelection.first);
+                        setModalState(() {});
+                      },
                     ),
                   ],
                 ),
@@ -141,46 +174,32 @@ void _showSettingsModal(BuildContext context, ThemeData theme) {
                   },
                   secondary: Icon(Icons.bakery_dining_outlined, color: theme.colorScheme.primary),
                 ),
+
                 const Divider(),
 
+                // Tips Button
                 ListTile(
-                  title: Text("Theme", style: theme.textTheme.titleMedium),
                   contentPadding: EdgeInsets.zero,
-                  subtitle: Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: SegmentedButton<ThemeMode>(
-                      segments: const <ButtonSegment<ThemeMode>>[
-                        ButtonSegment<ThemeMode>(
-                          value: ThemeMode.system,
-                          label: Text('System'),
-                          icon: Icon(Icons.brightness_auto),
-                        ),
-                        ButtonSegment<ThemeMode>(
-                          value: ThemeMode.light,
-                          label: Text('Light'),
-                          icon: Icon(Icons.wb_sunny),
-                        ),
-                        ButtonSegment<ThemeMode>(
-                          value: ThemeMode.dark,
-                          label: Text('Dark'),
-                          icon: Icon(Icons.dark_mode),
-                        ),
-                      ],
-                      selected: <ThemeMode>{appState.themeMode},
-                      onSelectionChanged: (Set<ThemeMode> newSelection) {
-                        appState.setThemeMode(newSelection.first);
-                        setModalState(() {});
-                      },
-                    ),
-                  ),
+                  leading: Icon(Icons.lightbulb_outline, color: theme.colorScheme.primary),
+                  title: Text(l10n.tips, style: theme.textTheme.titleMedium),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: () {
+                    //Navigator.pop(context);
+                    showTipsModal(context, theme);
+                  },
                 ),
 
-                Text(l10n.tips, style: theme.textTheme.titleMedium),
-                _buildTipTile(theme, Icons.search, l10n.tipSearch),
-                _buildTipTile(theme, Icons.egg_outlined, l10n.tipIngredients),
-                _buildTipTile(theme, Icons.fact_check_outlined, l10n.tipShoppingList),
-                _buildTipTile(theme, Icons.cloud_download_outlined, l10n.tipImport),
-                _buildTipTile(theme, Icons.calculate_outlined, l10n.tipNutritionalValues),
+                // App Info Button
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  leading: Icon(Icons.info_outline, color: theme.colorScheme.primary),
+                  title: Text(l10n.about, style: theme.textTheme.titleMedium),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: () {
+                    //Navigator.pop(context);
+                    showAppInfoModal(context, theme);
+                  },
+                ),
 
                 // measurement system
                 const Divider(),
@@ -273,19 +292,5 @@ void _showSettingsModal(BuildContext context, ThemeData theme) {
         },
       );
     },
-  );
-}
-
-Widget _buildTipTile(ThemeData theme, IconData icon, String text) {
-  return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 4.0),
-    child: Row(
-      crossAxisAlignment: .start,
-      children: [
-        Icon(icon, size: 20.0, color: theme.colorScheme.primary),
-        const SizedBox(width: 12.0),
-        Expanded(child: Text(text, style: theme.textTheme.bodyMedium)),
-      ],
-    ),
   );
 }

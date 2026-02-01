@@ -723,4 +723,17 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get enterValidServings => 'Merci de saisir un nombre entier';
+
+  @override
+  String get about => 'À propos';
+
+  @override
+  String get contact => 'Contact';
+
+  @override
+  String get author => 'Auteur';
+
+  @override
+  String get sourceCodeAvailableAt =>
+      'Publié sous licence GNU General Public License v3.0. Code source de l\'application disponible sur:';
 }

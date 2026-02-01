@@ -232,5 +232,9 @@
     "selectAll": "Tous",
     "deselectAll": "Aucun",
     "speak": "Lire la recette",
-    "enterValidServings": "Merci de saisir un nombre entier"
+    "enterValidServings": "Merci de saisir un nombre entier",
+    "about": "À propos",
+    "contact": "Contact",
+    "author": "Auteur",
+    "sourceCodeAvailableAt": "Publié sous licence GNU General Public License v3.0. Code source de l'application disponible sur:"
 }

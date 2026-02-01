@@ -233,5 +233,9 @@
     "selectAll": "Összes oldal",
     "deselectAll": "Nincs",
     "speak": "Recept felolvasása",
-    "enterValidServings": "Kérjük, egész számot adjon meg"
+    "enterValidServings": "Kérjük, egész számot adjon meg",
+    "about": "Névjegy",
+    "contact": "Kapcsolat",
+    "author": "Szerző",
+    "sourceCodeAvailableAt": "Kiadva GNU General Public License v3.0 alatt. Az alkalmazás forráskódja elérhető itt:"
 }

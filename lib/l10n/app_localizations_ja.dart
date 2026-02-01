@@ -719,4 +719,17 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get enterValidServings => '整数を入力してください';
+
+  @override
+  String get about => 'アプリ情報';
+
+  @override
+  String get contact => '連絡先';
+
+  @override
+  String get author => '作者';
+
+  @override
+  String get sourceCodeAvailableAt =>
+      'GNU General Public License v3.0の下で公開されています。アプリケーションのソースコードは以下のURLで入手できます';
 }

@@ -233,5 +233,9 @@
     "selectAll": "すべてのサイト",
     "deselectAll": "なし",
     "speak": "レシピを話しかけ",
-    "enterValidServings": "整数を入力してください"
+    "enterValidServings": "整数を入力してください",
+    "about": "アプリ情報",
+    "contact": "連絡先",
+    "author": "作者",
+    "sourceCodeAvailableAt": "GNU General Public License v3.0の下で公開されています。アプリケーションのソースコードは以下のURLで入手できます"
 }
