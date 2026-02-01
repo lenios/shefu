@@ -1,0 +1,36 @@
+{
+  "author": "Tiphaine Campet",
+  "canonical_url": "https://www.cuisineactuelle.fr/recettes/coustous-de-porc-noir-de-bigorre-laques-au-miel-une-recette-des-pyrenees-218558",
+  "site_name": "Cuisine Actuelle",
+  "host": "cuisineactuelle.fr",
+  "language": "fr",
+  "title": "Coustous de porc noir de Bigorre laqués au miel, une recette des Pyrénées",
+  "ingredients": [
+    "Ingrédients",
+    "4 Coustous de porc noir de Bigorre",
+    "6 Carottes",
+    "6 Brins de persil plat",
+    "3 Feuilles de laurier",
+    "2 cuil. à soupe Sauce Worcestershire",
+    "2 cuil. à soupe Miel des Pyrénées",
+    "2 cuil. à soupe Huile d’olive",
+    "1 cuil. à soupe Grains de poivre mélangés",
+    "Sel",
+    "Poivre"
+  ],
+  "instructions_list": [
+    "Pelez les carottes et coupez-les en trois. Mettez les coustous et les carottes dans une marmite d’eau froide avec du gros sel, les grains de poivre et le laurier. Couvrez, portez à ébullition, puis réduisez le feu et laissez frémir pendant 1 h 45.",
+    "Fouettez le miel avec la sauce Worcestershire, l’huile d’olive et du poivre.",
+    "Préchauffez le four à 180 °C (th.6). Égouttez les coustous et les carottes et disposez-les dans un plat. Laquez les coustous avec le mélange au miel à l’aide d’un pinceau, puis enfournez le tout pour 40 minutes. Parsemez de pluches de persil à la sortie du four."
+  ],
+  "category": "Viande",
+  "yields": "4 servings",
+  "total_time": 160, 
+  "cook_time": 145,
+  "prep_time": 15,
+  "cuisine": "French",
+  "ratings": 4.5,
+  "ratings_count": 2,
+  "image": "https://img.cuisineactuelle.fr/400x300/2025/01/23/i5563-coustous-de-porc-noir-de-bigorre-laques-au-miel-une-recette-des-pyrenees.jpg",
+  "description": "Savourez les coustous de porc noir de Bigorre laqués au miel, un plat des Pyrénées réconfortant et familial. Accompagnez-les de pommes de terre pour un repas complet. Préparez à l'avance et régalez-vous !"
+}

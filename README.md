@@ -91,6 +91,7 @@ Supported Recipe Websites for import:
 | ✅ [Atelierdeschefs.fr](https://www.atelierdeschefs.fr) |
 | ✅ [Chefsimon.com](https://www.chefsimon.com) |
 | ✅ [Cuisineaz.com](https://www.cuisineaz.com) |
+| ✅ [Cuisineactuelle.fr](https://www.cuisineactuelle.fr) |
 | ✅ [Cuisine.journaldesfemmes.fr](https://cuisine.journaldesfemmes.fr) |
 | ✅ [Giallozafferano.fr](https://www.giallozafferano.fr) |
 | ✅ [HelloFresh.fr](https://www.hellofresh.fr) |

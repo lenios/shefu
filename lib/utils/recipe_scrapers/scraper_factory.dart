@@ -40,6 +40,7 @@ class ScraperFactory {
     "cookpad.com": CookpadScraper.new,
     "cuisine.journaldesfemmes.fr": AbstractScraper.new,
     "cuisineaz.com": AbstractScraper.new,
+    "cuisineactuelle.fr": AbstractScraper.new,
     "damndelicious.net": AbstractScraper.new,
     "eatingwell.com": AbstractScraper.new,
     "evolvingtable.com": AbstractScraper.new,

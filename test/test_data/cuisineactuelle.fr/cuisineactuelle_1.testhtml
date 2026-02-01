@@ -1,0 +1,2260 @@
+
+
+<!DOCTYPE html>
+<!--[if lt IE 9]>
+<html lang="fr" class="no-js lt-ie10 lt-ie9"> <![endif]-->
+<!--[if IE 9]>
+<html lang="fr" class="no-js lt-ie10"> <![endif]-->
+<!--[if IE]>
+<html lang="fr" class="no-js ie"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="fr" class="no-js">
+<!--<![endif]-->
+
+<head>
+    <!-- Entity REC104332 -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, minimal-ui"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#FEF0EE">
+    <link rel="icon" href="https://img.cuisineactuelle.fr/common/icons/favicon.ico">
+    <link rel="icon" sizes="16x16" href="https://img.cuisineactuelle.fr/common/icons/favicon-16x16.png">
+    <link rel="icon" sizes="32x32" href="https://img.cuisineactuelle.fr/common/icons/favicon-32x32.png">
+    <link rel="mask-icon" href="https://img.cuisineactuelle.fr/common/icons/mask-icon.svg" color="#000000">
+    <link rel="apple-touch-icon" href="https://img.cuisineactuelle.fr/common/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon-precomposed"
+          href="https://img.cuisineactuelle.fr/common/icons/apple-touch-icon-precomposed.png">
+    <link rel="manifest" href="https://img.cuisineactuelle.fr/common/manifest/manifest.json">
+    <meta charset="UTF-8"/>
+    <meta http-equiv="x-dns-prefetch-control" content="on"/>
+
+    <link rel="preload" as="font" type="font/woff2" crossorigin="anonymous"
+          href="https://img.cuisineactuelle.fr/common/fonts/icones.woff2"/>
+    <link rel="preload" as="font" type="font/woff2" crossorigin="anonymous"
+          href="https://img.cuisineactuelle.fr/common/fonts/Baskervville-SemiBold.woff2"/>
+    <link rel="preload" as="font" type="font/woff2" crossorigin="anonymous"
+          href="https://img.cuisineactuelle.fr/common/fonts/RedHatText-SemiBold.woff2"/>
+    <link rel="preload" as="font" type="font/woff2" crossorigin="anonymous"
+          href="https://img.cuisineactuelle.fr/common/fonts/RedHatText-Regular.woff2"/>
+
+    <script type="module" src="https://tra.scds.pmdstatic.net/sourcepoint/6/sourcepoint.esm.min.js"></script>
+    <script nomodule defer src="https://tra.scds.pmdstatic.net/sourcepoint/6/sourcepoint.min.js"></script>
+
+    <script async="async" src="https://cdn.cuisineactuelle.fr/cac/dist/dependencies.js?ver=20260130163138" type="module"></script>
+
+    <script type="text/javascript">
+window.coreAds = window.coreAds || {};
+window.coreAds.queue = window.coreAds.queue || [];
+window.dataLayer  = window.dataLayer || [];
+window.dataLayer.push({
+  "advertisement": {
+    "brand": {
+      "name": "Cuisine-Actuelle",
+      "abbr": "cac",
+      "domain": "cuisineactuelle.fr",
+      "subDomain": "www",
+      "isPrisma": true
+    },
+    "page": {
+      "path": "/recettes/coustous-de-porc-noir-de-bigorre-laques-au-miel-une-recette-des-pyrenees-218558",
+      "contentObjectId": null,
+      "pageType": "Recipe",
+      "pageCategory": "recettes",
+      "pageSubCategory": "viande",
+      "title": "Coustous de porc noir de Bigorre laqu\u00E9s au miel, une recette des Pyr\u00E9n\u00E9es",
+      "author": "Tiphaine Campet",
+      "keywords": [
+        "Recette",
+        "Viandes",
+        "Porc",
+        "Recette du jour",
+        "Miel",
+        "Coustous de porc noir de Bigorre",
+        "Carottes",
+        "Brins de persil plat",
+        "Feuilles de laurier",
+        "Sauce Worcestershire",
+        "Miel des Pyr\u00E9n\u00E9es",
+        "Huile d\u2019olive",
+        "Grains de poivre m\u00E9lang\u00E9s",
+        "Sel",
+        "Poivre"
+      ]
+    },
+    "hasVideos": true,
+    "env": "production"
+  }
+});
+const jsonGtm = {
+  "authId": "",
+  "page_category": "recettes",
+  "media_player": "leaderDailymotion",
+  "method": "",
+  "loginRole": "user",
+  "keywords": [
+    "recette",
+    "viandes",
+    "porc",
+    "recette_du_jour",
+    "miel",
+    "coustous_de_porc_noir_de_bigorre",
+    "carottes",
+    "brins_de_persil_plat",
+    "feuilles_de_laurier",
+    "sauce_worcestershire",
+    "miel_des_pyrenees",
+    "huile_d_olive",
+    "grains_de_poivre_melanges",
+    "sel",
+    "poivre"
+  ],
+  "content_object_id": "REC104332",
+  "page_type": "recipe"
+};
+const gtmObjects = Object.keys(jsonGtm).map(key => { return { [key]: jsonGtm[key] } });
+window.dataLayer.push(...gtmObjects);
+(function() {
+    var uuid = () => ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c => 
+        (c ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))).toString(16)
+    );
+    var pageHitID = 'cac_' + uuid() + '_' + Math.round(+new Date()/1000);
+    window.dataLayer.push({ pageHitID });
+    return pageHitID;
+})();
+(function() { var idx = window.dataLayer.findIndex(x => x && x.semanticTags); if (idx !== -1 && idx !== 3) { var t = window.dataLayer.splice(idx, 1)[0]; window.dataLayer.splice(3, 0, t); } })();
+</script>
+
+        <script defer src="https://tra.scds.pmdstatic.net/advertising-core/5/core-ads.js"></script>
+
+        <script src="https://cdn.cuisineactuelle.fr/cac/dist/caz.js?ver=20260130163138" type="text/javascript"></script>
+            <link href="https://cdn.cuisineactuelle.fr/cac/dist/recipe.css?ver=20260130163138" rel="stylesheet" type="text/css">
+            <script async="async" src="https://cdn.cuisineactuelle.fr/cac/dist/recipe.js?ver=20260130163138" type="module"></script>
+                <script type="text/javascript">
+                    window._nli = window._nli || [], function () {
+                        var n, e, i = window._nli || (window._nli || (window._nli = []));
+                        i.loaded || (
+                            ((n = document.createElement("script")).defer = !0, n.src = "https://l.cuisineactuelle.fr/sdk.js", (e = document.getElementsByTagName("script")[0].parentNode.insertBefore(n, e), i.loaded = !0)))
+                    }();
+                </script>
+
+            <meta name='robots'
+                  content='index, follow, max-snippet:-1,max-image-preview:large,max-video-preview:-1'/>
+            <link rel="canonical" href="https://www.cuisineactuelle.fr/recettes/coustous-de-porc-noir-de-bigorre-laques-au-miel-une-recette-des-pyrenees-218558"/>
+                <title>Coustous de porc noir de Bigorre laqu&#xE9;s au miel, une recette des Pyr&#xE9;n&#xE9;es</title>
+                <meta name="description" content="Savourez les coustous de porc noir de Bigorre laqu&#xE9;s au miel, un plat des Pyr&#xE9;n&#xE9;es r&#xE9;confortant et familial. Accompagnez-les de pommes de terre pour un repas..."/>
+                <meta name="keywords"
+                      content="recettes, healthy, conseils, bien-&#xEA;tre"/>
+<!-- Preloads -->
+<link as="image" href="https://img.cuisineactuelle.fr/400x300/2025/01/23/i5563-coustous-de-porc-noir-de-bigorre-laques-au-miel-une-recette-des-pyrenees.webp" media="(max-width: 640px)" rel="preload" />
+<link as="image" href="https://img.cuisineactuelle.fr/660x495/2025/01/23/i5563-coustous-de-porc-noir-de-bigorre-laques-au-miel-une-recette-des-pyrenees.webp" media="(min-width: 640px)" rel="preload" />
+<link as="image" href="https://img.cuisineactuelle.fr/95x76/2025/01/23/i5563-coustous-de-porc-noir-de-bigorre-laques-au-miel-une-recette-des-pyrenees.webp" media="(max-width: 640px)" rel="preload" />
+<link as="image" href="https://img.cuisineactuelle.fr/150x120/2025/01/23/i5563-coustous-de-porc-noir-de-bigorre-laques-au-miel-une-recette-des-pyrenees.webp" media="(min-width: 640px)" rel="preload" />
+<link as="image" href="https://img.cuisineactuelle.fr/95x76/common/default-player.webp" media="(max-width: 640px)" rel="preload" />
+<link as="image" href="https://img.cuisineactuelle.fr/150x120/common/default-player.webp" media="(min-width: 640px)" rel="preload" />
+
+    <meta content="summary" name="twitter:card"></meta>
+    <meta content="Cuisine Actuelle" property="og:site_name"></meta>
+    <meta content="Coustous de porc noir de Bigorre laqu&#xE9;s au miel, une recette des Pyr&#xE9;n&#xE9;es" property="og:title"></meta>
+	<meta content="Coustous de porc noir de Bigorre laqu&#xE9;s au miel, une recette des Pyr&#xE9;n&#xE9;es" name="twitter:title"></meta>
+    <meta content="https://img.cuisineactuelle.fr/680x357/2025/01/23/i5563-coustous-de-porc-noir-de-bigorre-laques-au-miel-une-recette-des-pyrenees.jpg" property="og:image"></meta>
+	<meta content="https://img.cuisineactuelle.fr/680x357/2025/01/23/i5563-coustous-de-porc-noir-de-bigorre-laques-au-miel-une-recette-des-pyrenees.jpg" name="twitter:image"></meta>
+    <meta content="https://www.cuisineactuelle.fr/recettes/coustous-de-porc-noir-de-bigorre-laques-au-miel-une-recette-des-pyrenees-218558" property="og:url"></meta>
+	<meta content="https://www.cuisineactuelle.fr/recettes/coustous-de-porc-noir-de-bigorre-laques-au-miel-une-recette-des-pyrenees-218558" name="twitter:url"></meta>
+    <meta content="Savourez les coustous de porc noir de Bigorre laqu&#xE9;s au miel, un plat des Pyr&#xE9;n&#xE9;es r&#xE9;confortant et familial. Accompagnez-les de pommes de terre pour un repas..." property="og:description"></meta>
+	<meta content="Savourez les coustous de porc noir de Bigorre laqu&#xE9;s au miel, un plat des Pyr&#xE9;n&#xE9;es r&#xE9;confortant et familial. Accompagnez-les de pommes de terre pour un repas..." name="twitter:description"></meta>
+    
+    
+
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "numberOfItems": 11,
+      "url": "https://www.cuisineactuelle.fr/recettes/coustous-de-porc-noir-de-bigorre-laques-au-miel-une-recette-des-pyrenees-218558",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "url": "https://www.cuisineactuelle.fr/recettes/coustous-de-porc-noir-de-bigorre-laques-au-miel-une-recette-des-pyrenees-218558"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "url": "https://www.cuisineactuelle.fr/recettes/saucisse-au-metre-et-oignons-caramelises-219030"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "url": "https://www.cuisineactuelle.fr/recettes/poelee-facon-truffade-au-bethmale-une-recette-inratable-des-pyrenees-218559"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "url": "https://www.cuisineactuelle.fr/recettes/filet-de-sanglier-311623"
+        },
+        {
+          "@type": "ListItem",
+          "position": 5,
+          "url": "https://www.cuisineactuelle.fr/recettes/pave-de-cerf-346441"
+        },
+        {
+          "@type": "ListItem",
+          "position": 6,
+          "url": "https://www.cuisineactuelle.fr/recettes/boulettes-de-sanglier-sauce-tomate-187725"
+        },
+        {
+          "@type": "ListItem",
+          "position": 7,
+          "url": "https://www.cuisineactuelle.fr/recettes/epaule-de-sanglier-aux-legumes-188536"
+        },
+        {
+          "@type": "ListItem",
+          "position": 8,
+          "url": "https://www.cuisineactuelle.fr/recettes/civet-de-sanglier-a-lorange-192574"
+        },
+        {
+          "@type": "ListItem",
+          "position": 9,
+          "url": "https://www.cuisineactuelle.fr/recettes/filet-de-faisan-roti-192014"
+        },
+        {
+          "@type": "ListItem",
+          "position": 10,
+          "url": "https://www.cuisineactuelle.fr/recettes/navarin-de-mouton-345620"
+        },
+        {
+          "@type": "ListItem",
+          "position": 11,
+          "url": "https://www.cuisineactuelle.fr/recettes/pain-de-viande-larde-218494"
+        }
+      ]
+    },
+    {
+      "@type": "Recipe",
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.5",
+        "reviewCount": 2,
+        "bestRating": 5
+      },
+      "description": "Savourez les coustous de porc noir de Bigorre laqu\u00E9s au miel, un plat des Pyr\u00E9n\u00E9es r\u00E9confortant et familial. Accompagnez-les de pommes de terre pour un repas complet. Pr\u00E9parez \u00E0 l\u0027avance et r\u00E9galez-vous !",
+      "recipeIngredient": [
+        "Ingr\u00E9dients",
+        "4 Coustous de porc noir de Bigorre",
+        "6 Carottes",
+        "6 Brins de persil plat",
+        "3 Feuilles de laurier",
+        "2 cuil. \u00E0 soupe Sauce Worcestershire",
+        "2 cuil. \u00E0 soupe Miel des Pyr\u00E9n\u00E9es",
+        "2 cuil. \u00E0 soupe Huile d\u2019olive",
+        "1 cuil. \u00E0 soupe Grains de poivre m\u00E9lang\u00E9s",
+        "Sel",
+        "Poivre"
+      ],
+      "cookTime": "PT2H25M",
+      "prepTime": "PT15M",
+      "totalTime": "PT2H40M",
+      "recipeCategory": "Viande",
+      "recipeCuisine": "French",
+      "recipeInstructions": [
+        {
+          "@type": "HowToStep",
+          "name": "\u00C9tape 1",
+          "text": "Pelez les carottes et coupez-les en trois. Mettez les coustous et les carottes dans une marmite d\u2019eau froide avec du gros sel, les grains de poivre et le laurier. Couvrez, portez \u00E0 \u00E9bullition, puis r\u00E9duisez le feu et laissez fr\u00E9mir pendant 1 h 45.",
+          "url": "https://www.cuisineactuelle.fr/recettes/coustous-de-porc-noir-de-bigorre-laques-au-miel-une-recette-des-pyrenees-218558#etape-1"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "\u00C9tape 2",
+          "text": "Fouettez le miel avec la sauce Worcestershire, l\u2019huile d\u2019olive et du poivre.",
+          "url": "https://www.cuisineactuelle.fr/recettes/coustous-de-porc-noir-de-bigorre-laques-au-miel-une-recette-des-pyrenees-218558#etape-2"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "\u00C9tape 3",
+          "text": "Pr\u00E9chauffez le four \u00E0 180 \u00B0C (th.6). \u00C9gouttez les coustous et les carottes et disposez-les dans un plat. Laquez les coustous avec le m\u00E9lange au miel \u00E0 l\u2019aide d\u2019un pinceau, puis enfournez le tout pour 40 minutes. Parsemez de pluches de persil \u00E0 la sortie du four.",
+          "url": "https://www.cuisineactuelle.fr/recettes/coustous-de-porc-noir-de-bigorre-laques-au-miel-une-recette-des-pyrenees-218558#etape-3"
+        }
+      ],
+      "recipeYield": "4",
+      "estimatedCost": "Moyennement cher",
+      "commentCount": "0",
+      "url": "https://www.cuisineactuelle.fr/recettes/coustous-de-porc-noir-de-bigorre-laques-au-miel-une-recette-des-pyrenees-218558",
+      "author": {
+        "@type": "Person",
+        "description": "",
+        "name": "Tiphaine Campet",
+        "sameAs": []
+      },
+      "datePublished": "2025-01-23T12:37:43+01:00",
+      "dateModified": "2025-01-23T12:54:10+01:00",
+      "mentions": [],
+      "name": "Coustous de porc noir de Bigorre laqu\u00E9s au miel, une recette des Pyr\u00E9n\u00E9es",
+      "image": [
+        "https://img.cuisineactuelle.fr/400x300/2025/01/23/i5563-coustous-de-porc-noir-de-bigorre-laques-au-miel-une-recette-des-pyrenees.jpg",
+        "https://img.cuisineactuelle.fr/400x300/2025/01/23/i5563-coustous-de-porc-noir-de-bigorre-laques-au-miel-une-recette-des-pyrenees.webp",
+        "https://img.cuisineactuelle.fr/660x495/2025/01/23/i5563-coustous-de-porc-noir-de-bigorre-laques-au-miel-une-recette-des-pyrenees.jpg",
+        "https://img.cuisineactuelle.fr/660x495/2025/01/23/i5563-coustous-de-porc-noir-de-bigorre-laques-au-miel-une-recette-des-pyrenees.webp",
+        "https://img.cuisineactuelle.fr/660x660/2025/01/23/i5563-coustous-de-porc-noir-de-bigorre-laques-au-miel-une-recette-des-pyrenees.jpg",
+        "https://img.cuisineactuelle.fr/660x660/2025/01/23/i5563-coustous-de-porc-noir-de-bigorre-laques-au-miel-une-recette-des-pyrenees.webp",
+        "https://img.cuisineactuelle.fr/800x450/2025/01/23/i5563-coustous-de-porc-noir-de-bigorre-laques-au-miel-une-recette-des-pyrenees.jpg",
+        "https://img.cuisineactuelle.fr/800x450/2025/01/23/i5563-coustous-de-porc-noir-de-bigorre-laques-au-miel-une-recette-des-pyrenees.webp",
+        "https://img.cuisineactuelle.fr/1280x720/2025/01/23/i5563-coustous-de-porc-noir-de-bigorre-laques-au-miel-une-recette-des-pyrenees.jpg",
+        "https://img.cuisineactuelle.fr/1280x720/2025/01/23/i5563-coustous-de-porc-noir-de-bigorre-laques-au-miel-une-recette-des-pyrenees.webp",
+        "https://img.cuisineactuelle.fr/1024x576/2025/01/23/i5563-coustous-de-porc-noir-de-bigorre-laques-au-miel-une-recette-des-pyrenees.jpg",
+        "https://img.cuisineactuelle.fr/1024x576/2025/01/23/i5563-coustous-de-porc-noir-de-bigorre-laques-au-miel-une-recette-des-pyrenees.webp",
+        "https://img.cuisineactuelle.fr/1024x768/2025/01/23/i5563-coustous-de-porc-noir-de-bigorre-laques-au-miel-une-recette-des-pyrenees.jpg",
+        "https://img.cuisineactuelle.fr/1024x768/2025/01/23/i5563-coustous-de-porc-noir-de-bigorre-laques-au-miel-une-recette-des-pyrenees.webp",
+        "https://img.cuisineactuelle.fr/1024x1024/2025/01/23/i5563-coustous-de-porc-noir-de-bigorre-laques-au-miel-une-recette-des-pyrenees.jpg",
+        "https://img.cuisineactuelle.fr/1024x1024/2025/01/23/i5563-coustous-de-porc-noir-de-bigorre-laques-au-miel-une-recette-des-pyrenees.webp",
+        "https://img.cuisineactuelle.fr/1200x675/2025/01/23/i5563-coustous-de-porc-noir-de-bigorre-laques-au-miel-une-recette-des-pyrenees.jpg",
+        "https://img.cuisineactuelle.fr/1200x675/2025/01/23/i5563-coustous-de-porc-noir-de-bigorre-laques-au-miel-une-recette-des-pyrenees.webp"
+      ]
+    }
+  ]
+}</script>
+
+    
+    <meta property="article:published_time" content="2025-01-23T11:48:14Z">
+    <meta property="article:modified_time" content="2025-01-23T11:54:10Z">
+
+    
+    
+    <link rel="preconnect" href="https://www.google-analytics.com">
+
+            <script>
+                window.pageType = "Recipe";
+                window.envName = "Production";
+            </script>
+                <script src="https://cdn.cuisineactuelle.fr/cac/dist/dailymotion-core-ads.js?ver=20260130163138" type="module"></script>
+</head>
+<body class="cuisine_actuelle ">
+<noscript>
+    <iframe src="//www.googletagmanager.com/ns.html?id=GTM-57BZFZQK" height="0"
+            width="0" style="display:none;visibility:hidden" title="Cuisine Actuelle"></iframe>
+</noscript>
+
+<div id="corps">
+        <div id="fb-root"></div>
+        
+
+<header id="siteheader"
+        class="siteheader  ">
+
+    <div class="siteheader_top_container">
+        <div class="siteheader_left">
+            <span class="siteheader_left_hamburger-icon" data-toggle="#siteheader" data-shadow="true">
+                <span></span>
+                <span></span>
+                <span></span>
+            </span>
+            <a href="/" class="siteheader_left_logo" aria-label="Aller sur la page d'accueil">
+                <span class="logo"></span>
+            </a>
+        </div>
+
+        <div class="siteheader_right">
+            <ul class="siteheader_right_ul">
+                    <li class="siteheader_right_ul_li">
+                        <a href="https://boutique.cuisineactuelle.fr/?code=SIEHEAD&amp;_gl=1*1ssmpum*_gcl_au*MTM4MTIxMzE0NC4xNzY0MDc5MDIw*_ga*MzY2MzM2NTAxLjE3NTU2MTAzNjg.*_ga_5NSPQRQDQY*czE3NjkwNzE5NzQkbzEwNyRnMCR0MTc2OTA3MTk3NCRqNjAkbDAkaDA." target="_blank" class="magazine_suscribe_button">
+                            <span class="svg_magazine"></span>
+                            S'abonner au magazine
+                        </a>
+                    </li>
+
+
+
+                <li class="siteheader_right_ul_li">
+                        
+<div class="menu-wrapper --end">
+    <div id="gtm-header-bouton-connexion-utilisateur-non-connecte" class="pellet-primary not-connected">
+        <button type="button" id="js-btn-connect" aria-label="Connexion">
+            <div class="pellet_round"></div>
+            <span class="svg_user"></span>
+        </button>
+    </div>
+</div>
+
+<script src="https://cdn.cuisineactuelle.fr/cac/dist/user-login.js?ver=20260130095333" type="module"></script>
+
+
+                </li>
+
+                <li id="search" class="siteheader_right_ul_li">
+                    <span class="button siteheader_right_search">
+                        <span class="svg_search"></span>
+                        <div class="siteheader_right_search_wrapper">
+                            <form class="siteheader_search_form" method="get" action="/recettes/recherche_terme.aspx">
+    <div class="siteheader_search_form_container">
+        <input type="search" name="recherche" placeholder="Trouver LA recette qui vous fait envie" id="tbMainSearch" class="autocomplete siteheader_search_form_input" aria-label="Chercher" autocomplete="off" />
+    </div>
+</form>
+                        </div>
+                    </span>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <nav id="siteheader_nav">
+        <section class="siteheader_nav_container">
+                        
+<ul id="nav_nav">
+            <li class="nav_li has-dropdown">
+                
+
+    <a class="" href="/recettes-de-cuisine" style="color: ;">
+Recettes
+    </a>
+
+
+    <button type="button" class="navigation-button" data-toggle=".header_subnav_1" aria-label="Recettes">
+        <span class="svg_arrow_right"></span>
+    </button>
+    <ul class="nav_li_ul header_subnav_1">
+        <li class="subnav_mobile_title">
+            <button type="button" class="navigation-button subnav_mobile_title_navigation_button" data-toggle=".header_subnav_1"
+                    aria-label="Recettes">
+                <span class="svg_arrow_right"></span>
+            </button>
+
+    <a class="" href="/recettes-de-cuisine" style="color: ;">
+Recettes
+    </a>
+
+        </li>
+        <li class="subnav_li">
+
+
+<ul class="menu vertical">
+    <li class="subnav_li_ul_li">
+
+    <span class="" >
+Recettes par plat    </span>
+
+    </li>
+
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/recettes-de-cuisine/aperitif" >
+Ap&#xE9;ritif
+    </a>
+
+            </li>
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/recettes-de-cuisine/entree" >
+Entr&#xE9;e
+    </a>
+
+            </li>
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/recettes-de-cuisine/plat" >
+Plat
+    </a>
+
+            </li>
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/recettes-de-cuisine/dessert" >
+Dessert
+    </a>
+
+            </li>
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/recettes-de-cuisine/boisson" >
+Boisson
+    </a>
+
+            </li>
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/recettes-de-cuisine/sauce" >
+Sauce
+    </a>
+
+            </li>
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/recettes-de-cuisine/pain-et-viennoiseries" >
+Pains &amp; viennoiserie
+    </a>
+
+            </li>
+</ul>
+
+
+<ul class="menu vertical">
+    <li class="subnav_li_ul_li">
+
+    <span class="" >
+Recettes par ingr&#xE9;dients    </span>
+
+    </li>
+
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/recettes-de-cuisine/legume" >
+L&#xE9;gume
+    </a>
+
+            </li>
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/recettes-de-cuisine/viande" >
+Viande
+    </a>
+
+            </li>
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/recettes-de-cuisine/poisson" >
+Poisson
+    </a>
+
+            </li>
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/recettes-de-cuisine/fromages" >
+Fromage
+    </a>
+
+            </li>
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/recettes-de-cuisine/fruits" >
+Fruit
+    </a>
+
+            </li>
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/recettes-de-cuisine/chocolat" >
+Chocolat
+    </a>
+
+            </li>
+</ul>
+
+
+<ul class="menu vertical">
+    <li class="subnav_li_ul_li">
+
+    <span class="" >
+Recettes par th&#xE8;me    </span>
+
+    </li>
+
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/recettes-de-cuisine/recette-de-base" >
+Recettes de bases
+    </a>
+
+            </li>
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/recettes-de-cuisine/recette-traditionnelle" >
+Recettes traditionnelles
+    </a>
+
+            </li>
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/dossiers/recette-pas-chere" >
+Recettes pas ch&#xE8;res
+    </a>
+
+            </li>
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/dossiers/recette-facile" >
+Recettes faciles
+    </a>
+
+            </li>
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/dossiers/recette-rapide" >
+Recettes rapides
+    </a>
+
+            </li>
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/dossiers/recettes-de-saison" >
+Recettes de saison
+    </a>
+
+            </li>
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/dossiers/recette-enfant" >
+Recettes pour enfants
+    </a>
+
+            </li>
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/dossiers/recette-originale" >
+Recettes originales
+    </a>
+
+            </li>
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/dossiers/brunch" >
+Sp&#xE9;cial brunch
+    </a>
+
+            </li>
+</ul>
+
+
+<ul class="menu vertical">
+    <li class="subnav_li_ul_li">
+
+    <span class="" >
+Recettes sant&#xE9; &amp; allergies    </span>
+
+    </li>
+
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/recettes-de-cuisine/recette-sante-et-allergies/recette-minceur" >
+Minceur
+    </a>
+
+            </li>
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/recettes-de-cuisine/recette-sante-et-allergies/vegan" >
+V&#xE9;gan
+    </a>
+
+            </li>
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/recettes-de-cuisine/recette-sante-et-allergies/recette-vegetarienne" >
+V&#xE9;g&#xE9;tarien
+    </a>
+
+            </li>
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/recettes-de-cuisine/recette-sante-et-allergies/sans-lactose" >
+Sans lactose
+    </a>
+
+            </li>
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/recettes-de-cuisine/recette-sante-et-allergies/detox" >
+D&#xE9;tox
+    </a>
+
+            </li>
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/recettes-de-cuisine/recette-sante-et-allergies/sans-sucre-ajoute" >
+Sans sucre
+    </a>
+
+            </li>
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/recettes-de-cuisine/recette-sante-et-allergies/sans-gluten" >
+Sans gluten
+    </a>
+
+            </li>
+</ul>
+
+
+<ul class="menu vertical">
+    <li class="subnav_li_ul_li">
+
+    <span class="" >
+Meilleures recettes de l&#x27;hiver    </span>
+
+    </li>
+
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/recettes/la-vraie-soupe-a-l-oignon-238311" >
+La vraie soupe &#xE0; l&#x27;oignon super simple
+    </a>
+
+            </li>
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/recettes/saucisse-lentille-cookeo-319680" >
+Saucisse lentilles Cookeo
+    </a>
+
+            </li>
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/recettes/pate-a-crepe-salee-205912" >
+P&#xE2;te &#xE0; cr&#xEA;pe sal&#xE9;e
+    </a>
+
+            </li>
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/recettes/recette-galette-frangipane-creme-patissiere-324687" >
+Recette galette frangipane cr&#xE8;me p&#xE2;tissi&#xE8;re
+    </a>
+
+            </li>
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/recettes/cordon-bleu-a-lairfryer-217435" >
+Cordon bleu &#xE0; l&#x2019;Airfryer
+    </a>
+
+            </li>
+</ul>
+        </li>
+    </ul>
+
+            </li>
+            <li class="nav_li has-dropdown">
+                
+
+    <a class="" href="/recettes-de-cuisine/inspirations" >
+Inspirations
+    </a>
+
+
+    <button type="button" class="navigation-button" data-toggle=".header_subnav_34" aria-label="Inspirations">
+        <span class="svg_arrow_right"></span>
+    </button>
+    <ul class="nav_li_ul header_subnav_34">
+        <li class="subnav_mobile_title">
+            <button type="button" class="navigation-button subnav_mobile_title_navigation_button" data-toggle=".header_subnav_34"
+                    aria-label="Inspirations">
+                <span class="svg_arrow_right"></span>
+            </button>
+
+    <a class="" href="/recettes-de-cuisine/inspirations" >
+Inspirations
+    </a>
+
+        </li>
+        <li class="subnav_li">
+
+
+<ul class="menu vertical">
+    <li class="subnav_li_ul_li">
+
+    <a class="" href="/recettes-de-cuisine/recettes-du-monde" >
+Cuisine du monde
+    </a>
+
+            <div class="navigation-button-svg">
+                <span class="svg_arrow_right"></span>
+            </div>
+    </li>
+
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/recettes-de-cuisine/recettes-du-monde/recette-orientale" >
+Recettes orientales
+    </a>
+
+            </li>
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/recettes-de-cuisine/recettes-du-monde/recette-africaine" >
+Recettes africaines
+    </a>
+
+            </li>
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/recettes-de-cuisine/recettes-du-monde/recette-asiatique" >
+Recettes asiatiques
+    </a>
+
+            </li>
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/recettes-de-cuisine/recettes-du-monde/recettes-americaines" >
+Recettes am&#xE9;ricaines
+    </a>
+
+            </li>
+</ul>
+
+
+<ul class="menu vertical">
+    <li class="subnav_li_ul_li">
+
+    <a class="" href="/recettes-de-cuisine/recettes-regionales" >
+Cuisine r&#xE9;gionale
+    </a>
+
+            <div class="navigation-button-svg">
+                <span class="svg_arrow_right"></span>
+            </div>
+    </li>
+
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/recettes-de-cuisine/recettes-regionales/normande" >
+Recettes normandes
+    </a>
+
+            </li>
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/recettes-de-cuisine/recettes-regionales/lorraine-et-alsacienne" >
+Recettes lorraines et alsaciennes
+    </a>
+
+            </li>
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/recettes-de-cuisine/recettes-regionales/charentaise-et-poitevine" >
+Recettes charentaise et poitevines
+    </a>
+
+            </li>
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/recettes-de-cuisine/recettes-regionales/savoyarde-et-lyonnaise" >
+Recettes savoyardes et lyonnaises
+    </a>
+
+            </li>
+</ul>
+
+
+<ul class="menu vertical">
+    <li class="subnav_li_ul_li">
+
+    <a class="" href="/dossiers" >
+F&#xEA;tes &amp; &#xE9;v&#xE8;nements
+    </a>
+
+            <div class="navigation-button-svg">
+                <span class="svg_arrow_right"></span>
+            </div>
+    </li>
+
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/dossiers/saint-valentin" >
+Saint-Valentin
+    </a>
+
+            </li>
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/dossiers/ramadan" >
+Ramadan
+    </a>
+
+            </li>
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/dossiers/mardi-gras" >
+Mardi gras
+    </a>
+
+            </li>
+</ul>
+
+
+<ul class="menu vertical">
+    <li class="subnav_li_ul_li">
+
+    <a class="" href="/recettes-de-cuisine/methode-de-cuisson" >
+Modes de cuisson
+    </a>
+
+            <div class="navigation-button-svg">
+                <span class="svg_arrow_right"></span>
+            </div>
+    </li>
+
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/recettes-de-cuisine/methode-de-cuisson/robot-culinaire" >
+Robots culinaires
+    </a>
+
+            </li>
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/recettes-de-cuisine/methode-de-cuisson/four" >
+Four
+    </a>
+
+            </li>
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/recettes-de-cuisine/methode-de-cuisson/cocotte" >
+Cocotte
+    </a>
+
+            </li>
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/recettes-de-cuisine/methode-de-cuisson/micro-ondes" >
+Micro-ondes
+    </a>
+
+            </li>
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/recettes-de-cuisine/methode-de-cuisson/vapeur" >
+Vapeur
+    </a>
+
+            </li>
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/dossiers/barbecue" >
+Barbecue
+    </a>
+
+            </li>
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/recettes-de-cuisine/methode-de-cuisson/wok" >
+Wok
+    </a>
+
+            </li>
+</ul>
+        </li>
+    </ul>
+
+            </li>
+            <li class="nav_li has-dropdown">
+                
+
+    <a class="" href="/culture-food" >
+Culture food
+    </a>
+
+
+    <button type="button" class="navigation-button" data-toggle=".header_subnav_63" aria-label="Culture food">
+        <span class="svg_arrow_right"></span>
+    </button>
+    <ul class="nav_li_ul header_subnav_63">
+        <li class="subnav_mobile_title">
+            <button type="button" class="navigation-button subnav_mobile_title_navigation_button" data-toggle=".header_subnav_63"
+                    aria-label="Culture food">
+                <span class="svg_arrow_right"></span>
+            </button>
+
+    <a class="" href="/culture-food" >
+Culture food
+    </a>
+
+        </li>
+        <li class="subnav_li">
+
+
+<ul class="menu vertical">
+    <li class="subnav_li_ul_li">
+
+    <a class="" href="/culture-food/idees-de-menus" >
+Id&#xE9;es de menus
+    </a>
+
+            <div class="navigation-button-svg">
+                <span class="svg_arrow_right"></span>
+            </div>
+    </li>
+
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/culture-food/idees-de-menus/menu-de-la-semaine" >
+Menu de la semaine
+    </a>
+
+            </li>
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/culture-food/idees-de-menus/idees-de-repas" >
+Id&#xE9;es de repas
+    </a>
+
+            </li>
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/culture-food/idees-de-menus/tendances-culinaires" >
+Tendances culinaires
+    </a>
+
+            </li>
+</ul>
+
+
+<ul class="menu vertical">
+    <li class="subnav_li_ul_li">
+
+    <a class="" href="/culture-food/guide-par-ingredient" >
+Guide par ingr&#xE9;dient
+    </a>
+
+            <div class="navigation-button-svg">
+                <span class="svg_arrow_right"></span>
+            </div>
+    </li>
+
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/culture-food/guide-par-ingredient/conservation-des-aliments" >
+Conservation des aliments
+    </a>
+
+            </li>
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/culture-food/guide-par-ingredient/tout-savoir-sur" >
+Tout savoir sur&#x2026;
+    </a>
+
+            </li>
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/culture-food/guide-par-ingredient/cuisson-des-aliments" >
+Cuisson des aliments
+    </a>
+
+            </li>
+</ul>
+
+
+<ul class="menu vertical">
+    <li class="subnav_li_ul_li">
+
+    <a class="" href="/culture-food/les-petits-plus-en-cuisine" >
+Les petits plus en cuisine&#x9;&#x9;
+    </a>
+
+            <div class="navigation-button-svg">
+                <span class="svg_arrow_right"></span>
+            </div>
+    </li>
+
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/culture-food/les-petits-plus-en-cuisine/anti-gaspi" >
+Anti-gaspi
+    </a>
+
+            </li>
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/culture-food/les-petits-plus-en-cuisine/guide-d-achat" >
+Guide d&#x27;achat
+    </a>
+
+            </li>
+</ul>
+
+
+<ul class="menu vertical">
+    <li class="subnav_li_ul_li">
+
+    <a class="" href="/culture-food/nutrition" >
+Nutrition
+    </a>
+
+            <div class="navigation-button-svg">
+                <span class="svg_arrow_right"></span>
+            </div>
+    </li>
+
+</ul>
+        </li>
+    </ul>
+
+            </li>
+            <li class="nav_li has-dropdown">
+                
+
+    <a class="" href="/dossiers/chandeleur" >
+Chandeleur &#x1F95E;
+    </a>
+
+
+    <button type="button" class="navigation-button" data-toggle=".header_subnav_97" aria-label="Chandeleur &#x1F95E;">
+        <span class="svg_arrow_right"></span>
+    </button>
+    <ul class="nav_li_ul header_subnav_97">
+        <li class="subnav_mobile_title">
+            <button type="button" class="navigation-button subnav_mobile_title_navigation_button" data-toggle=".header_subnav_97"
+                    aria-label="Chandeleur &#x1F95E;">
+                <span class="svg_arrow_right"></span>
+            </button>
+
+    <a class="" href="/dossiers/chandeleur" >
+Chandeleur &#x1F95E;
+    </a>
+
+        </li>
+        <li class="subnav_li">
+
+
+<ul class="menu vertical">
+    <li class="subnav_li_ul_li">
+
+    <span class="" >
+Nos meilleures recettes    </span>
+
+    </li>
+
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/recettes/pate-a-crepe-salee-205912" >
+P&#xE2;te &#xE0; cr&#xEA;pe sal&#xE9;e
+    </a>
+
+            </li>
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/recettes/pate-a-crepe-sans-repos-205974" >
+P&#xE2;te &#xE0; cr&#xEA;pe sans repos
+    </a>
+
+            </li>
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/recettes/pate-a-crepe-sans-oeuf-205992" >
+P&#xE2;te &#xE0; cr&#xEA;pe sans oeuf
+    </a>
+
+            </li>
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/recettes/crepes-pour-10-personnes-183960" >
+Cr&#xEA;pes pour 10 personnes
+    </a>
+
+            </li>
+</ul>
+
+
+<ul class="menu vertical">
+    <li class="subnav_li_ul_li">
+
+    <span class="" >
+Autres id&#xE9;es recettes    </span>
+
+    </li>
+
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/diaporamas/20-recettes-de-gateaux-de-crepes-a-faire-pour-une-chandeleur-originale-38235715/interne/1.aspx" >
+20 recettes de g&#xE2;teaux de cr&#xEA;pes pour une Chandeleur originale
+    </a>
+
+            </li>
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/culture-food/idees-de-menus/idees-de-repas/le-chef-patissier-du-ritz-devoile-sa-recette-de-crepes-avec-30-minutes-de-repos-seulement-195517" >
+Le chef p&#xE2;tissier du Ritz d&#xE9;voile sa recette de cr&#xEA;pes avec 30 minutes de repos seulement
+    </a>
+
+            </li>
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/diaporamas/20-recettes-de-crepes-a-faire-ce-weekend-pour-la-chandeleur-38235785/interne/1.aspx" >
+20 recettes de cr&#xEA;pes &#xE0; faire ce weekend pour la Chandeleur
+    </a>
+
+            </li>
+            <li class="subnav_li_ul_li">
+
+    <a class="" href="/culture-food/idees-de-menus/idees-de-repas/crepes-a-la-maniere-paul-bocuse-la-recette-ultra-facile-pour-qu-elles-soient-archi-moelleuses-195502" >
+Cr&#xEA;pes &#xE0; la mani&#xE8;re de Paul Bocuse : la recette du chef pour qu&#x27;elles soient tr&#xE8;s moelleuses
+    </a>
+
+            </li>
+</ul>
+        </li>
+    </ul>
+
+            </li>
+            <li class="nav_li ">
+                
+
+    <a class="" href="https://jeux.cuisineactuelle.fr" >
+Concours
+    </a>
+
+
+
+            </li>
+</ul>
+
+        </section>
+    </nav>
+
+</header>
+
+        <div class="banniere-haute-wrapper">
+            <div class="coreads-skin-wrapper"><div class="tac-ads tac-ads-1000x250 cazAd"><div class="ads-core-placer" data-ads-core="{&quot;device&quot;: &quot;desktop&quot;, &quot;type&quot;: &quot;Banniere-Haute&quot;}" id="Banniere-Haute"></div></div></div>
+
+        </div>
+
+    <div id="site_content" class="site_content">
+        <div class="area-top">
+
+            
+
+                
+			<script>
+				var pageDataLayer = pageDataLayer || {};
+				pageDataLayer.breadcrumb = ["Accueil", "Recettes de cuisine", "Viande", "Coustous de porc noir de Bigorre laqués au miel, une recette des Pyrénées"];
+			</script>
+		<nav id="compass" role="navigation" class="">
+			<ol itemscope itemtype="https://schema.org/BreadcrumbList" class="breadcrumbs">
+					<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+							<a itemprop="item" href="/">
+								<span itemprop="name">Accueil</span>
+							</a>
+						<meta itemprop="position" content="1" />
+
+							<span class="svg_arrow_right"></span>
+					</li>
+					<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+							<a itemprop="item" href="/recettes-de-cuisine">
+								<span itemprop="name">Recettes de cuisine</span>
+							</a>
+						<meta itemprop="position" content="2" />
+
+							<span class="svg_arrow_right"></span>
+					</li>
+					<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+							<a itemprop="item" href="/recettes-de-cuisine/viande">
+								<span itemprop="name">Viande</span>
+							</a>
+						<meta itemprop="position" content="3" />
+
+							<span class="svg_arrow_right"></span>
+					</li>
+					<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+							<span itemprop="name">Coustous de porc noir de Bigorre laqu&#xE9;s au miel, une recette des Pyr&#xE9;n&#xE9;es</span>
+						<meta itemprop="position" content="4" />
+
+					</li>
+			</ol>
+		</nav>
+
+        </div>
+
+        <div class="area-header">
+            
+        </div>
+
+
+        
+    <div class="row">
+        <div class="columns" style="background-color: white">
+            <h1 class="recipe-title">Coustous de porc noir de Bigorre laqu&#xE9;s au miel, une recette des Pyr&#xE9;n&#xE9;es</h1>
+        </div>
+    </div>
+
+
+
+        <div class="area-main row ">
+            <main id="main_content" role="main" class="wrapper-row">
+                
+
+
+
+
+<section class="recipe_notes recipe_notes_container">
+    <div class="recipe_notes_container">
+        <a href="#avis" class="recipe_notes_link">
+            <div class="recipe_notes_notes">
+                <div class="recipe_notes_stars ">
+                    <span class="loggedAction icon-star">
+<span class="svg_star"/></span></span><span class="loggedAction icon-star">
+<span class="svg_star"/></span></span><span class="loggedAction icon-star">
+<span class="svg_star"/></span></span><span class="loggedAction icon-star">
+<span class="svg_star"/></span></span><span class="loggedAction icon-half-star">
+<span class="svg_half_star"/><span class="path1"/></span><span class="path2"/></span></span></span>
+                </div>
+                <p class="recipe_notes_score bold ">
+                    4,5/5
+                </p>
+                <p class="recipe_notes_score">
+                    (2&nbsp;avis)
+                </p>
+            </div>
+            <div class="recipe_notes_separator"></div>
+            <div class="recipe_notes_comments">
+                    <p class="recipe_notes_score bold">
+                            Soyez le premier à commenter !
+                    </p>
+            </div>
+        </a>
+    </div>
+</section>
+
+<!-- En tete -->
+<section id="recipe_image" class="entity_video_image_container">
+    <div class="entity_slider">
+        <div class="entity_slider_slider">
+            <div class="entity_slider_slide" id="slide-1">
+                <picture><source media="(max-width: 640px)" srcset="https://img.cuisineactuelle.fr/400x300/2025/01/23/i5563-coustous-de-porc-noir-de-bigorre-laques-au-miel-une-recette-des-pyrenees.webp" type="image/webp" /><source media="(max-width: 640px)" srcset="https://img.cuisineactuelle.fr/400x300/2025/01/23/i5563-coustous-de-porc-noir-de-bigorre-laques-au-miel-une-recette-des-pyrenees.jpg" type="image" /><source media="(min-width: 640px)" srcset="https://img.cuisineactuelle.fr/660x495/2025/01/23/i5563-coustous-de-porc-noir-de-bigorre-laques-au-miel-une-recette-des-pyrenees.webp" type="image/webp" /><source media="(min-width: 640px)" srcset="https://img.cuisineactuelle.fr/660x495/2025/01/23/i5563-coustous-de-porc-noir-de-bigorre-laques-au-miel-une-recette-des-pyrenees.jpg" type="image" /><img alt="Coustous de porc noir de Bigorre laqu&#xE9;s au miel, une recette des Pyr&#xE9;n&#xE9;es" fetchpriority="high" height="495" src="https://img.cuisineactuelle.fr/660x495/2025/01/23/i5563-coustous-de-porc-noir-de-bigorre-laques-au-miel-une-recette-des-pyrenees.jpg" width="660"></img><noscript><img alt="Coustous de porc noir de Bigorre laqu&#xE9;s au miel, une recette des Pyr&#xE9;n&#xE9;es" src="https://img.cuisineactuelle.fr/660x495/2025/01/23/i5563-coustous-de-porc-noir-de-bigorre-laques-au-miel-une-recette-des-pyrenees.jpg"></img></noscript></picture>
+            </div>
+                <div class="entity_slider_slide" id="slide-2">
+                    <div class="video_container">
+                        <div class="shimmer video_shimmer"></div>
+                        <div class="video_container_video">
+                            <div class="dailymotion-player" id="ads-core-player-dailymotion" dailymotion-video-id="" data-ads-core='{"playerId":"x1ivc4", "playerVideoId":"", "playerPosition":"Leader", "playerProvider":"Dailymotion" }'><div id="dailymotion-player-video"></div></div>
+
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+        <div class="entity_slider_thumbnails">
+            <button data-target="slide-1">
+                <span class="svg_photo"></span>
+                <picture><source media="(max-width: 640px)" srcset="https://img.cuisineactuelle.fr/95x76/2025/01/23/i5563-coustous-de-porc-noir-de-bigorre-laques-au-miel-une-recette-des-pyrenees.webp" type="image/webp" /><source media="(max-width: 640px)" srcset="https://img.cuisineactuelle.fr/95x76/2025/01/23/i5563-coustous-de-porc-noir-de-bigorre-laques-au-miel-une-recette-des-pyrenees.jpg" type="image" /><source media="(min-width: 640px)" srcset="https://img.cuisineactuelle.fr/150x120/2025/01/23/i5563-coustous-de-porc-noir-de-bigorre-laques-au-miel-une-recette-des-pyrenees.webp" type="image/webp" /><source media="(min-width: 640px)" srcset="https://img.cuisineactuelle.fr/150x120/2025/01/23/i5563-coustous-de-porc-noir-de-bigorre-laques-au-miel-une-recette-des-pyrenees.jpg" type="image" /><img alt="Coustous de porc noir de Bigorre laqu&#xE9;s au miel, une recette des Pyr&#xE9;n&#xE9;es" fetchpriority="high" height="120" src="https://img.cuisineactuelle.fr/150x120/2025/01/23/i5563-coustous-de-porc-noir-de-bigorre-laques-au-miel-une-recette-des-pyrenees.jpg" width="150"></img><noscript><img alt="Coustous de porc noir de Bigorre laqu&#xE9;s au miel, une recette des Pyr&#xE9;n&#xE9;es" src="https://img.cuisineactuelle.fr/150x120/2025/01/23/i5563-coustous-de-porc-noir-de-bigorre-laques-au-miel-une-recette-des-pyrenees.jpg"></img></noscript></picture>
+            </button>
+                <button data-target="slide-2" class="active">
+                    <span class="svg_play"></span>
+                    <picture><source media="(max-width: 640px)" srcset="https://img.cuisineactuelle.fr/95x76/common/default-player.webp" type="image/webp" /><source media="(max-width: 640px)" srcset="https://img.cuisineactuelle.fr/95x76/common/default-player.jpg" type="image" /><source media="(min-width: 640px)" srcset="https://img.cuisineactuelle.fr/150x120/common/default-player.webp" type="image/webp" /><source media="(min-width: 640px)" srcset="https://img.cuisineactuelle.fr/150x120/common/default-player.jpg" type="image" /><img alt="Coustous de porc noir de Bigorre laqu&#xE9;s au miel, une recette des Pyr&#xE9;n&#xE9;es" fetchpriority="high" height="120" src="https://img.cuisineactuelle.fr/150x120/common/default-player.jpg" width="150"></img><noscript><img alt="Coustous de porc noir de Bigorre laqu&#xE9;s au miel, une recette des Pyr&#xE9;n&#xE9;es" src="https://img.cuisineactuelle.fr/150x120/common/default-player.jpg"></img></noscript></picture>
+                    <span class="video_title"></span>
+                </button>
+        </div>
+    </div>
+</section>
+
+        <section class="primary_background recipe_informations_container">
+                <div class="recipe_time_informations_container">
+                        <div class="recipe_time_information_container">
+                            <p class="recipe_time_information_title">Préparation</p>
+                            <p class="recipe_time_information">
+                                15 min
+                            </p>
+                        </div>
+
+                        <div class="recipe_time_information_container">
+                            <p class="recipe_time_information_title">Cuisson</p>
+                            <p class="recipe_time_information">
+                                2 h 25 min
+                            </p>
+                        </div>
+
+
+                        <div class="recipe_time_information_container">
+                            <p class="recipe_time_information_title">Total</p>
+                            <p class="recipe_time_information">
+                                2 h 40 min
+                            </p>
+                        </div>
+                </div>
+        </section>
+        <section class="recipe_informations_container">
+                <div class="recipe_utils_informations_container">
+                        <div class="recipe_utils_information_container">
+                            <span class="svg_hat"></span>
+                            <p class="recipe_utils_information">
+                                Facile
+                            </p>
+                        </div>
+                        <div class="recipe_utils_information_container">
+                            <span class="svg_user_filled"></span>
+                            <p class="recipe_utils_information">4 pers.</p>
+                        </div>
+                        <div class="recipe_utils_information_container">
+                                    <span class="svg_price2"><span class="path1"></span><span class="path2"></span><span
+                                            class="path3"></span><span class="path4"></span><span
+                                            class="path5"></span><span class="path6"></span><span
+                                            class="path7"></span><span class="path8"></span></span>
+                        </div>
+                </div>
+        </section>
+
+<section class="recipe_interactions">
+    <div class="recipe_interaction_container">
+        <span id="favourite-button" class="recipe_interaction_button highlight hidden-link" data-s1="" data-s2="recipe" data-s3="addfavourite" data-q1="recipe=104332" data-a="recipe_image">
+            <span class="svg_bookmark"></span>
+            Enregistrer
+        </span>
+        <div id="tooltip-favourite" class="tooltip-primary --success --bottom">
+            
+        </div>
+
+        <button id="gtm-recette-bouton-imprimer" aria-label="Imprimer" type="button" class="recipe_interaction_button"
+                data-recipe-id="104332">
+            <span class="svg_printer"></span>
+            <span class="text">Imprimer</span>
+        </button>
+
+        <button id="gtm-recette-bouton-partager" aria-label="Partager" type="button" class="recipe_interaction_button">
+            <span class="svg_share"></span>
+            <span class="text">Partager</span>
+        </button>
+    </div>
+
+</section>
+
+
+<section class="recipe_description">
+        <div id="editorial_container">
+            <p>Savourez les coustous de porc noir de Bigorre laqu&#xE9;s au miel, un plat des Pyr&#xE9;n&#xE9;es r&#xE9;confortant et familial. Accompagnez-les de pommes de terre pour un repas complet. Pr&#xE9;parez &#xE0; l&#x27;avance et r&#xE9;galez-vous !</p>
+        </div>
+
+
+        <div class="recipe_author_container">
+
+                <p class="recipe_author_p">
+                    Par
+                        <span class="bold">Tiphaine Campet</span>
+                </p>
+
+                <p class="recipe_author_p">
+                     23/01/2025 &#xE0; 12:48
+                </p>
+        </div>
+</section>
+
+
+    
+<section class="recipe_section ingredients navigation_anchor_reference noPrice ">
+    <span id="ingredients" class="navigation_anchor"></span>
+    <header class="borderSection_header">
+        <h2 class="section_h2">Ingrédients</h2>
+        <button type="button" class="recipe_ingredients_button" id="ContentPlaceHolder_LblRecetteNombre">
+                <span class="js-remove recipe_ingredients_button_icon" id="gtm-recette-modifier-nombre-personnes-retirer">
+                    <span class="svg_less"></span>
+                </span>
+            <div class="recipe_ingredients_infos">
+                <span id="LblRecetteNombre" class="js-indicator recipe_ingredients_number_people" style="margin: 0 auto">
+                    4 pers.
+                </span>
+            </div>
+                <span class="js-add recipe_ingredients_button_icon" id="gtm-recette-modifier-nombre-personnes-ajouter">
+                    <span class="svg_add"></span>
+                </span>
+        </button>
+    </header>
+
+            <ul class="ingredient_list">
+                        <li class="ingredient_step"><span>Ingr&#xE9;dients</span></li>
+                        <li class="ingredient_item">
+                                <span class="ingredient_label">Coustous de porc noir de Bigorre</span>
+                                <span class="js-ingredient-qte ingredient_qte">4 </span>
+                        </li>
+                        <li class="ingredient_item">
+                                <span class="ingredient_label">Carottes</span>
+                                <span class="js-ingredient-qte ingredient_qte">6 </span>
+                        </li>
+                        <li class="ingredient_item">
+                                <span class="ingredient_label">Brins de persil plat</span>
+                                <span class="js-ingredient-qte ingredient_qte">6 </span>
+                        </li>
+                        <li class="ingredient_item">
+                                <span class="ingredient_label">Feuilles de laurier</span>
+                                <span class="js-ingredient-qte ingredient_qte">3 </span>
+                        </li>
+                        <li class="ingredient_item">
+                                <span class="ingredient_label">Sauce Worcestershire</span>
+                                <span class="js-ingredient-qte ingredient_qte">2 cuil. &#xE0; soupe</span>
+                        </li>
+                        <li class="ingredient_item">
+                                <span class="ingredient_label">Miel des Pyr&#xE9;n&#xE9;es</span>
+                                <span class="js-ingredient-qte ingredient_qte">2 cuil. &#xE0; soupe</span>
+                        </li>
+                        <li class="ingredient_item">
+                                <span class="ingredient_label">Huile d&#x2019;olive</span>
+                                <span class="js-ingredient-qte ingredient_qte">2 cuil. &#xE0; soupe</span>
+                        </li>
+                        <li class="ingredient_item">
+                                <span class="ingredient_label">Grains de poivre m&#xE9;lang&#xE9;s</span>
+                                <span class="js-ingredient-qte ingredient_qte">1 cuil. &#xE0; soupe</span>
+                        </li>
+                        <li class="ingredient_item">
+                                <span class="ingredient_label">Sel</span>
+                                <span class="js-ingredient-qte ingredient_qte"> </span>
+                        </li>
+                        <li class="ingredient_item">
+                                <span class="ingredient_label">Poivre</span>
+                                <span class="js-ingredient-qte ingredient_qte"> </span>
+                        </li>
+
+            </ul>
+</section>
+
+
+<section class="recipe_section instructions navigation_anchor_reference">
+    <span id="preparation" class="navigation_anchor"></span>
+        
+<div class="cazAd Pave-Haut_Mobile --mobile mb40"><div class="ads-core-placer" data-ads-core="{ &quot;type&quot;: &quot;Pave-Haut&quot;, &quot;device&quot;: &quot;mobile,tablet&quot; }" id="Pave-Haut_Mobile"></div></div>
+<div class="cazAd Pave-Haut2_Desktop --desktop mb40"><div class="ads-core-placer" data-ads-core="{ &quot;type&quot;: &quot;Pave-Haut2-Desktop&quot;, &quot;device&quot;: &quot;desktop&quot; }" id="Pave-Haut2_Desktop_2"></div></div>
+
+
+<h2 class="section_h2">Préparation</h2>
+
+<ul class="preparation_steps">
+            <li class="preparation_step">
+                <div class="preparation_step_title_container" id="">
+                    <h3 class="recipe_section_h3">&#xC9;tape 1</h3>
+                </div>
+                <p>
+                    Pelez les carottes et coupez-les en trois. Mettez les coustous et les carottes dans une marmite d&#x2019;eau froide avec du gros sel, les grains de poivre et le laurier. Couvrez, portez &#xE0; &#xE9;bullition, puis r&#xE9;duisez le feu et laissez fr&#xE9;mir pendant 1 h 45.
+                </p>
+
+
+            </li>
+            <li class="preparation_step">
+                <div class="preparation_step_title_container" id="">
+                    <h3 class="recipe_section_h3">&#xC9;tape 2</h3>
+                </div>
+                <p>
+                    Fouettez le miel avec la sauce Worcestershire, l&#x2019;huile d&#x2019;olive et du poivre.
+                </p>
+
+
+                        <div class="cazAd Pave-Haut2_Mobile --mobile"><div class="ads-core-placer" data-ads-core="{ &quot;type&quot;: &quot;Pave-Haut2&quot;, &quot;device&quot;: &quot;mobile,tablet&quot; }" id="Pave-Haut2_Mobile_3"></div></div>
+<div class="cazAd Pave-Haut2_Desktop --desktop"><div class="ads-core-placer" data-ads-core="{ &quot;type&quot;: &quot;Pave-Haut2-Desktop&quot;, &quot;device&quot;: &quot;desktop&quot; }" id="Pave-Haut2_Desktop_4"></div></div>
+
+            </li>
+            <li class="preparation_step">
+                <div class="preparation_step_title_container" id="">
+                    <h3 class="recipe_section_h3">&#xC9;tape 3</h3>
+                </div>
+                <p>
+                    Pr&#xE9;chauffez le four &#xE0; 180 &#xB0;C (th.6). &#xC9;gouttez les coustous et les carottes et disposez-les dans un plat. Laquez les coustous avec le m&#xE9;lange au miel &#xE0; l&#x2019;aide d&#x2019;un pinceau, puis enfournez le tout pour 40 minutes. Parsemez de pluches de persil &#xE0; la sortie du four.
+                </p>
+
+
+            </li>
+</ul>
+
+
+</section>
+
+<section class="recipe_section navigation_anchor_reference" id="createComment-beforeOutBrain">
+    <span id="avis_before_outbrain" class="navigation_anchor"></span>
+    <h2 class="section_h2">Donnez-nous votre avis !</h2>
+
+    
+
+<form id="commentForm-beforeOutBrain" method="post" action="/recettes/commentaire.aspx">
+    <div class="recipe_grade_container">
+        <div class="recipe_grade_stars" data-target="#Note-beforeOutBrain" >
+                <span data-value="1" class="recipe_grade_star loggedAction ">
+                    <span class="svg_star_outline_filled">
+                        <span class="path1"></span>
+                        <span class="path2"></span>
+                    </span>
+                </span>
+                <span data-value="2" class="recipe_grade_star loggedAction ">
+                    <span class="svg_star_outline_filled">
+                        <span class="path1"></span>
+                        <span class="path2"></span>
+                    </span>
+                </span>
+                <span data-value="3" class="recipe_grade_star loggedAction ">
+                    <span class="svg_star_outline_filled">
+                        <span class="path1"></span>
+                        <span class="path2"></span>
+                    </span>
+                </span>
+                <span data-value="4" class="recipe_grade_star loggedAction ">
+                    <span class="svg_star_outline_filled">
+                        <span class="path1"></span>
+                        <span class="path2"></span>
+                    </span>
+                </span>
+                <span data-value="5" class="recipe_grade_star loggedAction ">
+                    <span class="svg_star_outline_filled">
+                        <span class="path1"></span>
+                        <span class="path2"></span>
+                    </span>
+                </span>
+            <input type="hidden" name="Note" id="Note-beforeOutBrain" value="0">
+            <input type="hidden" name="RecipeId" id="RecipeId-beforeOutBrain" value="104332">
+        </div>
+        <div class="recipe_grade_separator"></div>
+        <div class="recipe_grade_feeling">
+            <p class="recipe_grade_0">Comment était la recette ?</p>
+            <p class="recipe_grade_1">🤢 Pas bon !</p>
+            <p class="recipe_grade_2">☹️ Passable...</p>
+            <p class="recipe_grade_3">🙂 Bon.</p>
+            <p class="recipe_grade_4">😋 Très bon !</p>
+            <p class="recipe_grade_5">❤️ Un régal</p>
+        </div>
+    </div>
+
+
+    <textarea class="loggedAction recipe_comment_textarea" name="Text" rows="5" id="rateAndReview-beforeOutBrain" placeholder="Votre commentaire ici (optionnel)" maxlength="1000"></textarea>
+
+    <div class="recipe_comment_button_container">
+        <button disabled="disabled" type="submit" id="btCommentaire-beforeOutBrain" class="recipe_comment_button" text="Envoyer mon avis">Envoyer mon avis</button>
+    </div>
+<input name="__RequestVerificationToken" type="hidden" value="CfDJ8HGJhH4Ph3ZBklhnUG0zk0CE4TiR-FCniPZjgg1EKrtUKOey5cbQq9-cxhH4JPOd4YUNDGO676GY71TDzrUAX16RXXcJRPA2edR-9NRZNlxL2xBCVyp9UumRdz4QY9fKw52WL86SnfHPY4Oi8HmR9kw" /></form>
+
+</section>
+
+
+        <section class="recipe_section primary_background">
+            <h3 class="recipe_section_h3">Astuces</h3>
+            <p>Que sont les coustous ?&#xD;&#xA;Les coustous sont des travers de porc (mais aussi cotis ou plat de c&#xF4;tes) bien charnus, que l&#x2019;on trouve souvent en morceaux constitu&#xE9;s de 2 c&#xF4;tes et correspondant &#xE0; une portion.&#xD;&#xA;Comment faire une sauce Worcestershire maison ?&#xD;&#xA;C&#x27;est ultra simple et rapide, et vous obtiendrez une sauce pr&#xEA;te &#xE0; l&#x27;emploi en moins de 10 minutes : rassemblez du vinaigre de cidre, de la sauce soja, du sucre roux, de la moutarde, de la cannelle moulue et de l&#x27;ail s&#xE9;ch&#xE9; en poudre, et hop, &#xE0; vous notre recette de sauce Worcestershire maison !&#xD;&#xA;Cette recette est votre favorite ? N&#x27;h&#xE9;sitez pas &#xE0; la noter</p>
+        </section>
+
+
+        <section class="recipe_section recipe_section_borders">
+            <div class="recipe_tags">
+                    <a type="button" class="button-secondary --dark" href="/recettes-de-cuisine/viande/porc">
+                        <span>Porc</span>
+                    </a>
+            </div>
+        </section>
+
+
+    <script crossorigin="anonymous" src="https://cdn.cuisineactuelle.fr/cac/dist/outbrain-trigger.js?ver=20260130163138" type="module"></script>
+    <div id="bottomArticle">
+        <div class="outbrain-trigger"></div>
+        <div class="OUTBRAIN" data-widget-id="AR_10" data-ob-template="cuisineactuelle"></div>
+    </div>
+
+
+
+    
+
+<section class="newsletter">
+    <div class="newsletter_container">
+        <div class="newsletter_image">
+            <picture><source srcset="https://img.cuisineactuelle.fr/660x660/common/newsletter_img.webp" type="image/webp" /><source srcset="https://img.cuisineactuelle.fr/660x660/common/newsletter_img.jpg" type="image" /><img alt="Top 30 des recettes" height="660" loading="lazy" src="https://img.cuisineactuelle.fr/660x660/common/newsletter_img.jpg" width="660"></img></picture>
+        </div>
+        <div class="newsletter_inscription">
+            <p class="newsletter_title">
+                Abonnez-vous à notre newsletter&nbsp;!
+            </p>
+            <p class="newsletter_text">
+                Recevez GRATUITEMENT votre livret : 30 recettes du terroir pour retrouver le plaisir d&#x27;une cuisine authentique et gourmande.
+            </p>
+            <form action="https://account.digitalprismaplayers.com/subscribe/" method="POST">
+                <input type="email" id="subscriber" name="subscriber" placeholder="Mon email" class="newsletter_input"
+                       aria-label="Mon email"/>
+                <input type="hidden" name="origin" value="fiche_recette">
+                <input type="hidden" name="client" value="cuisineactuelle">
+                <input type="hidden" name="force" value="1">
+                <button type="submit" class="newsletter_validation_button" aria-label="Valider">
+                    S’inscrire à la newsletter
+                </button>
+            </form>
+        </div>
+    </div>
+        <p class="newsletter_mentions">
+            Votre adresse email sera uniquement utilisée par Prisma Media pour vous envoyer votre newsletter contenant
+            des offres commerciales personnalisées. Vous pouvez vous désinscrire à tout moment en utilisant le lien de
+            désabonnement intégré dans la newsletter. Pour en savoir plus et exercer vos droits, prenez connaissance de
+            notre <a href="https://www.prismamedia.com/espace-confidentialite/" target="_blank">Charte de
+                confidentialité</a>.
+        </p>
+</section>
+
+
+<div class="cazAd Pave-Bas_Mobile --mobile"><div class="ads-core-placer" data-ads-core="{ &quot;type&quot;: &quot;Pave-Bas&quot;, &quot;device&quot;: &quot;mobile,tablet&quot; }" id="Pave-Bas_Mobile"></div></div>
+
+
+<div class="clear"></div>
+
+
+<section class="recipe_section comments navigation_anchor_reference" id="comments" name="comments">
+    <span id="avis" class="navigation_anchor"></span>
+    <h2 class="section_h2">Donnez-nous votre avis !</h2>
+
+    <section id="createComment-afterOutBrain">
+        
+
+<form id="commentForm-afterOutBrain" method="post" action="/recettes/commentaire.aspx">
+    <div class="recipe_grade_container">
+        <div class="recipe_grade_stars" data-target="#Note-afterOutBrain" >
+                <span data-value="1" class="recipe_grade_star loggedAction ">
+                    <span class="svg_star_outline_filled">
+                        <span class="path1"></span>
+                        <span class="path2"></span>
+                    </span>
+                </span>
+                <span data-value="2" class="recipe_grade_star loggedAction ">
+                    <span class="svg_star_outline_filled">
+                        <span class="path1"></span>
+                        <span class="path2"></span>
+                    </span>
+                </span>
+                <span data-value="3" class="recipe_grade_star loggedAction ">
+                    <span class="svg_star_outline_filled">
+                        <span class="path1"></span>
+                        <span class="path2"></span>
+                    </span>
+                </span>
+                <span data-value="4" class="recipe_grade_star loggedAction ">
+                    <span class="svg_star_outline_filled">
+                        <span class="path1"></span>
+                        <span class="path2"></span>
+                    </span>
+                </span>
+                <span data-value="5" class="recipe_grade_star loggedAction ">
+                    <span class="svg_star_outline_filled">
+                        <span class="path1"></span>
+                        <span class="path2"></span>
+                    </span>
+                </span>
+            <input type="hidden" name="Note" id="Note-afterOutBrain" value="0">
+            <input type="hidden" name="RecipeId" id="RecipeId-afterOutBrain" value="104332">
+        </div>
+        <div class="recipe_grade_separator"></div>
+        <div class="recipe_grade_feeling">
+            <p class="recipe_grade_0">Comment était la recette ?</p>
+            <p class="recipe_grade_1">🤢 Pas bon !</p>
+            <p class="recipe_grade_2">☹️ Passable...</p>
+            <p class="recipe_grade_3">🙂 Bon.</p>
+            <p class="recipe_grade_4">😋 Très bon !</p>
+            <p class="recipe_grade_5">❤️ Un régal</p>
+        </div>
+    </div>
+
+
+    <textarea class="loggedAction recipe_comment_textarea" name="Text" rows="5" id="rateAndReview-afterOutBrain" placeholder="Votre commentaire ici (optionnel)" maxlength="1000"></textarea>
+
+    <div class="recipe_comment_button_container">
+        <button disabled="disabled" type="submit" id="btCommentaire-afterOutBrain" class="recipe_comment_button" text="Envoyer mon avis">Envoyer mon avis</button>
+    </div>
+<input name="__RequestVerificationToken" type="hidden" value="CfDJ8HGJhH4Ph3ZBklhnUG0zk0CE4TiR-FCniPZjgg1EKrtUKOey5cbQq9-cxhH4JPOd4YUNDGO676GY71TDzrUAX16RXXcJRPA2edR-9NRZNlxL2xBCVyp9UumRdz4QY9fKw52WL86SnfHPY4Oi8HmR9kw" /></form>
+
+    </section>
+</section>
+
+<section class="recipe_section">
+    <h2 class="section_h2">Les avis :</h2>
+
+        <div class="recipe_global_rate_section">
+            <h3 class="recipe_section_h3">Note globale :</h3>
+            <div class="recipe_notes recipe_global_rate">
+                <p class="recipe_notes_score">
+                    4,5/5
+                </p>
+                <div class="recipe_notes_stars">
+                    <span class="loggedAction icon-star">
+<span class="svg_star"/></span></span><span class="loggedAction icon-star">
+<span class="svg_star"/></span></span><span class="loggedAction icon-star">
+<span class="svg_star"/></span></span><span class="loggedAction icon-star">
+<span class="svg_star"/></span></span><span class="loggedAction icon-half-star">
+<span class="svg_half_star"/><span class="path1"/></span><span class="path2"/></span></span></span>
+                </div>
+
+                    <p class="recipe_notes_notice">2 avis</p>
+            </div>
+
+            <div class="recipe_notes_distribution">
+                        <div class="recipe_note_distribution">
+                            <p class="recipe_note_distribution_p">5</p>
+                            <span class="svg_star"></span>
+                            <div class="recipe_note_distribution_bar">
+                                <div class="recipe_note_distribution_bar_filled" style="width: 50%"></div>
+                            </div>
+                            <p class="recipe_note_distribution_p">1</p>
+                        </div>
+                        <div class="recipe_note_distribution">
+                            <p class="recipe_note_distribution_p">4</p>
+                            <span class="svg_star"></span>
+                            <div class="recipe_note_distribution_bar">
+                                <div class="recipe_note_distribution_bar_filled" style="width: 50%"></div>
+                            </div>
+                            <p class="recipe_note_distribution_p">1</p>
+                        </div>
+                        <div class="recipe_note_distribution">
+                            <p class="recipe_note_distribution_p">3</p>
+                            <span class="svg_star"></span>
+                            <div class="recipe_note_distribution_bar">
+                                <div class="recipe_note_distribution_bar_filled" style="width: 0%"></div>
+                            </div>
+                            <p class="recipe_note_distribution_p">0</p>
+                        </div>
+                        <div class="recipe_note_distribution">
+                            <p class="recipe_note_distribution_p">2</p>
+                            <span class="svg_star"></span>
+                            <div class="recipe_note_distribution_bar">
+                                <div class="recipe_note_distribution_bar_filled" style="width: 0%"></div>
+                            </div>
+                            <p class="recipe_note_distribution_p">0</p>
+                        </div>
+                        <div class="recipe_note_distribution">
+                            <p class="recipe_note_distribution_p">1</p>
+                            <span class="svg_star"></span>
+                            <div class="recipe_note_distribution_bar">
+                                <div class="recipe_note_distribution_bar_filled" style="width: 0%"></div>
+                            </div>
+                            <p class="recipe_note_distribution_p">0</p>
+                        </div>
+            </div>
+        </div>
+
+
+        <div class="recipe_no_comments_no_rating_container">
+            <span class="svg_comment"></span>
+            <p class="bold">Qu’avez-vous pensé de la recette ?</p>
+            <p>Partagez votre expérience et aidez les autres utilisateurs !</p>
+            <a href="#avis" class="recipe_comment_button">Donner mon avis</a>
+        </div>
+        <div class="comment_container">
+            <div class="cazAd Pave-Bas2_Mobile --mobile mb0" data-ads-lazyload="true" data-ads-lazyloaded="false"><div class="ads-core-placer" data-ads-core="{ &quot;type&quot;: &quot;Pave-Bas2&quot;, &quot;device&quot;: &quot;mobile,tablet&quot; }" id="Pave-Bas2_Mobile_6"></div></div>
+
+        </div>
+</section>
+
+    <section class="recipe_section">
+        <h3 class="recipe_section_h3">Recettes similaires :</h3>
+        <div class="recipe_similar_recipes">
+                
+
+<a class="recipe_tile tile " href="/recettes/saucisse-au-metre-et-oignons-caramelises-219030">
+    <picture><source media="(max-width: 640px)" srcset="https://img.cuisineactuelle.fr/150x120/2025/08/26/i121609-saucisse-au-metre-et-oignons-caramelises.webp" type="image/webp" /><source media="(max-width: 640px)" srcset="https://img.cuisineactuelle.fr/150x120/2025/08/26/i121609-saucisse-au-metre-et-oignons-caramelises.jpg" type="image" /><source media="(min-width: 640px)" srcset="https://img.cuisineactuelle.fr/180x135/2025/08/26/i121609-saucisse-au-metre-et-oignons-caramelises.webp" type="image/webp" /><source media="(min-width: 640px)" srcset="https://img.cuisineactuelle.fr/180x135/2025/08/26/i121609-saucisse-au-metre-et-oignons-caramelises.jpg" type="image" /><img alt="Saucisse au m&#xE8;tre et oignons caram&#xE9;lis&#xE9;s" height="135" loading="lazy" src="https://img.cuisineactuelle.fr/180x135/2025/08/26/i121609-saucisse-au-metre-et-oignons-caramelises.jpg" width="180"></img></picture>
+    <div class="recipe_tile_informations_container">
+        <p class="recipe_tile_title">Saucisse au m&#xE8;tre et oignons caram&#xE9;lis&#xE9;s</p>
+            <div class="recipe_notes recipe_global_rate">
+                <div class="recipe_notes_stars">
+                    <span class="loggedAction icon-star">
+<span class="svg_star"/></span></span><span class="loggedAction icon-star">
+<span class="svg_star"/></span></span><span class="loggedAction icon-star">
+<span class="svg_star"/></span></span><span class="loggedAction icon-star">
+<span class="svg_star"/></span></span><span class="loggedAction icon-star">
+<span class="svg_star"/></span></span>
+                </div>
+                <p class="recipe_notes_score">
+                    (1)
+                </p>
+            </div>
+            <div class="recipe_tile_time">
+                <span class="svg_time"></span>
+                55 min
+            </div>
+    </div>
+</a>
+
+                
+
+<a class="recipe_tile tile " href="/recettes/poelee-facon-truffade-au-bethmale-une-recette-inratable-des-pyrenees-218559">
+    <picture><source media="(max-width: 640px)" srcset="https://img.cuisineactuelle.fr/150x120/2025/01/23/i5585-poelee-facon-truffade-au-bethmale-une-recette-inratable-des-pyrenees.webp" type="image/webp" /><source media="(max-width: 640px)" srcset="https://img.cuisineactuelle.fr/150x120/2025/01/23/i5585-poelee-facon-truffade-au-bethmale-une-recette-inratable-des-pyrenees.jpg" type="image" /><source media="(min-width: 640px)" srcset="https://img.cuisineactuelle.fr/180x135/2025/01/23/i5585-poelee-facon-truffade-au-bethmale-une-recette-inratable-des-pyrenees.webp" type="image/webp" /><source media="(min-width: 640px)" srcset="https://img.cuisineactuelle.fr/180x135/2025/01/23/i5585-poelee-facon-truffade-au-bethmale-une-recette-inratable-des-pyrenees.jpg" type="image" /><img alt="Po&#xEA;l&#xE9;e fa&#xE7;on truffade au bethmale, une recette inratable des Pyr&#xE9;n&#xE9;es" height="135" loading="lazy" src="https://img.cuisineactuelle.fr/180x135/2025/01/23/i5585-poelee-facon-truffade-au-bethmale-une-recette-inratable-des-pyrenees.jpg" width="180"></img></picture>
+    <div class="recipe_tile_informations_container">
+        <p class="recipe_tile_title">Po&#xEA;l&#xE9;e fa&#xE7;on truffade au bethmale, une recette inratable des Pyr&#xE9;n&#xE9;es</p>
+            <div class="recipe_notes recipe_global_rate">
+                <div class="recipe_notes_stars">
+                    <span class="loggedAction icon-star">
+<span class="svg_star"/></span></span><span class="loggedAction icon-star">
+<span class="svg_star"/></span></span><span class="loggedAction icon-star">
+<span class="svg_star"/></span></span><span class="loggedAction icon-star">
+<span class="svg_star"/></span></span><span class="loggedAction icon-star">
+<span class="svg_star"/></span></span>
+                </div>
+                <p class="recipe_notes_score">
+                    (2)
+                </p>
+            </div>
+            <div class="recipe_tile_time">
+                <span class="svg_time"></span>
+                1 h 
+            </div>
+    </div>
+</a>
+
+                
+
+<a class="recipe_tile tile " href="/recettes/filet-de-sanglier-311623">
+    <picture><source media="(max-width: 640px)" srcset="https://img.cuisineactuelle.fr/150x120/2018/09/25/i58484-filet-de-sanglier.webp" type="image/webp" /><source media="(max-width: 640px)" srcset="https://img.cuisineactuelle.fr/150x120/2018/09/25/i58484-filet-de-sanglier.jpg" type="image" /><source media="(min-width: 640px)" srcset="https://img.cuisineactuelle.fr/180x135/2018/09/25/i58484-filet-de-sanglier.webp" type="image/webp" /><source media="(min-width: 640px)" srcset="https://img.cuisineactuelle.fr/180x135/2018/09/25/i58484-filet-de-sanglier.jpg" type="image" /><img alt="Filet de sanglier" height="135" loading="lazy" src="https://img.cuisineactuelle.fr/180x135/2018/09/25/i58484-filet-de-sanglier.jpg" width="180"></img></picture>
+    <div class="recipe_tile_informations_container">
+        <p class="recipe_tile_title">Filet de sanglier</p>
+            <div class="recipe_notes recipe_global_rate">
+                <div class="recipe_notes_stars">
+                    <span class="loggedAction icon-star">
+<span class="svg_star"/></span></span><span class="loggedAction icon-star">
+<span class="svg_star"/></span></span><span class="loggedAction icon-star">
+<span class="svg_star"/></span></span><span class="loggedAction icon-graystar">
+<span class="svg_star"/></span></span><span class="loggedAction icon-graystar">
+<span class="svg_star"/></span></span>
+                </div>
+                <p class="recipe_notes_score">
+                    (64)
+                </p>
+            </div>
+            <div class="recipe_tile_time">
+                <span class="svg_time"></span>
+                1 h 25 min
+            </div>
+    </div>
+</a>
+
+                
+
+<a class="recipe_tile tile " href="/recettes/pave-de-cerf-346441">
+    <picture><source media="(max-width: 640px)" srcset="https://img.cuisineactuelle.fr/150x120/2018/09/25/i52631-pave-de-cerf.webp" type="image/webp" /><source media="(max-width: 640px)" srcset="https://img.cuisineactuelle.fr/150x120/2018/09/25/i52631-pave-de-cerf.jpg" type="image" /><source media="(min-width: 640px)" srcset="https://img.cuisineactuelle.fr/180x135/2018/09/25/i52631-pave-de-cerf.webp" type="image/webp" /><source media="(min-width: 640px)" srcset="https://img.cuisineactuelle.fr/180x135/2018/09/25/i52631-pave-de-cerf.jpg" type="image" /><img alt="Pav&#xE9; de cerf" height="135" loading="lazy" src="https://img.cuisineactuelle.fr/180x135/2018/09/25/i52631-pave-de-cerf.jpg" width="180"></img></picture>
+    <div class="recipe_tile_informations_container">
+        <p class="recipe_tile_title">Pav&#xE9; de cerf</p>
+            <div class="recipe_notes recipe_global_rate">
+                <div class="recipe_notes_stars">
+                    <span class="loggedAction icon-star">
+<span class="svg_star"/></span></span><span class="loggedAction icon-star">
+<span class="svg_star"/></span></span><span class="loggedAction icon-star">
+<span class="svg_star"/></span></span><span class="loggedAction icon-half-star">
+<span class="svg_half_star"/><span class="path1"/></span><span class="path2"/></span></span></span><span class="loggedAction icon-graystar">
+<span class="svg_star"/></span></span>
+                </div>
+                <p class="recipe_notes_score">
+                    (14)
+                </p>
+            </div>
+            <div class="recipe_tile_time">
+                <span class="svg_time"></span>
+                50 min
+            </div>
+    </div>
+</a>
+
+                
+
+<a class="recipe_tile tile " href="/recettes/boulettes-de-sanglier-sauce-tomate-187725">
+    <picture><source media="(max-width: 640px)" srcset="https://img.cuisineactuelle.fr/150x120/2019/01/03/i18345-boulettes-de-sanglier-sauce-tomate.webp" type="image/webp" /><source media="(max-width: 640px)" srcset="https://img.cuisineactuelle.fr/150x120/2019/01/03/i18345-boulettes-de-sanglier-sauce-tomate.jpg" type="image" /><source media="(min-width: 640px)" srcset="https://img.cuisineactuelle.fr/180x135/2019/01/03/i18345-boulettes-de-sanglier-sauce-tomate.webp" type="image/webp" /><source media="(min-width: 640px)" srcset="https://img.cuisineactuelle.fr/180x135/2019/01/03/i18345-boulettes-de-sanglier-sauce-tomate.jpg" type="image" /><img alt="Boulettes de sanglier sauce tomate" height="135" loading="lazy" src="https://img.cuisineactuelle.fr/180x135/2019/01/03/i18345-boulettes-de-sanglier-sauce-tomate.jpg" width="180"></img></picture>
+    <div class="recipe_tile_informations_container">
+        <p class="recipe_tile_title">Boulettes de sanglier sauce tomate</p>
+            <div class="recipe_notes recipe_global_rate">
+                <div class="recipe_notes_stars">
+                    <span class="loggedAction icon-star">
+<span class="svg_star"/></span></span><span class="loggedAction icon-star">
+<span class="svg_star"/></span></span><span class="loggedAction icon-star">
+<span class="svg_star"/></span></span><span class="loggedAction icon-star">
+<span class="svg_star"/></span></span><span class="loggedAction icon-star">
+<span class="svg_star"/></span></span>
+                </div>
+                <p class="recipe_notes_score">
+                    (2)
+                </p>
+            </div>
+            <div class="recipe_tile_time">
+                <span class="svg_time"></span>
+                1 h 15 min
+            </div>
+    </div>
+</a>
+
+                
+
+<a class="recipe_tile tile " href="/recettes/epaule-de-sanglier-aux-legumes-188536">
+    <picture><source media="(max-width: 640px)" srcset="https://img.cuisineactuelle.fr/150x120/2019/02/19/i57337-epaule-de-sanglier-aux-legumes.webp" type="image/webp" /><source media="(max-width: 640px)" srcset="https://img.cuisineactuelle.fr/150x120/2019/02/19/i57337-epaule-de-sanglier-aux-legumes.jpg" type="image" /><source media="(min-width: 640px)" srcset="https://img.cuisineactuelle.fr/180x135/2019/02/19/i57337-epaule-de-sanglier-aux-legumes.webp" type="image/webp" /><source media="(min-width: 640px)" srcset="https://img.cuisineactuelle.fr/180x135/2019/02/19/i57337-epaule-de-sanglier-aux-legumes.jpg" type="image" /><img alt="Epaule de sanglier aux l&#xE9;gumes" height="135" loading="lazy" src="https://img.cuisineactuelle.fr/180x135/2019/02/19/i57337-epaule-de-sanglier-aux-legumes.jpg" width="180"></img></picture>
+    <div class="recipe_tile_informations_container">
+        <p class="recipe_tile_title">Epaule de sanglier aux l&#xE9;gumes</p>
+            <div class="recipe_notes recipe_global_rate">
+                <div class="recipe_notes_stars">
+                    <span class="loggedAction icon-star">
+<span class="svg_star"/></span></span><span class="loggedAction icon-star">
+<span class="svg_star"/></span></span><span class="loggedAction icon-star">
+<span class="svg_star"/></span></span><span class="loggedAction icon-star">
+<span class="svg_star"/></span></span><span class="loggedAction icon-star">
+<span class="svg_star"/></span></span>
+                </div>
+                <p class="recipe_notes_score">
+                    (2)
+                </p>
+            </div>
+            <div class="recipe_tile_time">
+                <span class="svg_time"></span>
+                4 h 30 min
+            </div>
+    </div>
+</a>
+
+                
+
+<a class="recipe_tile tile " href="/recettes/civet-de-sanglier-a-lorange-192574">
+    <picture><source media="(max-width: 640px)" srcset="https://img.cuisineactuelle.fr/150x120/2020/03/04/i56094-civet-de-sanglier-a-l-orange.webp" type="image/webp" /><source media="(max-width: 640px)" srcset="https://img.cuisineactuelle.fr/150x120/2020/03/04/i56094-civet-de-sanglier-a-l-orange.jpg" type="image" /><source media="(min-width: 640px)" srcset="https://img.cuisineactuelle.fr/180x135/2020/03/04/i56094-civet-de-sanglier-a-l-orange.webp" type="image/webp" /><source media="(min-width: 640px)" srcset="https://img.cuisineactuelle.fr/180x135/2020/03/04/i56094-civet-de-sanglier-a-l-orange.jpg" type="image" /><img alt="Civet de sanglier &#x2021; l&#x27;orange " height="135" loading="lazy" src="https://img.cuisineactuelle.fr/180x135/2020/03/04/i56094-civet-de-sanglier-a-l-orange.jpg" width="180"></img></picture>
+    <div class="recipe_tile_informations_container">
+        <p class="recipe_tile_title">Civet de sanglier &#xE0; l&#x27;orange</p>
+            <div class="recipe_notes recipe_global_rate">
+                <div class="recipe_notes_stars">
+                    <span class="loggedAction icon-star">
+<span class="svg_star"/></span></span><span class="loggedAction icon-star">
+<span class="svg_star"/></span></span><span class="loggedAction icon-star">
+<span class="svg_star"/></span></span><span class="loggedAction icon-star">
+<span class="svg_star"/></span></span><span class="loggedAction icon-star">
+<span class="svg_star"/></span></span>
+                </div>
+                <p class="recipe_notes_score">
+                    (1)
+                </p>
+            </div>
+            <div class="recipe_tile_time">
+                <span class="svg_time"></span>
+                2 h 10 min
+            </div>
+    </div>
+</a>
+
+                
+
+<a class="recipe_tile tile " href="/recettes/filet-de-faisan-roti-192014">
+    <picture><source media="(max-width: 640px)" srcset="https://img.cuisineactuelle.fr/150x120/2020/01/24/i56001-filet-de-faisan-roti.webp" type="image/webp" /><source media="(max-width: 640px)" srcset="https://img.cuisineactuelle.fr/150x120/2020/01/24/i56001-filet-de-faisan-roti.jpg" type="image" /><source media="(min-width: 640px)" srcset="https://img.cuisineactuelle.fr/180x135/2020/01/24/i56001-filet-de-faisan-roti.webp" type="image/webp" /><source media="(min-width: 640px)" srcset="https://img.cuisineactuelle.fr/180x135/2020/01/24/i56001-filet-de-faisan-roti.jpg" type="image" /><img alt="Filet de faisan r&#xF4;ti" height="135" loading="lazy" src="https://img.cuisineactuelle.fr/180x135/2020/01/24/i56001-filet-de-faisan-roti.jpg" width="180"></img></picture>
+    <div class="recipe_tile_informations_container">
+        <p class="recipe_tile_title">Filet de faisan r&#xF4;ti</p>
+            <div class="recipe_notes recipe_global_rate">
+                <div class="recipe_notes_stars">
+                    <span class="loggedAction icon-star">
+<span class="svg_star"/></span></span><span class="loggedAction icon-star">
+<span class="svg_star"/></span></span><span class="loggedAction icon-star">
+<span class="svg_star"/></span></span><span class="loggedAction icon-star">
+<span class="svg_star"/></span></span><span class="loggedAction icon-half-star">
+<span class="svg_half_star"/><span class="path1"/></span><span class="path2"/></span></span></span>
+                </div>
+                <p class="recipe_notes_score">
+                    (2)
+                </p>
+            </div>
+            <div class="recipe_tile_time">
+                <span class="svg_time"></span>
+                55 min
+            </div>
+    </div>
+</a>
+
+                
+
+<a class="recipe_tile tile " href="/recettes/navarin-de-mouton-345620">
+    <picture><source media="(max-width: 640px)" srcset="https://img.cuisineactuelle.fr/150x120/2018/09/25/i18366-navarin-de-mouton.webp" type="image/webp" /><source media="(max-width: 640px)" srcset="https://img.cuisineactuelle.fr/150x120/2018/09/25/i18366-navarin-de-mouton.jpg" type="image" /><source media="(min-width: 640px)" srcset="https://img.cuisineactuelle.fr/180x135/2018/09/25/i18366-navarin-de-mouton.webp" type="image/webp" /><source media="(min-width: 640px)" srcset="https://img.cuisineactuelle.fr/180x135/2018/09/25/i18366-navarin-de-mouton.jpg" type="image" /><img alt="Navarin de mouton" height="135" loading="lazy" src="https://img.cuisineactuelle.fr/180x135/2018/09/25/i18366-navarin-de-mouton.jpg" width="180"></img></picture>
+    <div class="recipe_tile_informations_container">
+        <p class="recipe_tile_title">Navarin de mouton</p>
+            <div class="recipe_notes recipe_global_rate">
+                <div class="recipe_notes_stars">
+                    <span class="loggedAction icon-star">
+<span class="svg_star"/></span></span><span class="loggedAction icon-star">
+<span class="svg_star"/></span></span><span class="loggedAction icon-star">
+<span class="svg_star"/></span></span><span class="loggedAction icon-graystar">
+<span class="svg_star"/></span></span><span class="loggedAction icon-graystar">
+<span class="svg_star"/></span></span>
+                </div>
+                <p class="recipe_notes_score">
+                    (18)
+                </p>
+            </div>
+            <div class="recipe_tile_time">
+                <span class="svg_time"></span>
+                1 h 25 min
+            </div>
+    </div>
+</a>
+
+                
+
+<a class="recipe_tile tile " href="/recettes/pain-de-viande-larde-218494">
+    <picture><source media="(max-width: 640px)" srcset="https://img.cuisineactuelle.fr/150x120/2024/12/18/i33950-pain-de-viande-barde-de-lard.webp" type="image/webp" /><source media="(max-width: 640px)" srcset="https://img.cuisineactuelle.fr/150x120/2024/12/18/i33950-pain-de-viande-barde-de-lard.jpg" type="image" /><source media="(min-width: 640px)" srcset="https://img.cuisineactuelle.fr/180x135/2024/12/18/i33950-pain-de-viande-barde-de-lard.webp" type="image/webp" /><source media="(min-width: 640px)" srcset="https://img.cuisineactuelle.fr/180x135/2024/12/18/i33950-pain-de-viande-barde-de-lard.jpg" type="image" /><img alt="Pain de viande bard&#xE9; de lard" height="135" loading="lazy" src="https://img.cuisineactuelle.fr/180x135/2024/12/18/i33950-pain-de-viande-barde-de-lard.jpg" width="180"></img></picture>
+    <div class="recipe_tile_informations_container">
+        <p class="recipe_tile_title">Pain de viande bard&#xE9; de lard</p>
+            <div class="recipe_notes recipe_global_rate">
+                <div class="recipe_notes_stars">
+                    <span class="loggedAction icon-star">
+<span class="svg_star"/></span></span><span class="loggedAction icon-star">
+<span class="svg_star"/></span></span><span class="loggedAction icon-star">
+<span class="svg_star"/></span></span><span class="loggedAction icon-star">
+<span class="svg_star"/></span></span><span class="loggedAction icon-star">
+<span class="svg_star"/></span></span>
+                </div>
+                <p class="recipe_notes_score">
+                    (2)
+                </p>
+            </div>
+            <div class="recipe_tile_time">
+                <span class="svg_time"></span>
+                1 h 
+            </div>
+    </div>
+</a>
+
+        </div>
+    </section>
+
+<a href="#" class="scroll_top_button" aria-label="Remonter au début de la recette">
+    <span class="svg_scroll_top"></span>
+    Retourner en haut de page
+</a>
+
+<div id="share_modal" class="modal_overlay">
+    <div class="modal_overlay_content small">
+        <div class="modal_overlay_header">
+            <h2>Partager sur</h2>
+            <button type="button" class="modal_close_button">
+                <span class="svg_close"></span>
+            </button>
+        </div>
+        <div class="modal_overlay_body">
+            <div class="share_buttons">
+                <button id="whatsapp_share" class="share_button whatsapp_color" aria-label="Partager sur Whatsapp">
+                    <span class="svg_whatsapp"></span>
+                    WhatsApp
+                </button>
+                <button id="facebook_share" class="share_button facebook_color" aria-label="Partager sur Facebook">
+                    <span class="svg_facebook"></span>
+                    Facebook
+                </button>
+                <button id="pinterest_share" class="share_button pinterest_color" aria-label="Partager sur Pinterest">
+                    <span class="svg_pinterest"></span>
+                    Pinterest
+                </button>
+                <button id="email_share" class="share_button" aria-label="Partager par email">
+                    <span class="svg_mail"></span>
+                    Par email
+                </button>
+                <button id="link_share" class="share_button" aria-label="Copier le lien">
+                    <span class="svg_link"></span>
+                    Copier le lien
+                </button>
+
+                <div id="tooltip-copy" class="tooltip-primary --success --bottom">
+                    Le lien a bien été copié
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+            </main>
+
+                
+    <div id="aside-ads">
+        <aside class="ads-container">
+                <div class="ads-container_wrapper">
+                    <div class="ads-container_wrapper_ad">
+                        <div class="cazAd Pave-Haut_Desktop --desktop"><div class="ads-core-placer" data-ads-core="{ &quot;type&quot;: &quot;Pave-Haut&quot;, &quot;device&quot;: &quot;desktop&quot; }" id="Pave-Haut_Desktop"></div></div>
+
+                        
+                    </div>
+                </div>
+
+                <div class="ads-container_wrapper">
+                    <div class="ads-container_wrapper_ad">
+                        <div class="cazAd Pave-Bas_Desktop --desktop"><div class="ads-core-placer" data-ads-core="{ &quot;type&quot;: &quot;Pave-Bas&quot;, &quot;device&quot;: &quot;desktop&quot; }" id="Pave-Bas_Desktop"></div></div>
+
+                    </div>
+                </div>
+
+            <div class="ads-container_wrapper">
+                <div class="ads-container_wrapper_ad">
+                    <div class="cazAd Pave-Bas2_Desktop --desktop"><div class="ads-core-placer" data-ads-core="{ &quot;type&quot;: &quot;Pave-Bas2&quot;, &quot;device&quot;: &quot;desktop&quot; }" id="Pave-Bas2_Desktop_9"></div></div>
+
+                </div>
+            </div>
+
+            <div class="ads-container_wrapper">
+                <div class="ads-container_wrapper_ad">
+                    <div class="cazAd Pave-Bas2_Desktop --desktop"><div class="ads-core-placer" data-ads-core="{ &quot;type&quot;: &quot;Pave-Bas2&quot;, &quot;device&quot;: &quot;desktop&quot; }" id="Pave-Bas2_Desktop_10"></div></div>
+
+                </div>
+            </div>
+        </aside>
+    </div>
+
+        </div>
+
+            <div class="row mt20">
+                <div class="wrapper-row --nopadding">
+                    <div class="cazAd Banniere-Basse"><div class="ads-core-placer" data-ads-core="{ &quot;type&quot;: &quot;Banniere-Basse&quot; }" id="Banniere-Basse_11"></div></div>
+
+                </div>
+            </div>
+            
+                <footer class="main_footer">
+    <section class="footer_informations">
+        <div class="footer_informations_left">
+            <span class="footer_logo logo"></span>
+            <p>
+                La passion du goût
+            </p>
+            <div class="footer_social_networks">
+                <a href="https://www.facebook.com/cuisineactuelle" target="_blank" aria-label="Facebook" class="footer_social_network_button">
+                    <span class="svg_facebook"></span>
+                </a>
+                <a href="https://www.instagram.com/cuisineactuelle/" target="_blank" aria-label="Instagram" class="footer_social_network_button">
+                    <span class="svg_instagram"></span>
+                </a>
+                <a href="https://fr.pinterest.com/cuisineactuelle/" target="_blank" aria-label="Pinterest" class="footer_social_network_button">
+                    <span class="svg_pinterest"></span>
+                </a>
+                <a href="https://www.youtube.com/user/cuisineactuelle" target="_blank" aria-label="Youtube" class="footer_social_network_button">
+                    <span class="svg_youtube"></span>
+                </a>
+                <a href="https://www.tiktok.com/@cuisineactuelle?lang=fr" target="_blank" aria-label="Tiktok" class="footer_social_network_button">
+                    <span class="svg_tiktok"></span>
+                </a>
+                <a href="https://x.com/cuisineactuelle" target="_blank" aria-label="X" class="footer_social_network_button">
+                    <span class="svg_x"></span>
+                </a>
+            </div>
+        </div>
+    </section>
+    <section class="footer_links">
+        <ul class="footer_links_list">
+            <li class="footer_link"><a href="/static/contacts-1.aspx" id="lnkNousContacter">Nous contacter</a></li>
+            <li class="footer_link"><a href="https://www.prismamedia.com/mentions-legales-cac/" id="lnkMentions" target="_blank">Mentions légales</a></li>
+            <li class="footer_link"><a href="https://www.prismamedia.com/espace-confidentialite/" target="_blank" id="lnkCharte">Charte de confidentialité</a></li>
+            <li class="footer_link"><button onclick="window._sp_.gdpr.loadPrivacyManagerModal()">Paramétrer mes cookies</button></li>
+            <li class="footer_link"><a href="https://www.prismamedia.com/prismamediasolutions/" target="_blank" id="lnkAnnonceur">Publicité</a></li>
+            <li class="footer_link"><a href="/equipe-editoriale" id="lnkPartenariats">Nos auteurs</a></li>
+            <li class="footer_link"><a href="https://www.prismamedia.com/mentions-legales/" target="_blank" id="lnkCharte">CGU</a></li>
+        </ul>
+        <p class="footer_links_p"><span>© 2026 Prisma Média - Louis Hachette Group - Tous droits réservés</span></p>
+    </section>
+    <section class="footer_brands">
+        <div class="footer_brands_container">
+            <p>Découvrez les autres marques du groupe Digital Prisma Players</p>
+            <div class="footer_brands_list">
+                <a href="https://www.cuisineaz.com/" target="_blank">
+                    <span class="svg_cuisineaz"></span>
+                </a>
+                <a href="https://www.fourchette-et-bikini.fr/" target="_blank">
+                    <span class="svg_fourchette_et_bikini"></span>
+                </a>
+                <a href="https://www.passeportsante.net" target="_blank">
+                    <span class="svg_passeport_sante"></span>
+                </a>
+                <a href="https://www.croq-kilos.com/" target="_blank">
+                    <span class="svg_croq"></span>
+                </a>
+                <a href="https://www.deco.fr" target="_blank">
+                    <span class="svg_deco"></span>
+                </a>
+                <a href="https://www.meteocity.com" target="_blank">
+                    <span class="svg_meteocity"></span>
+                </a>
+                <a href="https://www.maganimo.com/" target="_blank">
+                    <span class="svg_maganimo"></span>
+                </a>
+            </div>
+        </div>
+    </section>
+</footer>
+
+            
+
+        
+
+            <div id="bannerTop"></div>
+            <div class="ads-core-placer" data-ads-core="{ &quot;type&quot;: &quot;Out-Of-Banner&quot; }" id="oop"></div>
+
+            <div class="ads-core-placer --mobile pabsolute" data-ads-core="{ &quot;type&quot;: &quot;Postitiel&quot;, &quot;device&quot;: &quot;mobile,tablet&quot; }" id="oop_bis"></div>
+
+            <div id="flash"></div>
+    </div>
+
+        <div class="ads-core-placer" data-ads-core="{&quot;device&quot;: &quot;mobile, tablet&quot;, &quot;type&quot;: &quot;Footer-web&quot;}" id="Footer-web"></div>
+
+</div>
+</body>
+</html>

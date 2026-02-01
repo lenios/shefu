@@ -108,6 +108,7 @@ void main() {
     'chefsimon.com': ((html, url) => AbstractScraper(html, url), 1),
     'cookpad.com': ((html, url) => CookpadScraper(html, url), 2),
     'cuisineaz.com': ((html, url) => AbstractScraper(html, url), 1),
+    'cuisineactuelle.fr': ((html, url) => AbstractScraper(html, url), 1),
     'cuisine.journaldesfemmes.fr': ((html, url) => AbstractScraper(html, url), 1),
     'damndelicious.net': ((html, url) => AbstractScraper(html, url), 2),
     'eatingwell.com': ((html, url) => AbstractScraper(html, url), 1),

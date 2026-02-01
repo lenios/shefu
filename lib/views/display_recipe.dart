@@ -321,45 +321,46 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
   }
 
   Widget _buildSpeakControl(BuildContext context, DisplayRecipeViewModel viewModel) {
-    final theme = Theme.of(context);
-    return Tooltip(
-      message: viewModel.isPlaying
-          ? AppLocalizations.of(context)!.pauseUsage
-          : AppLocalizations.of(context)!.speak,
-      child: GestureDetector(
-        onLongPress: () {
-          viewModel.stopSpeak();
-        },
-        child: IconButton(
-          visualDensity: VisualDensity.compact,
-          padding: EdgeInsets.zero,
-          constraints: const BoxConstraints(),
-          style: IconButton.styleFrom(tapTargetSize: MaterialTapTargetSize.shrinkWrap),
-          onPressed: () {
-            if (viewModel.isPlaying) {
-              viewModel.pauseSpeak();
-            } else if (viewModel.isPaused) {
-              // Resume from current step
-              viewModel.speakAllSteps(context, viewModel.currentStepIndex);
-            } else {
-              // Start from beginning
-              viewModel.speakAllSteps(context, 0);
-            }
-          },
-          icon: Icon(
-            viewModel.isPlaying
-                ? Icons.pause_circle
-                : viewModel.isPaused
-                ? Icons.play_circle
-                : Icons.record_voice_over,
-            color: viewModel.isPlaying || viewModel.isPaused
-                ? Colors.amber
-                : theme.colorScheme.primary,
-            size: 28,
-          ),
-        ),
-      ),
-    );
+    return Container();
+    // final theme = Theme.of(context);
+    // return Tooltip(
+    //   message: viewModel.isPlaying
+    //       ? AppLocalizations.of(context)!.pauseUsage
+    //       : AppLocalizations.of(context)!.speak,
+    //   child: GestureDetector(
+    //     onLongPress: () {
+    //       viewModel.stopSpeak();
+    //     },
+    //     child: IconButton(
+    //       visualDensity: VisualDensity.compact,
+    //       padding: EdgeInsets.zero,
+    //       constraints: const BoxConstraints(),
+    //       style: IconButton.styleFrom(tapTargetSize: MaterialTapTargetSize.shrinkWrap),
+    //       onPressed: () {
+    //         if (viewModel.isPlaying) {
+    //           viewModel.pauseSpeak();
+    //         } else if (viewModel.isPaused) {
+    //           // Resume from current step
+    //           viewModel.speakAllSteps(context, viewModel.currentStepIndex);
+    //         } else {
+    //           // Start from beginning
+    //           viewModel.speakAllSteps(context, 0);
+    //         }
+    //       },
+    //       icon: Icon(
+    //         viewModel.isPlaying
+    //             ? Icons.pause_circle
+    //             : viewModel.isPaused
+    //             ? Icons.play_circle
+    //             : Icons.record_voice_over,
+    //         color: viewModel.isPlaying || viewModel.isPaused
+    //             ? Colors.amber
+    //             : theme.colorScheme.primary,
+    //         size: 28,
+    //       ),
+    //     ),
+    //   ),
+    // );
   }
 
   Widget _buildNotesView(BuildContext context, DisplayRecipeViewModel viewModel) {
