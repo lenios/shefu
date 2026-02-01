@@ -723,4 +723,17 @@ class AppLocalizationsHu extends AppLocalizations {
 
   @override
   String get enterValidServings => 'Kérjük, egész számot adjon meg';
+
+  @override
+  String get about => 'Névjegy';
+
+  @override
+  String get contact => 'Kapcsolat';
+
+  @override
+  String get author => 'Szerző';
+
+  @override
+  String get sourceCodeAvailableAt =>
+      'Kiadva GNU General Public License v3.0 alatt. Az alkalmazás forráskódja elérhető itt:';
 }

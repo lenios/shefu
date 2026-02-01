@@ -232,5 +232,9 @@
     "selectAll": "All Sites",
     "deselectAll": "None",
     "speak": "Read recipe aloud",
-    "enterValidServings": "Please enter an integer number"
+    "enterValidServings": "Please enter an integer number",
+    "about": "About",
+    "contact": "Contact",
+    "author": "Author",
+    "sourceCodeAvailableAt": "Published under GNU General Public License v3.0. Application source code available at:"
 }

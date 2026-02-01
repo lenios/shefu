@@ -721,4 +721,17 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get enterValidServings => 'Please enter an integer number';
+
+  @override
+  String get about => 'About';
+
+  @override
+  String get contact => 'Contact';
+
+  @override
+  String get author => 'Author';
+
+  @override
+  String get sourceCodeAvailableAt =>
+      'Published under GNU General Public License v3.0. Application source code available at:';
 }

@@ -1497,6 +1497,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Please enter an integer number'**
   String get enterValidServings;
+
+  /// No description provided for @about.
+  ///
+  /// In en, this message translates to:
+  /// **'About'**
+  String get about;
+
+  /// No description provided for @contact.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact'**
+  String get contact;
+
+  /// No description provided for @author.
+  ///
+  /// In en, this message translates to:
+  /// **'Author'**
+  String get author;
+
+  /// No description provided for @sourceCodeAvailableAt.
+  ///
+  /// In en, this message translates to:
+  /// **'Published under GNU General Public License v3.0. Application source code available at:'**
+  String get sourceCodeAvailableAt;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
