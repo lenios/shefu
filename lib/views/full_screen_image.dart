@@ -11,12 +11,12 @@ class FullScreenImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+          icon: Icon(Icons.arrow_back_ios, color: Theme.of(context).colorScheme.onSurface),
           onPressed: () {
             Navigator.of(context).pop();
           },
@@ -43,13 +43,19 @@ class FullScreenImage extends StatelessWidget {
                       if (thumbSnapshot.hasData) {
                         return Image.memory(thumbSnapshot.data!, fit: BoxFit.cover);
                       }
-                      return const CircularProgressIndicator(color: Colors.white);
+                      return CircularProgressIndicator(
+                        color: Theme.of(context).colorScheme.onSurface,
+                      );
                     },
                   );
                 }
-                return const CircularProgressIndicator(color: Colors.white);
+                return CircularProgressIndicator(color: Theme.of(context).colorScheme.onSurface);
               } else if (snapshot.hasError) {
-                return const Icon(Icons.broken_image, color: Colors.white, size: 60);
+                return Icon(
+                  Icons.broken_image,
+                  color: Theme.of(context).colorScheme.onSurface,
+                  size: 60,
+                );
               } else if (snapshot.hasData) {
                 return Image.memory(
                   snapshot.data!,
@@ -57,11 +63,19 @@ class FullScreenImage extends StatelessWidget {
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height,
                   errorBuilder: (context, error, stackTrace) {
-                    return const Icon(Icons.broken_image, color: Colors.white, size: 60);
+                    return Icon(
+                      Icons.broken_image,
+                      color: Theme.of(context).colorScheme.onSurface,
+                      size: 60,
+                    );
                   },
                 );
               } else {
-                return const Icon(Icons.broken_image, color: Colors.white, size: 60);
+                return Icon(
+                  Icons.broken_image,
+                  color: Theme.of(context).colorScheme.onSurface,
+                  size: 60,
+                );
               }
             },
           ),

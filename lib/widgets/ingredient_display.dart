@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shefu/l10n/app_localizations.dart';
 import 'package:shefu/models/formatted_ingredient.dart';
-import 'package:shefu/utils/app_color.dart';
 import 'package:shefu/widgets/recipe_step_card.dart';
 
 class IngredientDisplay extends StatelessWidget {
@@ -46,7 +45,7 @@ class IngredientDisplay extends StatelessWidget {
                       style: TextStyle(
                         fontStyle: ingredient.optional ? FontStyle.italic : null,
                         color: ingredient.optional
-                            ? AppColor.optionalColor
+                            ? theme.colorScheme.tertiary
                             : (ingredient.isChecked ? effectivePrimaryColor : null),
                         decoration: ingredient.isChecked ? TextDecoration.lineThrough : null,
                       ),
@@ -73,7 +72,7 @@ class IngredientDisplay extends StatelessWidget {
                   "${ingredient.shape} ${ingredient.optional ? '(${AppLocalizations.of(context)?.optional})' : ''}",
                   style: theme.textTheme.bodyMedium?.copyWith(
                     fontStyle: FontStyle.italic,
-                    color: ingredient.optional ? AppColor.optionalColor : effectivePrimaryColor,
+                    color: ingredient.optional ? theme.colorScheme.tertiary : effectivePrimaryColor,
                     decoration: ingredient.isChecked ? TextDecoration.lineThrough : null,
                   ),
                   maxLines: 3,

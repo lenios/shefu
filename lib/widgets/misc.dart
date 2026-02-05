@@ -184,8 +184,7 @@ Widget categoryLine(int category, context) {
       children: [
         Text(
           "${AppLocalizations.of(context)!.category}: ",
-
-          style: const TextStyle(fontSize: 14, color: Colors.white70),
+          style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
         ),
         formattedCategory(Category.values[category].name, context),
       ],

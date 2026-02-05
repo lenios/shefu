@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shefu/l10n/app_localizations.dart';
 import 'package:shefu/provider/my_app_state.dart';
-import 'package:shefu/utils/app_color.dart';
 import 'package:shefu/widgets/shopping_basket_modal.dart';
 
 /// A wrapper scaffold that adds the Shopping Basket FAB to any screen
@@ -34,7 +33,7 @@ class AppScaffold extends StatelessWidget {
     // Set up the final FAB configuration
     Widget? effectiveFAB;
 
-    // Only create and show shopping basket FAB if basket is not empty
+    // create and show shopping basket FAB if basket is not empty
     if (appState.isShoppingBasketNotEmpty) {
       Widget shoppingBasketFab = FloatingActionButton(
         onPressed: () {
@@ -45,13 +44,16 @@ class AppScaffold extends StatelessWidget {
             builder: (modalContext) => const ShoppingBasketModal(),
           );
         },
-        backgroundColor: AppColor.primarySoft,
-        foregroundColor: Colors.white,
+        backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
+        foregroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
         tooltip: l10n.shoppingList,
         child: Badge(
           label: Text(appState.shoppingBasket.length.toString()),
           isLabelVisible: true,
-          child: const Icon(Icons.shopping_basket_outlined),
+          child: Icon(
+            Icons.shopping_basket_outlined,
+            color: Theme.of(context).colorScheme.onSecondaryContainer,
+          ),
         ),
       );
 

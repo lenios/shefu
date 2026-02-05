@@ -8,7 +8,6 @@ import 'package:country_picker/country_picker.dart';
 import 'package:shefu/l10n/app_localizations.dart';
 import 'package:shefu/l10n/l10n_utils.dart';
 import 'package:shefu/models/objectbox_models.dart';
-import 'package:shefu/utils/app_color.dart';
 import 'package:shefu/utils/recipe_scrapers/scraper_factory.dart';
 import 'package:shefu/viewmodels/edit_recipe_viewmodel.dart';
 import 'package:shefu/widgets/confirmation_dialog.dart';
@@ -144,18 +143,21 @@ class _EditRecipeState extends State<EditRecipe> {
                   return Text(value.text);
                 },
               ),
-              backgroundColor: AppColor.primary,
-              foregroundColor: Colors.white,
+              backgroundColor: Theme.of(context).colorScheme.secondary,
+              foregroundColor: Theme.of(context).colorScheme.onSecondary,
               actions: [
                 Selector<EditRecipeViewModel, bool>(
                   selector: (_, vm) => vm.isLoading,
                   builder: (context, isLoading, child) {
                     return IconButton(
                       icon: isLoading
-                          ? const SizedBox(
+                          ? SizedBox(
                               width: 20,
                               height: 20,
-                              child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
+                              child: CircularProgressIndicator(
+                                color: Theme.of(context).colorScheme.onPrimary,
+                                strokeWidth: 2,
+                              ),
                             )
                           : const Icon(Icons.save),
                       tooltip: l10n.save,
@@ -186,7 +188,7 @@ class _EditRecipeState extends State<EditRecipe> {
                   // --- Recipe Title ---
                   Container(
                     decoration: BoxDecoration(
-                      border: Border(bottom: BorderSide(color: Colors.grey.shade300)),
+                      border: Border(bottom: BorderSide(color: Theme.of(context).dividerColor)),
                     ),
                     child: TextField(
                       controller: viewModel.titleController,
@@ -224,16 +226,12 @@ class _EditRecipeState extends State<EditRecipe> {
                                     children: [
                                       Text(
                                         "OCR:",
-                                        style: TextStyle(
-                                          color: AppColor.primary,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 14,
-                                        ),
+                                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                                       ),
                                       Switch(
                                         value: ocrEnabled,
                                         onChanged: (value) => viewModel.toggleOcr(value),
-                                        activeThumbColor: AppColor.primary,
+                                        activeThumbColor: Theme.of(context).colorScheme.secondary,
                                         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                                       ),
                                     ],
@@ -340,7 +338,7 @@ class _EditRecipeState extends State<EditRecipe> {
                                                   child: formattedCategory(
                                                     category.name,
                                                     context,
-                                                    dark: true,
+                                                    surface: true,
                                                   ),
                                                 );
                                               }).toList(),
@@ -364,9 +362,7 @@ class _EditRecipeState extends State<EditRecipe> {
                                         Text(
                                           "${l10n.timer} (${l10n.minutes})",
                                           style: TextStyle(
-                                            color: Theme.of(
-                                              context,
-                                            ).colorScheme.onSecondaryContainer,
+                                            color: Theme.of(context).colorScheme.onSurface,
                                           ),
                                         ),
                                         Row(
@@ -568,11 +564,19 @@ class _EditRecipeState extends State<EditRecipe> {
                                       ),
                                       if (showImportButton)
                                         FilledButton.icon(
-                                          icon: Icon(Icons.download, color: Colors.white),
+                                          icon: Icon(
+                                            Icons.download,
+                                            color: Theme.of(context).colorScheme.onPrimary,
+                                          ),
                                           label: Text(l10n.importRecipe),
                                           style: FilledButton.styleFrom(
-                                            backgroundColor: AppColor.primary,
-                                            foregroundColor: Colors.white,
+                                            // Use secondary to ensure contrast across themes
+                                            backgroundColor: Theme.of(
+                                              context,
+                                            ).colorScheme.secondary,
+                                            foregroundColor: Theme.of(
+                                              context,
+                                            ).colorScheme.onSecondary,
                                           ),
                                           onPressed: _importRecipe,
                                         ),
@@ -625,7 +629,10 @@ class _EditRecipeState extends State<EditRecipe> {
                           padding: const EdgeInsets.symmetric(vertical: 8.0),
                           child: Text(
                             l10n.noStepsAddedYet,
-                            style: TextStyle(fontStyle: FontStyle.italic, color: Colors.grey[600]),
+                            style: TextStyle(
+                              fontStyle: FontStyle.italic,
+                              color: Theme.of(context).colorScheme.onSurfaceVariant,
+                            ),
                           ),
                         );
                       }
@@ -655,10 +662,8 @@ class _EditRecipeState extends State<EditRecipe> {
                                   onPressed: () => viewModel.insertStepAt(i + 1),
                                   tooltip: l10n.insertStep,
 
-                                  backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
-                                  foregroundColor: Theme.of(
-                                    context,
-                                  ).colorScheme.onSecondaryContainer,
+                                  backgroundColor: Theme.of(context).colorScheme.secondary,
+                                  foregroundColor: Theme.of(context).colorScheme.onSecondary,
                                   child: const Icon(Icons.add),
                                 ),
                               ),
@@ -670,18 +675,18 @@ class _EditRecipeState extends State<EditRecipe> {
                       return Column(children: stepWidgets);
                     },
                   ),
-
+                  // Add step
                   const SizedBox(height: 10),
                   Align(
                     alignment: Alignment.centerRight,
                     child: ElevatedButton.icon(
                       icon: const Icon(Icons.add),
                       label: Text(l10n.addStep),
-                      onPressed: viewModel.addEmptyStep,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Theme.of(context).colorScheme.primary,
-                        foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                        backgroundColor: Theme.of(context).colorScheme.secondary,
+                        foregroundColor: Theme.of(context).colorScheme.onSecondary,
                       ),
+                      onPressed: viewModel.addEmptyStep,
                     ),
                   ),
 

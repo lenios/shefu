@@ -42,6 +42,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get carbohydrates => '炭水化物';
 
   @override
+  String get proteins => 'タンパク質';
+
+  @override
   String get showCarbohydrates => '炭水化物を表示';
 
   @override
@@ -732,4 +735,70 @@ class AppLocalizationsJa extends AppLocalizations {
   @override
   String get sourceCodeAvailableAt =>
       'GNU General Public License v3.0の下で公開されています。アプリケーションのソースコードは以下のURLで入手できます';
+
+  @override
+  String get nutrition => '栄養成分';
+
+  @override
+  String get nutritionFacts => '栄養成分表示';
+
+  @override
+  String get servingSize => '1食分の量';
+
+  @override
+  String get serving => '人前';
+
+  @override
+  String get servingsPerRecipe => 'レシピあたりの分量';
+
+  @override
+  String get dailyValue => '1日の摂取基準';
+
+  @override
+  String get totalFat => '脂質';
+
+  @override
+  String get nutritionCalculatedNote => '栄養価はリンクされた材料から計算されています';
+
+  @override
+  String get nutritionImportedNote => '栄養価はインポートされたレシピデータから取得されています';
+
+  @override
+  String get dailyValueDisclaimer => '1日の摂取基準のパーセンテージは2,000カロリーの食事に基づいています。';
+
+  @override
+  String get amountPerServing => '人前の量';
+
+  @override
+  String get saturatedFat => '飽和脂肪酸';
+
+  @override
+  String get transFat => 'トランス脂肪酸';
+
+  @override
+  String get cholesterol => 'コレステロール';
+
+  @override
+  String get sodium => 'ナトリウム';
+
+  @override
+  String get dietaryFiber => '食物繊維';
+
+  @override
+  String get totalSugars => '糖質';
+
+  @override
+  String get addedSugars => '追加糖';
+
+  @override
+  String get vitaminD => 'ビタミンD';
+
+  @override
+  String get calcium => 'カルシウム';
+
+  @override
+  String get iron => '鉄';
+
+  @override
+  String get potassium => 'カリウム';
 }

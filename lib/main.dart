@@ -6,7 +6,8 @@ import 'package:shefu/provider/my_app_state.dart';
 import 'package:shefu/repositories/objectbox.dart';
 import 'package:shefu/repositories/objectbox_nutrient_repository.dart';
 import 'package:shefu/repositories/objectbox_recipe_repository.dart';
-import 'package:shefu/utils/app_color.dart';
+import 'package:shefu/utils/theme.dart';
+
 import 'package:shefu/viewmodels/home_page_viewmodel.dart';
 import 'package:country_picker/country_picker.dart';
 import 'router/app_router.dart';
@@ -85,14 +86,14 @@ class _MyAppState extends State<MyApp> {
             debugShowCheckedModeBanner: false,
             title: 'Shefu',
             themeMode: appState.themeMode,
-            theme: AppColor().theme.copyWith(
-              inputDecorationTheme: AppColor().theme.inputDecorationTheme.copyWith(
+            theme: buildLightTheme().copyWith(
+              inputDecorationTheme: buildLightTheme().inputDecorationTheme.copyWith(
                 contentPadding: const EdgeInsets.all(8.0),
                 floatingLabelBehavior: FloatingLabelBehavior.always,
               ),
             ),
-            darkTheme: AppColor().darkTheme.copyWith(
-              inputDecorationTheme: AppColor().darkTheme.inputDecorationTheme.copyWith(
+            darkTheme: buildDarkTheme().copyWith(
+              inputDecorationTheme: buildDarkTheme().inputDecorationTheme.copyWith(
                 contentPadding: const EdgeInsets.all(8.0),
                 floatingLabelBehavior: FloatingLabelBehavior.always,
               ),

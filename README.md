@@ -85,7 +85,7 @@ Supported Recipe Websites for import:
 | ✅ [ZestfulKitchen.com](https://www.zestfulkitchen.com) |
 | More sites 🚧 In progress |
 
-| France 🇫🇷 Supported Website **(11)** |
+| France 🇫🇷 Supported Website **(12)** |
 |-------------------|
 | ✅ [750g.com](https://www.750g.com) |
 | ✅ [Atelierdeschefs.fr](https://www.atelierdeschefs.fr) |
@@ -123,3 +123,44 @@ Supported Recipe Websites for import:
 Tools SVG icons from https://opensourcesvgicons.com/
 
 Nutrients SVG icons from https://www.svgrepo.com/
+
+## Comparison with other applications
+
+| Feature                                 | Shefu                        | Paprika Recipes Manager 3 (Demo) | Paprika recipe manager 3 (unlocked full version) |
+|------------------------------------------|------------------------------|----------------------------------------|--------------------------------------|
+| **Licence**                               | GPLv3, open source    | Proprietary                                  | Proprietary                 |
+| Ad-Free                             | ✅ Yes                       | ✅ Yes                                 | ✅ Yes                               |
+| Require online account to use       | ✅ No                        | ✅ No                                  | ✅ No                                |
+| Local Storage                       | ✅ Yes (fully local)          | ✅ Yes                                 | ✅ Yes                               |
+| Works Offline                       | ✅ Yes                       | ✅ Yes                                 | ✅ Yes                               |
+| Platforms (price in $/€)                           | Android (Free)   | Android, iOS, Windows (Free)            | Android (4.99), iOS (4.99), Mac(34.99), Windows (29.99)           |
+| Dark Mode                           | ✅ Yes                       | ✅ Yes                               | ✅ Yes                             |
+| Full text search                    | ✅ Yes                       | ✅ Yes                                 | ✅ Yes                               |
+| Cook mode (keep screen awake)       | ✅ Yes                       | ✅ Yes                                 | ✅ Yes                               |
+| Multi-language Support              | ✅ Yes (EN, FR, JA, HU)       | ✅ Yes (16 languages)                      | ✅ Yes (16 languages)                    |
+| Recipe Import (Web)                 | ✅ Yes (many sites)           | ✅ Yes (many sites)                    | ✅ Yes (many sites)                  |
+| Import Recipes from webpages        | ✅ Yes (from web)             | ✅ Yes                                 | ✅ Yes                               |
+| **Web search for import**               | ✅ Optimized web search (supported sites, perfect import) | ✅ Full browser in-app (average import quality) | ✅ Full browser in-app (average import quality) |
+| Print recipe                        | ✅ Yes (basic)                | ✅ Yes (with many options)             | ✅ Yes (with many options)           |
+| Shopping List                       | ✅ Yes (basic)                | ✅ Multiple (advanced)                 | ✅ Multiple (advanced)               |
+| Scale ingredients to desired serving size | ✅ Yes                  | ✅ Yes                                 | ✅ Yes                               |
+| Convert ingredients between metric and imperial | ✅ Yes             | ✅ Yes                                 | ✅ Yes                               |
+| Auto-generated Timers               | ✅ Yes (max 1 per step)       | ✅ Yes (unlimited)                     | ✅ Yes (unlimited)                   |
+| **Favorites**                           | ❌ Unavailable                | ✅ Available                           | ✅ Available                         |
+| **Duplicate recipe**                    | ❌ Unavailable                | ✅ Available                           | ✅ Available                         |
+| **Import Recipes from file**            | ❌ Not yet                    | ✅ Yes                                 | ✅ Yes                               |
+| **Images per recipe**                   | 1 (+1 for each step)         | Multiple | Multiple (with cloud sync)           |
+| **Recipe display**                      | Ingredients & steps on one page, per step | Ingredients and instructions on separate pages | Ingredients and instructions on separate pages |
+| **Export Recipes**                      | ❌ Not yet                    | ✅ Yes                                 | ✅ Yes                               |
+| **Monthly Meal Planner**                | ❌ No                         | ✅ Yes                                 | ✅ Yes                               |
+| **Cloud Sync between devices**          | ❌ No                         | ❌ No                                  | ✅ Yes                               |
+| **Maximum number of recipes**                   | ✅ Unlimited                       | ❌ 50                         | ✅ Unlimited                               |
+| **Nutrient Tracking**                   | ✅ Yes (offline, EN/FR)       | ❌ No                                  | ❌ No                                |
+| **Auto-generated nutrition table**      | ✅ Yes (offline, EN/FR)       | ❌ No                                  | ❌ No                                |
+| **Ingredients set on**                  | Recipe steps                  | Recipe                                 | Recipe                               |
+| **Step Images**                         | ✅ Yes (1 per step)                       | ❌ No                                  | ❌ No                                |
+| **Video Player**                        | ✅ Yes                       | ❌ No                                  | ❌ No                                |
+| **OCR Recipe Scan**                     | ✅ Yes       | ❌ No                                  | ❌ No                                |
+
+
+_Feature comparison as of 02/2026. For more details, see each app's documentation._

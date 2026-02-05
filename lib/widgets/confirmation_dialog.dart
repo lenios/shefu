@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:shefu/l10n/app_localizations.dart';
-import 'package:shefu/utils/app_color.dart';
 
 /// Shows a confirmation dialog and returns:
 /// - true: User confirmed (clicked primary action)
@@ -56,11 +55,14 @@ Future<bool?> confirmationDialog(
                 child: Text(l10n.cancel),
               ),
         FilledButton.icon(
-          icon: Icon(icon, color: Colors.white),
+          icon: Icon(
+            icon,
+            color: warning ? theme.colorScheme.onError : theme.colorScheme.onPrimary,
+          ),
           label: Text(label),
           style: FilledButton.styleFrom(
-            backgroundColor: warning ? theme.colorScheme.error : AppColor.primary,
-            foregroundColor: Colors.white,
+            backgroundColor: warning ? theme.colorScheme.error : theme.colorScheme.primary,
+            foregroundColor: warning ? theme.colorScheme.onError : theme.colorScheme.onPrimary,
           ),
           onPressed: () => Navigator.of(dialogContext).pop(true),
         ),

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shefu/l10n/app_localizations.dart';
 import 'package:shefu/models/objectbox_models.dart';
-import 'package:shefu/utils/app_color.dart';
 import 'package:shefu/viewmodels/edit_recipe_viewmodel.dart';
 import 'package:shefu/widgets/edit_ingredient_input.dart';
 
@@ -45,12 +44,17 @@ class IngredientsSection extends StatelessWidget {
             Align(
               alignment: Alignment.centerRight,
               child: ElevatedButton.icon(
-                icon: const Icon(Icons.add),
-                label: Text(l10n.addIngredient),
+                icon: Icon(Icons.add, color: Theme.of(context).colorScheme.onSurface),
+                label: Text(
+                  l10n.addIngredient,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.labelLarge?.copyWith(color: Theme.of(context).colorScheme.onSurface),
+                ),
                 onPressed: () => viewModel.addIngredient(stepIndex),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColor.primarySoft,
-                  foregroundColor: Colors.white,
+                  backgroundColor: Theme.of(context).colorScheme.surfaceContainerHigh,
+                  foregroundColor: Theme.of(context).colorScheme.onSurface,
                 ),
               ),
             ),

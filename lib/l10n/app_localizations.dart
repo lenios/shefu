@@ -166,6 +166,12 @@ abstract class AppLocalizations {
   /// **'Carbohydrates'**
   String get carbohydrates;
 
+  /// No description provided for @proteins.
+  ///
+  /// In en, this message translates to:
+  /// **'Protein'**
+  String get proteins;
+
   /// No description provided for @showCarbohydrates.
   ///
   /// In en, this message translates to:
@@ -1521,6 +1527,138 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Published under GNU General Public License v3.0. Application source code available at:'**
   String get sourceCodeAvailableAt;
+
+  /// No description provided for @nutrition.
+  ///
+  /// In en, this message translates to:
+  /// **'Nutrition'**
+  String get nutrition;
+
+  /// No description provided for @nutritionFacts.
+  ///
+  /// In en, this message translates to:
+  /// **'Nutrition Facts'**
+  String get nutritionFacts;
+
+  /// No description provided for @servingSize.
+  ///
+  /// In en, this message translates to:
+  /// **'Serving size'**
+  String get servingSize;
+
+  /// No description provided for @serving.
+  ///
+  /// In en, this message translates to:
+  /// **'serving'**
+  String get serving;
+
+  /// No description provided for @servingsPerRecipe.
+  ///
+  /// In en, this message translates to:
+  /// **'Servings per recipe'**
+  String get servingsPerRecipe;
+
+  /// No description provided for @dailyValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily Value'**
+  String get dailyValue;
+
+  /// No description provided for @totalFat.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Fat'**
+  String get totalFat;
+
+  /// No description provided for @nutritionCalculatedNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Nutritional values calculated from linked ingredients'**
+  String get nutritionCalculatedNote;
+
+  /// No description provided for @nutritionImportedNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Nutritional values from imported recipe data'**
+  String get nutritionImportedNote;
+
+  /// No description provided for @dailyValueDisclaimer.
+  ///
+  /// In en, this message translates to:
+  /// **'Percent Daily Values are based on a 2,000 calorie diet.'**
+  String get dailyValueDisclaimer;
+
+  /// No description provided for @amountPerServing.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount per serving'**
+  String get amountPerServing;
+
+  /// No description provided for @saturatedFat.
+  ///
+  /// In en, this message translates to:
+  /// **'Saturated Fat'**
+  String get saturatedFat;
+
+  /// No description provided for @transFat.
+  ///
+  /// In en, this message translates to:
+  /// **'Trans Fat'**
+  String get transFat;
+
+  /// No description provided for @cholesterol.
+  ///
+  /// In en, this message translates to:
+  /// **'Cholesterol'**
+  String get cholesterol;
+
+  /// No description provided for @sodium.
+  ///
+  /// In en, this message translates to:
+  /// **'Sodium'**
+  String get sodium;
+
+  /// No description provided for @dietaryFiber.
+  ///
+  /// In en, this message translates to:
+  /// **'Dietary Fiber'**
+  String get dietaryFiber;
+
+  /// No description provided for @totalSugars.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Sugars'**
+  String get totalSugars;
+
+  /// No description provided for @addedSugars.
+  ///
+  /// In en, this message translates to:
+  /// **'Added Sugars'**
+  String get addedSugars;
+
+  /// No description provided for @vitaminD.
+  ///
+  /// In en, this message translates to:
+  /// **'Vitamin D'**
+  String get vitaminD;
+
+  /// No description provided for @calcium.
+  ///
+  /// In en, this message translates to:
+  /// **'Calcium'**
+  String get calcium;
+
+  /// No description provided for @iron.
+  ///
+  /// In en, this message translates to:
+  /// **'Iron'**
+  String get iron;
+
+  /// No description provided for @potassium.
+  ///
+  /// In en, this message translates to:
+  /// **'Potassium'**
+  String get potassium;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

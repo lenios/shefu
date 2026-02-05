@@ -130,7 +130,11 @@ Widget buildFutureImageWidget(
     if (!file.existsSync()) {
       debugPrint("Image file does not exist: '$imagePath'");
       return Center(
-        child: Icon(Icons.broken_image, size: imageSize * 0.5, color: Colors.white.withAlpha(150)),
+        child: Icon(
+          Icons.broken_image,
+          size: imageSize * 0.5,
+          color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
+        ),
       );
     }
 
@@ -152,7 +156,7 @@ Widget buildFutureImageWidget(
             child: Icon(
               Icons.broken_image,
               size: imageSize * 0.5,
-              color: Colors.white.withAlpha(150),
+              color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
             ),
           );
         },
@@ -172,7 +176,10 @@ Widget buildFutureImageWidget(
             child: SizedBox(
               width: imageSize * 0.3, // Smaller indicator
               height: imageSize * 0.3,
-              child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white.withAlpha(150)),
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
+              ),
             ),
           );
         } else if (snapshot.hasError) {
@@ -182,7 +189,7 @@ Widget buildFutureImageWidget(
             child: Icon(
               Icons.broken_image,
               size: imageSize * 0.5,
-              color: Colors.white.withAlpha(150),
+              color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
             ),
           );
         } else if (snapshot.hasData) {
@@ -200,7 +207,7 @@ Widget buildFutureImageWidget(
                 child: Icon(
                   Icons.broken_image,
                   size: imageSize * 0.5,
-                  color: Colors.white.withAlpha(150),
+                  color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
                 ),
               );
             },
@@ -211,7 +218,7 @@ Widget buildFutureImageWidget(
             child: Icon(
               Icons.broken_image,
               size: imageSize * 0.5,
-              color: Colors.white.withAlpha(150),
+              color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
             ),
           );
         }
@@ -223,7 +230,7 @@ Widget buildFutureImageWidget(
       child: Icon(
         Icons.image_not_supported,
         size: imageSize * 0.5,
-        color: Colors.white.withAlpha(150),
+        color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
       ),
     );
   }

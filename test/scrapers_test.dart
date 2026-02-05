@@ -129,7 +129,7 @@ void main() {
     'mybakingaddiction.com': ((html, url) => AbstractScraper(html, url), 1),
     'ptitchef.com': ((html, url) => AbstractScraper(html, url), 1),
     'recipetineats.com': ((html, url) => AbstractScraper(html, url), 2),
-    'seriouseats.com': ((html, url) => SeriousEatsScraper(html, url), 1),
+    'seriouseats.com': ((html, url) => SeriousEatsScraper(html, url), 2),
     'sugarhero.com': ((html, url) => AbstractScraper(html, url), 2),
     'supertoinette.com': ((html, url) => AbstractScraper(html, url), 1),
     'thekitchn.com': ((html, url) => AbstractScraper(html, url), 2),

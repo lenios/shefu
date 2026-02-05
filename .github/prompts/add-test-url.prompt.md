@@ -42,5 +42,5 @@ write a json file named <domain_name without dot and tld>_1.json alongside the h
 
 add the domain to utils/recipe_scrapers/scraper_fatory.dart map, with AbstractScraper, if not yet present.
 add the domain to test/scrapers_test.dart list, with AbstractScraper, if not yet present.
-add the url to the README.md file in supported sites list.
+add the url to the README.md file in supported sites list, and increase the count.
 Put it in France section if recipe is in French, else put it in Other section.

@@ -29,7 +29,7 @@
         "Salt Pepper",
         "8 ounces sliced mushrooms"
       ],
-      "purpose": null
+      "heading": null
     },
     {
       "ingredients": [
@@ -44,7 +44,7 @@
         "1/2 teaspoon salt",
         "1 cup spinach (chopped)"
       ],
-      "purpose": "Creamy Parmesan Garlic Sauce:"
+      "heading": "Creamy Parmesan Garlic Sauce:"
     }
   ],
   "instructions_list": [
@@ -72,5 +72,7 @@
     "fiberContent": "1 g",
     "cholesterolContent": "104 mg"
   },
-  "image": "https://therecipecritic.com/wp-content/uploads/2021/07/creamyparmesanchicken.jpg"
+  "image": "https://therecipecritic.com/wp-content/uploads/2021/07/creamyparmesanchicken.jpg",
+    "video": "https://content.jwplatform.com/videos/QMAb4pow.mp4"
+
 }

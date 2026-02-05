@@ -42,6 +42,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get carbohydrates => 'Glucides';
 
   @override
+  String get proteins => 'Protéines';
+
+  @override
   String get showCarbohydrates => 'Afficher les glucides';
 
   @override
@@ -658,7 +661,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String piecesPerServing(Object pieces_count) {
-    return '$pieces_count par part';
+    return '$pieces_count par portion';
   }
 
   @override
@@ -736,4 +739,73 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get sourceCodeAvailableAt =>
       'Publié sous licence GNU General Public License v3.0. Code source de l\'application disponible sur:';
+
+  @override
+  String get nutrition => 'Nutrition';
+
+  @override
+  String get nutritionFacts => 'Valeurs nutritionnelles';
+
+  @override
+  String get servingSize => 'Portion';
+
+  @override
+  String get serving => 'portion';
+
+  @override
+  String get servingsPerRecipe => 'Portions par recette';
+
+  @override
+  String get dailyValue => 'Valeur quotidienne';
+
+  @override
+  String get totalFat => 'Matières grasses';
+
+  @override
+  String get nutritionCalculatedNote =>
+      'Valeurs nutritionnelles calculées à partir des ingrédients liés';
+
+  @override
+  String get nutritionImportedNote =>
+      'Valeurs nutritionnelles issues des données de la recette importée';
+
+  @override
+  String get dailyValueDisclaimer =>
+      'Les pourcentages de valeurs quotidiennes sont basés sur un régime de 2 000 calories.';
+
+  @override
+  String get amountPerServing => 'Quantités par portion';
+
+  @override
+  String get saturatedFat => 'dont acides gras saturés';
+
+  @override
+  String get transFat => 'dont acides gras trans';
+
+  @override
+  String get cholesterol => 'Cholestérol';
+
+  @override
+  String get sodium => 'Sel';
+
+  @override
+  String get dietaryFiber => 'Fibres alimentaires';
+
+  @override
+  String get totalSugars => 'dont sucres';
+
+  @override
+  String get addedSugars => 'Sucres ajoutés';
+
+  @override
+  String get vitaminD => 'Vitamine D';
+
+  @override
+  String get calcium => 'Calcium';
+
+  @override
+  String get iron => 'Fer';
+
+  @override
+  String get potassium => 'Potassium';
 }

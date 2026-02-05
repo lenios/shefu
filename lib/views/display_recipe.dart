@@ -6,17 +6,18 @@ import 'package:shefu/models/objectbox_models.dart';
 import 'package:shefu/provider/my_app_state.dart';
 import 'package:shefu/utils/string_extension.dart';
 import 'package:shefu/views/full_screen_image.dart';
-import 'package:shefu/utils/app_color.dart';
 import 'package:shefu/viewmodels/display_recipe_viewmodel.dart';
 import 'package:shefu/widgets/back_button.dart';
 import 'package:shefu/widgets/confirmation_dialog.dart';
+import 'package:shefu/widgets/display_recipe/build_notes_view.dart';
+import 'package:shefu/widgets/display_recipe/build_nutrition_view.dart';
+import 'package:shefu/widgets/display_recipe/build_steps_view.dart';
+import 'package:shefu/widgets/display_recipe/export_recipe_to_pdf.dart';
 import 'package:shefu/widgets/icon_button.dart';
 import 'package:shefu/widgets/image_helper.dart';
-import 'package:shefu/widgets/ingredient_display.dart';
+import 'package:shefu/widgets/display_recipe/build_shopping_list.dart';
 import 'package:shefu/widgets/misc.dart';
-import 'package:shefu/widgets/recipe_step_card.dart';
 import 'package:command_it/command_it.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 import 'package:video_player/video_player.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -40,7 +41,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 4, vsync: this);
     final viewModel = Provider.of<DisplayRecipeViewModel>(context, listen: false);
     viewModel.initializeCommand.run(context);
   }
@@ -72,12 +73,12 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                 // TabBar
                 Container(
                   height: 40,
-                  color: AppColor.secondary,
+                  color: Theme.of(context).colorScheme.onSecondaryFixedVariant.withAlpha(100),
                   child: TabBar(
                     controller: _tabController,
-                    labelColor: Colors.black,
-                    unselectedLabelColor: Colors.black54,
-                    indicatorColor: AppColor.primary,
+                    labelColor: Theme.of(context).colorScheme.onSurface,
+                    unselectedLabelColor: Theme.of(context).colorScheme.onSurface.withAlpha(210),
+                    indicatorColor: Theme.of(context).colorScheme.primary,
                     indicatorWeight: 3.0,
                     labelStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
                     unselectedLabelStyle: const TextStyle(
@@ -88,6 +89,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                       Tab(text: AppLocalizations.of(context)!.steps),
                       Tab(text: AppLocalizations.of(context)!.ingredients),
                       Tab(text: AppLocalizations.of(context)!.notes),
+                      Tab(text: AppLocalizations.of(context)!.nutrition),
                     ],
                   ),
                 ),
@@ -96,9 +98,10 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                   child: TabBarView(
                     controller: _tabController,
                     children: [
-                      _buildStepsView(context, viewModel),
-                      _buildShoppingList(context, viewModel),
-                      _buildNotesView(context, viewModel),
+                      buildStepsView(context, viewModel),
+                      buildShoppingList(context, viewModel),
+                      buildNotesView(context, viewModel),
+                      buildNutritionView(context, viewModel),
                     ],
                   ),
                 ),
@@ -107,113 +110,6 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
           ),
         );
       },
-    );
-  }
-
-  Widget _buildShoppingList(BuildContext context, DisplayRecipeViewModel viewModel) {
-    final recipe = viewModel.recipe!;
-    var allIngredients = recipe.steps.expand((step) => step.ingredients).toList();
-    final l10n = AppLocalizations.of(context)!;
-
-    // Merge ingredients with the same name and shape, summing their quantities
-    final Map<String, IngredientItem> mergedIngredientsMap = {};
-    for (final ingredient in allIngredients) {
-      final key = '${ingredient.name}_${ingredient.shape}_${ingredient.unit}';
-
-      if (mergedIngredientsMap.containsKey(key)) {
-        final existingIngredient = mergedIngredientsMap[key]!;
-        existingIngredient.quantity += ingredient.quantity;
-      } else {
-        // First time seeing this ingredient, create a copy to avoid modifying original
-        final ingredientCopy = IngredientItem(
-          name: ingredient.name,
-          quantity: ingredient.quantity,
-          unit: ingredient.unit,
-          shape: ingredient.shape,
-          foodId: ingredient.foodId,
-          conversionId: ingredient.conversionId,
-        );
-        mergedIngredientsMap[key] = ingredientCopy;
-      }
-    }
-    final mergedIngredients = mergedIngredientsMap.values.toList();
-
-    return SingleChildScrollView(
-      child: Column(
-        mainAxisSize: .min,
-        children: [
-          Text(l10n.checkIngredientsYouHave),
-          ConstrainedBox(
-            constraints: BoxConstraints(minHeight: 100.0),
-            child: ListView.builder(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: mergedIngredients.length,
-              itemBuilder: (context, index) {
-                final ingredient = mergedIngredients[index];
-                final isInBasket = viewModel.basket[ingredient.name] ?? false;
-
-                final formattedIngredient = formatIngredient(
-                  context: context,
-                  name: ingredient.name,
-                  quantity: ingredient.quantity,
-                  unit: ingredient.unit,
-                  shape: ingredient.shape,
-                  foodId: ingredient.foodId,
-                  conversionId: ingredient.conversionId,
-                  isChecked: isInBasket,
-                  servingsMultiplier: viewModel.servings / recipe.servings,
-                  nutrientRepository: viewModel.nutrientRepository,
-                  optional: ingredient.optional,
-                );
-
-                return CheckboxListTile(
-                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                  controlAffinity: ListTileControlAffinity.leading,
-                  dense: true,
-
-                  title: IngredientDisplay(
-                    ingredient: formattedIngredient,
-                    bulletType: "",
-                    descBullet: "➥ ",
-                    primaryColor: Theme.of(context).colorScheme.primary,
-                  ),
-                  value: isInBasket,
-                  onChanged: (_) {
-                    viewModel.toggleBasketItem(ingredient.name);
-                  },
-                );
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: ElevatedButton.icon(
-              icon: const Icon(Icons.add_shopping_cart),
-              label: Text(
-                viewModel.anyItemsChecked()
-                    ? l10n.addMissingToShoppingList
-                    : l10n.addAllToShoppingList,
-
-                textAlign: TextAlign.center,
-              ),
-              onPressed: () {
-                final itemsAdded = viewModel.addUncheckedItemsToBasket();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(
-                      itemsAdded > 0 ? l10n.itemsAddedToShoppingList : l10n.shoppingListEmpty,
-                    ),
-                    duration: const Duration(seconds: 2),
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
-      ),
     );
   }
 
@@ -244,198 +140,6 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
     }
   }
 
-  Widget _buildStepsView(BuildContext context, DisplayRecipeViewModel viewModel) {
-    final recipe = viewModel.recipe;
-    if (recipe == null) {
-      return const Center(child: Text("No steps found.")); // TODO i10n
-    }
-    final servingsMultiplier = viewModel.servings / recipe.servings;
-
-    final theme = Theme.of(context);
-    final bool isTtsActive = viewModel.isPlaying || viewModel.isPaused;
-
-    return ListView(
-      padding: const EdgeInsets.all(8.0),
-      children: [
-        Row(
-          mainAxisAlignment: .spaceAround,
-          children: [
-            Text(
-              AppLocalizations.of(context)!.ingredients,
-              style: theme.textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: theme.colorScheme.primary,
-              ),
-            ),
-            Text(
-              AppLocalizations.of(context)!.instructions,
-              style: theme.textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: theme.colorScheme.primary,
-              ),
-            ),
-          ],
-        ),
-        ...List.generate(recipe.steps.length, (index) {
-          // Identify if this step is the "current" one based solely on index.
-          // When stopped, index is 0, so button appears on first step.
-          final isCurrentStepIndex = viewModel.currentStepIndex == index;
-
-          // Only show the active border when actually speaking or paused
-          final showActiveBorder = isTtsActive && isCurrentStepIndex;
-
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // Button always shown just above the current step index
-              if (isCurrentStepIndex)
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: _buildSpeakControl(context, viewModel),
-                ),
-
-              Container(
-                decoration: BoxDecoration(
-                  border: showActiveBorder
-                      ? Border.all(color: theme.colorScheme.primary, width: 3)
-                      : null,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: RecipeStepCard(
-                  recipeStep: recipe.steps[index],
-                  servings: servingsMultiplier,
-                ),
-              ),
-              const SizedBox(height: 8),
-            ],
-          );
-        }),
-        noteCard(
-          context: context,
-          title: AppLocalizations.of(context)!.notes,
-          icon: Icons.notes,
-          text: Text(recipe.notes),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildSpeakControl(BuildContext context, DisplayRecipeViewModel viewModel) {
-    return Container();
-    // final theme = Theme.of(context);
-    // return Tooltip(
-    //   message: viewModel.isPlaying
-    //       ? AppLocalizations.of(context)!.pauseUsage
-    //       : AppLocalizations.of(context)!.speak,
-    //   child: GestureDetector(
-    //     onLongPress: () {
-    //       viewModel.stopSpeak();
-    //     },
-    //     child: IconButton(
-    //       visualDensity: VisualDensity.compact,
-    //       padding: EdgeInsets.zero,
-    //       constraints: const BoxConstraints(),
-    //       style: IconButton.styleFrom(tapTargetSize: MaterialTapTargetSize.shrinkWrap),
-    //       onPressed: () {
-    //         if (viewModel.isPlaying) {
-    //           viewModel.pauseSpeak();
-    //         } else if (viewModel.isPaused) {
-    //           // Resume from current step
-    //           viewModel.speakAllSteps(context, viewModel.currentStepIndex);
-    //         } else {
-    //           // Start from beginning
-    //           viewModel.speakAllSteps(context, 0);
-    //         }
-    //       },
-    //       icon: Icon(
-    //         viewModel.isPlaying
-    //             ? Icons.pause_circle
-    //             : viewModel.isPaused
-    //             ? Icons.play_circle
-    //             : Icons.record_voice_over,
-    //         color: viewModel.isPlaying || viewModel.isPaused
-    //             ? Colors.amber
-    //             : theme.colorScheme.primary,
-    //         size: 28,
-    //       ),
-    //     ),
-    //   ),
-    // );
-  }
-
-  Widget _buildNotesView(BuildContext context, DisplayRecipeViewModel viewModel) {
-    return SingleChildScrollView(
-      // allow scrolling long notes
-      padding: const EdgeInsets.all(4.0),
-      child: Column(
-        children: [
-          noteCard(
-            context: context,
-            title: AppLocalizations.of(context)!.notes,
-            icon: Icons.menu_book_outlined,
-            text: Text(viewModel.recipe?.notes ?? ""),
-          ),
-          if (viewModel.recipe?.makeAhead != null && viewModel.recipe!.makeAhead.isNotEmpty)
-            noteCard(
-              context: context,
-              title: AppLocalizations.of(context)!.makeAhead,
-              icon: Icons.access_time,
-              text: Text(viewModel.recipe?.makeAhead ?? ""),
-            ),
-
-          // Display FAQ
-          if (viewModel.recipe != null && viewModel.recipe!.questions.isNotEmpty)
-            noteCard(
-              context: context,
-              title: AppLocalizations.of(context)!.questions,
-              icon: Icons.question_answer_outlined,
-              text: Column(
-                crossAxisAlignment: .start,
-                children: viewModel.recipe!.questions.map((qaString) {
-                  final parts = qaString.split('\nA: ');
-                  final question = parts[0].replaceFirst('Q: ', '');
-                  final answer = parts.length > 1 ? parts[1] : '';
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 12.0),
-                    child: Column(
-                      crossAxisAlignment: .start,
-                      children: [
-                        Text(question, style: const TextStyle(fontWeight: FontWeight.bold)),
-                        const SizedBox(height: 4),
-                        Text(answer),
-                      ],
-                    ),
-                  );
-                }).toList(),
-              ),
-            ),
-
-          if (viewModel.recipe?.source != null && viewModel.recipe!.source.isNotEmpty)
-            noteCard(
-              context: context,
-              title: AppLocalizations.of(context)!.source,
-              icon: Icons.language,
-              text: GestureDetector(
-                onTap: () async {
-                  if (!await launchUrl(Uri.parse(viewModel.recipe!.source))) {
-                    throw Exception('Could not launch url');
-                  }
-                },
-                child: Text(
-                  viewModel.recipe!.source,
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Theme.of(context).colorScheme.primary,
-                    decoration: TextDecoration.underline,
-                  ),
-                ),
-              ),
-            ),
-        ],
-      ),
-    );
-  }
-
   Widget _buildHeader(BuildContext context, DisplayRecipeViewModel viewModel, String imagePath) {
     final recipe = viewModel.recipe!;
     final screenSize = MediaQuery.of(context).size;
@@ -448,7 +152,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
 
     return Container(
       padding: EdgeInsets.only(top: totalTopPadding),
-      color: AppColor.primary,
+      color: Theme.of(context).colorScheme.secondary,
       child: Row(
         children: [
           // Image Container
@@ -472,7 +176,12 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                     height: imageSize,
                     child: Container(
                       decoration: imagePath.isNotEmpty
-                          ? BoxDecoration(border: Border.all(color: Colors.white, width: 0.5))
+                          ? BoxDecoration(
+                              border: Border.all(
+                                color: Theme.of(context).colorScheme.onSurfaceVariant,
+                                width: 0.5,
+                              ),
+                            )
                           : null, // No border if no image path
                       child: ClipRect(
                         child: buildFutureImageWidget(context, thumbnailPath(imagePath)),
@@ -507,12 +216,12 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                         child: Container(
                           padding: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
-                            color: Colors.black.withAlpha(150),
+                            color: Theme.of(context).colorScheme.onSecondary.withAlpha(115),
                             shape: BoxShape.circle,
                           ),
-                          child: const Icon(
+                          child: Icon(
                             Icons.play_arrow_rounded,
-                            color: Colors.white,
+                            color: Theme.of(context).colorScheme.secondary,
                             size: 28,
                           ),
                         ),
@@ -536,11 +245,11 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                       Expanded(
                         child: Text(
                           recipe.title.capitalize(),
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
+                          style: Theme.of(context).textTheme.titleLarge?.copyWith(
                             fontWeight: FontWeight.w600,
+                            color: Theme.of(context).colorScheme.onSecondary,
                           ),
+
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -554,13 +263,13 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                     children: [
                       Text(
                         "${AppLocalizations.of(context)!.servings}: ",
-                        style: const TextStyle(color: Colors.white),
+                        style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
                       ),
                       // Minus button
                       IconButton(
                         icon: Icon(
                           Icons.remove_circle_outline,
-                          color: Theme.of(context).colorScheme.onPrimary,
+                          color: Theme.of(context).colorScheme.onSecondary,
                         ),
                         visualDensity: .compact,
                         onPressed: () {
@@ -577,7 +286,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                           child: Text(
                             viewModel.servings.toString(),
                             style: TextStyle(
-                              color: Theme.of(context).colorScheme.onPrimary,
+                              color: Theme.of(context).colorScheme.onSecondary,
                               fontWeight: FontWeight.bold,
                               fontSize: 18,
                             ),
@@ -588,7 +297,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                       IconButton(
                         icon: Icon(
                           Icons.add_circle_outline,
-                          color: Theme.of(context).colorScheme.onPrimary,
+                          color: Theme.of(context).colorScheme.onSecondary,
                         ),
                         visualDensity: .compact,
                         onPressed: () {
@@ -607,7 +316,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                   if (recipe.source.isNotEmpty)
                     Text(
                       '${AppLocalizations.of(context)!.source}: ${formattedSource(recipe.source)}',
-                      style: const TextStyle(color: Colors.white70, fontSize: 14),
+                      style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -637,14 +346,14 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                         },
                       ),
 
-                      const SizedBox(width: 10),
+                      const SizedBox(width: 6),
                       buildHeaderStat(
                         context,
                         iconPath: 'assets/icons/fire-filled.svg',
                         value: recipe.calories,
                         unit: AppLocalizations.of(context)!.kcps,
                       ),
-                      const SizedBox(width: 10),
+                      const SizedBox(width: 6),
                       if (recipe.prepTime > 0 || recipe.cookTime > 0)
                         Row(
                           children: [
@@ -708,9 +417,11 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: _cookModeActive
-                    ? Colors.amber.withAlpha(200)
-                    : Colors.white.withAlpha(50),
-                foregroundColor: _cookModeActive ? Colors.black : Colors.white,
+                    ? Theme.of(context).colorScheme.surface.withAlpha(200)
+                    : Theme.of(context).colorScheme.surfaceContainerHigh.withAlpha(10),
+                foregroundColor: _cookModeActive
+                    ? Theme.of(context).colorScheme.onSurface
+                    : Theme.of(context).colorScheme.onSecondary,
                 visualDensity: VisualDensity.compact,
                 padding: const EdgeInsets.symmetric(horizontal: 8),
               ),
@@ -732,33 +443,38 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
           // Favorite
           IconButton(
             onPressed: () {
-              // TODO: implement
-              // show snackbar "not implemented
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text(AppLocalizations.of(context)!.notImplementedYet)),
               );
             },
             icon: Icon(
               viewModel.isBookmarked ? Icons.bookmark_remove_outlined : Icons.bookmark_add_outlined,
-              color: Colors.white,
+              color: Theme.of(context).colorScheme.onSecondary,
             ),
           ),
 
           IconButton(
-            onPressed: () => viewModel.exportRecipeToPdf(context, viewModel),
-            icon: Icon(Icons.share, color: Colors.white),
+            onPressed: () => exportRecipeToPdf(context, viewModel, viewModel.nutrientRepository),
+            icon: Icon(Icons.share, color: Theme.of(context).colorScheme.onSecondary),
           ),
 
-          buildIconButton(Icons.edit_outlined, AppLocalizations.of(context)!.editRecipe, () async {
-            final result = await context.push('/edit-recipe/${viewModel.recipe!.id}');
-            if (result == true && context.mounted) {
-              viewModel.initializeCommand.run(context);
-            }
-          }),
           buildIconButton(
+            context,
+            Icons.edit_outlined,
+            AppLocalizations.of(context)!.editRecipe,
+            () async {
+              final result = await context.push('/edit-recipe/${viewModel.recipe!.id}');
+              if (result == true && context.mounted) {
+                viewModel.initializeCommand.run(context);
+              }
+            },
+          ),
+          buildIconButton(
+            context,
             Icons.delete_outline,
             AppLocalizations.of(context)!.deleteRecipe,
             () async => await _showDeleteConfirmation(context, viewModel),
+            error: true,
           ),
         ],
       ),
@@ -783,11 +499,11 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                 mainAxisSize: .min,
                 children: [
                   AppBar(
-                    backgroundColor: Colors.black,
+                    backgroundColor: Theme.of(context).colorScheme.surface,
                     automaticallyImplyLeading: false,
                     actions: [
                       IconButton(
-                        icon: const Icon(Icons.close, color: Colors.white),
+                        icon: Icon(Icons.close, color: Theme.of(context).colorScheme.onSurface),
                         onPressed: () {
                           videoPlayerController.pause();
                           Navigator.pop(context);
@@ -796,7 +512,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                     ],
                   ),
                   Container(
-                    color: Colors.black,
+                    color: Theme.of(context).colorScheme.surface,
                     child: AspectRatio(
                       aspectRatio: videoPlayerController.value.aspectRatio,
                       child: VideoPlayer(videoPlayerController),
@@ -804,14 +520,14 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                   ),
                   // Controls
                   Container(
-                    color: Colors.black,
+                    color: Theme.of(context).colorScheme.surface,
                     padding: const EdgeInsets.symmetric(vertical: 8),
                     child: VideoProgressIndicator(
                       videoPlayerController,
                       allowScrubbing: true,
                       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                       colors: VideoProgressColors(
-                        playedColor: AppColor.primary,
+                        playedColor: Theme.of(context).colorScheme.secondary,
                         bufferedColor: Colors.grey.shade400,
                         backgroundColor: Colors.grey.shade700,
                       ),
@@ -868,11 +584,11 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
             mainAxisSize: .min,
             children: [
               AppBar(
-                backgroundColor: Colors.black,
+                backgroundColor: Theme.of(context).colorScheme.surface,
                 automaticallyImplyLeading: false,
                 actions: [
                   IconButton(
-                    icon: const Icon(Icons.close, color: Colors.white),
+                    icon: Icon(Icons.close, color: Theme.of(context).colorScheme.onSurface),
                     onPressed: () => Navigator.pop(context),
                   ),
                 ],
@@ -880,10 +596,10 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
               YoutubePlayer(
                 controller: controller,
                 showVideoProgressIndicator: true,
-                progressIndicatorColor: AppColor.primary,
+                progressIndicatorColor: Theme.of(context).colorScheme.secondary,
                 progressColors: ProgressBarColors(
-                  playedColor: AppColor.primary,
-                  handleColor: AppColor.primary,
+                  playedColor: Theme.of(context).colorScheme.secondary,
+                  handleColor: Theme.of(context).colorScheme.secondary,
                 ),
               ),
             ],

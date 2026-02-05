@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shefu/main.dart';
 import 'package:shefu/provider/my_app_state.dart';
-import 'package:shefu/utils/app_color.dart';
 import 'package:shefu/l10n/app_localizations.dart';
 import 'package:shefu/l10n/l10n_utils.dart';
 import 'package:provider/provider.dart';
@@ -20,11 +19,11 @@ Widget openModalSettingsButton(BuildContext context, ThemeData theme, [AppLocali
       alignment: Alignment.center,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: AppColor.colorScheme.primary,
+        color: theme.colorScheme.surface.withAlpha(150),
       ),
       child: SvgPicture.asset(
         'assets/icons/filter.svg',
-        colorFilter: ColorFilter.mode(AppColor.colorScheme.onPrimary, BlendMode.srcIn),
+        colorFilter: ColorFilter.mode(theme.colorScheme.onSurface, BlendMode.srcIn),
         width: 24,
         height: 24,
       ),

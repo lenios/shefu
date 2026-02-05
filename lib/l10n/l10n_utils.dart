@@ -263,7 +263,7 @@ String translatedCategory(String category, AppLocalizations l10n) {
 }
 
 // Translate and add icon for cocktails
-Widget formattedCategory(String category, context, {bool dark = false}) {
+Widget formattedCategory(String category, context, {bool surface = false}) {
   String categoryText = translatedCategory(category, AppLocalizations.of(context)!);
   IconData? categoryIcon;
 
@@ -274,9 +274,9 @@ Widget formattedCategory(String category, context, {bool dark = false}) {
       categoryText = AppLocalizations.of(context)!.drinks;
     default:
   }
-  final textColor = dark
+  final textColor = surface
       ? Theme.of(context).colorScheme.onSurface
-      : Theme.of(context).colorScheme.onTertiary;
+      : Theme.of(context).colorScheme.onSecondary;
 
   return Row(
     mainAxisSize: .min,
@@ -284,7 +284,7 @@ Widget formattedCategory(String category, context, {bool dark = false}) {
       Text(
         categoryText,
         overflow: .ellipsis,
-        style: TextStyle(fontSize: 14, color: textColor),
+        style: TextStyle(color: textColor),
       ),
       if (categoryIcon != null)
         Padding(

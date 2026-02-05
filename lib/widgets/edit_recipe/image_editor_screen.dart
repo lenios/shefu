@@ -349,19 +349,12 @@ class _RectangleEditorPainter extends CustomPainter {
         top + rectangle.bottom * scaleY,
       );
 
-      // Fill with semi-transparent color
-      canvas.drawRect(
-        screenRect,
-        Paint()
-          ..color = Colors.blue.withAlpha(80)
-          ..style = PaintingStyle.fill,
-      );
+      canvas.drawRect(screenRect, Paint()..style = PaintingStyle.fill);
 
       // Draw outline
       canvas.drawRect(
         screenRect,
         Paint()
-          ..color = Colors.blue
           ..style = PaintingStyle.stroke
           ..strokeWidth = 2.0,
       );
@@ -370,7 +363,7 @@ class _RectangleEditorPainter extends CustomPainter {
       final TextPainter textPainter = TextPainter(
         text: TextSpan(
           text: (i + 1).toString(),
-          style: const TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+          style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
         textDirection: TextDirection.ltr,
       );

@@ -22,6 +22,28 @@
   "total_time": 5,
   "prep_time": 5,
   "cuisine": "American,Asian",
+  "questions": [
+              {
+                "question": "How spicy is sriracha mayo?",
+                "answer": "Spicy sriracha mayo is about a 5 out of 10 on the spicy scale when 1½ tablespoons of Sriracha sauce is used in this recipe. It's a 3 to 4 out of 10 when 1 tablespoon is used. Feel free to use more or less depending on your desired spice level!"
+              },
+              {
+                "question": "What is sriracha mayo made of?",
+                "answer": "The two main ingredients in sriracha mayo are mayonnaise and sriracha. Garlic and lemon juice are great flavor additions as well."
+              },
+              {
+                "question": "Is sriracha mayo the same as yum-yum sauce?",
+                "answer": "The two mayonnaise-based sauces are similar, however yum-yum sauce is not as spicy, and has a sweeter taste."
+              },
+              {
+                "question": "Is spicy mayo healthy?",
+                "answer": "Because this sauce contains mayo it can be high in fat. To make it healthier, use a low-fat mayonnaise."
+              },
+              {
+                "question": "How to store sriracha mayo?",
+                "answer": "Seal the sriracha mayo in an airtight container and keep in the refrigerator. If made with fresh garlic it will last for up to 2 weeks, and up to a month if garlic powder is used. Do not freeze, however."
+              }
+            ],
   "ratings": 4.8,
   "ratings_count": 5,
   "nutrients": {

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:shefu/l10n/app_localizations.dart';
-import 'package:shefu/utils/app_color.dart';
 import 'package:shefu/utils/string_extension.dart';
 import 'package:shefu/viewmodels/online_search_viewmodel.dart';
 import 'package:shefu/widgets/back_button.dart';
@@ -19,7 +18,7 @@ class OnlineSearchPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppColor.primarySoft,
+        backgroundColor: Theme.of(context).colorScheme.secondary,
         title: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
           child: TextField(

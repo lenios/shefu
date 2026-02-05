@@ -56,7 +56,10 @@ class RecipeImagePicker extends StatelessWidget {
                     gradient: LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
-                      colors: [Colors.black.withAlpha(25), Colors.black.withAlpha(75)],
+                      colors: [
+                        Theme.of(context).colorScheme.onSurface.withAlpha(25),
+                        Theme.of(context).colorScheme.onSurface.withAlpha(75),
+                      ],
                       stops: const [0.7, 1.0],
                     ),
                   ),
@@ -64,15 +67,15 @@ class RecipeImagePicker extends StatelessWidget {
               ),
               // Delete Button
               Positioned(
-                top: 47,
-                right: 3,
+                top: 6,
+                right: 6,
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.black.withAlpha(150),
+                    color: Theme.of(context).colorScheme.surfaceContainer.withAlpha(150),
                     shape: BoxShape.circle,
                   ),
                   child: IconButton(
-                    icon: const Icon(Icons.delete_outline, color: Colors.white),
+                    icon: Icon(Icons.delete_outline, color: Theme.of(context).colorScheme.error),
                     tooltip: l10n.delete,
                     onPressed: () async {
                       clearImageCache(path);
@@ -88,11 +91,11 @@ class RecipeImagePicker extends StatelessWidget {
                 right: 3,
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.primary.withAlpha(170),
+                    color: Theme.of(context).colorScheme.surfaceContainer.withAlpha(150),
                     shape: BoxShape.circle,
                   ),
                   child: IconButton(
-                    icon: const Icon(Icons.edit_outlined, color: Colors.white),
+                    icon: Icon(Icons.edit_outlined, color: Theme.of(context).colorScheme.onSurface),
                     tooltip: l10n.changeImage,
                     onPressed: () => viewModel!.pickAndProcessImage(
                       stepIndex: stepIndex,

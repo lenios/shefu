@@ -6,7 +6,6 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:shefu/l10n/l10n_utils.dart';
 import 'package:shefu/router/app_scaffold.dart';
-import 'package:shefu/utils/app_color.dart';
 import 'package:shefu/viewmodels/home_page_viewmodel.dart';
 import 'package:shefu/widgets/open_modal_settings_button.dart';
 
@@ -70,19 +69,20 @@ class _HomePageState extends State<HomePage> {
         mainAxisAlignment: .end,
         children: [
           FloatingActionButton(
+            backgroundColor: colorScheme.secondary,
             onPressed: () => context.go('/online-search'),
             tooltip: 'Online Search',
-            child: const Icon(Icons.travel_explore),
+            child: Icon(Icons.travel_explore, color: theme.colorScheme.onSecondary),
           ),
           const SizedBox(width: 5),
           FloatingActionButton.extended(
+            backgroundColor: colorScheme.secondary,
             onPressed: addNewRecipe,
-            backgroundColor: Theme.of(context).colorScheme.primary,
             tooltip: AppLocalizations.of(context)!.addRecipe,
-            icon: const Icon(Icons.add, color: Colors.white),
+            icon: Icon(Icons.add, color: theme.colorScheme.onSecondary),
             label: Text(
               AppLocalizations.of(context)!.addRecipe,
-              style: const TextStyle(color: Colors.white),
+              style: TextStyle(color: theme.colorScheme.onSecondary),
             ),
             heroTag: 'homePageAddRecipe',
             key: const Key('AddRecipe'),
@@ -99,7 +99,7 @@ class _HomePageState extends State<HomePage> {
               right: 10,
               bottom: 0,
             ),
-            color: AppColor.primarySoft,
+            color: Theme.of(context).colorScheme.secondary,
             child: Row(
               children: [
                 // Search TextField
@@ -108,7 +108,7 @@ class _HomePageState extends State<HomePage> {
                     height: 50,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: colorScheme.primaryContainer.withAlpha(70),
+                      color: colorScheme.surface.withAlpha(180),
                     ),
                     child: StreamBuilder<Object>(
                       stream: viewModel.recipeStream,
@@ -122,16 +122,13 @@ class _HomePageState extends State<HomePage> {
                           textInputAction: TextInputAction.search,
                           maxLines: 1,
                           style: TextStyle(
-                            // Use theme text style
-                            color: colorScheme.onTertiary,
+                            color: colorScheme.onSurface,
                             fontSize: 16,
                             fontWeight: FontWeight.w400,
                           ),
                           decoration: InputDecoration(
                             hintText: AppLocalizations.of(context)!.searchXRecipes(recipeCount),
-                            hintStyle: TextStyle(
-                              color: colorScheme.secondaryContainer,
-                            ), // Use theme color
+                            hintStyle: TextStyle(color: colorScheme.onSurface),
                             prefixIconConstraints: const BoxConstraints(
                               maxHeight: 20,
                               minWidth: 40,
@@ -144,7 +141,7 @@ class _HomePageState extends State<HomePage> {
                               child: SvgPicture.asset(
                                 'assets/icons/search.svg',
                                 colorFilter: ColorFilter.mode(
-                                  colorScheme.onTertiary,
+                                  colorScheme.onSurface,
                                   BlendMode.srcIn,
                                 ),
                               ),
@@ -164,7 +161,7 @@ class _HomePageState extends State<HomePage> {
 
           // Section 1.5 - Dropdowns for Country and Category
           Container(
-            color: AppColor.primarySoft,
+            color: Theme.of(context).colorScheme.secondary,
             child: Row(
               mainAxisAlignment: .end,
               children: [
@@ -176,11 +173,11 @@ class _HomePageState extends State<HomePage> {
                   // button to reinitialize filters
                   ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: theme.colorScheme.secondary,
+                      backgroundColor: theme.colorScheme.tertiary.withAlpha(200),
                       side: BorderSide(color: theme.colorScheme.onSecondary.withAlpha(175)),
                       elevation: 2,
                     ),
-                    icon: Icon(Icons.refresh, color: theme.colorScheme.onSecondary),
+                    icon: Icon(Icons.refresh, color: theme.colorScheme.onTertiary),
                     onPressed: () {
                       _searchController.clear();
                       viewModel.setCategory(Category.all);
@@ -189,7 +186,10 @@ class _HomePageState extends State<HomePage> {
                     },
                     label: Text(
                       AppLocalizations.of(context)!.resetFilters,
-                      style: const TextStyle(fontSize: 12.0, color: Colors.white),
+                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                        color: Theme.of(context).colorScheme.onTertiary,
+                        fontSize: 12,
+                      ),
                     ),
                   ),
                 const SizedBox(width: 10), // Spacing
@@ -333,13 +333,17 @@ class _HomePageState extends State<HomePage> {
         constraints: const BoxConstraints(maxWidth: 130),
         child: DropdownButton<Category>(
           isExpanded: true,
-          dropdownColor: AppColor.primarySoft,
-          style: const TextStyle(color: Colors.white),
-          icon: Icon(Icons.arrow_drop_down, color: Colors.white),
+          dropdownColor: Theme.of(context).colorScheme.secondary,
+          style: Theme.of(
+            context,
+          ).textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.onSecondary),
+          icon: Icon(Icons.arrow_drop_down, color: Theme.of(context).colorScheme.onSecondary),
           value: viewModel.selectedCategory ?? Category.all,
           hint: Text(
             AppLocalizations.of(context)!.category,
-            style: TextStyle(color: Colors.white.withAlpha(240)),
+            style: Theme.of(
+              context,
+            ).textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.onSecondary),
             overflow: TextOverflow.ellipsis,
           ),
 
@@ -349,7 +353,9 @@ class _HomePageState extends State<HomePage> {
                 value: e,
                 child: Text(
                   AppLocalizations.of(context)!.category,
-                  style: const TextStyle(color: Colors.white),
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: Theme.of(context).colorScheme.onSecondary,
+                  ),
                 ),
               );
             }
@@ -384,16 +390,21 @@ class _HomePageState extends State<HomePage> {
 
       child: ConstrainedBox(
         // avoid overflow for long names (unites states of america)
-        constraints: const BoxConstraints(maxWidth: 130),
+        constraints: const BoxConstraints(maxWidth: 120),
         child: DropdownButton<String>(
           isExpanded: true,
-          dropdownColor: AppColor.primarySoft,
-          style: const TextStyle(color: Colors.white),
-          icon: Icon(Icons.arrow_drop_down),
+          dropdownColor: Theme.of(context).colorScheme.secondary,
+          style: Theme.of(
+            context,
+          ).textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.onSecondary),
+          icon: Icon(Icons.arrow_drop_down, color: Theme.of(context).colorScheme.onSecondary),
           value: viewModel.countryCode.isEmpty ? null : viewModel.countryCode,
           hint: Text(
             AppLocalizations.of(context)!.country,
-            style: TextStyle(color: Colors.white.withAlpha(240)),
+            style: Theme.of(
+              context,
+            ).textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.onSecondary),
+
             overflow: TextOverflow.ellipsis,
           ),
           items: countries.map((e) {
@@ -402,7 +413,9 @@ class _HomePageState extends State<HomePage> {
                 value: "",
                 child: Text(
                   AppLocalizations.of(context)!.allCountries,
-                  style: const TextStyle(color: Colors.white),
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: Theme.of(context).colorScheme.onSecondary,
+                  ),
                 ),
               );
             }

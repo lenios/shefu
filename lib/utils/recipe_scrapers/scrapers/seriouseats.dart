@@ -8,16 +8,29 @@ class SeriousEatsScraper extends AbstractScraper {
 
   @override
   String makeAhead() {
-    final spans = soup.querySelectorAll('span.heading-toc#toc-make-ahead-and-storage');
-    if (spans.isEmpty) return "";
-    var element = spans.first;
-    Element? heading;
-    final next = element.nextElementSibling;
-    if (next != null && next.localName == 'h2') {
-      heading = next;
+    final tocSpan = soup.querySelector('span.heading-toc#toc-make-ahead-and-storage');
+    if (tocSpan == null) return "";
+    // Find the next heading (h2) after the toc span
+    Element? heading = tocSpan.nextElementSibling;
+    while (heading != null && heading.localName != 'h2') {
+      heading = heading.nextElementSibling;
     }
-    final nextP = heading?.nextElementSibling;
-    return nextP?.text.trim() ?? "";
+    if (heading == null) return "";
+    // Collect all <p> elements after the heading until next heading-toc span or h2
+    List<String> tips = [];
+    Element? sib = heading.nextElementSibling;
+    while (sib != null) {
+      if (sib.localName == 'span' && sib.classes.contains('heading-toc')) break;
+      if (sib.localName == 'h2') break;
+      if (sib.localName == 'p') {
+        final text = sib.text.trim();
+        if (text.isNotEmpty) {
+          tips.add(text);
+        }
+      }
+      sib = sib.nextElementSibling;
+    }
+    return tips.join('\n');
   }
 
   Future<List<Map<String, dynamic>>> search(String query) async {

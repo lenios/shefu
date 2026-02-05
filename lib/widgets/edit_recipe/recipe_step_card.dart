@@ -96,7 +96,7 @@ class RecipeStepCard extends StatelessWidget {
                   ),
                   child: IconButton(
                     padding: EdgeInsets.zero,
-                    icon: Icon(Icons.delete_outline, color: const Color.fromARGB(237, 167, 41, 41)),
+                    icon: Icon(Icons.delete_outline, color: Theme.of(context).colorScheme.error),
                     tooltip: AppLocalizations.of(context)!.delete,
                     onPressed: () => viewModel.removeStep(stepIndex),
                     constraints: const BoxConstraints(),

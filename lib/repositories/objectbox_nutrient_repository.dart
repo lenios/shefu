@@ -46,12 +46,88 @@ class ObjectBoxNutrientRepository {
       debugPrint("Population complete.");
     } else {
       debugPrint("Nutrients database already populated ($count items).");
+      // Check if migration is needed by sampling a nutrient
+      if (_needsMigration()) {
+        debugPrint("Migration needed. Updating nutrients with new fields...");
+        await _migrateNutrientsFromCsv();
+      } else {
+        debugPrint("All nutrient fields up to date. No migration needed.");
+      }
     }
 
     // Load nutrients into memory for faster access
     _inMemoryNutrients = _objectBox.nutrientBox.getAll();
     debugPrint("Loaded ${_inMemoryNutrients.length} nutrients into memory.");
     _isInitialized = true;
+  }
+
+  void _populateFullNutrientFields(Nutrient nutrient, List<dynamic> item) {
+    if (item.length > 18) nutrient.ash = _parseDoubleWithFallback(item[18]);
+    if (item.length > 19) nutrient.fiber = _parseDoubleWithFallback(item[19]);
+    if (item.length > 20) nutrient.sugar = _parseDoubleWithFallback(item[20]);
+    if (item.length > 21) nutrient.calcium = _parseDoubleWithFallback(item[21]);
+    if (item.length > 22) nutrient.iron = _parseDoubleWithFallback(item[22]);
+    if (item.length > 23) nutrient.magnesium = _parseDoubleWithFallback(item[23]);
+    if (item.length > 24) nutrient.phosphorus = _parseDoubleWithFallback(item[24]);
+    if (item.length > 25) nutrient.potassium = _parseDoubleWithFallback(item[25]);
+    if (item.length > 26) nutrient.sodium = _parseDoubleWithFallback(item[26]);
+    if (item.length > 27) nutrient.zinc = _parseDoubleWithFallback(item[27]);
+    if (item.length > 28) nutrient.copper = _parseDoubleWithFallback(item[28]);
+    if (item.length > 29) nutrient.manganese = _parseDoubleWithFallback(item[29]);
+    if (item.length > 30) nutrient.selenium = _parseDoubleWithFallback(item[30]);
+    if (item.length > 31) nutrient.vitaminC = _parseDoubleWithFallback(item[31]);
+    if (item.length > 32) nutrient.thiamin = _parseDoubleWithFallback(item[32]);
+    if (item.length > 33) nutrient.riboflavin = _parseDoubleWithFallback(item[33]);
+    if (item.length > 34) nutrient.niacin = _parseDoubleWithFallback(item[34]);
+    if (item.length > 35) nutrient.pantoAcid = _parseDoubleWithFallback(item[35]);
+    if (item.length > 36) nutrient.vitaminB6 = _parseDoubleWithFallback(item[36]);
+    if (item.length > 37) nutrient.folateTotal = _parseDoubleWithFallback(item[37]);
+    if (item.length > 38) nutrient.folicAcid = _parseDoubleWithFallback(item[38]);
+    if (item.length > 39) nutrient.foodFolate = _parseDoubleWithFallback(item[39]);
+    if (item.length > 40) nutrient.folateDFE = _parseDoubleWithFallback(item[40]);
+    if (item.length > 41) nutrient.cholineTotal = _parseDoubleWithFallback(item[41]);
+    if (item.length > 42) nutrient.vitaminB12 = _parseDoubleWithFallback(item[42]);
+    if (item.length > 43) nutrient.vitaminAIU = _parseDoubleWithFallback(item[43]);
+    if (item.length > 44) nutrient.vitaminARAE = _parseDoubleWithFallback(item[44]);
+    if (item.length > 45) nutrient.retinol = _parseDoubleWithFallback(item[45]);
+    if (item.length > 46) nutrient.alphaCarot = _parseDoubleWithFallback(item[46]);
+    if (item.length > 47) nutrient.betaCarot = _parseDoubleWithFallback(item[47]);
+    if (item.length > 48) nutrient.betaCrypt = _parseDoubleWithFallback(item[48]);
+    if (item.length > 49) nutrient.lycopene = _parseDoubleWithFallback(item[49]);
+    if (item.length > 50) nutrient.lutZea = _parseDoubleWithFallback(item[50]);
+    if (item.length > 51) nutrient.vitaminE = _parseDoubleWithFallback(item[51]);
+    if (item.length > 52) nutrient.vitaminD = _parseDoubleWithFallback(item[52]);
+    if (item.length > 53) nutrient.vitaminDIU = _parseDoubleWithFallback(item[53]);
+    if (item.length > 54) nutrient.vitaminK = _parseDoubleWithFallback(item[54]);
+    if (item.length > 55) nutrient.FASat = _parseDoubleWithFallback(item[55]);
+    if (item.length > 56) nutrient.FAMono = _parseDoubleWithFallback(item[56]);
+    if (item.length > 57) nutrient.FAPoly = _parseDoubleWithFallback(item[57]);
+    if (item.length > 58) nutrient.cholesterol = _parseDoubleWithFallback(item[58]);
+  }
+
+  bool _needsMigration() {
+    try {
+      final nutrients = _objectBox.nutrientBox.getAll();
+      if (nutrients.isEmpty) return false;
+
+      // Check first 3 nutrients for missing fields
+      final samplesToCheck = nutrients.take(3);
+      for (final nutrient in samplesToCheck) {
+        // We check multiple fields to be more confident
+        if (nutrient.calcium == 0.0 &&
+            nutrient.iron == 0.0 &&
+            nutrient.sodium == 0.0 &&
+            nutrient.vitaminD == 0.0 &&
+            nutrient.cholesterol == 0.0) {
+          debugPrint("Sample nutrient (foodId: ${nutrient.foodId}) missing new fields.");
+          return true;
+        }
+      }
+      return false;
+    } catch (e) {
+      debugPrint("Error checking migration status: $e");
+      return true; // Run migration on error to be safe
+    }
   }
 
   Future<void> _populateNutrientsFromCsv() async {
@@ -91,10 +167,8 @@ class ObjectBoxNutrientRepository {
         carbohydrates: _parseDoubleWithFallback(item[17]),
       );
 
-      // Add additional properties if available
-      if (item.length > 18) nutrient.ash = _parseDoubleWithFallback(item[18]);
-      if (item.length > 19) nutrient.fiber = _parseDoubleWithFallback(item[19]);
-      if (item.length > 20) nutrient.sugar = _parseDoubleWithFallback(item[20]);
+      // Populate additional fields using shared helper
+      _populateFullNutrientFields(nutrient, item);
 
       // for all matching conversions, add them to the nutrient
       for (var convItem in convData.where((c) => c[0] == foodId)) {
@@ -111,6 +185,35 @@ class ObjectBoxNutrientRepository {
 
       _objectBox.nutrientBox.put(nutrient);
     }
+  }
+
+  Future<void> _migrateNutrientsFromCsv() async {
+    final rawNutrientsData = await rootBundle.loadString("assets/nutrients_full.csv");
+    List<List<dynamic>> listData = const CsvToListConverter().convert(rawNutrientsData).sublist(1);
+
+    // Load all existing nutrients into memory for faster lookup
+    final existingNutrients = _objectBox.nutrientBox.getAll();
+    final nutrientMap = {for (var n in existingNutrients) n.foodId: n};
+
+    int updated = 0;
+    for (var item in listData) {
+      if (item.length < 18) continue;
+
+      int foodId;
+      try {
+        foodId = item[0] is int ? item[0] : int.parse(item[0].toString());
+      } catch (e) {
+        continue;
+      }
+
+      final nutrient = nutrientMap[foodId];
+      if (nutrient == null || nutrient.id == 0) continue;
+
+      _populateFullNutrientFields(nutrient, item);
+      _objectBox.nutrientBox.put(nutrient);
+      updated++;
+    }
+    debugPrint("Nutrient migration complete. Updated $updated records.");
   }
 
   // Helper function to parse double values safely

@@ -74,7 +74,7 @@ class RecipeCard extends StatelessWidget {
                         maxLines: 1,
                         overflow: .ellipsis,
                         style: textTheme.bodySmall?.copyWith(
-                          color: colorScheme.onSurfaceVariant,
+                          color: colorScheme.onSurface,
                         ), // Use theme text style and color
                       ),
                     // Stats Row
@@ -93,7 +93,7 @@ class RecipeCard extends StatelessWidget {
                                     iconPath: 'assets/icons/carbohydrates.svg',
                                     value: recipe.carbohydrates,
                                     unit: AppLocalizations.of(context)!.gps,
-                                    color: Colors.black,
+                                    color: colorScheme.primary,
                                   ),
                                   const SizedBox(width: 10),
                                 ],
@@ -108,7 +108,7 @@ class RecipeCard extends StatelessWidget {
                           iconPath: 'assets/icons/fire-filled.svg',
                           value: recipe.calories,
                           unit: AppLocalizations.of(context)!.kc,
-                          color: Colors.black,
+                          color: colorScheme.primary,
                         ),
                         const SizedBox(width: 8),
                         buildHeaderStat(
@@ -116,7 +116,7 @@ class RecipeCard extends StatelessWidget {
                           iconData: Icons.alarm,
                           value: recipe.time,
                           unit: AppLocalizations.of(context)!.min,
-                          color: Colors.black,
+                          color: colorScheme.primary,
                         ),
                       ],
                     ),

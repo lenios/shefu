@@ -33,8 +33,10 @@ class MyAppState extends ChangeNotifier {
   ThemeMode _themeMode = ThemeMode.system;
   ThemeMode get themeMode => _themeMode;
 
-  MyAppState() {
-    _loadPreferences();
+  MyAppState({bool loadPreferences = true}) {
+    if (loadPreferences) {
+      _loadPreferences();
+    }
   }
 
   Future<void> _loadPreferences() async {

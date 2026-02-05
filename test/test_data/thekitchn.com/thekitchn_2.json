@@ -36,7 +36,7 @@
         "1 large egg",
         "1 cup vegetable oil, for frying"
       ],
-      "purpose": "For the chicken fried steak:"
+      "heading": "For the chicken fried steak:"
     },
     {
       "ingredients": [
@@ -44,25 +44,17 @@
         "1/2 teaspoon kosher salt",
         "1/2 teaspoon freshly ground black pepper"
       ],
-      "purpose": "For the gravy:"
+      "heading": "For the gravy:"
     }
   ],
   "instructions_list": [
-    "Step 1",
     "Fit a wire rack inside a baking sheet. Pat 4 cube steaks dry with paper towels. Season the steaks on both sides with 1 teaspoon of the kosher salt. Place the steaks on the rack.",
-    "Step 2",
     "Place the remaining 1 teaspoon kosher salt, 1 1/2 cups all-purpose flour, 2 tablespoons cornstarch, 1 teaspoon black pepper, 1/2 teaspoon garlic powder, 1/2 teaspoon onion powder, and 1/2 teaspoon smoked paprika in a large shallow bowl or pie dish, and whisk to combine. Place 1/2 cup buttermilk and 1 large egg in a second shallow bowl or pie plate and whisk until smooth.",
-    "Step 3",
     "Working with one steak at a time, dip into the buttermilk mixture to coat, then press into the flour mixture until thoroughly coated. Return the steaks to the rack and let sit for 10 minutes. Meanwhile, reserve 1/4 cup of the flour mixture for the gravy. Heat the oven and prepare for frying.",
-    "Step 4",
     "Arrange a rack in the middle of the oven and heat the oven to warm or 225°F. Fit a wire rack onto a baking sheet.",
-    "Step 5",
     "Heat 1 cup vegetable oil in a large regular or cast iron skillet over medium-high heat until about 350ºF, about 8 minutes. You can test the oil by dropping a pinch of the breading into the oil — it should sizzle and brown quickly.",
-    "Step 6",
     "Using tongs, carefully add 2 of the steaks to the oil and fry until golden-brown on the bottom with no remaining flour or batter lumps, 3 to 4 minutes. Flip the steaks and fry until the second is browned, 2 to 3 minutes more. Transfer the steaks to the clean wire rack and place in the oven. Fry the remaining steaks.",
-    "Step 7",
     "Carefully pour the frying oil into a heatproof bowl (do not discard). Don't scrape or clean the skillet. Return 1/4 cup of the oil to the skillet over medium-high heat. Whisk in the reserved 1/4 cup flour mixture and cook, whisking continuously, until golden-brown, about 3 minutes. Add 2 cups whole milk and whisk to combine. Bring to a simmer and cook, stirring occasionally, until thickened, 5 to 6 minutes. Season with 1/2 teaspoon kosher salt and 1/2 teaspoon black pepper.",
-    "Step 8",
     "Serve the steaks with a generous ladling of the gravy."
   ],
   "category": "Main dish,Dinner",
@@ -88,6 +80,17 @@
     "cholesterolContent": "0 mg"
   },
   "image": "https://cdn.apartmenttherapy.info/image/upload/f_jpg,q_auto:eco,c_fill,g_auto,w_1500,ar_16:9/k%2FPhoto%2FRecipes%2F2020-03-How-to-Make-Southern-Fried-Steak-with-Gravy%2F2020-02_How-to-Make-the-Ultimate-Southern-Fried-Steak-with-Gravy_206",
+  "step_images": [
+    "https://cdn.apartmenttherapy.info/image/upload/v1582754225/k/Photo/Recipes/2020-03-How-to-Make-Southern-Fried-Steak-with-Gravy/2020-02_How-to-Make-the-Ultimate-Southern-Fried-Steak-with-Gravy_171.jpg",
+    "https://cdn.apartmenttherapy.info/image/upload/v1582754225/k/Photo/Recipes/2020-03-How-to-Make-Southern-Fried-Steak-with-Gravy/2020-02_How-to-Make-the-Ultimate-Southern-Fried-Steak-with-Gravy_175.jpg",
+    "https://cdn.apartmenttherapy.info/image/upload/v1582754223/k/Photo/Recipes/2020-03-How-to-Make-Southern-Fried-Steak-with-Gravy/2020-02_How-to-Make-the-Ultimate-Southern-Fried-Steak-with-Gravy_183.jpg",
+    "",
+    "",
+    "https://cdn.apartmenttherapy.info/image/upload/v1582754225/k/Photo/Recipes/2020-03-How-to-Make-Southern-Fried-Steak-with-Gravy/2020-02_How-to-Make-the-Ultimate-Southern-Fried-Steak-with-Gravy_214.jpg",
+    "https://cdn.apartmenttherapy.info/image/upload/v1582754223/k/Photo/Recipes/2020-03-How-to-Make-Southern-Fried-Steak-with-Gravy/2020-02_How-to-Make-the-Ultimate-Southern-Fried-Steak-with-Gravy_226.jpg",
+    "https://cdn.apartmenttherapy.info/image/upload/v1582754223/k/Photo/Recipes/2020-03-How-to-Make-Southern-Fried-Steak-with-Gravy/2020-02_How-to-Make-the-Ultimate-Southern-Fried-Steak-with-Gravy_232.jpg"
+  ],
+  "video": "https://cdn.jwplayer.com/previews/CxL3TtkW",
   "keywords": [
     "Beef",
     "Chicken",
@@ -125,5 +128,5 @@
     "meal:dinner",
     "updated:2024-02-05"
   ],
-  "makeAhead": ""
+  "makeAhead": "Chicken fried steak is best eaten the day it is made. Store steaks and gravy seperately to keep the coating as crisp as possible."
 }

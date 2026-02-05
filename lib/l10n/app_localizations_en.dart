@@ -42,6 +42,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get carbohydrates => 'Carbohydrates';
 
   @override
+  String get proteins => 'Protein';
+
+  @override
   String get showCarbohydrates => 'Display carbohydrates';
 
   @override
@@ -734,4 +737,70 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get sourceCodeAvailableAt =>
       'Published under GNU General Public License v3.0. Application source code available at:';
+
+  @override
+  String get nutrition => 'Nutrition';
+
+  @override
+  String get nutritionFacts => 'Nutrition Facts';
+
+  @override
+  String get servingSize => 'Serving size';
+
+  @override
+  String get serving => 'serving';
+
+  @override
+  String get servingsPerRecipe => 'Servings per recipe';
+
+  @override
+  String get dailyValue => 'Daily Value';
+
+  @override
+  String get totalFat => 'Total Fat';
+
+  @override
+  String get nutritionCalculatedNote => 'Nutritional values calculated from linked ingredients';
+
+  @override
+  String get nutritionImportedNote => 'Nutritional values from imported recipe data';
+
+  @override
+  String get dailyValueDisclaimer => 'Percent Daily Values are based on a 2,000 calorie diet.';
+
+  @override
+  String get amountPerServing => 'Amount per serving';
+
+  @override
+  String get saturatedFat => 'Saturated Fat';
+
+  @override
+  String get transFat => 'Trans Fat';
+
+  @override
+  String get cholesterol => 'Cholesterol';
+
+  @override
+  String get sodium => 'Sodium';
+
+  @override
+  String get dietaryFiber => 'Dietary Fiber';
+
+  @override
+  String get totalSugars => 'Total Sugars';
+
+  @override
+  String get addedSugars => 'Added Sugars';
+
+  @override
+  String get vitaminD => 'Vitamin D';
+
+  @override
+  String get calcium => 'Calcium';
+
+  @override
+  String get iron => 'Iron';
+
+  @override
+  String get potassium => 'Potassium';
 }

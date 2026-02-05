@@ -303,7 +303,7 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
                             time,
                             style:
                                 widget.textStyle ??
-                                const TextStyle(fontSize: 16.0, color: Colors.black),
+                                Theme.of(context).textTheme.titleLarge?.copyWith(fontSize: 16.0),
                             textAlign: widget.textAlign,
                           ),
                         )

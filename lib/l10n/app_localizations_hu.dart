@@ -42,6 +42,9 @@ class AppLocalizationsHu extends AppLocalizations {
   String get carbohydrates => 'Szénhidrát';
 
   @override
+  String get proteins => 'Proteinok';
+
+  @override
   String get showCarbohydrates => 'Szénhidrát megjelenítése';
 
   @override
@@ -736,4 +739,71 @@ class AppLocalizationsHu extends AppLocalizations {
   @override
   String get sourceCodeAvailableAt =>
       'Kiadva GNU General Public License v3.0 alatt. Az alkalmazás forráskódja elérhető itt:';
+
+  @override
+  String get nutrition => 'Tápérték';
+
+  @override
+  String get nutritionFacts => 'Tápértékek';
+
+  @override
+  String get servingSize => 'Adagméret';
+
+  @override
+  String get serving => 'adag';
+
+  @override
+  String get servingsPerRecipe => 'Adagok receptenként';
+
+  @override
+  String get dailyValue => 'Napi érték';
+
+  @override
+  String get totalFat => 'Összes zsír';
+
+  @override
+  String get nutritionCalculatedNote =>
+      'A tápértékek a kapcsolt összetevőkből kerültek kiszámításra';
+
+  @override
+  String get nutritionImportedNote => 'A tápértékek az importált recept adataiból származnak';
+
+  @override
+  String get dailyValueDisclaimer => 'A napi érték százalékai 2000 kalóriás étren-den alapulnak.';
+
+  @override
+  String get amountPerServing => 'Adagonkénti mennyiség';
+
+  @override
+  String get saturatedFat => 'Telített zsír';
+
+  @override
+  String get transFat => 'Transzzsír';
+
+  @override
+  String get cholesterol => 'Koleszterin';
+
+  @override
+  String get sodium => 'Nátrium';
+
+  @override
+  String get dietaryFiber => 'Élelmi rost';
+
+  @override
+  String get totalSugars => 'Összes cukor';
+
+  @override
+  String get addedSugars => 'Hozzáadott cukor';
+
+  @override
+  String get vitaminD => 'D-vitamin';
+
+  @override
+  String get calcium => 'Kalcium';
+
+  @override
+  String get iron => 'Vas';
+
+  @override
+  String get potassium => 'Kálium';
 }
