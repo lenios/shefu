@@ -63,6 +63,7 @@ class OnlineSearchPage extends StatelessWidget {
             icon: const Icon(Icons.filter_list),
             tooltip: l10n.selectSitesToSearch,
             onPressed: () => _showSiteSelectionModal(context, viewModel),
+            color: colorScheme.onTertiary,
           ),
         ],
       ),

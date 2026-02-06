@@ -139,7 +139,7 @@ Widget buildNutritionView(BuildContext context, DisplayRecipeViewModel viewModel
 
               _buildNutrientRow(
                 l10n.sodium,
-                '${perServing('sodium').toStringAsFixed(1)} mg',
+                '${perServing('sodium').toStringAsFixed(1)} g',
                 dv(perServing('sodium'), 2300),
                 theme,
                 isBold: true,

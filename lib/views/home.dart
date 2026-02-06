@@ -258,7 +258,13 @@ class _HomePageState extends State<HomePage> {
                                     ),
                                   )
                                 : GridView.builder(
-                                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                    padding: EdgeInsets.fromLTRB(
+                                      8.0,
+                                      4.0,
+                                      8.0,
+                                      // allow selection of last recipe even with FAB
+                                      MediaQuery.of(context).padding.bottom + 78.0,
+                                    ),
                                     itemCount: filteredRecipes.length,
                                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                                       crossAxisCount: isHandset ? 1 : 2,
@@ -286,7 +292,7 @@ class _HomePageState extends State<HomePage> {
                         bottom: 0,
                         left: 0,
                         right: 0,
-                        height: 140,
+                        height: 80,
                         child: IgnorePointer(
                           child: Container(
                             decoration: BoxDecoration(

@@ -514,85 +514,134 @@ class EditRecipeViewModel extends ChangeNotifier {
     return result.toList();
   }
 
-  /// Reusable function for adding ingredients to recipe steps
-  /// with parentheses extraction, shape assignment, and step matching
+  /// Process and add an imported ingredient to the appropriate recipe step
   void processImportedIngredient({
     required double quantity,
     required String unit,
     required String name,
     required String shape,
   }) {
-    // Extract parentheses into shape if not already provided
-    final parenMatch = RegExp(r'\(([^)]*)\)').firstMatch(name);
-    if (parenMatch != null && parenMatch.group(1) != null) {
-      final parenthetical = parenMatch.group(1)!.trim();
-      if (parenthetical.isNotEmpty && shape.isEmpty) {
-        shape = parenthetical;
+    if (name.trim().isEmpty) return;
+
+    // Step 1: Extract parentheses content to shape (e.g., "flour (sifted)" -> name: "flour", shape: "sifted")
+    shape = _extractParentheses(name, shape);
+    name = name.replaceFirst(RegExp(r'\([^)]*\)'), '').trim();
+
+    // Step 2: Clean the ingredient name (remove articles, extract shapes)
+    final lang = _recipe.languageTag.isNotEmpty ? _recipe.languageTag.split('-').first : '';
+    name = _removeArticles(name, lang);
+    final extracted = _extractShapeFromEnd(name, shape, lang);
+    name = extracted.$1;
+    shape = extracted.$2;
+
+    if (name.isEmpty) return;
+
+    // Step 3: Find the best matching step for this ingredient
+    final stepIndex = _findBestStepForIngredient(name);
+
+    // Step 4: Add ingredient to the selected step
+    recipe.steps[stepIndex].ingredients.add(
+      IngredientItem(name: name)
+        ..quantity = quantity
+        ..unit = unit
+        ..shape = shape,
+    );
+
+    notifyListeners();
+  }
+
+  /// Extract content from parentheses to use as shape descriptor
+  String _extractParentheses(String name, String currentShape) {
+    if (currentShape.isNotEmpty) return currentShape;
+
+    final match = RegExp(r'\(([^)]*)\)').firstMatch(name);
+    if (match != null && match.group(1) != null) {
+      final content = match.group(1)!.trim();
+      if (content.isNotEmpty) return content;
+    }
+    return currentShape;
+  }
+
+  /// Remove language-specific articles from ingredient names
+  String _removeArticles(String name, String lang) {
+    final patterns = {
+      'fr': r'^(de\s+|du\s+|des\s+|les\s+|le\s+|la\s+)',
+      'en': r'^(a\s+|an\s+|the\s+)',
+    };
+
+    final pattern = patterns[lang];
+    if (pattern != null) {
+      return name.toLowerCase().replaceFirst(RegExp(pattern), '').trim();
+    }
+    return name.toLowerCase().trim();
+  }
+
+  /// Extract shape descriptors from the end of ingredient names
+  (String, String) _extractShapeFromEnd(String name, String currentShape, String lang) {
+    if (currentShape.isNotEmpty) return (name, currentShape);
+
+    // Define shape keywords by language
+    final shapeKeywords = {
+      'fr': [
+        'en poudre', 'en dés', 'en cubes', 'en tranches', // Multi-word (check first)
+        'fluide', 'liquide', 'moulu', 'tamisé', 'tamisée',
+        'rapé', 'râpé', 'émincé', 'concassé', 'frais', 'fraîche',
+      ],
+      'en': [
+        'finely chopped', 'coarsely chopped', // Multi-word
+        'fresh', 'dried', 'frozen', 'grated', 'minced', 'diced', 'sliced', 'chopped',
+      ],
+    };
+
+    final keywords = shapeKeywords[lang] ?? [];
+    if (keywords.isEmpty) return (name, currentShape);
+
+    final words = name.split(RegExp(r'\s+'));
+    if (words.length < 2) return (name, currentShape);
+
+    // Check for multi-word shapes (2-3 words)
+    for (int wordCount = 3; wordCount >= 2; wordCount--) {
+      if (words.length >= wordCount) {
+        final trailing = words.sublist(words.length - wordCount).join(' ').toLowerCase();
+        if (keywords.contains(trailing)) {
+          final extractedShape = words.sublist(words.length - wordCount).join(' ');
+          final cleanName = words.sublist(0, words.length - wordCount).join(' ');
+          return (cleanName, extractedShape);
+        }
       }
-      name = name.replaceFirst(RegExp(r'\([^)]*\)'), '').trim();
     }
 
-    // Strip leading French articles
-    final cleanName = name
-        .replaceFirst(RegExp(r'^de\s+|^du\s+|^des\s+|^les\s+|^le\s+|^la\s+'), '')
-        .toLowerCase()
-        .trim();
+    return (name, currentShape);
+  }
 
-    // Expand word variants for partial matching
-    final variants = _getWordVariants(cleanName);
-    final words = cleanName.split(RegExp(r'\s+')).where((word) => word.length > 2).toList();
-
-    bool found = false;
-
+  /// Find the best step that mentions this ingredient
+  int _findBestStepForIngredient(String ingredientName) {
+    final variants = _getWordVariants(ingredientName);
+    final words = ingredientName.split(RegExp(r'\s+')).where((w) => w.length > 2).toList();
     // First pass: match full name
-    for (var step in recipe.steps) {
-      if (variants.any((v) => step.instruction.toLowerCase().contains(v))) {
-        step.ingredients.add(
-          IngredientItem(name: name)
-            ..quantity = quantity
-            ..unit = unit
-            ..shape = shape,
-        );
-        found = true;
-        debugPrint("✅ DIRECT MATCH: '$name' found in step #${step.toString()}");
-        break;
+    for (int i = 0; i < recipe.steps.length; i++) {
+      final instruction = recipe.steps[i].instruction.toLowerCase();
+      if (variants.any((v) => instruction.contains(v.toLowerCase()))) {
+        debugPrint("✅ DIRECT MATCH: '$ingredientName' found in step #$i");
+        return i;
       }
     }
 
     // Second pass: match significant words
-    if (!found) {
-      for (var step in recipe.steps) {
-        final stepLower = step.instruction.toLowerCase();
-        for (var word in words) {
-          final wordVariants = _getWordVariants(word);
-          if (wordVariants.any((v) => stepLower.contains(v.toLowerCase()))) {
-            step.ingredients.add(
-              IngredientItem(name: name)
-                ..quantity = quantity
-                ..unit = unit
-                ..shape = shape,
-            );
-            found = true;
-            debugPrint("✅ WORD MATCH: word '$word' found in step #${step.toString()}");
-            break;
-          }
+    for (int i = 0; i < recipe.steps.length; i++) {
+      final instruction = recipe.steps[i].instruction.toLowerCase();
+      for (final word in words) {
+        final wordVariants = _getWordVariants(word);
+        if (wordVariants.any((v) => instruction.contains(v.toLowerCase()))) {
+          debugPrint("✅ WORD MATCH: word '$word' found in step #$i");
+          return i;
         }
-        if (found) break;
       }
     }
 
     // Fallback: if still not found, add to first step
-    if (!found && name.trim().isNotEmpty) {
-      recipe.steps[0].ingredients.add(
-        IngredientItem(name: name)
-          ..quantity = quantity
-          ..unit = unit
-          ..shape = shape,
-      );
-      debugPrint("⚠️ FALLBACK: No match for '$name', assigning to first step");
-    }
-
-    notifyListeners();
+    debugPrint("⚠️ FALLBACK: No match for '$ingredientName', assigning to first step");
+    return 0;
   }
 
   // --- Nutrient Data Access ---
@@ -789,12 +838,7 @@ class EditRecipeViewModel extends ChangeNotifier {
       if (_recipe.steps.isNotEmpty) {
         for (var s in _recipe.steps) {
           for (var i in s.ingredients) {
-            if (i.foodId <= 0) continue; // Skip ingredients without a valid foodId
-
-            // Sanitize values
-            if (i.conversionId < 0) {
-              i.conversionId = 0;
-            }
+            if (i.foodId <= 0 || i.conversionId <= 0) continue;
 
             var nutrient = _nutrientRepository.getNutrientByFoodId(i.foodId);
             var factor = getFactor(i);

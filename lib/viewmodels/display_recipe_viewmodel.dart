@@ -443,7 +443,7 @@ Map<String, double> calculateTotalNutrients({
   for (final step in recipe.steps) {
     for (final ingredient in step.ingredients) {
       if (ingredient.foodId > 0 && ingredient.conversionId > 0) {
-        final nutrient = nutrientRepository.getNutrientById(ingredient.foodId);
+        final nutrient = nutrientRepository.getNutrientByFoodId(ingredient.foodId);
         final factor = nutrientRepository.getConversionFactor(
           ingredient.foodId,
           ingredient.conversionId,

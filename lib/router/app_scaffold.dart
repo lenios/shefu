@@ -72,7 +72,8 @@ class AppScaffold extends StatelessWidget {
 
     return Scaffold(
       appBar: appBar,
-      body: child,
+      // prevent bottom of the pages to be hidden when android button navigation is set
+      body: SafeArea(top: false, child: child),
       backgroundColor: backgroundColor,
       extendBodyBehindAppBar: extendBodyBehindAppBar,
       resizeToAvoidBottomInset: resizeToAvoidBottomInset,

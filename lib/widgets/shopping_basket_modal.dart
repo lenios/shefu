@@ -49,114 +49,123 @@ class ShoppingBasketModal extends StatelessWidget {
           groupedItems.entries.where((entry) => entry.value.isNotEmpty),
         );
 
-        return Container(
-          decoration: BoxDecoration(
-            color: theme.colorScheme.surface,
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(20),
-              topRight: Radius.circular(20),
+        return SafeArea(
+          top: false,
+          child: Container(
+            decoration: BoxDecoration(
+              color: theme.colorScheme.surface,
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(20),
+                topRight: Radius.circular(20),
+              ),
             ),
-          ),
-          child: Column(
-            children: [
-              // Header with Title and Clear Button
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20, 16, 10, 8),
-                child: Row(
-                  mainAxisAlignment: .spaceBetween,
-                  children: [
-                    Text(l10n.shoppingList, style: theme.textTheme.titleLarge),
-                    if (appState.isShoppingBasketNotEmpty)
-                      TextButton.icon(
-                        icon: Icon(Icons.delete_sweep_outlined, color: theme.colorScheme.error),
-                        label: Text(
-                          l10n.clearList,
-                          style: TextStyle(color: theme.colorScheme.error),
+            child: Column(
+              children: [
+                // Header with Title and Clear Button
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 16, 10, 8),
+                  child: Row(
+                    mainAxisAlignment: .spaceBetween,
+                    children: [
+                      Text(l10n.shoppingList, style: theme.textTheme.titleLarge),
+                      if (appState.isShoppingBasketNotEmpty)
+                        TextButton.icon(
+                          icon: Icon(Icons.delete_sweep_outlined, color: theme.colorScheme.error),
+                          label: Text(
+                            l10n.clearList,
+                            style: TextStyle(color: theme.colorScheme.error),
+                          ),
+                          onPressed: () => appState.clearShoppingBasket(),
                         ),
-                        onPressed: () => appState.clearShoppingBasket(),
-                      ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
 
-              const Divider(),
+                const Divider(),
 
-              // List of shopping basket items
-              Expanded(
-                child: filteredGroupedItems.isEmpty
-                    ? Center(
-                        child: Text(l10n.shoppingListEmpty, style: theme.textTheme.titleMedium),
-                      )
-                    : ListView.builder(
-                        controller: controller,
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        itemCount: filteredGroupedItems.length,
-                        itemBuilder: (context, index) {
-                          final entry = filteredGroupedItems.entries.elementAt(index);
-                          final recipeId = entry.key;
-                          final items = entry.value;
+                // List of shopping basket items
+                Expanded(
+                  child: filteredGroupedItems.isEmpty
+                      ? Center(
+                          child: Text(l10n.shoppingListEmpty, style: theme.textTheme.titleMedium),
+                        )
+                      : ListView.builder(
+                          controller: controller,
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          itemCount: filteredGroupedItems.length,
+                          itemBuilder: (context, index) {
+                            final entry = filteredGroupedItems.entries.elementAt(index);
+                            final recipeId = entry.key;
+                            final items = entry.value;
 
-                          // Get recipe title if recipeId exists
-                          Recipe? recipe;
-                          if (recipeId != null) {
-                            recipe = recipeRepository.getRecipeById(int.parse(recipeId));
-                          }
+                            // Get recipe title if recipeId exists
+                            Recipe? recipe;
+                            if (recipeId != null) {
+                              recipe = recipeRepository.getRecipeById(int.parse(recipeId));
+                            }
 
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              if (recipe?.title != null)
-                                _buildRecipeTitleCard(context, recipe!, recipeId!, appState, l10n),
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                if (recipe?.title != null)
+                                  _buildRecipeTitleCard(
+                                    context,
+                                    recipe!,
+                                    recipeId!,
+                                    appState,
+                                    l10n,
+                                  ),
 
-                              // ingredients
-                              ...items.map((item) {
-                                final formattedIngredient = formatIngredient(
-                                  context: context,
-                                  name: item.ingredientName,
-                                  quantity: item.quantity,
-                                  unit: item.unit,
-                                  shape: item.shape,
-                                  foodId: item.foodId,
-                                  conversionId: item.conversionId,
-                                  isChecked: item.isChecked,
-                                  nutrientRepository: nutrientRepository,
-                                );
+                                // ingredients
+                                ...items.map((item) {
+                                  final formattedIngredient = formatIngredient(
+                                    context: context,
+                                    name: item.ingredientName,
+                                    quantity: item.quantity,
+                                    unit: item.unit,
+                                    shape: item.shape,
+                                    foodId: item.foodId,
+                                    conversionId: item.conversionId,
+                                    isChecked: item.isChecked,
+                                    nutrientRepository: nutrientRepository,
+                                  );
 
-                                return Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    CheckboxListTile(
-                                      controlAffinity: ListTileControlAffinity.leading,
-                                      dense: true,
-                                      visualDensity: const VisualDensity(
-                                        horizontal: -4,
-                                        vertical: -4,
+                                  return Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      CheckboxListTile(
+                                        controlAffinity: ListTileControlAffinity.leading,
+                                        dense: true,
+                                        visualDensity: const VisualDensity(
+                                          horizontal: -4,
+                                          vertical: -4,
+                                        ),
+                                        title: IngredientDisplay(
+                                          ingredient: formattedIngredient,
+                                          bulletType: "",
+                                          descBullet: "➥ ",
+                                          primaryColor: colorScheme.primary,
+                                          lineShape: true,
+                                        ),
+                                        value: item.isChecked,
+                                        onChanged: (_) {
+                                          appState.toggleShoppingBasketItemByName(
+                                            item.ingredientName,
+                                          );
+                                        },
                                       ),
-                                      title: IngredientDisplay(
-                                        ingredient: formattedIngredient,
-                                        bulletType: "",
-                                        descBullet: "➥ ",
-                                        primaryColor: colorScheme.primary,
-                                        lineShape: true,
-                                      ),
-                                      value: item.isChecked,
-                                      onChanged: (_) {
-                                        appState.toggleShoppingBasketItemByName(
-                                          item.ingredientName,
-                                        );
-                                      },
-                                    ),
-                                  ],
-                                );
-                              }),
+                                    ],
+                                  );
+                                }),
 
-                              const Divider(),
-                            ],
-                          );
-                        },
-                      ),
-              ),
-            ],
+                                const Divider(),
+                              ],
+                            );
+                          },
+                        ),
+                ),
+              ],
+            ),
           ),
         );
       },

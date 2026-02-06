@@ -12,34 +12,40 @@ void showTipsModal(BuildContext context, ThemeData theme) {
       borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
     ),
     builder: (context) {
-      return Padding(
-        padding: const EdgeInsets.all(
-          20.0,
-        ).copyWith(bottom: MediaQuery.of(context).viewInsets.bottom + 20.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Icon(Icons.lightbulb, color: theme.colorScheme.primary, size: 28),
-                const SizedBox(width: 12),
-                Text(
-                  l10n.tips,
-                  style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
-                ),
-                const Spacer(),
-                IconButton(icon: const Icon(Icons.close), onPressed: () => Navigator.pop(context)),
-              ],
-            ),
-            const SizedBox(height: 16),
-            _buildTipTile(theme, Icons.search, l10n.tipSearch),
-            _buildTipTile(theme, Icons.egg_outlined, l10n.tipIngredients),
-            _buildTipTile(theme, Icons.fact_check_outlined, l10n.tipShoppingList),
-            _buildTipTile(theme, Icons.cloud_download_outlined, l10n.tipImport),
-            _buildTipTile(theme, Icons.calculate_outlined, l10n.tipNutritionalValues),
-            const SizedBox(height: 16),
-          ],
+      return SafeArea(
+        top: false,
+        child: Padding(
+          padding: const EdgeInsets.all(
+            20.0,
+          ).copyWith(bottom: MediaQuery.of(context).viewInsets.bottom + 10.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Icon(Icons.lightbulb, color: theme.colorScheme.primary, size: 28),
+                  const SizedBox(width: 12),
+                  Text(
+                    l10n.tips,
+                    style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.close),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              _buildTipTile(theme, Icons.search, l10n.tipSearch),
+              _buildTipTile(theme, Icons.egg_outlined, l10n.tipIngredients),
+              _buildTipTile(theme, Icons.fact_check_outlined, l10n.tipShoppingList),
+              _buildTipTile(theme, Icons.cloud_download_outlined, l10n.tipImport),
+              _buildTipTile(theme, Icons.calculate_outlined, l10n.tipNutritionalValues),
+              const SizedBox(height: 16),
+            ],
+          ),
         ),
       );
     },
