@@ -99,7 +99,9 @@ class MockNutrientRepository implements ObjectBoxNutrientRepository {
   }
 
   @override
-  Nutrient? getNutrientById(int id) => _mockNutrients[id];
+  Nutrient? getNutrientById(int id) {
+    throw UnimplementedError();
+  }
 
   @override
   double getConversionFactor(int foodId, int conversionId) => _mockFactors[foodId] ?? 1.0;
@@ -110,9 +112,7 @@ class MockNutrientRepository implements ObjectBoxNutrientRepository {
   }
 
   @override
-  Nutrient? getNutrientByFoodId(int foodId) {
-    throw UnimplementedError();
-  }
+  Nutrient? getNutrientByFoodId(int id) => _mockNutrients[id];
 
   @override
   List<Conversion> getNutrientConversions(int foodId) {
