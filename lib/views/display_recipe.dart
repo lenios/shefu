@@ -281,7 +281,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                       GestureDetector(
                         onTap: () => _showServingsDialog(context, viewModel),
                         child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 4),
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
 
                           child: Text(
                             viewModel.servings.toString(),

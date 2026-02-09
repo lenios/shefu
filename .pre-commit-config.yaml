@@ -18,7 +18,8 @@ repos:
       types: [dart]
       pass_filenames: false
       always_run: true
-    # - id: flutter-test
-    #   name: Flutter Test
-    #   entry: flutter test
-    #   language: system
+    - id: flutter-test
+      name: Flutter Test
+      entry: flutter test
+      language: system
+      pass_filenames: false

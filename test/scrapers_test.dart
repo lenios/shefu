@@ -9,6 +9,7 @@ import 'package:shefu/utils/recipe_scrapers/scrapers/lacuisinedessouvenirs.com.d
 import 'package:shefu/utils/recipe_scrapers/scrapers/seriouseats.dart';
 import 'package:shefu/utils/recipe_scrapers/scrapers/marmiton.dart';
 import 'package:shefu/utils/recipe_scrapers/scrapers/abeautifulmess.com.dart';
+import 'package:shefu/utils/recipe_scrapers/scrapers/wdr.de.dart';
 import 'package:shefu/utils/recipe_scrapers/scrapers/zaubertopf.de.dart';
 import 'package:shefu/utils/recipe_scrapers/scrapers/zeit.de.dart';
 
@@ -126,6 +127,7 @@ void main() {
     'lecremedelacrumb.com': ((html, url) => AbstractScraper(html, url), 1),
     'marmiton.org': ((html, url) => MarmitonScraper(html, url), 2),
     'miljuschka.nl': ((html, url) => AbstractScraper(html, url), 2),
+    'moulinex.fr': ((html, url) => AbstractScraper(html, url), 2), // TODO 3
     'mybakingaddiction.com': ((html, url) => AbstractScraper(html, url), 1),
     'ptitchef.com': ((html, url) => AbstractScraper(html, url), 1),
     'recipetineats.com': ((html, url) => AbstractScraper(html, url), 2),
@@ -136,6 +138,7 @@ void main() {
     'therecipecritic.com': ((html, url) => AbstractScraper(html, url), 2),
     'thepioneerwoman.com': ((html, url) => AbstractScraper(html, url), 1), // TODO ingredients
     'vanillaandbean.com': ((html, url) => AbstractScraper(html, url), 2),
+    'wdr.de': ((html, url) => WdrScraper(html, url), 1),
     'wellplated.com': ((html, url) => AbstractScraper(html, url), 2),
     'whatsgabycooking.com': ((html, url) => AbstractScraper(html, url), 2),
     'yemek.com': ((html, url) => AbstractScraper(html, url), 1), // TODO step images

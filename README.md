@@ -85,7 +85,7 @@ Supported Recipe Websites for import:
 | ✅ [ZestfulKitchen.com](https://www.zestfulkitchen.com) |
 | More sites 🚧 In progress |
 
-| France 🇫🇷 Supported Website **(12)** |
+| France 🇫🇷 Supported Website **(13)** |
 |-------------------|
 | ✅ [750g.com](https://www.750g.com) |
 | ✅ [Atelierdeschefs.fr](https://www.atelierdeschefs.fr) |
@@ -96,12 +96,13 @@ Supported Recipe Websites for import:
 | ✅ [Giallozafferano.fr](https://www.giallozafferano.fr) |
 | ✅ [HelloFresh.fr](https://www.hellofresh.fr) |
 | ✅ [Marmiton.org](https://www.marmiton.com) |
+| ✅ [Moulinex.fr](https://www.moulinex.fr) |
 | ✅ [Lacuisinedessouvenirs.com](https://www.lacuisinedessouvenirs.com) |
 | ✅ [Ptitchef.com](https://www.ptitchef.com) |
 | ✅ [Supertoinette.com](https://www.supertoinette.com) |
 | More sites 🚧 In progress |
 
-| Other Supported Websites **(12)** | Country |
+| Other Supported Websites **(13)** | Country |
 |-------------------|:--------|
 | ✅ [Akispetretzikis.com](https://www.akispetretzikis.com) | 🇬🇷 Greece |
 | ✅ [BBCgoodfood.com](https://www.bbcgoodfood.com) | 🇬🇧 UK |
@@ -111,6 +112,7 @@ Supported Recipe Websites for import:
 | ✅ [Kochbar.de](https://www.kochbar.de) | 🇩🇪 Germany |
 | ✅ [Koket.se](https://www.koket.se) | 🇸🇪 Sweden |
 | ✅ [miljuschka.nl](https://miljuschka.nl) | 🇳🇱 Netherlands |
+| ✅ [Wdr.de](https://www1.wdr.de) | 🇩🇪 Germany |
 | ✅ [Yemek.com](https://www.yemek.com) | 🇹🇷 Turkey |
 | ✅ [Zaubertopf.de](https://www.zaubertopf.de) | 🇩🇪 Germany |
 | ✅ [Zeit.de](https://www.zeit.de) | 🇩🇪 Germany |

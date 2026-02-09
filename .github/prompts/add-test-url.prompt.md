@@ -3,12 +3,20 @@ agent: 'agent'
 description: 'Add test url'
 ---
 
-text: ${input:url:paste site url here}
+@terminal run this: 
+url=${input:url:provide url to test}
+domain=$(echo $url | awk -F'[/:]' '{print $4}')
+dir=${domain##${domain%.*.*}.}
+file_prefix=$(echo $dir | awk -F'.' '{print $1}')
+// write testhtml, with incremented suffix if file already exists (max 10 tests)
+for i in $(seq 1 10); do
+if [[ ! -f test/test_data/$dir/${file_prefix}_${i}.testhtml ]]; then
+  curl -L -o test/test_data/$dir/${file_prefix}_${i}.testhtml $url
+  break
+fi
+done
 
-fetch the html from the provided url.
-create a folder under test/test_data/ with the domain name (including TLD) as the folder name if it doesn't already exist.
-write the html content to a new file named <domain_name without dot and tld>_1.testhtml inside that folder. use _2, _3 etc if a file with that name already exists.
-write a json file named <domain_name without dot and tld>_1.json alongside the html file, with the following structure:
+write a json file alongside the testhtml file, with the same name but json extension, with the following structure:
 ```json
 {
   "author": "<found author>",

@@ -336,6 +336,11 @@ class AbstractScraper {
       if (metaAuthor != null && metaAuthor.attributes.containsKey('content')) {
         return metaAuthor.attributes['content']!;
       }
+      Element? metaAuthorCapitalized = soup.querySelector('meta[name="Author"]');
+      if (metaAuthorCapitalized != null &&
+          metaAuthorCapitalized.attributes.containsKey('content')) {
+        return metaAuthorCapitalized.attributes['content']!;
+      }
     } catch (e) {
       debugPrint("Error extracting author: $e");
     }

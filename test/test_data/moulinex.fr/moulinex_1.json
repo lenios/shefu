@@ -1,0 +1,39 @@
+{
+  "author": "Moulinex",
+  "canonical_url": "https://www.moulinex.fr/recette/detail/PRO/B%C5%93uf-bourguignon/108166",
+  "site_name": "moulinex.fr",
+  "host": "moulinex.fr",
+  "language": "fr-fr",
+  "title": "Bœuf bourguignon",
+  "ingredients": [
+    "400g Bœuf",
+    "10cl Vin rouge",
+    "10cl Fond de veau",
+    "50g Lardons",
+    "100g Oignons",
+    "1càs Huile végétale",
+    "1 Carottes",
+    "150g Champignons de Paris",
+    "Poivre",
+    "Sel",
+    "6g Maïzena",
+    "1bouquet Bouquet garni"
+  ],
+  "instructions_list": [
+    "Préparer les ingrédients. Bien respecter les quantités pour éviter tout code erreur.",
+    "Emincer les oignons.",
+    "Émincer les champignons.",
+    "Verser l'huile dans la cuve.",
+    "Faire revenir tous les ingrédients sauf le liquide, le bouquet garni et la fleur de maïs pendant 10 minutes.",
+    "Ajouter le liquide et le bouquet garni. Laisser évaporer l'alcool.",
+    "Cuisson sous pression",
+    "Ajouter la Maïzena diluée dans l'eau. Remuer.",
+    "Servir !"
+  ],
+  "yields": "2 servings",
+  "total_time": 50,
+  "ratings": 4.2,
+  "ratings_count": 4630,
+  "image": "https://sebplatform.api.groupe-seb.com/statics/b6d6c2a2-f476-4fc1-80ae-9944ccdaeda6.jpg",
+  "description": null
+}

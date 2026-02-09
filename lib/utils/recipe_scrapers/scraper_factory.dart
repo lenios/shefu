@@ -13,6 +13,7 @@ import 'package:shefu/utils/recipe_scrapers/scrapers/marmiton.dart';
 import 'package:shefu/utils/recipe_scrapers/scrapers/seriouseats.dart';
 import 'package:shefu/utils/recipe_scrapers/scrapers/zaubertopf.de.dart';
 import 'package:shefu/utils/recipe_scrapers/scrapers/zeit.de.dart';
+import 'package:shefu/utils/recipe_scrapers/scrapers/wdr.de.dart';
 
 /// Factory for creating scrapers based on URL
 class ScraperFactory {
@@ -49,6 +50,7 @@ class ScraperFactory {
     "greatbritishchefs.com": AbstractScraper.new,
     "hellofresh.com": HelloFreshScraper.new,
     "hellofresh.fr": HelloFreshScraper.new,
+    "moulinex.fr": AbstractScraper.new,
     "kitchenstories.com": AbstractScraper.new,
     "kochbar.de": AbstractScraper.new,
     "koket.se": AbstractScraper.new,
@@ -67,6 +69,7 @@ class ScraperFactory {
     "therecipecritic.com": AbstractScraper.new,
     // "thepioneerwoman.com": AbstractScraper.new, Trailer header not supported by dart client
     "vanillaandbean.com": AbstractScraper.new,
+    'wdr.de': WdrScraper.new,
     "wellplated.com": AbstractScraper.new,
     "whatsgabycooking.com": AbstractScraper.new,
     "yemek.com": AbstractScraper.new,
