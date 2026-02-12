@@ -20,7 +20,7 @@ jobs:
         uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e # v2.21.0
         with:
           channel: 'stable'
-          flutter-version: 3.38.9
+          flutter-version: 3.41.0
 
       - name: Get Flutter dependencies
         run: flutter pub get
@@ -103,7 +103,8 @@ jobs:
             ./apk/app-arm64-v8a-release.apk
             ./apk/app-release.aab
 
-      - name: Upload .aab to Production Track
+      - name: Upload .aab to Play Store Production Track
+        if: ${{ !endsWith(github.event.head_commit.message, 'testrel') }}
         id: upload_production
         uses: ./.github/actions/upload-play-store
         with:

@@ -9,6 +9,7 @@ class IngredientDisplay extends StatelessWidget {
   final String descBullet;
   final Color? primaryColor;
   final bool lineShape;
+  final bool isBold;
 
   const IngredientDisplay({
     super.key,
@@ -17,6 +18,7 @@ class IngredientDisplay extends StatelessWidget {
     this.descBullet = "",
     this.primaryColor,
     this.lineShape = true,
+    this.isBold = false,
   });
 
   @override
@@ -43,6 +45,7 @@ class IngredientDisplay extends StatelessWidget {
                       "${ingredient.primaryQuantityDisplay} ${ingredient.name}"
                       "${lineShape && ingredient.shape.isNotEmpty ? ', ${ingredient.shape}' : ''}",
                       style: TextStyle(
+                        fontWeight: isBold ? FontWeight.bold : null,
                         fontStyle: ingredient.optional ? FontStyle.italic : null,
                         color: ingredient.optional
                             ? theme.colorScheme.tertiary

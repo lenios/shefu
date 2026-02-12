@@ -19,40 +19,54 @@ Widget flagIcon(String countryCode) {
 }
 
 dynamic formattedQuantity(double quantity, {bool fraction = true}) {
-  if (quantity == 0) {
-    return ""; // No display for zero quantity
+  if (quantity == 0) return ""; // Show nothing for zero quantity
+  if (quantity % 1 == 0) return quantity.toInt(); // Exact integer
+
+  // Non-fraction mode: use decimals
+  if (!fraction) {
+    return quantity > 10 ? quantity.round() : quantity.toStringAsFixed(2);
   }
 
-  if (quantity % 1 == 0) {
-    return quantity.toInt();
+  String? snapToCommonFraction(double value) {
+    const tolerance = 0.03;
+    if ((value - 0.25).abs() < tolerance) return "1/4";
+    if ((value - 0.3333).abs() < tolerance) return "1/3";
+    if ((value - 0.5).abs() < tolerance) return "1/2";
+    if ((value - 0.6667).abs() < tolerance) return "2/3";
+    if ((value - 0.75).abs() < tolerance) return "3/4";
+    return null;
   }
 
+  // Mixed fractions for values > 1
   if (quantity > 1) {
-    // Round quantity if greater than 1
-    if (quantity > 10) {
-      return quantity.round();
-    } else {
-      return quantity.toStringAsFixed(2);
-    }
-  } else {
-    // Try to convert to fraction if less than 1
-    if (fraction) {
-      final frac = Fraction.fromDouble(quantity);
-      if (frac.denominator > 8) {
-        // For values very close to common fractions, round to them
-        if ((quantity - 0.25).abs() < 0.03) return "1/4";
-        if ((quantity - 0.33).abs() < 0.03) return "1/3";
-        if ((quantity - 0.5).abs() < 0.03) return "1/2";
-        if ((quantity - 0.67).abs() < 0.03) return "2/3";
-        if ((quantity - 0.75).abs() < 0.03) return "3/4";
+    final whole = quantity.floor();
+    final fracPart = quantity - whole;
 
-        // Otherwise use decimal representation with 1 decimal place
-        return quantity.toStringAsFixed(1);
-      }
-      return frac.toString();
+    if (fracPart < 0.0001) return whole;
+    if (fracPart > 0.97) return whole + 1;
+
+    // For large quantities, prefer decimals unless it's a common fraction
+    if (whole > 10) {
+      final snapped = snapToCommonFraction(fracPart);
+      return snapped != null ? "$whole $snapped" : quantity.toStringAsFixed(1);
     }
-    return quantity.toStringAsFixed(1);
+
+    // Try to use fraction representation
+    final frac = Fraction.fromDouble(fracPart);
+    if (frac.denominator <= 8) {
+      return "$whole $frac";
+    }
+
+    final snapped = snapToCommonFraction(fracPart);
+    return snapped != null ? "$whole $snapped" : quantity.toStringAsFixed(1);
   }
+
+  // Pure fractions for values < 1
+  final frac = Fraction.fromDouble(quantity);
+  if (frac.denominator <= 8) return frac.toString();
+
+  final snapped = snapToCommonFraction(quantity);
+  return snapped ?? quantity.toStringAsFixed(1);
 }
 
 String formattedDesc(double multiplier, String descText) {

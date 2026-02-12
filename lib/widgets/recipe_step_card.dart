@@ -15,8 +15,14 @@ import 'misc.dart';
 class RecipeStepCard extends StatelessWidget {
   final RecipeStep recipeStep;
   final double servings;
+  final bool isCurrentStep;
 
-  const RecipeStepCard({super.key, required this.recipeStep, required this.servings});
+  const RecipeStepCard({
+    super.key,
+    required this.recipeStep,
+    required this.servings,
+    this.isCurrentStep = false,
+  });
   RichText _buildInstructionText(String instruction, BuildContext context) {
     final theme = Theme.of(context);
     final defaultStyle = theme.textTheme.bodyMedium;
@@ -187,6 +193,7 @@ class RecipeStepCard extends StatelessWidget {
                       bulletType: bulletType,
                       primaryColor: Theme.of(context).colorScheme.primary,
                       lineShape: false,
+                      isBold: isCurrentStep,
                     ),
                   );
                 }),
