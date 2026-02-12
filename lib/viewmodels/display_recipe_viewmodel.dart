@@ -197,6 +197,15 @@ class DisplayRecipeViewModel extends ChangeNotifier {
   int _servings = 4; // Default value
   int get servings => _servings;
 
+  bool _useRecipeServings = false;
+  bool get useRecipeServings => _useRecipeServings;
+
+  void toggleRecipeServings(bool value) {
+    _useRecipeServings = value;
+    _servings = useRecipeServings ? _recipe!.servings : _appState.servings;
+    notifyListeners();
+  }
+
   final Map<String, bool> _basket = {};
   Map<String, bool> get basket => _basket;
 
@@ -348,7 +357,8 @@ class DisplayRecipeViewModel extends ChangeNotifier {
   }
 
   void _onAppStateChanged() {
-    if (_appState.servings != _servings) {
+    // Only sync global servings when the recipe-specific override is NOT set.
+    if (!_useRecipeServings && _appState.servings != _servings) {
       _servings = _appState.servings;
       notifyListeners();
     }
@@ -361,7 +371,10 @@ class DisplayRecipeViewModel extends ChangeNotifier {
   void setServings(int newServings) {
     if (newServings > 0) {
       _servings = newServings;
-      _appState.setServings(newServings);
+      // Only update the global default if the recipe-specific override is NOT active.
+      if (!_useRecipeServings) {
+        _appState.setServings(newServings);
+      }
       notifyListeners();
     }
   }

@@ -130,6 +130,8 @@
     "tipShoppingList": "Amikor hozzáadja egy recept hozzávalóit a bevásárlólistához, a recept is mentésre kerül. Több receptből is hozzáadhat hozzávalókat, és elérheti az egyes recepteket a címükre kattintva a bevásárlólistában.",
     "tipImport": "Importálhat receptet úgy, hogy beilleszti a teljes URL-t egy támogatott weboldalról a forrás mezőbe a recept szerkesztésekor.",
     "tipNutritionalValues": "Amikor szerkeszt egy hozzávalót a receptben, kiválaszthat egy megfelelő tápanyagot és szorzót. Ha mindkettőt kiválasztja, a tápértékek automatikusan kiszámításra és hozzáadásra kerülnek a recepthez!",
+    "usingRecipeServings": "Recept alapértelmezett adagainak használata",
+    "usingAppServings": "A profilban mentett adagok használata",
     "gatherIngredients": "Hozzávalók összegyűjtése",
     "bowl": "tál",
     "pot": "fazék",

@@ -40,6 +40,8 @@
     "source": "Source",
     "search": "Search",
     "servings": "Servings",
+    "usingRecipeServings": "Using recipe default servings",
+    "usingAppServings": "Using user set servings",
     "month": "Month",
     "shape": "Shape",
     "notes": "Notes",

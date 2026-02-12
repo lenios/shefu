@@ -132,6 +132,12 @@ class AppLocalizationsFr extends AppLocalizations {
   String get servings => 'Parts';
 
   @override
+  String get usingRecipeServings => 'Utilisation du nombre de parts par défaut de la recette';
+
+  @override
+  String get usingAppServings => 'Utilisation du nombre de parts sauvegardé dans le profil';
+
+  @override
   String get month => 'Mois';
 
   @override

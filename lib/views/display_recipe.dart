@@ -261,55 +261,102 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                   // Servings Controls
                   Row(
                     children: [
-                      Text(
-                        "${AppLocalizations.of(context)!.servings}: ",
-                        style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
+                      Column(
+                        children: [
+                          Text(
+                            "${AppLocalizations.of(context)!.servings}: ",
+                            style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
+                          ),
+                        ],
                       ),
-                      // Minus button
-                      IconButton(
-                        icon: Icon(
-                          Icons.remove_circle_outline,
-                          color: Theme.of(context).colorScheme.onSecondary,
-                        ),
-                        visualDensity: .compact,
-                        onPressed: () {
-                          if (viewModel.servings > 1) {
-                            viewModel.setServings(viewModel.servings - 1);
+
+                      // Per-recipe override icon: uses the recipe original servings
+                      const SizedBox(width: 6),
+                      GestureDetector(
+                        onTap: () {
+                          viewModel.toggleRecipeServings(!viewModel.useRecipeServings);
+
+                          if (viewModel.useRecipeServings) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(AppLocalizations.of(context)!.usingRecipeServings),
+                              ),
+                            );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(AppLocalizations.of(context)!.usingAppServings),
+                              ),
+                            );
                           }
                         },
+                        child: Icon(
+                          Icons.menu_book,
+                          size: 24,
+                          color: viewModel.useRecipeServings
+                              ? Theme.of(context).colorScheme.onPrimary.withAlpha(120)
+                              : Theme.of(context).colorScheme.onPrimary,
+                        ),
                       ),
-                      GestureDetector(
-                        onTap: () => _showServingsDialog(context, viewModel),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
 
-                          child: Text(
-                            viewModel.servings.toString(),
-                            style: TextStyle(
-                              color: Theme.of(context).colorScheme.onSecondary,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                            ),
+                      const SizedBox(width: 8),
+
+                      // Minus button
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Row(
+                            children: [
+                              IconButton(
+                                icon: Icon(
+                                  Icons.remove_circle_outline,
+                                  color: Theme.of(context).colorScheme.onSecondary,
+                                ),
+                                visualDensity: .compact,
+                                onPressed: () {
+                                  if (viewModel.servings > 1) {
+                                    viewModel.setServings(viewModel.servings - 1);
+                                  }
+                                },
+                              ),
+                              GestureDetector(
+                                onTap: () => _showServingsDialog(context, viewModel),
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 10),
+
+                                  child: Text(
+                                    viewModel.servings.toString(),
+                                    style: TextStyle(
+                                      color: Theme.of(context).colorScheme.onSecondary,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              // Plus button
+                              IconButton(
+                                icon: Icon(
+                                  Icons.add_circle_outline,
+                                  color: Theme.of(context).colorScheme.onSecondary,
+                                ),
+                                visualDensity: .compact,
+                                onPressed: () {
+                                  viewModel.setServings(viewModel.servings + 1);
+                                },
+                              ),
+                            ],
                           ),
-                        ),
+                          if (recipe.piecesPerServing != null)
+                            Transform.translate(
+                              offset: const Offset(0, -8),
+                              child: Text(
+                                "(${AppLocalizations.of(context)!.piecesPerServing(recipe.piecesPerServing.toString())})",
+                                style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+                              ),
+                            ),
+                        ],
                       ),
-                      // Plus button
-                      IconButton(
-                        icon: Icon(
-                          Icons.add_circle_outline,
-                          color: Theme.of(context).colorScheme.onSecondary,
-                        ),
-                        visualDensity: .compact,
-                        onPressed: () {
-                          viewModel.setServings(viewModel.servings + 1);
-                        },
-                      ),
-                      const SizedBox(width: 10),
-                      if (recipe.piecesPerServing != null)
-                        Text(
-                          "(${AppLocalizations.of(context)!.piecesPerServing(recipe.piecesPerServing.toString())})",
-                          style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
-                        ),
                     ],
                   ),
                   // Source and Category

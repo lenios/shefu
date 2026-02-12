@@ -346,6 +346,18 @@ abstract class AppLocalizations {
   /// **'Servings'**
   String get servings;
 
+  /// No description provided for @usingRecipeServings.
+  ///
+  /// In en, this message translates to:
+  /// **'Using recipe default servings'**
+  String get usingRecipeServings;
+
+  /// No description provided for @usingAppServings.
+  ///
+  /// In en, this message translates to:
+  /// **'Using user set servings'**
+  String get usingAppServings;
+
   /// No description provided for @month.
   ///
   /// In en, this message translates to:

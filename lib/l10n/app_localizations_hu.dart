@@ -132,6 +132,12 @@ class AppLocalizationsHu extends AppLocalizations {
   String get servings => 'Adagok';
 
   @override
+  String get usingRecipeServings => 'Recept alapértelmezett adagainak használata';
+
+  @override
+  String get usingAppServings => 'A profilban mentett adagok használata';
+
+  @override
   String get month => 'Hónap';
 
   @override

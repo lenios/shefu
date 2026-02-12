@@ -40,6 +40,8 @@
     "source": "Source",
     "search": "Recherche",
     "servings": "Parts",
+    "usingRecipeServings": "Utilisation du nombre de parts par défaut de la recette",
+    "usingAppServings": "Utilisation du nombre de parts sauvegardé dans le profil",
     "month": "Mois",
     "shape": "Forme",
     "notes": "Notes",

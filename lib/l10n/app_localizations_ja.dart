@@ -132,6 +132,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get servings => '分量';
 
   @override
+  String get usingRecipeServings => 'レシピのデフォルト分量を使用';
+
+  @override
+  String get usingAppServings => 'プロフィールに保存された分量を使用';
+
+  @override
   String get month => '月';
 
   @override

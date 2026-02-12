@@ -132,6 +132,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get servings => 'Servings';
 
   @override
+  String get usingRecipeServings => 'Using recipe default servings';
+
+  @override
+  String get usingAppServings => 'Using user set servings';
+
+  @override
   String get month => 'Month';
 
   @override

@@ -41,6 +41,8 @@
     "source": "出典",
     "search": "検索",
     "servings": "分量",
+    "usingRecipeServings": "レシピのデフォルト分量を使用",
+    "usingAppServings": "プロフィールに保存された分量を使用",
     "month": "月",
     "shape": "形",
     "notes": "メモ",
