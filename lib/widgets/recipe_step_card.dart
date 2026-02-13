@@ -153,6 +153,7 @@ class RecipeStepCard extends StatelessWidget {
             },
             child: SizedBox(
               height: 120,
+              width: 120,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),
                 child: buildFutureImageWidget(context, thumbnailPath(recipeStep.imagePath)),

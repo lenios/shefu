@@ -94,22 +94,22 @@ void _showSettingsModal(BuildContext context, ThemeData theme) {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Theme", style: theme.textTheme.titleMedium),
+                      Text(l10n.theme, style: theme.textTheme.titleMedium),
                       SegmentedButton<ThemeMode>(
-                        segments: const <ButtonSegment<ThemeMode>>[
+                        segments: <ButtonSegment<ThemeMode>>[
                           ButtonSegment<ThemeMode>(
                             value: ThemeMode.system,
-                            label: Text('System'),
+                            label: Text(l10n.themeSystem),
                             icon: Icon(Icons.brightness_auto),
                           ),
                           ButtonSegment<ThemeMode>(
                             value: ThemeMode.light,
-                            label: Text('Light'),
+                            label: Text(l10n.themeLight),
                             icon: Icon(Icons.wb_sunny),
                           ),
                           ButtonSegment<ThemeMode>(
                             value: ThemeMode.dark,
-                            label: Text('Dark'),
+                            label: Text(l10n.themeDark),
                             icon: Icon(Icons.dark_mode),
                           ),
                         ],

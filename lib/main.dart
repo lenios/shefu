@@ -1,3 +1,4 @@
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -80,32 +81,36 @@ class _MyAppState extends State<MyApp> {
       ],
       child: Consumer<MyAppState>(
         builder: (context, appState, child) {
-          return MaterialApp.router(
-            routerConfig: AppRouter.router,
-            locale: _locale,
-            debugShowCheckedModeBanner: false,
-            title: 'Shefu',
-            themeMode: appState.themeMode,
-            theme: buildLightTheme().copyWith(
-              inputDecorationTheme: buildLightTheme().inputDecorationTheme.copyWith(
-                contentPadding: const EdgeInsets.all(8.0),
-                floatingLabelBehavior: FloatingLabelBehavior.always,
-              ),
-            ),
-            darkTheme: buildDarkTheme().copyWith(
-              inputDecorationTheme: buildDarkTheme().inputDecorationTheme.copyWith(
-                contentPadding: const EdgeInsets.all(8.0),
-                floatingLabelBehavior: FloatingLabelBehavior.always,
-              ),
-            ),
-            localizationsDelegates: const [
-              AppLocalizations.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-              CountryLocalizations.delegate,
-            ],
-            supportedLocales: AppLocalizations.supportedLocales,
+          return DynamicColorBuilder(
+            builder: (lightDynamic, darkDynamic) {
+              return MaterialApp.router(
+                routerConfig: AppRouter.router,
+                locale: _locale,
+                debugShowCheckedModeBanner: false,
+                title: 'Shefu',
+                themeMode: appState.themeMode,
+                theme: buildLightTheme(lightDynamic).copyWith(
+                  inputDecorationTheme: buildLightTheme(lightDynamic).inputDecorationTheme.copyWith(
+                    contentPadding: const EdgeInsets.all(8.0),
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                  ),
+                ),
+                darkTheme: buildDarkTheme(darkDynamic).copyWith(
+                  inputDecorationTheme: buildDarkTheme(darkDynamic).inputDecorationTheme.copyWith(
+                    contentPadding: const EdgeInsets.all(8.0),
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                  ),
+                ),
+                localizationsDelegates: const [
+                  AppLocalizations.delegate,
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                  CountryLocalizations.delegate,
+                ],
+                supportedLocales: AppLocalizations.supportedLocales,
+              );
+            },
           );
         },
       ),

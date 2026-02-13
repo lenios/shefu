@@ -32,13 +32,25 @@ class IngredientsSection extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: Text(
                   l10n.noIngredientsForStep,
-                  style: TextStyle(fontStyle: FontStyle.italic, color: Colors.grey[600]),
+                  style: TextStyle(fontStyle: FontStyle.italic, color: Theme.of(context).hintColor),
                 ),
               ),
             ...List.generate(
               ingredients.length,
-              (index) =>
-                  EditIngredientManager().editIngredientInput(context, viewModel, stepIndex, index),
+              (index) => Selector<EditRecipeViewModel, (String, int, int, String)>(
+                selector: (_, vm) {
+                  final ing = vm.recipe.steps[stepIndex].ingredients[index];
+                  return (ing.name, ing.foodId, ing.conversionId, ing.unit);
+                },
+                builder: (context, data, _) {
+                  return EditIngredientManager().editIngredientInput(
+                    context,
+                    viewModel,
+                    stepIndex,
+                    index,
+                  );
+                },
+              ),
             ),
             const SizedBox(height: 10),
             Align(

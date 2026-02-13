@@ -309,11 +309,12 @@ class EditRecipeViewModel extends ChangeNotifier {
           ingredient.foodId = 0;
           ingredient.conversionId = 0;
         }
-        notifyListeners();
 
         if (value.isNotEmpty) {
           checkForMatchingIngredient(stepIndex, ingredientIndex);
         }
+
+        notifyListeners();
       }
     }
   }
@@ -355,6 +356,11 @@ class EditRecipeViewModel extends ChangeNotifier {
 
   Future<void> scrapeData(String url, AppLocalizations l10n) async {
     final pscraper = await ScraperFactory.createFromUrl(url);
+
+    // Recipes imported from search page do not have source set
+    _recipe.source = url;
+    sourceController.text = url;
+
     // Overwrite title
     recipe.title = pscraper!.title();
     titleController.text = pscraper.title();

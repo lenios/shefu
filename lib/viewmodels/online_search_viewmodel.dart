@@ -160,7 +160,9 @@ class OnlineSearchViewModel extends ChangeNotifier {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(success ? l10n.recipeImportedSuccessfully : l10n.importFailed),
-          backgroundColor: success ? Colors.green : Colors.red,
+          backgroundColor: success
+              ? Theme.of(context).colorScheme.primary
+              : Theme.of(context).colorScheme.error,
         ),
       );
 

@@ -45,10 +45,9 @@ dynamic formattedQuantity(double quantity, {bool fraction = true}) {
     if (fracPart < 0.0001) return whole;
     if (fracPart > 0.97) return whole + 1;
 
-    // For large quantities, prefer decimals unless it's a common fraction
+    // For large quantities, round
     if (whole > 10) {
-      final snapped = snapToCommonFraction(fracPart);
-      return snapped != null ? "$whole $snapped" : quantity.toStringAsFixed(1);
+      return quantity.toStringAsFixed(0);
     }
 
     // Try to use fraction representation

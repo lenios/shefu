@@ -64,55 +64,77 @@ class _StepTimerWidgetState extends State<StepTimerWidget> {
               }
             });
           },
-          child: CircularCountDownTimer(
-            duration: widget.timerDurationSeconds,
-            initialDuration: 0,
-            controller: _controller,
-            width: 64,
-            height: 64,
-            ringColor: colorScheme.surfaceContainerHighest,
-            ringGradient: null,
-            fillColor: colorScheme.primary,
-            fillGradient: null,
-            backgroundColor: Colors.transparent,
-            strokeWidth: 5.0,
-            strokeCap: StrokeCap.round,
-            textStyle: TextStyle(
-              fontSize: 14.0,
-              color: colorScheme.onSurface,
-              fontWeight: FontWeight.bold,
-            ),
-            textFormat: CountdownTextFormat.MM_SS,
-            isReverse: true,
-            isReverseAnimation: true,
-            isTimerTextShown: true,
-            autoStart: false, // Don't autostart
-            onStart: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(l10n.pauseUsage),
-                  duration: const Duration(seconds: 5),
-                  backgroundColor: colorScheme.secondary,
-                  // TODO only display once?
+          child: Container(
+            width: 72,
+            height: 72,
+            padding: const EdgeInsets.all(4.0),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: theme.colorScheme.surfaceContainerHighest,
+              border: Border.all(
+                color: theme.colorScheme.onSurface.withAlpha(
+                  theme.brightness == Brightness.dark ? 40 : 140,
                 ),
-              );
-            },
-            onComplete: () async {
-              setState(() {
-                _isStarted = false;
-                _isPaused = false;
-              });
-              await player.play(AssetSource('notification-ping-335500.mp3'));
-              HapticFeedback.vibrate();
-            },
-            timeFormatterFunction: (defaultFormatterFunction, duration) {
-              // Show 'Start' only when not started
-              if (!_isStarted) {
-                return l10n.start;
-              }
-              // Use default MM:SS format if not started yet
-              return Function.apply(defaultFormatterFunction, [duration]);
-            },
+                width: 1.5,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: theme.colorScheme.shadow.withAlpha(80),
+                  blurRadius: 4,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
+            child: CircularCountDownTimer(
+              duration: widget.timerDurationSeconds,
+              initialDuration: 0,
+              controller: _controller,
+              width: 64,
+              height: 64,
+              ringColor: colorScheme.surfaceContainerHigh,
+              ringGradient: null,
+              fillColor: colorScheme.primary,
+              fillGradient: null,
+              backgroundColor: Colors.transparent,
+              strokeWidth: 5.0,
+              strokeCap: StrokeCap.round,
+              textStyle: TextStyle(
+                fontSize: 14.0,
+                color: colorScheme.onSurface,
+                fontWeight: FontWeight.bold,
+              ),
+              textFormat: CountdownTextFormat.MM_SS,
+              isReverse: true,
+              isReverseAnimation: true,
+              isTimerTextShown: true,
+              autoStart: false, // Don't autostart
+              onStart: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(l10n.pauseUsage),
+                    duration: const Duration(seconds: 5),
+                    backgroundColor: colorScheme.secondary,
+                    // TODO only display once?
+                  ),
+                );
+              },
+              onComplete: () async {
+                setState(() {
+                  _isStarted = false;
+                  _isPaused = false;
+                });
+                await player.play(AssetSource('notification-ping-335500.mp3'));
+                HapticFeedback.vibrate();
+              },
+              timeFormatterFunction: (defaultFormatterFunction, duration) {
+                // Show 'Start' only when not started
+                if (!_isStarted) {
+                  return l10n.start;
+                }
+                // Use default MM:SS format if not started yet
+                return Function.apply(defaultFormatterFunction, [duration]);
+              },
+            ),
           ),
         ),
       ],

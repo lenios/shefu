@@ -94,7 +94,7 @@ class EditIngredientManager {
         return Card(
           margin: const EdgeInsets.symmetric(vertical: 5.0),
           elevation: 2.0,
-          color: Colors.greenAccent[100]?.withAlpha(100),
+          color: Theme.of(context).colorScheme.surfaceContainerHighest,
 
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8.0),
@@ -138,7 +138,7 @@ class EditIngredientManager {
                     const SizedBox(width: 8),
                     // Quantity
                     Expanded(
-                      flex: 2,
+                      flex: 3,
                       child: TextFormField(
                         key: ValueKey('quantity_field_${stepIndex}_$ingredientIndex'),
                         controller: quantityController,
@@ -156,31 +156,44 @@ class EditIngredientManager {
                     const SizedBox(width: 8),
                     // Unit
                     Expanded(
-                      flex: 5,
-                      child: DropdownButtonFormField<String>(
-                        initialValue: ingredient.unit,
-                        items: getFilteredUnitOptions(context, ingredient.unit),
-                        onChanged: (String? newValue) {
-                          viewModel.updateIngredientUnit(
-                            stepIndex,
-                            ingredientIndex,
-                            newValue ?? "",
+                      flex: 4,
+                      child: Builder(
+                        builder: (context) {
+                          final bool unitLocked =
+                              ingredient.foodId > 0 && ingredient.conversionId > 0;
+
+                          return DropdownButtonFormField<String>(
+                            initialValue: unitLocked ? null : ingredient.unit,
+                            items: getFilteredUnitOptions(context, ingredient.unit),
+                            onChanged: unitLocked
+                                ? null
+                                : (String? newValue) {
+                                    viewModel.updateIngredientUnit(
+                                      stepIndex,
+                                      ingredientIndex,
+                                      newValue ?? "",
+                                    );
+                                  },
+                            decoration: InputDecoration(
+                              labelText: l10n.unit,
+                              border: const OutlineInputBorder(),
+                              isDense: true,
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 12,
+                              ),
+                              enabled: !unitLocked, // visually indicate locked state
+                            ),
+                            isExpanded: true,
                           );
                         },
-                        decoration: InputDecoration(
-                          labelText: l10n.unit,
-                          border: const OutlineInputBorder(),
-                          isDense: true,
-                          contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-                        ),
-                        isExpanded: true,
                       ),
                     ),
-                    const SizedBox(width: 8),
 
                     // Move to Previous Step Button
                     if (stepIndex > 0)
                       IconButton(
+                        visualDensity: .compact,
                         icon: Icon(
                           Icons.arrow_upward_sharp,
                           color: Theme.of(context).colorScheme.primary,
@@ -191,11 +204,12 @@ class EditIngredientManager {
                           viewModel.moveIngredientToPreviousStep(stepIndex, ingredientIndex);
                         },
                         constraints: const BoxConstraints(),
-                        padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                        padding: EdgeInsets.zero,
                       ),
                     // Move to Next Step Button
                     if (!isLastStep)
                       IconButton(
+                        visualDensity: .compact,
                         icon: Icon(
                           Icons.arrow_downward_sharp,
                           color: Theme.of(context).colorScheme.primary,
@@ -206,18 +220,23 @@ class EditIngredientManager {
                           viewModel.moveIngredientToNextStep(stepIndex, ingredientIndex);
                         },
                         constraints: const BoxConstraints(),
-                        padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                        padding: EdgeInsets.zero,
                       ),
                     // Delete Button
                     IconButton(
-                      icon: Icon(Icons.remove_circle_outline, color: Colors.red[700], size: 22),
+                      visualDensity: .compact,
+                      icon: Icon(
+                        Icons.remove_circle_outline,
+                        color: Theme.of(context).colorScheme.error,
+                        size: 22,
+                      ),
                       tooltip: l10n.delete,
                       onPressed: () {
                         EditIngredientManager.disposeController(stepIndex, ingredientIndex);
                         viewModel.removeIngredient(stepIndex, ingredientIndex);
                       },
                       constraints: const BoxConstraints(),
-                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 2.0),
                     ),
                   ],
                 ),

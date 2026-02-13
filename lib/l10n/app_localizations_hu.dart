@@ -291,6 +291,18 @@ class AppLocalizationsHu extends AppLocalizations {
   String get language => 'Nyelv';
 
   @override
+  String get theme => 'Téma';
+
+  @override
+  String get themeSystem => 'Rendszer';
+
+  @override
+  String get themeLight => 'Világos';
+
+  @override
+  String get themeDark => 'Sötét';
+
+  @override
   String get gender => 'Nem';
 
   @override

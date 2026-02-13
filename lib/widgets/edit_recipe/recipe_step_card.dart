@@ -22,6 +22,8 @@ class RecipeStepCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Selector<EditRecipeViewModel, RecipeStep>(
       selector: (_, vm) {
         return vm.recipe.steps[stepIndex];
@@ -33,10 +35,18 @@ class RecipeStepCard extends StatelessWidget {
             children: [
               Card(
                 key: ValueKey('step_${step.id}_$stepIndex'),
-                color: Colors.greenAccent[100]?.withAlpha(100),
+                color: Theme.of(context).colorScheme.surfaceContainer.withAlpha(isDark ? 0 : 180),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                  side: isDark
+                      ? BorderSide(
+                          color: Theme.of(context).colorScheme.onSecondaryContainer.withAlpha(180),
+                          width: 2,
+                        )
+                      : BorderSide.none,
+                ),
                 margin: const EdgeInsets.only(bottom: 8.0, top: 5.0),
                 elevation: 2.0,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
                 clipBehavior: Clip.antiAlias,
                 child: Padding(
                   padding: const EdgeInsets.all(12.0),
@@ -86,9 +96,9 @@ class RecipeStepCard extends StatelessWidget {
                 right: 0,
                 child: Container(
                   width: 50,
-                  height: 55,
+                  height: 48,
                   decoration: BoxDecoration(
-                    color: Colors.red.withAlpha(44),
+                    color: Theme.of(context).colorScheme.error.withAlpha(isDark ? 55 : 25),
                     borderRadius: const BorderRadius.only(
                       topRight: Radius.circular(8.0),
                       bottomLeft: Radius.circular(12.0),
@@ -96,7 +106,10 @@ class RecipeStepCard extends StatelessWidget {
                   ),
                   child: IconButton(
                     padding: EdgeInsets.zero,
-                    icon: Icon(Icons.delete_outline, color: Theme.of(context).colorScheme.error),
+                    icon: Icon(
+                      Icons.delete_outline,
+                      color: Theme.of(context).colorScheme.error.withAlpha(isDark ? 255 : 225),
+                    ),
                     tooltip: AppLocalizations.of(context)!.delete,
                     onPressed: () => viewModel.removeStep(stepIndex),
                     constraints: const BoxConstraints(),

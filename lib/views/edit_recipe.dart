@@ -71,14 +71,17 @@ class _EditRecipeState extends State<EditRecipe> {
         try {
           viewModel.scrapeData(url, l10n);
 
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(l10n.recipeImportedSuccessfully), backgroundColor: Colors.green),
-          );
-        } catch (e) {
-          ScaffoldMessenger.of(context).hideCurrentSnackBar();
           ScaffoldMessenger.of(
             context,
-          ).showSnackBar(SnackBar(content: Text(l10n.scrapeError), backgroundColor: Colors.red));
+          ).showSnackBar(SnackBar(content: Text(l10n.recipeImportedSuccessfully)));
+        } catch (e) {
+          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(l10n.scrapeError),
+              backgroundColor: Theme.of(context).colorScheme.error,
+            ),
+          );
         } finally {
           // Hide the snackbar regardless of result
           ScaffoldMessenger.of(context).hideCurrentSnackBar();
@@ -125,7 +128,10 @@ class _EditRecipeState extends State<EditRecipe> {
                 }
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(l10n.saveError), backgroundColor: Colors.red),
+                  SnackBar(
+                    content: Text(l10n.saveError),
+                    backgroundColor: Theme.of(context).colorScheme.error,
+                  ),
                 );
               }
             } else if (shouldSave == false) {
@@ -171,9 +177,12 @@ class _EditRecipeState extends State<EditRecipe> {
                               if (saved && context.mounted) {
                                 context.pop(true);
                               } else if (context.mounted) {
-                                ScaffoldMessenger.of(
-                                  context,
-                                ).showSnackBar(SnackBar(content: Text(l10n.saveError)));
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(l10n.saveError),
+                                    backgroundColor: Theme.of(context).colorScheme.error,
+                                  ),
+                                );
                               }
                             },
                     );
@@ -458,9 +467,9 @@ class _EditRecipeState extends State<EditRecipe> {
                                                       prefixIcon: const Icon(Icons.search),
                                                       border: OutlineInputBorder(
                                                         borderSide: BorderSide(
-                                                          color: const Color(
-                                                            0xFF8C98A8,
-                                                          ).withAlpha(50),
+                                                          color: Theme.of(
+                                                            context,
+                                                          ).colorScheme.outline.withAlpha(50),
                                                         ),
                                                       ),
                                                     ),

@@ -135,7 +135,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get usingRecipeServings => 'Utilisation du nombre de parts par défaut de la recette';
 
   @override
-  String get usingAppServings => 'Utilisation du nombre de parts sauvegardé dans le profil';
+  String get usingAppServings => 'Utilisation du nombre de parts personnalisé';
 
   @override
   String get month => 'Mois';
@@ -289,6 +289,18 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get language => 'Langue';
+
+  @override
+  String get theme => 'Thème';
+
+  @override
+  String get themeSystem => 'Système';
+
+  @override
+  String get themeLight => 'Clair';
+
+  @override
+  String get themeDark => 'Sombre';
 
   @override
   String get gender => 'Genre';

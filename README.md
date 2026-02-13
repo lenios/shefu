@@ -43,8 +43,9 @@ Sample:
 <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/2-add_recipe.png" alt="add recipe" width="300">
 <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/3-edit_recipe_step.png" alt="edit recipe step" width="300">
 <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/4-display_recipe.png" alt="display recipe" width="300">
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/5-shopping-list.png" alt="Shopping list" width="300">
-
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/5-shopping_list.png" alt="Shopping list" width="300">
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/6-online_search.png" alt="online search" width="300">
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/7-nutrition.png" alt="nutrition" width="300">
 
 Documentation will come later.
 
