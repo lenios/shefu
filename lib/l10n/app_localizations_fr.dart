@@ -303,6 +303,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get themeDark => 'Sombre';
 
   @override
+  String get useMaterialYou => 'Utiliser Material You';
+
+  @override
   String get gender => 'Genre';
 
   @override
@@ -417,6 +420,9 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get tipShoppingList =>
       'Lorsque vous ajoutez des ingrédients d\'une recette à la liste de courses, la recette y est également enregistrée. Vous pouvez ajouter des ingrédients de plusieurs recettes et accéder à chaque recette en appuyant sur son titre dans la liste de courses.';
+
+  @override
+  String get expertSettings => 'Paramètres avancés';
 
   @override
   String get tipImport =>

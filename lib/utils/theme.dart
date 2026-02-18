@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-ThemeData _buildTheme(ColorScheme colorScheme) {
-  final baseTheme = ThemeData(colorScheme: colorScheme, useMaterial3: true);
+ThemeData _buildTheme(ColorScheme colorScheme, {bool useMaterial3 = true}) {
+  final baseTheme = ThemeData(colorScheme: colorScheme, useMaterial3: useMaterial3);
   final isDark = colorScheme.brightness == Brightness.dark;
 
   final dialogShape = RoundedRectangleBorder(
@@ -18,17 +18,17 @@ ThemeData _buildTheme(ColorScheme colorScheme) {
   );
 }
 
-ThemeData buildLightTheme([ColorScheme? scheme]) {
+ThemeData buildLightTheme([ColorScheme? scheme, bool useMaterial3 = true]) {
   final colorScheme =
       scheme ??
       ColorScheme.fromSeed(
         seedColor: const Color.fromARGB(255, 27, 241, 145),
         brightness: Brightness.light,
       );
-  return _buildTheme(colorScheme);
+  return _buildTheme(colorScheme, useMaterial3: useMaterial3);
 }
 
-ThemeData buildDarkTheme([ColorScheme? scheme]) {
+ThemeData buildDarkTheme([ColorScheme? scheme, bool useMaterial3 = true]) {
   final colorScheme =
       scheme ??
       ColorScheme.fromSeed(
@@ -40,5 +40,5 @@ ThemeData buildDarkTheme([ColorScheme? scheme]) {
         surfaceContainerHighest: const Color(0xFF0B0B0B),
         onSurface: const Color(0xFFECECEC),
       );
-  return _buildTheme(colorScheme);
+  return _buildTheme(colorScheme, useMaterial3: useMaterial3);
 }

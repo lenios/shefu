@@ -303,6 +303,9 @@ class AppLocalizationsHu extends AppLocalizations {
   String get themeDark => 'Sötét';
 
   @override
+  String get useMaterialYou => 'Material You használata';
+
+  @override
   String get gender => 'Nem';
 
   @override
@@ -417,6 +420,9 @@ class AppLocalizationsHu extends AppLocalizations {
   @override
   String get tipShoppingList =>
       'Amikor hozzáadja egy recept hozzávalóit a bevásárlólistához, a recept is mentésre kerül. Több receptből is hozzáadhat hozzávalókat, és elérheti az egyes recepteket a címükre kattintva a bevásárlólistában.';
+
+  @override
+  String get expertSettings => 'Haladó beállítások';
 
   @override
   String get tipImport =>

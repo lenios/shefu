@@ -119,6 +119,7 @@ void main() {
     'greatbritishchefs.com': ((html, url) => AbstractScraper(html, url), 1),
     'hellofresh.com': ((html, url) => HelloFreshScraper(html, url), 1),
     'hellofresh.fr': ((html, url) => HelloFreshScraper(html, url), 1),
+    // 'jamieoliver.com': ((html, url) => AbstractScraper(html, url), 2), NOT YET FULLY WORKING
     'kitchenstories.com': ((html, url) => AbstractScraper(html, url), 1),
     'kochbar.de': ((html, url) => AbstractScraper(html, url), 1),
     'koket.se': ((html, url) => AbstractScraper(html, url), 1),

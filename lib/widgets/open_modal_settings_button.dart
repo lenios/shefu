@@ -7,6 +7,7 @@ import 'package:shefu/l10n/l10n_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:shefu/widgets/tips_modal.dart';
 import 'package:shefu/widgets/app_info_modal.dart';
+// import 'package:shefu/widgets/expert_settings_modal.dart';
 
 Widget openModalSettingsButton(BuildContext context, ThemeData theme, [AppLocalizations? l10n]) {
   return GestureDetector(
@@ -201,6 +202,18 @@ void _showSettingsModal(BuildContext context, ThemeData theme) {
                       showAppInfoModal(context, theme);
                     },
                   ),
+
+                  // Expert Settings Button
+                  // ListTile(
+                  //   contentPadding: EdgeInsets.zero,
+                  //   leading: Icon(Icons.engineering, color: theme.colorScheme.primary),
+                  //   title: Text(l10n.expertSettings, style: theme.textTheme.titleMedium),
+                  //   trailing: const Icon(Icons.chevron_right),
+                  //   onTap: () {
+                  //     //Navigator.pop(context);
+                  //     showExpertSettingsModal(context, theme);
+                  //   },
+                  // ),
 
                   // measurement system
                   const Divider(),

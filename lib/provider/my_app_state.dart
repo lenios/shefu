@@ -33,6 +33,9 @@ class MyAppState extends ChangeNotifier {
   ThemeMode _themeMode = ThemeMode.system;
   ThemeMode get themeMode => _themeMode;
 
+  bool _useMaterialYou = true;
+  bool get useMaterialYou => _useMaterialYou;
+
   MyAppState({bool loadPreferences = true}) {
     if (loadPreferences) {
       _loadPreferences();
@@ -43,6 +46,7 @@ class MyAppState extends ChangeNotifier {
     final isUS = await _prefs.getBool('use_us_units') ?? false;
     _measurementSystem = isUS ? MeasurementSystem.us : MeasurementSystem.metric;
     _showCarbohydrates = await _prefs.getBool('show_carbohydrates') ?? true;
+    _useMaterialYou = await _prefs.getBool('use_material_you') ?? true;
     final themeModeString = await _prefs.getString('theme_mode') ?? 'system';
     _themeMode = ThemeMode.values.firstWhere(
       (mode) => mode.name == themeModeString,
@@ -63,6 +67,12 @@ class MyAppState extends ChangeNotifier {
   Future<void> setShowCarbohydrates(bool show) async {
     _showCarbohydrates = show;
     await _prefs.setBool('show_carbohydrates', show);
+    notifyListeners();
+  }
+
+  Future<void> setUseMaterialYou(bool use) async {
+    _useMaterialYou = use;
+    await _prefs.setBool('use_material_you', use);
     notifyListeners();
   }
 

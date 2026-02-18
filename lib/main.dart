@@ -81,39 +81,54 @@ class _MyAppState extends State<MyApp> {
       ],
       child: Consumer<MyAppState>(
         builder: (context, appState, child) {
-          return DynamicColorBuilder(
-            builder: (lightDynamic, darkDynamic) {
-              return MaterialApp.router(
-                routerConfig: AppRouter.router,
-                locale: _locale,
-                debugShowCheckedModeBanner: false,
-                title: 'Shefu',
-                themeMode: appState.themeMode,
-                theme: buildLightTheme(lightDynamic).copyWith(
-                  inputDecorationTheme: buildLightTheme(lightDynamic).inputDecorationTheme.copyWith(
-                    contentPadding: const EdgeInsets.all(8.0),
-                    floatingLabelBehavior: FloatingLabelBehavior.always,
-                  ),
-                ),
-                darkTheme: buildDarkTheme(darkDynamic).copyWith(
-                  inputDecorationTheme: buildDarkTheme(darkDynamic).inputDecorationTheme.copyWith(
-                    contentPadding: const EdgeInsets.all(8.0),
-                    floatingLabelBehavior: FloatingLabelBehavior.always,
-                  ),
-                ),
-                localizationsDelegates: const [
-                  AppLocalizations.delegate,
-                  GlobalMaterialLocalizations.delegate,
-                  GlobalWidgetsLocalizations.delegate,
-                  GlobalCupertinoLocalizations.delegate,
-                  CountryLocalizations.delegate,
-                ],
-                supportedLocales: AppLocalizations.supportedLocales,
-              );
-            },
-          );
+          if (appState.useMaterialYou) {
+            return DynamicColorBuilder(
+              builder: (lightDynamic, darkDynamic) =>
+                  _buildMaterialAppRouter(lightDynamic, darkDynamic, appState),
+            );
+          }
+
+          return _buildMaterialAppRouter(null, null, appState);
         },
       ),
+    );
+  }
+
+  Widget _buildMaterialAppRouter(
+    ColorScheme? lightDynamic,
+    ColorScheme? darkDynamic,
+    MyAppState appState,
+  ) {
+    return MaterialApp.router(
+      routerConfig: AppRouter.router,
+      locale: _locale,
+      debugShowCheckedModeBanner: false,
+      title: 'Shefu',
+      themeMode: appState.themeMode,
+      theme: buildLightTheme(lightDynamic, appState.useMaterialYou).copyWith(
+        inputDecorationTheme: buildLightTheme(lightDynamic, appState.useMaterialYou)
+            .inputDecorationTheme
+            .copyWith(
+              contentPadding: const EdgeInsets.all(8.0),
+              floatingLabelBehavior: FloatingLabelBehavior.always,
+            ),
+      ),
+      darkTheme: buildDarkTheme(darkDynamic, appState.useMaterialYou).copyWith(
+        inputDecorationTheme: buildDarkTheme(darkDynamic, appState.useMaterialYou)
+            .inputDecorationTheme
+            .copyWith(
+              contentPadding: const EdgeInsets.all(8.0),
+              floatingLabelBehavior: FloatingLabelBehavior.always,
+            ),
+      ),
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        CountryLocalizations.delegate,
+      ],
+      supportedLocales: AppLocalizations.supportedLocales,
     );
   }
 

@@ -302,6 +302,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get themeDark => 'Dark';
 
   @override
+  String get useMaterialYou => 'Use Material You design';
+
+  @override
   String get gender => 'Gender';
 
   @override
@@ -415,6 +418,9 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get tipShoppingList =>
       'When you add ingredients from a recipe to the shopping list, the recipe is also saved there. You can add ingredients from multiple recipes and access each recipe by tapping its title in the shopping list.';
+
+  @override
+  String get expertSettings => 'Expert settings';
 
   @override
   String get tipImport =>

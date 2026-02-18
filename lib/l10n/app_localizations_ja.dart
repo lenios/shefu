@@ -302,6 +302,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get themeDark => 'ダーク';
 
   @override
+  String get useMaterialYou => 'Material You デザインを使用する';
+
+  @override
   String get gender => '性別';
 
   @override
@@ -414,6 +417,9 @@ class AppLocalizationsJa extends AppLocalizations {
   @override
   String get tipShoppingList =>
       'レシピから買い物リストに材料を追加すると、レシピも保存されます。複数のレシピから材料を追加でき、買い物リストでレシピタイトルをタップすることでそれぞれのレシピにアクセスできます。';
+
+  @override
+  String get expertSettings => '上級者向け設定';
 
   @override
   String get tipImport => 'レシピの編集時に出典フィールドに対応ウェブサイトの完全なURLを貼り付けることで、レシピをインポートできます。';

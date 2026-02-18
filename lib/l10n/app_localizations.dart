@@ -682,6 +682,12 @@ abstract class AppLocalizations {
   /// **'Dark'**
   String get themeDark;
 
+  /// No description provided for @useMaterialYou.
+  ///
+  /// In en, this message translates to:
+  /// **'Use Material You design'**
+  String get useMaterialYou;
+
   /// No description provided for @gender.
   ///
   /// In en, this message translates to:
@@ -897,6 +903,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'When you add ingredients from a recipe to the shopping list, the recipe is also saved there. You can add ingredients from multiple recipes and access each recipe by tapping its title in the shopping list.'**
   String get tipShoppingList;
+
+  /// No description provided for @expertSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Expert settings'**
+  String get expertSettings;
 
   /// No description provided for @tipImport.
   ///

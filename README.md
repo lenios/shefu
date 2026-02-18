@@ -1,6 +1,6 @@
 # shefu
 
-Shefu is an **offline** open source (GPLv3) digital cookbook and kitchen assistant, designed to help you organize, cook, and track your recipes in your native language. All of this with local storage (no internet required!).
+Shefu is an **offline** open source (GPLv3) digital cookbook and kitchen assistant, designed to help you track, organize, and cook your recipes in your native language. All of this with local storage (no internet required!).
 
 <a href='https://play.google.com/store/apps/details?id=fr.orvidia.shefu'>
   <center><img src="assets/GetItOnGooglePlay_Badge_Web_color_English.png" alt="Get it on Google Play" width="170"></center>
@@ -10,13 +10,16 @@ Shefu is an **offline** open source (GPLv3) digital cookbook and kitchen assista
 Key Features:
 
 - **Organize Your Recipes**: Easily add, edit, and search your categorized recipes (mains, desserts, etc.). Use advanced search, and filters (like category, country) to find exactly what you need, right when you need it. Search 'egg' and you'll find all your recipes including eggs, even meringue!
-- **Scan Recipes with OCR**: Have a recipe in a book or magazine? Just snap a photo! Shefu's built-in OCR (Optical Character Recognition) intelligently extracts the title, ingredients, and steps. (Note: OCR performs best with clear, well-structured text layouts and is NOT available on the fdroid version).
+- **Scan Recipes with OCR**: Have a recipe in a book or magazine? Just snap a photo! Shefu's built-in OCR (Optical Character Recognition) intelligently extracts the title, ingredients, and steps. (Note: OCR performs best with clear, well-structured text layouts).
 - **Detailed Step-by-Step View**: Follow recipes with clear, easy-to-read instructions. Add images and optional timers to individual steps. Ingredients quantities are automatically adapted to desired servings.
-- **Nutrient Tracking & Insights**: Link your ingredients to an extensive included offline nutrient database (Source: Santé Canada). Shefu automatically calculates estimated calories and carbohydrates per serving based on your ingredients and specified serving size, helping you make more informed dietary choices.
-- **Shopping List Generation**: (Coming Soon!) Automatically generate a convenient shopping list based on the ingredients needed for your selected recipes.
+- **Nutrient Tracking & Insights**: Link your ingredients to an extensive included offline nutrient database (Source: Santé Canada). Shefu automatically calculates all nutritional values per serving based on your ingredients and specified serving size, helping you make more informed dietary choices. Refer to nutrition tab on recipes.
+- **Offline text to speech**: let the application speak the steps for you, while you are busy cooking.
+- **Shopping List Generation**: Automatically generate a convenient shopping list based on the ingredients needed for your selected recipes. *(Note: shopping list is only available until the application is closed)*
 - **Multi-language Support**: Fully available in English, French, Japanese, and Hungarian.
 - **Works Offline**: Your recipes are stored locally on your device, ensuring you always have access. No internet required to use the application (except for recipe import, see below).
-- **Internet recipes import**: Put a supported site url in source when creating a recipe to import it (see list below).
+- **Internet recipes import**: Put a supported site url in source when creating a recipe to import it (see list below). Advanced scraper compatible with images, FAQs, nutritional values when available.
+- **Video player**: Put a video url on recipe to play it when you cook. Video urls are automatically saved when importing recipes from compatible websites.
+- **Internet recipes search**: On supported sites, you can browse recipes and import recipe in one click.
 
 
 Supported languages:
@@ -103,12 +106,13 @@ Supported Recipe Websites for import:
 | ✅ [Supertoinette.com](https://www.supertoinette.com) |
 | More sites 🚧 In progress |
 
-| Other Supported Websites **(13)** | Country |
+| Other Supported Websites **(14)** | Country |
 |-------------------|:--------|
 | ✅ [Akispetretzikis.com](https://www.akispetretzikis.com) | 🇬🇷 Greece |
 | ✅ [BBCgoodfood.com](https://www.bbcgoodfood.com) | 🇬🇧 UK |
 | ✅ [Foodnetwork.co.uk](https://www.foodnetwork.co.uk) | 🇬🇧 UK |
 | ✅ [Greatbritishchefs.com](https://www.greatbritishchefs.com) | 🇬🇧 UK |
+| ✅ [JamieOliver.com](https://www.jamieoliver.com) | 🇬🇧 UK |
 | ✅ [Kitchenstories.com](https://www.kitchenstories.com) | 🇩🇪 Germany |
 | ✅ [Kochbar.de](https://www.kochbar.de) | 🇩🇪 Germany |
 | ✅ [Koket.se](https://www.koket.se) | 🇸🇪 Sweden |
