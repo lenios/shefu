@@ -99,7 +99,7 @@ class _StepTimerWidgetState extends State<StepTimerWidget> {
               strokeWidth: 5.0,
               strokeCap: StrokeCap.round,
               textStyle: TextStyle(
-                fontSize: 14.0,
+                fontSize: _isStarted ? 14.0 : 12.0,
                 color: colorScheme.onSurface,
                 fontWeight: FontWeight.bold,
               ),

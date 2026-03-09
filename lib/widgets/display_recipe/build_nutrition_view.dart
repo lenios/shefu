@@ -96,15 +96,20 @@ Widget buildNutritionView(BuildContext context, DisplayRecipeViewModel viewModel
                   ),
                 ],
               ),
-              Divider(color: theme.dividerColor, thickness: 4, height: 16),
+              Divider(color: theme.dividerColor, thickness: 4, height: 4),
               Align(
                 alignment: Alignment.centerRight,
-                child: Text(
-                  '% ${l10n.dailyValue}*',
-                  style: theme.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 4.0),
+                  decoration: BoxDecoration(color: theme.colorScheme.secondary.withAlpha(30)),
+
+                  child: Text(
+                    '% ${l10n.dailyValue}*',
+                    style: theme.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold),
+                  ),
                 ),
               ),
-              Divider(color: theme.dividerColor, thickness: 1, height: 8),
+              Divider(color: theme.dividerColor, thickness: 1, height: 1),
 
               _buildNutrientRow(
                 l10n.totalFat,
@@ -248,7 +253,7 @@ Widget _buildNutrientRow(
   return Column(
     children: [
       Padding(
-        padding: EdgeInsets.only(left: isIndented ? 16.0 : 0, top: 4, bottom: 4),
+        padding: EdgeInsets.only(left: isIndented ? 16.0 : 0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -275,11 +280,27 @@ Widget _buildNutrientRow(
                 ),
               ),
             ),
-            if (dailyValue.isNotEmpty)
-              Text(
-                '$dailyValue%',
-                style: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
+            // background color for daily values
+            SizedBox(
+              width: 48,
+              child: Container(
+                padding: dailyValue.isNotEmpty
+                    ? const EdgeInsets.symmetric(vertical: 2.0)
+                    : EdgeInsets.zero,
+                decoration: BoxDecoration(color: theme.colorScheme.secondary.withAlpha(30)),
+                alignment: Alignment.center,
+                child: dailyValue.isNotEmpty
+                    ? Text(
+                        '$dailyValue%',
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: theme.colorScheme.secondary,
+                        ),
+                        textAlign: TextAlign.center,
+                      )
+                    : const SizedBox.shrink(),
               ),
+            ),
           ],
         ),
       ),
