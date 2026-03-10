@@ -12,6 +12,7 @@ import 'package:shefu/utils/recipe_scrapers/scrapers/abeautifulmess.com.dart';
 import 'package:shefu/utils/recipe_scrapers/scrapers/wdr.de.dart';
 import 'package:shefu/utils/recipe_scrapers/scrapers/zaubertopf.de.dart';
 import 'package:shefu/utils/recipe_scrapers/scrapers/zeit.de.dart';
+import 'package:shefu/utils/recipe_scrapers/scrapers/delishkitchen.tv.dart';
 
 /// Generic function to test a scraper against an expected JSON output.
 void testScraper({
@@ -112,7 +113,7 @@ void main() {
     'cuisineactuelle.fr': ((html, url) => AbstractScraper(html, url), 1),
     'cuisine.journaldesfemmes.fr': ((html, url) => AbstractScraper(html, url), 1),
     'damndelicious.net': ((html, url) => AbstractScraper(html, url), 2),
-    'delishkitchen.tv': ((html, url) => AbstractScraper(html, url), 1),
+    'delishkitchen.tv': ((html, url) => DelishKitchenScraper(html, url), 2),
     'eatingwell.com': ((html, url) => AbstractScraper(html, url), 1),
     'evolvingtable.com': ((html, url) => AbstractScraper(html, url), 2),
     'foodnetwork.co.uk': ((html, url) => AbstractScraper(html, url), 1),

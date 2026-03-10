@@ -14,6 +14,7 @@ import 'package:shefu/utils/recipe_scrapers/scrapers/seriouseats.dart';
 import 'package:shefu/utils/recipe_scrapers/scrapers/zaubertopf.de.dart';
 import 'package:shefu/utils/recipe_scrapers/scrapers/zeit.de.dart';
 import 'package:shefu/utils/recipe_scrapers/scrapers/wdr.de.dart';
+import 'package:shefu/utils/recipe_scrapers/scrapers/delishkitchen.tv.dart';
 
 /// Factory for creating scrapers based on URL
 class ScraperFactory {
@@ -43,7 +44,7 @@ class ScraperFactory {
     "cuisineaz.com": AbstractScraper.new,
     "cuisineactuelle.fr": AbstractScraper.new,
     "damndelicious.net": AbstractScraper.new,
-    "delishkitchen.tv": AbstractScraper.new,
+    "delishkitchen.tv": DelishKitchenScraper.new,
     "eatingwell.com": AbstractScraper.new,
     "evolvingtable.com": AbstractScraper.new,
     "foodnetwork.co.uk": AbstractScraper.new,
