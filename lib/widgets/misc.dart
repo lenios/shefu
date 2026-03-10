@@ -19,6 +19,7 @@ Widget flagIcon(String countryCode) {
 }
 
 dynamic formattedQuantity(double quantity, {bool fraction = true}) {
+  if (quantity.isNaN || quantity.isInfinite) return ""; // Guard against invalid values
   if (quantity == 0) return ""; // Show nothing for zero quantity
   if (quantity % 1 == 0) return quantity.toInt(); // Exact integer
 

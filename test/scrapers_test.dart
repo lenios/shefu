@@ -107,7 +107,7 @@ void main() {
     'cakemehometonight.com': ((html, url) => AbstractScraper(html, url), 2),
     'cdkitchen.com': ((html, url) => AbstractScraper(html, url), 1),
     'chefsimon.com': ((html, url) => AbstractScraper(html, url), 1),
-    'cookpad.com': ((html, url) => CookpadScraper(html, url), 2),
+    'cookpad.com': ((html, url) => CookpadScraper(html, url), 3),
     'cuisineaz.com': ((html, url) => AbstractScraper(html, url), 1),
     'cuisineactuelle.fr': ((html, url) => AbstractScraper(html, url), 1),
     'cuisine.journaldesfemmes.fr': ((html, url) => AbstractScraper(html, url), 1),
