@@ -218,7 +218,7 @@ Future<void> exportRecipeToPdf(
                               return pw.Padding(
                                 padding: const pw.EdgeInsets.only(bottom: 2),
                                 child: pw.Text(
-                                  '- ${formatted.primaryQuantityDisplay} ${formatted.name}  ',
+                                  '- ${formatted.displayReversed ? '${formatted.name} ${formatted.primaryQuantityDisplay}' : '${formatted.primaryQuantityDisplay} ${formatted.name}'}  ',
                                 ),
                               );
                             }),

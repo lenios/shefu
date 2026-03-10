@@ -6,6 +6,7 @@ class FormattedIngredient {
   final bool showDescription;
   final bool isChecked;
   final bool optional;
+  final bool displayReversed;
 
   FormattedIngredient({
     required this.primaryQuantityDisplay,
@@ -15,5 +16,6 @@ class FormattedIngredient {
     required this.showDescription,
     this.isChecked = false,
     this.optional = false,
+    this.displayReversed = false,
   });
 }

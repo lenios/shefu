@@ -112,6 +112,7 @@ void main() {
     'cuisineactuelle.fr': ((html, url) => AbstractScraper(html, url), 1),
     'cuisine.journaldesfemmes.fr': ((html, url) => AbstractScraper(html, url), 1),
     'damndelicious.net': ((html, url) => AbstractScraper(html, url), 2),
+    'delishkitchen.tv': ((html, url) => AbstractScraper(html, url), 1),
     'eatingwell.com': ((html, url) => AbstractScraper(html, url), 1),
     'evolvingtable.com': ((html, url) => AbstractScraper(html, url), 2),
     'foodnetwork.co.uk': ((html, url) => AbstractScraper(html, url), 1),

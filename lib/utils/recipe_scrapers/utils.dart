@@ -452,6 +452,73 @@ String? getUrlSlug(String url) {
   return parts.last.isEmpty ? parts[parts.length - 2] : parts.last;
 }
 
+/// Returns true if [text] contains Japanese/CJK characters.
+bool _hasJapanese(String text) =>
+    RegExp(r'[\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FFF]').hasMatch(text);
+
+/// Parses a number string that may use Japanese mixed-fraction notation.
+/// Supports: "2", "1.5", "1/2", "1と1/2" (= 1.5).
+double? _parseJapaneseNumber(String s) {
+  final mixedWithTo = RegExp(r'(\d+)と(\d+)\/(\d+)').firstMatch(s);
+  if (mixedWithTo != null) {
+    return double.parse(mixedWithTo.group(1)!) +
+        int.parse(mixedWithTo.group(2)!) / int.parse(mixedWithTo.group(3)!);
+  }
+  final simpleFrac = RegExp(r'^(\d+)\/(\d+)$').firstMatch(s);
+  if (simpleFrac != null) {
+    return int.parse(simpleFrac.group(1)!) / int.parse(simpleFrac.group(2)!);
+  }
+  return double.tryParse(s);
+}
+
+/// Parses a Japanese ingredient string of the form "[name] [quantity][unit]".
+/// Returns (quantity, unit, name); any field may be empty if not found.
+(String, String, String) _parseJapaneseIngredient(String ingredient) {
+  const counters = ['個', '枚', '本', '杯', '缶', '袋', '切れ', '人前', '人分'];
+  const vagueAmounts = ['少々', '適量', '適宜', '少量', '少し', 'ひとつまみ', 'お好みで'];
+  const japaneseUnits = {'大さじ': 'tbsp', '大匙': 'tbsp', '小さじ': 'tsp', '小匙': 'tsp'};
+
+  final lastSpaceIdx = ingredient.lastIndexOf(' ');
+  if (lastSpaceIdx < 0) return ('', '', ingredient);
+
+  final namePart = ingredient.substring(0, lastSpaceIdx).trim();
+  final qtyPart = ingredient.substring(lastSpaceIdx + 1).trim();
+
+  // Metric unit at end (e.g. "8g", "135ml", "1個135g" → prefer grams)
+  final metricMatch = RegExp(
+    r'(\d+(?:\.\d+)?)\s*(g|ml|kg|cc|l)$',
+    caseSensitive: false,
+  ).firstMatch(qtyPart);
+  if (metricMatch != null) {
+    return (metricMatch.group(1)!, metricMatch.group(2)!.toLowerCase(), namePart);
+  }
+
+  // Japanese tablespoon/teaspoon (e.g. "大さじ1", "大匙1と1/2", "小さじ1/2")
+  for (final entry in japaneseUnits.entries) {
+    final m = RegExp(RegExp.escape(entry.key) + r'([\d./と]+)').firstMatch(qtyPart);
+    if (m != null) {
+      final n = _parseJapaneseNumber(m.group(1)!);
+      if (n != null) return (n.toString(), entry.value, namePart);
+    }
+  }
+
+  // Number + Japanese counter (e.g. "2個", "1/4個", "3枚", "どんぶり1杯")
+  for (final counter in counters) {
+    final m = RegExp(r'(\d+(?:\/\d+)?)\s*' + RegExp.escape(counter)).firstMatch(qtyPart);
+    if (m != null) {
+      final n = _parseJapaneseNumber(m.group(1)!);
+      if (n != null) return (n.toString(), counter, namePart);
+    }
+  }
+
+  // Vague amounts (e.g. "少々", "適量")
+  for (final vague in vagueAmounts) {
+    if (qtyPart.contains(vague)) return ('', vague, namePart);
+  }
+
+  return ('', '', ingredient);
+}
+
 // (String, String, String, String) parseIngredient(String ingredient) {
 //   // Try to match quantity pattern (numbers, fractions)
 //   final quantityMatch = RegExp(r'^([\d\/\.\s]+)').firstMatch(ingredient);
@@ -583,6 +650,13 @@ String? getUrlSlug(String url) {
 
       // Remove the parenthetical content from the name
       name = ingredient.replaceAll(RegExp(r'\([^)]+\)'), '').trim();
+
+      // For Japanese ingredients, strip any remaining quantity notation from the name
+      // e.g. "ごはん どんぶり1杯" (after removing "(200g)") → "ごはん"
+      if (_hasJapanese(name)) {
+        final cleaned = _parseJapaneseIngredient(name);
+        if (cleaned.$3.isNotEmpty && cleaned.$3 != name) name = cleaned.$3;
+      }
     }
   }
 
@@ -593,6 +667,18 @@ String? getUrlSlug(String url) {
     if (parentheticalMatch != null) {
       parentheticalNotes = parentheticalMatch.group(0) ?? '';
       name = name.replaceAll(parentheticalNotes, '').trim();
+    }
+
+    // Look for fractions and mixed numbers as quantity
+    // For Japanese ingredients the format is reversed: "[name] [quantity][unit]"
+    if (_hasJapanese(name)) {
+      final (jQty, jUnit, jName) = _parseJapaneseIngredient(name);
+      if (jQty.isNotEmpty || jUnit.isNotEmpty) {
+        quantity = jQty;
+        unit = jUnit;
+        name = parentheticalNotes.isNotEmpty ? '$jName $parentheticalNotes' : jName;
+        return (quantity, unit, name, shape);
+      }
     }
 
     // Look for fractions and mixed numbers as quantity

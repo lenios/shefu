@@ -110,18 +110,19 @@ Supported Recipe Websites for import:
 |-------------------|:--------|
 | ✅ [Akispetretzikis.com](https://www.akispetretzikis.com) | 🇬🇷 Greece |
 | ✅ [BBCgoodfood.com](https://www.bbcgoodfood.com) | 🇬🇧 UK |
+| ✅ [Cookpad.com](https://www.cookpad.com) | 🌏 Worldwide |
+| ✅ [Delishkitchen.tv](https://delishkitchen.tv) | 🇯🇵 Japan |
 | ✅ [Foodnetwork.co.uk](https://www.foodnetwork.co.uk) | 🇬🇧 UK |
 | ✅ [Greatbritishchefs.com](https://www.greatbritishchefs.com) | 🇬🇧 UK |
 | ✅ [JamieOliver.com](https://www.jamieoliver.com) | 🇬🇧 UK |
 | ✅ [Kitchenstories.com](https://www.kitchenstories.com) | 🇩🇪 Germany |
 | ✅ [Kochbar.de](https://www.kochbar.de) | 🇩🇪 Germany |
 | ✅ [Koket.se](https://www.koket.se) | 🇸🇪 Sweden |
-| ✅ [miljuschka.nl](https://miljuschka.nl) | 🇳🇱 Netherlands |
+| ✅ [Miljuschka.nl](https://miljuschka.nl) | 🇳🇱 Netherlands |
 | ✅ [Wdr.de](https://www1.wdr.de) | 🇩🇪 Germany |
 | ✅ [Yemek.com](https://www.yemek.com) | 🇹🇷 Turkey |
 | ✅ [Zaubertopf.de](https://www.zaubertopf.de) | 🇩🇪 Germany |
 | ✅ [Zeit.de](https://www.zeit.de) | 🇩🇪 Germany |
-| ✅ [Cookpad.com](https://www.cookpad.com) | 🌏 World |
 | More sites | 🚧 In progress |
 
 

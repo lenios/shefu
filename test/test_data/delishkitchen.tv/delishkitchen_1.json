@@ -1,0 +1,67 @@
+{
+  "author": "Minami",
+  "canonical_url": "https://delishkitchen.tv/recipes/482594657587429799",
+  "site_name": "デリッシュキッチン",
+  "host": "delishkitchen.tv",
+  "language": "ja",
+  "title": "のせるだけ簡単！ ふわとろオムライス",
+  "ingredients": [
+    "ごはん どんぶり1杯(200g)",
+    "卵 2個",
+    "ベーコン 2枚",
+    "牛乳 大さじ1",
+    "玉ねぎ 1/4個(50g)",
+    "オリーブオイル 大さじ1",
+    "ケチャップ 大さじ1と1/2",
+    "塩こしょう 少々",
+    "ケチャップ 大さじ1"
+  ],
+  "instructions_list": [
+    "玉ねぎはみじん切りにする。",
+    "ベーコンは5mm幅に切る。",
+    "ボウルに卵を割り入れ、牛乳を加えて混ぜる(卵液)。",
+    "フライパンにオリーブオイルの半量(大さじ1/2)を入れて熱し、玉ねぎを入れてしんなりとするまで炒める。ベーコンを加えてさっと炒める。",
+    "ケチャップ(大さじ1と1/2)を加えて30秒〜1分ほど炒め、ごはんを加えて炒め合わせる。塩こしょうを加えて味をととのえ、器に盛る。",
+    "フライパンは洗って水気をふきとる。残りのオリーブオイル(大さじ1/2)を入れて中火で熱し、卵液を流し入れる。菜箸で大きくかき混ぜながら半熟状になるまで加熱する。",
+    "5の器に卵を盛る。ケチャップをかける。"
+  ],
+  "step_images": [
+    "https://media.delishkitchen.tv/recipe/482594657587429799/steps/1.jpg?version=1705636835",
+    "https://media.delishkitchen.tv/recipe/482594657587429799/steps/2.jpg?version=1705636835",
+    "https://media.delishkitchen.tv/recipe/482594657587429799/steps/3.jpg?version=1705636835",
+    "https://media.delishkitchen.tv/recipe/482594657587429799/steps/4.jpg?version=1705636835",
+    "https://media.delishkitchen.tv/recipe/482594657587429799/steps/5.jpg?version=1705636835",
+    "https://media.delishkitchen.tv/recipe/482594657587429799/steps/6.jpg?version=1705636835",
+    "https://media.delishkitchen.tv/recipe/482594657587429799/steps/7.jpg?version=1705636835"
+  ],
+  "category": "main course",
+  "yields": "1 serving",
+  "description": "ケチャップライスにスクランブルエッグのようにふわふわとろとろに仕上げた卵をのせるだけ♪あっという間に簡単にできるオムライスのご紹介です！卵の半熟具合はお好みで調節してお作りください！",
+  "total_time": 20,
+  "cook_time": 20,
+  "prep_time": 0,
+  "cuisine": "Western",
+  "ratings": 4.5,
+  "ratings_count": 100,
+  "nutrients": {
+    "calories": "768kcal",
+    "carbohydrateContent": "92g",
+    "fatContent": "31.7g",
+    "proteinContent": "22.6g",
+    "sugarContent": "89.9g",
+    "sodiumContent": "2.4g"
+  },
+  "image": "https://image.delishkitchen.tv/recipe/482594657587429799/1.jpg?version=1705849202&w=920",
+  "video": "https://media.delishkitchen.tv/recipe/482594657587429799/1.mp4",
+  "keywords": [
+    "ごはんもの",
+    "昼ごはん",
+    "主食",
+    "オムライス",
+    "簡単オムライス",
+    "晩ごはん",
+    "ケチャップ",
+    "その他のオムライス",
+    "卵"
+  ]
+}

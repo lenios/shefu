@@ -42,7 +42,7 @@ class IngredientDisplay extends StatelessWidget {
                 children: [
                   Flexible(
                     child: Text(
-                      "${ingredient.primaryQuantityDisplay} ${ingredient.name}"
+                      "${ingredient.displayReversed ? '${ingredient.name} ${ingredient.primaryQuantityDisplay}' : '${ingredient.primaryQuantityDisplay} ${ingredient.name}'}"
                       "${lineShape && ingredient.shape.isNotEmpty ? ', ${ingredient.shape}' : ''}",
                       style: TextStyle(
                         fontWeight: isBold ? FontWeight.bold : null,

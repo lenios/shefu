@@ -43,6 +43,7 @@ class ScraperFactory {
     "cuisineaz.com": AbstractScraper.new,
     "cuisineactuelle.fr": AbstractScraper.new,
     "damndelicious.net": AbstractScraper.new,
+    "delishkitchen.tv": AbstractScraper.new,
     "eatingwell.com": AbstractScraper.new,
     "evolvingtable.com": AbstractScraper.new,
     "foodnetwork.co.uk": AbstractScraper.new,

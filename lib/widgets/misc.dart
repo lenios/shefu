@@ -115,6 +115,7 @@ FormattedIngredient formatIngredient({
   bool optional = false,
 }) {
   final appState = Provider.of<MyAppState>(context, listen: false);
+  final displayReversed = Localizations.localeOf(context).languageCode == 'ja';
 
   // Special case for pinch
   if (unit?.toLowerCase() == "pinch") {
@@ -128,6 +129,7 @@ FormattedIngredient formatIngredient({
       showDescription: false,
       isChecked: isChecked,
       optional: optional,
+      displayReversed: displayReversed,
     );
   }
 
@@ -176,6 +178,7 @@ FormattedIngredient formatIngredient({
     showDescription: showDesc,
     isChecked: isChecked,
     optional: optional,
+    displayReversed: displayReversed,
   );
 }
 
