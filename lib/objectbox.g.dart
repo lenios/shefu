@@ -601,7 +601,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
     id: const obx_int.IdUid(5, 4388955433426848727),
     name: 'RecipeStep',
-    lastPropertyId: const obx_int.IdUid(8, 5842203084657558908),
+    lastPropertyId: const obx_int.IdUid(9, 3631918177233421419),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
@@ -647,6 +647,12 @@ final _entities = <obx_int.ModelEntity>[
         id: const obx_int.IdUid(8, 5842203084657558908),
         name: 'order',
         type: 6,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(9, 3631918177233421419),
+        name: 'videoUrl',
+        type: 9,
         flags: 0,
       ),
     ],
@@ -1202,7 +1208,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final nameOffset = fbb.writeString(object.name);
         final instructionOffset = fbb.writeString(object.instruction);
         final imagePathOffset = fbb.writeString(object.imagePath);
-        fbb.startTable(9);
+        final videoUrlOffset = fbb.writeString(object.videoUrl);
+        fbb.startTable(10);
         fbb.addInt64(0, object.id);
         fbb.addOffset(1, nameOffset);
         fbb.addOffset(2, instructionOffset);
@@ -1210,6 +1217,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
         fbb.addInt64(4, object.timer);
         fbb.addInt64(5, object.recipe.targetId);
         fbb.addInt64(7, object.order);
+        fbb.addOffset(8, videoUrlOffset);
         fbb.finish(fbb.endTable());
         return object.id;
       },
@@ -1226,6 +1234,9 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final imagePathParam = const fb.StringReader(
           asciiOptimization: true,
         ).vTableGet(buffer, rootOffset, 10, '');
+        final videoUrlParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 20, '');
         final timerParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 12, 0);
         final orderParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 18, 0);
         final object = RecipeStep(
@@ -1233,6 +1244,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
           name: nameParam,
           instruction: instructionParam,
           imagePath: imagePathParam,
+          videoUrl: videoUrlParam,
           timer: timerParam,
           order: orderParam,
         );
@@ -1591,6 +1603,9 @@ class RecipeStep_ {
 
   /// See [RecipeStep.order].
   static final order = obx.QueryIntegerProperty<RecipeStep>(_entities[4].properties[6]);
+
+  /// See [RecipeStep.videoUrl].
+  static final videoUrl = obx.QueryStringProperty<RecipeStep>(_entities[4].properties[7]);
 
   /// see [RecipeStep.ingredients]
   static final ingredients = obx.QueryBacklinkToMany<IngredientItem, RecipeStep>(

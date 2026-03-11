@@ -34,6 +34,15 @@
     "https://media.delishkitchen.tv/recipe/482594657587429799/steps/6.jpg?version=1705636835",
     "https://media.delishkitchen.tv/recipe/482594657587429799/steps/7.jpg?version=1705636835"
   ],
+  "step_videos": [
+    "https://media.delishkitchen.tv/recipe/482594657587429799/steps/1.m3u8",
+    "https://media.delishkitchen.tv/recipe/482594657587429799/steps/2.m3u8",
+    "https://media.delishkitchen.tv/recipe/482594657587429799/steps/3.m3u8",
+    "https://media.delishkitchen.tv/recipe/482594657587429799/steps/4.m3u8",
+    "https://media.delishkitchen.tv/recipe/482594657587429799/steps/5.m3u8",
+    "https://media.delishkitchen.tv/recipe/482594657587429799/steps/6.m3u8",
+    "https://media.delishkitchen.tv/recipe/482594657587429799/steps/7.m3u8"
+  ],
   "category": "main course",
   "yields": "1 serving",
   "description": "ケチャップライスにスクランブルエッグのようにふわふわとろとろに仕上げた卵をのせるだけ♪あっという間に簡単にできるオムライスのご紹介です！卵の半熟具合はお好みで調節してお作りください！",

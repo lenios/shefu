@@ -489,7 +489,7 @@
     },
     {
       "id": "5:4388955433426848727",
-      "lastPropertyId": "8:5842203084657558908",
+      "lastPropertyId": "9:3631918177233421419",
       "name": "RecipeStep",
       "properties": [
         {
@@ -530,6 +530,11 @@
           "id": "8:5842203084657558908",
           "name": "order",
           "type": 6
+        },
+        {
+          "id": "9:3631918177233421419",
+          "name": "videoUrl",
+          "type": 9
         }
       ],
       "relations": []

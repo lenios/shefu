@@ -9,6 +9,8 @@ class RecipeImagePicker extends StatelessWidget {
   final int? stepIndex;
   final String? imagePath;
   final bool readOnly;
+  final VoidCallback? onVideoButtonTap;
+  final bool videoActive;
 
   const RecipeImagePicker({
     super.key,
@@ -16,6 +18,8 @@ class RecipeImagePicker extends StatelessWidget {
     this.stepIndex,
     this.imagePath,
     this.readOnly = false,
+    this.onVideoButtonTap,
+    this.videoActive = false,
   }) : assert(
          readOnly || viewModel != null,
          'viewModel must be provided when not in readOnly mode',
@@ -65,30 +69,12 @@ class RecipeImagePicker extends StatelessWidget {
                   ),
                 ),
               ),
-              // Delete Button
+              // Video toggle button (top-left, steps only)
+              if (onVideoButtonTap != null) _buildVideoToggleButton(context),
+              // Change Image Button (top-right)
               Positioned(
                 top: 6,
                 right: 6,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surfaceContainer.withAlpha(150),
-                    shape: BoxShape.circle,
-                  ),
-                  child: IconButton(
-                    icon: Icon(Icons.delete_outline, color: Theme.of(context).colorScheme.error),
-                    tooltip: l10n.delete,
-                    onPressed: () async {
-                      clearImageCache(path);
-                      viewModel!.deleteImage(stepIndex: stepIndex);
-                    },
-                    constraints: const BoxConstraints(),
-                  ),
-                ),
-              ),
-              // Change Image Button
-              Positioned(
-                bottom: 3,
-                right: 3,
                 child: Container(
                   decoration: BoxDecoration(
                     color: Theme.of(context).colorScheme.surfaceContainer.withAlpha(150),
@@ -106,51 +92,97 @@ class RecipeImagePicker extends StatelessWidget {
                   ),
                 ),
               ),
+              // Delete Button (bottom-right)
+              Positioned(
+                bottom: 3,
+                right: 3,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.surfaceContainer.withAlpha(150),
+                    shape: BoxShape.circle,
+                  ),
+                  child: IconButton(
+                    icon: Icon(Icons.delete_outline, color: Theme.of(context).colorScheme.error),
+                    tooltip: l10n.delete,
+                    onPressed: () async {
+                      clearImageCache(path);
+                      viewModel!.deleteImage(stepIndex: stepIndex);
+                    },
+                    constraints: const BoxConstraints(),
+                  ),
+                ),
+              ),
             ],
           );
         } else {
           // No image - show placeholder with add button
-          return InkWell(
-            onTap: () => viewModel!.pickAndProcessImage(
-              stepIndex: stepIndex,
-              recipeId: viewModel!.recipe.id,
-              context: context,
-            ),
-            borderRadius: BorderRadius.circular(8.0),
-            child: Container(
-              height: 140,
-              width: 140,
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surfaceContainerHighest,
+          return Stack(
+            children: [
+              InkWell(
+                onTap: () => viewModel!.pickAndProcessImage(
+                  stepIndex: stepIndex,
+                  recipeId: viewModel!.recipe.id,
+                  context: context,
+                ),
                 borderRadius: BorderRadius.circular(8.0),
-                border: Border.all(color: Theme.of(context).colorScheme.outline.withAlpha(75)),
-              ),
-              child: Column(
-                mainAxisAlignment: .center,
-                children: [
-                  Icon(
-                    Icons.add_photo_alternate_outlined,
-                    color: Theme.of(context).colorScheme.primary,
-                    size: 45,
+                child: Container(
+                  height: 140,
+                  width: 140,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                    borderRadius: BorderRadius.circular(8.0),
+                    border: Border.all(color: Theme.of(context).colorScheme.outline.withAlpha(75)),
                   ),
-                  const SizedBox(height: 8),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Text(
-                      l10n.addImage,
-                      style: TextStyle(
+                  child: Column(
+                    mainAxisAlignment: .center,
+                    children: [
+                      Icon(
+                        Icons.add_photo_alternate_outlined,
                         color: Theme.of(context).colorScheme.primary,
-                        fontWeight: FontWeight.w500,
+                        size: 45,
                       ),
-                      textAlign: TextAlign.center,
-                    ),
+                      const SizedBox(height: 8),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Text(
+                          l10n.addImage,
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
-            ),
+              if (onVideoButtonTap != null) _buildVideoToggleButton(context),
+            ],
           );
         }
       },
+    );
+  }
+
+  Widget _buildVideoToggleButton(BuildContext context) {
+    return Positioned(
+      top: 6,
+      left: 6,
+      child: Container(
+        decoration: BoxDecoration(
+          color: videoActive
+              ? Theme.of(context).colorScheme.surfaceContainer.withAlpha(75)
+              : Theme.of(context).colorScheme.onPrimaryContainer.withAlpha(75),
+          borderRadius: BorderRadius.circular(8.0),
+          border: Border.all(color: Theme.of(context).colorScheme.outline.withAlpha(75)),
+        ),
+        child: IconButton(
+          icon: Icon(Icons.videocam_outlined, color: Theme.of(context).colorScheme.secondary),
+          onPressed: onVideoButtonTap,
+          constraints: const BoxConstraints(),
+        ),
+      ),
     );
   }
 

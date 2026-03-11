@@ -8,7 +8,7 @@ import 'ingredients_section.dart';
 import 'recipe_image_picker.dart';
 import 'recipe_step_fields.dart';
 
-class RecipeStepCard extends StatelessWidget {
+class RecipeStepCard extends StatefulWidget {
   final EditRecipeViewModel viewModel;
   final int stepIndex;
   final bool isHandset;
@@ -21,12 +21,19 @@ class RecipeStepCard extends StatelessWidget {
   });
 
   @override
+  State<RecipeStepCard> createState() => _RecipeStepCardState();
+}
+
+class _RecipeStepCardState extends State<RecipeStepCard> {
+  late bool _showVideoUrl = false;
+
+  @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Selector<EditRecipeViewModel, RecipeStep>(
       selector: (_, vm) {
-        return vm.recipe.steps[stepIndex];
+        return vm.recipe.steps[widget.stepIndex];
       },
       shouldRebuild: (prev, next) => prev.id != next.id,
       builder: (context, step, _) {
@@ -34,7 +41,7 @@ class RecipeStepCard extends StatelessWidget {
           child: Stack(
             children: [
               Card(
-                key: ValueKey('step_${step.id}_$stepIndex'),
+                key: ValueKey('step_${step.id}_${widget.stepIndex}'),
                 color: Theme.of(context).colorScheme.surfaceContainer.withAlpha(isDark ? 0 : 180),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.0),
@@ -57,13 +64,13 @@ class RecipeStepCard extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            "${AppLocalizations.of(context)!.step} ${stepIndex + 1}",
+                            "${AppLocalizations.of(context)!.step} ${widget.stepIndex + 1}",
                             style: Theme.of(context).textTheme.titleMedium,
                           ),
                           const SizedBox(width: 10),
                           Expanded(
                             child: TextFormField(
-                              initialValue: step.name, // Use 'step' from Selector
+                              initialValue: step.name,
                               decoration: InputDecoration(
                                 labelText: AppLocalizations.of(context)!.name,
                                 border: const OutlineInputBorder(),
@@ -73,19 +80,29 @@ class RecipeStepCard extends StatelessWidget {
                                   vertical: 5,
                                 ),
                               ),
-                              onChanged: (val) => viewModel.updateStepName(stepIndex, val),
+                              onChanged: (val) =>
+                                  widget.viewModel.updateStepName(widget.stepIndex, val),
                             ),
                           ),
                           const SizedBox(width: 45), // delete button space
                         ],
                       ),
-                      const Divider(height: 15, thickness: 1), // Add a divider after header
-                      // Step Fields (Instruction, Timer)
-                      RecipeStepFields(viewModel: viewModel, stepIndex: stepIndex),
+                      const Divider(height: 15, thickness: 1),
+                      // Step Fields (Instruction, Timer, optional Video URL)
+                      RecipeStepFields(
+                        viewModel: widget.viewModel,
+                        stepIndex: widget.stepIndex,
+                        showVideoUrl: _showVideoUrl,
+                      ),
                       const SizedBox(height: 6),
-                      RecipeImagePicker(viewModel: viewModel, stepIndex: stepIndex),
+                      RecipeImagePicker(
+                        viewModel: widget.viewModel,
+                        stepIndex: widget.stepIndex,
+                        onVideoButtonTap: () => setState(() => _showVideoUrl = !_showVideoUrl),
+                        videoActive: step.videoUrl.isNotEmpty,
+                      ),
                       const Divider(height: 15),
-                      IngredientsSection(viewModel: viewModel, stepIndex: stepIndex),
+                      IngredientsSection(viewModel: widget.viewModel, stepIndex: widget.stepIndex),
                     ],
                   ),
                 ),
@@ -111,7 +128,7 @@ class RecipeStepCard extends StatelessWidget {
                       color: Theme.of(context).colorScheme.error.withAlpha(isDark ? 255 : 225),
                     ),
                     tooltip: AppLocalizations.of(context)!.delete,
-                    onPressed: () => viewModel.removeStep(stepIndex),
+                    onPressed: () => widget.viewModel.removeStep(widget.stepIndex),
                     constraints: const BoxConstraints(),
                   ),
                 ),

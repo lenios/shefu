@@ -647,6 +647,29 @@ class AbstractScraper {
     return imageUrls;
   }
 
+  /// Uses the `video.contentUrl` field of each `HowToStep` in JSON-LD.
+  List<String> stepVideos() {
+    final schema = this.schema;
+    final recipeData = schema.getRecipeData();
+    if (recipeData == null) return [];
+    final instructions = recipeData['recipeInstructions'];
+    if (instructions is! List) return [];
+
+    final videoUrls = <String>[];
+    for (final instruction in instructions) {
+      String url = '';
+      if (instruction is Map<String, dynamic>) {
+        final video = instruction['video'];
+        if (video is Map<String, dynamic>) {
+          url = video['contentUrl']?.toString() ?? '';
+        }
+      }
+      videoUrls.add(url);
+    }
+    if (videoUrls.every((u) => u.isEmpty)) return [];
+    return videoUrls;
+  }
+
   /// Links found in the recipe.
   List<Map<String, String>> links() {
     //Set<String> invalidHref = {"#", ""};
@@ -681,6 +704,7 @@ class AbstractScraper {
       jsonDict['instructions_list'] = instructionsList();
 
       if (stepImages().isNotEmpty) jsonDict['step_images'] = stepImages();
+      if (stepVideos().isNotEmpty) jsonDict['step_videos'] = stepVideos();
       if (category().isNotEmpty) jsonDict['category'] = decodeHtmlEntities(category());
       jsonDict['yields'] = yields();
       jsonDict['description'] = description();

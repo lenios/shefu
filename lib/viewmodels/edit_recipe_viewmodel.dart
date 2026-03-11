@@ -262,6 +262,12 @@ class EditRecipeViewModel extends ChangeNotifier {
     }
   }
 
+  void updateStepVideoUrl(int stepIndex, String value) {
+    if (stepIndex < _recipe.steps.length) {
+      _recipe.steps[stepIndex].videoUrl = value;
+    }
+  }
+
   // --- Ingredient Management ---
 
   void addIngredient(int stepIndex) {
@@ -437,6 +443,14 @@ class EditRecipeViewModel extends ChangeNotifier {
     }
     if (recipe.steps.isEmpty) {
       recipe.steps.add(RecipeStep());
+    }
+
+    // Save recipe step videos if available
+    final stepVideos = pscraper.stepVideos();
+    for (int i = 0; i < recipe.steps.length; i++) {
+      if (i < stepVideos.length && stepVideos[i].isNotEmpty) {
+        recipe.steps[i].videoUrl = stepVideos[i];
+      }
     }
 
     // Save recipe step images if available

@@ -9,8 +9,14 @@ import 'package:shefu/viewmodels/edit_recipe_viewmodel.dart';
 class RecipeStepFields extends StatefulWidget {
   final EditRecipeViewModel viewModel;
   final int stepIndex;
+  final bool showVideoUrl;
 
-  const RecipeStepFields({super.key, required this.viewModel, required this.stepIndex});
+  const RecipeStepFields({
+    super.key,
+    required this.viewModel,
+    required this.stepIndex,
+    this.showVideoUrl = false,
+  });
 
   @override
   State<RecipeStepFields> createState() => _RecipeStepFieldsState();
@@ -19,6 +25,7 @@ class RecipeStepFields extends StatefulWidget {
 class _RecipeStepFieldsState extends State<RecipeStepFields> {
   late TextEditingController _instructionController;
   late TextEditingController _timerController;
+  late TextEditingController _videoUrlController;
 
   RecipeStep get step => widget.viewModel.recipe.steps[widget.stepIndex];
 
@@ -27,6 +34,7 @@ class _RecipeStepFieldsState extends State<RecipeStepFields> {
     super.initState();
     _instructionController = TextEditingController(text: step.instruction);
     _timerController = TextEditingController(text: step.timer > 0 ? step.timer.toString() : "");
+    _videoUrlController = TextEditingController(text: step.videoUrl);
   }
 
   @override
@@ -40,12 +48,16 @@ class _RecipeStepFieldsState extends State<RecipeStepFields> {
     if (currentTimerText != _timerController.text) {
       _timerController.text = currentTimerText;
     }
+    if (step.videoUrl != _videoUrlController.text) {
+      _videoUrlController.text = step.videoUrl;
+    }
   }
 
   @override
   void dispose() {
     _instructionController.dispose();
     _timerController.dispose();
+    _videoUrlController.dispose();
     super.dispose();
   }
 
@@ -81,6 +93,21 @@ class _RecipeStepFieldsState extends State<RecipeStepFields> {
             prefixIcon: const Icon(Icons.timer_outlined),
           ),
         ),
+        if (widget.showVideoUrl) ...[
+          const SizedBox(height: 12),
+          TextFormField(
+            controller: _videoUrlController,
+            keyboardType: TextInputType.url,
+            onChanged: (val) {
+              widget.viewModel.updateStepVideoUrl(widget.stepIndex, val);
+            },
+            decoration: InputDecoration(
+              labelText: l10n.videoUrl,
+              border: const OutlineInputBorder(),
+              prefixIcon: const Icon(Icons.videocam_outlined),
+            ),
+          ),
+        ],
       ],
     );
   }

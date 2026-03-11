@@ -53,4 +53,18 @@ class DelishKitchenScraper extends AbstractScraper {
       r'poster_url:"((?:[^"\\]|\\.)*)"',
     ).allMatches(block).map((m) => _decodeJsEscapes(m.group(1)!)).toList();
   }
+
+  @override
+  List<String> stepVideos() {
+    final base = super.stepVideos();
+    if (base.isNotEmpty) return base;
+
+    final block = _recipeStepsBlock();
+    if (block == null) return [];
+    final urls = RegExp(
+      r'square_video:\{url:"((?:[^"\\]|\\.)*?)"',
+    ).allMatches(block).map((m) => _decodeJsEscapes(m.group(1)!)).toList();
+    if (urls.every((u) => u.isEmpty)) return [];
+    return urls;
+  }
 }

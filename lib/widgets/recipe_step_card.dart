@@ -142,25 +142,63 @@ class RecipeStepCard extends StatelessWidget {
   }
 
   Widget stepImage(BuildContext context) {
-    return recipeStep.imagePath.isNotEmpty
-        ? GestureDetector(
-            onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => FullScreenImage(imagePath: recipeStep.imagePath),
-                ),
-              );
-            },
-            child: SizedBox(
-              height: 120,
-              width: 120,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(8.0),
-                child: buildFutureImageWidget(context, thumbnailPath(recipeStep.imagePath)),
-              ),
+    if (recipeStep.imagePath.isEmpty && recipeStep.videoUrl.isEmpty) {
+      return Container();
+    }
+    final hasImage = recipeStep.imagePath.isNotEmpty;
+    final hasVideo = recipeStep.videoUrl.isNotEmpty;
+    Widget imageWidget = hasImage
+        ? SizedBox(
+            height: 120,
+            width: 120,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8.0),
+              child: buildFutureImageWidget(context, thumbnailPath(recipeStep.imagePath)),
             ),
           )
-        : Container(); // Return empty container if no image path
+        : SizedBox(
+            height: 80,
+            width: 80,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8.0),
+              child: Container(color: Theme.of(context).colorScheme.surfaceContainerHighest),
+            ),
+          );
+
+    return GestureDetector(
+      onTap: hasImage && !hasVideo
+          ? () => Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => FullScreenImage(imagePath: recipeStep.imagePath),
+              ),
+            )
+          : hasVideo
+          ? () => showVideoPlayer(context, recipeStep.videoUrl)
+          : null,
+      child: Stack(
+        alignment: Alignment.bottomRight,
+        children: [
+          imageWidget,
+          if (hasVideo)
+            Positioned(
+              right: 4,
+              bottom: 4,
+              child: Container(
+                padding: const EdgeInsets.all(4),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.onSecondary.withAlpha(115),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  Icons.play_arrow_rounded,
+                  color: Theme.of(context).colorScheme.secondary,
+                  size: 20,
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
   }
 
   Widget stepIngredientsList(BuildContext context) {

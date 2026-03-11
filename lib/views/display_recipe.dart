@@ -19,8 +19,6 @@ import 'package:shefu/widgets/display_recipe/build_shopping_list.dart';
 import 'package:shefu/widgets/misc.dart';
 import 'package:command_it/command_it.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
-import 'package:video_player/video_player.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import '../widgets/header_stats.dart';
 
@@ -195,24 +193,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                       right: 8,
                       bottom: 8,
                       child: GestureDetector(
-                        onTap: () async {
-                          if (recipe.videoUrl.isEmpty) return;
-
-                          if (recipe.videoUrl.contains('youtube.com') ||
-                              recipe.videoUrl.contains('youtu.be')) {
-                            _showYoutubePlayer(context, recipe.videoUrl);
-                          } else {
-                            // For direct video URLs (mp4, etc.)
-
-                            viewModel.videoPlayerController =
-                                VideoPlayerController.networkUrl(Uri.parse(recipe.videoUrl))
-                                  ..initialize().then((_) {
-                                    if (context.mounted) {
-                                      _showVideoPlayer(context, viewModel.videoPlayerController!);
-                                    }
-                                  });
-                          }
-                        },
+                        onTap: () => showVideoPlayer(context, recipe.videoUrl),
                         child: Container(
                           padding: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
@@ -525,134 +506,6 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
             error: true,
           ),
         ],
-      ),
-    );
-  }
-
-  void _showVideoPlayer(BuildContext context, VideoPlayerController videoPlayerController) async {
-    try {
-      await videoPlayerController.setLooping(true);
-      await videoPlayerController.play();
-
-      if (context.mounted) {
-        showDialog(
-          context: context,
-          barrierDismissible: true,
-          builder: (context) => Dialog(
-            backgroundColor: Colors.transparent,
-            insetPadding: const EdgeInsets.all(10),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(8.0),
-              child: Column(
-                mainAxisSize: .min,
-                children: [
-                  AppBar(
-                    backgroundColor: Theme.of(context).colorScheme.surface,
-                    automaticallyImplyLeading: false,
-                    actions: [
-                      IconButton(
-                        icon: Icon(Icons.close, color: Theme.of(context).colorScheme.onSurface),
-                        onPressed: () {
-                          videoPlayerController.pause();
-                          Navigator.pop(context);
-                        },
-                      ),
-                    ],
-                  ),
-                  Container(
-                    color: Theme.of(context).colorScheme.surface,
-                    child: AspectRatio(
-                      aspectRatio: videoPlayerController.value.aspectRatio,
-                      child: VideoPlayer(videoPlayerController),
-                    ),
-                  ),
-                  // Controls
-                  Container(
-                    color: Theme.of(context).colorScheme.surface,
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                    child: VideoProgressIndicator(
-                      videoPlayerController,
-                      allowScrubbing: true,
-                      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                      colors: VideoProgressColors(
-                        playedColor: Theme.of(context).colorScheme.secondary,
-                        bufferedColor: Colors.grey.shade400,
-                        backgroundColor: Colors.grey.shade700,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ).then((_) {
-          videoPlayerController.pause();
-        });
-      }
-    } catch (e) {
-      if (context.mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('Error playing video: $e')));
-      }
-    }
-  }
-
-  void _showYoutubePlayer(BuildContext context, String youtubeUrl) {
-    // Extract video ID from YouTube URL
-    String? videoId;
-    if (youtubeUrl.contains('youtu.be')) {
-      // Short YouTube URL format: https://youtu.be/VIDEO_ID
-      videoId = youtubeUrl.split('/').last;
-    } else if (youtubeUrl.contains('youtube.com')) {
-      // Regular YouTube URL format: https://www.youtube.com/watch?v=VIDEO_ID
-      videoId = Uri.parse(youtubeUrl).queryParameters['v'];
-    }
-
-    if (videoId == null) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Invalid YouTube URL format')));
-      return;
-    }
-
-    YoutubePlayerController controller = YoutubePlayerController(
-      initialVideoId: videoId,
-      flags: const YoutubePlayerFlags(autoPlay: true, mute: false),
-    );
-
-    showDialog(
-      context: context,
-      builder: (context) => Dialog(
-        backgroundColor: Colors.transparent,
-        insetPadding: const EdgeInsets.all(10),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(8.0),
-          child: Column(
-            mainAxisSize: .min,
-            children: [
-              AppBar(
-                backgroundColor: Theme.of(context).colorScheme.surface,
-                automaticallyImplyLeading: false,
-                actions: [
-                  IconButton(
-                    icon: Icon(Icons.close, color: Theme.of(context).colorScheme.onSurface),
-                    onPressed: () => Navigator.pop(context),
-                  ),
-                ],
-              ),
-              YoutubePlayer(
-                controller: controller,
-                showVideoProgressIndicator: true,
-                progressIndicatorColor: Theme.of(context).colorScheme.secondary,
-                progressColors: ProgressBarColors(
-                  playedColor: Theme.of(context).colorScheme.secondary,
-                  handleColor: Theme.of(context).colorScheme.secondary,
-                ),
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }

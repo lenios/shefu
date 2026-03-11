@@ -8,6 +8,8 @@ import 'package:shefu/provider/my_app_state.dart';
 import 'package:shefu/repositories/objectbox_nutrient_repository.dart';
 import 'package:shefu/models/formatted_ingredient.dart';
 import 'package:shefu/utils/unit_converter.dart';
+import 'package:video_player/video_player.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import '../l10n/app_localizations.dart';
 
@@ -272,4 +274,134 @@ Map<String, dynamic> detectCookingTools(String instruction, BuildContext context
   }
 
   return foundTools;
+}
+
+Future<void> showVideoPlayer(BuildContext context, String videoUrl) async {
+  if (videoUrl.isEmpty) return;
+  if (videoUrl.contains('youtube.com') || videoUrl.contains('youtu.be')) {
+    _showYoutubePlayer(context, videoUrl);
+    return;
+  }
+  final videoPlayerController = VideoPlayerController.networkUrl(Uri.parse(videoUrl));
+  if (!context.mounted) return;
+  try {
+    await videoPlayerController.initialize();
+    await videoPlayerController.setLooping(true);
+    await videoPlayerController.play();
+    showDialog<void>(
+      // ignore: use_build_context_synchronously
+      context: context,
+      barrierDismissible: true,
+      builder: (ctx) => Dialog(
+        backgroundColor: Colors.transparent,
+        insetPadding: const .all(10),
+        child: ClipRRect(
+          borderRadius: .circular(8.0),
+          child: Column(
+            mainAxisSize: .min,
+            children: [
+              AppBar(
+                backgroundColor: Theme.of(ctx).colorScheme.surface,
+                automaticallyImplyLeading: false,
+                actions: [
+                  IconButton(
+                    icon: Icon(Icons.close, color: Theme.of(ctx).colorScheme.onSurface),
+                    onPressed: () {
+                      videoPlayerController.pause();
+                      Navigator.pop(ctx);
+                    },
+                  ),
+                ],
+              ),
+              Container(
+                color: Theme.of(ctx).colorScheme.surface,
+                child: AspectRatio(
+                  aspectRatio: videoPlayerController.value.aspectRatio,
+                  child: VideoPlayer(videoPlayerController),
+                ),
+              ),
+              // Controls
+              Container(
+                color: Theme.of(ctx).colorScheme.surface,
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: VideoProgressIndicator(
+                  videoPlayerController,
+                  allowScrubbing: true,
+                  padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                  colors: VideoProgressColors(
+                    playedColor: Theme.of(ctx).colorScheme.secondary,
+                    bufferedColor: Colors.grey.shade400,
+                    backgroundColor: Colors.grey.shade700,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    ).then((_) => videoPlayerController.dispose());
+  } catch (e) {
+    videoPlayerController.dispose();
+    if (context.mounted) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Error playing video: $e')));
+    }
+  }
+}
+
+void _showYoutubePlayer(BuildContext context, String youtubeUrl) {
+  String? videoId;
+  // Extract video ID from URL
+  if (youtubeUrl.contains('youtu.be')) {
+    // Short Youtube URL format: https://youtu.be/VIDEO_ID
+    videoId = youtubeUrl.split('/').last;
+  } else if (youtubeUrl.contains('youtube.com')) {
+    // Regular Youtube URL format: https://www.youtube.com/watch?v=VIDEO_ID
+    videoId = Uri.parse(youtubeUrl).queryParameters['v'];
+  }
+  if (videoId == null) {
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(const SnackBar(content: Text('Invalid YouTube URL format')));
+    return;
+  }
+  final controller = YoutubePlayerController(
+    initialVideoId: videoId,
+    flags: const YoutubePlayerFlags(autoPlay: true, mute: false),
+  );
+  showDialog<void>(
+    context: context,
+    builder: (ctx) => Dialog(
+      backgroundColor: Colors.transparent,
+      insetPadding: const .all(10),
+      child: ClipRRect(
+        borderRadius: .circular(8.0),
+        child: Column(
+          mainAxisSize: .min,
+          children: [
+            AppBar(
+              backgroundColor: Theme.of(ctx).colorScheme.surface,
+              automaticallyImplyLeading: false,
+              actions: [
+                IconButton(
+                  icon: Icon(Icons.close, color: Theme.of(ctx).colorScheme.onSurface),
+                  onPressed: () => Navigator.pop(ctx),
+                ),
+              ],
+            ),
+            YoutubePlayer(
+              controller: controller,
+              showVideoProgressIndicator: true,
+              progressIndicatorColor: Theme.of(ctx).colorScheme.secondary,
+              progressColors: ProgressBarColors(
+                playedColor: Theme.of(ctx).colorScheme.secondary,
+                handleColor: Theme.of(ctx).colorScheme.secondary,
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
 }

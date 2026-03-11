@@ -87,6 +87,7 @@ class RecipeStep {
   String name;
   String instruction;
   String imagePath;
+  String videoUrl;
   int timer;
   int order;
 
@@ -100,6 +101,7 @@ class RecipeStep {
     this.name = "",
     this.instruction = "",
     this.imagePath = "",
+    this.videoUrl = "",
     this.timer = 0,
     this.order = 0,
   });
