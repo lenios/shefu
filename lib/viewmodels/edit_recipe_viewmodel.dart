@@ -18,6 +18,7 @@ import 'package:shefu/utils/recipe_scrapers/utils.dart';
 import 'package:shefu/widgets/edit_ingredient_input.dart';
 import 'package:shefu/widgets/edit_recipe/image_editor_screen.dart';
 import 'package:shefu/widgets/image_helper.dart';
+import 'package:intl/intl.dart';
 import '../l10n/app_localizations.dart';
 
 class EditRecipeViewModel extends ChangeNotifier {
@@ -385,7 +386,16 @@ class EditRecipeViewModel extends ChangeNotifier {
       recipe.category = matchedCategory;
       _category = matchedCategory;
     }
-    recipe.notes = "${pscraper.description()}\n${pscraper.datePublished()}\n${pscraper.author()}";
+
+    String recipeLanguage = pscraper.language() ?? 'en';
+    recipe.notes = [
+      pscraper.description(),
+      // format postedOnBy with recipe language
+      lookupAppLocalizations(Locale(recipeLanguage)).postedOnBy(
+        pscraper.author(),
+        DateFormat.yMMMMd(recipeLanguage).format(DateTime.parse(pscraper.datePublished())),
+      ),
+    ].join('\n');
     notesController.text = recipe.notes;
 
     final scrapedQuestions = pscraper.questions();

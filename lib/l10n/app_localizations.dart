@@ -1707,6 +1707,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Potassium'**
   String get potassium;
+
+  /// No description provided for @postedOnBy.
+  ///
+  /// In en, this message translates to:
+  /// **'Posted on {date} by {author}'**
+  String postedOnBy(Object author, Object date);
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

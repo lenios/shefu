@@ -830,4 +830,9 @@ class AppLocalizationsHu extends AppLocalizations {
 
   @override
   String get potassium => 'Kálium';
+
+  @override
+  String postedOnBy(Object author, Object date) {
+    return '$date-án közzétette: $author';
+  }
 }

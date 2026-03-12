@@ -825,4 +825,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get potassium => 'カリウム';
+
+  @override
+  String postedOnBy(Object author, Object date) {
+    return '$dateに$authorが投稿';
+  }
 }

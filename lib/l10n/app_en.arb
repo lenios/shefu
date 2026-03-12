@@ -267,5 +267,6 @@
     "vitaminD": "Vitamin D",
     "calcium": "Calcium",
     "iron": "Iron",
-    "potassium": "Potassium"
+    "potassium": "Potassium",
+    "postedOnBy": "Posted on {date} by {author}"
 }

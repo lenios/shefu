@@ -268,5 +268,6 @@
     "vitaminD": "D-vitamin",
     "calcium": "Kalcium",
     "iron": "Vas",
-    "potassium": "Kálium"
+    "potassium": "Kálium",
+    "postedOnBy": "{date}-án közzétette: {author}"
 }

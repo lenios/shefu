@@ -268,5 +268,6 @@
     "vitaminD": "ビタミンD",
     "calcium": "カルシウム",
     "iron": "鉄",
-    "potassium": "カリウム"
+    "potassium": "カリウム",
+    "postedOnBy": "{date}に{author}が投稿"
 }
