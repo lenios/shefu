@@ -315,9 +315,30 @@ Future<void> showVideoPlayer(BuildContext context, String videoUrl) async {
               ),
               Container(
                 color: Theme.of(ctx).colorScheme.surface,
-                child: AspectRatio(
-                  aspectRatio: videoPlayerController.value.aspectRatio,
-                  child: VideoPlayer(videoPlayerController),
+                // AnimatedBuilder to fade out the video at the end
+                child: AnimatedBuilder(
+                  animation: videoPlayerController,
+                  builder: (_, _) {
+                    final v = videoPlayerController.value;
+                    double opacity = 1.0;
+                    if (v.isInitialized && v.duration > Duration.zero) {
+                      final remaining = v.duration - v.position;
+                      const fadeRange = Duration(milliseconds: 1400);
+                      if (remaining < fadeRange) {
+                        opacity = (remaining.inMilliseconds / fadeRange.inMilliseconds).clamp(
+                          0.0,
+                          1.0,
+                        );
+                      }
+                    }
+                    return Opacity(
+                      opacity: opacity,
+                      child: AspectRatio(
+                        aspectRatio: v.aspectRatio,
+                        child: VideoPlayer(videoPlayerController),
+                      ),
+                    );
+                  },
                 ),
               ),
               // Controls

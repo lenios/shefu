@@ -165,24 +165,27 @@ class RecipeStepCard extends StatelessWidget {
             ),
           );
 
-    return GestureDetector(
-      onTap: hasImage && !hasVideo
-          ? () => Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => FullScreenImage(imagePath: recipeStep.imagePath),
-              ),
-            )
-          : hasVideo
-          ? () => showVideoPlayer(context, recipeStep.videoUrl)
-          : null,
-      child: Stack(
-        alignment: Alignment.bottomRight,
-        children: [
-          imageWidget,
-          if (hasVideo)
-            Positioned(
-              right: 4,
-              bottom: 4,
+    return Stack(
+      alignment: Alignment.bottomRight,
+      children: [
+        // Clickable thumbnail image
+        GestureDetector(
+          onTap: hasImage
+              ? () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => FullScreenImage(imagePath: recipeStep.imagePath),
+                  ),
+                )
+              : null,
+          child: imageWidget,
+        ),
+        // Optional video button overlay
+        if (hasVideo)
+          Positioned(
+            right: 4,
+            bottom: 4,
+            child: GestureDetector(
+              onTap: () => showVideoPlayer(context, recipeStep.videoUrl),
               child: Container(
                 padding: const EdgeInsets.all(4),
                 decoration: BoxDecoration(
@@ -192,12 +195,12 @@ class RecipeStepCard extends StatelessWidget {
                 child: Icon(
                   Icons.play_arrow_rounded,
                   color: Theme.of(context).colorScheme.secondary,
-                  size: 20,
+                  size: 30,
                 ),
               ),
             ),
-        ],
-      ),
+          ),
+      ],
     );
   }
 
