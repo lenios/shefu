@@ -5,6 +5,8 @@ import 'package:shefu/l10n/app_localizations.dart';
 import 'package:shefu/repositories/objectbox_nutrient_repository.dart';
 import 'package:shefu/repositories/objectbox_recipe_repository.dart';
 import 'package:shefu/utils/recipe_scrapers/scraper_factory.dart';
+import 'package:shefu/utils/recipe_scrapers/scrapers/delishkitchen.tv.dart';
+import 'package:shefu/utils/recipe_scrapers/scrapers/lacuisinedessouvenirs.com.dart';
 import 'package:shefu/utils/recipe_scrapers/scrapers/marmiton.dart';
 import 'package:shefu/utils/recipe_scrapers/scrapers/seriouseats.dart';
 import 'package:shefu/viewmodels/edit_recipe_viewmodel.dart';
@@ -62,6 +64,13 @@ class OnlineSearchViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  final Map<String, Future<List<Map<String, dynamic>>> Function(String)> searchFunctions = {
+    'lacuisinedessouvenirs.com': (q) => LaCuisineDesSouvenirsScraper('', '').search(q),
+    'marmiton.org': (q) => MarmitonScraper('', '').search(q),
+    'seriouseats.com': (q) => SeriousEatsScraper('', '').search(q),
+    'delishkitchen.tv': (q) => DelishKitchenScraper('', '').search(q),
+  };
+
   Future<void> searchRecipes(String query) async {
     if (query.trim().isEmpty || _selectedSites.isEmpty) {
       _errorMessage = "Please enter a search term and select at least one site";
@@ -74,38 +83,11 @@ class OnlineSearchViewModel extends ChangeNotifier {
     _searchResults = [];
     notifyListeners();
 
-    if (_selectedSites.contains('marmiton.org')) {
-      final marmitonScraper = MarmitonScraper("", "");
-      final marmitonResults = await marmitonScraper.search(query);
-
-      _searchResults += marmitonResults
-          .map(
-            (result) => OnlineSearchResult(
-              title: result['title'] ?? '',
-              url: result['url'] ?? '',
-              imageUrl: result['imageUrl'] ?? '',
-              sourceSite: 'marmiton.org',
-              nbReviews: int.tryParse(result['nbReviews']?.toString() ?? '') ?? 0,
-              rating: double.tryParse(result['rating']) ?? 0.0,
-            ),
-          )
-          .toList();
-    }
-
-    if (_selectedSites.contains('seriouseats.com')) {
-      final seriouseatsScraper = SeriousEatsScraper("", "");
-      final seriouseatsResults = await seriouseatsScraper.search(query);
-
-      _searchResults += seriouseatsResults
-          .map(
-            (result) => OnlineSearchResult(
-              title: result['title'] ?? '',
-              url: result['url'] ?? '',
-              imageUrl: result['imageUrl'] ?? '',
-              sourceSite: 'seriouseats.com',
-            ),
-          )
-          .toList();
+    for (final entry in searchFunctions.entries) {
+      final site = entry.key;
+      if (!_selectedSites.contains(site)) continue;
+      final results = await entry.value(query);
+      _addResults(site, results);
     }
 
     if (_searchResults.isEmpty) {
@@ -114,6 +96,30 @@ class OnlineSearchViewModel extends ChangeNotifier {
 
     _isLoading = false;
     notifyListeners();
+  }
+
+  void _addResults(String site, List<Map<String, dynamic>> results) {
+    _searchResults += results.map((result) {
+      final title = result['title']?.toString() ?? '';
+      final url = result['url']?.toString() ?? '';
+      final imageUrl = result['imageUrl']?.toString() ?? '';
+      int? nbReviews;
+      double? rating;
+      if (result.containsKey('nbReviews')) {
+        nbReviews = int.tryParse(result['nbReviews']?.toString() ?? '');
+      }
+      if (result.containsKey('rating')) {
+        rating = double.tryParse(result['rating']?.toString() ?? '');
+      }
+      return OnlineSearchResult(
+        title: title,
+        url: url,
+        imageUrl: imageUrl,
+        sourceSite: site,
+        nbReviews: nbReviews,
+        rating: rating,
+      );
+    }).toList();
   }
 
   @override

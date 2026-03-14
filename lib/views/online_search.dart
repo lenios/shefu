@@ -222,10 +222,7 @@ class OnlineSearchPage extends StatelessWidget {
 
   void _showSiteSelectionModal(BuildContext context, OnlineSearchViewModel viewModel) {
     final l10n = AppLocalizations.of(context)!;
-    //final supportedSites = ScraperFactory.supportedSites.toList()..sort();
-
-    final supportedSites = ['marmiton.org', 'seriouseats.com']; // Only sites with a search function
-
+    final supportedSites = viewModel.searchFunctions.keys.toList();
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,

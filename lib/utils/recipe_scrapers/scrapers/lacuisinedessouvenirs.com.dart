@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:html/parser.dart' as parser;
+import 'package:http/http.dart' as http;
 import 'package:shefu/utils/recipe_scrapers/utils.dart';
 
 import '../abstract_scraper.dart';
@@ -6,6 +8,12 @@ import '../abstract_scraper.dart';
 class LaCuisineDesSouvenirsScraper extends AbstractScraper {
   LaCuisineDesSouvenirsScraper(super.html, super.url) {
     _extractRecipeData();
+  }
+
+  @override
+  String? language() {
+    // the site incorrectly sets <html lang="en-US"> despite being fully french
+    return 'fr';
   }
 
   void _extractRecipeData() {
@@ -126,5 +134,34 @@ class LaCuisineDesSouvenirsScraper extends AbstractScraper {
         setOverride('nutrients', nutrients);
       }
     }
+  }
+
+  static List<Map<String, dynamic>> parseSearchResults(String html) {
+    final document = parser.parse(html);
+    final results = <Map<String, dynamic>>[];
+
+    for (final article in document.querySelectorAll('article.post')) {
+      final titleLink = article.querySelector('h2.entry-title a');
+      if (titleLink == null) continue;
+
+      final title = titleLink.text.trim();
+      final url = titleLink.attributes['href'] ?? '';
+      if (title.isEmpty || url.isEmpty) continue;
+
+      final img = article.querySelector('div.post-image img');
+      final imageUrl = img?.attributes['src'] ?? '';
+
+      results.add({'title': title, 'url': url, 'imageUrl': imageUrl});
+    }
+
+    return results;
+  }
+
+  Future<List<Map<String, dynamic>>> search(String query) async {
+    final response = await http.get(
+      Uri.parse('https://www.lacuisinedessouvenirs.com/?s=${Uri.encodeComponent(query)}'),
+    );
+    if (response.statusCode != 200) return [];
+    return parseSearchResults(response.body);
   }
 }

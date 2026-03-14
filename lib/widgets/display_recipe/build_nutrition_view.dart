@@ -33,6 +33,15 @@ Widget buildNutritionView(BuildContext context, DisplayRecipeViewModel viewModel
   final fatFallback = recipe.fat.toDouble();
   final carbsFallback = recipe.carbohydrates.toDouble();
   final proteinFallback = recipe.protein.toDouble();
+  final saturatedFatFallback = recipe.saturatedFat.toDouble();
+  final transFatFallback = recipe.transFat.toDouble();
+  final sugarFallback = recipe.sugar.toDouble();
+  final fiberFallback = recipe.fiber.toDouble();
+  final cholesterolFallback = recipe.cholesterol.toDouble();
+  final sodiumFallback = recipe.sodium.toDouble();
+
+  String fmt(double v, [int decimals = 1]) =>
+      v == v.truncateToDouble() ? v.toStringAsFixed(0) : v.toStringAsFixed(decimals);
 
   String dv(double value, double daily) =>
       (value > 0 && daily > 0) ? ((value / daily * 100).round()).toString() : '0';
@@ -113,62 +122,62 @@ Widget buildNutritionView(BuildContext context, DisplayRecipeViewModel viewModel
 
               _buildNutrientRow(
                 l10n.totalFat,
-                '${perServing('fat', fatFallback).toStringAsFixed(1)}${l10n.g}',
+                '${fmt(perServing('fat', fatFallback))}${l10n.g}',
                 dv(perServing('fat', fatFallback), 78),
                 theme,
                 isBold: true,
               ),
-
-              _buildNutrientRow(
-                '  ${l10n.saturatedFat}',
-                '${perServing('FASat').toStringAsFixed(1)}${l10n.g}',
-                dv(perServing('FASat'), 20),
-                theme,
-                isIndented: true,
-              ),
-              if (perServing('FAPoly') > 0)
+              if (perServing('FASat') > 0 || saturatedFatFallback > 0)
+                _buildNutrientRow(
+                  '  ${l10n.saturatedFat}',
+                  '${fmt(perServing('FASat', saturatedFatFallback))}${l10n.g}',
+                  dv(perServing('FASat', saturatedFatFallback), 20),
+                  theme,
+                  isIndented: true,
+                ),
+              if (perServing('FAPoly') > 0 || transFatFallback > 0)
                 _buildNutrientRow(
                   '  ${l10n.transFat}',
-                  '${perServing('FAPoly').toStringAsFixed(1)}${l10n.g}',
+                  '${fmt(perServing('FAPoly', transFatFallback))}${l10n.g}',
                   '',
                   theme,
                   isIndented: true,
                 ),
               _buildNutrientRow(
                 l10n.cholesterol,
-                '${perServing('cholesterol').toStringAsFixed(1)} mg',
-                dv(perServing('cholesterol'), 300),
+                '${fmt(perServing('cholesterol', cholesterolFallback))} mg',
+                dv(perServing('cholesterol', cholesterolFallback), 300),
                 theme,
                 isBold: true,
               ),
 
               _buildNutrientRow(
                 l10n.sodium,
-                '${perServing('sodium').toStringAsFixed(1)} g',
-                dv(perServing('sodium'), 2300),
+                '${fmt(perServing('sodium', sodiumFallback))} mg',
+                dv(perServing('sodium', sodiumFallback), 2300),
                 theme,
                 isBold: true,
               ),
 
               _buildNutrientRow(
                 l10n.carbohydrates,
-                '${perServing('carbohydrates', carbsFallback).toStringAsFixed(1)}${l10n.g}',
+                '${fmt(perServing('carbohydrates', carbsFallback))}${l10n.g}',
                 dv(perServing('carbohydrates', carbsFallback), 275),
                 theme,
                 isBold: true,
               ),
-              if (perServing('fiber') > 0)
+              if (perServing('fiber', fiberFallback) > 0)
                 _buildNutrientRow(
                   '  ${l10n.dietaryFiber}',
-                  '${perServing('fiber').toStringAsFixed(1)}${l10n.g}',
-                  dv(perServing('fiber'), 28),
+                  '${fmt(perServing('fiber', fiberFallback))}${l10n.g}',
+                  dv(perServing('fiber', fiberFallback), 28),
                   theme,
                   isIndented: true,
                 ),
-              if (perServing('sugar') > 0)
+              if (perServing('sugar', sugarFallback) > 0)
                 _buildNutrientRow(
                   '  ${l10n.totalSugars}',
-                  '${perServing('sugar').toStringAsFixed(1)}${l10n.g}',
+                  '${fmt(perServing('sugar', sugarFallback))}${l10n.g}',
                   '',
                   theme,
                   isIndented: true,
@@ -176,7 +185,7 @@ Widget buildNutritionView(BuildContext context, DisplayRecipeViewModel viewModel
               if (perServing('addedSugar') > 0)
                 _buildNutrientRow(
                   '    ${l10n.addedSugars}',
-                  '${perServing('addedSugar').toStringAsFixed(1)}${l10n.g}',
+                  '${fmt(perServing('addedSugar'))}${l10n.g}',
                   dv(perServing('addedSugar'), 50),
                   theme,
                   isIndented: true,
@@ -184,7 +193,7 @@ Widget buildNutritionView(BuildContext context, DisplayRecipeViewModel viewModel
 
               _buildNutrientRow(
                 l10n.proteins,
-                '${perServing('protein', proteinFallback).toStringAsFixed(2)}${l10n.g}',
+                '${fmt(perServing('protein', proteinFallback), 2)}${l10n.g}',
                 dv(perServing('protein', proteinFallback), 50),
                 theme,
                 isBold: true,
@@ -195,28 +204,28 @@ Widget buildNutritionView(BuildContext context, DisplayRecipeViewModel viewModel
               if (perServing('vitaminD') > 0)
                 _buildNutrientRow(
                   l10n.vitaminD,
-                  '${perServing('vitaminD').toStringAsFixed(2)} mcg',
+                  '${fmt(perServing('vitaminD'), 2)} mcg',
                   dv(perServing('vitaminD'), 20),
                   theme,
                 ),
               if (perServing('calcium') > 0)
                 _buildNutrientRow(
                   l10n.calcium,
-                  '${perServing('calcium').toStringAsFixed(2)} mg',
+                  '${fmt(perServing('calcium'), 2)} mg',
                   dv(perServing('calcium'), 1300),
                   theme,
                 ),
               if (perServing('iron') > 0)
                 _buildNutrientRow(
                   l10n.iron,
-                  '${perServing('iron').toStringAsFixed(4)} mg',
+                  '${fmt(perServing('iron'), 4)} mg',
                   dv(perServing('iron'), 18),
                   theme,
                 ),
               if (perServing('potassium') > 0)
                 _buildNutrientRow(
                   l10n.potassium,
-                  '${perServing('potassium').toStringAsFixed(2)} mg',
+                  '${fmt(perServing('potassium'), 2)} mg',
                   dv(perServing('potassium'), 4700),
                   theme,
                 ),

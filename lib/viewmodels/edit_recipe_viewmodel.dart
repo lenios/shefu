@@ -431,10 +431,17 @@ class EditRecipeViewModel extends ChangeNotifier {
 
     _recipe.time = _recipe.prepTime + _recipe.cookTime + _recipe.restTime;
 
-    _recipe.calories = pscraper.numericNutrients()['calories']?.toInt() ?? 0;
-    _recipe.fat = pscraper.numericNutrients()['fatContent']?.toInt() ?? 0;
-    _recipe.carbohydrates = pscraper.numericNutrients()['carbohydrateContent']?.toInt() ?? 0;
-    _recipe.protein = pscraper.numericNutrients()['proteinContent']?.toInt() ?? 0;
+    final n = pscraper.numericNutrients();
+    _recipe.calories = n['calories']?.toInt() ?? 0;
+    _recipe.fat = n['fatContent']?.toInt() ?? 0;
+    _recipe.carbohydrates = n['carbohydrateContent']?.toInt() ?? 0;
+    _recipe.protein = n['proteinContent']?.toInt() ?? 0;
+    _recipe.saturatedFat = n['saturatedFatContent']?.toInt() ?? 0;
+    _recipe.transFat = n['transFatContent']?.toInt() ?? 0;
+    _recipe.sugar = n['sugarContent']?.toInt() ?? 0;
+    _recipe.fiber = n['fiberContent']?.toInt() ?? 0;
+    _recipe.cholesterol = n['cholesterolContent']?.toInt() ?? 0;
+    _recipe.sodium = n['sodiumContent']?.toInt() ?? 0;
 
     _recipe.videoUrl = pscraper.video() ?? '';
     videoUrlController.text = _recipe.videoUrl;

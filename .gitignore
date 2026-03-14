@@ -54,3 +54,4 @@ android/app/.cxx/
 assets/tests/*
 lib/utils/python_scrapers/*
 coverage/
+test/test_data/wip

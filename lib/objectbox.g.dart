@@ -457,7 +457,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
     id: const obx_int.IdUid(4, 2416326191381789094),
     name: 'Recipe',
-    lastPropertyId: const obx_int.IdUid(24, 2604237780556884374),
+    lastPropertyId: const obx_int.IdUid(30, 1339367798646163377),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
@@ -590,6 +590,42 @@ final _entities = <obx_int.ModelEntity>[
         id: const obx_int.IdUid(24, 2604237780556884374),
         name: 'languageTag',
         type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(25, 6430116882351068742),
+        name: 'saturatedFat',
+        type: 6,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(26, 6672564134059299270),
+        name: 'sugar',
+        type: 6,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(27, 7494430004020948279),
+        name: 'fiber',
+        type: 6,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(28, 1990217955423200203),
+        name: 'cholesterol',
+        type: 6,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(29, 516203860689609178),
+        name: 'sodium',
+        type: 6,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(30, 1339367798646163377),
+        name: 'transFat',
+        type: 6,
         flags: 0,
       ),
     ],
@@ -1080,7 +1116,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
           object.questions.map(fbb.writeString).toList(growable: false),
         );
         final languageTagOffset = fbb.writeString(object.languageTag);
-        fbb.startTable(25);
+        fbb.startTable(31);
         fbb.addInt64(0, object.id);
         fbb.addOffset(1, titleOffset);
         fbb.addOffset(2, sourceOffset);
@@ -1103,6 +1139,12 @@ obx_int.ModelDefinition getObjectBoxModel() {
         fbb.addInt64(21, object.protein);
         fbb.addOffset(22, questionsOffset);
         fbb.addOffset(23, languageTagOffset);
+        fbb.addInt64(24, object.saturatedFat);
+        fbb.addInt64(25, object.sugar);
+        fbb.addInt64(26, object.fiber);
+        fbb.addInt64(27, object.cholesterol);
+        fbb.addInt64(28, object.sodium);
+        fbb.addInt64(29, object.transFat);
         fbb.finish(fbb.endTable());
         return object.id;
       },
@@ -1136,6 +1178,12 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final fatParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 44, 0);
         final carbohydratesParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 26, 0);
         final proteinParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 46, 0);
+        final saturatedFatParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 52, 0);
+        final transFatParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 62, 0);
+        final sugarParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 54, 0);
+        final fiberParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 56, 0);
+        final cholesterolParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 58, 0);
+        final sodiumParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 60, 0);
         final timeParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 22, 0);
         final cookTimeParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 32, 0);
         final prepTimeParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 34, 0);
@@ -1168,6 +1216,12 @@ obx_int.ModelDefinition getObjectBoxModel() {
           fat: fatParam,
           carbohydrates: carbohydratesParam,
           protein: proteinParam,
+          saturatedFat: saturatedFatParam,
+          transFat: transFatParam,
+          sugar: sugarParam,
+          fiber: fiberParam,
+          cholesterol: cholesterolParam,
+          sodium: sodiumParam,
           time: timeParam,
           cookTime: cookTimeParam,
           prepTime: prepTimeParam,
@@ -1576,6 +1630,24 @@ class Recipe_ {
 
   /// See [Recipe.languageTag].
   static final languageTag = obx.QueryStringProperty<Recipe>(_entities[3].properties[21]);
+
+  /// See [Recipe.saturatedFat].
+  static final saturatedFat = obx.QueryIntegerProperty<Recipe>(_entities[3].properties[22]);
+
+  /// See [Recipe.sugar].
+  static final sugar = obx.QueryIntegerProperty<Recipe>(_entities[3].properties[23]);
+
+  /// See [Recipe.fiber].
+  static final fiber = obx.QueryIntegerProperty<Recipe>(_entities[3].properties[24]);
+
+  /// See [Recipe.cholesterol].
+  static final cholesterol = obx.QueryIntegerProperty<Recipe>(_entities[3].properties[25]);
+
+  /// See [Recipe.sodium].
+  static final sodium = obx.QueryIntegerProperty<Recipe>(_entities[3].properties[26]);
+
+  /// See [Recipe.transFat].
+  static final transFat = obx.QueryIntegerProperty<Recipe>(_entities[3].properties[27]);
 
   /// see [Recipe.steps]
   static final steps = obx.QueryBacklinkToMany<RecipeStep, Recipe>(RecipeStep_.recipe);

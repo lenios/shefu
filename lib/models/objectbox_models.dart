@@ -19,6 +19,12 @@ class Recipe {
   int fat;
   int carbohydrates;
   int protein;
+  int saturatedFat; // g per serving
+  int transFat; // g per serving
+  int sugar; // g per serving
+  int fiber; // g per serving
+  int cholesterol; // mg per serving
+  int sodium; // mg per serving
   int time;
   int cookTime;
   int prepTime;
@@ -48,6 +54,12 @@ class Recipe {
     this.fat = 0,
     this.carbohydrates = 0,
     this.protein = 0,
+    this.saturatedFat = 0,
+    this.transFat = 0,
+    this.sugar = 0,
+    this.fiber = 0,
+    this.cholesterol = 0,
+    this.sodium = 0,
     this.time = 0,
     this.cookTime = 0,
     this.prepTime = 0,
