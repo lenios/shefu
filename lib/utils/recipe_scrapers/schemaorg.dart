@@ -348,44 +348,55 @@ class SchemaOrg {
     return null;
   }
 
+  // Parse ISO 8601 duration
+  int? _parseIsoDuration(String duration) {
+    if (!duration.startsWith('PT')) return null;
+
+    int minutes = 0;
+    RegExp hourRegex = RegExp(r'(\d+)H');
+    RegExp minuteRegex = RegExp(r'(\d+)M');
+    RegExp secondRegex = RegExp(r'(\d+)S');
+
+    var hourMatch = hourRegex.firstMatch(duration);
+    var minuteMatch = minuteRegex.firstMatch(duration);
+    var secondMatch = secondRegex.firstMatch(duration);
+
+    if (secondMatch != null) {
+      minutes += int.parse(secondMatch.group(1)!) ~/ 60;
+    }
+
+    if (hourMatch != null) {
+      minutes += int.parse(hourMatch.group(1)!) * 60;
+    }
+
+    if (minuteMatch != null) {
+      minutes += int.parse(minuteMatch.group(1)!);
+    }
+
+    return minutes;
+  }
+
   int? getTime(String property) {
     var recipe = getRecipeData();
     var time = recipe?[property];
 
     if (time == null) return null;
 
-    // Parse ISO 8601 duration
     if (time is String && time.startsWith('PT')) {
-      int minutes = 0;
-      RegExp hourRegex = RegExp(r'(\d+)H');
-      RegExp minuteRegex = RegExp(r'(\d+)M');
-      RegExp secondRegex = RegExp(r'(\d+)S');
-
-      var hourMatch = hourRegex.firstMatch(time);
-      var minuteMatch = minuteRegex.firstMatch(time);
-      var secondMatch = secondRegex.firstMatch(time);
-
-      if (secondMatch != null) {
-        minutes += int.parse(secondMatch.group(1)!) ~/ 60;
-      }
-
-      if (hourMatch != null) {
-        minutes += int.parse(hourMatch.group(1)!) * 60;
-      }
-
-      if (minuteMatch != null) {
-        minutes += int.parse(minuteMatch.group(1)!);
-      }
-
-      return minutes;
-    } else if (time is Map<String, dynamic> && time.containsKey('maxValue')) {
+      return _parseIsoDuration(time);
+    } else if (time is Map<String, dynamic>) {
       // Workaround: strictly speaking schema.org does not provide for minValue and maxValue properties on objects of type Duration; they are however present on objects with type QuantitativeValue
       // Refs:
       //  - https://schema.org/Duration
       //  - https://schema.org/QuantitativeValue
       final maxValue = time['maxValue'];
       if (maxValue is String && maxValue.startsWith('PT')) {
-        return getTime('maxValue');
+        return _parseIsoDuration(maxValue);
+      }
+
+      final minValue = time['minValue'];
+      if (minValue is String && minValue.startsWith('PT')) {
+        return _parseIsoDuration(minValue);
       }
     }
 
