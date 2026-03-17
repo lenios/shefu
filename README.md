@@ -55,8 +55,9 @@ Documentation will come later.
 Supported Recipe Websites for import:
 
 
-| USA 🇺🇸 Supported Website **(30)** |
+| USA 🇺🇸 Supported Website **(31)** |
 |-------------------|
+| ✅ [101cookbooks.com](https://www.101cookbooks.com) |
 | ✅ [ABeautifulMess.com](https://www.abeautifulmess.com) |
 | ✅ [Aflavorjournal.com](https://www.aflavorjournal.com) |
 | ✅ [Alexandracooks.com](https://alexandracooks.com) |

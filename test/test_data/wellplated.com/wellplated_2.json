@@ -37,14 +37,14 @@
         "1 cup shredded sharp cheddar cheese (plus additional for serving)",
         "1 cup nonfat plain Greek yogurt (plus additional for serving)"
       ],
-      "heading": null
+      "purpose": null
     },
     {
       "ingredients": [
         "Cooked crumbled bacon (optional)",
         "Chopped fresh chives (optional)"
       ],
-      "heading": "For Topping:"
+      "purpose": "For Topping:"
     }
   ],
   "instructions_list": [

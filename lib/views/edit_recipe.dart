@@ -75,6 +75,7 @@ class _EditRecipeState extends State<EditRecipe> {
             context,
           ).showSnackBar(SnackBar(content: Text(l10n.recipeImportedSuccessfully)));
         } catch (e) {
+          debugPrint('Error importing recipe from URL $url: $e');
           ScaffoldMessenger.of(context).hideCurrentSnackBar();
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -82,9 +83,6 @@ class _EditRecipeState extends State<EditRecipe> {
               backgroundColor: Theme.of(context).colorScheme.error,
             ),
           );
-        } finally {
-          // Hide the snackbar regardless of result
-          ScaffoldMessenger.of(context).hideCurrentSnackBar();
         }
       }
     });

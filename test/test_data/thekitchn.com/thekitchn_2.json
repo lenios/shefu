@@ -36,7 +36,7 @@
         "1 large egg",
         "1 cup vegetable oil, for frying"
       ],
-      "heading": "For the chicken fried steak:"
+      "purpose": "For the chicken fried steak:"
     },
     {
       "ingredients": [
@@ -44,7 +44,7 @@
         "1/2 teaspoon kosher salt",
         "1/2 teaspoon freshly ground black pepper"
       ],
-      "heading": "For the gravy:"
+      "purpose": "For the gravy:"
     }
   ],
   "instructions_list": [

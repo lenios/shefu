@@ -20,7 +20,7 @@
         "2 tablespoons seasoned salt (recommended: Jane's Crazy Mixed-Up Salt)",
         "10 pounds turkey (fresh or frozen)"
       ],
-      "heading": "For the Turkey:"
+      "purpose": "For the Turkey:"
     },
     {
       "ingredients": [
@@ -28,7 +28,7 @@
         "½ cup all-purpose flour",
         "3 ¾ cups turkey or chicken broth or stock"
       ],
-      "heading": "For the Gravy:"
+      "purpose": "For the Gravy:"
     }
   ],
   "instructions_list": [

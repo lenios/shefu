@@ -361,6 +361,15 @@ class EditRecipeViewModel extends ChangeNotifier {
     }
   }
 
+  String _formatPublishedDate(String? dateInput, String recipeLanguage) {
+    final publishedDate = DateTime.tryParse(dateInput!);
+    if (publishedDate != null) {
+      return DateFormat.yMMMMd(recipeLanguage).format(publishedDate);
+    } else {
+      return dateInput;
+    }
+  }
+
   Future<void> scrapeData(String url, AppLocalizations l10n) async {
     final pscraper = await ScraperFactory.createFromUrl(url);
 
@@ -388,12 +397,16 @@ class EditRecipeViewModel extends ChangeNotifier {
     }
 
     String recipeLanguage = pscraper.language() ?? 'en';
+    final localePart = recipeLanguage.split('-');
+    final recipeLocale = localePart.length >= 2
+        ? Locale(localePart[0], localePart[1])
+        : Locale(localePart[0]);
     recipe.notes = [
       pscraper.description(),
       // format postedOnBy with recipe language
-      lookupAppLocalizations(Locale(recipeLanguage)).postedOnBy(
+      lookupAppLocalizations(recipeLocale).postedOnBy(
         pscraper.author(),
-        DateFormat.yMMMMd(recipeLanguage).format(DateTime.parse(pscraper.datePublished())),
+        _formatPublishedDate(pscraper.datePublished(), recipeLanguage),
       ),
     ].join('\n');
     notesController.text = recipe.notes;

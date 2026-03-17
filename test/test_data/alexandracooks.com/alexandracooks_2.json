@@ -21,7 +21,7 @@
         "water",
         "foil, heavy-duty is nice here"
       ],
-      "heading": "For the ham:"
+      "purpose": "For the ham:"
     },
     {
       "ingredients": [
@@ -29,13 +29,13 @@
         "1/4 cup maple syrup",
         "1/4 cup fresh orange juice"
       ],
-      "heading": "For the glaze (halve this recipe if making a half ham):"
+      "purpose": "For the glaze (halve this recipe if making a half ham):"
     },
     {
       "ingredients": [
         "my grandmother’s mustard sauce, aka “the ham sauce”"
       ],
-      "heading": "For serving:"
+      "purpose": "For serving:"
     }
   ],
   "instructions_list": [

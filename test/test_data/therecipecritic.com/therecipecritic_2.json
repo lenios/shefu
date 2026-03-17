@@ -29,7 +29,7 @@
         "Salt Pepper",
         "8 ounces sliced mushrooms"
       ],
-      "heading": null
+      "purpose": null
     },
     {
       "ingredients": [
@@ -44,7 +44,7 @@
         "1/2 teaspoon salt",
         "1 cup spinach (chopped)"
       ],
-      "heading": "Creamy Parmesan Garlic Sauce:"
+      "purpose": "Creamy Parmesan Garlic Sauce:"
     }
   ],
   "instructions_list": [

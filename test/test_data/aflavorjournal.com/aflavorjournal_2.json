@@ -47,7 +47,7 @@
         "finely grated Parmesan Cheese (to taste, for topping)",
         "1 medium Avocado (sliced, for topping)"
       ],
-      "heading": "For the Baked Salmon & Kale Salad:"
+      "purpose": "For the Baked Salmon & Kale Salad:"
     },
     {
       "ingredients": [
@@ -55,7 +55,7 @@
         "1 tbsp. Extra Virgin Olive Oil",
         "1 tsp. Everything Bagel Seasoning"
       ],
-      "heading": "For Everything Bagel Croutons:"
+      "purpose": "For Everything Bagel Croutons:"
     },
     {
       "ingredients": [
@@ -71,7 +71,7 @@
         "1/4 tsp. freshly cracked Black Pepper",
         "1 tbsp. Extra Virgin Olive Oil"
       ],
-      "heading": "For Greek Yogurt Caesar Dressing:"
+      "purpose": "For Greek Yogurt Caesar Dressing:"
     }
   ],
   "instructions_list": [

@@ -31,14 +31,14 @@
         "1 13oz. can coconut milk ($1.99)",
         "3 cups fresh baby spinach ($1.61)"
       ],
-      "heading": null
+      "purpose": null
     },
     {
       "ingredients": [
         "4 cups cooked rice ($0.60)",
         "1/4 cup chopped fresh cilantro ($0.15)"
       ],
-      "heading": "For Serving (optional)"
+      "purpose": "For Serving (optional)"
     }
   ],
   "instructions_list": [

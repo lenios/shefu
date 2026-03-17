@@ -29,7 +29,7 @@
         "12 fl oz heavy cream (1 ½ cups)",
         "2 tbsp unsalted butter (softened)"
       ],
-      "heading": "For the Chocolate Ganache"
+      "purpose": "For the Chocolate Ganache"
     },
     {
       "ingredients": [
@@ -40,7 +40,7 @@
         "3/4 tsp cream of tartar",
         "Unsweetened cocoa powder (to sprinkle over greased baking sheet and cooling cake)"
       ],
-      "heading": "For the Chocolate Cake"
+      "purpose": "For the Chocolate Cake"
     },
     {
       "ingredients": [
@@ -49,14 +49,14 @@
         "1 tsp vanilla extract",
         "1/2 tsp ground cinnamon"
       ],
-      "heading": "For the Whipped Cream"
+      "purpose": "For the Whipped Cream"
     },
     {
       "ingredients": [
         "Meringue mushrooms",
         "Other edible nature decorations (Such as chocolate shavings, chocolate rocks, cocoa powder, powdered sugar, coconut, etc., optional)"
       ],
-      "heading": "To Decorate"
+      "purpose": "To Decorate"
     }
   ],
   "instructions_list": [

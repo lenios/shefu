@@ -17,13 +17,13 @@ final List<(String, List<String>, List<String>)> defaultGroupings = [
 
 /// Represents a group of ingredients with an optional heading (purpose)
 class IngredientGroup {
-  final String? heading;
+  final String? purpose;
   final List<String> ingredients;
 
-  IngredientGroup({this.heading, required this.ingredients});
+  IngredientGroup({this.purpose, required this.ingredients});
 
   Map<String, dynamic> toJson() {
-    return {'heading': heading, 'ingredients': ingredients};
+    return {'purpose': purpose, 'ingredients': ingredients};
   }
 }
 
@@ -120,7 +120,7 @@ List<IngredientGroup>? groupIngredients(
 }) {
   // Return early if no ingredients
   if (allIngredients.isEmpty) {
-    return [IngredientGroup(heading: null, ingredients: [])];
+    return [IngredientGroup(purpose: null, ingredients: [])];
   }
 
   // Auto-detect group selectors if not provided
@@ -185,11 +185,11 @@ List<IngredientGroup>? groupIngredients(
   // Convert the map to a list of IngredientGroup objects
   final result = groupings.entries
       .where((entry) => entry.value.isNotEmpty)
-      .map((entry) => IngredientGroup(heading: entry.key, ingredients: entry.value))
+      .map((entry) => IngredientGroup(purpose: entry.key, ingredients: entry.value))
       .toList();
 
   // If only one group with heading: null, return nothing
-  if (result.length == 1 && result[0].heading == null) {
+  if (result.length == 1 && result[0].purpose == null) {
     return null;
   }
 

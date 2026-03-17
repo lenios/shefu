@@ -36,7 +36,7 @@
         "3 el limoensap",
         "1 el plantaardige olie"
       ],
-      "heading": "Dressing"
+      "purpose": "Dressing"
     },
     {
       "ingredients": [
@@ -50,14 +50,14 @@
         "1 bosje koriander (fijn gesneden)",
         "1 bosje munt (fijn gesneden)"
       ],
-      "heading": "Salade"
+      "purpose": "Salade"
     },
     {
       "ingredients": [
         "1 el geroosterde pinda's (gehakt)",
         "extra koriander om te serveren"
       ],
-      "heading": "Om te serveren"
+      "purpose": "Om te serveren"
     }
   ],
   "instructions_list": [

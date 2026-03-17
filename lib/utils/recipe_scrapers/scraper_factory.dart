@@ -19,8 +19,8 @@ import 'package:shefu/utils/recipe_scrapers/scrapers/delishkitchen.tv.dart';
 /// Factory for creating scrapers based on URL
 class ScraperFactory {
   // Map of domains to scraper constructors
-  static final Map<String, AbstractScraper Function(String, String)> _scrapers = {
-    //"101cookbooks.com": AbstractScraper.new,
+  static final Map<String, AbstractScraper Function(String, String)> scrapers = {
+    "101cookbooks.com": AbstractScraper.new,
     "750g.com": AbstractScraper.new,
     "abeautifulmess.com": ABeautifulMessScraper.new,
     "aflavorjournal.com": AbstractScraper.new,
@@ -70,7 +70,7 @@ class ScraperFactory {
     "supertoinette.com": AbstractScraper.new,
     "www.thekitchn.com": AbstractScraper.new,
     "therecipecritic.com": AbstractScraper.new,
-    // "thepioneerwoman.com": AbstractScraper.new, Trailer header not supported by dart client
+    // "thepioneerwoman.com": AbstractScraper.new, Trailer header not supported by dart client: https://github.com/dart-lang/sdk/issues/54162
     "vanillaandbean.com": AbstractScraper.new,
     'wdr.de': WdrScraper.new,
     "wellplated.com": AbstractScraper.new,
@@ -83,7 +83,7 @@ class ScraperFactory {
   };
 
   static Set<String> get supportedSites {
-    return ScraperFactory._scrapers.keys.toSet();
+    return ScraperFactory.scrapers.keys.toSet();
   }
 
   /// Extract host from URL or return null if invalid
@@ -102,7 +102,7 @@ class ScraperFactory {
 
     if (response.statusCode == 200) {
       try {
-        for (final entry in _scrapers.entries) {
+        for (final entry in scrapers.entries) {
           if (host.contains(entry.key)) {
             return entry.value(response.body, url);
           }
@@ -124,6 +124,6 @@ class ScraperFactory {
     final host = _extractHost(url);
     if (host == null) return false;
 
-    return _scrapers.keys.any((domain) => host.contains(domain));
+    return scrapers.keys.any((domain) => host.contains(domain));
   }
 }

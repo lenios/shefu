@@ -33,14 +33,14 @@
       "ingredients": [
         "1 1/2 cups unsalted butter"
       ],
-      "heading": "Brown butter"
+      "purpose": "Brown butter"
     },
     {
       "ingredients": [
         "3/4 cup water",
         "1/4 cup bread flour (*See notes below for measuring*)"
       ],
-      "heading": "Tangzhong"
+      "purpose": "Tangzhong"
     },
     {
       "ingredients": [
@@ -55,7 +55,7 @@
         "Tangzhong from above",
         "1/2 cup browned butter"
       ],
-      "heading": "Cinnamon Roll Dough"
+      "purpose": "Cinnamon Roll Dough"
     },
     {
       "ingredients": [
@@ -63,7 +63,7 @@
         "2/3 cup light brown sugar (packed)",
         "2 tablespoons ground cinnamon"
       ],
-      "heading": "Brown Butter Filling"
+      "purpose": "Brown Butter Filling"
     },
     {
       "ingredients": [
@@ -73,7 +73,7 @@
         "2 tablespoons heavy cream",
         "1/2 teaspoon vanilla bean paste or extract"
       ],
-      "heading": "Brown Butter Cream Cheese Frosting"
+      "purpose": "Brown Butter Cream Cheese Frosting"
     }
   ],
   "instructions_list": [

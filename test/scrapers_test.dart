@@ -2,17 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shefu/utils/recipe_scrapers/abstract_scraper.dart';
-import 'package:shefu/utils/recipe_scrapers/scrapers/anovaculinary.com.dart';
-import 'package:shefu/utils/recipe_scrapers/scrapers/cookpad.dart';
-import 'package:shefu/utils/recipe_scrapers/scrapers/hellofresh.com.dart';
-import 'package:shefu/utils/recipe_scrapers/scrapers/lacuisinedessouvenirs.com.dart';
-import 'package:shefu/utils/recipe_scrapers/scrapers/seriouseats.dart';
-import 'package:shefu/utils/recipe_scrapers/scrapers/marmiton.dart';
-import 'package:shefu/utils/recipe_scrapers/scrapers/abeautifulmess.com.dart';
-import 'package:shefu/utils/recipe_scrapers/scrapers/wdr.de.dart';
-import 'package:shefu/utils/recipe_scrapers/scrapers/zaubertopf.de.dart';
-import 'package:shefu/utils/recipe_scrapers/scrapers/zeit.de.dart';
-import 'package:shefu/utils/recipe_scrapers/scrapers/delishkitchen.tv.dart';
+import 'package:shefu/utils/recipe_scrapers/scraper_factory.dart';
 
 /// Generic function to test a scraper against an expected JSON output.
 void testScraper({
@@ -87,84 +77,32 @@ void testScraper({
 }
 
 void main() {
-  // map site names to their respective scrapers
-  Map<String, (AbstractScraper Function(String, String), int)> scraperMap = {
-    //'101cookbooks.com': ((html, url) => AbstractScraper(html, url), 1),
-    '750g.com': ((html, url) => AbstractScraper(html, url), 1),
-    'abeautifulmess.com': ((html, url) => ABeautifulMessScraper(html, url), 1),
-    'aflavorjournal.com': ((html, url) => AbstractScraper(html, url), 2),
-    "akispetretzikis.com": ((html, url) => AbstractScraper(html, url), 1),
-    'alexandracooks.com': ((html, url) => AbstractScraper(html, url), 2),
-    'allrecipes.com': ((html, url) => AbstractScraper(html, url), 1),
-    'ambitiouskitchen.com': ((html, url) => AbstractScraper(html, url), 1),
-    'anovaculinary.com': ((html, url) => AnovaCulinary(html, url), 1),
-    'atelierdeschefs.fr': ((html, url) => AbstractScraper(html, url), 1),
-    'bakewithzoha.com': ((html, url) => AbstractScraper(html, url), 2),
-    'bbcgoodfood.com': ((html, url) => AbstractScraper(html, url), 2),
-    'budgetbytes.com': ((html, url) => AbstractScraper(html, url), 2),
-    'cafedelites.com': ((html, url) => AbstractScraper(html, url), 2),
-    'cambreabakes.com': ((html, url) => AbstractScraper(html, url), 2),
-    'castironketo.net': ((html, url) => AbstractScraper(html, url), 1),
-    'cakemehometonight.com': ((html, url) => AbstractScraper(html, url), 2),
-    'cdkitchen.com': ((html, url) => AbstractScraper(html, url), 1),
-    'chefsimon.com': ((html, url) => AbstractScraper(html, url), 1),
-    'cookpad.com': ((html, url) => CookpadScraper(html, url), 3),
-    'cuisineaz.com': ((html, url) => AbstractScraper(html, url), 1),
-    'cuisineactuelle.fr': ((html, url) => AbstractScraper(html, url), 1),
-    'cuisine.journaldesfemmes.fr': ((html, url) => AbstractScraper(html, url), 1),
-    'damndelicious.net': ((html, url) => AbstractScraper(html, url), 2),
-    'delishkitchen.tv': ((html, url) => DelishKitchenScraper(html, url), 2),
-    'eatingwell.com': ((html, url) => AbstractScraper(html, url), 1),
-    'evolvingtable.com': ((html, url) => AbstractScraper(html, url), 2),
-    'foodnetwork.co.uk': ((html, url) => AbstractScraper(html, url), 1),
-    //'giallozafferano.fr': ((html, url) => GiallozafferanoScraper(html, url), 1),
-    'greatbritishchefs.com': ((html, url) => AbstractScraper(html, url), 1),
-    'hellofresh.com': ((html, url) => HelloFreshScraper(html, url), 1),
-    'hellofresh.fr': ((html, url) => HelloFreshScraper(html, url), 1),
-    // 'jamieoliver.com': ((html, url) => AbstractScraper(html, url), 2), NOT YET FULLY WORKING
-    'kitchenstories.com': ((html, url) => AbstractScraper(html, url), 1),
-    'kochbar.de': ((html, url) => AbstractScraper(html, url), 1),
-    'koket.se': ((html, url) => AbstractScraper(html, url), 1),
-    'lacuisinedessouvenirs.com': ((html, url) => LaCuisineDesSouvenirsScraper(html, url), 1),
-    'lanascooking.com': ((html, url) => AbstractScraper(html, url), 2),
-    'lecremedelacrumb.com': ((html, url) => AbstractScraper(html, url), 1),
-    'marmiton.org': ((html, url) => MarmitonScraper(html, url), 2),
-    'miljuschka.nl': ((html, url) => AbstractScraper(html, url), 2),
-    'moulinex.fr': ((html, url) => AbstractScraper(html, url), 2), // TODO 3
-    'mybakingaddiction.com': ((html, url) => AbstractScraper(html, url), 1),
-    'ptitchef.com': ((html, url) => AbstractScraper(html, url), 1),
-    'recipetineats.com': ((html, url) => AbstractScraper(html, url), 2),
-    'seriouseats.com': ((html, url) => SeriousEatsScraper(html, url), 3),
-    'sugarhero.com': ((html, url) => AbstractScraper(html, url), 2),
-    'supertoinette.com': ((html, url) => AbstractScraper(html, url), 1),
-    'thekitchn.com': ((html, url) => AbstractScraper(html, url), 2),
-    'therecipecritic.com': ((html, url) => AbstractScraper(html, url), 2),
-    'thepioneerwoman.com': ((html, url) => AbstractScraper(html, url), 1), // TODO ingredients
-    'vanillaandbean.com': ((html, url) => AbstractScraper(html, url), 2),
-    'wdr.de': ((html, url) => WdrScraper(html, url), 1),
-    'wellplated.com': ((html, url) => AbstractScraper(html, url), 2),
-    'whatsgabycooking.com': ((html, url) => AbstractScraper(html, url), 2),
-    'yemek.com': ((html, url) => AbstractScraper(html, url), 1), // TODO step images
-    'zaubertopf.de': ((html, url) => ZaubertopfScraper(html, url), 1),
-    'zeit.de': ((html, url) => ZeitScraper(html, url), 1),
-    'zenbelly.com': ((html, url) => AbstractScraper(html, url), 2),
-    'zestfulkitchen.com': ((html, url) => AbstractScraper(html, url), 1),
-  };
+  // Loop on all test files to run tests
+  for (final siteDir in Directory('test/test_data').listSync().whereType<Directory>()) {
+    final siteName = siteDir.path.split('/').last;
 
-  for (var entry in scraperMap.entries) {
-    final site = entry.key;
-    final scraperBuilder = entry.value.$1;
-    final numTests = entry.value.$2;
+    AbstractScraper Function(String, String)? scraperBuilder = ScraperFactory.scrapers[siteName];
+    if (scraperBuilder == null) {
+      for (final entry in ScraperFactory.scrapers.entries) {
+        if (siteName.contains(entry.key) || entry.key.contains(siteName)) {
+          scraperBuilder = entry.value;
+          break;
+        }
+      }
+    }
 
-    // Loop through each test
-    for (int i = 1; i <= numTests; i++) {
-      testScraper(
-        siteName: site,
-        scraperBuilder: scraperBuilder,
-        htmlFilePath: 'test/test_data/$site/${site.split('.')[0]}_$i.testhtml',
-        jsonFilePath: 'test/test_data/$site/${site.split('.')[0]}_$i.json',
-        testUrl: 'https://$site/test/recipe/test-recipe',
-      );
+    if (scraperBuilder != null) {
+      for (final testFile in siteDir.listSync().where(
+        (file) => file.path.endsWith('.testhtml') && !file.path.contains("search"),
+      )) {
+        testScraper(
+          siteName: siteName,
+          scraperBuilder: scraperBuilder,
+          htmlFilePath: testFile.path,
+          jsonFilePath: testFile.path.replaceAll('.testhtml', '.json'),
+          testUrl: 'https://$siteName/test/recipe/test-recipe',
+        );
+      }
     }
   }
 }

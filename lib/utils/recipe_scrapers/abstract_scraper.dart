@@ -43,6 +43,10 @@ class AbstractScraper {
     schema = SchemaOrg(pageData);
   }
 
+  bool _isIngredientSectionMarker(String value) {
+    return RegExp(r'^(for\s+.+|to\s+serve)$', caseSensitive: false).hasMatch(value);
+  }
+
   String canonicalUrl() {
     Element? canonicalLink = soup.querySelector("link[rel='canonical']");
     if (canonicalLink != null && canonicalLink.attributes.containsKey('href')) {
@@ -136,10 +140,10 @@ class AbstractScraper {
         return ogTitle;
       }
 
-      // Try element with itemprop="name" first
-      Element? nameElement = soup.querySelector('[itemprop="name"]');
-      if (nameElement != null && nameElement.text.isNotEmpty) {
-        return nameElement.text.trim();
+      // Try element with itemprop="name", or title first
+      Element? titleElement = soup.querySelector('[itemprop="name"], title');
+      if (titleElement != null && titleElement.text.isNotEmpty) {
+        return titleElement.text.trim();
       }
     } catch (e) {
       debugPrint("Error extracting title: $e");
@@ -161,26 +165,22 @@ class AbstractScraper {
       if (schemaIngredients != null && schemaIngredients.isNotEmpty) {
         return schemaIngredients
             .map((ingredient) => ingredient.replaceAll('((', '(').replaceAll('))', ')'))
-            .where(
-              (ingredient) =>
-                  !(ingredient.toLowerCase().startsWith('for ') && ingredient.endsWith(':')),
-            )
+            .where((ingredient) => !_isIngredientSectionMarker(ingredient))
             .toList();
       }
     } catch (e) {
       debugPrint("Error extracting ingredients: $e");
     }
 
-    // Try HTML element with itemprop="recipeIngredient"
-    final ingredientElements = soup.querySelectorAll('span[itemprop="recipeIngredient"]');
+    // Try HTML elements
+    var ingredientElements = soup.querySelectorAll(
+      'span[itemprop="recipeIngredient"], section.ingredients li',
+    );
     if (ingredientElements.isNotEmpty) {
       return ingredientElements
           .map((element) => element.text.trim().replaceAll(RegExp(r'\s+'), ' '))
           .where((text) => text.isNotEmpty)
-          .where(
-            (ingredient) =>
-                !(ingredient.toLowerCase().startsWith('for ') && ingredient.endsWith(':')),
-          )
+          .where((ingredient) => !_isIngredientSectionMarker(ingredient))
           .toList();
     }
 
@@ -195,6 +195,14 @@ class AbstractScraper {
 
     var schemaInstructions = schema.recipeInstructions;
     if (schemaInstructions != null && schemaInstructions.isNotEmpty) {
+      if (!schemaInstructions.contains('\n')) {
+        return decodeHtmlEntities(schemaInstructions)
+            .split(RegExp(r'(?<=\.)(?=[A-Z])'))
+            .map((instruction) => instruction.trim())
+            .where((instruction) => instruction.isNotEmpty)
+            .toList();
+      }
+
       return decodeHtmlEntities(schemaInstructions)
           .split('\n')
           .map((instruction) => instruction.trim())
@@ -203,7 +211,9 @@ class AbstractScraper {
     }
 
     // Try to find element with itemprop="recipeInstructions"
-    List<Element>? instructionsElements = soup.querySelectorAll('[itemprop="recipeInstructions"]');
+    List<Element>? instructionsElements = soup.querySelectorAll(
+      '[itemprop="recipeInstructions"], section.preparation li, .preparation li',
+    );
     if (instructionsElements.isNotEmpty) {
       List<String> result = [];
       for (var element in instructionsElements) {
@@ -332,26 +342,23 @@ class AbstractScraper {
       }
 
       // Try meta tag
-      Element? metaAuthor = soup.querySelector('meta[name="author"]');
+      Element? metaAuthor = soup.querySelector(
+        'meta[name="author"], meta[name="Author"], meta[property="article:author"]',
+      );
       if (metaAuthor != null && metaAuthor.attributes.containsKey('content')) {
         return metaAuthor.attributes['content']!;
-      }
-      Element? metaAuthorCapitalized = soup.querySelector('meta[name="Author"]');
-      if (metaAuthorCapitalized != null &&
-          metaAuthorCapitalized.attributes.containsKey('content')) {
-        return metaAuthorCapitalized.attributes['content']!;
       }
     } catch (e) {
       debugPrint("Error extracting author: $e");
     }
 
     // Try element with itemprop="author"
-    Element? authorElement = soup.querySelector('[itemprop="author"]');
+    Element? authorElement = soup.querySelector('[itemprop="author"], .author');
     if (authorElement != null && authorElement.text.isNotEmpty) {
       return authorElement.text.trim();
     }
 
-    throw ElementNotFoundInHtml("Could not find author");
+    return "";
   }
 
   /// Get prep time with fallback to HTML parsing
@@ -444,11 +451,16 @@ class AbstractScraper {
   }
 
   double ratings() {
-    return schema.ratings ?? 0.0;
+    final raw =
+        schema.ratings ?? double.tryParse(soup.querySelector('.ratings')?.text ?? '') ?? 0.0;
+    return double.parse(raw.toStringAsFixed(2));
   }
 
   int ratingsCount() {
-    return safeToIntWithDefault(schema.ratingsCount, 0);
+    return safeToIntWithDefault(
+      schema.ratingsCount ?? soup.querySelector('.ratings_count')?.text.trim(),
+      0,
+    );
   }
 
   List<String> equipment() {
@@ -467,22 +479,50 @@ class AbstractScraper {
       return override;
     }
 
-    // first try to find groups in HTML
+    // Try to find groups in HTML
     final groups = soup.querySelectorAll('.Recipe__ingredientsGroup');
     if (groups.isNotEmpty) {
       final ingredientGroups = <IngredientGroup>[];
       for (final group in groups) {
         final purposeElement = group.querySelector('.Recipe__ingredientsGroupName');
-        final heading = purposeElement?.text.trim();
+        final purpose = purposeElement?.text.trim();
         final ingredients = group
             .querySelectorAll('.Recipe__ingredient')
             .map((e) => normalizeString(e.text))
             .toList();
-        ingredientGroups.add(IngredientGroup(ingredients: ingredients, heading: heading));
+        ingredientGroups.add(IngredientGroup(ingredients: ingredients, purpose: purpose));
       }
       if (ingredientGroups.any((g) => g.ingredients.isNotEmpty)) {
         return ingredientGroups;
       }
+    }
+
+    // If no groups found, try to parse groups from schema ingredients list: "For the Sauce:", "To Serve:", etc.
+    final parsedGroups = <IngredientGroup>[];
+    String? currentHeading;
+    var currentIngredients = <String>[];
+    var groupsFound = false;
+
+    for (final item in schema.recipeIngredients ?? []) {
+      if (_isIngredientSectionMarker(item)) {
+        groupsFound = true;
+        // If not first header, add ingredients group and reset ingredients list
+        if (currentIngredients.isNotEmpty) {
+          parsedGroups.add(
+            IngredientGroup(purpose: currentHeading, ingredients: currentIngredients),
+          );
+          currentIngredients = <String>[];
+        }
+        currentHeading = item;
+      } else {
+        currentIngredients.add(item);
+      }
+    }
+
+    if (groupsFound) {
+      // Add last ingredients group
+      parsedGroups.add(IngredientGroup(purpose: currentHeading, ingredients: currentIngredients));
+      return parsedGroups;
     }
 
     try {
@@ -707,8 +747,8 @@ class AbstractScraper {
       if (stepVideos().isNotEmpty) jsonDict['step_videos'] = stepVideos();
       if (category().isNotEmpty) jsonDict['category'] = decodeHtmlEntities(category());
       jsonDict['yields'] = yields();
-      jsonDict['description'] = description();
-      jsonDict['total_time'] = totalTime();
+      if (description() != null) jsonDict['description'] = description();
+      if (totalTime() != null) jsonDict['total_time'] = totalTime();
       if (cookTime() != null) jsonDict['cook_time'] = cookTime();
       if (prepTime() != null) jsonDict['prep_time'] = prepTime();
       if (cuisine().isNotEmpty) jsonDict['cuisine'] = decodeHtmlEntities(cuisine());
