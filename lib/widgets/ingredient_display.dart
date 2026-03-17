@@ -53,7 +53,7 @@ class IngredientDisplay extends StatelessWidget {
                         decoration: ingredient.isChecked ? TextDecoration.lineThrough : null,
                       ),
                       overflow: TextOverflow.ellipsis,
-                      maxLines: 4,
+                      maxLines: 6, // trim long ingredient names
                     ),
                   ),
                   const SizedBox(width: 3),

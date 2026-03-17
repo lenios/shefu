@@ -374,9 +374,10 @@ Future<void> showVideoPlayer(BuildContext context, String videoUrl) async {
 void _showYoutubePlayer(BuildContext context, String youtubeUrl) {
   String? videoId;
   // Extract video ID from URL
-  if (youtubeUrl.contains('youtu.be')) {
+  if (youtubeUrl.contains('youtu.be') || youtubeUrl.contains('/embed/')) {
     // Short Youtube URL format: https://youtu.be/VIDEO_ID
-    videoId = youtubeUrl.split('/').last;
+    // Embedded: https://www.youtube.com/embed/VIDEO_ID?feature=oembed
+    videoId = Uri.parse(youtubeUrl).pathSegments.last;
   } else if (youtubeUrl.contains('youtube.com')) {
     // Regular Youtube URL format: https://www.youtube.com/watch?v=VIDEO_ID
     videoId = Uri.parse(youtubeUrl).queryParameters['v'];

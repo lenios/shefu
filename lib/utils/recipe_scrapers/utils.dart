@@ -1,5 +1,6 @@
 import 'package:html/dom.dart';
 import 'package:html/parser.dart';
+import 'package:shefu/l10n/l10n_utils.dart';
 
 /// Exception thrown when an element is not found in HTML
 class ElementNotFoundInHtml implements Exception {
@@ -519,48 +520,7 @@ double? _parseJapaneseNumber(String s) {
   return ('', '', ingredient);
 }
 
-// (String, String, String, String) parseIngredient(String ingredient) {
-//   // Try to match quantity pattern (numbers, fractions)
-//   final quantityMatch = RegExp(r'^([\d\/\.\s]+)').firstMatch(ingredient);
-//   String quantity = '';
-//   String rest = ingredient;
-
-//   if (quantityMatch != null) {
-//     quantity = quantityMatch.group(1)!.trim();
-//     rest = ingredient.substring(quantityMatch.end).trim();
-//   }
-
-//   // Try to identify unit
-//   String unit = '';
-//   String name = rest;
-
-//   for (final u in units) {
-//     if (rest.toLowerCase().startsWith('$u ') ||
-//         rest.toLowerCase().startsWith('${u}s ') ||
-//         rest.toLowerCase() == u ||
-//         rest.toLowerCase() == '${u}s') {
-//       final match = RegExp('^$u|^${u}s', caseSensitive: false).firstMatch(rest);
-//       if (match != null) {
-//         unit = match.group(0)!;
-//         name = rest.substring(match.end).trim();
-//         break;
-//       }
-//     }
-//   }
-
-//   // Extract content in parentheses for the shape
-//   String shape = '';
-//   final parenthesesMatch = RegExp(r'\((.*?)\)').firstMatch(name);
-//   if (parenthesesMatch != null && parenthesesMatch.group(1) != null) {
-//     shape = parenthesesMatch.group(1)!.trim();
-//     // Remove the parentheses and their content from the name
-//     name = name.replaceFirst(RegExp(r'\s*\(.*?\)\s*'), ' ').trim();
-//   }
-
-//   return (quantity, unit, name, shape);
-// }
-
-(String, String, String, String) parseIngredient(String ingredient) {
+(String, String, String, String) parseIngredient(String ingredient, String language) {
   // Mapping of units to standardized abbreviations
   final unitsMap = {
     'tablespoon': 'tbsp',
@@ -639,13 +599,13 @@ double? _parseJapaneseNumber(String s) {
 
     // Existing code for parenthetical metric extraction
     final metricMatch = RegExp(
-      r'(\d+[\d\.\s\/]*)\s*(g|ml|gram|grams|milliliter|milliliters)',
+      r'(\d+[\d\.\,\s\/]*)\s*(g|gram|grams|kg|ml|milliliter|milliliters)',
       caseSensitive: false,
     ).firstMatch(parentheticalContent);
 
     if (metricMatch != null) {
       foundMetricInParentheses = true;
-      quantity = metricMatch.group(1)?.trim().replaceAll(',', '') ?? '';
+      quantity = metricMatch.group(1)?.trim() ?? '';
       unit = metricMatch.group(2)?.toLowerCase() ?? '';
 
       // Remove the parenthetical content from the name
@@ -705,6 +665,9 @@ double? _parseJapaneseNumber(String s) {
       name = name.substring(decimalMatch.end).trim();
     }
 
+    // Skip preposition after quantity extraction (e.g. "1/4 de cuillère")
+    name = removeArticles(name, language);
+
     // Look for unit patterns and standardize them
     for (final entry in unitsMap.entries) {
       final unitKey = entry.key;
@@ -715,6 +678,9 @@ double? _parseJapaneseNumber(String s) {
       if (match != null) {
         unit = standardUnit;
         name = name.substring(match.end).trim();
+
+        // Skip preposition again after unit extraction (e.g. "100g de sucre")
+        name = removeArticles(name, language);
 
         // If we had parenthetical notes, add them back to the name
         if (parentheticalNotes.isNotEmpty) {

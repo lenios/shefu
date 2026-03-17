@@ -4,7 +4,7 @@ description: Offline recipes manager
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 3.16.1+2772
+version: 3.17.0+2782
 
 environment:
   sdk: ^3.11.1

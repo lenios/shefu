@@ -294,3 +294,17 @@ Widget formattedCategory(String category, context, {bool surface = false}) {
     ],
   );
 }
+
+/// Remove language-specific articles from ingredient names
+String removeArticles(String name, String lang) {
+  final patterns = {
+    'fr': r'^(de\s+|du\s+|des\s+|les\s+|le\s+|la\s+)',
+    'en': r'^(a\s+|an\s+|the\s+)',
+  };
+
+  final pattern = patterns[lang];
+  if (pattern != null) {
+    return name.toLowerCase().replaceFirst(RegExp(pattern), '').trim();
+  }
+  return name.toLowerCase().trim();
+}

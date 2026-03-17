@@ -90,7 +90,7 @@ Supported Recipe Websites for import:
 | ✅ [ZestfulKitchen.com](https://www.zestfulkitchen.com) |
 | More sites 🚧 In progress |
 
-| France 🇫🇷 Supported Website **(13)** |
+| France 🇫🇷 Supported Website **(14)** |
 |-------------------|
 | ✅ [750g.com](https://www.750g.com) |
 | ✅ [Atelierdeschefs.fr](https://www.atelierdeschefs.fr) |
@@ -103,6 +103,7 @@ Supported Recipe Websites for import:
 | ✅ [Marmiton.org](https://www.marmiton.com) |
 | ✅ [Moulinex.fr](https://www.moulinex.fr) |
 | ✅ [Lacuisinedessouvenirs.com](https://www.lacuisinedessouvenirs.com) |
+| ✅ [Papillesetpupilles.fr](https://www.papillesetpupilles.fr) |
 | ✅ [Ptitchef.com](https://www.ptitchef.com) |
 | ✅ [Supertoinette.com](https://www.supertoinette.com) |
 | More sites 🚧 In progress |

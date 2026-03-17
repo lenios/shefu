@@ -506,7 +506,10 @@ class EditRecipeViewModel extends ChangeNotifier {
     }
 
     // Process ingredients
-    var ingredients = pscraper.ingredients().map((e) => parseIngredient(e)).toList();
+    var ingredients = pscraper
+        .ingredients()
+        .map((e) => parseIngredient(e, _recipe.languageTag))
+        .toList();
     if (ingredients.isNotEmpty) {
       for (var i in ingredients) {
         double quantity = double.tryParse(i.$1.replaceAll(',', '.')) ?? 0;
@@ -579,7 +582,7 @@ class EditRecipeViewModel extends ChangeNotifier {
 
     // Step 2: Clean the ingredient name (remove articles, extract shapes)
     final lang = _recipe.languageTag.isNotEmpty ? _recipe.languageTag.split('-').first : '';
-    name = _removeArticles(name, lang);
+    name = removeArticles(name, lang);
     final extracted = _extractShapeFromEnd(name, shape, lang);
     name = extracted.$1;
     shape = extracted.$2;
@@ -610,20 +613,6 @@ class EditRecipeViewModel extends ChangeNotifier {
       if (content.isNotEmpty) return content;
     }
     return currentShape;
-  }
-
-  /// Remove language-specific articles from ingredient names
-  String _removeArticles(String name, String lang) {
-    final patterns = {
-      'fr': r'^(de\s+|du\s+|des\s+|les\s+|le\s+|la\s+)',
-      'en': r'^(a\s+|an\s+|the\s+)',
-    };
-
-    final pattern = patterns[lang];
-    if (pattern != null) {
-      return name.toLowerCase().replaceFirst(RegExp(pattern), '').trim();
-    }
-    return name.toLowerCase().trim();
   }
 
   /// Extract shape descriptors from the end of ingredient names
