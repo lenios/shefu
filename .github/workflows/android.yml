@@ -19,8 +19,8 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e # v2.21.0
         with:
-          channel: 'stable'
-          flutter-version: 3.41.4
+          channel: "stable"
+          flutter-version: 3.44.1
 
       - name: Get Flutter dependencies
         run: flutter pub get
@@ -36,8 +36,8 @@ jobs:
 
       - name: Build APK
         env:
-           SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
-           SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
+          SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
+          SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
         run: flutter build apk --release --split-per-abi
 
       - name: Upload APK as artifact
@@ -48,8 +48,8 @@ jobs:
 
       - name: Build appbundle
         env:
-           SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
-           SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
+          SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
+          SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
         run: flutter build appbundle
 
       - name: Upload appbundle as artifact

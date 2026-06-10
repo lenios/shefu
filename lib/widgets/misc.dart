@@ -388,10 +388,7 @@ void _showYoutubePlayer(BuildContext context, String youtubeUrl) {
     ).showSnackBar(const SnackBar(content: Text('Invalid YouTube URL format')));
     return;
   }
-  final controller = YoutubePlayerController(
-    initialVideoId: videoId,
-    flags: const YoutubePlayerFlags(autoPlay: true, mute: false),
-  );
+  final controller = YoutubePlayerController.fromVideoId(videoId: videoId, autoPlay: true);
   showDialog<void>(
     context: context,
     builder: (ctx) => Dialog(
@@ -412,15 +409,7 @@ void _showYoutubePlayer(BuildContext context, String youtubeUrl) {
                 ),
               ],
             ),
-            YoutubePlayer(
-              controller: controller,
-              showVideoProgressIndicator: true,
-              progressIndicatorColor: Theme.of(ctx).colorScheme.secondary,
-              progressColors: ProgressBarColors(
-                playedColor: Theme.of(ctx).colorScheme.secondary,
-                handleColor: Theme.of(ctx).colorScheme.secondary,
-              ),
-            ),
+            YoutubePlayer(controller: controller),
           ],
         ),
       ),

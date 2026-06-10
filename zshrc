@@ -1,12 +1,12 @@
 #display branch name
-autoload -Uz vcs_info colors && colors
+autoload -Uz vcs_info colors compinit && colors && compinit
 precmd() { vcs_info }
 zstyle ':vcs_info:git:*' formats '%b'
 setopt PROMPT_SUBST
-PROMPT='${PWD/#$HOME/~} %{$fg[blue]%}${vcs_info_msg_0_}%{$reset_color%} %% '
+PROMPT='${PWD/#$HOME/~} %{$fg[blue]%}${vcs_info_msg_0_}%{$reset_color%} %# '
 
 function gb() {
-if [ -n "$1" ]; then 
+if [ -n "$1" ]; then
   git checkout -b $1
 else
   git branch
@@ -28,3 +28,5 @@ alias gp="git push origin \$(git branch --show-current)"
 alias gpf="git push origin \$(git branch --show-current) --force"
 alias gd="b=\$(git branch --show-current);git switch main; git branch -D \$b; git pull --rebase"
 alias gs="git status"
+
+export PATH="/opt/homebrew/share/flutter/bin:$PATH"
