@@ -1,23 +1,24 @@
+import 'package:command_it/command_it.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:shefu/l10n/app_localizations.dart';
 import 'package:shefu/models/objectbox_models.dart';
 import 'package:shefu/provider/my_app_state.dart';
+import 'package:shefu/utils/path_utils.dart';
 import 'package:shefu/utils/string_extension.dart';
-import 'package:shefu/views/full_screen_image.dart';
 import 'package:shefu/viewmodels/display_recipe_viewmodel.dart';
+import 'package:shefu/views/full_screen_image.dart';
 import 'package:shefu/widgets/back_button.dart';
 import 'package:shefu/widgets/confirmation_dialog.dart';
 import 'package:shefu/widgets/display_recipe/build_notes_view.dart';
 import 'package:shefu/widgets/display_recipe/build_nutrition_view.dart';
+import 'package:shefu/widgets/display_recipe/build_shopping_list.dart';
 import 'package:shefu/widgets/display_recipe/build_steps_view.dart';
 import 'package:shefu/widgets/display_recipe/export_recipe_to_pdf.dart';
 import 'package:shefu/widgets/icon_button.dart';
 import 'package:shefu/widgets/image_helper.dart';
-import 'package:shefu/widgets/display_recipe/build_shopping_list.dart';
 import 'package:shefu/widgets/misc.dart';
-import 'package:command_it/command_it.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
 import '../widgets/header_stats.dart';
@@ -182,7 +183,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                             )
                           : null, // No border if no image path
                       child: ClipRect(
-                        child: buildFutureImageWidget(context, thumbnailPath(imagePath)),
+                        child: buildFutureImageWidget(context, PathUtils.thumbnailPath(imagePath)),
                       ),
                     ),
                   ),

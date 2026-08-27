@@ -6,14 +6,11 @@ PODS:
   - objectbox_flutter_libs (0.0.1):
     - Flutter
     - ObjectBox (= 5.3.0)
-  - printing (1.0.0):
-    - Flutter
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_tts (from `.symlinks/plugins/flutter_tts/ios`)
   - objectbox_flutter_libs (from `.symlinks/plugins/objectbox_flutter_libs/ios`)
-  - printing (from `.symlinks/plugins/printing/ios`)
 
 SPEC REPOS:
   trunk:
@@ -26,15 +23,12 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_tts/ios"
   objectbox_flutter_libs:
     :path: ".symlinks/plugins/objectbox_flutter_libs/ios"
-  printing:
-    :path: ".symlinks/plugins/printing/ios"
 
 SPEC CHECKSUMS:
   Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
   flutter_tts: 35ac3c7d42412733e795ea96ad2d7e05d0a75113
   ObjectBox: 2aae8ad350012cb53c6e7848064307cf68617f73
   objectbox_flutter_libs: 42b57158b8c4869b731487f220e07d6edc6616e0
-  printing: 54ff03f28fe9ba3aa93358afb80a8595a071dd07
 
 PODFILE CHECKSUM: c09f1c39ba7bd25e25f9ff7dc9511121372650a0
 

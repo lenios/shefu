@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:shefu/provider/my_app_state.dart';
+import 'package:shefu/utils/path_utils.dart';
 import 'package:shefu/utils/string_extension.dart';
+
 import '../l10n/app_localizations.dart';
 import '../models/objectbox_models.dart';
 import '../widgets/image_helper.dart';
@@ -36,7 +38,7 @@ class RecipeCard extends StatelessWidget {
                 child: Container(
                   child: buildFutureImageWidget(
                     context,
-                    thumbnailPath(recipe.imagePath),
+                    PathUtils.thumbnailPath(recipe.imagePath),
                     width: 100,
                     height: 100,
                   ),

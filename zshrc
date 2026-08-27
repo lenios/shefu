@@ -28,5 +28,6 @@ alias gp="git push origin \$(git branch --show-current)"
 alias gpf="git push origin \$(git branch --show-current) --force"
 alias gd="b=\$(git branch --show-current);git switch main; git branch -D \$b; git pull --rebase"
 alias gs="git status"
+alias fu="flutter pub upgrade --tighten"
 
 export PATH="/opt/homebrew/share/flutter/bin:$PATH"

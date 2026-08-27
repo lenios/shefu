@@ -12,6 +12,7 @@ import 'package:share_plus/share_plus.dart';
 import 'package:shefu/l10n/app_localizations.dart';
 import 'package:shefu/models/objectbox_models.dart';
 import 'package:shefu/repositories/objectbox_nutrient_repository.dart';
+import 'package:shefu/utils/path_utils.dart';
 import 'package:shefu/viewmodels/display_recipe_viewmodel.dart';
 import 'package:shefu/widgets/misc.dart';
 
@@ -91,8 +92,9 @@ Future<void> exportRecipeToPdf(
 
     // Load recipe main image
     if (recipe.imagePath.isNotEmpty) {
+      // TODO factorize l109
       try {
-        final File imageFile = File(recipe.imagePath);
+        final File imageFile = File(PathUtils.cleanPath(recipe.imagePath));
         if (await imageFile.exists()) {
           final imageBytes = await imageFile.readAsBytes();
           recipeImage = pw.MemoryImage(imageBytes);
@@ -107,7 +109,7 @@ Future<void> exportRecipeToPdf(
       final step = recipe.steps[i];
       if (step.imagePath.isNotEmpty) {
         try {
-          final File imageFile = File(step.imagePath);
+          final File imageFile = File(PathUtils.cleanPath(step.imagePath));
           if (await imageFile.exists()) {
             final imageBytes = await imageFile.readAsBytes();
             stepImages[i] = pw.MemoryImage(imageBytes);

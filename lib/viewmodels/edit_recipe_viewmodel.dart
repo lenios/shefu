@@ -13,6 +13,7 @@ import 'package:shefu/models/objectbox_models.dart';
 import 'package:shefu/repositories/objectbox_nutrient_repository.dart';
 import 'package:shefu/repositories/objectbox_recipe_repository.dart';
 import 'package:shefu/utils/mlkit.dart';
+import 'package:shefu/utils/path_utils.dart';
 import 'package:shefu/utils/recipe_scrapers/scraper_factory.dart';
 import 'package:shefu/utils/recipe_scrapers/utils.dart';
 import 'package:shefu/widgets/edit_ingredient_input.dart';
@@ -793,7 +794,7 @@ class EditRecipeViewModel extends ChangeNotifier {
         // Clear both the old image and its thumbnail from cache
         clearImageCache(oldPathToDelete);
         await _recipeRepository.deleteImageFile(oldPathToDelete);
-        await _recipeRepository.deleteImageFile(thumbnailPath(oldPathToDelete));
+        await _recipeRepository.deleteImageFile(PathUtils.thumbnailPath(oldPathToDelete));
       }
 
       // Ensure the new image's thumbnail is properly generated
@@ -811,7 +812,7 @@ class EditRecipeViewModel extends ChangeNotifier {
           (stepIndex == null || _recipe.steps[stepIndex].imagePath != savedImagePath)) {
         clearImageCache(savedImagePath);
         await _recipeRepository.deleteImageFile(savedImagePath);
-        await _recipeRepository.deleteImageFile(thumbnailPath(savedImagePath));
+        await _recipeRepository.deleteImageFile(PathUtils.thumbnailPath(savedImagePath));
       }
     } finally {
       _isLoading = false;
@@ -962,7 +963,7 @@ class EditRecipeViewModel extends ChangeNotifier {
   bool imageFileExists(String? path) {
     if (path == null || path.isEmpty) return false;
     try {
-      return File(path).existsSync();
+      return File(PathUtils.cleanPath(path)).existsSync();
     } catch (e) {
       debugPrint("Error checking if image file exists: $e");
       return false;

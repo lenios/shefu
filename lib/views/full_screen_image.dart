@@ -2,7 +2,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:shefu/widgets/image_helper.dart';
+import 'package:shefu/utils/path_utils.dart';
 
 class FullScreenImage extends StatelessWidget {
   final String imagePath;
@@ -31,11 +31,11 @@ class FullScreenImage extends StatelessWidget {
           maxScale: 4,
           child: FutureBuilder<Uint8List>(
             key: ValueKey('fullscreen-$imagePath'),
-            future: File(imagePath).readAsBytes(),
+            future: File(PathUtils.cleanPath(imagePath)).readAsBytes(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 // Show thumbnail while loading full image
-                final thumbPath = thumbnailPath(imagePath);
+                final thumbPath = PathUtils.thumbnailPath(imagePath);
                 if (thumbPath.isNotEmpty && File(thumbPath).existsSync()) {
                   return FutureBuilder<Uint8List>(
                     future: File(thumbPath).readAsBytes(),

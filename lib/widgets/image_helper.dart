@@ -2,10 +2,10 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:path/path.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:image/image.dart' as i;
+import 'package:shefu/utils/path_utils.dart';
 import 'package:image_picker/image_picker.dart';
 
 // Simple LRU cache for image data
@@ -51,52 +51,28 @@ Future<String> saveImage({
 
   final validExt = ['.jpg', '.jpeg', '.png', '.gif', '.webp'].contains(ext) ? ext : '.jpg';
   final name = "${recipeId}_${stepIndex ?? 'main'}$validExt";
-
   final filePath = p.join(dirPath.path, name);
 
+  final Uint8List bytes;
+  if (image is XFile || image is File) {
+    bytes = Uint8List.fromList(await image.readAsBytes());
+  } else if (image is List<int>) {
+    bytes = Uint8List.fromList(image);
+  } else if (image is Uint8List) {
+    bytes = image;
+  } else {
+    throw ArgumentError('Unsupported image type: ${image.runtimeType}');
+  }
+
   try {
-    // Handle different image input types
-    if (image is XFile) {
-      // Case 1: XFile from image_picker
-      final bytes = await image.readAsBytes();
+    // Save original image
+    await File(filePath).writeAsBytes(bytes);
 
-      // Save original image
-      await File(filePath).writeAsBytes(bytes);
-
-      // Generate and save thumbnail
-      final decodedImage = i.decodeImage(bytes);
-      if (decodedImage != null) {
-        final thumbnail = i.copyResize(decodedImage, width: 250);
-        await File(thumbnailPath(filePath)).writeAsBytes(i.encodePng(thumbnail));
-      }
-    } else if (image is File) {
-      // Case 2: File object
-      final bytes = await image.readAsBytes();
-
-      // Save original image
-      await File(filePath).writeAsBytes(bytes);
-
-      // Generate and save thumbnail
-      final decodedImage = i.decodeImage(bytes);
-      if (decodedImage != null) {
-        final thumbnail = i.copyResize(decodedImage, width: 250);
-        await File(thumbnailPath(filePath)).writeAsBytes(i.encodePng(thumbnail));
-      }
-    } else if (image is List<int> || image is Uint8List) {
-      // Case 3: Raw bytes
-      final bytes = image is Uint8List ? image : Uint8List.fromList(image);
-
-      // Save original image
-      await File(filePath).writeAsBytes(bytes);
-
-      // Generate and save thumbnail
-      final decodedImage = i.decodeImage(bytes);
-      if (decodedImage != null) {
-        final thumbnail = i.copyResize(decodedImage, width: 250);
-        await File(thumbnailPath(filePath)).writeAsBytes(i.encodePng(thumbnail));
-      }
-    } else {
-      throw ArgumentError('Unsupported image type: ${image.runtimeType}');
+    // Generate and save thumbnail
+    final decodedImage = i.decodeImage(bytes);
+    if (decodedImage != null) {
+      final thumbnail = i.copyResize(decodedImage, width: 250);
+      await File(PathUtils.thumbnailPath(filePath)).writeAsBytes(i.encodePng(thumbnail));
     }
 
     return filePath;
@@ -104,15 +80,6 @@ Future<String> saveImage({
     debugPrint('Error saving image: $e');
     rethrow;
   }
-}
-
-String thumbnailPath(String filepath) {
-  if (filepath.isEmpty) return '';
-  final file = File(filepath);
-  if (!file.existsSync()) {
-    return ''; // Return empty string for non-existent files
-  }
-  return '${dirname(filepath)}/t_${basename(filepath)}';
 }
 
 Widget buildFutureImageWidget(
@@ -125,9 +92,9 @@ Widget buildFutureImageWidget(
 
   final imageSize = MediaQuery.of(context).size.width * 1 / 3;
   if (imagePath.isNotEmpty) {
-    final file = File(imagePath);
+    final imageFile = File(PathUtils.cleanPath(imagePath));
     // Check if file exists before attempting to read it
-    if (!file.existsSync()) {
+    if (!imageFile.existsSync()) {
       debugPrint("Image file does not exist: '$imagePath'");
       return Center(
         child: Icon(
@@ -139,7 +106,7 @@ Widget buildFutureImageWidget(
     }
 
     // Try to get image from cache first
-    final cachedData = ImageCache.get(imagePath);
+    final cachedData = ImageCache.get(imageFile.path);
 
     if (cachedData != null) {
       // Use cached data directly
@@ -166,8 +133,8 @@ Widget buildFutureImageWidget(
     // If not in cache, load asynchronously
     imageWidget = FutureBuilder<Uint8List>(
       key: ValueKey<String>('image-$imagePath'),
-      future: file.readAsBytes().then((data) {
-        ImageCache.put(imagePath, data); // Store in cache
+      future: imageFile.readAsBytes().then((data) {
+        ImageCache.put(imageFile.path, data); // Store in cache
         return data;
       }),
       builder: (context, snapshot) {
@@ -239,20 +206,21 @@ Widget buildFutureImageWidget(
 
 void clearImageCache(String? imagePath) {
   if (imagePath != null && imagePath.isNotEmpty) {
-    ImageCache.remove(imagePath);
-    ImageCache.remove(thumbnailPath(imagePath));
+    ImageCache.remove(imagePath); // TODO remove?
+    ImageCache.remove(PathUtils.cleanPath(imagePath));
+    ImageCache.remove(PathUtils.thumbnailPath(imagePath));
   }
 }
 
 Future<void> regenerateThumbnail(String imagePath) async {
   try {
-    final file = File(imagePath);
+    final file = File(PathUtils.cleanPath(imagePath));
     if (await file.exists()) {
       final bytes = await file.readAsBytes();
       final decodedImage = i.decodeImage(bytes);
       if (decodedImage != null) {
         final thumbnail = i.copyResize(decodedImage, width: 250);
-        final thumbPath = thumbnailPath(imagePath);
+        final thumbPath = PathUtils.thumbnailPath(imagePath);
         await File(thumbPath).writeAsBytes(i.encodePng(thumbnail));
         // Clear from cache to ensure fresh load
         ImageCache.remove(thumbPath);
@@ -265,12 +233,12 @@ Future<void> regenerateThumbnail(String imagePath) async {
 
 Future<void> updateImageWithThumbnail(String sourcePath, String destinationPath) async {
   try {
-    final bytes = await File(sourcePath).readAsBytes();
-    await File(destinationPath).writeAsBytes(bytes);
+    final bytes = await File(PathUtils.cleanPath(sourcePath)).readAsBytes();
+    await File(PathUtils.cleanPath(destinationPath)).writeAsBytes(bytes);
     final decodedImage = i.decodeImage(bytes);
     if (decodedImage != null) {
       final thumbnail = i.copyResize(decodedImage, width: 250);
-      await File(thumbnailPath(destinationPath)).writeAsBytes(i.encodePng(thumbnail));
+      await File(PathUtils.thumbnailPath(destinationPath)).writeAsBytes(i.encodePng(thumbnail));
     }
     clearImageCache(destinationPath);
   } catch (e) {

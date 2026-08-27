@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:shefu/models/objectbox_models.dart';
 import 'package:shefu/repositories/objectbox.dart';
 import 'package:shefu/objectbox.g.dart';
+import 'package:shefu/utils/path_utils.dart';
 
 class ObjectBoxRecipeRepository {
   final ObjectBox _objectBox;
@@ -157,7 +158,7 @@ class ObjectBoxRecipeRepository {
   Future<void> deleteImageFile(String? path) async {
     if (path != null && path.isNotEmpty) {
       try {
-        final file = File(path);
+        final file = File(PathUtils.cleanPath(path));
         if (await file.exists()) {
           await file.delete();
           debugPrint("Deleted image file: $path");

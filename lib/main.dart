@@ -7,6 +7,7 @@ import 'package:shefu/provider/my_app_state.dart';
 import 'package:shefu/repositories/objectbox.dart';
 import 'package:shefu/repositories/objectbox_nutrient_repository.dart';
 import 'package:shefu/repositories/objectbox_recipe_repository.dart';
+import 'package:shefu/utils/path_utils.dart';
 import 'package:shefu/utils/theme.dart';
 
 import 'package:shefu/viewmodels/home_page_viewmodel.dart';
@@ -17,6 +18,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 late ObjectBox objectBox;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await PathUtils.init();
   objectBox = await ObjectBox.create();
 
   final objectBoxNutrientRepo = ObjectBoxNutrientRepository(objectBox);

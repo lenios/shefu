@@ -3,12 +3,13 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:shefu/l10n/l10n_utils.dart';
 import 'package:shefu/repositories/objectbox_nutrient_repository.dart';
+import 'package:shefu/utils/path_utils.dart';
 import 'package:shefu/utils/string_extension.dart';
 import 'package:shefu/views/full_screen_image.dart';
 import 'package:shefu/widgets/ingredient_display.dart';
 import 'package:shefu/widgets/step_timer_widget.dart';
-import '../models/objectbox_models.dart';
 
+import '../models/objectbox_models.dart';
 import 'image_helper.dart';
 import 'misc.dart';
 
@@ -153,7 +154,7 @@ class RecipeStepCard extends StatelessWidget {
             width: 120,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(8.0),
-              child: buildFutureImageWidget(context, thumbnailPath(recipeStep.imagePath)),
+              child: buildFutureImageWidget(context, PathUtils.thumbnailPath(recipeStep.imagePath)),
             ),
           )
         : SizedBox(
