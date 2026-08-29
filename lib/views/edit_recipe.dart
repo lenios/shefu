@@ -133,6 +133,9 @@ class _EditRecipeState extends State<EditRecipe> {
                 );
               }
             } else if (shouldSave == false) {
+              if (viewModel.isNew) {
+                await viewModel.deleteRecipe();
+              }
               if (navigator.canPop()) {
                 navigator.pop(false);
               }

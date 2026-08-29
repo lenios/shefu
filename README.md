@@ -17,7 +17,7 @@ Key Features:
 - **Shopping List Generation**: Automatically generate a convenient shopping list based on the ingredients needed for your selected recipes. *(Note: shopping list is only available until the application is closed)*
 - **Multi-language Support**: Fully available in English, French, Japanese, and Hungarian.
 - **Works Offline**: Your recipes are stored locally on your device, ensuring you always have access. No internet required to use the application (except for recipe import, see below).
-- **Internet recipes import**: Put a supported site url in source when creating a recipe to import it (see list below). Advanced scraper compatible with images, FAQs, nutritional values when available.
+- **Internet recipes import**: Put a supported site url in source when creating a recipe to import it (see [supported_websites.md](https://github.com/lenios/shefu/blob/main/supported_websites.md)). Advanced scraper compatible with images, FAQs, nutritional values when available.
 - **Video player**: Put a video url on recipe to play it when you cook. Video urls are automatically saved when importing recipes from compatible websites.
 - **Internet recipes search**: On supported sites, you can browse recipes and import recipe in one click.
 
@@ -52,81 +52,8 @@ Sample:
 
 Documentation will come later.
 
-Supported Recipe Websites for import:
 
-
-| USA 🇺🇸 Supported Website **(31)** |
-|-------------------|
-| ✅ [101cookbooks.com](https://www.101cookbooks.com) |
-| ✅ [ABeautifulMess.com](https://www.abeautifulmess.com) |
-| ✅ [Aflavorjournal.com](https://www.aflavorjournal.com) |
-| ✅ [Alexandracooks.com](https://alexandracooks.com) |
-| ✅ [AllRecipes.com](https://www.allrecipes.com) |
-| ✅ [Ambitiouskitchen.com](https://www.ambitiouskitchen.com) |
-| ✅ [Anovaculinary.com](https://www.anovaculinary.com) |
-| ✅ [Bakewithzoha.com](https://www.bakewithzoha.com) |
-| ✅ [Budgetbytes.com](https://www.budgetbytes.com) |
-| ✅ [Cafedelites.com](https://www.cafedelites.com) |
-| ✅ [Cakemehometonight.com](https://www.cakemehometonight.com) |
-| ✅ [Cambreabakes.com](https://www.cambreabakes.com) |
-| ✅ [Castironketo.net](https://www.castironketo.net) |
-| ✅ [Cdkitchen.com](https://www.cdkitchen.com) |
-| ✅ [Damndelicious.net](https://www.damndelicious.net) |
-| ✅ [Eatingwell.com](https://www.eatingwell.com) |
-| ✅ [Evolvingtable.com](https://www.evolvingtable.com) |
-| ✅ [HelloFresh.com](https://www.hellofresh.com) |
-| ✅ [Lanascooking.com](https://www.lanascooking.com) |
-| ✅ [Lecremedelacrumb.com](https://www.lecremedelacrumb.com) |
-| ✅ [mybakingaddiction.com](https://www.mybakingaddiction.com) |
-| ✅ [Recipetineats.com](https://www.recipetineats.com) |
-| ✅ [SeriousEats.com](https://www.seriouseats.com) |
-| ✅ [SugarHero.com](https://www.sugarhero.com) |
-| ✅ [Thekitchn.com](https://www.thekitchn.com) |
-| ✅ [Therecipecritic.com](https://www.therecipecritic.com) |
-| ✅ [Vanillaandbean.com](https://www.vanillaandbean.com) |
-| ✅ [Wellplated.com](https://www.wellplated.com) |
-| ✅ [WhatsGabyCooking.com](https://www.whatsgabycooking.com) |
-| ✅ [ZenBelly.com](https://www.zenbelly.com) |
-| ✅ [ZestfulKitchen.com](https://www.zestfulkitchen.com) |
-| More sites 🚧 In progress |
-
-| France 🇫🇷 Supported Website **(14)** |
-|-------------------|
-| ✅ [750g.com](https://www.750g.com) |
-| ✅ [Atelierdeschefs.fr](https://www.atelierdeschefs.fr) |
-| ✅ [Chefsimon.com](https://www.chefsimon.com) |
-| ✅ [Cuisineaz.com](https://www.cuisineaz.com) |
-| ✅ [Cuisineactuelle.fr](https://www.cuisineactuelle.fr) |
-| ✅ [Cuisine.journaldesfemmes.fr](https://cuisine.journaldesfemmes.fr) |
-| ✅ [Giallozafferano.fr](https://www.giallozafferano.fr) |
-| ✅ [HelloFresh.fr](https://www.hellofresh.fr) |
-| ✅ [Marmiton.org](https://www.marmiton.com) |
-| ✅ [Moulinex.fr](https://www.moulinex.fr) |
-| ✅ [Lacuisinedessouvenirs.com](https://www.lacuisinedessouvenirs.com) |
-| ✅ [Papillesetpupilles.fr](https://www.papillesetpupilles.fr) |
-| ✅ [Ptitchef.com](https://www.ptitchef.com) |
-| ✅ [Supertoinette.com](https://www.supertoinette.com) |
-| More sites 🚧 In progress |
-
-| Other Supported Websites **(14)** | Country |
-|-------------------|:--------|
-| ✅ [Akispetretzikis.com](https://www.akispetretzikis.com) | 🇬🇷 Greece |
-| ✅ [BBCgoodfood.com](https://www.bbcgoodfood.com) | 🇬🇧 UK |
-| ✅ [Cookpad.com](https://www.cookpad.com) | 🌏 Worldwide |
-| ✅ [Delishkitchen.tv](https://delishkitchen.tv) | 🇯🇵 Japan |
-| ✅ [Foodnetwork.co.uk](https://www.foodnetwork.co.uk) | 🇬🇧 UK |
-| ✅ [Greatbritishchefs.com](https://www.greatbritishchefs.com) | 🇬🇧 UK |
-| ✅ [JamieOliver.com](https://www.jamieoliver.com) | 🇬🇧 UK |
-| ✅ [Kitchenstories.com](https://www.kitchenstories.com) | 🇩🇪 Germany |
-| ✅ [Kochbar.de](https://www.kochbar.de) | 🇩🇪 Germany |
-| ✅ [Koket.se](https://www.koket.se) | 🇸🇪 Sweden |
-| ✅ [Miljuschka.nl](https://miljuschka.nl) | 🇳🇱 Netherlands |
-| ✅ [Wdr.de](https://www1.wdr.de) | 🇩🇪 Germany |
-| ✅ [Yemek.com](https://www.yemek.com) | 🇹🇷 Turkey |
-| ✅ [Zaubertopf.de](https://www.zaubertopf.de) | 🇩🇪 Germany |
-| ✅ [Zeit.de](https://www.zeit.de) | 🇩🇪 Germany |
-| More sites | 🚧 In progress |
-
+See the full list of supported recipe websites in [supported_websites.md](https://github.com/lenios/shefu/blob/main/supported_websites.md).
 
 **Recipe scraping now follows/uses https://github.com/hhursev/recipe-scrapers format to support as much websites as possible.**
 

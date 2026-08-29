@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:shefu/models/objectbox_models.dart';
 import 'package:shefu/objectbox.g.dart';
 import 'package:shefu/repositories/objectbox.dart';
+import 'package:shefu/utils/string_extension.dart';
 
 class ObjectBoxNutrientRepository {
   final ObjectBox _objectBox;
@@ -387,22 +388,18 @@ class ObjectBoxNutrientRepository {
       return [];
     }
 
-    final normalizedFilter = filter.trim().toLowerCase();
-
     // Filter in-memory list with loose matching
     var filtered = _inMemoryNutrients
         .where(
           (n) =>
-              n.descEN.toLowerCase().contains(normalizedFilter) ||
-              n.descFR.toLowerCase().contains(normalizedFilter),
+              n.descEN.toLowerCase().contains(filter.normalize()) ||
+              n.descFR.toLowerCase().contains(filter.normalize()),
         )
         .toList();
 
     if (filtered.isEmpty) {
       // Try with alternative capitalization
-      final capitalizedFilter = normalizedFilter.isNotEmpty
-          ? "${normalizedFilter[0].toUpperCase()}${normalizedFilter.substring(1)}"
-          : "";
+      final capitalizedFilter = filter.normalize().capitalize();
 
       filtered = _inMemoryNutrients
           .where(
@@ -417,10 +414,10 @@ class ObjectBoxNutrientRepository {
       final reducedList = filtered
           .where(
             (n) =>
-                n.descEN.toLowerCase().contains('$normalizedFilter,') ||
-                n.descEN.toLowerCase().contains('${normalizedFilter}s,') ||
-                n.descFR.toLowerCase().contains('$normalizedFilter,') ||
-                n.descFR.toLowerCase().contains('${normalizedFilter}s,'),
+                n.descEN.toLowerCase().contains('$filter.normalize(),') ||
+                n.descEN.toLowerCase().contains('${filter.normalize()}s,') ||
+                n.descFR.toLowerCase().contains('$filter.normalize(),') ||
+                n.descFR.toLowerCase().contains('${filter.normalize()}s,'),
           )
           .toList();
 

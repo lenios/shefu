@@ -239,8 +239,8 @@
     "searchForOnlineRecipes": "Receptek keresése importáláshoz",
     "recipeImportedSuccessfully": "A recept sikeresen importálva!",
     "importFailed": "Nem sikerült importálni a receptet",
-    "selectAll": "Összes oldal",
-    "deselectAll": "Nincs",
+    "selectAllSites": "Összes oldal",
+    "deselectAllSites": "Nincs",
     "speak": "Recept felolvasása",
     "enterValidServings": "Kérjük, egész számot adjon meg",
     "about": "Névjegy",
@@ -269,5 +269,41 @@
     "calcium": "Kalcium",
     "iron": "Vas",
     "potassium": "Kálium",
-    "postedOnBy": "{date}-án közzétette: {author}"
+    "postedOnBy": "{date}-án közzétette: {author}",
+    "exportRecipes": "Receptek exportálása",
+    "importRecipes": "Receptek importálása",
+    "allRecipes": "Minden recept",
+    "exportFailed": "Az export sikertelen volt",
+    "importFailed": "Az import sikertelen volt",
+    "exportedRecipes": "{count,plural, one{Recept exportálva} other{{count} recept exportálva}}",
+    "@exportedRecipes": {
+      "placeholders": {
+        "count": {}
+      }
+    },
+    "importedRecipes": "{count,plural, one{1 recept importálva} other{{count} recept importálva}}",
+    "@importedRecipes": {
+      "placeholders": {
+        "count": {}
+      }
+    },
+    "importSkipped": "{count,plural, =1{1 duplikált receptet kihagyták} other{{count} duplikált receptet kihagyták}}",
+    "@importSkipped": {
+      "placeholders": {
+        "count": {}
+      }
+    },
+    "importZipHint": "Válasszon egy zip fájlt a receptek importálásához. A zip fájlnak a Shefu alkalmazás által generáltnak kell lennie.",
+    "importFromZip": "Importálás zip-fájlból",
+    "importFromUrl": "Importálás egy web URL-ból",
+    "writeRecipe": "Recept írása",
+    "importInternalError": "Az import sikertelen volt. Ez egy belső hiba. Kérjük, nyiss egy hibajelentést a https://github.com/lenios/shefu/issues címen, és ha lehetséges, szabd meg az importfájlt elemzéshez.",
+    "exportAsPdf": "PDF-ként exportálás",
+    "exportAsZip": "ZIP-ként exportálás",
+    "exportFormatHint": "Válassz PDF formátumot nyomtatáshoz vagy képernyős megtekintéshez, és ZIP formátumot későbbi importáláshoz.",
+    "exportCount": "{count,plural, =0{Exportálás: 0 recept} =1{Exportálás: 1 recept} other{Exportálás: {count} recept}}",
+    "selectAll": "Összes recept kijelölése",
+    "deselectAll": "Kijelölés törlése",
+    "invalidZipFile": "Érvénytelen fájl: a zip fájl nem Shefu export archívum.",
+    "supportedWebsitesNote": "A támogatott webhelyek listája itt érhető el:"
 }

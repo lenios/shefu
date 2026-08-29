@@ -141,7 +141,7 @@ class OnlineSearchViewModel extends ChangeNotifier {
     final recipeRepository = context.read<ObjectBoxRecipeRepository>();
     final nutrientRepository = context.read<ObjectBoxNutrientRepository>();
 
-    final editViewModel = EditRecipeViewModel(recipeRepository, nutrientRepository, null);
+    final editViewModel = EditRecipeViewModel(recipeRepository, nutrientRepository, null, true);
 
     final int newRecipeId = recipeRepository.createNewRecipe(
       AppLocalizations.of(context)!.newRecipe,

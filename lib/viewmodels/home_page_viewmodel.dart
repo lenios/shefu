@@ -1,10 +1,14 @@
 import 'dart:async';
+import 'dart:io';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shefu/l10n/app_localizations.dart';
 import 'package:shefu/models/objectbox_models.dart';
 import 'package:shefu/objectbox.g.dart';
 import 'package:shefu/repositories/objectbox_recipe_repository.dart';
+import 'package:shefu/utils/recipe_exporter.dart';
 
 class HomePageViewModel extends ChangeNotifier {
   late final ObjectBoxRecipeRepository _objectBoxRepository;
@@ -186,5 +190,106 @@ class HomePageViewModel extends ChangeNotifier {
     }
 
     return availableCategories;
+  }
+}
+
+Future<void> importRecipesZip(BuildContext context, ThemeData theme) async {
+  final l10n = AppLocalizations.of(context)!;
+  final repo = Provider.of<ObjectBoxRecipeRepository>(context, listen: false);
+
+  try {
+    final result = await FilePicker.platform.pickFiles(
+      dialogTitle: l10n.importRecipes,
+      type: FileType.custom,
+      allowedExtensions: ['zip'],
+    );
+    if (result == null || result.files.isEmpty) return;
+
+    final file = result.files.first;
+    final path = file.path;
+    List<int>? bytes = file.bytes;
+    if (bytes == null && path != null) {
+      bytes = await File(path).readAsBytes();
+    }
+    if (bytes == null) return;
+
+    final parsed = await parseRecipesZip(bytes);
+    final (imported, skipped) = await importParsedExport(repo, parsed);
+
+    if (context.mounted) {
+      String message;
+      if (imported > 0 && skipped > 0) {
+        message = '${l10n.importedRecipes(imported)}. ${l10n.importSkipped(skipped)}';
+      } else if (skipped > 0) {
+        message = l10n.importSkipped(skipped);
+      } else {
+        message = l10n.importedRecipes(imported);
+      }
+      ScaffoldMessenger.maybeOf(context)?.showSnackBar(SnackBar(content: Text(message)));
+      final navigator = Navigator.of(context);
+      if (navigator.canPop()) {
+        navigator.pop();
+      }
+    }
+  } on FormatException catch (_) {
+    if (context.mounted) {
+      ScaffoldMessenger.maybeOf(
+        context,
+      )?.showSnackBar(SnackBar(content: Text(l10n.invalidZipFile)));
+      final navigator = Navigator.of(context);
+      if (navigator.canPop()) {
+        navigator.pop();
+      }
+    }
+  } catch (_) {
+    // File parsed fine but the import itself failed: internal error.
+    final navigator = Navigator.of(context, rootNavigator: true);
+    if (!context.mounted) return;
+    final dialogRoute = DialogRoute(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(child: Text(l10n.importFailed)),
+            IconButton(
+              icon: const Icon(Icons.close),
+              tooltip: l10n.cancel,
+              onPressed: () => Navigator.pop(dialogContext),
+              iconSize: 24,
+              splashRadius: 24,
+            ),
+          ],
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(l10n.importInternalError),
+            const SizedBox(height: 12),
+            Text(l10n.supportedWebsitesNote),
+            Text(
+              'https://github.com/lenios/shefu/blob/main/supported_websites.md',
+              style: TextStyle(color: theme.colorScheme.primary),
+            ),
+          ],
+        ),
+        actions: [
+          FilledButton(
+            style: FilledButton.styleFrom(
+              backgroundColor: theme.colorScheme.error,
+              foregroundColor: theme.colorScheme.onError,
+            ),
+            onPressed: () => Navigator.pop(dialogContext),
+            child: Text(l10n.close),
+          ),
+        ],
+      ),
+    );
+    // Close the settings sheet if the import was started there; no-op from the home page.
+    if (navigator.canPop()) {
+      navigator.pop();
+    }
+    navigator.push(dialogRoute);
   }
 }

@@ -15,6 +15,7 @@ ThemeData _buildTheme(ColorScheme colorScheme, {bool useMaterial3 = true}) {
       backgroundColor: isDark ? const Color(0xFF121212) : null,
       shape: dialogShape,
     ),
+    popupMenuTheme: baseTheme.popupMenuTheme.copyWith(shape: dialogShape),
   );
 }
 

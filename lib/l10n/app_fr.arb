@@ -238,8 +238,8 @@
     "searchForOnlineRecipes": "Rechercher des recettes à importer",
     "recipeImportedSuccessfully": "Recette importée avec succès !",
     "importFailed": "Échec de l'importation de la recette",
-    "selectAll": "Tous",
-    "deselectAll": "Aucun",
+    "selectAllSites": "Tous",
+    "deselectAllSites": "Aucun",
     "speak": "Lire la recette",
     "enterValidServings": "Merci de saisir un nombre entier",
     "about": "À propos",
@@ -268,5 +268,41 @@
     "calcium": "Calcium",
     "iron": "Fer",
     "potassium": "Potassium",
-    "postedOnBy": "Publiée le {date} par {author}"
+    "postedOnBy": "Publiée le {date} par {author}",
+    "exportRecipes": "Exporter des recettes",
+    "importRecipes": "Importer des recettes",
+    "allRecipes": "Toutes les recettes",
+    "exportFailed": "Échec de l'export",
+    "importFailed": "Échec de l'import",
+    "exportedRecipes": "{count,plural, one{Recette exportée} other{{count} recettes exportées}}",
+    "@exportedRecipes": {
+      "placeholders": {
+        "count": {}
+      }
+    },
+    "importedRecipes": "{count,plural, one{1 recette importée} other{{count} recettes importées}}",
+    "@importedRecipes": {
+      "placeholders": {
+        "count": {}
+      }
+    },
+    "importSkipped": "{count,plural, =1{recette en double ignorée} other{{count} recettes en double ignorées}}",
+    "@importSkipped": {
+      "placeholders": {
+        "count": {}
+      }
+    },
+    "importZipHint": "Sélectionnez un fichier zip pour importer des recettes. Le fichier zip doit avoir été généré par l'application Shefu.",
+    "importFromZip": "Importer un fichier zip",
+    "importFromUrl": "Importer une URL web",
+    "writeRecipe": "Rédiger la recette",
+    "importInternalError": "L'import a échoué. Il s'agit d'une erreur interne. Veuillez ouvrir un bug sur https://github.com/lenios/shefu/issues et fournir le fichier d'import si possible pour analyse.",
+    "exportAsPdf": "Exporter en PDF",
+    "exportAsZip": "Exporter en ZIP",
+    "exportFormatHint": "Sélectionnez le format PDF pour imprimer ou lire sur un écran, et le format ZIP pour importer plus tard.",
+    "exportCount": "{count,plural, =0{Exporter 0 recette} =1{Exporter 1 recette} other{Exporter {count} recettes}}",
+    "selectAll": "Tout sélectionner",
+    "deselectAll": "Tout désélectionner",
+    "invalidZipFile": "Fichier invalide : le fichier zip n'est pas une archive d'export Shefu.",
+    "supportedWebsitesNote": "Consultez la liste des sites web pris en charge sur:"
 }

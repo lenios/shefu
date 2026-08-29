@@ -16,6 +16,7 @@ import 'package:shefu/widgets/display_recipe/build_nutrition_view.dart';
 import 'package:shefu/widgets/display_recipe/build_shopping_list.dart';
 import 'package:shefu/widgets/display_recipe/build_steps_view.dart';
 import 'package:shefu/widgets/display_recipe/export_recipe_to_pdf.dart';
+import 'package:shefu/widgets/display_recipe/export_recipe_to_zip.dart';
 import 'package:shefu/widgets/icon_button.dart';
 import 'package:shefu/widgets/image_helper.dart';
 import 'package:shefu/widgets/misc.dart';
@@ -369,7 +370,6 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                                   value: recipe.carbohydrates,
                                   unit: AppLocalizations.of(context)!.gps,
                                 ),
-                                const SizedBox(width: 10),
                               ],
                             ],
                           );
@@ -483,9 +483,64 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
             ),
           ),
 
-          IconButton(
-            onPressed: () => exportRecipeToPdf(context, viewModel, viewModel.nutrientRepository),
-            icon: Icon(Icons.share, color: Theme.of(context).colorScheme.onSecondary),
+          PopupMenuButton<String>(
+            position: PopupMenuPosition.under,
+            offset: Offset(2, 5),
+            popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 100)),
+            itemBuilder: (context) {
+              final theme = Theme.of(context);
+              final l10n = AppLocalizations.of(context)!;
+              return [
+                PopupMenuItem(
+                  value: 'pdf',
+                  child: Row(
+                    children: [
+                      Icon(Icons.picture_as_pdf_rounded),
+                      const SizedBox(width: 5),
+                      Text(l10n.exportAsPdf, style: theme.textTheme.titleMedium),
+                    ],
+                  ),
+                ),
+                PopupMenuItem(
+                  value: 'zip',
+                  child: Row(
+                    children: [
+                      Icon(Icons.folder_zip),
+                      const SizedBox(width: 5),
+                      Text(l10n.exportAsZip, style: theme.textTheme.titleMedium),
+                    ],
+                  ),
+                ),
+                PopupMenuItem(
+                  value: 'hint',
+                  enabled: false,
+                  child: Container(
+                    constraints: const BoxConstraints(maxWidth: 200),
+                    child: Text(
+                      l10n.exportFormatHint,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: theme.colorScheme.onSurfaceVariant,
+                      ),
+                      //softWrap: true,
+                    ),
+                  ),
+                ),
+              ];
+            },
+            onSelected: (value) {
+              if (!context.mounted) return;
+              switch (value) {
+                case 'pdf':
+                  exportRecipeToPdf(context, viewModel, viewModel.nutrientRepository);
+                  break;
+                case 'zip':
+                  exportRecipeToZip(context, viewModel);
+                  break;
+                case _:
+                  break;
+              }
+            },
+            child: Icon(Icons.share, color: Theme.of(context).colorScheme.onSecondary),
           ),
 
           buildIconButton(

@@ -7,9 +7,12 @@ class PathUtils {
   static String? _documentsDirectory;
 
   static Future<void> init() async {
+    if (_documentsDirectory != null) return;
     final dir = await getApplicationDocumentsDirectory();
     _documentsDirectory = dir.path;
   }
+
+  static String? get documentsDirectory => _documentsDirectory;
 
   static String cleanPath(String path) {
     if (path.isEmpty || _documentsDirectory == null) return path;
@@ -24,7 +27,7 @@ class PathUtils {
   }
 
   @visibleForTesting
-  static void setDocumentsDirectoryForTest(String path) {
+  static void setDocumentsDirectoryForTest(String? path) {
     _documentsDirectory = path;
   }
 }

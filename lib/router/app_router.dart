@@ -10,9 +10,11 @@ import 'package:shefu/views/display_recipe.dart';
 import 'package:shefu/views/home.dart';
 import 'package:shefu/viewmodels/edit_recipe_viewmodel.dart';
 import 'package:shefu/viewmodels/display_recipe_viewmodel.dart';
+import 'package:shefu/viewmodels/export_recipes_viewmodel.dart';
 import 'package:shefu/provider/my_app_state.dart';
 import 'package:shefu/router/app_scaffold.dart';
 import 'package:shefu/views/online_search.dart';
+import 'package:shefu/views/export_recipes.dart';
 
 class AppRouter {
   static final router = GoRouter(
@@ -49,6 +51,7 @@ class AppRouter {
               context.read<ObjectBoxRecipeRepository>(),
               context.read<ObjectBoxNutrientRepository>(),
               id,
+              state.uri.queryParameters['new'] == '1',
             ),
             child: AppScaffold(child: const EditRecipe()),
           );
@@ -62,6 +65,15 @@ class AppRouter {
             child: const OnlineSearchPage(),
           );
         },
+      ),
+      GoRoute(
+        path: '/export-recipes',
+        builder: (context, state) => ChangeNotifierProvider<ExportRecipesViewModel>(
+          create: (context) => ExportRecipesViewModel(
+            context.read<ObjectBoxRecipeRepository>(),
+          ),
+          child: const ExportRecipesPage(),
+        ),
       ),
     ],
     errorBuilder: (context, state) =>

@@ -1,6 +1,8 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'package:objectbox/objectbox.dart';
+import 'package:path/path.dart' as p;
+import '../utils/path_utils.dart';
 
 @Entity()
 class Recipe {
@@ -70,6 +72,134 @@ class Recipe {
     this.questions = const [],
     this.languageTag = "",
   });
+
+  Map<String, dynamic> toMap() {
+    final steps = List<RecipeStep>.from(this.steps)..sort((a, b) => a.order.compareTo(b.order));
+    return {
+      'id': id,
+      'title': title,
+      'source': source,
+      'imageFile': imageFileName(imagePath, id, null),
+      'notes': notes,
+      'servings': servings,
+      'piecesPerServing': piecesPerServing,
+      'category': category,
+      'countryCode': countryCode,
+      'calories': calories,
+      'fat': fat,
+      'carbohydrates': carbohydrates,
+      'protein': protein,
+      'saturatedFat': saturatedFat,
+      'transFat': transFat,
+      'sugar': sugar,
+      'fiber': fiber,
+      'cholesterol': cholesterol,
+      'sodium': sodium,
+      'time': time,
+      'cookTime': cookTime,
+      'prepTime': prepTime,
+      'restTime': restTime,
+      'month': month,
+      'makeAhead': makeAhead,
+      'videoUrl': videoUrl,
+      'questions': List<String>.from(questions),
+      'languageTag': languageTag,
+      'tags': [for (final t in tags) t.name],
+      'steps': [
+        for (int j = 0; j < steps.length; j++)
+          {
+            'order': steps[j].order,
+            'name': steps[j].name,
+            'instruction': steps[j].instruction,
+            'imageFile': imageFileName(steps[j].imagePath, id, j),
+            'videoUrl': steps[j].videoUrl,
+            'timer': steps[j].timer,
+            'ingredients': [
+              for (final ing in steps[j].ingredients)
+                {
+                  'name': ing.name,
+                  'unit': ing.unit,
+                  'quantity': ing.quantity,
+                  'shape': ing.shape,
+                  'foodId': ing.foodId,
+                  'conversionId': ing.conversionId,
+                  'optional': ing.optional,
+                },
+            ],
+          },
+      ],
+    };
+  }
+
+  Recipe.fromMap(Map<String, dynamic> m)
+    : id = _int(m, 'id'),
+      title = _str(m, 'title'),
+      source = _str(m, 'source'),
+      imagePath = _str(m, 'imageFile'),
+      notes = _str(m, 'notes'),
+      servings = _int(m, 'servings'),
+      piecesPerServing = m['piecesPerServing'] as int?,
+      category = _int(m, 'category'),
+      countryCode = _str(m, 'countryCode'),
+      calories = _int(m, 'calories'),
+      fat = _int(m, 'fat'),
+      carbohydrates = _int(m, 'carbohydrates'),
+      protein = _int(m, 'protein'),
+      saturatedFat = _int(m, 'saturatedFat'),
+      transFat = _int(m, 'transFat'),
+      sugar = _int(m, 'sugar'),
+      fiber = _int(m, 'fiber'),
+      cholesterol = _int(m, 'cholesterol'),
+      sodium = _int(m, 'sodium'),
+      time = _int(m, 'time'),
+      cookTime = _int(m, 'cookTime'),
+      prepTime = _int(m, 'prepTime'),
+      restTime = _int(m, 'restTime'),
+      month = _int(m, 'month'),
+      makeAhead = _str(m, 'makeAhead'),
+      videoUrl = _str(m, 'videoUrl'),
+      questions = _stringList(m['questions']),
+      languageTag = _str(m, 'languageTag') {
+    final rawTags = m['tags'];
+    if (rawTags is List) {
+      for (final t in rawTags) {
+        if (t is String) this.tags.add(Tag(name: t));
+      }
+    }
+
+    final rawSteps = m['steps'];
+    if (rawSteps is List) {
+      for (final s in rawSteps) {
+        final sm = s as Map<String, dynamic>;
+        final step = RecipeStep(
+          name: _str(sm, 'name'),
+          instruction: _str(sm, 'instruction'),
+          imagePath: _str(sm, 'imageFile'),
+          videoUrl: _str(sm, 'videoUrl'),
+          timer: _int(sm, 'timer'),
+          order: _int(sm, 'order'),
+        );
+        final rawIngs = sm['ingredients'];
+        if (rawIngs is List) {
+          for (final im in rawIngs) {
+            final inm = im as Map<String, dynamic>;
+            step.ingredients.add(
+              IngredientItem(
+                name: _str(inm, 'name'),
+                unit: _str(inm, 'unit'),
+                quantity: _double(inm, 'quantity'),
+                shape: _str(inm, 'shape'),
+                foodId: _int(inm, 'foodId'),
+                conversionId: _int(inm, 'conversionId'),
+                optional: (inm['optional'] as bool?) ?? false,
+              ),
+            );
+          }
+        }
+        steps.add(step);
+      }
+    }
+  }
 }
 
 enum Category {
@@ -321,4 +451,24 @@ class Conversion {
     this.descFR = "",
     this.factor = 1.0,
   });
+}
+
+/// Zip entry name for an image path, or null when the path is empty.
+String? imageFileName(String? imagePath, int recipeId, int? stepIndex) {
+  final cleanPath = PathUtils.cleanPath(imagePath ?? '');
+  if (cleanPath.isEmpty) return null;
+  return '${recipeId}_${stepIndex ?? 'main'}${p.extension(cleanPath)}';
+}
+
+// Helpers for fromMap, to handle optional values
+String _str(Map<String, dynamic> m, String key) => (m[key] as String?) ?? '';
+
+int _int(Map<String, dynamic> m, String key) => (m[key] is num) ? (m[key] as num).toInt() : 0;
+
+double _double(Map<String, dynamic> m, String key) =>
+    (m[key] is num) ? (m[key] as num).toDouble() : 0.0;
+
+List<String> _stringList(dynamic value) {
+  if (value is! List) return [];
+  return value.whereType<String>().toList();
 }

@@ -1,5 +1,6 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
+
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -737,13 +738,13 @@ class AppLocalizationsHu extends AppLocalizations {
   String get recipeImportedSuccessfully => 'A recept sikeresen importálva!';
 
   @override
-  String get importFailed => 'Nem sikerült importálni a receptet';
+  String get importFailed => 'Az import sikertelen volt';
 
   @override
-  String get selectAll => 'Összes oldal';
+  String get selectAllSites => 'Összes oldal';
 
   @override
-  String get deselectAll => 'Nincs';
+  String get deselectAllSites => 'Nincs';
 
   @override
   String get speak => 'Recept felolvasása';
@@ -835,4 +836,100 @@ class AppLocalizationsHu extends AppLocalizations {
   String postedOnBy(Object author, Object date) {
     return '$date-án közzétette: $author';
   }
+
+  @override
+  String get exportRecipes => 'Receptek exportálása';
+
+  @override
+  String get importRecipes => 'Receptek importálása';
+
+  @override
+  String get allRecipes => 'Minden recept';
+
+  @override
+  String get exportFailed => 'Az export sikertelen volt';
+
+  @override
+  String exportedRecipes(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count recept exportálva',
+      one: 'Recept exportálva',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importedRecipes(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count recept importálva',
+      one: '1 recept importálva',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importSkipped(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count duplikált receptet kihagyták',
+      one: '1 duplikált receptet kihagyták',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get importZipHint =>
+      'Válasszon egy zip fájlt a receptek importálásához. A zip fájlnak a Shefu alkalmazás által generáltnak kell lennie.';
+
+  @override
+  String get importFromZip => 'Importálás zip-fájlból';
+
+  @override
+  String get importFromUrl => 'Importálás egy web URL-ból';
+
+  @override
+  String get writeRecipe => 'Recept írása';
+
+  @override
+  String get importInternalError =>
+      'Az import sikertelen volt. Ez egy belső hiba. Kérjük, nyiss egy hibajelentést a https://github.com/lenios/shefu/issues címen, és ha lehetséges, szabd meg az importfájlt elemzéshez.';
+
+  @override
+  String get exportAsPdf => 'PDF-ként exportálás';
+
+  @override
+  String get exportAsZip => 'ZIP-ként exportálás';
+
+  @override
+  String get exportFormatHint =>
+      'Válassz PDF formátumot nyomtatáshoz vagy képernyős megtekintéshez, és ZIP formátumot későbbi importáláshoz.';
+
+  @override
+  String exportCount(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Exportálás: $count recept',
+      one: 'Exportálás: 1 recept',
+      zero: 'Exportálás: 0 recept',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get selectAll => 'Összes recept kijelölése';
+
+  @override
+  String get deselectAll => 'Kijelölés törlése';
+
+  @override
+  String get invalidZipFile => 'Érvénytelen fájl: a zip fájl nem Shefu export archívum.';
+
+  @override
+  String get supportedWebsitesNote => 'A támogatott webhelyek listája itt érhető el:';
 }

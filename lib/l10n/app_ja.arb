@@ -239,8 +239,8 @@
     "searchForOnlineRecipes": "インポートするレシピを検索",
     "recipeImportedSuccessfully": "レシピが正常にインポートされました！",
     "importFailed": "レシピのインポートに失敗しました",
-    "selectAll": "すべてのサイト",
-    "deselectAll": "なし",
+    "selectAllSites": "すべてのサイト",
+    "deselectAllSites": "なし",
     "speak": "レシピを話しかけ",
     "enterValidServings": "整数を入力してください",
     "about": "アプリ情報",
@@ -269,5 +269,41 @@
     "calcium": "カルシウム",
     "iron": "鉄",
     "potassium": "カリウム",
-    "postedOnBy": "{date}に{author}が投稿"
+    "postedOnBy": "{date}に{author}が投稿",
+    "exportRecipes": "レシピをエクスポート",
+    "importRecipes": "レシピをインポート",
+    "allRecipes": "すべてのレシピ",
+    "exportFailed": "エクスポートに失敗しました",
+    "importFailed": "インポートに失敗しました",
+    "exportedRecipes": "{count,plural, other{{count} 件のレシピをエクスポートしました}}",
+    "@exportedRecipes": {
+      "placeholders": {
+        "count": {}
+      }
+    },
+    "importedRecipes": "{count,plural, other{{count} 件のレシピをインポートしました}}",
+    "@importedRecipes": {
+      "placeholders": {
+        "count": {}
+      }
+    },
+    "importSkipped": "{count,plural, other{{count} 件の重複レシピをスキップしました}}",
+    "@importSkipped": {
+      "placeholders": {
+        "count": {}
+      }
+    },
+    "importZipHint": "レシピのインポートにzipファイルを選択してください。zipファイルはShefuアプリケーションによって生成されたものでなければなりません。",
+    "importFromZip": "ZIPファイルからインポート",
+    "importFromUrl": "Web URLからインポート",
+    "writeRecipe": "レシピを書く",
+    "importInternalError": "インポートに失敗しました。内部エラーです。https://github.com/lenios/shefu/issues からバグを報告し、可能な場合はインポートファイルも添付して解析にご協力ください。",
+    "exportAsPdf": "PDFとしてエクスポート",
+    "exportAsZip": "ZIPとしてエクスポート",
+    "exportFormatHint": "印刷や画面での表示には PDF フォーマットを、今後のインポートには ZIP フォーマットを選択してください。",
+    "exportCount": "{count} 件のレシピをエクスポート",
+    "selectAll": "すべてを選択",
+    "deselectAll": "選択をすべて解除",
+    "invalidZipFile": "無効なファイル：このzipファイルはShefuのエクスポートアーカイブではありません。",
+    "supportedWebsitesNote": "サポートされているウェブサイトのリストはこちら："
 }

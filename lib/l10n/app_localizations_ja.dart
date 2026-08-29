@@ -1,5 +1,6 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
+
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -733,13 +734,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String get recipeImportedSuccessfully => 'レシピが正常にインポートされました！';
 
   @override
-  String get importFailed => 'レシピのインポートに失敗しました';
+  String get importFailed => 'インポートに失敗しました';
 
   @override
-  String get selectAll => 'すべてのサイト';
+  String get selectAllSites => 'すべてのサイト';
 
   @override
-  String get deselectAll => 'なし';
+  String get deselectAllSites => 'なし';
 
   @override
   String get speak => 'レシピを話しかけ';
@@ -830,4 +831,89 @@ class AppLocalizationsJa extends AppLocalizations {
   String postedOnBy(Object author, Object date) {
     return '$dateに$authorが投稿';
   }
+
+  @override
+  String get exportRecipes => 'レシピをエクスポート';
+
+  @override
+  String get importRecipes => 'レシピをインポート';
+
+  @override
+  String get allRecipes => 'すべてのレシピ';
+
+  @override
+  String get exportFailed => 'エクスポートに失敗しました';
+
+  @override
+  String exportedRecipes(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 件のレシピをエクスポートしました',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importedRecipes(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 件のレシピをインポートしました',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importSkipped(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 件の重複レシピをスキップしました',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get importZipHint =>
+      'レシピのインポートにzipファイルを選択してください。zipファイルはShefuアプリケーションによって生成されたものでなければなりません。';
+
+  @override
+  String get importFromZip => 'ZIPファイルからインポート';
+
+  @override
+  String get importFromUrl => 'Web URLからインポート';
+
+  @override
+  String get writeRecipe => 'レシピを書く';
+
+  @override
+  String get importInternalError =>
+      'インポートに失敗しました。内部エラーです。https://github.com/lenios/shefu/issues からバグを報告し、可能な場合はインポートファイルも添付して解析にご協力ください。';
+
+  @override
+  String get exportAsPdf => 'PDFとしてエクスポート';
+
+  @override
+  String get exportAsZip => 'ZIPとしてエクスポート';
+
+  @override
+  String get exportFormatHint => '印刷や画面での表示には PDF フォーマットを、今後のインポートには ZIP フォーマットを選択してください。';
+
+  @override
+  String exportCount(num count) {
+    return '$count 件のレシピをエクスポート';
+  }
+
+  @override
+  String get selectAll => 'すべてを選択';
+
+  @override
+  String get deselectAll => '選択をすべて解除';
+
+  @override
+  String get invalidZipFile => '無効なファイル：このzipファイルはShefuのエクスポートアーカイブではありません。';
+
+  @override
+  String get supportedWebsitesNote => 'サポートされているウェブサイトのリストはこちら：';
 }

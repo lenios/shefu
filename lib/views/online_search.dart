@@ -256,14 +256,14 @@ class OnlineSearchPage extends StatelessWidget {
                                   viewModel.selectAllSites();
                                   setState(() {});
                                 },
-                                child: Text(l10n.selectAll),
+                                child: Text(l10n.selectAllSites),
                               ),
                               TextButton(
                                 onPressed: () {
                                   viewModel.deselectAllSites();
                                   setState(() {});
                                 },
-                                child: Text(l10n.deselectAll),
+                                child: Text(l10n.deselectAllSites),
                               ),
                             ],
                           ),

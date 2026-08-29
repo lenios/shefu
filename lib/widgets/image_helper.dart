@@ -222,7 +222,6 @@ Future<void> regenerateThumbnail(String imagePath) async {
         final thumbnail = i.copyResize(decodedImage, width: 250);
         final thumbPath = PathUtils.thumbnailPath(imagePath);
         await File(thumbPath).writeAsBytes(i.encodePng(thumbnail));
-        // Clear from cache to ensure fresh load
         ImageCache.remove(thumbPath);
       }
     }

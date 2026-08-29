@@ -26,6 +26,8 @@ class EditRecipeViewModel extends ChangeNotifier {
   final ObjectBoxRecipeRepository _recipeRepository;
   final ObjectBoxNutrientRepository _nutrientRepository;
   final int? _recipeId;
+  final bool _isNew;
+  bool get isNew => _isNew;
 
   late Command<void, Recipe> initializeCommand;
 
@@ -78,7 +80,12 @@ class EditRecipeViewModel extends ChangeNotifier {
   }
 
   // Constructor requires repositories and optional recipeId
-  EditRecipeViewModel(this._recipeRepository, this._nutrientRepository, this._recipeId) {
+  EditRecipeViewModel(
+    this._recipeRepository,
+    this._nutrientRepository,
+    this._recipeId,
+    this._isNew,
+  ) {
     // Initialize controllers here, they will be updated in initViewModel
     titleController = TextEditingController();
     sourceController = TextEditingController();
@@ -817,6 +824,12 @@ class EditRecipeViewModel extends ChangeNotifier {
     } finally {
       _isLoading = false;
       notifyListeners();
+    }
+  }
+
+  Future<void> deleteRecipe() async {
+    if (_recipeId != null) {
+      await _recipeRepository.deleteRecipe(_recipeId);
     }
   }
 

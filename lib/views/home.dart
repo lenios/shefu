@@ -8,6 +8,10 @@ import 'package:shefu/l10n/l10n_utils.dart';
 import 'package:shefu/router/app_scaffold.dart';
 import 'package:shefu/viewmodels/home_page_viewmodel.dart';
 import 'package:shefu/widgets/open_modal_settings_button.dart';
+import 'package:shefu/repositories/objectbox_nutrient_repository.dart';
+import 'package:shefu/repositories/objectbox_recipe_repository.dart';
+import 'package:shefu/viewmodels/edit_recipe_viewmodel.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../l10n/app_localizations.dart';
 import '../models/objectbox_models.dart';
@@ -61,6 +65,7 @@ class _HomePageState extends State<HomePage> {
     final viewModel = Provider.of<HomePageViewModel>(context);
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final l10n = AppLocalizations.of(context)!;
 
     bool isHandset = MediaQuery.of(context).size.width < 550;
 
@@ -74,18 +79,50 @@ class _HomePageState extends State<HomePage> {
             tooltip: 'Online Search',
             child: Icon(Icons.travel_explore, color: theme.colorScheme.onSecondary),
           ),
-          const SizedBox(width: 5),
-          FloatingActionButton.extended(
-            backgroundColor: colorScheme.secondary,
-            onPressed: addNewRecipe,
-            tooltip: AppLocalizations.of(context)!.addRecipe,
-            icon: Icon(Icons.add, color: theme.colorScheme.onSecondary),
-            label: Text(
-              AppLocalizations.of(context)!.addRecipe,
-              style: TextStyle(color: theme.colorScheme.onSecondary),
+          SizedBox(width: 4),
+          // FAB with PopupMenu
+          PopupMenuButton<String>(
+            onSelected: (String value) {
+              switch (value) {
+                case 'import_zip':
+                  importRecipesZip(context, theme);
+                  break;
+                case 'import_url':
+                  _importFromUrl(context, theme);
+                  break;
+                case 'write':
+                  addNewRecipe();
+                  break;
+              }
+            },
+            offset: Offset(0, -187),
+            popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 100)),
+            itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+              PopupMenuItem<String>(
+                value: 'import_zip',
+                child: ListTile(leading: Icon(Icons.folder_zip), title: Text(l10n.importFromZip)),
+              ),
+              PopupMenuItem<String>(
+                value: 'import_url',
+                child: ListTile(leading: Icon(Icons.link), title: Text(l10n.importFromUrl)),
+              ),
+              PopupMenuItem<String>(
+                value: 'write',
+                child: ListTile(leading: Icon(Icons.edit_note), title: Text(l10n.writeRecipe)),
+              ),
+            ],
+            child: FloatingActionButton.extended(
+              onPressed: null,
+              backgroundColor: colorScheme.secondary,
+              tooltip: AppLocalizations.of(context)!.addRecipe,
+              icon: Icon(Icons.add, color: theme.colorScheme.onSecondary),
+              label: Text(
+                AppLocalizations.of(context)!.addRecipe,
+                style: TextStyle(color: theme.colorScheme.onSecondary),
+              ),
+              heroTag: 'homePageAddRecipe',
+              key: const Key('AddRecipe'),
             ),
-            heroTag: 'homePageAddRecipe',
-            key: const Key('AddRecipe'),
           ),
         ],
       ),
@@ -322,8 +359,110 @@ class _HomePageState extends State<HomePage> {
     final viewModel = context.read<HomePageViewModel>();
     final int? newRecipeId = await viewModel.addNewRecipe(context);
     if (newRecipeId != null && mounted) {
-      await context.push('/edit-recipe/$newRecipeId');
+      await context.push('/edit-recipe/$newRecipeId?new=1');
     }
+  }
+
+  Future<void> _importFromUrl(BuildContext context, ThemeData theme) async {
+    final l10n = AppLocalizations.of(context)!;
+    final repo = context.read<ObjectBoxRecipeRepository>();
+    final nutrientRepo = context.read<ObjectBoxNutrientRepository>();
+    final messenger = ScaffoldMessenger.maybeOf(context);
+    final urlController = TextEditingController();
+    bool confirmed = false;
+    await showDialog(
+      context: context,
+      builder: (dialogContext) {
+        return AlertDialog(
+          title: Row(
+            children: [
+              Expanded(child: Text(l10n.importFromUrl)),
+              IconButton(
+                icon: const Icon(Icons.close),
+                tooltip: l10n.cancel,
+                onPressed: () => Navigator.of(dialogContext).pop(),
+                iconSize: 24,
+                splashRadius: 24,
+              ),
+            ],
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: urlController,
+                autofocus: true,
+                keyboardType: TextInputType.url,
+                decoration: InputDecoration(
+                  labelText: l10n.source,
+                  border: const OutlineInputBorder(),
+                ),
+              ),
+              Text(l10n.supportedWebsitesNote),
+              GestureDetector(
+                onTap: () async {
+                  if (!await launchUrl(
+                    Uri.parse("https://github.com/lenios/shefu/blob/main/supported_websites.md"),
+                  )) {
+                    throw Exception('Could not launch url');
+                  }
+                },
+                child: Text(
+                  "https://github.com/lenios/shefu/blob/main/supported_websites.md",
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Theme.of(context).colorScheme.primary,
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          actions: <Widget>[
+            OutlinedButton(
+              onPressed: () => Navigator.pop(dialogContext),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(Icons.cancel_outlined),
+                  SizedBox(width: 5),
+                  Text(l10n.cancel),
+                ],
+              ),
+            ),
+            FilledButton(
+              onPressed: () {
+                confirmed = urlController.text.trim().isNotEmpty;
+                Navigator.pop(dialogContext);
+              },
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [const Icon(Icons.download), SizedBox(width: 5), Text(l10n.importRecipe)],
+              ),
+            ),
+          ],
+        );
+      },
+    );
+    if (!confirmed || !mounted) {
+      return;
+    }
+    final viewModel = EditRecipeViewModel(repo, nutrientRepo, 0, true);
+    try {
+      await viewModel.scrapeData(urlController.text.trim(), l10n);
+      await repo.saveRecipe(viewModel.recipe);
+      if (mounted) {
+        messenger?.showSnackBar(SnackBar(content: Text(l10n.recipeImportedSuccessfully)));
+      }
+    } catch (_) {
+      if (mounted) {
+        messenger?.showSnackBar(
+          SnackBar(content: Text(l10n.scrapeError), backgroundColor: theme.colorScheme.error),
+        );
+      }
+    }
+    viewModel.dispose();
+    urlController.dispose();
   }
 
   Future<Widget> categoryDropdown() async {

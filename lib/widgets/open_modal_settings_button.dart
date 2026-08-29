@@ -1,5 +1,10 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
+import 'package:go_router/go_router.dart';
+import 'package:shefu/repositories/objectbox_recipe_repository.dart';
+import 'package:shefu/utils/recipe_exporter.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:shefu/main.dart';
 import 'package:shefu/provider/my_app_state.dart';
 import 'package:shefu/l10n/app_localizations.dart';
@@ -7,6 +12,7 @@ import 'package:shefu/l10n/l10n_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:shefu/widgets/tips_modal.dart';
 import 'package:shefu/widgets/app_info_modal.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 // import 'package:shefu/widgets/expert_settings_modal.dart';
 
 Widget openModalSettingsButton(BuildContext context, ThemeData theme, [AppLocalizations? l10n]) {
@@ -202,7 +208,22 @@ void _showSettingsModal(BuildContext context, ThemeData theme) {
                       showAppInfoModal(context, theme);
                     },
                   ),
+                  Column(
+                    children: [
+                      // Export recipes
+                      ElevatedButton.icon(
+                        icon: const Icon(Icons.upload),
+                        label: Text(l10n.exportRecipes, textAlign: TextAlign.center),
+                        onPressed: () {
+                          final router = GoRouter.of(context);
+                          Navigator.pop(context);
+                          router.push('/export-recipes');
+                        },
+                      ),
 
+                      // Import recipes
+                    ],
+                  ),
                   // Expert Settings Button
                   // ListTile(
                   //   contentPadding: EdgeInsets.zero,

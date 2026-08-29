@@ -1,5 +1,6 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
+
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -737,13 +738,13 @@ class AppLocalizationsFr extends AppLocalizations {
   String get recipeImportedSuccessfully => 'Recette importée avec succès !';
 
   @override
-  String get importFailed => 'Échec de l\'importation de la recette';
+  String get importFailed => 'Échec de l\'import';
 
   @override
-  String get selectAll => 'Tous';
+  String get selectAllSites => 'Tous';
 
   @override
-  String get deselectAll => 'Aucun';
+  String get deselectAllSites => 'Aucun';
 
   @override
   String get speak => 'Lire la recette';
@@ -837,4 +838,101 @@ class AppLocalizationsFr extends AppLocalizations {
   String postedOnBy(Object author, Object date) {
     return 'Publiée le $date par $author';
   }
+
+  @override
+  String get exportRecipes => 'Exporter des recettes';
+
+  @override
+  String get importRecipes => 'Importer des recettes';
+
+  @override
+  String get allRecipes => 'Toutes les recettes';
+
+  @override
+  String get exportFailed => 'Échec de l\'export';
+
+  @override
+  String exportedRecipes(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count recettes exportées',
+      one: 'Recette exportée',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importedRecipes(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count recettes importées',
+      one: '1 recette importée',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importSkipped(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count recettes en double ignorées',
+      one: 'recette en double ignorée',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get importZipHint =>
+      'Sélectionnez un fichier zip pour importer des recettes. Le fichier zip doit avoir été généré par l\'application Shefu.';
+
+  @override
+  String get importFromZip => 'Importer un fichier zip';
+
+  @override
+  String get importFromUrl => 'Importer une URL web';
+
+  @override
+  String get writeRecipe => 'Rédiger la recette';
+
+  @override
+  String get importInternalError =>
+      'L\'import a échoué. Il s\'agit d\'une erreur interne. Veuillez ouvrir un bug sur https://github.com/lenios/shefu/issues et fournir le fichier d\'import si possible pour analyse.';
+
+  @override
+  String get exportAsPdf => 'Exporter en PDF';
+
+  @override
+  String get exportAsZip => 'Exporter en ZIP';
+
+  @override
+  String get exportFormatHint =>
+      'Sélectionnez le format PDF pour imprimer ou lire sur un écran, et le format ZIP pour importer plus tard.';
+
+  @override
+  String exportCount(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Exporter $count recettes',
+      one: 'Exporter 1 recette',
+      zero: 'Exporter 0 recette',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get selectAll => 'Tout sélectionner';
+
+  @override
+  String get deselectAll => 'Tout désélectionner';
+
+  @override
+  String get invalidZipFile =>
+      'Fichier invalide : le fichier zip n\'est pas une archive d\'export Shefu.';
+
+  @override
+  String get supportedWebsitesNote => 'Consultez la liste des sites web pris en charge sur:';
 }
