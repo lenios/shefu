@@ -11,6 +11,6 @@ extension StringExtension on String {
   }
 
   String normalize() {
-    return "$this.trim().toLowerCase().replaceAll(RegExp(r'\s+'), ' ')";
+    return trim().toLowerCase().replaceAll(RegExp(r'\s+'), ' ');
   }
 }

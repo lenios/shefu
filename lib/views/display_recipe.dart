@@ -1,5 +1,5 @@
 import 'package:command_it/command_it.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:shefu/l10n/app_localizations.dart';
@@ -593,9 +593,8 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                 Navigator.of(dialogContext).pop();
               } else {
                 // Show error snackbar
-                ScaffoldMessenger.of(
-                  context,
-                ).showSnackBar(SnackBar(content: Text(l10n.enterValidServings)));
+                ScaffoldMessenger.of(context)
+                    .showSnackBar(SnackBar(content: Text(l10n.enterValidServings)));
               }
             },
             child: Text(l10n.save),

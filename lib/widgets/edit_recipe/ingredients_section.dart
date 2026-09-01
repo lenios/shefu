@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 import 'package:shefu/l10n/app_localizations.dart';
 import 'package:shefu/models/objectbox_models.dart';
@@ -59,9 +59,8 @@ class IngredientsSection extends StatelessWidget {
                 icon: Icon(Icons.add, color: Theme.of(context).colorScheme.onSurface),
                 label: Text(
                   l10n.addIngredient,
-                  style: Theme.of(
-                    context,
-                  ).textTheme.labelLarge?.copyWith(color: Theme.of(context).colorScheme.onSurface),
+                  style: Theme.of(context).textTheme.labelLarge
+                      ?.copyWith(color: Theme.of(context).colorScheme.onSurface),
                 ),
                 onPressed: () => viewModel.addIngredient(stepIndex),
                 style: ElevatedButton.styleFrom(

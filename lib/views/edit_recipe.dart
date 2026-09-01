@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
+import 'package:flutter/material.dart' as m;
 import 'package:flutter/services.dart';
 import 'package:command_it/command_it.dart';
 import 'package:go_router/go_router.dart';
@@ -71,9 +72,8 @@ class _EditRecipeState extends State<EditRecipe> {
         try {
           viewModel.scrapeData(url, l10n);
 
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text(l10n.recipeImportedSuccessfully)));
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text(l10n.recipeImportedSuccessfully)));
         } catch (e) {
           debugPrint('Error importing recipe from URL $url: $e');
           ScaffoldMessenger.of(context).hideCurrentSnackBar();
@@ -463,14 +463,15 @@ class _EditRecipeState extends State<EditRecipe> {
                                                       topLeft: Radius.circular(10.0),
                                                       topRight: Radius.circular(10.0),
                                                     ),
-                                                    inputDecoration: InputDecoration(
+                                                    inputDecoration: m.InputDecoration(
                                                       labelText: l10n.search,
                                                       prefixIcon: const Icon(Icons.search),
-                                                      border: OutlineInputBorder(
-                                                        borderSide: BorderSide(
-                                                          color: Theme.of(
-                                                            context,
-                                                          ).colorScheme.outline.withAlpha(50),
+                                                      border: m.OutlineInputBorder(
+                                                        borderSide: m.BorderSide(
+                                                          color: Theme.of(context)
+                                                              .colorScheme
+                                                              .outline
+                                                              .withAlpha(50),
                                                         ),
                                                       ),
                                                     ),
@@ -581,12 +582,12 @@ class _EditRecipeState extends State<EditRecipe> {
                                           label: Text(l10n.importRecipe),
                                           style: FilledButton.styleFrom(
                                             // Use secondary to ensure contrast across themes
-                                            backgroundColor: Theme.of(
-                                              context,
-                                            ).colorScheme.secondary,
-                                            foregroundColor: Theme.of(
-                                              context,
-                                            ).colorScheme.onSecondary,
+                                            backgroundColor: Theme.of(context)
+                                                .colorScheme
+                                                .secondary,
+                                            foregroundColor: Theme.of(context)
+                                                .colorScheme
+                                                .onSecondary,
                                           ),
                                           onPressed: _importRecipe,
                                         ),

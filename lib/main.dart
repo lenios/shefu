@@ -1,5 +1,5 @@
 import 'package:dynamic_color/dynamic_color.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shefu/l10n/app_localizations.dart';
@@ -12,8 +12,10 @@ import 'package:shefu/utils/theme.dart';
 
 import 'package:shefu/viewmodels/home_page_viewmodel.dart';
 import 'package:country_picker/country_picker.dart';
+
 import 'router/app_router.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+
+import 'package:flutter_localizations/flutter_localizations.dart' hide GlobalMaterialLocalizations;
 
 late ObjectBox objectBox;
 void main() async {
@@ -123,13 +125,14 @@ class _MyAppState extends State<MyApp> {
               floatingLabelBehavior: FloatingLabelBehavior.always,
             ),
       ),
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-        CountryLocalizations.delegate,
-      ],
+      localizationsDelegates:
+          GlobalMaterialLocalizations.delegates +
+          const [
+            AppLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+            CountryLocalizations.delegate,
+          ],
       supportedLocales: AppLocalizations.supportedLocales,
     );
   }

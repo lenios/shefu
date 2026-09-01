@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
@@ -31,9 +31,8 @@ Future<void> exportRecipeToZip(BuildContext context, DisplayRecipeViewModel view
       ShareParams(text: recipe.title, title: l10n.exportAsZip, files: [XFile(file.path)]),
     );
     if (context.mounted) {
-      ScaffoldMessenger.maybeOf(
-        context,
-      )?.showSnackBar(SnackBar(content: Text(l10n.exportedRecipes(1))));
+      ScaffoldMessenger.maybeOf(context)
+          ?.showSnackBar(SnackBar(content: Text(l10n.exportedRecipes(1))));
     }
   } catch (e) {
     debugPrint('Error generating ZIP: $e');

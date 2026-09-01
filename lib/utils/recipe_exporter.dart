@@ -108,6 +108,10 @@ Future<(int, int)> importParsedExport(ObjectBoxRecipeRepository repo, ParsedExpo
       skipped++;
       continue;
     }
+
+    // Reset to 0 so ObjectBox assigns a fresh id instead of overwriting an
+    // existing recipe row with the same id.
+    recipe.id = 0;
     final newId = await repo.saveRecipe(recipe);
 
     // Resolve the documents directory only when images actually get written.

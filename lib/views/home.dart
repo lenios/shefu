@@ -1,6 +1,7 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flag/flag.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -312,7 +313,7 @@ class _HomePageState extends State<HomePage> {
                                                   : 42)) / // Padding + spacing for 2 columns
                                           100, // Target height
                                     ),
-                                    cacheExtent: 500,
+                                    scrollCacheExtent: ScrollCacheExtent.viewport(20),
                                     itemBuilder: (context, index) {
                                       // Reverse the index to show the last recipe first
                                       final reverseIndex = filteredRecipes.length - 1 - index;

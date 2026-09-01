@@ -1,5 +1,6 @@
 import 'dart:io';
-import 'package:flutter/material.dart';
+
+import 'package:material_ui/material_ui.dart';
 import 'package:shefu/l10n/app_localizations.dart';
 import 'package:shefu/utils/path_utils.dart';
 import 'package:shefu/viewmodels/edit_recipe_viewmodel.dart';
@@ -44,7 +45,8 @@ class RecipeImagePicker extends StatelessWidget {
                   : null)
             : viewModel!.recipe.imagePath;
 
-        final bool pathIsValid = path != null && path.isNotEmpty && File(PathUtils.cleanPath(path)).existsSync();
+        final bool pathIsValid =
+            path != null && path.isNotEmpty && File(PathUtils.cleanPath(path)).existsSync();
         if (pathIsValid) {
           // Image exists - show with overlay buttons
           return Stack(
@@ -188,7 +190,8 @@ class RecipeImagePicker extends StatelessWidget {
   }
 
   Widget _buildReadOnlyImage(BuildContext context, String? path) {
-    final bool pathIsValid = path != null && path.isNotEmpty && File(PathUtils.cleanPath(path)).existsSync();
+    final bool pathIsValid =
+        path != null && path.isNotEmpty && File(PathUtils.cleanPath(path)).existsSync();
 
     if (pathIsValid) {
       return ClipRRect(

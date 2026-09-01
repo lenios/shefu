@@ -1,5 +1,6 @@
 import 'package:html/parser.dart' as parser;
 import 'package:http/http.dart' as http;
+
 import '../abstract_scraper.dart';
 
 class MarmitonScraper extends AbstractScraper {

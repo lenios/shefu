@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 ThemeData _buildTheme(ColorScheme colorScheme, {bool useMaterial3 = true}) {
   final baseTheme = ThemeData(colorScheme: colorScheme, useMaterial3: useMaterial3);

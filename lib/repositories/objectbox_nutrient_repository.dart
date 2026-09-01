@@ -1,5 +1,5 @@
 import 'package:csv/csv.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:shefu/models/objectbox_models.dart';
 import 'package:shefu/objectbox.g.dart';
@@ -132,13 +132,11 @@ class ObjectBoxNutrientRepository {
   }
 
   Future<void> _populateNutrientsFromCsv() async {
-    // Load the nutrients and nutrients CSV files (skip header row)
+    // Load the nutrients and conversions CSV files (skip header row)
     final rawNutrientsData = await rootBundle.loadString("assets/nutrients_full.csv");
-    List<List<dynamic>> listData = const CsvToListConverter().convert(rawNutrientsData).sublist(1);
+    List<List<dynamic>> listData = csv.decodeWithHeaders(rawNutrientsData);
     final rawConversionsData = await rootBundle.loadString("assets/conversions_full.csv");
-    List<List<dynamic>> convData = const CsvToListConverter()
-        .convert(rawConversionsData)
-        .sublist(1);
+    List<List<dynamic>> convData = csv.decodeWithHeaders(rawConversionsData);
 
     // for all nutrients in csv
     for (var item in listData) {
@@ -190,7 +188,7 @@ class ObjectBoxNutrientRepository {
 
   Future<void> _migrateNutrientsFromCsv() async {
     final rawNutrientsData = await rootBundle.loadString("assets/nutrients_full.csv");
-    List<List<dynamic>> listData = const CsvToListConverter().convert(rawNutrientsData).sublist(1);
+    List<List<dynamic>> listData = csv.decodeWithHeaders(rawNutrientsData);
 
     // Load all existing nutrients into memory for faster lookup
     final existingNutrients = _objectBox.nutrientBox.getAll();

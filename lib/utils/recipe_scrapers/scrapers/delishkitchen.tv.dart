@@ -1,4 +1,5 @@
 import 'package:http/http.dart' as http;
+
 import '../abstract_scraper.dart';
 
 class DelishKitchenScraper extends AbstractScraper {
@@ -38,9 +39,10 @@ class DelishKitchenScraper extends AbstractScraper {
 
     final block = _recipeStepsBlock();
     if (block == null) return [];
-    return RegExp(
-      r'description:"((?:[^"\\]|\\.)*)"',
-    ).allMatches(block).map((m) => m.group(1)!).toList();
+    return RegExp(r'description:"((?:[^"\\]|\\.)*)"')
+        .allMatches(block)
+        .map((m) => m.group(1)!)
+        .toList();
   }
 
   @override
@@ -50,9 +52,10 @@ class DelishKitchenScraper extends AbstractScraper {
 
     final block = _recipeStepsBlock();
     if (block == null) return [];
-    return RegExp(
-      r'poster_url:"((?:[^"\\]|\\.)*)"',
-    ).allMatches(block).map((m) => _decodeJsEscapes(m.group(1)!)).toList();
+    return RegExp(r'poster_url:"((?:[^"\\]|\\.)*)"')
+        .allMatches(block)
+        .map((m) => _decodeJsEscapes(m.group(1)!))
+        .toList();
   }
 
   @override
@@ -62,9 +65,10 @@ class DelishKitchenScraper extends AbstractScraper {
 
     final block = _recipeStepsBlock();
     if (block == null) return [];
-    final urls = RegExp(
-      r'square_video:\{url:"((?:[^"\\]|\\.)*?)"',
-    ).allMatches(block).map((m) => _decodeJsEscapes(m.group(1)!)).toList();
+    final urls = RegExp(r'square_video:\{url:"((?:[^"\\]|\\.)*?)"')
+        .allMatches(block)
+        .map((m) => _decodeJsEscapes(m.group(1)!))
+        .toList();
     if (urls.every((u) => u.isEmpty)) return [];
     return urls;
   }

@@ -1,5 +1,5 @@
 import 'package:flag/flag.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:fraction/fraction.dart';
 import 'package:provider/provider.dart';
 import 'package:shefu/l10n/l10n_utils.dart';
@@ -230,9 +230,8 @@ Widget noteCard({
               const SizedBox(width: 8),
               SelectableText(
                 title,
-                style: Theme.of(
-                  context,
-                ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+                style: Theme.of(context).textTheme.titleMedium
+                    ?.copyWith(fontWeight: FontWeight.bold),
               ),
             ],
           ),
@@ -364,9 +363,8 @@ Future<void> showVideoPlayer(BuildContext context, String videoUrl) async {
   } catch (e) {
     videoPlayerController.dispose();
     if (context.mounted) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Error playing video: $e')));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Error playing video: $e')));
     }
   }
 }
@@ -383,9 +381,8 @@ void _showYoutubePlayer(BuildContext context, String youtubeUrl) {
     videoId = Uri.parse(youtubeUrl).queryParameters['v'];
   }
   if (videoId == null) {
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(const SnackBar(content: Text('Invalid YouTube URL format')));
+    ScaffoldMessenger.of(context)
+        .showSnackBar(const SnackBar(content: Text('Invalid YouTube URL format')));
     return;
   }
   final controller = YoutubePlayerController.fromVideoId(videoId: videoId, autoPlay: true);

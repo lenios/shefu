@@ -1,6 +1,7 @@
 import 'package:html/dom.dart';
 import 'package:html/parser.dart';
 import 'package:shefu/utils/recipe_scrapers/utils.dart';
+
 import '../abstract_scraper.dart';
 import '../grouping_utils.dart';
 

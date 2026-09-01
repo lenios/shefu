@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:html/parser.dart' as html_parser;
 import 'package:logger/logger.dart';
 import 'package:shefu/utils/recipe_scrapers/utils.dart';

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:shefu/repositories/objectbox_nutrient_repository.dart';
@@ -69,9 +69,7 @@ class AppRouter {
       GoRoute(
         path: '/export-recipes',
         builder: (context, state) => ChangeNotifierProvider<ExportRecipesViewModel>(
-          create: (context) => ExportRecipesViewModel(
-            context.read<ObjectBoxRecipeRepository>(),
-          ),
+          create: (context) => ExportRecipesViewModel(context.read<ObjectBoxRecipeRepository>()),
           child: const ExportRecipesPage(),
         ),
       ),

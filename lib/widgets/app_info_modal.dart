@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:shefu/l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -20,9 +20,8 @@ void showAppInfoModal(BuildContext context, ThemeData theme) async {
       return SafeArea(
         top: false,
         child: Padding(
-          padding: const EdgeInsets.all(
-            20.0,
-          ).copyWith(bottom: MediaQuery.of(context).viewInsets.bottom + 10.0),
+          padding: const EdgeInsets.all(20.0)
+              .copyWith(bottom: MediaQuery.of(context).viewInsets.bottom + 10.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,

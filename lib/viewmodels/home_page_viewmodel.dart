@@ -1,8 +1,7 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 import 'package:shefu/l10n/app_localizations.dart';
 import 'package:shefu/models/objectbox_models.dart';
@@ -198,21 +197,14 @@ Future<void> importRecipesZip(BuildContext context, ThemeData theme) async {
   final repo = Provider.of<ObjectBoxRecipeRepository>(context, listen: false);
 
   try {
-    final result = await FilePicker.platform.pickFiles(
+    final result = await FilePicker.pickFile(
       dialogTitle: l10n.importRecipes,
       type: FileType.custom,
       allowedExtensions: ['zip'],
     );
-    if (result == null || result.files.isEmpty) return;
+    if (result == null) return;
 
-    final file = result.files.first;
-    final path = file.path;
-    List<int>? bytes = file.bytes;
-    if (bytes == null && path != null) {
-      bytes = await File(path).readAsBytes();
-    }
-    if (bytes == null) return;
-
+    final bytes = await result.readAsBytes();
     final parsed = await parseRecipesZip(bytes);
     final (imported, skipped) = await importParsedExport(repo, parsed);
 
@@ -243,7 +235,6 @@ Future<void> importRecipesZip(BuildContext context, ThemeData theme) async {
     }
   } catch (_) {
     // File parsed fine but the import itself failed: internal error.
-    final navigator = Navigator.of(context, rootNavigator: true);
     if (!context.mounted) return;
     final dialogRoute = DialogRoute(
       context: context,
@@ -287,9 +278,12 @@ Future<void> importRecipesZip(BuildContext context, ThemeData theme) async {
       ),
     );
     // Close the settings sheet if the import was started there; no-op from the home page.
-    if (navigator.canPop()) {
-      navigator.pop();
+    if (context.mounted) {
+      final navigator = Navigator.of(context, rootNavigator: true);
+      if (navigator.canPop()) {
+        navigator.pop();
+      }
+      navigator.push(dialogRoute);
     }
-    navigator.push(dialogRoute);
   }
 }

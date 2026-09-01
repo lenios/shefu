@@ -1,10 +1,5 @@
-import 'dart:io';
-
-import 'package:file_picker/file_picker.dart';
 import 'package:go_router/go_router.dart';
-import 'package:shefu/repositories/objectbox_recipe_repository.dart';
-import 'package:shefu/utils/recipe_exporter.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:shefu/main.dart';
 import 'package:shefu/provider/my_app_state.dart';
 import 'package:shefu/l10n/app_localizations.dart';
@@ -13,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:shefu/widgets/tips_modal.dart';
 import 'package:shefu/widgets/app_info_modal.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
 // import 'package:shefu/widgets/expert_settings_modal.dart';
 
 Widget openModalSettingsButton(BuildContext context, ThemeData theme, [AppLocalizations? l10n]) {
@@ -56,9 +52,8 @@ void _showSettingsModal(BuildContext context, ThemeData theme) {
           return SafeArea(
             top: false,
             child: Padding(
-              padding: const EdgeInsets.all(
-                15.0,
-              ).copyWith(bottom: MediaQuery.of(context).viewInsets.bottom + 5.0),
+              padding: const EdgeInsets.all(15.0)
+                  .copyWith(bottom: MediaQuery.of(context).viewInsets.bottom + 5.0),
               child: Wrap(
                 runSpacing: 10.0,
                 children: [

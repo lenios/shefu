@@ -5,8 +5,7 @@ List<Recipe> populateMockRecipes() {
   Recipe harvestRecipe = Recipe(
     id: 0,
     title: "The Ultimate Harvest Feast",
-    notes:
-        "A comprehensive showcase recipe featuring all seasonal ingredients. Perfect for demonstrating the app's capabilities.",
+    notes: "A comprehensive showcase recipe featuring all seasonal ingredients. Perfect for demonstrating the app's capabilities.",
     servings: 6,
     countryCode: "WW",
     category: Category.mains.index,
@@ -19,8 +18,7 @@ List<Recipe> populateMockRecipes() {
   RecipeStep saladStep = RecipeStep(
     id: 0,
     name: "Fresh Garden Salad",
-    instruction:
-        "Combine all vegetables in a large bowl. Toss with lemon and lime juice, olive oil, salt and pepper to taste.",
+    instruction: "Combine all vegetables in a large bowl. Toss with lemon and lime juice, olive oil, salt and pepper to taste.",
   );
   saladStep.ingredients.addAll([
     IngredientItem(id: 0, name: "lettuce", quantity: 1, unit: "head"),
@@ -40,8 +38,7 @@ List<Recipe> populateMockRecipes() {
   RecipeStep soupStep = RecipeStep(
     id: 0,
     name: "Harvest Vegetable Soup",
-    instruction:
-        "Sauté onion, garlic, and leek in butter. Add remaining vegetables and broth. Simmer for 30 minutes until vegetables are tender.",
+    instruction: "Sauté onion, garlic, and leek in butter. Add remaining vegetables and broth. Simmer for 30 minutes until vegetables are tender.",
   );
   soupStep.ingredients.addAll([
     IngredientItem(id: 0, name: "onion", quantity: 1, unit: ""),
@@ -62,8 +59,7 @@ List<Recipe> populateMockRecipes() {
   RecipeStep mainStep = RecipeStep(
     id: 0,
     name: "Roasted Salmon with Vegetables",
-    instruction:
-        "Season salmon fillets with herbs. Roast salmon and vegetables in the oven at 180°C for 20 minutes. Serve with corn and potato sides.",
+    instruction: "Season salmon fillets with herbs. Roast salmon and vegetables in the oven at 180°C for 20 minutes. Serve with corn and potato sides.",
   );
   mainStep.ingredients.addAll([
     IngredientItem(id: 0, name: "salmon", quantity: 600, unit: "g"),
@@ -196,8 +192,7 @@ List<Recipe> populateMockRecipes() {
   // Step 3: Combine and chill
   RecipeStep combineChillStep = RecipeStep(
     id: 0,
-    instruction:
-        "Fold whipped egg whites into chocolate mixture, then gently fold in whipped cream. Divide into serving glasses and refrigerate for at least 3 hours or overnight.",
+    instruction: "Fold whipped egg whites into chocolate mixture, then gently fold in whipped cream. Divide into serving glasses and refrigerate for at least 3 hours or overnight.",
     timer: 10 * 60, // 10 minutes in seconds (for combining - not including chill time)
   );
 
@@ -213,8 +208,7 @@ List<Recipe> populateMockRecipes() {
   Recipe pancakeRecipe = Recipe(
     id: 0,
     title: "Fluffy Buttermilk Pancakes",
-    notes:
-        "Classic, fluffy pancakes that are perfect for a weekend breakfast. Serve with fresh fruits and maple syrup.",
+    notes: "Classic, fluffy pancakes that are perfect for a weekend breakfast. Serve with fresh fruits and maple syrup.",
     servings: 4,
     countryCode: "US",
     category: Category.desserts.index,
@@ -270,8 +264,7 @@ List<Recipe> populateMockRecipes() {
   RecipeStep servePancakesStep = RecipeStep(
     id: 0,
     name: "Heat",
-    instruction:
-        "Stack pancakes on plates and serve with your choice of fresh fruits, maple syrup, and a pat of butter.",
+    instruction: "Stack pancakes on plates and serve with your choice of fresh fruits, maple syrup, and a pat of butter.",
   );
   servePancakesStep.ingredients.addAll([
     IngredientItem(id: 0, name: "maple syrup", quantity: 120, unit: "ml"),

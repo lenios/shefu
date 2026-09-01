@@ -1,10 +1,13 @@
 import 'dart:async';
+
 import 'package:http/http.dart' as http;
 import 'package:shefu/utils/recipe_scrapers/scrapers/anovaculinary.com.dart';
 import 'package:shefu/utils/recipe_scrapers/scrapers/giallozafferano.dart';
 import 'package:shefu/utils/recipe_scrapers/scrapers/hellofresh.com.dart';
 import 'package:shefu/utils/recipe_scrapers/scrapers/papillesetpupilles.fr.dart';
+
 import 'abstract_scraper.dart';
+
 import 'package:shefu/utils/recipe_scrapers/scrapers/abeautifulmess.com.dart';
 import 'package:shefu/utils/recipe_scrapers/scrapers/allrecipes.com.dart';
 import 'package:shefu/utils/recipe_scrapers/scrapers/bbcgoodfood.dart';

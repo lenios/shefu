@@ -2,6 +2,7 @@
 
 import 'package:objectbox/objectbox.dart';
 import 'package:path/path.dart' as p;
+
 import '../utils/path_utils.dart';
 
 @Entity()
@@ -163,7 +164,7 @@ class Recipe {
     final rawTags = m['tags'];
     if (rawTags is List) {
       for (final t in rawTags) {
-        if (t is String) this.tags.add(Tag(name: t));
+        if (t is String) tags.add(Tag(name: t));
       }
     }
 

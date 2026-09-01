@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 import 'package:shefu/l10n/app_localizations.dart';
 import 'package:shefu/provider/my_app_state.dart';
@@ -17,9 +17,8 @@ void showExpertSettingsModal(BuildContext context, ThemeData theme) {
       return SafeArea(
         top: false,
         child: Padding(
-          padding: const EdgeInsets.all(
-            20.0,
-          ).copyWith(bottom: MediaQuery.of(context).viewInsets.bottom + 10.0),
+          padding: const EdgeInsets.all(20.0)
+              .copyWith(bottom: MediaQuery.of(context).viewInsets.bottom + 10.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,

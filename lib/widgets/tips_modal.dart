@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:shefu/l10n/app_localizations.dart';
 
 void showTipsModal(BuildContext context, ThemeData theme) {
@@ -15,9 +15,8 @@ void showTipsModal(BuildContext context, ThemeData theme) {
       return SafeArea(
         top: false,
         child: Padding(
-          padding: const EdgeInsets.all(
-            20.0,
-          ).copyWith(bottom: MediaQuery.of(context).viewInsets.bottom + 10.0),
+          padding: const EdgeInsets.all(20.0)
+              .copyWith(bottom: MediaQuery.of(context).viewInsets.bottom + 10.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,

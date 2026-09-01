@@ -1,6 +1,7 @@
 import 'package:html/dom.dart';
 import 'package:html/parser.dart' as parser;
 import 'package:http/http.dart' as http;
+
 import '../abstract_scraper.dart';
 
 class SeriousEatsScraper extends AbstractScraper {

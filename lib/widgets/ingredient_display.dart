@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:shefu/l10n/app_localizations.dart';
 import 'package:shefu/models/formatted_ingredient.dart';
 import 'package:shefu/widgets/recipe_step_card.dart';
