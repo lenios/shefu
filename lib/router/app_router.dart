@@ -62,7 +62,7 @@ class AppRouter {
         builder: (context, state) {
           return ChangeNotifierProvider<OnlineSearchViewModel>(
             create: (context) => OnlineSearchViewModel(),
-            child: const OnlineSearchPage(),
+            child: AppScaffold(child: const OnlineSearchPage()),
           );
         },
       ),
@@ -70,7 +70,7 @@ class AppRouter {
         path: '/export-recipes',
         builder: (context, state) => ChangeNotifierProvider<ExportRecipesViewModel>(
           create: (context) => ExportRecipesViewModel(context.read<ObjectBoxRecipeRepository>()),
-          child: const ExportRecipesPage(),
+          child: AppScaffold(child: const ExportRecipesPage()),
         ),
       ),
     ],

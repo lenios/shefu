@@ -1810,6 +1810,12 @@ abstract class AppLocalizations {
   /// **'{count,plural, =0{Export 0 recipe} =1{Export 1 recipe} other{Export {count} recipes}}'**
   String exportCount(num count);
 
+  /// No description provided for @zipSavedTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved to {path}'**
+  String zipSavedTo(Object path);
+
   /// No description provided for @selectAll.
   ///
   /// In en, this message translates to:

@@ -6,6 +6,7 @@ import 'package:shefu/l10n/l10n_utils.dart';
 import 'package:shefu/models/objectbox_models.dart';
 import 'package:shefu/viewmodels/export_recipes_viewmodel.dart';
 import 'package:shefu/widgets/back_button.dart';
+import 'package:shefu/widgets/gradient_fade.dart';
 
 class ExportRecipesPage extends StatelessWidget {
   const ExportRecipesPage({super.key});
@@ -27,52 +28,55 @@ class ExportRecipesPage extends StatelessWidget {
           style: theme.textTheme.titleLarge?.copyWith(color: Colors.white),
         ),
       ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: (viewModel.selected.isEmpty || viewModel.exporting)
+            ? null
+            : () async {
+                try {
+                  final uri = await viewModel.saveRecipes(l10n);
+                  if (context.mounted && uri != null) {
+                    ScaffoldMessenger.maybeOf(
+                      context,
+                    )?.showSnackBar(SnackBar(content: Text(l10n.zipSavedTo(uri.path))));
+                  }
+                } catch (e) {
+                  if (context.mounted) {
+                    ScaffoldMessenger.maybeOf(
+                      context,
+                    )?.showSnackBar(SnackBar(content: Text('${l10n.exportFailed}: $e')));
+                  }
+                }
+              },
+        icon: const Icon(Icons.upload),
+        label: Text(l10n.exportCount(viewModel.selected.length), textAlign: TextAlign.center),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: viewModel.loading
           ? const Center(child: CircularProgressIndicator())
           : Column(
               children: [
                 Expanded(
-                  child: ListView(
+                  child: Stack(
                     children: [
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: ElevatedButton.icon(
-                          onPressed: () => viewModel.setAll(!viewModel.selectAll),
-                          icon: Icon(viewModel.selectAll ? Icons.remove : Icons.add),
-                          label: Text(
-                            viewModel.selectAll ? l10n.deselectAll : l10n.selectAll,
-                            style: theme.textTheme.bodyLarge,
+                      ListView(
+                        padding: const EdgeInsets.only(bottom: 16.0),
+                        children: [
+                          ElevatedButton.icon(
+                            onPressed: () => viewModel.setAll(!viewModel.selectAll),
+                            icon: Icon(viewModel.selectAll ? Icons.remove : Icons.add),
+                            label: Text(
+                              viewModel.selectAll ? l10n.deselectAll : l10n.selectAll,
+                              style: theme.textTheme.bodyLarge,
+                            ),
                           ),
-                        ),
+                          for (final c in Category.values)
+                            if ((groups[c.index]?.isNotEmpty ?? false))
+                              _buildCategorySection(viewModel, c, groups[c.index]!, l10n, theme),
+                          const SizedBox(height: 8),
+                        ],
                       ),
-                      for (final c in Category.values)
-                        if ((groups[c.index]?.isNotEmpty ?? false))
-                          _buildCategorySection(viewModel, c, groups[c.index]!, l10n, theme),
-                      const SizedBox(height: 8),
+                      gradientFade(theme),
                     ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: ElevatedButton.icon(
-                    icon: const Icon(Icons.upload),
-                    label: Text(
-                      l10n.exportCount(viewModel.selected.length),
-                      textAlign: TextAlign.center,
-                    ),
-                    onPressed: (viewModel.selected.isEmpty || viewModel.exporting)
-                        ? null
-                        : () async {
-                            try {
-                              await viewModel.exportRecipes(l10n);
-                            } catch (e) {
-                              if (context.mounted) {
-                                ScaffoldMessenger.maybeOf(context)?.showSnackBar(
-                                  SnackBar(content: Text('${l10n.exportFailed}: $e')),
-                                );
-                              }
-                            }
-                          },
                   ),
                 ),
               ],
@@ -94,17 +98,13 @@ class ExportRecipesPage extends StatelessWidget {
       children: [
         ListTile(
           tileColor: theme.colorScheme.secondaryFixed,
-          contentPadding: EdgeInsets.zero,
-          dense: true,
+          textColor: theme.colorScheme.onSecondaryFixed,
           leading: Checkbox(
             value: categorySelected,
             onChanged: (v) => viewModel.setCategory(c.index, v ?? false),
           ),
-          title: Text(
-            translatedCategory(c.name, l10n),
-            style: theme.textTheme.titleMedium!.copyWith(decoration: TextDecoration.underline),
-          ),
-          trailing: Icon(expanded ? Icons.expand_more : Icons.chevron_right, size: 18),
+          title: Text(translatedCategory(c.name, l10n)),
+          trailing: Icon(expanded ? Icons.expand_less : Icons.expand_more, size: 18),
           onTap: () => viewModel.toggleCategory(c.index),
         ),
         if (expanded)

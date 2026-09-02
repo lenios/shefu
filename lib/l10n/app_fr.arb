@@ -301,6 +301,12 @@
     "exportAsZip": "Exporter en ZIP",
     "exportFormatHint": "Sélectionnez le format PDF pour imprimer ou lire sur un écran, et le format ZIP pour importer plus tard.",
     "exportCount": "{count,plural, =0{Exporter 0 recette} =1{Exporter 1 recette} other{Exporter {count} recettes}}",
+    "zipSavedTo": "Enregistré dans {path}",
+    "@zipSavedTo": {
+      "placeholders": {
+        "path": {}
+      }
+    },
     "selectAll": "Tout sélectionner",
     "deselectAll": "Tout désélectionner",
     "invalidZipFile": "Fichier invalide : le fichier zip n'est pas une archive d'export Shefu.",

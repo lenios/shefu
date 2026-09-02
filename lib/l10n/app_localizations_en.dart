@@ -919,6 +919,11 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String zipSavedTo(Object path) {
+    return 'Saved to $path';
+  }
+
+  @override
   String get selectAll => 'Select all';
 
   @override

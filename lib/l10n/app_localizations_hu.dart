@@ -922,6 +922,11 @@ class AppLocalizationsHu extends AppLocalizations {
   }
 
   @override
+  String zipSavedTo(Object path) {
+    return 'Mentve ide $path';
+  }
+
+  @override
   String get selectAll => 'Összes recept kijelölése';
 
   @override

@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:shefu/l10n/l10n_utils.dart';
 import 'package:shefu/router/app_scaffold.dart';
 import 'package:shefu/viewmodels/home_page_viewmodel.dart';
+import 'package:shefu/widgets/gradient_fade.dart';
 import 'package:shefu/widgets/open_modal_settings_button.dart';
 import 'package:shefu/repositories/objectbox_nutrient_repository.dart';
 import 'package:shefu/repositories/objectbox_recipe_repository.dart';
@@ -325,29 +326,7 @@ class _HomePageState extends State<HomePage> {
                           }
                         },
                       ),
-                      // Gradient fade at the bottom, behind the FAB
-                      Positioned(
-                        bottom: 0,
-                        left: 0,
-                        right: 0,
-                        height: 80,
-                        child: IgnorePointer(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                                colors: [
-                                  theme.scaffoldBackgroundColor.withAlpha(0),
-                                  theme.scaffoldBackgroundColor.withAlpha(180),
-                                  theme.scaffoldBackgroundColor.withAlpha(240),
-                                ],
-                                stops: const [0.0, 0.5, 1.0],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
+                      gradientFade(theme),
                     ],
                   ),
           ),

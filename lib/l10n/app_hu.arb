@@ -302,6 +302,12 @@
     "exportAsZip": "ZIP-ként exportálás",
     "exportFormatHint": "Válassz PDF formátumot nyomtatáshoz vagy képernyős megtekintéshez, és ZIP formátumot későbbi importáláshoz.",
     "exportCount": "{count,plural, =0{Exportálás: 0 recept} =1{Exportálás: 1 recept} other{Exportálás: {count} recept}}",
+    "zipSavedTo": "Mentve ide {path}",
+    "@zipSavedTo": {
+      "placeholders": {
+        "path": {}
+      }
+    },
     "selectAll": "Összes recept kijelölése",
     "deselectAll": "Kijelölés törlése",
     "invalidZipFile": "Érvénytelen fájl: a zip fájl nem Shefu export archívum.",

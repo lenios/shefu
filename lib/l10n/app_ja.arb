@@ -300,10 +300,16 @@
     "importInternalError": "インポートに失敗しました。内部エラーです。https://github.com/lenios/shefu/issues からバグを報告し、可能な場合はインポートファイルも添付して解析にご協力ください。",
     "exportAsPdf": "PDFとしてエクスポート",
     "exportAsZip": "ZIPとしてエクスポート",
-    "exportFormatHint": "印刷や画面での表示には PDF フォーマットを、今後のインポートには ZIP フォーマットを選択してください。",
-    "exportCount": "{count} 件のレシピをエクスポート",
+    "exportFormatHint": "印刷や画面での表示にはPDFフォーマットを、今後のインポートにはZIPフォーマットを選択してください。",
+    "exportCount": "{count}件のレシピをエクスポート",
+    "zipSavedTo": "{path}に保存しました",
+    "@zipSavedTo": {
+      "placeholders": {
+        "path": {}
+      }
+    },
     "selectAll": "すべてを選択",
     "deselectAll": "選択をすべて解除",
-    "invalidZipFile": "無効なファイル：このzipファイルはShefuのエクスポートアーカイブではありません。",
+    "invalidZipFile": "無効なファイル：このZIPファイルはShefuのエクスポートアーカイブではありません。",
     "supportedWebsitesNote": "サポートされているウェブサイトのリストはこちら："
 }

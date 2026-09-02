@@ -1,9 +1,5 @@
-import 'dart:io';
-
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart' hide Category;
-import 'package:path/path.dart' as p;
-import 'package:path_provider/path_provider.dart';
-import 'package:share_plus/share_plus.dart';
 
 import 'package:shefu/l10n/app_localizations.dart';
 import 'package:shefu/models/objectbox_models.dart';
@@ -113,28 +109,30 @@ class ExportRecipesViewModel extends ChangeNotifier {
     return groups;
   }
 
-  /// Builds a ZIP archive of the selected recipes
-  Future<void> exportRecipes(AppLocalizations l10n) async {
-    if (_exporting) return;
+  List<Recipe> _selectedRecipes() {
+    return [
+      for (final r in _recipes)
+        if (_selected.contains(r.id)) r,
+    ];
+  }
+
+  /// Saves a ZIP archive of the selected recipes
+  /// Returns the saved file location, or null if the user canceled.
+  Future<Uri?> saveRecipes(AppLocalizations l10n) async {
+    if (_exporting) return null;
     _setExporting(true);
     try {
-      final recipes = [
-        for (final r in _recipes)
-          if (_selected.contains(r.id)) r,
-      ];
-      if (recipes.isEmpty) return;
+      final recipes = _selectedRecipes();
+      if (recipes.isEmpty) return null;
       final bytes = await buildRecipesZip(recipes);
-      final dir = await getTemporaryDirectory();
       final fileName = recipes.length == 1
           ? _fileNameForRecipe(recipes.first)
           : '${l10n.recipes.timestamp()}.zip';
-      final file = File(p.join(dir.path, fileName));
-      await file.writeAsBytes(bytes);
-      final shareText = recipes.length == 1
-          ? recipes.first.title
-          : l10n.exportedRecipes(recipes.length);
-      await SharePlus.instance.share(
-        ShareParams(text: shareText, title: l10n.exportRecipes, files: [XFile(file.path)]),
+      return await FilePicker.saveFile(
+        fileName: fileName,
+        bytes: Uint8List.fromList(bytes),
+        mimeType: 'application/zip',
+        dialogTitle: l10n.exportRecipes,
       );
     } finally {
       _setExporting(false);

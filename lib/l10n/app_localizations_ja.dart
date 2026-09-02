@@ -898,11 +898,16 @@ class AppLocalizationsJa extends AppLocalizations {
   String get exportAsZip => 'ZIPとしてエクスポート';
 
   @override
-  String get exportFormatHint => '印刷や画面での表示には PDF フォーマットを、今後のインポートには ZIP フォーマットを選択してください。';
+  String get exportFormatHint => '印刷や画面での表示にはPDFフォーマットを、今後のインポートにはZIPフォーマットを選択してください。';
 
   @override
   String exportCount(num count) {
-    return '$count 件のレシピをエクスポート';
+    return '$count件のレシピをエクスポート';
+  }
+
+  @override
+  String zipSavedTo(Object path) {
+    return '$pathに保存しました';
   }
 
   @override
@@ -912,7 +917,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get deselectAll => '選択をすべて解除';
 
   @override
-  String get invalidZipFile => '無効なファイル：このzipファイルはShefuのエクスポートアーカイブではありません。';
+  String get invalidZipFile => '無効なファイル：このZIPファイルはShefuのエクスポートアーカイブではありません。';
 
   @override
   String get supportedWebsitesNote => 'サポートされているウェブサイトのリストはこちら：';

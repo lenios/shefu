@@ -924,6 +924,11 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String zipSavedTo(Object path) {
+    return 'Enregistré dans $path';
+  }
+
+  @override
   String get selectAll => 'Tout sélectionner';
 
   @override

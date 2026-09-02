@@ -67,7 +67,7 @@ class OnlineSearchPage extends StatelessWidget {
           ),
         ],
       ),
-      body: SafeArea(child: _buildSearchResults(context, viewModel)),
+      body: _buildSearchResults(context, viewModel),
     );
   }
 
