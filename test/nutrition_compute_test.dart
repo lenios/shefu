@@ -9,7 +9,9 @@ import 'package:shefu/repositories/objectbox_nutrient_repository.dart';
 import 'package:shefu/repositories/objectbox_recipe_repository.dart';
 import 'package:shefu/viewmodels/display_recipe_viewmodel.dart';
 
-class MockRecipeRepository implements ObjectBoxRecipeRepository {
+import 'support/stub_variant_repository.dart';
+
+class MockRecipeRepository with StubVariantRepository implements ObjectBoxRecipeRepository {
   @override
   Box<Conversion> get conversionBox => throw UnimplementedError();
 
@@ -166,10 +168,10 @@ void main() {
       viewModel = DisplayRecipeViewModel(mockRecipeRepo, mockAppState!, mockNutrientRepo, 1);
     });
 
-    test('returns nothing if no recipe', () {
+    test('returns nothing if no steps', () {
       mockNutrientRepo.setMockFactorForId(1, 0.5); // e.g. 50g flour
       expect(
-        calculateTotalNutrients(full: true, recipe: null, nutrientRepository: mockNutrientRepo),
+        calculateTotalNutrients(full: true, steps: [], nutrientRepository: mockNutrientRepo),
         {},
       );
     });
@@ -187,7 +189,7 @@ void main() {
 
       final result = calculateTotalNutrients(
         full: true,
-        recipe: recipe,
+        steps: recipe.steps,
         nutrientRepository: mockNutrientRepo,
       );
 
@@ -219,7 +221,7 @@ void main() {
 
       final result = calculateTotalNutrients(
         full: true,
-        recipe: recipe,
+        steps: recipe.steps,
         nutrientRepository: mockNutrientRepo,
       );
       expect(result['protein'], 0.0);
@@ -244,7 +246,7 @@ void main() {
 
       final result = calculateTotalNutrients(
         full: true,
-        recipe: recipe,
+        steps: recipe.steps,
         nutrientRepository: mockNutrientRepo,
       );
 

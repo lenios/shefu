@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:material_ui/material_ui.dart';
 import 'package:shefu/utils/path_utils.dart';
@@ -29,58 +28,40 @@ class FullScreenImage extends StatelessWidget {
           boundaryMargin: const EdgeInsets.all(20),
           minScale: 0.5,
           maxScale: 4,
-          child: FutureBuilder<Uint8List>(
-            key: ValueKey('fullscreen-$imagePath'),
-            future: File(PathUtils.cleanPath(imagePath)).readAsBytes(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                // Show thumbnail while loading full image
-                final thumbPath = PathUtils.thumbnailPath(imagePath);
-                if (thumbPath.isNotEmpty && File(thumbPath).existsSync()) {
-                  return FutureBuilder<Uint8List>(
-                    future: File(thumbPath).readAsBytes(),
-                    builder: (context, thumbSnapshot) {
-                      if (thumbSnapshot.hasData) {
-                        return Image.memory(thumbSnapshot.data!, fit: BoxFit.cover);
-                      }
-                      return CircularProgressIndicator(
-                        color: Theme.of(context).colorScheme.onSurface,
-                      );
-                    },
-                  );
-                }
-                return CircularProgressIndicator(color: Theme.of(context).colorScheme.onSurface);
-              } else if (snapshot.hasError) {
-                return Icon(
-                  Icons.broken_image,
-                  color: Theme.of(context).colorScheme.onSurface,
-                  size: 60,
-                );
-              } else if (snapshot.hasData) {
-                return Image.memory(
-                  snapshot.data!,
-                  fit: BoxFit.contain, // Fit whole image on screen
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Icon(
-                      Icons.broken_image,
-                      color: Theme.of(context).colorScheme.onSurface,
-                      size: 60,
-                    );
-                  },
-                );
-              } else {
-                return Icon(
-                  Icons.broken_image,
-                  color: Theme.of(context).colorScheme.onSurface,
-                  size: 60,
-                );
-              }
-            },
-          ),
+          child: _fullImage(context),
         ),
       ),
     );
   }
+
+  /// Kept in the shared image cache
+  ///
+  /// Until its first frame is ready the already-cached thumbnail is shown, so
+  /// opening the viewer never flashes an empty screen.
+  Widget _fullImage(BuildContext context) {
+    final cleanPath = PathUtils.cleanPath(imagePath);
+    if (cleanPath.isEmpty) return _brokenIcon(context);
+
+    final size = MediaQuery.sizeOf(context);
+    final thumbnailPath = PathUtils.thumbnailPath(imagePath);
+    return Image.file(
+      File(cleanPath),
+      fit: BoxFit.contain,
+      width: size.width,
+      height: size.height,
+      cacheWidth: (size.width * MediaQuery.devicePixelRatioOf(context) * 2).round(),
+      gaplessPlayback: true,
+      frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+        if (wasSynchronouslyLoaded || frame != null) return child;
+        if (thumbnailPath.isEmpty) {
+          return CircularProgressIndicator(color: Theme.of(context).colorScheme.onSurface);
+        }
+        return Image.file(File(thumbnailPath), fit: BoxFit.contain, gaplessPlayback: true);
+      },
+      errorBuilder: (context, error, stackTrace) => _brokenIcon(context),
+    );
+  }
+
+  Widget _brokenIcon(BuildContext context) =>
+      Icon(Icons.broken_image, color: Theme.of(context).colorScheme.onSurface, size: 60);
 }

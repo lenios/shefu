@@ -8,3 +8,4 @@ When modifying files, align with the project's structure, updating related files
 If you see something wrong with the existing code, fix it (unless you have doubts).
 ALWAYS follow Effective Dart guidelines, and DRY, KISS, YAGNI and MVVM patterns.
 When generating arrays of strings, prefer " to '.
+Do not summarize actions at the end.

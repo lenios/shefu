@@ -85,6 +85,9 @@ class AppLocalizationsHu extends AppLocalizations {
   String get save => 'Mentés';
 
   @override
+  String get saveRecipe => 'Recept és minden változat mentése';
+
+  @override
   String get delete => 'Törlés';
 
   @override
@@ -373,7 +376,8 @@ class AppLocalizationsHu extends AppLocalizations {
   String get leave => 'Kilépés';
 
   @override
-  String get unsavedChanges => 'Lehet, hogy nem mentett változtatásai vannak.';
+  String get unsavedChanges =>
+      'Lehetnek nem mentett módosításai. Kattintson a Mentés gombra a recept és változatai minden módosításának mentéséhez. A Kilépés gombbal elvetheti őket.';
 
   @override
   String get importRecipe => 'importálása';
@@ -906,6 +910,12 @@ class AppLocalizationsHu extends AppLocalizations {
   String get exportAsZip => 'ZIP-ként exportálás';
 
   @override
+  String get copyAsText => 'Másolás szövegként';
+
+  @override
+  String get recipeCopied => 'A recept a vágólapra másolva';
+
+  @override
   String get exportFormatHint =>
       'Válassz PDF formátumot nyomtatáshoz vagy képernyős megtekintéshez, és ZIP formátumot későbbi importáláshoz.';
 
@@ -937,4 +947,45 @@ class AppLocalizationsHu extends AppLocalizations {
 
   @override
   String get supportedWebsitesNote => 'A támogatott webhelyek listája itt érhető el:';
+
+  @override
+  String get variant => 'Változat';
+
+  @override
+  String get addVariant => 'Változat hozzáadása';
+
+  @override
+  String get deleteVariant => 'Változat törlése';
+
+  @override
+  String get deleteVariantQuestion => 'Törlöd ezt a változatot?';
+
+  @override
+  String deleteVariantConfirmation(Object variant) {
+    return 'A(z) $variant változat törölve lesz.';
+  }
+
+  @override
+  String get deleteVariantWarning =>
+      'A változat és a felülírt lépései törlődnek. Az eredeti recept változatlan marad.';
+
+  @override
+  String get overrideStep => 'Felülírás';
+
+  @override
+  String get removeOverride => 'Felülírás eltávolítása';
+
+  @override
+  String get exportRecipe => 'Recept exportálása';
+
+  @override
+  String get showVariants => 'A recept változatainak megjelenítése';
+
+  @override
+  String get recipeSaved => 'Recept mentve';
+
+  @override
+  String variantSaved(Object variant) {
+    return 'Változat $variant mentve';
+  }
 }

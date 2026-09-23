@@ -69,10 +69,12 @@ class DisplayRecipeViewModel extends ChangeNotifier {
     this._recipeRepository,
     this._appState,
     this.nutrientRepository,
-    this._recipeId,
-  ) {
+    this._recipeId, [
+    int? variantId,
+  ]) {
     _servings = _appState.servings;
     _measurementSystem = _appState.measurementSystem;
+    activeVariantId = variantId ?? 0;
     _appState.addListener(_onAppStateChanged);
     initializeCommand = Command.createAsync<BuildContext, Recipe?>(
       _initializeAndLoadData,
@@ -194,6 +196,42 @@ class DisplayRecipeViewModel extends ChangeNotifier {
   Recipe? _recipe;
   Recipe? get recipe => _recipe;
 
+  List<RecipeVariant> variants = [];
+  int activeVariantId = 0; // 0 = original recipe
+
+  RecipeVariant? get activeVariant {
+    for (final variant in variants) {
+      if (variant.id == activeVariantId) return variant;
+    }
+    return null;
+  }
+
+  List<RecipeStep> getVariantSteps() {
+    if (_recipe == null) return [];
+    final baseSteps = _recipe!.steps.toList();
+    if (activeVariant == null) {
+      return baseSteps;
+    } else {
+      final overrides = activeVariant!.steps.toList();
+      // return full list of steps, with some steps overriden
+      return baseSteps.map((step) {
+        return overrides.firstWhere((o) => o.order == step.order, orElse: () => step);
+      }).toList();
+    }
+  }
+
+  String get variantTitle {
+    final variant = activeVariant;
+    if (variant != null && variant.title.isNotEmpty) return variant.title;
+    return _recipe?.title ?? '';
+  }
+
+  void setActiveVariant(int variantId) {
+    activeVariantId = variantId;
+    _currentStepIndex = 0;
+    notifyListeners();
+  }
+
   int _servings = 4; // Default value
   int get servings => _servings;
 
@@ -222,6 +260,7 @@ class DisplayRecipeViewModel extends ChangeNotifier {
       initTts();
       await nutrientRepository.initialize();
       _recipe = _recipeRepository.getRecipeById(_recipeId);
+      variants = _recipeRepository.getVariantsForRecipe(_recipeId);
       _initializeBasket();
       if (context.mounted) _prefetchNutrientData(context);
       if (context.mounted) _getTtsDefaults();
@@ -320,7 +359,7 @@ class DisplayRecipeViewModel extends ChangeNotifier {
     _prefetchedFactors.clear();
     _prefetchedDescriptions.clear();
 
-    for (var step in _recipe!.steps) {
+    for (var step in getVariantSteps()) {
       for (var ingredient in step.ingredients) {
         if (ingredient.foodId > 0) {
           final key = "${ingredient.foodId}-${ingredient.conversionId}";
@@ -387,7 +426,7 @@ class DisplayRecipeViewModel extends ChangeNotifier {
   void _initializeBasket() {
     _basket.clear();
     if (_recipe != null) {
-      for (var step in _recipe!.steps) {
+      for (var step in getVariantSteps()) {
         for (var ingredient in step.ingredients) {
           _basket.putIfAbsent(ingredient.name, () => false);
         }
@@ -398,8 +437,7 @@ class DisplayRecipeViewModel extends ChangeNotifier {
   bool anyItemsChecked() {
     if (recipe == null) return false;
 
-    final allIngredients = recipe!.steps
-        .toList()
+    final allIngredients = getVariantSteps()
         .expand((step) => step.ingredients)
         .map((ingredient) => ingredient.name)
         .toList();
@@ -412,7 +450,7 @@ class DisplayRecipeViewModel extends ChangeNotifier {
       try {
         await _recipeRepository.deleteImageFile(_recipe!.imagePath);
 
-        for (var step in _recipe!.steps) {
+        for (final step in getVariantSteps()) {
           await _recipeRepository.deleteImageFile(step.imagePath);
         }
 
@@ -432,7 +470,7 @@ class DisplayRecipeViewModel extends ChangeNotifier {
     final List<BasketItem> itemsToAdd = [];
     final double servingsMultiplier = _servings / _recipe!.servings;
 
-    for (final step in _recipe!.steps) {
+    for (final step in getVariantSteps()) {
       for (final ingredient in step.ingredients) {
         // Check the local basket state for this recipe view
         if (!(_basket[ingredient.name] ?? false)) {
@@ -468,7 +506,7 @@ class DisplayRecipeViewModel extends ChangeNotifier {
   Future<void> speakStep(BuildContext context, int stepIndex) async {
     if (_recipe == null) return;
 
-    final step = _recipe!.steps[stepIndex];
+    final step = getVariantSteps()[stepIndex];
     final l10n = AppLocalizations.of(context)!;
 
     String headerText = '${l10n.step} ${stepIndex + 1}.';
@@ -525,7 +563,7 @@ class DisplayRecipeViewModel extends ChangeNotifier {
     _updateTtsState(TtsState.start, isSpeaking: true);
 
     try {
-      for (int i = startIndex; i < _recipe!.steps.length; i++) {
+      for (int i = startIndex; i < getVariantSteps().length; i++) {
         if (_stopRequested || _pauseRequested) {
           break;
         }
@@ -581,18 +619,17 @@ class DisplayRecipeViewModel extends ChangeNotifier {
 }
 
 Map<String, double> calculateTotalNutrients({
-  required Recipe? recipe,
+  required List<RecipeStep> steps,
   required ObjectBoxNutrientRepository nutrientRepository,
   bool full = false,
 }) {
-  if (recipe == null) return {};
-
+  if (steps.isEmpty) return {};
   double totalProtein = 0, totalFat = 0, totalCarbs = 0, totalCalories = 0;
   double totalFASat = 0, totalFAPoly = 0, totalChol = 0, totalSodium = 0;
   double totalFiber = 0, totalSugar = 0, totalAddedSugar = 0;
   double totalVitaminD = 0, totalCalcium = 0, totalIron = 0, totalPotassium = 0;
 
-  for (final step in recipe.steps) {
+  for (final step in steps) {
     for (final ingredient in step.ingredients) {
       if (ingredient.foodId > 0 && ingredient.conversionId > 0) {
         final nutrient = nutrientRepository.getNutrientByFoodId(ingredient.foodId);

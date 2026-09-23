@@ -7,7 +7,9 @@ import 'package:shefu/viewmodels/edit_recipe_viewmodel.dart';
 Widget foodFactors(int stepIndex, int ingredientIndex, EditRecipeViewModel viewModel) {
   return Selector<EditRecipeViewModel, (int, int)>(
     selector: (_, vm) {
-      final ingredient = vm.recipe.steps[stepIndex].ingredients[ingredientIndex];
+      final ingredients = vm.getTargetStep(stepIndex).ingredients;
+      if (ingredientIndex >= ingredients.length) return (0, 0);
+      final ingredient = ingredients[ingredientIndex];
       return (ingredient.foodId, ingredient.conversionId);
     },
     builder: (context, data, _) {

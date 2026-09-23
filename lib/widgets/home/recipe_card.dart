@@ -4,16 +4,20 @@ import 'package:provider/provider.dart';
 import 'package:shefu/provider/my_app_state.dart';
 import 'package:shefu/utils/path_utils.dart';
 import 'package:shefu/utils/string_extension.dart';
+import 'package:shefu/utils/variant_colors.dart';
+import 'package:shefu/viewmodels/home_page_viewmodel.dart';
 
-import '../l10n/app_localizations.dart';
-import '../models/objectbox_models.dart';
-import '../widgets/image_helper.dart';
-import 'header_stats.dart';
-import 'misc.dart';
+import '../../l10n/app_localizations.dart';
+import '../../models/objectbox_models.dart';
+import '../../widgets/image_helper.dart';
+import '../header_stats.dart';
+import '../misc.dart';
 
 class RecipeCard extends StatelessWidget {
   final Recipe recipe;
-  const RecipeCard({super.key, required this.recipe});
+  final RecipeVariant? variant;
+
+  const RecipeCard({super.key, required this.recipe, this.variant});
 
   @override
   Widget build(BuildContext context) {
@@ -21,15 +25,26 @@ class RecipeCard extends StatelessWidget {
     final colorScheme = theme.colorScheme;
     final textTheme = theme.textTheme;
 
+    final v = variant;
+    final palette = v == null ? null : VariantColors.paletteAt(v.id, colorScheme);
+    final foreground = palette?.onContainer ?? colorScheme.onSurface;
+    final statColor = palette?.onContainer ?? colorScheme.primary;
+    final title = (v != null && v.title.isNotEmpty) ? v.title : recipe.title.capitalize();
+
     return GestureDetector(
       onTap: () async {
-        await context.push<bool>('/recipe/${recipe.id}');
+        await context.push<bool>(
+          '/recipe/${recipe.id}${variant != null ? '?variant=${variant?.id}' : ''}',
+        );
+        // Recipe or variants may have been edited while away
+        if (context.mounted) context.read<HomePageViewModel>().refresh();
       },
       child: Card(
         elevation: 1,
+        color: palette?.container,
         child: Row(
           children: [
-            // Image Container
+            // Image
             SizedBox(
               width: 100,
               height: 100,
@@ -45,7 +60,7 @@ class RecipeCard extends StatelessWidget {
                 ),
               ),
             ),
-            // Text Content Area
+            // Text Content
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 3.0),
@@ -59,8 +74,11 @@ class RecipeCard extends StatelessWidget {
                       children: [
                         Expanded(
                           child: Text(
-                            recipe.title.capitalize(),
-                            style: textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
+                            title,
+                            style: textTheme.titleSmall?.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: foreground,
+                            ),
                             maxLines: 2,
                             overflow: .ellipsis,
                           ),
@@ -75,9 +93,7 @@ class RecipeCard extends StatelessWidget {
                         formattedSource(recipe.source),
                         maxLines: 1,
                         overflow: .ellipsis,
-                        style: textTheme.bodySmall?.copyWith(
-                          color: colorScheme.onSurface,
-                        ), // Use theme text style and color
+                        style: textTheme.bodySmall?.copyWith(color: foreground),
                       ),
                     // Stats Row
                     Row(
@@ -95,7 +111,7 @@ class RecipeCard extends StatelessWidget {
                                     iconPath: 'assets/icons/carbohydrates.svg',
                                     value: recipe.carbohydrates,
                                     unit: AppLocalizations.of(context)!.gps,
-                                    color: colorScheme.primary,
+                                    color: statColor,
                                   ),
                                   const SizedBox(width: 10),
                                 ],
@@ -110,7 +126,7 @@ class RecipeCard extends StatelessWidget {
                           iconPath: 'assets/icons/fire-filled.svg',
                           value: recipe.calories,
                           unit: AppLocalizations.of(context)!.kc,
-                          color: colorScheme.primary,
+                          color: statColor,
                         ),
                         const SizedBox(width: 8),
                         buildHeaderStat(
@@ -118,7 +134,7 @@ class RecipeCard extends StatelessWidget {
                           iconData: Icons.alarm,
                           value: recipe.time,
                           unit: AppLocalizations.of(context)!.min,
-                          color: colorScheme.primary,
+                          color: statColor,
                         ),
                       ],
                     ),

@@ -85,6 +85,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get save => 'Enregistrer';
 
   @override
+  String get saveRecipe => 'Enregistrer la recette et ses variantes';
+
+  @override
   String get delete => 'Supprimer';
 
   @override
@@ -373,7 +376,8 @@ class AppLocalizationsFr extends AppLocalizations {
   String get leave => 'Quitter';
 
   @override
-  String get unsavedChanges => 'Vous avez peut-être des changements non enregistrés.';
+  String get unsavedChanges =>
+      'Vous avez peut-être des modifications non enregistrées. Cliquez sur \'Enregistrer\' pour enregistrer toutes les modifications apportées à la recette et à ses variantes. Quittez pour les abandonner.';
 
   @override
   String get importRecipe => 'Importer';
@@ -908,6 +912,12 @@ class AppLocalizationsFr extends AppLocalizations {
   String get exportAsZip => 'Exporter en ZIP';
 
   @override
+  String get copyAsText => 'Copier le texte';
+
+  @override
+  String get recipeCopied => 'Recette copiée dans le presse-papiers';
+
+  @override
   String get exportFormatHint =>
       'Sélectionnez le format PDF pour imprimer ou lire sur un écran, et le format ZIP pour importer plus tard.';
 
@@ -940,4 +950,44 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get supportedWebsitesNote => 'Consultez la liste des sites web pris en charge sur:';
+
+  @override
+  String get variant => 'Variante';
+
+  @override
+  String get addVariant => 'Ajouter une variante';
+
+  @override
+  String get deleteVariant => 'Supprimer cette variante';
+
+  @override
+  String get deleteVariantQuestion => 'Supprimer cette variante ?';
+
+  @override
+  String deleteVariantConfirmation(Object variant) {
+    return 'La variante $variant sera supprimée.';
+  }
+
+  @override
+  String get deleteVariantWarning => 'La variante est supprimée.';
+
+  @override
+  String get overrideStep => 'Remplacer l\'étape';
+
+  @override
+  String get removeOverride => 'Restaurer l\'étape';
+
+  @override
+  String get exportRecipe => 'Exporter la recette';
+
+  @override
+  String get showVariants => 'Afficher les variantes';
+
+  @override
+  String get recipeSaved => 'Recette enregistrée';
+
+  @override
+  String variantSaved(Object variant) {
+    return 'Variante $variant enregistrée';
+  }
 }

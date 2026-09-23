@@ -1,58 +1,67 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 import 'package:shefu/l10n/app_localizations.dart';
-import 'package:shefu/models/objectbox_models.dart';
 import 'package:shefu/viewmodels/edit_recipe_viewmodel.dart';
 import 'package:shefu/widgets/edit_ingredient_input.dart';
 
 class IngredientsSection extends StatelessWidget {
   final EditRecipeViewModel viewModel;
   final int stepIndex;
+  final bool isVariant;
+  final bool isOverridden;
 
-  const IngredientsSection({super.key, required this.viewModel, required this.stepIndex});
+  const IngredientsSection({
+    super.key,
+    required this.viewModel,
+    required this.stepIndex,
+    this.isVariant = false,
+    this.isOverridden = false,
+  });
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
-    return Selector<EditRecipeViewModel, (List<IngredientItem>, int)>(
-      // Select only the ingredients for this specific step
-      selector: (_, vm) =>
-          (vm.recipe.steps[stepIndex].ingredients, vm.recipe.steps[stepIndex].ingredients.length),
-      builder: (context, data, _) {
-        final ingredients = data.$1;
-
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(l10n.ingredients, style: Theme.of(context).textTheme.titleMedium),
-            const Divider(),
-            if (ingredients.isEmpty)
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: Text(
-                  l10n.noIngredientsForStep,
-                  style: TextStyle(fontStyle: FontStyle.italic, color: Theme.of(context).hintColor),
-                ),
-              ),
-            ...List.generate(
-              ingredients.length,
-              (index) => Selector<EditRecipeViewModel, (String, int, int, String)>(
-                selector: (_, vm) {
-                  final ing = vm.recipe.steps[stepIndex].ingredients[index];
-                  return (ing.name, ing.foodId, ing.conversionId, ing.unit);
-                },
-                builder: (context, data, _) {
-                  return EditIngredientManager().editIngredientInput(
-                    context,
-                    viewModel,
-                    stepIndex,
-                    index,
-                  );
-                },
+    // The enclosing step card only rebuilds on step-level changes, so watch the
+    // ingredient count here: adding or removing a row must re-render the list.
+    return Selector<EditRecipeViewModel, int>(
+      selector: (_, vm) => vm.getTargetStep(stepIndex).ingredients.length,
+      builder: (context, ingredientCount, _) => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(l10n.ingredients, style: Theme.of(context).textTheme.titleMedium),
+          const Divider(),
+          if (ingredientCount == 0)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Text(
+                l10n.noIngredientsForStep,
+                style: TextStyle(fontStyle: FontStyle.italic, color: Theme.of(context).hintColor),
               ),
             ),
-            const SizedBox(height: 10),
+          ...List.generate(
+            ingredientCount,
+            (index) => Selector<EditRecipeViewModel, (String, int, int, String)?>(
+              selector: (_, vm) {
+                final ingredients = vm.getTargetStep(stepIndex).ingredients;
+                if (index >= ingredients.length) return null;
+                final ing = ingredients[index];
+                return (ing.name, ing.foodId, ing.conversionId, ing.unit);
+              },
+              builder: (context, data, _) {
+                if (data == null) return const SizedBox.shrink();
+                return EditIngredientManager().editIngredientInput(
+                  context,
+                  viewModel,
+                  stepIndex,
+                  index,
+                  readOnly: isVariant && !isOverridden,
+                );
+              },
+            ),
+          ),
+          const SizedBox(height: 10),
+          if (!isVariant || isOverridden)
             Align(
               alignment: Alignment.centerRight,
               child: ElevatedButton.icon(
@@ -69,9 +78,8 @@ class IngredientsSection extends StatelessWidget {
                 ),
               ),
             ),
-          ],
-        );
-      },
+        ],
+      ),
     );
   }
 }

@@ -3,21 +3,17 @@ import 'package:flag/flag.dart';
 import 'package:flutter/rendering.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:shefu/l10n/l10n_utils.dart';
 import 'package:shefu/router/app_scaffold.dart';
 import 'package:shefu/viewmodels/home_page_viewmodel.dart';
 import 'package:shefu/widgets/gradient_fade.dart';
+import 'package:shefu/widgets/home/add_recipe_fab.dart';
+import 'package:shefu/widgets/home/recipe_card_stack.dart';
 import 'package:shefu/widgets/open_modal_settings_button.dart';
-import 'package:shefu/repositories/objectbox_nutrient_repository.dart';
-import 'package:shefu/repositories/objectbox_recipe_repository.dart';
-import 'package:shefu/viewmodels/edit_recipe_viewmodel.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../l10n/app_localizations.dart';
 import '../models/objectbox_models.dart';
-import '../widgets/recipe_card.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -67,67 +63,11 @@ class _HomePageState extends State<HomePage> {
     final viewModel = Provider.of<HomePageViewModel>(context);
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-    final l10n = AppLocalizations.of(context)!;
 
     bool isHandset = MediaQuery.of(context).size.width < 550;
 
     return AppScaffold(
-      floatingActionButton: Row(
-        mainAxisAlignment: .end,
-        children: [
-          FloatingActionButton(
-            backgroundColor: colorScheme.secondary,
-            onPressed: () => context.go('/online-search'),
-            tooltip: 'Online Search',
-            child: Icon(Icons.travel_explore, color: theme.colorScheme.onSecondary),
-          ),
-          SizedBox(width: 4),
-          // FAB with PopupMenu
-          PopupMenuButton<String>(
-            onSelected: (String value) {
-              switch (value) {
-                case 'import_zip':
-                  importRecipesZip(context, theme);
-                  break;
-                case 'import_url':
-                  _importFromUrl(context, theme);
-                  break;
-                case 'write':
-                  addNewRecipe();
-                  break;
-              }
-            },
-            offset: Offset(0, -187),
-            popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 100)),
-            itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-              PopupMenuItem<String>(
-                value: 'import_zip',
-                child: ListTile(leading: Icon(Icons.folder_zip), title: Text(l10n.importFromZip)),
-              ),
-              PopupMenuItem<String>(
-                value: 'import_url',
-                child: ListTile(leading: Icon(Icons.link), title: Text(l10n.importFromUrl)),
-              ),
-              PopupMenuItem<String>(
-                value: 'write',
-                child: ListTile(leading: Icon(Icons.edit_note), title: Text(l10n.writeRecipe)),
-              ),
-            ],
-            child: FloatingActionButton.extended(
-              onPressed: null,
-              backgroundColor: colorScheme.secondary,
-              tooltip: AppLocalizations.of(context)!.addRecipe,
-              icon: Icon(Icons.add, color: theme.colorScheme.onSecondary),
-              label: Text(
-                AppLocalizations.of(context)!.addRecipe,
-                style: TextStyle(color: theme.colorScheme.onSecondary),
-              ),
-              heroTag: 'homePageAddRecipe',
-              key: const Key('AddRecipe'),
-            ),
-          ),
-        ],
-      ),
+      floatingActionButton: addRecipeButton(context, viewModel),
       child: Column(
         children: [
           // Search and Filter Bar
@@ -138,7 +78,7 @@ class _HomePageState extends State<HomePage> {
               right: 10,
               bottom: 0,
             ),
-            color: Theme.of(context).colorScheme.secondary,
+            color: Theme.of(context).colorScheme.primary,
             child: Row(
               children: [
                 // Search TextField
@@ -200,7 +140,7 @@ class _HomePageState extends State<HomePage> {
 
           // Section 1.5 - Dropdowns for Country and Category
           Container(
-            color: Theme.of(context).colorScheme.secondary,
+            color: Theme.of(context).colorScheme.primary,
             child: Row(
               mainAxisAlignment: .end,
               children: [
@@ -213,7 +153,7 @@ class _HomePageState extends State<HomePage> {
                   ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: theme.colorScheme.tertiary.withAlpha(200),
-                      side: BorderSide(color: theme.colorScheme.onSecondary.withAlpha(175)),
+                      side: BorderSide(color: theme.colorScheme.onPrimary.withAlpha(175)),
                       elevation: 2,
                     ),
                     icon: Icon(Icons.refresh, color: theme.colorScheme.onTertiary),
@@ -225,10 +165,8 @@ class _HomePageState extends State<HomePage> {
                     },
                     label: Text(
                       AppLocalizations.of(context)!.resetFilters,
-                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                        color: Theme.of(context).colorScheme.onTertiary,
-                        fontSize: 12,
-                      ),
+                      style: Theme.of(context).textTheme.labelSmall
+                          ?.copyWith(color: Theme.of(context).colorScheme.onTertiary, fontSize: 12),
                     ),
                   ),
                 const SizedBox(width: 10), // Spacing
@@ -283,12 +221,12 @@ class _HomePageState extends State<HomePage> {
                           if (!snapshot.hasData) {
                             return const Center(child: CircularProgressIndicator());
                           } else {
-                            final filteredRecipes = viewModel.getFilteredRecipes(
+                            final displayedRecipes = viewModel.getFilteredRecipes(
                               snapshot.data!,
                               viewModel.searchTerm,
                             );
 
-                            return filteredRecipes.isEmpty
+                            return displayedRecipes.isEmpty
                                 ? Center(
                                     child: Text(
                                       AppLocalizations.of(context)!.noRecipe,
@@ -304,22 +242,41 @@ class _HomePageState extends State<HomePage> {
                                       // allow selection of last recipe even with FAB
                                       MediaQuery.of(context).padding.bottom + 78.0,
                                     ),
-                                    itemCount: filteredRecipes.length,
-                                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                    itemCount: displayedRecipes.length,
+                                    // we need a custom delegate to handle dynamic height of cards
+                                    gridDelegate: RecipeCardGridDelegate(
                                       crossAxisCount: isHandset ? 1 : 2,
-                                      childAspectRatio:
-                                          (MediaQuery.of(context).size.width / (isHandset ? 1 : 2) -
-                                              (isHandset
-                                                  ? 32 // Total horizontal padding
-                                                  : 42)) / // Padding + spacing for 2 columns
-                                          100, // Target height
+                                      itemHeights: [
+                                        for (final entry in displayedRecipes.reversed)
+                                          100.0 +
+                                              (entry.isVariant
+                                                  ? 0
+                                                  : viewModel
+                                                            .variantsMatchingSearch(
+                                                              entry.recipe,
+                                                              viewModel.searchTerm,
+                                                            )
+                                                            .length *
+                                                        25.0),
+                                      ],
                                     ),
                                     scrollCacheExtent: ScrollCacheExtent.viewport(20),
                                     itemBuilder: (context, index) {
                                       // Reverse the index to show the last recipe first
-                                      final reverseIndex = filteredRecipes.length - 1 - index;
+                                      final reverseIndex = displayedRecipes.length - 1 - index;
+                                      final entry = displayedRecipes[reverseIndex];
+                                      final variants = entry.isVariant
+                                          ? [entry.variant!]
+                                          : viewModel.variantsMatchingSearch(
+                                              entry.recipe,
+                                              viewModel.searchTerm,
+                                            );
                                       return RepaintBoundary(
-                                        child: RecipeCard(recipe: filteredRecipes[reverseIndex]),
+                                        child: recipeCardStack(
+                                          entry.recipe,
+                                          variants,
+                                          includeRecipe: !entry.isVariant,
+                                        ),
                                       );
                                     },
                                   );
@@ -335,116 +292,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void addNewRecipe() async {
-    final viewModel = context.read<HomePageViewModel>();
-    final int? newRecipeId = await viewModel.addNewRecipe(context);
-    if (newRecipeId != null && mounted) {
-      await context.push('/edit-recipe/$newRecipeId?new=1');
-    }
-  }
-
-  Future<void> _importFromUrl(BuildContext context, ThemeData theme) async {
-    final l10n = AppLocalizations.of(context)!;
-    final repo = context.read<ObjectBoxRecipeRepository>();
-    final nutrientRepo = context.read<ObjectBoxNutrientRepository>();
-    final messenger = ScaffoldMessenger.maybeOf(context);
-    final urlController = TextEditingController();
-    bool confirmed = false;
-    await showDialog(
-      context: context,
-      builder: (dialogContext) {
-        return AlertDialog(
-          title: Row(
-            children: [
-              Expanded(child: Text(l10n.importFromUrl)),
-              IconButton(
-                icon: const Icon(Icons.close),
-                tooltip: l10n.cancel,
-                onPressed: () => Navigator.of(dialogContext).pop(),
-                iconSize: 24,
-                splashRadius: 24,
-              ),
-            ],
-          ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: urlController,
-                autofocus: true,
-                keyboardType: TextInputType.url,
-                decoration: InputDecoration(
-                  labelText: l10n.source,
-                  border: const OutlineInputBorder(),
-                ),
-              ),
-              Text(l10n.supportedWebsitesNote),
-              GestureDetector(
-                onTap: () async {
-                  if (!await launchUrl(
-                    Uri.parse("https://github.com/lenios/shefu/blob/main/supported_websites.md"),
-                  )) {
-                    throw Exception('Could not launch url');
-                  }
-                },
-                child: Text(
-                  "https://github.com/lenios/shefu/blob/main/supported_websites.md",
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Theme.of(context).colorScheme.primary,
-                    decoration: TextDecoration.underline,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          actions: <Widget>[
-            OutlinedButton(
-              onPressed: () => Navigator.pop(dialogContext),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(Icons.cancel_outlined),
-                  SizedBox(width: 5),
-                  Text(l10n.cancel),
-                ],
-              ),
-            ),
-            FilledButton(
-              onPressed: () {
-                confirmed = urlController.text.trim().isNotEmpty;
-                Navigator.pop(dialogContext);
-              },
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [const Icon(Icons.download), SizedBox(width: 5), Text(l10n.importRecipe)],
-              ),
-            ),
-          ],
-        );
-      },
-    );
-    if (!confirmed || !mounted) {
-      return;
-    }
-    final viewModel = EditRecipeViewModel(repo, nutrientRepo, 0, true);
-    try {
-      await viewModel.scrapeData(urlController.text.trim(), l10n);
-      await repo.saveRecipe(viewModel.recipe);
-      if (mounted) {
-        messenger?.showSnackBar(SnackBar(content: Text(l10n.recipeImportedSuccessfully)));
-      }
-    } catch (_) {
-      if (mounted) {
-        messenger?.showSnackBar(
-          SnackBar(content: Text(l10n.scrapeError), backgroundColor: theme.colorScheme.error),
-        );
-      }
-    }
-    viewModel.dispose();
-    urlController.dispose();
-  }
-
   Future<Widget> categoryDropdown() async {
     final viewModel = context.read<HomePageViewModel>();
     final categories = await viewModel.getAvailableCategories();
@@ -458,17 +305,15 @@ class _HomePageState extends State<HomePage> {
         constraints: const BoxConstraints(maxWidth: 130),
         child: DropdownButton<Category>(
           isExpanded: true,
-          dropdownColor: Theme.of(context).colorScheme.secondary,
-          style: Theme.of(
-            context,
-          ).textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.onSecondary),
-          icon: Icon(Icons.arrow_drop_down, color: Theme.of(context).colorScheme.onSecondary),
+          dropdownColor: Theme.of(context).colorScheme.primary,
+          style: Theme.of(context).textTheme.bodyMedium
+              ?.copyWith(color: Theme.of(context).colorScheme.onPrimary),
+          icon: Icon(Icons.arrow_drop_down, color: Theme.of(context).colorScheme.onPrimary),
           value: viewModel.selectedCategory ?? Category.all,
           hint: Text(
             AppLocalizations.of(context)!.category,
-            style: Theme.of(
-              context,
-            ).textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.onSecondary),
+            style: Theme.of(context).textTheme.bodyMedium
+                ?.copyWith(color: Theme.of(context).colorScheme.onPrimary),
             overflow: TextOverflow.ellipsis,
           ),
 
@@ -478,9 +323,8 @@ class _HomePageState extends State<HomePage> {
                 value: e,
                 child: Text(
                   AppLocalizations.of(context)!.category,
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: Theme.of(context).colorScheme.onSecondary,
-                  ),
+                  style: Theme.of(context).textTheme.bodyMedium
+                      ?.copyWith(color: Theme.of(context).colorScheme.onPrimary),
                 ),
               );
             }
@@ -518,17 +362,15 @@ class _HomePageState extends State<HomePage> {
         constraints: const BoxConstraints(maxWidth: 120),
         child: DropdownButton<String>(
           isExpanded: true,
-          dropdownColor: Theme.of(context).colorScheme.secondary,
-          style: Theme.of(
-            context,
-          ).textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.onSecondary),
-          icon: Icon(Icons.arrow_drop_down, color: Theme.of(context).colorScheme.onSecondary),
+          dropdownColor: Theme.of(context).colorScheme.primary,
+          style: Theme.of(context).textTheme.bodyMedium
+              ?.copyWith(color: Theme.of(context).colorScheme.onPrimary),
+          icon: Icon(Icons.arrow_drop_down, color: Theme.of(context).colorScheme.onPrimary),
           value: viewModel.countryCode.isEmpty ? null : viewModel.countryCode,
           hint: Text(
             AppLocalizations.of(context)!.country,
-            style: Theme.of(
-              context,
-            ).textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.onSecondary),
+            style: Theme.of(context).textTheme.bodyMedium
+                ?.copyWith(color: Theme.of(context).colorScheme.onPrimary),
 
             overflow: TextOverflow.ellipsis,
           ),
@@ -538,9 +380,8 @@ class _HomePageState extends State<HomePage> {
                 value: "",
                 child: Text(
                   AppLocalizations.of(context)!.allCountries,
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: Theme.of(context).colorScheme.onSecondary,
-                  ),
+                  style: Theme.of(context).textTheme.bodyMedium
+                      ?.copyWith(color: Theme.of(context).colorScheme.onPrimary),
                 ),
               );
             }

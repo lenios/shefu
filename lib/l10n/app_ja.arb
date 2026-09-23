@@ -25,6 +25,7 @@
     "step": "手順",
     "steps": "手順",
     "save": "保存",
+    "saveRecipe": "レシピとすべてのバリエーションを保存",
     "delete": "削除",
     "deleteRecipe": "レシピを削除",
     "title": "タイトル",
@@ -119,7 +120,7 @@
     "noMatchingNutrient": "該当する栄養素が見つかりませんでした",
     "leaveWithoutSaving": "保存せずに終了しますか？",
     "leave": "終了",
-    "unsavedChanges": "保存されていない変更があるかもしれません。",
+    "unsavedChanges": "保存されていない変更がある可能性があります。「保存」を押すと、レシピとそのバリエーションのすべての変更が保存されます。「終了」を押すと破棄されます。",
     "importRecipe": "インポート",
     "importRecipeConfirmation": "{url}からレシピをインポートしますか？この場合、現在のタイトル、手順、画像が上書きされます。",
     "scrapeError": "URLからレシピデータの取得に失敗しました。",
@@ -300,6 +301,8 @@
     "importInternalError": "インポートに失敗しました。内部エラーです。https://github.com/lenios/shefu/issues からバグを報告し、可能な場合はインポートファイルも添付して解析にご協力ください。",
     "exportAsPdf": "PDFとしてエクスポート",
     "exportAsZip": "ZIPとしてエクスポート",
+    "copyAsText": "テキストとしてコピー",
+    "recipeCopied": "レシピをクリップボードにコピーしました",
     "exportFormatHint": "印刷や画面での表示にはPDFフォーマットを、今後のインポートにはZIPフォーマットを選択してください。",
     "exportCount": "{count}件のレシピをエクスポート",
     "zipSavedTo": "{path}に保存しました",
@@ -311,5 +314,27 @@
     "selectAll": "すべてを選択",
     "deselectAll": "選択をすべて解除",
     "invalidZipFile": "無効なファイル：このZIPファイルはShefuのエクスポートアーカイブではありません。",
-    "supportedWebsitesNote": "サポートされているウェブサイトのリストはこちら："
+    "supportedWebsitesNote": "サポートされているウェブサイトのリストはこちら：",
+    "variant": "バリエーション",
+    "addVariant": "バリエーションを追加",
+    "deleteVariant": "バリエーションを削除",
+    "deleteVariantQuestion": "このバリエーションを削除しますか？",
+    "deleteVariantConfirmation": "「{variant}」バリエーションは削除されます。",
+    "@deleteVariantConfirmation": {
+      "placeholders": {
+        "variant": {}
+      }
+    },
+    "deleteVariantWarning": "このバリエーションと上書きしたステップが削除されます。元のレシピは変更されません。",
+    "overrideStep": "上書き",
+    "removeOverride": "上書きを解除",
+    "exportRecipe": "レシピをエクスポート",
+    "showVariants": "レシピのバリエーションを表示",
+    "recipeSaved": "レシピを保存しました",
+    "variantSaved": "「{variant}」のバリエーションを保存しました",
+    "@variantSaved": {
+      "placeholders": {
+        "variant": {}
+      }
+    }
 }

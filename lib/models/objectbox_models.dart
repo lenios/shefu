@@ -41,6 +41,9 @@ class Recipe {
   @Backlink('recipe')
   final steps = ToMany<RecipeStep>();
 
+  @Backlink('recipe')
+  final variants = ToMany<RecipeVariant>();
+
   List<Tag> tags = ToMany<Tag>();
 
   Recipe({
@@ -76,6 +79,8 @@ class Recipe {
 
   Map<String, dynamic> toMap() {
     final steps = List<RecipeStep>.from(this.steps)..sort((a, b) => a.order.compareTo(b.order));
+    final variants = List<RecipeVariant>.from(this.variants)
+      ..sort((a, b) => a.title.compareTo(b.title));
     return {
       'id': id,
       'title': title,
@@ -129,6 +134,35 @@ class Recipe {
             ],
           },
       ],
+      'variants': [
+        for (final v in variants)
+          {
+            'title': v.title,
+            'steps': [
+              for (int j = 0; j < v.steps.length; j++)
+                {
+                  'order': v.steps[j].order,
+                  'name': v.steps[j].name,
+                  'instruction': v.steps[j].instruction,
+                  'imageFile': imageFileName(v.steps[j].imagePath, id, j),
+                  'videoUrl': v.steps[j].videoUrl,
+                  'timer': v.steps[j].timer,
+                  'ingredients': [
+                    for (final ing in v.steps[j].ingredients)
+                      {
+                        'name': ing.name,
+                        'unit': ing.unit,
+                        'quantity': ing.quantity,
+                        'shape': ing.shape,
+                        'foodId': ing.foodId,
+                        'conversionId': ing.conversionId,
+                        'optional': ing.optional,
+                      },
+                  ],
+                },
+            ],
+          },
+      ],
     };
   }
 
@@ -171,33 +205,23 @@ class Recipe {
     final rawSteps = m['steps'];
     if (rawSteps is List) {
       for (final s in rawSteps) {
-        final sm = s as Map<String, dynamic>;
-        final step = RecipeStep(
-          name: _str(sm, 'name'),
-          instruction: _str(sm, 'instruction'),
-          imagePath: _str(sm, 'imageFile'),
-          videoUrl: _str(sm, 'videoUrl'),
-          timer: _int(sm, 'timer'),
-          order: _int(sm, 'order'),
-        );
-        final rawIngs = sm['ingredients'];
-        if (rawIngs is List) {
-          for (final im in rawIngs) {
-            final inm = im as Map<String, dynamic>;
-            step.ingredients.add(
-              IngredientItem(
-                name: _str(inm, 'name'),
-                unit: _str(inm, 'unit'),
-                quantity: _double(inm, 'quantity'),
-                shape: _str(inm, 'shape'),
-                foodId: _int(inm, 'foodId'),
-                conversionId: _int(inm, 'conversionId'),
-                optional: (inm['optional'] as bool?) ?? false,
-              ),
-            );
+        steps.add(RecipeStep.fromMap(s as Map<String, dynamic>));
+      }
+    }
+
+    final rawVariants = m['variants'];
+    if (rawVariants is List) {
+      for (final vRaw in rawVariants) {
+        final vm = vRaw as Map<String, dynamic>;
+        final variant = RecipeVariant(title: _str(vm, 'title'))
+          ..recipe.target = this; // TODO check if needed
+        final rawVSteps = vm['steps'];
+        if (rawVSteps is List) {
+          for (final s in rawVSteps) {
+            variant.steps.add(RecipeStep.fromMap(s as Map<String, dynamic>));
           }
         }
-        steps.add(step);
+        variants.add(variant);
       }
     }
   }
@@ -235,6 +259,7 @@ class RecipeStep {
   int order;
 
   final recipe = ToOne<Recipe>();
+  final variant = ToOne<RecipeVariant>();
 
   @Backlink()
   final ingredients = ToMany<IngredientItem>();
@@ -248,6 +273,51 @@ class RecipeStep {
     this.timer = 0,
     this.order = 0,
   });
+
+  RecipeStep.fromMap(Map<String, dynamic> sm)
+    : id = 0,
+      name = _str(sm, 'name'),
+      instruction = _str(sm, 'instruction'),
+      imagePath = _str(sm, 'imageFile'),
+      videoUrl = _str(sm, 'videoUrl'),
+      timer = _int(sm, 'timer'),
+      order = _int(sm, 'order') {
+    final rawIngs = sm['ingredients'];
+    if (rawIngs is List) {
+      for (final im in rawIngs) {
+        final inm = im as Map<String, dynamic>;
+        ingredients.add(
+          IngredientItem(
+            name: _str(inm, 'name'),
+            unit: _str(inm, 'unit'),
+            quantity: _double(inm, 'quantity'),
+            shape: _str(inm, 'shape'),
+            foodId: _int(inm, 'foodId'),
+            conversionId: _int(inm, 'conversionId'),
+            optional: (inm['optional'] as bool?) ?? false,
+          ),
+        );
+      }
+    }
+  }
+}
+
+@Entity()
+class RecipeVariant {
+  @Id()
+  int id;
+
+  String title;
+
+  final recipe = ToOne<Recipe>();
+
+  @Backlink('variant')
+  final steps = ToMany<RecipeStep>();
+
+  RecipeVariant({this.id = 0, this.title = ""});
+
+  //@override
+  //String toString() => title;
 }
 
 @Entity()
@@ -455,10 +525,12 @@ class Conversion {
 }
 
 /// Zip entry name for an image path, or null when the path is empty.
-String? imageFileName(String? imagePath, int recipeId, int? stepIndex) {
+/// Variant step images are prefixed `v<variantIndex>-`
+String? imageFileName(String? imagePath, int recipeId, int? stepIndex, [int? variantIndex]) {
   final cleanPath = PathUtils.cleanPath(imagePath ?? '');
   if (cleanPath.isEmpty) return null;
-  return '${recipeId}_${stepIndex ?? 'main'}${p.extension(cleanPath)}';
+  final label = variantIndex == null ? '${stepIndex ?? 'main'}' : 'v$variantIndex-$stepIndex';
+  return '${recipeId}_$label${p.extension(cleanPath)}';
 }
 
 // Helpers for fromMap, to handle optional values

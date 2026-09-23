@@ -8,7 +8,7 @@ import 'package:shefu/l10n/app_localizations.dart';
 Future<bool?> confirmationDialog(
   BuildContext context, {
   required String title,
-  required String content,
+  String? content,
   required IconData icon,
   required String label,
   bool warning = false,
@@ -36,7 +36,7 @@ Future<bool?> confirmationDialog(
           ),
         ],
       ),
-      content: Text(content),
+      content: content == null ? null : Text(content),
       actions: <Widget>[
         cancelIcon != null
             ? OutlinedButton.icon(

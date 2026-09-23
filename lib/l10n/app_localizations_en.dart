@@ -85,6 +85,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get save => 'Save';
 
   @override
+  String get saveRecipe => 'Save recipe and all variants';
+
+  @override
   String get delete => 'Delete';
 
   @override
@@ -371,7 +374,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get leave => 'Leave';
 
   @override
-  String get unsavedChanges => 'You may have unsaved changes.';
+  String get unsavedChanges =>
+      'You may have unsaved changes. Click \'Save\' to save all changes, in the recipe and its variants. Leave to discard.';
 
   @override
   String get importRecipe => 'Import';
@@ -903,6 +907,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get exportAsZip => 'Export as ZIP';
 
   @override
+  String get copyAsText => 'Copy as text';
+
+  @override
+  String get recipeCopied => 'Recipe copied to the clipboard';
+
+  @override
   String get exportFormatHint =>
       'Select PDF format to print or view on a screen, and ZIP format to import later.';
 
@@ -934,4 +944,44 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get supportedWebsitesNote => 'See the list of supported websites at: ';
+
+  @override
+  String get variant => 'Variant';
+
+  @override
+  String get addVariant => 'Add variant';
+
+  @override
+  String get deleteVariant => 'Delete variant';
+
+  @override
+  String get deleteVariantQuestion => 'Delete this variant?';
+
+  @override
+  String deleteVariantConfirmation(Object variant) {
+    return 'The $variant variant will be deleted.';
+  }
+
+  @override
+  String get deleteVariantWarning => 'The variant is deleted.';
+
+  @override
+  String get overrideStep => 'Override';
+
+  @override
+  String get removeOverride => 'Remove override';
+
+  @override
+  String get exportRecipe => 'Export recipe';
+
+  @override
+  String get showVariants => 'Display the recipe variants';
+
+  @override
+  String get recipeSaved => 'Recipe saved';
+
+  @override
+  String variantSaved(Object variant) {
+    return 'Variant $variant saved';
+  }
 }

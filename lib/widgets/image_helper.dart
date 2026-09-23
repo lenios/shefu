@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:flutter/foundation.dart' show compute;
 import 'package:material_ui/material_ui.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
@@ -8,37 +9,11 @@ import 'package:image/image.dart' as i;
 import 'package:shefu/utils/path_utils.dart';
 import 'package:image_picker/image_picker.dart';
 
-// Simple LRU cache for image data
-class ImageCache {
-  static final _cache = <String, Uint8List>{};
-  static const _maxSize = 30; // Maximum number of images to keep in memory
+/// Width of the generated thumbnails, in pixels.
+const _thumbnailWidth = 250;
 
-  static Uint8List? get(String key) {
-    final data = _cache[key];
-    if (data != null) {
-      // Move to end (most recently used)
-      _cache.remove(key);
-      _cache[key] = data;
-    }
-    return data;
-  }
-
-  static void put(String key, Uint8List data) {
-    // Remove oldest entry if cache is full
-    if (_cache.length >= _maxSize && !_cache.containsKey(key)) {
-      _cache.remove(_cache.keys.first);
-    }
-    _cache[key] = data;
-  }
-
-  static void clear() {
-    _cache.clear();
-  }
-
-  static void remove(String key) {
-    _cache.remove(key);
-  }
-}
+/// JPEG quality of the generated thumbnails.
+const _thumbnailQuality = 80;
 
 // Update your saveImage method to handle XFile properly
 Future<String> saveImage({
@@ -67,13 +42,7 @@ Future<String> saveImage({
   try {
     // Save original image
     await File(filePath).writeAsBytes(bytes);
-
-    // Generate and save thumbnail
-    final decodedImage = i.decodeImage(bytes);
-    if (decodedImage != null) {
-      final thumbnail = i.copyResize(decodedImage, width: 250);
-      await File(PathUtils.thumbnailPath(filePath)).writeAsBytes(i.encodePng(thumbnail));
-    }
+    await _writeThumbnail(bytes, PathUtils.thumbnailPath(filePath));
 
     return filePath;
   } catch (e) {
@@ -88,142 +57,49 @@ Widget buildFutureImageWidget(
   double? width,
   double? height,
 }) {
-  Widget imageWidget;
-
-  final imageSize = MediaQuery.of(context).size.width * 1 / 3;
-  if (imagePath.isNotEmpty) {
-    final imageFile = File(PathUtils.cleanPath(imagePath));
-    // Check if file exists before attempting to read it
-    if (!imageFile.existsSync()) {
-      debugPrint("Image file does not exist: '$imagePath'");
-      return Center(
-        child: Icon(
-          Icons.broken_image,
-          size: imageSize * 0.5,
-          color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
-        ),
-      );
-    }
-
-    // Try to get image from cache first
-    final cachedData = ImageCache.get(imageFile.path);
-
-    if (cachedData != null) {
-      // Use cached data directly
-      return Image.memory(
-        cachedData,
-        key: ValueKey<String>('image-memory-$imagePath'),
-        width: width ?? imageSize,
-        height: height ?? imageSize,
-        fit: BoxFit.cover,
-        gaplessPlayback: true,
-        errorBuilder: (context, error, stackTrace) {
-          debugPrint("Error displaying cached image from '$imagePath': $error");
-          return Center(
-            child: Icon(
-              Icons.broken_image,
-              size: imageSize * 0.5,
-              color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
-            ),
-          );
-        },
-      );
-    }
-
-    // If not in cache, load asynchronously
-    imageWidget = FutureBuilder<Uint8List>(
-      key: ValueKey<String>('image-$imagePath'),
-      future: imageFile.readAsBytes().then((data) {
-        ImageCache.put(imageFile.path, data); // Store in cache
-        return data;
-      }),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
-            child: SizedBox(
-              width: imageSize * 0.3, // Smaller indicator
-              height: imageSize * 0.3,
-              child: CircularProgressIndicator(
-                strokeWidth: 2,
-                color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
-              ),
-            ),
-          );
-        } else if (snapshot.hasError) {
-          debugPrint("Error loading header image async '$imagePath': ${snapshot.error}");
-          // Show placeholder on error
-          return Center(
-            child: Icon(
-              Icons.broken_image,
-              size: imageSize * 0.5,
-              color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
-            ),
-          );
-        } else if (snapshot.hasData) {
-          // Display image using Image.memory
-          return Image.memory(
-            snapshot.data!,
-            key: ValueKey<String>('image-memory-$imagePath'),
-            width: width ?? imageSize,
-            height: height ?? imageSize,
-            fit: BoxFit.cover,
-            gaplessPlayback: true,
-            errorBuilder: (context, error, stackTrace) {
-              debugPrint("Error displaying header image bytes from '$imagePath': $error");
-              return Center(
-                child: Icon(
-                  Icons.broken_image,
-                  size: imageSize * 0.5,
-                  color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
-                ),
-              );
-            },
-          );
-        } else {
-          // Fallback placeholder
-          return Center(
-            child: Icon(
-              Icons.broken_image,
-              size: imageSize * 0.5,
-              color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
-            ),
-          );
-        }
-      },
-    );
-  } else {
-    // Placeholder if imagePath is empty initially
-    imageWidget = Center(
-      child: Icon(
-        Icons.image_not_supported,
-        size: imageSize * 0.5,
-        color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
-      ),
-    );
+  final fallbackSize = MediaQuery.sizeOf(context).width / 3;
+  final cleanPath = PathUtils.cleanPath(imagePath);
+  if (cleanPath.isEmpty) {
+    return _imagePlaceholder(context, Icons.image_not_supported, fallbackSize);
   }
-  return imageWidget;
+
+  final displayWidth = width ?? fallbackSize;
+  return Image.file(
+    File(cleanPath),
+    width: displayWidth,
+    height: height ?? fallbackSize,
+    cacheWidth: (displayWidth * MediaQuery.devicePixelRatioOf(context)).round(),
+    fit: BoxFit.cover,
+    gaplessPlayback: true,
+    filterQuality: FilterQuality.medium,
+    errorBuilder: (context, error, stackTrace) {
+      debugPrint("Error displaying image '$imagePath': $error");
+      return _imagePlaceholder(context, Icons.broken_image, fallbackSize);
+    },
+  );
 }
 
+Widget _imagePlaceholder(BuildContext context, IconData icon, double size) => Center(
+  child: Icon(
+    icon,
+    size: size * 0.5,
+    color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
+  ),
+);
+
+/// Drops cached frames and resolved paths after [imagePath] changed on disk.
 void clearImageCache(String? imagePath) {
-  if (imagePath != null && imagePath.isNotEmpty) {
-    ImageCache.remove(imagePath); // TODO remove?
-    ImageCache.remove(PathUtils.cleanPath(imagePath));
-    ImageCache.remove(PathUtils.thumbnailPath(imagePath));
-  }
+  if (imagePath == null || imagePath.isEmpty) return;
+  PaintingBinding.instance.imageCache
+    ..clear()
+    ..clearLiveImages();
 }
 
 Future<void> regenerateThumbnail(String imagePath) async {
   try {
     final file = File(PathUtils.cleanPath(imagePath));
     if (await file.exists()) {
-      final bytes = await file.readAsBytes();
-      final decodedImage = i.decodeImage(bytes);
-      if (decodedImage != null) {
-        final thumbnail = i.copyResize(decodedImage, width: 250);
-        final thumbPath = PathUtils.thumbnailPath(imagePath);
-        await File(thumbPath).writeAsBytes(i.encodePng(thumbnail));
-        ImageCache.remove(thumbPath);
-      }
+      await _writeThumbnail(await file.readAsBytes(), PathUtils.thumbnailPath(imagePath));
     }
   } catch (e) {
     debugPrint("Error regenerating thumbnail: $e");
@@ -234,13 +110,24 @@ Future<void> updateImageWithThumbnail(String sourcePath, String destinationPath)
   try {
     final bytes = await File(PathUtils.cleanPath(sourcePath)).readAsBytes();
     await File(PathUtils.cleanPath(destinationPath)).writeAsBytes(bytes);
-    final decodedImage = i.decodeImage(bytes);
-    if (decodedImage != null) {
-      final thumbnail = i.copyResize(decodedImage, width: 250);
-      await File(PathUtils.thumbnailPath(destinationPath)).writeAsBytes(i.encodePng(thumbnail));
-    }
+    await _writeThumbnail(bytes, PathUtils.thumbnailPath(destinationPath));
     clearImageCache(destinationPath);
   } catch (e) {
     debugPrint('Error updating image and thumbnail: $e');
   }
+}
+
+Future<void> _writeThumbnail(Uint8List bytes, String thumbnailPath) async {
+  if (thumbnailPath.isEmpty) return;
+  final thumbnail = await compute(_encodeThumbnail, bytes, debugLabel: "encode thumbnail");
+  if (thumbnail == null) return;
+  await File(thumbnailPath).writeAsBytes(thumbnail);
+  clearImageCache(thumbnailPath);
+}
+
+/// Decodes, downscales and re-encodes a picture; runs off the UI isolate.
+Uint8List? _encodeThumbnail(Uint8List bytes) {
+  final decoded = i.decodeImage(bytes);
+  if (decoded == null) return null;
+  return i.encodeJpg(i.copyResize(decoded, width: _thumbnailWidth), quality: _thumbnailQuality);
 }

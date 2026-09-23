@@ -6,6 +6,7 @@ import 'package:shefu/l10n/app_localizations.dart';
 import 'package:shefu/models/objectbox_models.dart';
 import 'package:shefu/provider/my_app_state.dart';
 import 'package:shefu/utils/path_utils.dart';
+import 'package:shefu/utils/variant_colors.dart';
 import 'package:shefu/utils/string_extension.dart';
 import 'package:shefu/viewmodels/display_recipe_viewmodel.dart';
 import 'package:shefu/views/full_screen_image.dart';
@@ -15,8 +16,10 @@ import 'package:shefu/widgets/display_recipe/build_notes_view.dart';
 import 'package:shefu/widgets/display_recipe/build_nutrition_view.dart';
 import 'package:shefu/widgets/display_recipe/build_shopping_list.dart';
 import 'package:shefu/widgets/display_recipe/build_steps_view.dart';
+import 'package:shefu/widgets/display_recipe/copy_recipe_text.dart';
 import 'package:shefu/widgets/display_recipe/export_recipe_to_pdf.dart';
 import 'package:shefu/widgets/display_recipe/export_recipe_to_zip.dart';
+import 'package:shefu/widgets/display_recipe/switch_variant_button.dart';
 import 'package:shefu/widgets/icon_button.dart';
 import 'package:shefu/widgets/image_helper.dart';
 import 'package:shefu/widgets/misc.dart';
@@ -91,6 +94,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                       Tab(text: AppLocalizations.of(context)!.notes),
                       Tab(text: AppLocalizations.of(context)!.nutrition),
                     ],
+                    labelPadding: const EdgeInsets.symmetric(horizontal: 4),
                   ),
                 ),
                 // Page content
@@ -142,6 +146,8 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
 
   Widget _buildHeader(BuildContext context, DisplayRecipeViewModel viewModel, String imagePath) {
     final recipe = viewModel.recipe!;
+    final headerBg = _headerColor(context, viewModel);
+    final headerFg = _headerTextColor(context, viewModel);
     final screenSize = MediaQuery.of(context).size;
     final isLandscape = screenSize.width > screenSize.height;
 
@@ -152,7 +158,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
 
     return Container(
       padding: EdgeInsets.only(top: totalTopPadding),
-      color: Theme.of(context).colorScheme.secondary,
+      color: headerBg,
       child: Row(
         children: [
           // Image Container
@@ -199,14 +205,10 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                         child: Container(
                           padding: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.onSecondary.withAlpha(115),
+                            color: headerFg.withAlpha(115),
                             shape: BoxShape.circle,
                           ),
-                          child: Icon(
-                            Icons.play_arrow_rounded,
-                            color: Theme.of(context).colorScheme.secondary,
-                            size: 28,
-                          ),
+                          child: Icon(Icons.play_arrow_rounded, color: headerBg, size: 28),
                         ),
                       ),
                     ),
@@ -227,18 +229,32 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                     children: [
                       Expanded(
                         child: Text(
-                          recipe.title.capitalize(),
-                          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            fontWeight: FontWeight.w600,
-                            color: Theme.of(context).colorScheme.onSecondary,
-                          ),
+                          viewModel.variantTitle.capitalize(),
+                          style: Theme.of(context).textTheme.titleLarge
+                              ?.copyWith(fontWeight: FontWeight.w600, color: headerFg),
 
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
                       const SizedBox(width: 4),
-                      flagIcon(recipe.countryCode),
+                      Column(
+                        children: [
+                          flagIcon(recipe.countryCode),
+                          if (viewModel.variants.isNotEmpty)
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: variantSwitchButton(
+                                context: context,
+                                originalTitle: recipe.title,
+                                variants: viewModel.variants,
+                                activeVariantId: viewModel.activeVariantId,
+                                onSelected: viewModel.setActiveVariant,
+                                iconColor: headerFg,
+                              ),
+                            ),
+                        ],
+                      ),
                     ],
                   ),
                   // Servings Controls, if servings > 0
@@ -249,7 +265,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                           children: [
                             Text(
                               "${AppLocalizations.of(context)!.servings}: ",
-                              style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
+                              style: TextStyle(color: headerFg),
                             ),
                           ],
                         ),
@@ -278,8 +294,8 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                             Icons.menu_book,
                             size: 24,
                             color: viewModel.useRecipeServings
-                                ? Theme.of(context).colorScheme.onPrimary.withAlpha(120)
-                                : Theme.of(context).colorScheme.onPrimary,
+                                ? headerFg.withValues(alpha: 0.5)
+                                : headerFg,
                           ),
                         ),
 
@@ -292,10 +308,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                             Row(
                               children: [
                                 IconButton(
-                                  icon: Icon(
-                                    Icons.remove_circle_outline,
-                                    color: Theme.of(context).colorScheme.onSecondary,
-                                  ),
+                                  icon: Icon(Icons.remove_circle_outline, color: headerFg),
                                   visualDensity: .compact,
                                   onPressed: () {
                                     if (viewModel.servings > 1) {
@@ -311,7 +324,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                                     child: Text(
                                       viewModel.servings.toString(),
                                       style: TextStyle(
-                                        color: Theme.of(context).colorScheme.onSecondary,
+                                        color: headerFg,
                                         fontWeight: FontWeight.bold,
                                         fontSize: 18,
                                       ),
@@ -320,10 +333,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                                 ),
                                 // Plus button
                                 IconButton(
-                                  icon: Icon(
-                                    Icons.add_circle_outline,
-                                    color: Theme.of(context).colorScheme.onSecondary,
-                                  ),
+                                  icon: Icon(Icons.add_circle_outline, color: headerFg),
                                   visualDensity: .compact,
                                   onPressed: () {
                                     viewModel.setServings(viewModel.servings + 1);
@@ -336,7 +346,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                                 offset: const Offset(0, -8),
                                 child: Text(
                                   "(${AppLocalizations.of(context)!.piecesPerServing(recipe.piecesPerServing.toString())})",
-                                  style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+                                  style: TextStyle(color: headerFg),
                                 ),
                               ),
                           ],
@@ -347,11 +357,11 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                   if (recipe.source.isNotEmpty)
                     Text(
                       '${AppLocalizations.of(context)!.source}: ${formattedSource(recipe.source)}',
-                      style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
+                      style: TextStyle(color: headerFg),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
-                  categoryLine(recipe.category, context),
+                  categoryLine(recipe.category, context, color: headerFg),
                   const SizedBox(height: 3),
                   // Stats Row
                   Row(
@@ -369,6 +379,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                                   iconPath: 'assets/icons/carbohydrates.svg',
                                   value: recipe.carbohydrates,
                                   unit: AppLocalizations.of(context)!.gps,
+                                  color: headerFg,
                                 ),
                               ],
                             ],
@@ -382,6 +393,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                         iconPath: 'assets/icons/fire-filled.svg',
                         value: recipe.calories,
                         unit: AppLocalizations.of(context)!.kcps,
+                        color: headerFg,
                       ),
                       const SizedBox(width: 6),
                       if (recipe.prepTime > 0 || recipe.cookTime > 0)
@@ -396,6 +408,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                                     iconData: Icons.restaurant_menu,
                                     value: recipe.prepTime,
                                     unit: AppLocalizations.of(context)!.min,
+                                    color: headerFg,
                                   ),
                                 if (recipe.cookTime > 0)
                                   buildHeaderStat(
@@ -403,6 +416,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                                     iconData: Icons.microwave,
                                     value: recipe.cookTime,
                                     unit: AppLocalizations.of(context)!.min,
+                                    color: headerFg,
                                   ),
                                 if (recipe.restTime > 0)
                                   buildHeaderStat(
@@ -410,6 +424,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                                     iconData: Icons.schedule,
                                     value: recipe.restTime,
                                     unit: AppLocalizations.of(context)!.min,
+                                    color: headerFg,
                                   ),
                               ],
                             ),
@@ -426,7 +441,23 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
     );
   }
 
+  Color _headerColor(BuildContext context, DisplayRecipeViewModel viewModel) {
+    final variant = viewModel.activeVariant;
+    final scheme = Theme.of(context).colorScheme;
+    return variant == null ? scheme.primary : VariantColors.paletteAt(variant.id, scheme).container;
+  }
+
+  Color _headerTextColor(BuildContext context, DisplayRecipeViewModel viewModel) {
+    final variant = viewModel.activeVariant;
+    final scheme = Theme.of(context).colorScheme;
+    return variant == null
+        ? scheme.onPrimary
+        : VariantColors.paletteAt(variant.id, scheme).onContainer;
+  }
+
   PreferredSizeWidget _buildAppBar(BuildContext context, DisplayRecipeViewModel viewModel) {
+    final headerBg = _headerColor(context, viewModel);
+    final headerFg = _headerTextColor(context, viewModel);
     return PreferredSize(
       preferredSize: const Size.fromHeight(50),
       child: AppBar(
@@ -451,7 +482,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                     : Theme.of(context).colorScheme.surfaceContainerHigh.withAlpha(10),
                 foregroundColor: _cookModeActive
                     ? Theme.of(context).colorScheme.onSurface
-                    : Theme.of(context).colorScheme.onSecondary,
+                    : headerFg,
                 visualDensity: VisualDensity.compact,
                 padding: const EdgeInsets.symmetric(horizontal: 8),
               ),
@@ -479,7 +510,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
             },
             icon: Icon(
               viewModel.isBookmarked ? Icons.bookmark_remove_outlined : Icons.bookmark_add_outlined,
-              color: Theme.of(context).colorScheme.onSecondary,
+              color: headerFg,
             ),
           ),
 
@@ -512,6 +543,16 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                   ),
                 ),
                 PopupMenuItem(
+                  value: 'text',
+                  child: Row(
+                    children: [
+                      Icon(Icons.content_copy),
+                      const SizedBox(width: 5),
+                      Text(l10n.copyAsText, style: theme.textTheme.titleMedium),
+                    ],
+                  ),
+                ),
+                PopupMenuItem(
                   value: 'hint',
                   enabled: false,
                   child: Container(
@@ -536,11 +577,14 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                 case 'zip':
                   exportRecipeToZip(context, viewModel);
                   break;
+                case 'text':
+                  copyRecipeText(context, viewModel);
+                  break;
                 case _:
                   break;
               }
             },
-            child: Icon(Icons.share, color: Theme.of(context).colorScheme.onSecondary),
+            child: Icon(Icons.share, color: headerFg),
           ),
 
           buildIconButton(
@@ -548,11 +592,22 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
             Icons.edit_outlined,
             AppLocalizations.of(context)!.editRecipe,
             () async {
-              final result = await context.push('/edit-recipe/${viewModel.recipe!.id}');
-              if (result == true && context.mounted) {
+              final variantQuery = viewModel.activeVariantId == 0
+                  ? ''
+                  : '?variant=${viewModel.activeVariantId}';
+              // result: id of the context last saved (0 = original recipe)
+              final result = await context.push<int>(
+                '/edit-recipe/${viewModel.recipe!.id}$variantQuery',
+              );
+              if (result != null && context.mounted) {
+                if (result != viewModel.activeVariantId) {
+                  viewModel.setActiveVariant(result);
+                }
                 viewModel.initializeCommand.run(context);
               }
             },
+            foreground: headerFg,
+            background: headerBg,
           ),
           buildIconButton(
             context,
@@ -560,6 +615,8 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
             AppLocalizations.of(context)!.deleteRecipe,
             () async => await _showDeleteConfirmation(context, viewModel),
             error: true,
+            foreground: headerFg,
+            background: headerBg,
           ),
         ],
       ),

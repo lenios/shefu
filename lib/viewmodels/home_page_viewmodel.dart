@@ -3,11 +3,13 @@ import 'dart:async';
 import 'package:file_picker/file_picker.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shefu/l10n/app_localizations.dart';
 import 'package:shefu/models/objectbox_models.dart';
 import 'package:shefu/objectbox.g.dart';
 import 'package:shefu/repositories/objectbox_recipe_repository.dart';
 import 'package:shefu/utils/recipe_exporter.dart';
+import 'package:shefu/widgets/home/recipe_search_result.dart';
 
 class HomePageViewModel extends ChangeNotifier {
   late final ObjectBoxRecipeRepository _objectBoxRepository;
@@ -59,6 +61,9 @@ class HomePageViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Rebuilds the list, the recipes or their variants may have changed.
+  void refresh() => notifyListeners();
+
   HomePageViewModel(this._objectBoxRepository) {
     _checkMigrationStatus();
   }
@@ -87,51 +92,105 @@ class HomePageViewModel extends ChangeNotifier {
     return await _objectBoxRepository.getAvailableCountries();
   }
 
-  // Filter recipes based on search term, category, and country
-  List<Recipe> getFilteredRecipes(List<Recipe> allRecipes, String searchTerm) {
-    final filteredRecipes = allRecipes.where((recipe) {
-      bool matchesSearch = true;
-      if (searchTerm.isNotEmpty) {
-        final searchTerms = searchTerm
-            .toLowerCase()
-            .split(',')
-            .map((term) => term.trim().toLowerCase())
-            .where((term) => term.isNotEmpty)
-            .toList();
+  // Filter recipes by search term, category, and country
+  List<RecipeSearchResult> getFilteredRecipes(List<Recipe> allRecipes, String searchTerm) {
+    final terms = _searchTerms(searchTerm);
+    final results = <RecipeSearchResult>[];
 
-        // Recipe must match ALL search terms
-        matchesSearch = searchTerms.every((term) {
-          return recipe.title.toLowerCase().contains(term) ||
-              recipe.source.toLowerCase().contains(term) ||
-              recipe.notes.toLowerCase().contains(term) ||
-              recipe.steps.any(
-                (step) =>
-                    step.instruction.toLowerCase().contains(term) ||
-                    step.name.toLowerCase().contains(term) ||
-                    step.ingredients.any((ing) => ing.name.toLowerCase().contains(term)),
-              );
-        });
+    for (final recipe in allRecipes) {
+      final variants = variantsForRecipe(recipe);
+      if (terms.every((term) => _recipeMatches(recipe, term))) {
+        results.add(RecipeSearchResult(recipe));
       }
 
-      bool matchesCategory =
-          selectedCategory == null ||
-          selectedCategory == Category.all ||
-          recipe.category == selectedCategory!.index;
+      if (terms.isNotEmpty) {
+        for (final variant in variants) {
+          // Search both variant and recipe, as non overridden steps might match
+          final matches = terms.every(
+            (term) => _variantMatches(variant, term) || _recipeMatches(recipe, term),
+          );
+          if (matches) {
+            results.add(RecipeSearchResult(recipe, variant: variant));
+          }
+        }
+      }
+    }
 
-      bool matchesCountry = countryCode.isEmpty || recipe.countryCode == countryCode;
-
-      return matchesSearch && matchesCategory && matchesCountry;
+    final visible = results.where((entry) {
+      final recipe = entry.recipe;
+      return (selectedCategory == null ||
+              selectedCategory == Category.all ||
+              recipe.category == selectedCategory!.index) &&
+          (countryCode.isEmpty || recipe.countryCode == countryCode);
     }).toList();
-    return filteredRecipes;
+
+    final baseRecipeIds = visible
+        .where((entry) => !entry.isVariant)
+        .map((entry) => entry.recipe.id)
+        .toSet();
+    return visible
+        .where((entry) => !entry.isVariant || !baseRecipeIds.contains(entry.recipe.id))
+        .toList();
   }
 
-  Future<int?> addNewRecipe(BuildContext context) async {
+  bool _recipeMatches(Recipe recipe, String term) {
+    return recipe.title.toLowerCase().contains(term) ||
+        recipe.source.toLowerCase().contains(term) ||
+        recipe.notes.toLowerCase().contains(term) ||
+        stepsMatch(recipe.steps, term);
+  }
+
+  bool _variantMatches(RecipeVariant variant, String term) {
+    return variant.title.toLowerCase().contains(term) || stepsMatch(variant.steps, term);
+  }
+
+  List<RecipeVariant> variantsMatchingSearch(Recipe recipe, String searchTerm) {
+    final terms = _searchTerms(searchTerm);
+    final variants = variantsForRecipe(recipe);
+    // No filter (browsing): show all variants
+    if (terms.isEmpty) return variants;
+    return variants
+        .where(
+          (variant) =>
+              terms.every(
+                (term) => _recipeMatches(recipe, term) || _variantMatches(variant, term),
+              ) &&
+              terms.any((term) => _variantMatches(variant, term)),
+        )
+        .toList();
+  }
+
+  List<RecipeVariant> variantsForRecipe(Recipe recipe) {
+    if (recipe.variants.isNotEmpty) return recipe.variants.toList();
+    if (recipe.id <= 0) return const [];
+    return _objectBoxRepository.getVariantsForRecipe(recipe.id);
+  }
+
+  bool stepsMatch(ToMany<RecipeStep> steps, String term) {
+    return steps.any(
+      (step) =>
+          step.instruction.toLowerCase().contains(term) ||
+          step.name.toLowerCase().contains(term) ||
+          step.ingredients.any((ing) => ing.name.toLowerCase().contains(term)),
+    );
+  }
+
+  /// Comma separated search terms — everything must match all of them.
+  static List<String> _searchTerms(String searchTerm) => searchTerm
+      .toLowerCase()
+      .split(',')
+      .map((term) => term.trim().toLowerCase())
+      .where((term) => term.isNotEmpty)
+      .toList();
+
+  Future<void> addNewRecipe(BuildContext context) async {
     _setLoading(true);
     try {
-      return _objectBoxRepository.createNewRecipe(AppLocalizations.of(context)!.newRecipe);
+      if (context.mounted) {
+        await context.push('/edit-recipe/0?new=1');
+      }
     } catch (e) {
       debugPrint("Error adding new recipe: $e");
-      return null;
     } finally {
       _setLoading(false);
     }
@@ -225,9 +284,8 @@ Future<void> importRecipesZip(BuildContext context, ThemeData theme) async {
     }
   } on FormatException catch (_) {
     if (context.mounted) {
-      ScaffoldMessenger.maybeOf(
-        context,
-      )?.showSnackBar(SnackBar(content: Text(l10n.invalidZipFile)));
+      ScaffoldMessenger.maybeOf(context)
+          ?.showSnackBar(SnackBar(content: Text(l10n.invalidZipFile)));
       final navigator = Navigator.of(context);
       if (navigator.canPop()) {
         navigator.pop();

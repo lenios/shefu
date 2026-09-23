@@ -50,16 +50,18 @@ class EditIngredientManager {
     BuildContext context,
     EditRecipeViewModel viewModel,
     int stepIndex,
-    int ingredientIndex,
-  ) {
+    int ingredientIndex, {
+    bool readOnly = false,
+  }) {
     // Check bounds defensively
-    if (stepIndex < 0 ||
-        stepIndex >= viewModel.recipe.steps.length ||
-        ingredientIndex < 0 ||
-        ingredientIndex >= viewModel.recipe.steps[stepIndex].ingredients.length) {
+    if (stepIndex < 0 || stepIndex >= viewModel.recipe.steps.length) {
       return const SizedBox.shrink(); // Handle potential index out of bounds during rebuild race conditions
     }
-    final ingredient = viewModel.recipe.steps[stepIndex].ingredients[ingredientIndex];
+    final targetStep = viewModel.getTargetStep(stepIndex);
+    if (ingredientIndex < 0 || ingredientIndex >= targetStep.ingredients.length) {
+      return const SizedBox.shrink(); // Handle potential index out of bounds during rebuild race conditions
+    }
+    final ingredient = targetStep.ingredients[ingredientIndex];
     final l10n = AppLocalizations.of(context)!;
 
     final bool isLastStep = stepIndex >= viewModel.recipe.steps.length - 1;
@@ -91,205 +93,213 @@ class EditIngredientManager {
         // or using a dedicated StatefulWidget for the ingredient row.
         // For now, let's assume they get disposed eventually.
 
-        return Card(
-          margin: const EdgeInsets.symmetric(vertical: 5.0),
-          elevation: 2.0,
-          color: Theme.of(context).colorScheme.surfaceContainerHighest,
+        // A variant may not change the ingredients of a step it does not override.
+        return IgnorePointer(
+          ignoring: readOnly,
+          child: Card(
+            margin: const EdgeInsets.symmetric(vertical: 5.0),
+            elevation: 2.0,
+            color: Theme.of(context).colorScheme.surfaceContainerHighest,
 
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8.0),
-            side: BorderSide(
-              color: Theme.of(context).colorScheme.surfaceContainerHighest,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8.0),
+              side: BorderSide(
+                color: Theme.of(context).colorScheme.surfaceContainerHighest,
 
-              width: 1.5,
+                width: 1.5,
+              ),
             ),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 9.0, horizontal: 7.0),
-            child: Column(
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Wrap(
-                      direction: Axis.vertical,
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      spacing: -10,
-                      children: [
-                        Text(
-                          l10n.optional,
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: Theme.of(context).hintColor,
-                            fontWeight: FontWeight.w500,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 9.0, horizontal: 7.0),
+              child: Column(
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Wrap(
+                        direction: Axis.vertical,
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        spacing: -10,
+                        children: [
+                          Text(
+                            l10n.optional,
+                            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                              color: Theme.of(context).hintColor,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
+                          Checkbox(
+                            value: ingredient.optional,
+                            onChanged: (bool? val) {
+                              if (val != null) {
+                                setLocalState(() {
+                                  viewModel.updateIngredientOptional(
+                                    stepIndex,
+                                    ingredientIndex,
+                                    val,
+                                  );
+                                });
+                              }
+                            },
+                          ),
+                        ],
+                      ),
+                      const SizedBox(width: 8),
+                      // Quantity
+                      Expanded(
+                        flex: 3,
+                        child: TextFormField(
+                          key: ValueKey('quantity_field_${stepIndex}_$ingredientIndex'),
+                          controller: quantityController,
+                          keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                          decoration: InputDecoration(
+                            labelText: l10n.quantity,
+                            border: const OutlineInputBorder(),
+                            isDense: true,
+                            contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+                          ),
+                          onChanged: (val) =>
+                              viewModel.updateIngredientQuantity(stepIndex, ingredientIndex, val),
                         ),
-                        Checkbox(
-                          value: ingredient.optional,
-                          onChanged: (bool? val) {
-                            if (val != null) {
-                              setLocalState(() {
-                                viewModel.updateIngredientOptional(stepIndex, ingredientIndex, val);
-                              });
-                            }
+                      ),
+                      const SizedBox(width: 8),
+                      // Unit
+                      Expanded(
+                        flex: 4,
+                        child: Builder(
+                          builder: (context) {
+                            final bool unitLocked =
+                                ingredient.foodId > 0 && ingredient.conversionId > 0;
+
+                            return DropdownButtonFormField<String>(
+                              initialValue: unitLocked ? null : ingredient.unit,
+                              items: getFilteredUnitOptions(context, ingredient.unit),
+                              onChanged: unitLocked
+                                  ? null
+                                  : (String? newValue) {
+                                      viewModel.updateIngredientUnit(
+                                        stepIndex,
+                                        ingredientIndex,
+                                        newValue ?? "",
+                                      );
+                                    },
+                              decoration: InputDecoration(
+                                labelText: l10n.unit,
+                                border: const OutlineInputBorder(),
+                                isDense: true,
+                                contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 8,
+                                  vertical: 12,
+                                ),
+                                enabled: !unitLocked, // visually indicate locked state
+                              ),
+                              isExpanded: true,
+                            );
                           },
                         ),
-                      ],
-                    ),
-                    const SizedBox(width: 8),
-                    // Quantity
-                    Expanded(
-                      flex: 3,
-                      child: TextFormField(
-                        key: ValueKey('quantity_field_${stepIndex}_$ingredientIndex'),
-                        controller: quantityController,
-                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                        decoration: InputDecoration(
-                          labelText: l10n.quantity,
-                          border: const OutlineInputBorder(),
-                          isDense: true,
-                          contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+                      ),
+
+                      // Move to Previous Step Button
+                      if (stepIndex > 0 && viewModel.canMoveIngredient(stepIndex, stepIndex - 1))
+                        IconButton(
+                          visualDensity: .compact,
+                          icon: Icon(
+                            Icons.arrow_upward_sharp,
+                            color: Theme.of(context).colorScheme.primary,
+                            size: 20,
+                          ),
+                          tooltip: l10n.moveToPreviousStep,
+                          onPressed: () {
+                            viewModel.moveIngredientToPreviousStep(stepIndex, ingredientIndex);
+                          },
+                          constraints: const BoxConstraints(),
+                          padding: EdgeInsets.zero,
                         ),
-                        onChanged: (val) =>
-                            viewModel.updateIngredientQuantity(stepIndex, ingredientIndex, val),
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    // Unit
-                    Expanded(
-                      flex: 4,
-                      child: Builder(
-                        builder: (context) {
-                          final bool unitLocked =
-                              ingredient.foodId > 0 && ingredient.conversionId > 0;
-
-                          return DropdownButtonFormField<String>(
-                            initialValue: unitLocked ? null : ingredient.unit,
-                            items: getFilteredUnitOptions(context, ingredient.unit),
-                            onChanged: unitLocked
-                                ? null
-                                : (String? newValue) {
-                                    viewModel.updateIngredientUnit(
-                                      stepIndex,
-                                      ingredientIndex,
-                                      newValue ?? "",
-                                    );
-                                  },
-                            decoration: InputDecoration(
-                              labelText: l10n.unit,
-                              border: const OutlineInputBorder(),
-                              isDense: true,
-                              contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 8,
-                                vertical: 12,
-                              ),
-                              enabled: !unitLocked, // visually indicate locked state
-                            ),
-                            isExpanded: true,
-                          );
-                        },
-                      ),
-                    ),
-
-                    // Move to Previous Step Button
-                    if (stepIndex > 0)
+                      // Move to Next Step Button
+                      if (!isLastStep && viewModel.canMoveIngredient(stepIndex, stepIndex + 1))
+                        IconButton(
+                          visualDensity: .compact,
+                          icon: Icon(
+                            Icons.arrow_downward_sharp,
+                            color: Theme.of(context).colorScheme.primary,
+                            size: 20,
+                          ),
+                          tooltip: l10n.moveToNextStep,
+                          onPressed: () {
+                            viewModel.moveIngredientToNextStep(stepIndex, ingredientIndex);
+                          },
+                          constraints: const BoxConstraints(),
+                          padding: EdgeInsets.zero,
+                        ),
+                      // Delete Button
                       IconButton(
                         visualDensity: .compact,
                         icon: Icon(
-                          Icons.arrow_upward_sharp,
-                          color: Theme.of(context).colorScheme.primary,
-                          size: 20,
+                          Icons.remove_circle_outline,
+                          color: Theme.of(context).colorScheme.error,
+                          size: 22,
                         ),
-                        tooltip: l10n.moveToPreviousStep,
+                        tooltip: l10n.delete,
                         onPressed: () {
-                          viewModel.moveIngredientToPreviousStep(stepIndex, ingredientIndex);
+                          EditIngredientManager.disposeController(stepIndex, ingredientIndex);
+                          viewModel.removeIngredient(stepIndex, ingredientIndex);
                         },
                         constraints: const BoxConstraints(),
-                        padding: EdgeInsets.zero,
+                        padding: const EdgeInsets.symmetric(horizontal: 2.0),
                       ),
-                    // Move to Next Step Button
-                    if (!isLastStep)
-                      IconButton(
-                        visualDensity: .compact,
-                        icon: Icon(
-                          Icons.arrow_downward_sharp,
-                          color: Theme.of(context).colorScheme.primary,
-                          size: 20,
-                        ),
-                        tooltip: l10n.moveToNextStep,
-                        onPressed: () {
-                          viewModel.moveIngredientToNextStep(stepIndex, ingredientIndex);
-                        },
-                        constraints: const BoxConstraints(),
-                        padding: EdgeInsets.zero,
-                      ),
-                    // Delete Button
-                    IconButton(
-                      visualDensity: .compact,
-                      icon: Icon(
-                        Icons.remove_circle_outline,
-                        color: Theme.of(context).colorScheme.error,
-                        size: 22,
-                      ),
-                      tooltip: l10n.delete,
-                      onPressed: () {
-                        EditIngredientManager.disposeController(stepIndex, ingredientIndex);
-                        viewModel.removeIngredient(stepIndex, ingredientIndex);
-                      },
-                      constraints: const BoxConstraints(),
-                      padding: const EdgeInsets.symmetric(horizontal: 2.0),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 8),
-                // Optional Fields (Shape, Nutrient, Factor) - Conditionally shown or below
-                Column(
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: TextFormField(
-                            key: ValueKey('name_field_${stepIndex}_$ingredientIndex'),
-                            controller: nameController,
-                            onChanged: (val) {
-                              viewModel.updateIngredientName(stepIndex, ingredientIndex, val);
-                            },
-                            decoration: InputDecoration(
-                              labelText: l10n.name,
-                              border: const OutlineInputBorder(),
-                              isDense: true,
-                              contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 8,
-                                vertical: 12,
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  // Optional Fields (Shape, Nutrient, Factor) - Conditionally shown or below
+                  Column(
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: TextFormField(
+                              key: ValueKey('name_field_${stepIndex}_$ingredientIndex'),
+                              controller: nameController,
+                              onChanged: (val) {
+                                viewModel.updateIngredientName(stepIndex, ingredientIndex, val);
+                              },
+                              decoration: InputDecoration(
+                                labelText: l10n.name,
+                                border: const OutlineInputBorder(),
+                                isDense: true,
+                                contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 8,
+                                  vertical: 12,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        const SizedBox(width: 4),
-                        Expanded(
-                          child: TextFormField(
-                            key: ValueKey('shape_field_${stepIndex}_$ingredientIndex'),
-                            controller: shapeController,
-                            decoration: InputDecoration(
-                              labelText: l10n.shape,
-                              border: const OutlineInputBorder(),
-                              isDense: true,
-                              contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 8,
-                                vertical: 12,
+                          const SizedBox(width: 4),
+                          Expanded(
+                            child: TextFormField(
+                              key: ValueKey('shape_field_${stepIndex}_$ingredientIndex'),
+                              controller: shapeController,
+                              decoration: InputDecoration(
+                                labelText: l10n.shape,
+                                border: const OutlineInputBorder(),
+                                isDense: true,
+                                contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 8,
+                                  vertical: 12,
+                                ),
                               ),
+                              onChanged: (val) =>
+                                  viewModel.updateIngredientShape(stepIndex, ingredientIndex, val),
                             ),
-                            onChanged: (val) =>
-                                viewModel.updateIngredientShape(stepIndex, ingredientIndex, val),
                           ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(width: 8),
-                    foodEntries(stepIndex, ingredientIndex, viewModel),
-                  ],
-                ),
-                foodFactors(stepIndex, ingredientIndex, viewModel),
-              ],
+                        ],
+                      ),
+                      const SizedBox(width: 8),
+                      foodEntries(stepIndex, ingredientIndex, viewModel),
+                    ],
+                  ),
+                  foodFactors(stepIndex, ingredientIndex, viewModel),
+                ],
+              ),
             ),
           ),
         );

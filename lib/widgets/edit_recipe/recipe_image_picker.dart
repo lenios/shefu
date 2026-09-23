@@ -39,14 +39,11 @@ class RecipeImagePicker extends StatelessWidget {
       valueListenable: viewModel!.imageVersion,
       builder: (context, version, _) {
         // Get the CURRENT path from the view model INSIDE the builder
-        final String? path = (stepIndex != null)
-            ? (stepIndex! < viewModel!.recipe.steps.length
-                  ? viewModel!.recipe.steps[stepIndex!].imagePath
-                  : null)
+        final String path = stepIndex != null
+            ? viewModel!.getTargetStep(stepIndex!).imagePath
             : viewModel!.recipe.imagePath;
 
-        final bool pathIsValid =
-            path != null && path.isNotEmpty && File(PathUtils.cleanPath(path)).existsSync();
+        final bool pathIsValid = path.isNotEmpty && File(PathUtils.cleanPath(path)).existsSync();
         if (pathIsValid) {
           // Image exists - show with overlay buttons
           return Stack(

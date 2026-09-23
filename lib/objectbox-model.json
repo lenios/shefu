@@ -519,7 +519,7 @@
     },
     {
       "id": "5:4388955433426848727",
-      "lastPropertyId": "9:3631918177233421419",
+      "lastPropertyId": "10:4531166071499128711",
       "name": "RecipeStep",
       "properties": [
         {
@@ -565,6 +565,14 @@
           "id": "9:3631918177233421419",
           "name": "videoUrl",
           "type": 9
+        },
+        {
+          "id": "10:4531166071499128711",
+          "name": "variantId",
+          "indexId": "7:5082401609296368859",
+          "type": 11,
+          "flags": 520,
+          "relationTarget": "RecipeVariant"
         }
       ],
       "relations": []
@@ -597,10 +605,37 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "7:7378970030420183791",
+      "lastPropertyId": "4:3541839402728558577",
+      "name": "RecipeVariant",
+      "properties": [
+        {
+          "id": "1:8201504559941572934",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:7779699384678202600",
+          "name": "title",
+          "type": 9
+        },
+        {
+          "id": "4:3541839402728558577",
+          "name": "recipeId",
+          "indexId": "8:6958409888972004199",
+          "type": 11,
+          "flags": 520,
+          "relationTarget": "Recipe"
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "6:7362449003810345176",
-  "lastIndexId": "6:2705793105657317534",
+  "lastEntityId": "7:7378970030420183791",
+  "lastIndexId": "8:6958409888972004199",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
   "modelVersion": 5,
@@ -611,7 +646,8 @@
     4179309004405117661,
     8847534544833626113,
     6476738803012066954,
-    8533523967133434343
+    8533523967133434343,
+    8055612308280300175
   ],
   "retiredRelationUids": [],
   "version": 1

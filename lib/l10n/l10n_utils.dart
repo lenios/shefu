@@ -263,7 +263,7 @@ String translatedCategory(String category, AppLocalizations l10n) {
 }
 
 // Translate and add icon for cocktails
-Widget formattedCategory(String category, context, {bool surface = false}) {
+Widget formattedCategory(String category, context, {bool surface = false, Color? color}) {
   String categoryText = translatedCategory(category, AppLocalizations.of(context)!);
   IconData? categoryIcon;
 
@@ -274,9 +274,9 @@ Widget formattedCategory(String category, context, {bool surface = false}) {
       categoryText = AppLocalizations.of(context)!.drinks;
     default:
   }
-  final textColor = surface
-      ? Theme.of(context).colorScheme.onSurface
-      : Theme.of(context).colorScheme.onSecondary;
+  final textColor =
+      color ??
+      (surface ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onPrimary);
 
   return Row(
     mainAxisSize: .min,

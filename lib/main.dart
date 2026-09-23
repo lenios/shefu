@@ -15,7 +15,7 @@ import 'package:country_picker/country_picker.dart';
 
 import 'router/app_router.dart';
 
-import 'package:flutter_localizations/flutter_localizations.dart' hide GlobalMaterialLocalizations;
+import 'package:flutter_localizations/flutter_localizations.dart' as flutter_localizations;
 
 late ObjectBox objectBox;
 void main() async {
@@ -32,7 +32,10 @@ void main() async {
 class MyApp extends StatefulWidget {
   final ObjectBoxNutrientRepository objectBoxNutrientRepo;
 
-  const MyApp({super.key, required this.objectBoxNutrientRepo});
+  /// Overrides the ObjectBox-backed repository, for tests running on fakes.
+  final ObjectBoxRecipeRepository? recipeRepo;
+
+  const MyApp({super.key, required this.objectBoxNutrientRepo, this.recipeRepo});
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -73,7 +76,9 @@ class _MyAppState extends State<MyApp> {
       providers: [
         ChangeNotifierProvider(create: (context) => MyAppState()),
         //Provider<NutrientRepository>.value(value: nutrientRepository),
-        Provider<ObjectBoxRecipeRepository>.value(value: ObjectBoxRecipeRepository(objectBox)),
+        Provider<ObjectBoxRecipeRepository>.value(
+          value: widget.recipeRepo ?? ObjectBoxRecipeRepository(objectBox),
+        ),
         Provider<ObjectBoxNutrientRepository>.value(value: widget.objectBoxNutrientRepo),
 
         // --- ViewModels (depend on Repositories) ---
@@ -126,13 +131,9 @@ class _MyAppState extends State<MyApp> {
             ),
       ),
       localizationsDelegates:
+          flutter_localizations.GlobalMaterialLocalizations.delegates +
           GlobalMaterialLocalizations.delegates +
-          const [
-            AppLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-            CountryLocalizations.delegate,
-          ],
+          const [AppLocalizations.delegate, CountryLocalizations.delegate],
       supportedLocales: AppLocalizations.supportedLocales,
     );
   }

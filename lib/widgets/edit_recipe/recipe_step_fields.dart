@@ -68,6 +68,7 @@ class _RecipeStepFieldsState extends State<RecipeStepFields> {
     return Column(
       children: [
         TextFormField(
+          key: ValueKey('instruction_field_${widget.stepIndex}'),
           controller: _instructionController,
           maxLines: 8,
           minLines: 1,
@@ -82,6 +83,7 @@ class _RecipeStepFieldsState extends State<RecipeStepFields> {
         ),
         const SizedBox(height: 12),
         TextFormField(
+          key: ValueKey('timer_field_${widget.stepIndex}'),
           controller: _timerController,
           keyboardType: TextInputType.number,
           onChanged: (val) {

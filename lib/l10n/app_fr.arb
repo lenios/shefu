@@ -24,6 +24,7 @@
     "step": "Étape",
     "steps": "Étapes",
     "save": "Enregistrer",
+    "saveRecipe": "Enregistrer la recette et ses variantes",
     "delete": "Supprimer",
     "deleteRecipe": "Supprimer la recette",
     "title": "Titre",
@@ -119,7 +120,7 @@
     "noMatchingNutrient": "Aucun ingrédient correspondant trouvé",
     "leaveWithoutSaving": "Quitter sans enregistrer ?",
     "leave": "Quitter",
-    "unsavedChanges": "Vous avez peut-être des changements non enregistrés.",
+    "unsavedChanges": "Vous avez peut-être des modifications non enregistrées. Cliquez sur 'Enregistrer' pour enregistrer toutes les modifications apportées à la recette et à ses variantes. Quittez pour les abandonner.",
     "importRecipe": "Importer",
     "importRecipeConfirmation": "Voulez-vous importer la recette depuis {url} ? Cela écrasera le titre, les étapes et l'image.",
     "scrapeError": "Échec de l'importation de la recette depuis l'URL.",
@@ -299,6 +300,8 @@
     "importInternalError": "L'import a échoué. Il s'agit d'une erreur interne. Veuillez ouvrir un bug sur https://github.com/lenios/shefu/issues et fournir le fichier d'import si possible pour analyse.",
     "exportAsPdf": "Exporter en PDF",
     "exportAsZip": "Exporter en ZIP",
+    "copyAsText": "Copier le texte",
+    "recipeCopied": "Recette copiée dans le presse-papiers",
     "exportFormatHint": "Sélectionnez le format PDF pour imprimer ou lire sur un écran, et le format ZIP pour importer plus tard.",
     "exportCount": "{count,plural, =0{Exporter 0 recette} =1{Exporter 1 recette} other{Exporter {count} recettes}}",
     "zipSavedTo": "Enregistré dans {path}",
@@ -310,5 +313,27 @@
     "selectAll": "Tout sélectionner",
     "deselectAll": "Tout désélectionner",
     "invalidZipFile": "Fichier invalide : le fichier zip n'est pas une archive d'export Shefu.",
-    "supportedWebsitesNote": "Consultez la liste des sites web pris en charge sur:"
+    "supportedWebsitesNote": "Consultez la liste des sites web pris en charge sur:",
+    "variant": "Variante",
+    "addVariant": "Ajouter une variante",
+    "deleteVariant": "Supprimer cette variante",
+    "deleteVariantQuestion": "Supprimer cette variante ?",
+    "deleteVariantConfirmation": "La variante {variant} sera supprimée.",
+    "@deleteVariantConfirmation": {
+      "placeholders": {
+        "variant": {}
+      }
+    },
+    "deleteVariantWarning": "La variante est supprimée.",
+    "overrideStep": "Remplacer l'étape",
+    "removeOverride": "Restaurer l'étape",
+    "exportRecipe": "Exporter la recette",
+    "showVariants": "Afficher les variantes",
+    "recipeSaved": "Recette enregistrée",
+    "variantSaved": "Variante {variant} enregistrée",
+    "@variantSaved": {
+      "placeholders": {
+        "variant": {}
+      }
+    }
 }

@@ -85,6 +85,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get save => '保存';
 
   @override
+  String get saveRecipe => 'レシピとすべてのバリエーションを保存';
+
+  @override
   String get delete => '削除';
 
   @override
@@ -371,7 +374,8 @@ class AppLocalizationsJa extends AppLocalizations {
   String get leave => '終了';
 
   @override
-  String get unsavedChanges => '保存されていない変更があるかもしれません。';
+  String get unsavedChanges =>
+      '保存されていない変更がある可能性があります。「保存」を押すと、レシピとそのバリエーションのすべての変更が保存されます。「終了」を押すと破棄されます。';
 
   @override
   String get importRecipe => 'インポート';
@@ -898,6 +902,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get exportAsZip => 'ZIPとしてエクスポート';
 
   @override
+  String get copyAsText => 'テキストとしてコピー';
+
+  @override
+  String get recipeCopied => 'レシピをクリップボードにコピーしました';
+
+  @override
   String get exportFormatHint => '印刷や画面での表示にはPDFフォーマットを、今後のインポートにはZIPフォーマットを選択してください。';
 
   @override
@@ -921,4 +931,44 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get supportedWebsitesNote => 'サポートされているウェブサイトのリストはこちら：';
+
+  @override
+  String get variant => 'バリエーション';
+
+  @override
+  String get addVariant => 'バリエーションを追加';
+
+  @override
+  String get deleteVariant => 'バリエーションを削除';
+
+  @override
+  String get deleteVariantQuestion => 'このバリエーションを削除しますか？';
+
+  @override
+  String deleteVariantConfirmation(Object variant) {
+    return '「$variant」バリエーションは削除されます。';
+  }
+
+  @override
+  String get deleteVariantWarning => 'このバリエーションと上書きしたステップが削除されます。元のレシピは変更されません。';
+
+  @override
+  String get overrideStep => '上書き';
+
+  @override
+  String get removeOverride => '上書きを解除';
+
+  @override
+  String get exportRecipe => 'レシピをエクスポート';
+
+  @override
+  String get showVariants => 'レシピのバリエーションを表示';
+
+  @override
+  String get recipeSaved => 'レシピを保存しました';
+
+  @override
+  String variantSaved(Object variant) {
+    return '「$variant」のバリエーションを保存しました';
+  }
 }
