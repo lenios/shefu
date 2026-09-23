@@ -6,19 +6,19 @@ IconButton buildIconButton(
   String tooltip,
   VoidCallback onPressed, {
   bool error = false,
+  Color? foreground,
+  Color? background,
 }) {
   final colorScheme = Theme.of(context).colorScheme;
+  final fg = foreground ?? colorScheme.onPrimary.withAlpha(130);
+  final bg = background ?? colorScheme.primary.withAlpha(130);
   return IconButton(
     tooltip: tooltip,
-    color: colorScheme.onSecondary,
+    color: fg,
     icon: Container(
       padding: const EdgeInsets.all(5),
-      decoration: BoxDecoration(
-        color: error ? colorScheme.onError.withAlpha(130) : colorScheme.onSecondary.withAlpha(130),
-        border: Border.all(color: colorScheme.onSecondary.withAlpha(160), width: 1.25),
-        shape: BoxShape.circle,
-      ),
-      child: Icon(icon, color: error ? colorScheme.error : colorScheme.secondary, size: 20),
+      decoration: BoxDecoration(color: fg, shape: BoxShape.circle),
+      child: Icon(icon, color: error ? colorScheme.error : bg, size: 20),
     ),
     onPressed: onPressed,
   );

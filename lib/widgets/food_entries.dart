@@ -7,7 +7,9 @@ import 'package:shefu/viewmodels/edit_recipe_viewmodel.dart';
 Widget foodEntries(int stepIndex, int ingredientIndex, EditRecipeViewModel viewModel) {
   return Selector<EditRecipeViewModel, (String, int)>(
     selector: (_, vm) {
-      final ingredient = vm.recipe.steps[stepIndex].ingredients[ingredientIndex];
+      final ingredients = vm.getTargetStep(stepIndex).ingredients;
+      if (ingredientIndex >= ingredients.length) return ('', 0);
+      final ingredient = ingredients[ingredientIndex];
       return (ingredient.name, ingredient.foodId);
     },
     builder: (context, data, _) {
@@ -26,7 +28,7 @@ Widget foodEntries(int stepIndex, int ingredientIndex, EditRecipeViewModel viewM
       }
 
       // Get current ingredient for selected value
-      final ingredient = viewModel.recipe.steps[stepIndex].ingredients[ingredientIndex];
+      final ingredient = viewModel.getTargetStep(stepIndex).ingredients[ingredientIndex];
 
       return Padding(
         padding: const EdgeInsets.only(top: 8.0),

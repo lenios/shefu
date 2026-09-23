@@ -58,3 +58,4 @@ assets/tests/*
 lib/utils/python_scrapers/*
 coverage/
 test/test_data/wip
+l10n_errors.txt

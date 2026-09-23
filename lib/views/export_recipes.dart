@@ -20,12 +20,12 @@ class ExportRecipesPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: theme.colorScheme.secondary,
-        foregroundColor: theme.colorScheme.onSecondary,
+        backgroundColor: theme.colorScheme.primary,
+        foregroundColor: theme.colorScheme.onPrimary,
         leading: backButton(context),
         title: Text(
           l10n.exportRecipes,
-          style: theme.textTheme.titleLarge?.copyWith(color: Colors.white),
+          style: theme.textTheme.titleLarge?.copyWith(color: theme.colorScheme.onPrimary),
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
@@ -35,15 +35,13 @@ class ExportRecipesPage extends StatelessWidget {
                 try {
                   final uri = await viewModel.saveRecipes(l10n);
                   if (context.mounted && uri != null) {
-                    ScaffoldMessenger.maybeOf(
-                      context,
-                    )?.showSnackBar(SnackBar(content: Text(l10n.zipSavedTo(uri.path))));
+                    ScaffoldMessenger.maybeOf(context)
+                        ?.showSnackBar(SnackBar(content: Text(l10n.zipSavedTo(uri.path))));
                   }
                 } catch (e) {
                   if (context.mounted) {
-                    ScaffoldMessenger.maybeOf(
-                      context,
-                    )?.showSnackBar(SnackBar(content: Text('${l10n.exportFailed}: $e')));
+                    ScaffoldMessenger.maybeOf(context)
+                        ?.showSnackBar(SnackBar(content: Text('${l10n.exportFailed}: $e')));
                   }
                 }
               },

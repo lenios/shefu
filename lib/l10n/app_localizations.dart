@@ -250,6 +250,12 @@ abstract class AppLocalizations {
   /// **'Save'**
   String get save;
 
+  /// No description provided for @saveRecipe.
+  ///
+  /// In en, this message translates to:
+  /// **'Save recipe and all variants'**
+  String get saveRecipe;
+
   /// No description provided for @delete.
   ///
   /// In en, this message translates to:
@@ -817,7 +823,7 @@ abstract class AppLocalizations {
   /// No description provided for @unsavedChanges.
   ///
   /// In en, this message translates to:
-  /// **'You may have unsaved changes.'**
+  /// **'You may have unsaved changes. Click \'Save\' to save all changes, in the recipe and its variants. Leave to discard.'**
   String get unsavedChanges;
 
   /// No description provided for @importRecipe.
@@ -1798,6 +1804,18 @@ abstract class AppLocalizations {
   /// **'Export as ZIP'**
   String get exportAsZip;
 
+  /// No description provided for @copyAsText.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy as text'**
+  String get copyAsText;
+
+  /// No description provided for @recipeCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Recipe copied to the clipboard'**
+  String get recipeCopied;
+
   /// No description provided for @exportFormatHint.
   ///
   /// In en, this message translates to:
@@ -1839,6 +1857,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'See the list of supported websites at: '**
   String get supportedWebsitesNote;
+
+  /// No description provided for @variant.
+  ///
+  /// In en, this message translates to:
+  /// **'Variant'**
+  String get variant;
+
+  /// No description provided for @addVariant.
+  ///
+  /// In en, this message translates to:
+  /// **'Add variant'**
+  String get addVariant;
+
+  /// No description provided for @deleteVariant.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete variant'**
+  String get deleteVariant;
+
+  /// No description provided for @deleteVariantQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this variant?'**
+  String get deleteVariantQuestion;
+
+  /// No description provided for @deleteVariantConfirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'The {variant} variant will be deleted.'**
+  String deleteVariantConfirmation(Object variant);
+
+  /// No description provided for @deleteVariantWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'The variant is deleted.'**
+  String get deleteVariantWarning;
+
+  /// No description provided for @overrideStep.
+  ///
+  /// In en, this message translates to:
+  /// **'Override'**
+  String get overrideStep;
+
+  /// No description provided for @removeOverride.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove override'**
+  String get removeOverride;
+
+  /// No description provided for @exportRecipe.
+  ///
+  /// In en, this message translates to:
+  /// **'Export recipe'**
+  String get exportRecipe;
+
+  /// No description provided for @showVariants.
+  ///
+  /// In en, this message translates to:
+  /// **'Display the recipe variants'**
+  String get showVariants;
+
+  /// No description provided for @recipeSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Recipe saved'**
+  String get recipeSaved;
+
+  /// No description provided for @variantSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Variant {variant} saved'**
+  String variantSaved(Object variant);
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

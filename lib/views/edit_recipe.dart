@@ -10,8 +10,10 @@ import 'package:shefu/l10n/app_localizations.dart';
 import 'package:shefu/l10n/l10n_utils.dart';
 import 'package:shefu/models/objectbox_models.dart';
 import 'package:shefu/utils/recipe_scrapers/scraper_factory.dart';
+import 'package:shefu/utils/variant_colors.dart';
 import 'package:shefu/viewmodels/edit_recipe_viewmodel.dart';
 import 'package:shefu/widgets/confirmation_dialog.dart';
+import 'package:shefu/widgets/display_recipe/switch_variant_button.dart';
 import 'package:shefu/widgets/edit_ingredient_input.dart';
 import 'package:shefu/widgets/edit_recipe/recipe_image_picker.dart';
 import 'package:shefu/widgets/edit_recipe/recipe_step_card.dart';
@@ -88,6 +90,52 @@ class _EditRecipeState extends State<EditRecipe> {
     });
   }
 
+  /// Confirms a save: "recipe saved", or "variant {title} saved"
+  void _showSavedSnackBar(BuildContext context, String contextLabel) {
+    final l10n = AppLocalizations.of(context)!;
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(l10n.variantSaved(contextLabel))));
+  }
+
+  /// Deletes the whole recipe, then leaves for the home page.
+  Future<void> _confirmDeleteRecipe(BuildContext context, EditRecipeViewModel viewModel) async {
+    final l10n = AppLocalizations.of(context)!;
+    final confirmed = await confirmationDialog(
+      context,
+      title: l10n.deleteRecipe,
+      content: l10n.areYouSure,
+      icon: Icons.delete_forever,
+      label: l10n.delete,
+      warning: true,
+    );
+    if (confirmed != true) return;
+
+    await viewModel.deleteRecipe();
+    if (context.mounted) context.go('/');
+  }
+
+  /// Deletes the active variant, the editor falls back to the original recipe.
+  Future<void> _confirmDeleteVariant(
+    BuildContext context,
+    EditRecipeViewModel viewModel,
+    RecipeVariant variant,
+  ) async {
+    final l10n = AppLocalizations.of(context)!;
+    final confirmed = await confirmationDialog(
+      context,
+      title: l10n.deleteVariantQuestion,
+      content: l10n.deleteVariantConfirmation(variant.title.isEmpty ? l10n.variant : variant.title),
+      icon: Icons.delete_forever,
+      label: l10n.delete,
+      warning: true,
+    );
+    if (confirmed != true) return;
+
+    await viewModel.deleteVariant(variant.id);
+    if (!context.mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l10n.deleteVariantWarning)));
+  }
+
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<EditRecipeViewModel>(context, listen: false);
@@ -121,8 +169,9 @@ class _EditRecipeState extends State<EditRecipe> {
               bool saved = await viewModel.saveRecipe(l10n, languageTag);
               if (!context.mounted) return;
               if (saved) {
+                _showSavedSnackBar(context, viewModel.activeVariant?.title ?? recipe.title);
                 if (navigator.canPop()) {
-                  navigator.pop(true);
+                  navigator.pop(viewModel.activeVariantId);
                 }
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -137,60 +186,114 @@ class _EditRecipeState extends State<EditRecipe> {
                 await viewModel.deleteRecipe();
               }
               if (navigator.canPop()) {
-                navigator.pop(false);
+                navigator.pop(null);
               }
             }
           },
           child: Scaffold(
-            appBar: AppBar(
-              title: ValueListenableBuilder<TextEditingValue>(
-                // Title
-                valueListenable: viewModel.titleController,
-                builder: (context, value, child) {
-                  return Text(value.text);
+            appBar: PreferredSize(
+              preferredSize: const Size.fromHeight(kToolbarHeight),
+              child: Selector<EditRecipeViewModel, RecipeVariant?>(
+                selector: (_, vm) => vm.activeVariant,
+                builder: (context, variant, _) {
+                  final scheme = Theme.of(context).colorScheme;
+                  final isBase = variant == null;
+                  final palette = isBase ? null : VariantColors.paletteAt(variant.id, scheme);
+                  final background = palette?.container ?? scheme.primary;
+                  final foreground = palette?.onContainer ?? scheme.onPrimary;
+                  return AppBar(
+                    title: ValueListenableBuilder<TextEditingValue>(
+                      // Title
+                      valueListenable: viewModel.titleController,
+                      builder: (context, value, child) {
+                        return Text(value.text);
+                      },
+                    ),
+                    backgroundColor: background,
+                    foregroundColor: foreground,
+                    actions: [
+                      if (viewModel.variants.isNotEmpty)
+                        variantSwitchButton(
+                          context: context,
+                          originalTitle: viewModel.recipe.title,
+                          variants: viewModel.variants,
+                          activeVariantId: viewModel.activeVariantId,
+                          onSelected: (variantId) async {
+                            // Leave the current variant only after it is persisted
+                            final savedContext = await viewModel.saveActiveContext();
+                            // avoid save to db if same variant
+                            if (context.mounted && variantId != viewModel.activeVariantId) {
+                              viewModel.setActiveVariant(variantId);
+                              _showSavedSnackBar(context, savedContext);
+                            }
+                          },
+                          onAddVariant: () async {
+                            final savedContext = await viewModel.addVariant();
+                            if (!context.mounted) return;
+                            _showSavedSnackBar(context, savedContext);
+                          },
+                          iconColor: foreground,
+                        ),
+                      Selector<EditRecipeViewModel, bool>(
+                        selector: (_, vm) => vm.isLoading,
+                        builder: (context, isLoading, child) {
+                          return IconButton(
+                            key: const ValueKey('save'),
+                            icon: isLoading
+                                ? SizedBox(
+                                    width: 20,
+                                    height: 20,
+                                    child: CircularProgressIndicator(
+                                      color: Theme.of(context).colorScheme.onPrimary,
+                                      strokeWidth: 2,
+                                    ),
+                                  )
+                                : const Icon(Icons.save),
+                            tooltip: l10n.save,
+                            onPressed: isLoading
+                                ? null
+                                : () async {
+                                    bool saved = await viewModel.saveRecipe(
+                                      l10n,
+                                      Localizations.localeOf(context).toLanguageTag(),
+                                    );
+                                    if (saved && context.mounted) {
+                                      _showSavedSnackBar(
+                                        context,
+                                        viewModel.activeVariant?.title ?? "recipe",
+                                      );
+                                      context.pop(viewModel.activeVariantId);
+                                    } else if (context.mounted) {
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          content: Text(l10n.saveError),
+                                          backgroundColor: Theme.of(context).colorScheme.error,
+                                        ),
+                                      );
+                                    }
+                                  },
+                          );
+                        },
+                      ),
+                    ],
+                  );
                 },
               ),
-              backgroundColor: Theme.of(context).colorScheme.secondary,
-              foregroundColor: Theme.of(context).colorScheme.onSecondary,
-              actions: [
-                Selector<EditRecipeViewModel, bool>(
-                  selector: (_, vm) => vm.isLoading,
-                  builder: (context, isLoading, child) {
-                    return IconButton(
-                      icon: isLoading
-                          ? SizedBox(
-                              width: 20,
-                              height: 20,
-                              child: CircularProgressIndicator(
-                                color: Theme.of(context).colorScheme.onPrimary,
-                                strokeWidth: 2,
-                              ),
-                            )
-                          : const Icon(Icons.save),
-                      tooltip: l10n.save,
-                      onPressed: isLoading
-                          ? null
-                          : () async {
-                              bool saved = await viewModel.saveRecipe(
-                                l10n,
-                                Localizations.localeOf(context).toLanguageTag(),
-                              );
-                              if (saved && context.mounted) {
-                                context.pop(true);
-                              } else if (context.mounted) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(l10n.saveError),
-                                    backgroundColor: Theme.of(context).colorScheme.error,
-                                  ),
-                                );
-                              }
-                            },
-                    );
-                  },
-                ),
-              ],
             ),
+            floatingActionButton: viewModel.isNew
+                ? null
+                : FloatingActionButton.extended(
+                    key: const ValueKey('add_variant'),
+                    heroTag: 'edit_recipe_add_variant',
+                    tooltip: l10n.addVariant,
+                    icon: const Icon(Icons.add),
+                    label: Text(l10n.addVariant),
+                    onPressed: () async {
+                      final savedContext = await viewModel.addVariant();
+                      if (!context.mounted) return;
+                      _showSavedSnackBar(context, savedContext);
+                    },
+                  ),
             body: Padding(
               padding: const EdgeInsets.all(16.0),
               child: ListView(
@@ -200,16 +303,37 @@ class _EditRecipeState extends State<EditRecipe> {
                     decoration: BoxDecoration(
                       border: Border(bottom: BorderSide(color: Theme.of(context).dividerColor)),
                     ),
-                    child: TextField(
-                      controller: viewModel.titleController,
-                      focusNode: titleFocusNode,
-                      decoration: InputDecoration(
-                        labelText: l10n.title,
-                        border: InputBorder.none,
-                        focusedBorder: InputBorder.none,
-                        enabledBorder: InputBorder.none,
-                      ),
-                      style: Theme.of(context).textTheme.titleMedium,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: TextField(
+                            key: const ValueKey('title'),
+                            controller: viewModel.titleController,
+                            focusNode: titleFocusNode,
+                            decoration: InputDecoration(
+                              labelText: l10n.title,
+                              border: InputBorder.none,
+                              focusedBorder: InputBorder.none,
+                              enabledBorder: InputBorder.none,
+                            ),
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
+                        ),
+                        // Deletes the active context: the variant, or the recipe itself
+                        if (!viewModel.isNew)
+                          Selector<EditRecipeViewModel, RecipeVariant?>(
+                            selector: (_, vm) => vm.activeVariant,
+                            builder: (context, variant, _) => deleteSquareButton(
+                              context,
+                              key: const ValueKey('delete_context'),
+                              icon: Icons.delete_outline,
+                              tooltip: variant == null ? l10n.deleteRecipe : l10n.deleteVariant,
+                              onPressed: () => variant == null
+                                  ? _confirmDeleteRecipe(context, viewModel)
+                                  : _confirmDeleteVariant(context, viewModel, variant),
+                            ),
+                          ),
+                      ],
                     ),
                   ),
                   const SizedBox(height: 10),
@@ -438,9 +562,11 @@ class _EditRecipeState extends State<EditRecipe> {
                                   Row(
                                     children: [
                                       Expanded(
-                                        child: Selector<EditRecipeViewModel, Country>(
-                                          selector: (_, vm) => vm.country,
-                                          builder: (context, country, _) {
+                                        child: Selector<EditRecipeViewModel, (Country, bool)>(
+                                          selector: (_, vm) => (vm.country, vm.isVariantMode),
+                                          builder: (context, data, _) {
+                                            final country = data.$1;
+                                            final isVariant = data.$2;
                                             // Use locale country as favorite.
                                             final locale = l10n.localeName
                                                 .substring(0, 2)
@@ -453,44 +579,50 @@ class _EditRecipeState extends State<EditRecipe> {
                                               ], // All other locales match country code.
                                             };
                                             return InkWell(
-                                              onTap: () {
-                                                showCountryPicker(
-                                                  context: context,
-                                                  favorite: localeCountryCode,
-                                                  countryListTheme: CountryListThemeData(
-                                                    bottomSheetHeight: 500,
-                                                    borderRadius: const BorderRadius.only(
-                                                      topLeft: Radius.circular(10.0),
-                                                      topRight: Radius.circular(10.0),
-                                                    ),
-                                                    inputDecoration: m.InputDecoration(
-                                                      labelText: l10n.search,
-                                                      prefixIcon: const Icon(Icons.search),
-                                                      border: m.OutlineInputBorder(
-                                                        borderSide: m.BorderSide(
-                                                          color: Theme.of(context)
-                                                              .colorScheme
-                                                              .outline
-                                                              .withAlpha(50),
+                                              onTap: isVariant
+                                                  ? null
+                                                  : () {
+                                                      showCountryPicker(
+                                                        context: context,
+                                                        favorite: localeCountryCode,
+                                                        countryListTheme: CountryListThemeData(
+                                                          bottomSheetHeight: 500,
+                                                          borderRadius: const BorderRadius.only(
+                                                            topLeft: Radius.circular(10.0),
+                                                            topRight: Radius.circular(10.0),
+                                                          ),
+                                                          inputDecoration: m.InputDecoration(
+                                                            labelText: l10n.search,
+                                                            prefixIcon: const Icon(Icons.search),
+                                                            border: m.OutlineInputBorder(
+                                                              borderSide: m.BorderSide(
+                                                                color: Theme.of(context)
+                                                                    .colorScheme
+                                                                    .outline
+                                                                    .withAlpha(50),
+                                                              ),
+                                                            ),
+                                                          ),
                                                         ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  onSelect: viewModel.setCountry,
-                                                );
-                                              },
+                                                        onSelect: viewModel.setCountry,
+                                                      );
+                                                    },
                                               child: InputDecorator(
                                                 decoration: InputDecoration(
                                                   labelText: l10n.country,
                                                   border: const OutlineInputBorder(),
                                                   isDense: true,
-                                                  suffixIcon: IconButton(
-                                                    icon: const Icon(Icons.clear, size: 16),
-                                                    padding: EdgeInsets.zero,
-                                                    constraints: const BoxConstraints(),
-                                                    onPressed: () =>
-                                                        viewModel.setCountry(Country.parse("WW")),
-                                                  ),
+                                                  enabled: !isVariant,
+                                                  suffixIcon: isVariant
+                                                      ? null
+                                                      : IconButton(
+                                                          icon: const Icon(Icons.clear, size: 16),
+                                                          padding: EdgeInsets.zero,
+                                                          constraints: const BoxConstraints(),
+                                                          onPressed: () => viewModel.setCountry(
+                                                            Country.parse("WW"),
+                                                          ),
+                                                        ),
                                                 ),
                                                 child: Row(
                                                   children: [
@@ -499,7 +631,8 @@ class _EditRecipeState extends State<EditRecipe> {
                                                       style: const TextStyle(fontSize: 16),
                                                     ),
                                                     const Spacer(),
-                                                    const Icon(Icons.arrow_drop_down),
+                                                    if (!isVariant)
+                                                      const Icon(Icons.arrow_drop_down),
                                                   ],
                                                 ),
                                               ),
@@ -562,6 +695,7 @@ class _EditRecipeState extends State<EditRecipe> {
                                         child: TextFormField(
                                           controller: fieldTextEditingController,
                                           focusNode: fieldFocusNode,
+                                          enabled: !viewModel.isVariantMode,
                                           decoration: InputDecoration(
                                             labelText: l10n.source,
                                             border: const OutlineInputBorder(),
@@ -628,11 +762,13 @@ class _EditRecipeState extends State<EditRecipe> {
                   const Divider(),
 
                   // Use Selector for the steps list
-                  Selector<EditRecipeViewModel, (List<RecipeStep>, int)>(
-                    selector: (_, vm) => (vm.recipe.steps, vm.imageVersion.value),
+                  Selector<EditRecipeViewModel, (List<RecipeStep>, int, int)>(
+                    selector: (_, vm) =>
+                        (vm.recipe.steps, vm.imageVersion.value, vm.activeVariantId),
                     shouldRebuild: (prev, next) =>
                         prev.$1.length != next.$1.length || // Length changed
-                        prev.$2 != next.$2, // Image version changed
+                        prev.$2 != next.$2 || // Image version changed
+                        prev.$3 != next.$3, // Active variant changed
                     builder: (context, data, _) {
                       final steps = data.$1;
                       if (steps.isEmpty) {

@@ -11,7 +11,7 @@ Widget buildHeaderStat(
 }) {
   if (value == 0) return Container();
 
-  final displayColor = color ?? Theme.of(context).colorScheme.onSecondary;
+  final displayColor = color ?? Theme.of(context).colorScheme.onPrimary;
 
   Widget iconWidget;
   if (iconPath != null) {

@@ -28,7 +28,8 @@ class ParsedExport {
 ///
 /// The archive contains:
 /// - `recipes.json`: manifest with all recipe fields;
-/// - `<recipeId>_main.<ext>` for the recipe images and `<recipeId>_<index>.<ext>` for step images
+/// - `<recipeId>_main.<ext>` for the recipe image, `<recipeId>_<index>.<ext>` for base step
+///   images and `<recipeId>_v<variantIndex>_<stepIndex>.<ext>` for variant step images.
 Future<List<int>> buildRecipesZip(List<Recipe> recipes) async {
   final archive = Archive();
 
@@ -46,6 +47,13 @@ Future<List<int>> buildRecipesZip(List<Recipe> recipes) async {
     final steps = List<RecipeStep>.from(r.steps)..sort((a, b) => a.order.compareTo(b.order));
     for (int j = 0; j < steps.length; j++) {
       _addImage(archive, steps[j].imagePath, r.id, j);
+    }
+    final variants = List<RecipeVariant>.from(r.variants)
+      ..sort((a, b) => a.title.compareTo(b.title));
+    for (int vi = 0; vi < variants.length; vi++) {
+      for (int j = 0; j < variants[vi].steps.length; j++) {
+        _addImage(archive, variants[vi].steps[j].imagePath, r.id, j, vi);
+      }
     }
   }
 
@@ -90,8 +98,9 @@ Future<ParsedExport> parseRecipesZip(List<int> zipBytes) async {
   return ParsedExport(recipes: recipes, images: images);
 }
 
-/// Imports a parsed export: writes the recipe, its steps, ingredients and tags through [ObjectBoxRecipeRepository.saveRecipe],
-/// then writes the image files into the application documents directory (regenerating thumbnails)
+/// Imports a parsed export: writes the recipe, its steps, variants, ingredients and tags
+/// through [ObjectBoxRecipeRepository], then writes the image files into the application
+/// documents directory (regenerating thumbnails).
 Future<(int, int)> importParsedExport(ObjectBoxRecipeRepository repo, ParsedExport parsed) async {
   await repo.initialize();
   final existing = repo.getAllRecipes();
@@ -116,7 +125,9 @@ Future<(int, int)> importParsedExport(ObjectBoxRecipeRepository repo, ParsedExpo
 
     // Resolve the documents directory only when images actually get written.
     final needsImages =
-        recipe.imagePath.isNotEmpty || recipe.steps.any((s) => s.imagePath.isNotEmpty);
+        recipe.imagePath.isNotEmpty ||
+        recipe.steps.any((s) => s.imagePath.isNotEmpty) ||
+        recipe.variants.any((v) => v.steps.any((s) => s.imagePath.isNotEmpty));
     String? docsDirPath;
     if (needsImages) {
       await PathUtils.init();
@@ -165,7 +176,9 @@ Future<(int, int)> importParsedExport(ObjectBoxRecipeRepository repo, ParsedExpo
         }
       }
     }
-
+    for (final variant in recipe.variants) {
+      await repo.saveVariant(variant);
+    }
     existing.add(recipe);
     imported++;
   }
@@ -174,9 +187,15 @@ Future<(int, int)> importParsedExport(ObjectBoxRecipeRepository repo, ParsedExpo
 
 // Internals
 
-void _addImage(Archive archive, String? imagePath, int recipeId, int? stepIndex) {
+void _addImage(
+  Archive archive,
+  String? imagePath,
+  int recipeId,
+  int? stepIndex, [
+  int? variantIndex,
+]) {
   final cleanPath = PathUtils.cleanPath(imagePath ?? '');
-  final name = imageFileName(imagePath, recipeId, stepIndex);
+  final name = imageFileName(imagePath, recipeId, stepIndex, variantIndex);
   if (name == null) return;
   archive.add(ArchiveFile.bytes(name, Uint8List.fromList(File(cleanPath).readAsBytesSync())));
 }

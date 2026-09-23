@@ -10,7 +10,6 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shefu/l10n/app_localizations.dart';
-import 'package:shefu/models/objectbox_models.dart';
 import 'package:shefu/repositories/objectbox_nutrient_repository.dart';
 import 'package:shefu/utils/path_utils.dart';
 import 'package:shefu/viewmodels/display_recipe_viewmodel.dart';
@@ -26,6 +25,7 @@ Future<void> exportRecipeToPdf(
 
   final servingsMultiplier = viewModel.servings / recipe.servings;
   final l10n = AppLocalizations.of(context)!;
+  final variantSteps = viewModel.getVariantSteps();
 
   // Show loading indicator
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l10n.generatingPdf)));
@@ -105,8 +105,8 @@ Future<void> exportRecipeToPdf(
     }
 
     // Load step images
-    for (int i = 0; i < recipe.steps.length; i++) {
-      final step = recipe.steps[i];
+    for (int i = 0; i < variantSteps.length; i++) {
+      final step = variantSteps[i];
       if (step.imagePath.isNotEmpty) {
         try {
           final File imageFile = File(PathUtils.cleanPath(step.imagePath));
@@ -125,7 +125,8 @@ Future<void> exportRecipeToPdf(
       pw.MultiPage(
         pageFormat: PdfPageFormat.a4,
         margin: const pw.EdgeInsets.all(32),
-        header: (pdfContext) => _buildPdfHeader(recipe, recipeImage, appIcon, boldFont),
+        header: (pdfContext) =>
+            _buildPdfHeader(viewModel.variantTitle, recipeImage, appIcon, boldFont),
         build: (pdfContext) => [
           // Recipe stats
           pw.Container(
@@ -185,7 +186,7 @@ Future<void> exportRecipeToPdf(
           pw.SizedBox(height: 8),
 
           // Steps and Ingredients in two-column layout
-          ...recipe.steps.asMap().entries.map((entry) {
+          ...variantSteps.asMap().entries.map((entry) {
             final index = entry.key;
             final step = entry.value;
 
@@ -292,7 +293,7 @@ Future<void> exportRecipeToPdf(
           // Helper to format numbers similar to the app's smart formatting
           () {
             final totals = calculateTotalNutrients(
-              recipe: recipe,
+              steps: variantSteps,
               nutrientRepository: nutrientRepository,
               full: true,
             );
@@ -471,12 +472,14 @@ Future<void> exportRecipeToPdf(
 
     // Save the PDF file
     final output = await getTemporaryDirectory();
-    final file = File('${output.path}/${recipe.title.replaceAll(' ', '_')}.pdf');
+    final file = File('${output.path}/${viewModel.variantTitle.replaceAll(' ', '_')}.pdf');
     await file.writeAsBytes(await pdf.save());
 
     // Show options to save or share
     if (context.mounted) {
-      await SharePlus.instance.share(ShareParams(text: recipe.title, files: [XFile(file.path)]));
+      await SharePlus.instance.share(
+        ShareParams(text: viewModel.variantTitle, files: [XFile(file.path)]),
+      );
     }
   } catch (e) {
     debugPrint('Error generating PDF: $e');
@@ -489,7 +492,7 @@ Future<void> exportRecipeToPdf(
 
 // Updated header with app icon
 pw.Widget _buildPdfHeader(
-  Recipe recipe,
+  String title,
   pw.MemoryImage? recipeImage,
   pw.MemoryImage? appIcon,
   pw.Font headerFont,
@@ -510,7 +513,7 @@ pw.Widget _buildPdfHeader(
             child: pw.Image(recipeImage, fit: pw.BoxFit.cover),
           ),
         pw.Expanded(
-          child: pw.Text(recipe.title, style: pw.TextStyle(font: headerFont, fontSize: 24)),
+          child: pw.Text(title, style: pw.TextStyle(font: headerFont, fontSize: 24)),
         ),
         // Add Shefu app icon on the right
         if (appIcon != null) pw.Container(width: 40, height: 40, child: pw.Image(appIcon)),

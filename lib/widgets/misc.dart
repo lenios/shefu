@@ -195,7 +195,7 @@ bool shouldConvertUnit(String unit, MeasurementSystem targetSystem) {
   }
 }
 
-Widget categoryLine(int category, context) {
+Widget categoryLine(int category, context, {Color? color}) {
   if (category == 0) {
     return Container();
   } else {
@@ -203,9 +203,9 @@ Widget categoryLine(int category, context) {
       children: [
         Text(
           "${AppLocalizations.of(context)!.category}: ",
-          style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
+          style: TextStyle(color: color ?? Theme.of(context).colorScheme.onSecondary),
         ),
-        formattedCategory(Category.values[category].name, context),
+        formattedCategory(Category.values[category].name, context, color: color),
       ],
     );
   }

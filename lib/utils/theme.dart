@@ -19,27 +19,53 @@ ThemeData _buildTheme(ColorScheme colorScheme, {bool useMaterial3 = true}) {
   );
 }
 
+/// Swaps the primary and secondary roles so that Accent 1 (primary) carries
+/// the application's main UI color and Accent 2 (secondary) serves as the
+/// secondary accent. Application colors (seed colors) are not changed.
+ColorScheme _swapAccentRoles(ColorScheme scheme) {
+  return scheme.copyWith(
+    primary: scheme.secondary,
+    onPrimary: scheme.onSecondary,
+    primaryContainer: scheme.secondaryContainer,
+    onPrimaryContainer: scheme.onSecondaryContainer,
+    primaryFixed: scheme.secondaryFixed,
+    onPrimaryFixed: scheme.onSecondaryFixed,
+    primaryFixedDim: scheme.secondaryFixedDim,
+    onPrimaryFixedVariant: scheme.onSecondaryFixedVariant,
+    secondary: scheme.primary,
+    onSecondary: scheme.onPrimary,
+    secondaryContainer: scheme.primaryContainer,
+    onSecondaryContainer: scheme.onPrimaryContainer,
+    secondaryFixed: scheme.primaryFixed,
+    onSecondaryFixed: scheme.onPrimaryFixed,
+    secondaryFixedDim: scheme.primaryFixedDim,
+    onSecondaryFixedVariant: scheme.onPrimaryFixedVariant,
+  );
+}
+
 ThemeData buildLightTheme([ColorScheme? scheme, bool useMaterial3 = true]) {
-  final colorScheme =
-      scheme ??
-      ColorScheme.fromSeed(
-        seedColor: const Color.fromARGB(255, 27, 241, 145),
-        brightness: Brightness.light,
-      );
+  final colorScheme = _swapAccentRoles(
+    scheme ??
+        ColorScheme.fromSeed(
+          seedColor: const Color.fromARGB(255, 27, 241, 145),
+          brightness: Brightness.light,
+        ),
+  );
   return _buildTheme(colorScheme, useMaterial3: useMaterial3);
 }
 
 ThemeData buildDarkTheme([ColorScheme? scheme, bool useMaterial3 = true]) {
-  final colorScheme =
-      scheme ??
-      ColorScheme.fromSeed(
-        seedColor: const Color(0xFF0B7F4A),
-        brightness: Brightness.dark,
-      ).copyWith(
-        // deep dark
-        surface: const Color(0xFF000000),
-        surfaceContainerHighest: const Color(0xFF0B0B0B),
-        onSurface: const Color(0xFFECECEC),
-      );
+  final colorScheme = _swapAccentRoles(
+    scheme ??
+        ColorScheme.fromSeed(
+          seedColor: const Color(0xFF0B7F4A),
+          brightness: Brightness.dark,
+        ).copyWith(
+          // deep dark
+          surface: const Color(0xFF000000),
+          surfaceContainerHighest: const Color(0xFF0B0B0B),
+          onSurface: const Color(0xFFECECEC),
+        ),
+  );
   return _buildTheme(colorScheme, useMaterial3: useMaterial3);
 }

@@ -24,6 +24,7 @@
     "step": "Step",
     "steps": "Steps",
     "save": "Save",
+    "saveRecipe": "Save recipe and all variants",
     "delete": "Delete",
     "deleteRecipe": "Delete the recipe",
     "title": "Title",
@@ -119,7 +120,7 @@
     "noMatchingNutrient": "No matching nutrients found",
     "leaveWithoutSaving": "Leave without saving?",
     "leave": "Leave",
-    "unsavedChanges": "You may have unsaved changes.",
+    "unsavedChanges": "You may have unsaved changes. Click 'Save' to save all changes, in the recipe and its variants. Leave to discard.",
     "importRecipe": "Import",
     "importRecipeConfirmation": "Do you want to import the recipe from {url}? This will overwrite the current title, steps, and image!",
     "scrapeError": "Failed to import recipe data from the URL.",
@@ -299,6 +300,8 @@
     "importInternalError": "Import failed. This is an internal error. Please open a bug through https://github.com/lenios/shefu/issues and provide the import file if possible for analysis.",
     "exportAsPdf": "Export as PDF",
     "exportAsZip": "Export as ZIP",
+    "copyAsText": "Copy as text",
+    "recipeCopied": "Recipe copied to the clipboard",
     "exportFormatHint": "Select PDF format to print or view on a screen, and ZIP format to import later.",
     "exportCount": "{count,plural, =0{Export 0 recipe} =1{Export 1 recipe} other{Export {count} recipes}}",
     "zipSavedTo": "Saved to {path}",
@@ -310,5 +313,27 @@
     "selectAll": "Select all",
     "deselectAll": "Deselect all",
     "invalidZipFile": "Invalid file: the zip file is not a Shefu export archive.",
-    "supportedWebsitesNote": "See the list of supported websites at: "
+    "supportedWebsitesNote": "See the list of supported websites at: ",
+    "variant": "Variant",
+    "addVariant": "Add variant",
+    "deleteVariant": "Delete variant",
+    "deleteVariantQuestion": "Delete this variant?",
+    "deleteVariantConfirmation": "The {variant} variant will be deleted.",
+    "@deleteVariantConfirmation": {
+      "placeholders": {
+        "variant": {}
+      }
+    },
+    "deleteVariantWarning": "The variant is deleted.",
+    "overrideStep": "Override",
+    "removeOverride": "Remove override",
+    "exportRecipe": "Export recipe",
+    "showVariants": "Display the recipe variants",
+    "recipeSaved": "Recipe saved",
+    "variantSaved": "Variant {variant} saved",
+    "@variantSaved": {
+      "placeholders": {
+        "variant": {}
+      }
+    }
 }

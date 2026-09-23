@@ -28,12 +28,14 @@ class AppRouter {
           if (id == null) {
             return const Scaffold(body: Center(child: Text("Invalid Recipe ID")));
           }
+          final variantId = int.tryParse(state.uri.queryParameters['variant'] ?? '');
           return ChangeNotifierProvider<DisplayRecipeViewModel>(
             create: (context) => DisplayRecipeViewModel(
               context.read<ObjectBoxRecipeRepository>(),
               context.read<MyAppState>(),
               context.read<ObjectBoxNutrientRepository>(),
               id,
+              variantId,
             ),
             child: AppScaffold(child: DisplayRecipe(recipeId: id)),
           );
@@ -46,12 +48,14 @@ class AppRouter {
           if (id == null) {
             return const Scaffold(body: Center(child: Text("Invalid Recipe ID")));
           }
+          final variantId = int.tryParse(state.uri.queryParameters['variant'] ?? '');
           return ChangeNotifierProvider<EditRecipeViewModel>(
             create: (context) => EditRecipeViewModel(
               context.read<ObjectBoxRecipeRepository>(),
               context.read<ObjectBoxNutrientRepository>(),
               id,
               state.uri.queryParameters['new'] == '1',
+              variantId,
             ),
             child: AppScaffold(child: const EditRecipe()),
           );

@@ -451,11 +451,7 @@ final _entities = <obx_int.ModelEntity>[
     ],
     relations: <obx_int.ModelRelation>[],
     backlinks: <obx_int.ModelBacklink>[
-      obx_int.ModelBacklink(
-        name: 'conversions',
-        srcEntity: 'Conversion',
-        srcField: 'nutrient',
-      ),
+      obx_int.ModelBacklink(name: 'conversions', srcEntity: 'Conversion', srcField: 'nutrient'),
     ],
   ),
   obx_int.ModelEntity(
@@ -635,17 +631,14 @@ final _entities = <obx_int.ModelEntity>[
     ],
     relations: <obx_int.ModelRelation>[],
     backlinks: <obx_int.ModelBacklink>[
-      obx_int.ModelBacklink(
-        name: 'steps',
-        srcEntity: 'RecipeStep',
-        srcField: 'recipe',
-      ),
+      obx_int.ModelBacklink(name: 'steps', srcEntity: 'RecipeStep', srcField: 'recipe'),
+      obx_int.ModelBacklink(name: 'variants', srcEntity: 'RecipeVariant', srcField: 'recipe'),
     ],
   ),
   obx_int.ModelEntity(
     id: const obx_int.IdUid(5, 4388955433426848727),
     name: 'RecipeStep',
-    lastPropertyId: const obx_int.IdUid(9, 3631918177233421419),
+    lastPropertyId: const obx_int.IdUid(10, 4531166071499128711),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
@@ -699,14 +692,19 @@ final _entities = <obx_int.ModelEntity>[
         type: 9,
         flags: 0,
       ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(10, 4531166071499128711),
+        name: 'variantId',
+        type: 11,
+        flags: 520,
+        indexId: const obx_int.IdUid(7, 5082401609296368859),
+        relationField: 'variant',
+        relationTarget: 'RecipeVariant',
+      ),
     ],
     relations: <obx_int.ModelRelation>[],
     backlinks: <obx_int.ModelBacklink>[
-      obx_int.ModelBacklink(
-        name: 'ingredients',
-        srcEntity: 'IngredientItem',
-        srcField: '',
-      ),
+      obx_int.ModelBacklink(name: 'ingredients', srcEntity: 'IngredientItem', srcField: ''),
     ],
   ),
   obx_int.ModelEntity(
@@ -740,6 +738,39 @@ final _entities = <obx_int.ModelEntity>[
     ],
     relations: <obx_int.ModelRelation>[],
     backlinks: <obx_int.ModelBacklink>[],
+  ),
+  obx_int.ModelEntity(
+    id: const obx_int.IdUid(7, 7378970030420183791),
+    name: 'RecipeVariant',
+    lastPropertyId: const obx_int.IdUid(4, 3541839402728558577),
+    flags: 0,
+    properties: <obx_int.ModelProperty>[
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(1, 8201504559941572934),
+        name: 'id',
+        type: 6,
+        flags: 1,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(2, 7779699384678202600),
+        name: 'title',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(4, 3541839402728558577),
+        name: 'recipeId',
+        type: 11,
+        flags: 520,
+        indexId: const obx_int.IdUid(8, 6958409888972004199),
+        relationField: 'recipe',
+        relationTarget: 'Recipe',
+      ),
+    ],
+    relations: <obx_int.ModelRelation>[],
+    backlinks: <obx_int.ModelBacklink>[
+      obx_int.ModelBacklink(name: 'steps', srcEntity: 'RecipeStep', srcField: 'variant'),
+    ],
   ),
 ];
 
@@ -786,8 +817,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
     // Typically, this is done with `dart run build_runner build`.
     generatorVersion: obx_int.GeneratorVersion.v2025_12_16,
     entities: _entities,
-    lastEntityId: const obx_int.IdUid(6, 7362449003810345176),
-    lastIndexId: const obx_int.IdUid(6, 2705793105657317534),
+    lastEntityId: const obx_int.IdUid(7, 7378970030420183791),
+    lastIndexId: const obx_int.IdUid(8, 6958409888972004199),
     lastRelationId: const obx_int.IdUid(0, 0),
     lastSequenceId: const obx_int.IdUid(0, 0),
     retiredEntityUids: const [],
@@ -797,6 +828,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
       8847534544833626113,
       6476738803012066954,
       8533523967133434343,
+      8055612308280300175,
     ],
     retiredRelationUids: const [],
     modelVersion: 5,
@@ -830,36 +862,14 @@ obx_int.ModelDefinition getObjectBoxModel() {
       objectFromFB: (obx.Store store, ByteData fbData) {
         final buffer = fb.BufferContext(fbData);
         final rootOffset = buffer.derefObject(0);
-        final idParam = const fb.Int64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          4,
-          0,
-        );
-        final foodIdParam = const fb.Int64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          16,
-          0,
-        );
-        final measureIdParam = const fb.Int64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          14,
-          0,
-        );
-        final descENParam = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGet(buffer, rootOffset, 6, '');
-        final descFRParam = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGet(buffer, rootOffset, 8, '');
-        final factorParam = const fb.Float64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          10,
-          0,
-        );
+        final idParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+        final foodIdParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 16, 0);
+        final measureIdParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 14, 0);
+        final descENParam = const fb.StringReader(asciiOptimization: true)
+            .vTableGet(buffer, rootOffset, 6, '');
+        final descFRParam = const fb.StringReader(asciiOptimization: true)
+            .vTableGet(buffer, rootOffset, 8, '');
+        final factorParam = const fb.Float64Reader().vTableGet(buffer, rootOffset, 10, 0);
         final object = Conversion(
           id: idParam,
           foodId: foodIdParam,
@@ -868,12 +878,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
           descFR: descFRParam,
           factor: factorParam,
         );
-        object.nutrient.targetId = const fb.Int64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          12,
-          0,
-        );
+        object.nutrient.targetId = const fb.Int64Reader().vTableGet(buffer, rootOffset, 12, 0);
         object.nutrient.attach(store);
         return object;
       },
@@ -906,45 +911,17 @@ obx_int.ModelDefinition getObjectBoxModel() {
       objectFromFB: (obx.Store store, ByteData fbData) {
         final buffer = fb.BufferContext(fbData);
         final rootOffset = buffer.derefObject(0);
-        final idParam = const fb.Int64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          4,
-          0,
-        );
-        final nameParam = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGet(buffer, rootOffset, 6, '');
-        final unitParam = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGet(buffer, rootOffset, 8, '');
-        final quantityParam = const fb.Float64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          10,
-          0,
-        );
-        final shapeParam = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGet(buffer, rootOffset, 12, '');
-        final foodIdParam = const fb.Int64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          14,
-          0,
-        );
-        final conversionIdParam = const fb.Int64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          20,
-          0,
-        );
-        final optionalParam = const fb.BoolReader().vTableGet(
-          buffer,
-          rootOffset,
-          22,
-          false,
-        );
+        final idParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+        final nameParam = const fb.StringReader(asciiOptimization: true)
+            .vTableGet(buffer, rootOffset, 6, '');
+        final unitParam = const fb.StringReader(asciiOptimization: true)
+            .vTableGet(buffer, rootOffset, 8, '');
+        final quantityParam = const fb.Float64Reader().vTableGet(buffer, rootOffset, 10, 0);
+        final shapeParam = const fb.StringReader(asciiOptimization: true)
+            .vTableGet(buffer, rootOffset, 12, '');
+        final foodIdParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 14, 0);
+        final conversionIdParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 20, 0);
+        final optionalParam = const fb.BoolReader().vTableGet(buffer, rootOffset, 22, false);
         final object = IngredientItem(
           id: idParam,
           name: nameParam,
@@ -955,12 +932,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
           conversionId: conversionIdParam,
           optional: optionalParam,
         );
-        object.step.targetId = const fb.Int64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          18,
-          0,
-        );
+        object.step.targetId = const fb.Int64Reader().vTableGet(buffer, rootOffset, 18, 0);
         object.step.attach(store);
         return object;
       },
@@ -1039,300 +1011,58 @@ obx_int.ModelDefinition getObjectBoxModel() {
       objectFromFB: (obx.Store store, ByteData fbData) {
         final buffer = fb.BufferContext(fbData);
         final rootOffset = buffer.derefObject(0);
-        final idParam = const fb.Int64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          4,
-          0,
-        );
-        final foodIdParam = const fb.Int64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          102,
-          0,
-        );
-        final descENParam = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGet(buffer, rootOffset, 6, '');
-        final descFRParam = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGet(buffer, rootOffset, 8, '');
-        final proteinParam = const fb.Float64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          10,
-          0,
-        );
-        final waterParam = const fb.Float64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          12,
-          0,
-        );
-        final lipidTotalParam = const fb.Float64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          14,
-          0,
-        );
-        final energKcalParam = const fb.Float64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          16,
-          0,
-        );
-        final carbohydratesParam = const fb.Float64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          18,
-          0,
-        );
-        final ashParam = const fb.Float64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          20,
-          0,
-        );
-        final fiberParam = const fb.Float64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          22,
-          0,
-        );
-        final sugarParam = const fb.Float64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          24,
-          0,
-        );
-        final calciumParam = const fb.Float64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          26,
-          0,
-        );
-        final ironParam = const fb.Float64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          28,
-          0,
-        );
-        final magnesiumParam = const fb.Float64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          30,
-          0,
-        );
-        final phosphorusParam = const fb.Float64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          32,
-          0,
-        );
-        final potassiumParam = const fb.Float64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          34,
-          0,
-        );
-        final sodiumParam = const fb.Float64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          36,
-          0,
-        );
-        final zincParam = const fb.Float64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          38,
-          0,
-        );
-        final copperParam = const fb.Float64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          40,
-          0,
-        );
-        final manganeseParam = const fb.Float64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          42,
-          0,
-        );
-        final seleniumParam = const fb.Float64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          44,
-          0,
-        );
-        final vitaminCParam = const fb.Float64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          46,
-          0,
-        );
-        final thiaminParam = const fb.Float64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          48,
-          0,
-        );
-        final riboflavinParam = const fb.Float64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          50,
-          0,
-        );
-        final niacinParam = const fb.Float64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          52,
-          0,
-        );
-        final pantoAcidParam = const fb.Float64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          54,
-          0,
-        );
-        final vitaminB6Param = const fb.Float64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          56,
-          0,
-        );
-        final folateTotalParam = const fb.Float64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          58,
-          0,
-        );
-        final folicAcidParam = const fb.Float64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          60,
-          0,
-        );
-        final foodFolateParam = const fb.Float64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          62,
-          0,
-        );
-        final folateDFEParam = const fb.Float64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          64,
-          0,
-        );
-        final cholineTotalParam = const fb.Float64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          66,
-          0,
-        );
-        final vitaminB12Param = const fb.Float64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          68,
-          0,
-        );
-        final vitaminAIUParam = const fb.Float64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          70,
-          0,
-        );
-        final vitaminARAEParam = const fb.Float64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          72,
-          0,
-        );
-        final retinolParam = const fb.Float64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          74,
-          0,
-        );
-        final alphaCarotParam = const fb.Float64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          76,
-          0,
-        );
-        final betaCarotParam = const fb.Float64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          78,
-          0,
-        );
-        final betaCryptParam = const fb.Float64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          80,
-          0,
-        );
-        final lycopeneParam = const fb.Float64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          82,
-          0,
-        );
-        final lutZeaParam = const fb.Float64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          84,
-          0,
-        );
-        final vitaminEParam = const fb.Float64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          86,
-          0,
-        );
-        final vitaminDParam = const fb.Float64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          88,
-          0,
-        );
-        final vitaminDIUParam = const fb.Float64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          90,
-          0,
-        );
-        final vitaminKParam = const fb.Float64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          92,
-          0,
-        );
-        final FASatParam = const fb.Float64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          94,
-          0,
-        );
-        final FAMonoParam = const fb.Float64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          96,
-          0,
-        );
-        final FAPolyParam = const fb.Float64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          98,
-          0,
-        );
-        final cholesterolParam = const fb.Float64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          100,
-          0,
-        );
+        final idParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+        final foodIdParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 102, 0);
+        final descENParam = const fb.StringReader(asciiOptimization: true)
+            .vTableGet(buffer, rootOffset, 6, '');
+        final descFRParam = const fb.StringReader(asciiOptimization: true)
+            .vTableGet(buffer, rootOffset, 8, '');
+        final proteinParam = const fb.Float64Reader().vTableGet(buffer, rootOffset, 10, 0);
+        final waterParam = const fb.Float64Reader().vTableGet(buffer, rootOffset, 12, 0);
+        final lipidTotalParam = const fb.Float64Reader().vTableGet(buffer, rootOffset, 14, 0);
+        final energKcalParam = const fb.Float64Reader().vTableGet(buffer, rootOffset, 16, 0);
+        final carbohydratesParam = const fb.Float64Reader().vTableGet(buffer, rootOffset, 18, 0);
+        final ashParam = const fb.Float64Reader().vTableGet(buffer, rootOffset, 20, 0);
+        final fiberParam = const fb.Float64Reader().vTableGet(buffer, rootOffset, 22, 0);
+        final sugarParam = const fb.Float64Reader().vTableGet(buffer, rootOffset, 24, 0);
+        final calciumParam = const fb.Float64Reader().vTableGet(buffer, rootOffset, 26, 0);
+        final ironParam = const fb.Float64Reader().vTableGet(buffer, rootOffset, 28, 0);
+        final magnesiumParam = const fb.Float64Reader().vTableGet(buffer, rootOffset, 30, 0);
+        final phosphorusParam = const fb.Float64Reader().vTableGet(buffer, rootOffset, 32, 0);
+        final potassiumParam = const fb.Float64Reader().vTableGet(buffer, rootOffset, 34, 0);
+        final sodiumParam = const fb.Float64Reader().vTableGet(buffer, rootOffset, 36, 0);
+        final zincParam = const fb.Float64Reader().vTableGet(buffer, rootOffset, 38, 0);
+        final copperParam = const fb.Float64Reader().vTableGet(buffer, rootOffset, 40, 0);
+        final manganeseParam = const fb.Float64Reader().vTableGet(buffer, rootOffset, 42, 0);
+        final seleniumParam = const fb.Float64Reader().vTableGet(buffer, rootOffset, 44, 0);
+        final vitaminCParam = const fb.Float64Reader().vTableGet(buffer, rootOffset, 46, 0);
+        final thiaminParam = const fb.Float64Reader().vTableGet(buffer, rootOffset, 48, 0);
+        final riboflavinParam = const fb.Float64Reader().vTableGet(buffer, rootOffset, 50, 0);
+        final niacinParam = const fb.Float64Reader().vTableGet(buffer, rootOffset, 52, 0);
+        final pantoAcidParam = const fb.Float64Reader().vTableGet(buffer, rootOffset, 54, 0);
+        final vitaminB6Param = const fb.Float64Reader().vTableGet(buffer, rootOffset, 56, 0);
+        final folateTotalParam = const fb.Float64Reader().vTableGet(buffer, rootOffset, 58, 0);
+        final folicAcidParam = const fb.Float64Reader().vTableGet(buffer, rootOffset, 60, 0);
+        final foodFolateParam = const fb.Float64Reader().vTableGet(buffer, rootOffset, 62, 0);
+        final folateDFEParam = const fb.Float64Reader().vTableGet(buffer, rootOffset, 64, 0);
+        final cholineTotalParam = const fb.Float64Reader().vTableGet(buffer, rootOffset, 66, 0);
+        final vitaminB12Param = const fb.Float64Reader().vTableGet(buffer, rootOffset, 68, 0);
+        final vitaminAIUParam = const fb.Float64Reader().vTableGet(buffer, rootOffset, 70, 0);
+        final vitaminARAEParam = const fb.Float64Reader().vTableGet(buffer, rootOffset, 72, 0);
+        final retinolParam = const fb.Float64Reader().vTableGet(buffer, rootOffset, 74, 0);
+        final alphaCarotParam = const fb.Float64Reader().vTableGet(buffer, rootOffset, 76, 0);
+        final betaCarotParam = const fb.Float64Reader().vTableGet(buffer, rootOffset, 78, 0);
+        final betaCryptParam = const fb.Float64Reader().vTableGet(buffer, rootOffset, 80, 0);
+        final lycopeneParam = const fb.Float64Reader().vTableGet(buffer, rootOffset, 82, 0);
+        final lutZeaParam = const fb.Float64Reader().vTableGet(buffer, rootOffset, 84, 0);
+        final vitaminEParam = const fb.Float64Reader().vTableGet(buffer, rootOffset, 86, 0);
+        final vitaminDParam = const fb.Float64Reader().vTableGet(buffer, rootOffset, 88, 0);
+        final vitaminDIUParam = const fb.Float64Reader().vTableGet(buffer, rootOffset, 90, 0);
+        final vitaminKParam = const fb.Float64Reader().vTableGet(buffer, rootOffset, 92, 0);
+        final FASatParam = const fb.Float64Reader().vTableGet(buffer, rootOffset, 94, 0);
+        final FAMonoParam = const fb.Float64Reader().vTableGet(buffer, rootOffset, 96, 0);
+        final FAPolyParam = const fb.Float64Reader().vTableGet(buffer, rootOffset, 98, 0);
+        final cholesterolParam = const fb.Float64Reader().vTableGet(buffer, rootOffset, 100, 0);
         final object = Nutrient(
           id: idParam,
           foodId: foodIdParam,
@@ -1406,6 +1136,11 @@ obx_int.ModelDefinition getObjectBoxModel() {
           object.id,
           (RecipeStep srcObject) => srcObject.recipe,
         ): object.steps,
+        obx_int.RelInfo<RecipeVariant>.toOneBacklink(
+          4,
+          object.id,
+          (RecipeVariant srcObject) => srcObject.recipe,
+        ): object.variants,
       },
       getId: (Recipe object) => object.id,
       setId: (Recipe object, int id) {
@@ -1458,147 +1193,49 @@ obx_int.ModelDefinition getObjectBoxModel() {
       objectFromFB: (obx.Store store, ByteData fbData) {
         final buffer = fb.BufferContext(fbData);
         final rootOffset = buffer.derefObject(0);
-        final idParam = const fb.Int64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          4,
-          0,
-        );
-        final titleParam = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGet(buffer, rootOffset, 6, '');
-        final sourceParam = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGet(buffer, rootOffset, 8, '');
-        final imagePathParam = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGet(buffer, rootOffset, 10, '');
-        final notesParam = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGet(buffer, rootOffset, 12, '');
-        final servingsParam = const fb.Int64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          14,
-          0,
-        );
+        final idParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+        final titleParam = const fb.StringReader(asciiOptimization: true)
+            .vTableGet(buffer, rootOffset, 6, '');
+        final sourceParam = const fb.StringReader(asciiOptimization: true)
+            .vTableGet(buffer, rootOffset, 8, '');
+        final imagePathParam = const fb.StringReader(asciiOptimization: true)
+            .vTableGet(buffer, rootOffset, 10, '');
+        final notesParam = const fb.StringReader(asciiOptimization: true)
+            .vTableGet(buffer, rootOffset, 12, '');
+        final servingsParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 14, 0);
         final piecesPerServingParam = const fb.Int64Reader().vTableGetNullable(
           buffer,
           rootOffset,
           28,
         );
-        final categoryParam = const fb.Int64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          16,
-          0,
-        );
-        final countryCodeParam = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGet(buffer, rootOffset, 18, '');
-        final caloriesParam = const fb.Int64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          20,
-          0,
-        );
-        final fatParam = const fb.Int64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          44,
-          0,
-        );
-        final carbohydratesParam = const fb.Int64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          26,
-          0,
-        );
-        final proteinParam = const fb.Int64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          46,
-          0,
-        );
-        final saturatedFatParam = const fb.Int64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          52,
-          0,
-        );
-        final transFatParam = const fb.Int64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          62,
-          0,
-        );
-        final sugarParam = const fb.Int64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          54,
-          0,
-        );
-        final fiberParam = const fb.Int64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          56,
-          0,
-        );
-        final cholesterolParam = const fb.Int64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          58,
-          0,
-        );
-        final sodiumParam = const fb.Int64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          60,
-          0,
-        );
-        final timeParam = const fb.Int64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          22,
-          0,
-        );
-        final cookTimeParam = const fb.Int64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          32,
-          0,
-        );
-        final prepTimeParam = const fb.Int64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          34,
-          0,
-        );
-        final restTimeParam = const fb.Int64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          42,
-          0,
-        );
-        final monthParam = const fb.Int64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          24,
-          0,
-        );
-        final makeAheadParam = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGet(buffer, rootOffset, 36, '');
-        final videoUrlParam = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGet(buffer, rootOffset, 38, '');
+        final categoryParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 16, 0);
+        final countryCodeParam = const fb.StringReader(asciiOptimization: true)
+            .vTableGet(buffer, rootOffset, 18, '');
+        final caloriesParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 20, 0);
+        final fatParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 44, 0);
+        final carbohydratesParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 26, 0);
+        final proteinParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 46, 0);
+        final saturatedFatParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 52, 0);
+        final transFatParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 62, 0);
+        final sugarParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 54, 0);
+        final fiberParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 56, 0);
+        final cholesterolParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 58, 0);
+        final sodiumParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 60, 0);
+        final timeParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 22, 0);
+        final cookTimeParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 32, 0);
+        final prepTimeParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 34, 0);
+        final restTimeParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 42, 0);
+        final monthParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 24, 0);
+        final makeAheadParam = const fb.StringReader(asciiOptimization: true)
+            .vTableGet(buffer, rootOffset, 36, '');
+        final videoUrlParam = const fb.StringReader(asciiOptimization: true)
+            .vTableGet(buffer, rootOffset, 38, '');
         final questionsParam = const fb.ListReader<String>(
           fb.StringReader(asciiOptimization: true),
           lazy: false,
         ).vTableGet(buffer, rootOffset, 48, []);
-        final languageTagParam = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGet(buffer, rootOffset, 50, '');
+        final languageTagParam = const fb.StringReader(asciiOptimization: true)
+            .vTableGet(buffer, rootOffset, 50, '');
         final object = Recipe(
           id: idParam,
           title: titleParam,
@@ -1638,12 +1275,21 @@ obx_int.ModelDefinition getObjectBoxModel() {
             (RecipeStep srcObject) => srcObject.recipe,
           ),
         );
+        obx_int.InternalToManyAccess.setRelInfo<Recipe>(
+          object.variants,
+          store,
+          obx_int.RelInfo<RecipeVariant>.toOneBacklink(
+            4,
+            object.id,
+            (RecipeVariant srcObject) => srcObject.recipe,
+          ),
+        );
         return object;
       },
     ),
     RecipeStep: obx_int.EntityDefinition<RecipeStep>(
       model: _entities[4],
-      toOneRelations: (RecipeStep object) => [object.recipe],
+      toOneRelations: (RecipeStep object) => [object.recipe, object.variant],
       toManyRelations: (RecipeStep object) => {
         obx_int.RelInfo<IngredientItem>.toOneBacklink(
           8,
@@ -1660,7 +1306,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final instructionOffset = fbb.writeString(object.instruction);
         final imagePathOffset = fbb.writeString(object.imagePath);
         final videoUrlOffset = fbb.writeString(object.videoUrl);
-        fbb.startTable(10);
+        fbb.startTable(11);
         fbb.addInt64(0, object.id);
         fbb.addOffset(1, nameOffset);
         fbb.addOffset(2, instructionOffset);
@@ -1669,42 +1315,24 @@ obx_int.ModelDefinition getObjectBoxModel() {
         fbb.addInt64(5, object.recipe.targetId);
         fbb.addInt64(7, object.order);
         fbb.addOffset(8, videoUrlOffset);
+        fbb.addInt64(9, object.variant.targetId);
         fbb.finish(fbb.endTable());
         return object.id;
       },
       objectFromFB: (obx.Store store, ByteData fbData) {
         final buffer = fb.BufferContext(fbData);
         final rootOffset = buffer.derefObject(0);
-        final idParam = const fb.Int64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          4,
-          0,
-        );
-        final nameParam = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGet(buffer, rootOffset, 6, '');
-        final instructionParam = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGet(buffer, rootOffset, 8, '');
-        final imagePathParam = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGet(buffer, rootOffset, 10, '');
-        final videoUrlParam = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGet(buffer, rootOffset, 20, '');
-        final timerParam = const fb.Int64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          12,
-          0,
-        );
-        final orderParam = const fb.Int64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          18,
-          0,
-        );
+        final idParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+        final nameParam = const fb.StringReader(asciiOptimization: true)
+            .vTableGet(buffer, rootOffset, 6, '');
+        final instructionParam = const fb.StringReader(asciiOptimization: true)
+            .vTableGet(buffer, rootOffset, 8, '');
+        final imagePathParam = const fb.StringReader(asciiOptimization: true)
+            .vTableGet(buffer, rootOffset, 10, '');
+        final videoUrlParam = const fb.StringReader(asciiOptimization: true)
+            .vTableGet(buffer, rootOffset, 20, '');
+        final timerParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 12, 0);
+        final orderParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 18, 0);
         final object = RecipeStep(
           id: idParam,
           name: nameParam,
@@ -1714,13 +1342,10 @@ obx_int.ModelDefinition getObjectBoxModel() {
           timer: timerParam,
           order: orderParam,
         );
-        object.recipe.targetId = const fb.Int64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          14,
-          0,
-        );
+        object.recipe.targetId = const fb.Int64Reader().vTableGet(buffer, rootOffset, 14, 0);
         object.recipe.attach(store);
+        object.variant.targetId = const fb.Int64Reader().vTableGet(buffer, rootOffset, 22, 0);
+        object.variant.attach(store);
         obx_int.InternalToManyAccess.setRelInfo<RecipeStep>(
           object.ingredients,
           store,
@@ -1753,23 +1378,56 @@ obx_int.ModelDefinition getObjectBoxModel() {
       objectFromFB: (obx.Store store, ByteData fbData) {
         final buffer = fb.BufferContext(fbData);
         final rootOffset = buffer.derefObject(0);
-        final idParam = const fb.Int64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          4,
-          0,
-        );
-        final nameParam = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGet(buffer, rootOffset, 6, '');
+        final idParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+        final nameParam = const fb.StringReader(asciiOptimization: true)
+            .vTableGet(buffer, rootOffset, 6, '');
         final object = Tag(id: idParam, name: nameParam);
-        object.recipe.targetId = const fb.Int64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          8,
-          0,
-        );
+        object.recipe.targetId = const fb.Int64Reader().vTableGet(buffer, rootOffset, 8, 0);
         object.recipe.attach(store);
+        return object;
+      },
+    ),
+    RecipeVariant: obx_int.EntityDefinition<RecipeVariant>(
+      model: _entities[6],
+      toOneRelations: (RecipeVariant object) => [object.recipe],
+      toManyRelations: (RecipeVariant object) => {
+        obx_int.RelInfo<RecipeStep>.toOneBacklink(
+          10,
+          object.id,
+          (RecipeStep srcObject) => srcObject.variant,
+        ): object.steps,
+      },
+      getId: (RecipeVariant object) => object.id,
+      setId: (RecipeVariant object, int id) {
+        object.id = id;
+      },
+      objectToFB: (RecipeVariant object, fb.Builder fbb) {
+        final titleOffset = fbb.writeString(object.title);
+        fbb.startTable(5);
+        fbb.addInt64(0, object.id);
+        fbb.addOffset(1, titleOffset);
+        fbb.addInt64(3, object.recipe.targetId);
+        fbb.finish(fbb.endTable());
+        return object.id;
+      },
+      objectFromFB: (obx.Store store, ByteData fbData) {
+        final buffer = fb.BufferContext(fbData);
+        final rootOffset = buffer.derefObject(0);
+        final idParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+        final titleParam = const fb.StringReader(asciiOptimization: true)
+            .vTableGet(buffer, rootOffset, 6, '');
+        final object = RecipeVariant(id: idParam, title: titleParam);
+        object.recipe.targetId = const fb.Int64Reader().vTableGet(buffer, rootOffset, 10, 0);
+        object.recipe.attach(store);
+        obx_int.InternalToManyAccess.setRelInfo<RecipeVariant>(
+          object.steps,
+          store,
+          obx_int.RelInfo<RecipeStep>.toOneBacklink(
+            10,
+            object.id,
+            (RecipeStep srcObject) => srcObject.variant,
+          ),
+        );
         return object;
       },
     ),
@@ -1781,72 +1439,46 @@ obx_int.ModelDefinition getObjectBoxModel() {
 /// [Conversion] entity fields to define ObjectBox queries.
 class Conversion_ {
   /// See [Conversion.id].
-  static final id = obx.QueryIntegerProperty<Conversion>(
-    _entities[0].properties[0],
-  );
+  static final id = obx.QueryIntegerProperty<Conversion>(_entities[0].properties[0]);
 
   /// See [Conversion.descEN].
-  static final descEN = obx.QueryStringProperty<Conversion>(
-    _entities[0].properties[1],
-  );
+  static final descEN = obx.QueryStringProperty<Conversion>(_entities[0].properties[1]);
 
   /// See [Conversion.descFR].
-  static final descFR = obx.QueryStringProperty<Conversion>(
-    _entities[0].properties[2],
-  );
+  static final descFR = obx.QueryStringProperty<Conversion>(_entities[0].properties[2]);
 
   /// See [Conversion.factor].
-  static final factor = obx.QueryDoubleProperty<Conversion>(
-    _entities[0].properties[3],
-  );
+  static final factor = obx.QueryDoubleProperty<Conversion>(_entities[0].properties[3]);
 
   /// See [Conversion.nutrient].
-  static final nutrient = obx.QueryRelationToOne<Conversion, Nutrient>(
-    _entities[0].properties[4],
-  );
+  static final nutrient = obx.QueryRelationToOne<Conversion, Nutrient>(_entities[0].properties[4]);
 
   /// See [Conversion.measureId].
-  static final measureId = obx.QueryIntegerProperty<Conversion>(
-    _entities[0].properties[5],
-  );
+  static final measureId = obx.QueryIntegerProperty<Conversion>(_entities[0].properties[5]);
 
   /// See [Conversion.foodId].
-  static final foodId = obx.QueryIntegerProperty<Conversion>(
-    _entities[0].properties[6],
-  );
+  static final foodId = obx.QueryIntegerProperty<Conversion>(_entities[0].properties[6]);
 }
 
 /// [IngredientItem] entity fields to define ObjectBox queries.
 class IngredientItem_ {
   /// See [IngredientItem.id].
-  static final id = obx.QueryIntegerProperty<IngredientItem>(
-    _entities[1].properties[0],
-  );
+  static final id = obx.QueryIntegerProperty<IngredientItem>(_entities[1].properties[0]);
 
   /// See [IngredientItem.name].
-  static final name = obx.QueryStringProperty<IngredientItem>(
-    _entities[1].properties[1],
-  );
+  static final name = obx.QueryStringProperty<IngredientItem>(_entities[1].properties[1]);
 
   /// See [IngredientItem.unit].
-  static final unit = obx.QueryStringProperty<IngredientItem>(
-    _entities[1].properties[2],
-  );
+  static final unit = obx.QueryStringProperty<IngredientItem>(_entities[1].properties[2]);
 
   /// See [IngredientItem.quantity].
-  static final quantity = obx.QueryDoubleProperty<IngredientItem>(
-    _entities[1].properties[3],
-  );
+  static final quantity = obx.QueryDoubleProperty<IngredientItem>(_entities[1].properties[3]);
 
   /// See [IngredientItem.shape].
-  static final shape = obx.QueryStringProperty<IngredientItem>(
-    _entities[1].properties[4],
-  );
+  static final shape = obx.QueryStringProperty<IngredientItem>(_entities[1].properties[4]);
 
   /// See [IngredientItem.foodId].
-  static final foodId = obx.QueryIntegerProperty<IngredientItem>(
-    _entities[1].properties[5],
-  );
+  static final foodId = obx.QueryIntegerProperty<IngredientItem>(_entities[1].properties[5]);
 
   /// See [IngredientItem.step].
   static final step = obx.QueryRelationToOne<IngredientItem, RecipeStep>(
@@ -1854,467 +1486,296 @@ class IngredientItem_ {
   );
 
   /// See [IngredientItem.conversionId].
-  static final conversionId = obx.QueryIntegerProperty<IngredientItem>(
-    _entities[1].properties[7],
-  );
+  static final conversionId = obx.QueryIntegerProperty<IngredientItem>(_entities[1].properties[7]);
 
   /// See [IngredientItem.optional].
-  static final optional = obx.QueryBooleanProperty<IngredientItem>(
-    _entities[1].properties[8],
-  );
+  static final optional = obx.QueryBooleanProperty<IngredientItem>(_entities[1].properties[8]);
 }
 
 /// [Nutrient] entity fields to define ObjectBox queries.
 class Nutrient_ {
   /// See [Nutrient.id].
-  static final id = obx.QueryIntegerProperty<Nutrient>(
-    _entities[2].properties[0],
-  );
+  static final id = obx.QueryIntegerProperty<Nutrient>(_entities[2].properties[0]);
 
   /// See [Nutrient.descEN].
-  static final descEN = obx.QueryStringProperty<Nutrient>(
-    _entities[2].properties[1],
-  );
+  static final descEN = obx.QueryStringProperty<Nutrient>(_entities[2].properties[1]);
 
   /// See [Nutrient.descFR].
-  static final descFR = obx.QueryStringProperty<Nutrient>(
-    _entities[2].properties[2],
-  );
+  static final descFR = obx.QueryStringProperty<Nutrient>(_entities[2].properties[2]);
 
   /// See [Nutrient.protein].
-  static final protein = obx.QueryDoubleProperty<Nutrient>(
-    _entities[2].properties[3],
-  );
+  static final protein = obx.QueryDoubleProperty<Nutrient>(_entities[2].properties[3]);
 
   /// See [Nutrient.water].
-  static final water = obx.QueryDoubleProperty<Nutrient>(
-    _entities[2].properties[4],
-  );
+  static final water = obx.QueryDoubleProperty<Nutrient>(_entities[2].properties[4]);
 
   /// See [Nutrient.lipidTotal].
-  static final lipidTotal = obx.QueryDoubleProperty<Nutrient>(
-    _entities[2].properties[5],
-  );
+  static final lipidTotal = obx.QueryDoubleProperty<Nutrient>(_entities[2].properties[5]);
 
   /// See [Nutrient.energKcal].
-  static final energKcal = obx.QueryDoubleProperty<Nutrient>(
-    _entities[2].properties[6],
-  );
+  static final energKcal = obx.QueryDoubleProperty<Nutrient>(_entities[2].properties[6]);
 
   /// See [Nutrient.carbohydrates].
-  static final carbohydrates = obx.QueryDoubleProperty<Nutrient>(
-    _entities[2].properties[7],
-  );
+  static final carbohydrates = obx.QueryDoubleProperty<Nutrient>(_entities[2].properties[7]);
 
   /// See [Nutrient.ash].
-  static final ash = obx.QueryDoubleProperty<Nutrient>(
-    _entities[2].properties[8],
-  );
+  static final ash = obx.QueryDoubleProperty<Nutrient>(_entities[2].properties[8]);
 
   /// See [Nutrient.fiber].
-  static final fiber = obx.QueryDoubleProperty<Nutrient>(
-    _entities[2].properties[9],
-  );
+  static final fiber = obx.QueryDoubleProperty<Nutrient>(_entities[2].properties[9]);
 
   /// See [Nutrient.sugar].
-  static final sugar = obx.QueryDoubleProperty<Nutrient>(
-    _entities[2].properties[10],
-  );
+  static final sugar = obx.QueryDoubleProperty<Nutrient>(_entities[2].properties[10]);
 
   /// See [Nutrient.calcium].
-  static final calcium = obx.QueryDoubleProperty<Nutrient>(
-    _entities[2].properties[11],
-  );
+  static final calcium = obx.QueryDoubleProperty<Nutrient>(_entities[2].properties[11]);
 
   /// See [Nutrient.iron].
-  static final iron = obx.QueryDoubleProperty<Nutrient>(
-    _entities[2].properties[12],
-  );
+  static final iron = obx.QueryDoubleProperty<Nutrient>(_entities[2].properties[12]);
 
   /// See [Nutrient.magnesium].
-  static final magnesium = obx.QueryDoubleProperty<Nutrient>(
-    _entities[2].properties[13],
-  );
+  static final magnesium = obx.QueryDoubleProperty<Nutrient>(_entities[2].properties[13]);
 
   /// See [Nutrient.phosphorus].
-  static final phosphorus = obx.QueryDoubleProperty<Nutrient>(
-    _entities[2].properties[14],
-  );
+  static final phosphorus = obx.QueryDoubleProperty<Nutrient>(_entities[2].properties[14]);
 
   /// See [Nutrient.potassium].
-  static final potassium = obx.QueryDoubleProperty<Nutrient>(
-    _entities[2].properties[15],
-  );
+  static final potassium = obx.QueryDoubleProperty<Nutrient>(_entities[2].properties[15]);
 
   /// See [Nutrient.sodium].
-  static final sodium = obx.QueryDoubleProperty<Nutrient>(
-    _entities[2].properties[16],
-  );
+  static final sodium = obx.QueryDoubleProperty<Nutrient>(_entities[2].properties[16]);
 
   /// See [Nutrient.zinc].
-  static final zinc = obx.QueryDoubleProperty<Nutrient>(
-    _entities[2].properties[17],
-  );
+  static final zinc = obx.QueryDoubleProperty<Nutrient>(_entities[2].properties[17]);
 
   /// See [Nutrient.copper].
-  static final copper = obx.QueryDoubleProperty<Nutrient>(
-    _entities[2].properties[18],
-  );
+  static final copper = obx.QueryDoubleProperty<Nutrient>(_entities[2].properties[18]);
 
   /// See [Nutrient.manganese].
-  static final manganese = obx.QueryDoubleProperty<Nutrient>(
-    _entities[2].properties[19],
-  );
+  static final manganese = obx.QueryDoubleProperty<Nutrient>(_entities[2].properties[19]);
 
   /// See [Nutrient.selenium].
-  static final selenium = obx.QueryDoubleProperty<Nutrient>(
-    _entities[2].properties[20],
-  );
+  static final selenium = obx.QueryDoubleProperty<Nutrient>(_entities[2].properties[20]);
 
   /// See [Nutrient.vitaminC].
-  static final vitaminC = obx.QueryDoubleProperty<Nutrient>(
-    _entities[2].properties[21],
-  );
+  static final vitaminC = obx.QueryDoubleProperty<Nutrient>(_entities[2].properties[21]);
 
   /// See [Nutrient.thiamin].
-  static final thiamin = obx.QueryDoubleProperty<Nutrient>(
-    _entities[2].properties[22],
-  );
+  static final thiamin = obx.QueryDoubleProperty<Nutrient>(_entities[2].properties[22]);
 
   /// See [Nutrient.riboflavin].
-  static final riboflavin = obx.QueryDoubleProperty<Nutrient>(
-    _entities[2].properties[23],
-  );
+  static final riboflavin = obx.QueryDoubleProperty<Nutrient>(_entities[2].properties[23]);
 
   /// See [Nutrient.niacin].
-  static final niacin = obx.QueryDoubleProperty<Nutrient>(
-    _entities[2].properties[24],
-  );
+  static final niacin = obx.QueryDoubleProperty<Nutrient>(_entities[2].properties[24]);
 
   /// See [Nutrient.pantoAcid].
-  static final pantoAcid = obx.QueryDoubleProperty<Nutrient>(
-    _entities[2].properties[25],
-  );
+  static final pantoAcid = obx.QueryDoubleProperty<Nutrient>(_entities[2].properties[25]);
 
   /// See [Nutrient.vitaminB6].
-  static final vitaminB6 = obx.QueryDoubleProperty<Nutrient>(
-    _entities[2].properties[26],
-  );
+  static final vitaminB6 = obx.QueryDoubleProperty<Nutrient>(_entities[2].properties[26]);
 
   /// See [Nutrient.folateTotal].
-  static final folateTotal = obx.QueryDoubleProperty<Nutrient>(
-    _entities[2].properties[27],
-  );
+  static final folateTotal = obx.QueryDoubleProperty<Nutrient>(_entities[2].properties[27]);
 
   /// See [Nutrient.folicAcid].
-  static final folicAcid = obx.QueryDoubleProperty<Nutrient>(
-    _entities[2].properties[28],
-  );
+  static final folicAcid = obx.QueryDoubleProperty<Nutrient>(_entities[2].properties[28]);
 
   /// See [Nutrient.foodFolate].
-  static final foodFolate = obx.QueryDoubleProperty<Nutrient>(
-    _entities[2].properties[29],
-  );
+  static final foodFolate = obx.QueryDoubleProperty<Nutrient>(_entities[2].properties[29]);
 
   /// See [Nutrient.folateDFE].
-  static final folateDFE = obx.QueryDoubleProperty<Nutrient>(
-    _entities[2].properties[30],
-  );
+  static final folateDFE = obx.QueryDoubleProperty<Nutrient>(_entities[2].properties[30]);
 
   /// See [Nutrient.cholineTotal].
-  static final cholineTotal = obx.QueryDoubleProperty<Nutrient>(
-    _entities[2].properties[31],
-  );
+  static final cholineTotal = obx.QueryDoubleProperty<Nutrient>(_entities[2].properties[31]);
 
   /// See [Nutrient.vitaminB12].
-  static final vitaminB12 = obx.QueryDoubleProperty<Nutrient>(
-    _entities[2].properties[32],
-  );
+  static final vitaminB12 = obx.QueryDoubleProperty<Nutrient>(_entities[2].properties[32]);
 
   /// See [Nutrient.vitaminAIU].
-  static final vitaminAIU = obx.QueryDoubleProperty<Nutrient>(
-    _entities[2].properties[33],
-  );
+  static final vitaminAIU = obx.QueryDoubleProperty<Nutrient>(_entities[2].properties[33]);
 
   /// See [Nutrient.vitaminARAE].
-  static final vitaminARAE = obx.QueryDoubleProperty<Nutrient>(
-    _entities[2].properties[34],
-  );
+  static final vitaminARAE = obx.QueryDoubleProperty<Nutrient>(_entities[2].properties[34]);
 
   /// See [Nutrient.retinol].
-  static final retinol = obx.QueryDoubleProperty<Nutrient>(
-    _entities[2].properties[35],
-  );
+  static final retinol = obx.QueryDoubleProperty<Nutrient>(_entities[2].properties[35]);
 
   /// See [Nutrient.alphaCarot].
-  static final alphaCarot = obx.QueryDoubleProperty<Nutrient>(
-    _entities[2].properties[36],
-  );
+  static final alphaCarot = obx.QueryDoubleProperty<Nutrient>(_entities[2].properties[36]);
 
   /// See [Nutrient.betaCarot].
-  static final betaCarot = obx.QueryDoubleProperty<Nutrient>(
-    _entities[2].properties[37],
-  );
+  static final betaCarot = obx.QueryDoubleProperty<Nutrient>(_entities[2].properties[37]);
 
   /// See [Nutrient.betaCrypt].
-  static final betaCrypt = obx.QueryDoubleProperty<Nutrient>(
-    _entities[2].properties[38],
-  );
+  static final betaCrypt = obx.QueryDoubleProperty<Nutrient>(_entities[2].properties[38]);
 
   /// See [Nutrient.lycopene].
-  static final lycopene = obx.QueryDoubleProperty<Nutrient>(
-    _entities[2].properties[39],
-  );
+  static final lycopene = obx.QueryDoubleProperty<Nutrient>(_entities[2].properties[39]);
 
   /// See [Nutrient.lutZea].
-  static final lutZea = obx.QueryDoubleProperty<Nutrient>(
-    _entities[2].properties[40],
-  );
+  static final lutZea = obx.QueryDoubleProperty<Nutrient>(_entities[2].properties[40]);
 
   /// See [Nutrient.vitaminE].
-  static final vitaminE = obx.QueryDoubleProperty<Nutrient>(
-    _entities[2].properties[41],
-  );
+  static final vitaminE = obx.QueryDoubleProperty<Nutrient>(_entities[2].properties[41]);
 
   /// See [Nutrient.vitaminD].
-  static final vitaminD = obx.QueryDoubleProperty<Nutrient>(
-    _entities[2].properties[42],
-  );
+  static final vitaminD = obx.QueryDoubleProperty<Nutrient>(_entities[2].properties[42]);
 
   /// See [Nutrient.vitaminDIU].
-  static final vitaminDIU = obx.QueryDoubleProperty<Nutrient>(
-    _entities[2].properties[43],
-  );
+  static final vitaminDIU = obx.QueryDoubleProperty<Nutrient>(_entities[2].properties[43]);
 
   /// See [Nutrient.vitaminK].
-  static final vitaminK = obx.QueryDoubleProperty<Nutrient>(
-    _entities[2].properties[44],
-  );
+  static final vitaminK = obx.QueryDoubleProperty<Nutrient>(_entities[2].properties[44]);
 
   /// See [Nutrient.FASat].
-  static final FASat = obx.QueryDoubleProperty<Nutrient>(
-    _entities[2].properties[45],
-  );
+  static final FASat = obx.QueryDoubleProperty<Nutrient>(_entities[2].properties[45]);
 
   /// See [Nutrient.FAMono].
-  static final FAMono = obx.QueryDoubleProperty<Nutrient>(
-    _entities[2].properties[46],
-  );
+  static final FAMono = obx.QueryDoubleProperty<Nutrient>(_entities[2].properties[46]);
 
   /// See [Nutrient.FAPoly].
-  static final FAPoly = obx.QueryDoubleProperty<Nutrient>(
-    _entities[2].properties[47],
-  );
+  static final FAPoly = obx.QueryDoubleProperty<Nutrient>(_entities[2].properties[47]);
 
   /// See [Nutrient.cholesterol].
-  static final cholesterol = obx.QueryDoubleProperty<Nutrient>(
-    _entities[2].properties[48],
-  );
+  static final cholesterol = obx.QueryDoubleProperty<Nutrient>(_entities[2].properties[48]);
 
   /// See [Nutrient.foodId].
-  static final foodId = obx.QueryIntegerProperty<Nutrient>(
-    _entities[2].properties[49],
-  );
+  static final foodId = obx.QueryIntegerProperty<Nutrient>(_entities[2].properties[49]);
 
   /// see [Nutrient.conversions]
-  static final conversions = obx.QueryBacklinkToMany<Conversion, Nutrient>(
-    Conversion_.nutrient,
-  );
+  static final conversions = obx.QueryBacklinkToMany<Conversion, Nutrient>(Conversion_.nutrient);
 }
 
 /// [Recipe] entity fields to define ObjectBox queries.
 class Recipe_ {
   /// See [Recipe.id].
-  static final id = obx.QueryIntegerProperty<Recipe>(
-    _entities[3].properties[0],
-  );
+  static final id = obx.QueryIntegerProperty<Recipe>(_entities[3].properties[0]);
 
   /// See [Recipe.title].
-  static final title = obx.QueryStringProperty<Recipe>(
-    _entities[3].properties[1],
-  );
+  static final title = obx.QueryStringProperty<Recipe>(_entities[3].properties[1]);
 
   /// See [Recipe.source].
-  static final source = obx.QueryStringProperty<Recipe>(
-    _entities[3].properties[2],
-  );
+  static final source = obx.QueryStringProperty<Recipe>(_entities[3].properties[2]);
 
   /// See [Recipe.imagePath].
-  static final imagePath = obx.QueryStringProperty<Recipe>(
-    _entities[3].properties[3],
-  );
+  static final imagePath = obx.QueryStringProperty<Recipe>(_entities[3].properties[3]);
 
   /// See [Recipe.notes].
-  static final notes = obx.QueryStringProperty<Recipe>(
-    _entities[3].properties[4],
-  );
+  static final notes = obx.QueryStringProperty<Recipe>(_entities[3].properties[4]);
 
   /// See [Recipe.servings].
-  static final servings = obx.QueryIntegerProperty<Recipe>(
-    _entities[3].properties[5],
-  );
+  static final servings = obx.QueryIntegerProperty<Recipe>(_entities[3].properties[5]);
 
   /// See [Recipe.category].
-  static final category = obx.QueryIntegerProperty<Recipe>(
-    _entities[3].properties[6],
-  );
+  static final category = obx.QueryIntegerProperty<Recipe>(_entities[3].properties[6]);
 
   /// See [Recipe.countryCode].
-  static final countryCode = obx.QueryStringProperty<Recipe>(
-    _entities[3].properties[7],
-  );
+  static final countryCode = obx.QueryStringProperty<Recipe>(_entities[3].properties[7]);
 
   /// See [Recipe.calories].
-  static final calories = obx.QueryIntegerProperty<Recipe>(
-    _entities[3].properties[8],
-  );
+  static final calories = obx.QueryIntegerProperty<Recipe>(_entities[3].properties[8]);
 
   /// See [Recipe.time].
-  static final time = obx.QueryIntegerProperty<Recipe>(
-    _entities[3].properties[9],
-  );
+  static final time = obx.QueryIntegerProperty<Recipe>(_entities[3].properties[9]);
 
   /// See [Recipe.month].
-  static final month = obx.QueryIntegerProperty<Recipe>(
-    _entities[3].properties[10],
-  );
+  static final month = obx.QueryIntegerProperty<Recipe>(_entities[3].properties[10]);
 
   /// See [Recipe.carbohydrates].
-  static final carbohydrates = obx.QueryIntegerProperty<Recipe>(
-    _entities[3].properties[11],
-  );
+  static final carbohydrates = obx.QueryIntegerProperty<Recipe>(_entities[3].properties[11]);
 
   /// See [Recipe.piecesPerServing].
-  static final piecesPerServing = obx.QueryIntegerProperty<Recipe>(
-    _entities[3].properties[12],
-  );
+  static final piecesPerServing = obx.QueryIntegerProperty<Recipe>(_entities[3].properties[12]);
 
   /// See [Recipe.cookTime].
-  static final cookTime = obx.QueryIntegerProperty<Recipe>(
-    _entities[3].properties[13],
-  );
+  static final cookTime = obx.QueryIntegerProperty<Recipe>(_entities[3].properties[13]);
 
   /// See [Recipe.prepTime].
-  static final prepTime = obx.QueryIntegerProperty<Recipe>(
-    _entities[3].properties[14],
-  );
+  static final prepTime = obx.QueryIntegerProperty<Recipe>(_entities[3].properties[14]);
 
   /// See [Recipe.makeAhead].
-  static final makeAhead = obx.QueryStringProperty<Recipe>(
-    _entities[3].properties[15],
-  );
+  static final makeAhead = obx.QueryStringProperty<Recipe>(_entities[3].properties[15]);
 
   /// See [Recipe.videoUrl].
-  static final videoUrl = obx.QueryStringProperty<Recipe>(
-    _entities[3].properties[16],
-  );
+  static final videoUrl = obx.QueryStringProperty<Recipe>(_entities[3].properties[16]);
 
   /// See [Recipe.restTime].
-  static final restTime = obx.QueryIntegerProperty<Recipe>(
-    _entities[3].properties[17],
-  );
+  static final restTime = obx.QueryIntegerProperty<Recipe>(_entities[3].properties[17]);
 
   /// See [Recipe.fat].
-  static final fat = obx.QueryIntegerProperty<Recipe>(
-    _entities[3].properties[18],
-  );
+  static final fat = obx.QueryIntegerProperty<Recipe>(_entities[3].properties[18]);
 
   /// See [Recipe.protein].
-  static final protein = obx.QueryIntegerProperty<Recipe>(
-    _entities[3].properties[19],
-  );
+  static final protein = obx.QueryIntegerProperty<Recipe>(_entities[3].properties[19]);
 
   /// See [Recipe.questions].
-  static final questions = obx.QueryStringVectorProperty<Recipe>(
-    _entities[3].properties[20],
-  );
+  static final questions = obx.QueryStringVectorProperty<Recipe>(_entities[3].properties[20]);
 
   /// See [Recipe.languageTag].
-  static final languageTag = obx.QueryStringProperty<Recipe>(
-    _entities[3].properties[21],
-  );
+  static final languageTag = obx.QueryStringProperty<Recipe>(_entities[3].properties[21]);
 
   /// See [Recipe.saturatedFat].
-  static final saturatedFat = obx.QueryIntegerProperty<Recipe>(
-    _entities[3].properties[22],
-  );
+  static final saturatedFat = obx.QueryIntegerProperty<Recipe>(_entities[3].properties[22]);
 
   /// See [Recipe.sugar].
-  static final sugar = obx.QueryIntegerProperty<Recipe>(
-    _entities[3].properties[23],
-  );
+  static final sugar = obx.QueryIntegerProperty<Recipe>(_entities[3].properties[23]);
 
   /// See [Recipe.fiber].
-  static final fiber = obx.QueryIntegerProperty<Recipe>(
-    _entities[3].properties[24],
-  );
+  static final fiber = obx.QueryIntegerProperty<Recipe>(_entities[3].properties[24]);
 
   /// See [Recipe.cholesterol].
-  static final cholesterol = obx.QueryIntegerProperty<Recipe>(
-    _entities[3].properties[25],
-  );
+  static final cholesterol = obx.QueryIntegerProperty<Recipe>(_entities[3].properties[25]);
 
   /// See [Recipe.sodium].
-  static final sodium = obx.QueryIntegerProperty<Recipe>(
-    _entities[3].properties[26],
-  );
+  static final sodium = obx.QueryIntegerProperty<Recipe>(_entities[3].properties[26]);
 
   /// See [Recipe.transFat].
-  static final transFat = obx.QueryIntegerProperty<Recipe>(
-    _entities[3].properties[27],
-  );
+  static final transFat = obx.QueryIntegerProperty<Recipe>(_entities[3].properties[27]);
 
   /// see [Recipe.steps]
-  static final steps = obx.QueryBacklinkToMany<RecipeStep, Recipe>(
-    RecipeStep_.recipe,
-  );
+  static final steps = obx.QueryBacklinkToMany<RecipeStep, Recipe>(RecipeStep_.recipe);
+
+  /// see [Recipe.variants]
+  static final variants = obx.QueryBacklinkToMany<RecipeVariant, Recipe>(RecipeVariant_.recipe);
 }
 
 /// [RecipeStep] entity fields to define ObjectBox queries.
 class RecipeStep_ {
   /// See [RecipeStep.id].
-  static final id = obx.QueryIntegerProperty<RecipeStep>(
-    _entities[4].properties[0],
-  );
+  static final id = obx.QueryIntegerProperty<RecipeStep>(_entities[4].properties[0]);
 
   /// See [RecipeStep.name].
-  static final name = obx.QueryStringProperty<RecipeStep>(
-    _entities[4].properties[1],
-  );
+  static final name = obx.QueryStringProperty<RecipeStep>(_entities[4].properties[1]);
 
   /// See [RecipeStep.instruction].
-  static final instruction = obx.QueryStringProperty<RecipeStep>(
-    _entities[4].properties[2],
-  );
+  static final instruction = obx.QueryStringProperty<RecipeStep>(_entities[4].properties[2]);
 
   /// See [RecipeStep.imagePath].
-  static final imagePath = obx.QueryStringProperty<RecipeStep>(
-    _entities[4].properties[3],
-  );
+  static final imagePath = obx.QueryStringProperty<RecipeStep>(_entities[4].properties[3]);
 
   /// See [RecipeStep.timer].
-  static final timer = obx.QueryIntegerProperty<RecipeStep>(
-    _entities[4].properties[4],
-  );
+  static final timer = obx.QueryIntegerProperty<RecipeStep>(_entities[4].properties[4]);
 
   /// See [RecipeStep.recipe].
-  static final recipe = obx.QueryRelationToOne<RecipeStep, Recipe>(
-    _entities[4].properties[5],
-  );
+  static final recipe = obx.QueryRelationToOne<RecipeStep, Recipe>(_entities[4].properties[5]);
 
   /// See [RecipeStep.order].
-  static final order = obx.QueryIntegerProperty<RecipeStep>(
-    _entities[4].properties[6],
-  );
+  static final order = obx.QueryIntegerProperty<RecipeStep>(_entities[4].properties[6]);
 
   /// See [RecipeStep.videoUrl].
-  static final videoUrl = obx.QueryStringProperty<RecipeStep>(
-    _entities[4].properties[7],
+  static final videoUrl = obx.QueryStringProperty<RecipeStep>(_entities[4].properties[7]);
+
+  /// See [RecipeStep.variant].
+  static final variant = obx.QueryRelationToOne<RecipeStep, RecipeVariant>(
+    _entities[4].properties[8],
   );
 
   /// see [RecipeStep.ingredients]
-  static final ingredients =
-      obx.QueryBacklinkToMany<IngredientItem, RecipeStep>(IngredientItem_.step);
+  static final ingredients = obx.QueryBacklinkToMany<IngredientItem, RecipeStep>(
+    IngredientItem_.step,
+  );
 }
 
 /// [Tag] entity fields to define ObjectBox queries.
@@ -2326,7 +1787,20 @@ class Tag_ {
   static final name = obx.QueryStringProperty<Tag>(_entities[5].properties[1]);
 
   /// See [Tag.recipe].
-  static final recipe = obx.QueryRelationToOne<Tag, Recipe>(
-    _entities[5].properties[2],
-  );
+  static final recipe = obx.QueryRelationToOne<Tag, Recipe>(_entities[5].properties[2]);
+}
+
+/// [RecipeVariant] entity fields to define ObjectBox queries.
+class RecipeVariant_ {
+  /// See [RecipeVariant.id].
+  static final id = obx.QueryIntegerProperty<RecipeVariant>(_entities[6].properties[0]);
+
+  /// See [RecipeVariant.title].
+  static final title = obx.QueryStringProperty<RecipeVariant>(_entities[6].properties[1]);
+
+  /// See [RecipeVariant.recipe].
+  static final recipe = obx.QueryRelationToOne<RecipeVariant, Recipe>(_entities[6].properties[2]);
+
+  /// see [RecipeVariant.steps]
+  static final steps = obx.QueryBacklinkToMany<RecipeStep, RecipeVariant>(RecipeStep_.variant);
 }

@@ -10,6 +10,7 @@ Widget buildStepsView(BuildContext context, DisplayRecipeViewModel viewModel) {
     return const Center(child: Text("No steps found.")); // TODO i10n
   }
   final servingsMultiplier = viewModel.servings / recipe.servings;
+  final variantSteps = viewModel.getVariantSteps();
 
   final theme = Theme.of(context);
   final bool isTtsActive = viewModel.isPlaying || viewModel.isPaused;
@@ -36,7 +37,7 @@ Widget buildStepsView(BuildContext context, DisplayRecipeViewModel viewModel) {
           ),
         ],
       ),
-      ...List.generate(recipe.steps.length, (index) {
+      ...List.generate(variantSteps.length, (index) {
         // Identify if this step is the "current" one based solely on index.
         // When stopped, index is 0, so button appears on first step.
         final isCurrentStepIndex = viewModel.currentStepIndex == index;
@@ -66,7 +67,7 @@ Widget buildStepsView(BuildContext context, DisplayRecipeViewModel viewModel) {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: RecipeStepCard(
-                  recipeStep: recipe.steps[index],
+                  recipeStep: variantSteps[index],
                   servings: servingsMultiplier,
                   isCurrentStep: isCurrentStepIndex,
                 ),

@@ -36,6 +36,95 @@ class ObjectBoxRecipeRepository {
   Box<IngredientItem> get ingredientBox => _objectBox.ingredientBox;
   Box<Nutrient> get nutrientBox => _objectBox.nutrientBox;
   Box<Conversion> get conversionBox => _objectBox.conversionBox; // TODO remove from this repo
+  Box<RecipeVariant> get recipeVariantBox => _objectBox.recipeVariantBox;
+
+  List<RecipeVariant> getAllVariants() {
+    if (!_isInitialized) return [];
+    return _objectBox.recipeVariantBox.getAll();
+  }
+
+  List<RecipeVariant> getVariantsForRecipe(int recipeId) {
+    if (!_isInitialized) return [];
+    return getAllVariants().where((variant) => variant.recipe.targetId == recipeId).toList();
+  }
+
+  /// Saves a variant and all of its overridden steps.
+  ///
+  /// Stale step rows are removed by scanning the step box instead of through
+  /// the variant's `steps` relation, so the in-memory relation is never emptied mid-write.
+  Future<int> saveVariant(RecipeVariant variant) async {
+    if (!_isInitialized) await initialize();
+
+    int savedId = 0;
+    _objectBox.store.runInTransaction(TxMode.write, () {
+      final steps = variant.steps.toList();
+
+      // TODO
+      // Materialize the lazy ingredient relations while the store rows still
+      // exist; a later lazy load would otherwise re-query an empty box and
+      // erase the ingredients of steps that were never modified in memory.
+      for (final step in steps) {
+        step.ingredients.toList();
+      }
+      // TODO get steps directly?
+      if (variant.id > 0) {
+        final existingSteps = _objectBox.recipeStepBox
+            .getAll()
+            .where((step) => step.variant.targetId == variant.id)
+            .toList();
+        for (final step in existingSteps) {
+          _objectBox.ingredientBox.removeMany(step.ingredients.map((ing) => ing.id).toList());
+        }
+        _objectBox.recipeStepBox.removeMany(existingSteps.map((step) => step.id).toList());
+      }
+
+      // TODO cascade
+      // Save the variant first (new or update) so its id is assigned before
+      // the steps, keeping the steps' `variantId` foreign key correct.
+      savedId = _objectBox.recipeVariantBox.put(variant);
+
+      for (final step in steps) {
+        step.variant.target = variant;
+        for (final ingredient in step.ingredients) {
+          ingredient.step.target = step;
+          _objectBox.ingredientBox.put(ingredient);
+        }
+        _objectBox.recipeStepBox.put(step);
+      }
+    });
+    return savedId;
+  }
+
+  /// Saves the variant metadata (title, color)
+  Future<int> saveVariantMeta(RecipeVariant variant) async {
+    if (!_isInitialized) await initialize();
+    return _objectBox.recipeVariantBox.put(variant);
+  }
+
+  Future<void> saveVariantStep(RecipeStep step) async {
+    if (!_isInitialized) await initialize();
+    _objectBox.store.runInTransaction(TxMode.write, () {
+      for (final ingredient in step.ingredients) {
+        ingredient.step.target = step;
+        _objectBox.ingredientBox.put(ingredient);
+      }
+      _objectBox.recipeStepBox.put(step);
+    });
+  }
+
+  Future<bool> deleteVariant(int variantId) async {
+    if (!_isInitialized) await initialize();
+
+    final variant = _objectBox.recipeVariantBox.get(variantId);
+    if (variant == null) return false;
+
+    // TODO cascade ?
+    for (final step in variant.steps.toList()) {
+      _objectBox.ingredientBox.removeMany(step.ingredients.map((ing) => ing.id).toList());
+      _objectBox.recipeStepBox.remove(step.id);
+    }
+    return _objectBox.recipeVariantBox.remove(variantId);
+  }
 
   List<Recipe> getAllRecipes() {
     if (!_isInitialized) {
@@ -44,6 +133,26 @@ class ObjectBoxRecipeRepository {
       );
     }
     return _objectBox.recipeBox.getAll();
+  }
+
+  /// Find first ingredient matching [name] (case-insensitive)
+  /// and [shape] that already has a nutrient link,
+  /// looking only at base steps of other recipes
+  /// so a caller can copy the link from a proven ingredient.
+  IngredientItem? findLinkedIngredient(String name, String shape, {int excludeRecipeId = 0}) {
+    if (!_isInitialized || name.isEmpty) return null;
+    final lowerName = name.toLowerCase();
+    for (final candidate in _objectBox.ingredientBox.getAll()) {
+      if (candidate.foodId <= 0) continue;
+      if (candidate.name.toLowerCase() == lowerName && candidate.shape == shape) {
+        final step = _objectBox.recipeStepBox.get(candidate.step.targetId);
+        if (step == null || step.variant.targetId != 0 || step.recipe.targetId == excludeRecipeId) {
+          continue;
+        }
+        return candidate;
+      }
+    }
+    return null;
   }
 
   Recipe? getRecipeById(int id) {
@@ -64,13 +173,20 @@ class ObjectBoxRecipeRepository {
     int savedId = 0;
 
     _objectBox.store.runInTransaction(TxMode.write, () {
-      // IMPORTANT: If recipe already exists, remove old steps and ingredients first
+      // IMPORTANT: If recipe already exists, remove old base steps
       if (recipe.id > 0) {
-        final query = _objectBox.recipeStepBox.query(RecipeStep_.recipe.equals(recipe.id)).build();
+        //TODO
+        // Materialize the lazy ingredient relations of the in-memory steps
+        // before deleting their store rows, so a later lazy load can't
+        // empty them.
+        for (final step in recipe.steps) {
+          step.ingredients.toList();
+        }
 
-        final existingSteps = query.find();
-        query.close();
-
+        final existingSteps = _objectBox.recipeStepBox
+            .getAll()
+            .where((step) => step.recipe.targetId == recipe.id && step.variant.targetId == 0)
+            .toList();
         for (final step in existingSteps) {
           _objectBox.ingredientBox.removeMany(step.ingredients.map((ing) => ing.id).toList());
           _objectBox.recipeStepBox.remove(step.id);
@@ -122,6 +238,16 @@ class ObjectBoxRecipeRepository {
       _objectBox.recipeStepBox.remove(step.id);
     }
 
+    // Delete the variants
+    final variants = getVariantsForRecipe(id);
+    for (final variant in variants) {
+      for (final step in variant.steps.toList()) {
+        _objectBox.ingredientBox.removeMany(step.ingredients.map((ing) => ing.id).toList());
+        _objectBox.recipeStepBox.remove(step.id);
+      }
+    }
+    _objectBox.recipeVariantBox.removeMany(variants.map((variant) => variant.id).toList());
+
     // Remove recipe from tags TODO
     // for (final tag in recipe.tags) {
     //   tag.recipes.remove(recipe);
@@ -135,24 +261,18 @@ class ObjectBoxRecipeRepository {
   Future<List<String>> getAvailableCountries() async {
     if (!_isInitialized) await initialize();
 
-    final query = _objectBox.recipeBox.query().build();
+    final recipes = _objectBox.recipeBox.getAll();
 
-    try {
-      final recipes = query.find();
-
-      // Extract unique country codes
-      final Set<String> countries = <String>{};
-      for (final recipe in recipes) {
-        if (recipe.countryCode.isNotEmpty) {
-          countries.add(recipe.countryCode);
-        }
+    // Extract unique country codes
+    final Set<String> countries = <String>{};
+    for (final recipe in recipes) {
+      if (recipe.countryCode.isNotEmpty) {
+        countries.add(recipe.countryCode);
       }
-      countries.add(''); // Add "other" (no specific country) option
-
-      return countries.toList()..sort();
-    } finally {
-      query.close();
     }
+    countries.add(''); // Add "other" (no specific country) option
+
+    return countries.toList()..sort();
   }
 
   // Helper to delete image file associated with a recipe or step
@@ -200,10 +320,8 @@ class ObjectBoxRecipeRepository {
   Future<List<String>> getUniqueSources({int limit = 5}) async {
     if (!_isInitialized) await initialize();
 
-    // Fetch all recipes, descending
-    final query = recipeBox.query().order(Recipe_.id, flags: Order.descending).build();
-    final recipes = query.find();
-    query.close();
+    // Fetch all recipes, newest first
+    final recipes = _objectBox.recipeBox.getAll()..sort((a, b) => b.id.compareTo(a.id));
 
     final Set<String> uniqueSourcesSet = {};
 

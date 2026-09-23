@@ -11,7 +11,7 @@ Widget buildNutritionView(BuildContext context, DisplayRecipeViewModel viewModel
 
   // Calculate total nutrients from ingredients
   final nutrients = calculateTotalNutrients(
-    recipe: recipe,
+    steps: viewModel.getVariantSteps(),
     nutrientRepository: viewModel.nutrientRepository,
     full: true,
   );

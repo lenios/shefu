@@ -14,6 +14,7 @@ class ObjectBox {
   late final Box<IngredientItem> ingredientBox;
   late final Box<Nutrient> nutrientBox;
   late final Box<Conversion> conversionBox;
+  late final Box<RecipeVariant> recipeVariantBox;
 
   // Add getter for the store
   Store get store => _store;
@@ -24,6 +25,7 @@ class ObjectBox {
     ingredientBox = Box<IngredientItem>(_store);
     nutrientBox = Box<Nutrient>(_store);
     conversionBox = Box<Conversion>(_store);
+    recipeVariantBox = Box<RecipeVariant>(_store);
   }
 
   static Future<ObjectBox> create() async {

@@ -29,7 +29,220 @@ class EditRecipeViewModel extends ChangeNotifier {
   final ObjectBoxNutrientRepository _nutrientRepository;
   final int? _recipeId;
   final bool _isNew;
+  final int? _initialVariantId;
+  RecipeVariant? _activeVariant;
+  List<RecipeVariant> _variants = [];
   bool get isNew => _isNew;
+  bool get isVariantMode => _activeVariant != null;
+
+  /// The id of the variant currently being edited; 0 = original recipe.
+  int get activeVariantId => _activeVariant?.id ?? 0;
+  List<RecipeVariant> get variants => _variants;
+
+  /// The variant currently being edited, or null when editing the original recipe.
+  RecipeVariant? get activeVariant => _activeVariant;
+
+  /// The title of the active context: the variant's title (if it has one),
+  /// otherwise the recipe title.
+  String get effectiveTitle {
+    final variant = _activeVariant;
+    return (variant != null && variant.title.isNotEmpty) ? variant.title : _recipe.title;
+  }
+
+  /// Switches the variant being edited; 0 = original recipe.
+  void setActiveVariant(int variantId) {
+    RecipeVariant? resolved;
+    if (variantId != 0) {
+      for (final variant in _variants) {
+        if (variant.id == variantId) {
+          resolved = variant;
+          break;
+        }
+      }
+    }
+    _activeVariant = resolved; // TODO check
+    titleController.text = effectiveTitle;
+    notifyListeners();
+  }
+
+  /// Persists the context being edited, then creates a new variant and switches to it.
+  ///
+  /// Returns the label of the context that was saved before the switch.
+  Future<String> addVariant() async {
+    final savedLabel = await saveActiveContext();
+    final variant = RecipeVariant(title: _recipe.title)..recipe.target = _recipe;
+    _variants.add(variant);
+    _activeVariant = variant;
+    titleController.text = variant.title;
+    // Persist immediately so the new variant gets an id and can be switched to.
+    await _recipeRepository.saveVariant(variant);
+    notifyListeners();
+    return savedLabel;
+  }
+
+  /// Deletes the variant [variantId]. If it was active, falls back to the original recipe.
+  Future<void> deleteVariant(int variantId) async {
+    // TODO optim we know the variant exists
+    // Unsaved variants share id 0, so prefer the active one when deleting it.
+    RecipeVariant? target;
+    if (_activeVariant != null && _activeVariant!.id == variantId) {
+      target = _activeVariant;
+    } else {
+      for (final variant in _variants) {
+        if (variant.id == variantId) {
+          target = variant;
+          break;
+        }
+      }
+    }
+    if (target == null) return;
+    _variants.remove(target);
+    if (identical(_activeVariant, target)) {
+      _activeVariant = null;
+      titleController.text = _recipe.title;
+    }
+    await _recipeRepository.deleteVariant(variantId);
+    notifyListeners();
+  }
+
+  /// Syncs the editor fields into the active context (recipe or variant),
+  /// persists it and returns a label for the saved context.
+  Future<String> saveActiveContext() async {
+    _syncContextFromControllers();
+    return _persistActiveContext();
+  }
+
+  /// Persists the active context as it currently stands and returns its label.
+  Future<String> _persistActiveContext() async {
+    _recipe.id = await _recipeRepository.saveRecipe(_recipe);
+    final variant = _activeVariant;
+    if (variant == null) return _recipe.title;
+    variant.recipe.target = _recipe;
+    await _recipeRepository.saveVariant(variant);
+    return variant.title;
+  }
+
+  void _syncContextFromControllers() {
+    final variant = _activeVariant;
+    if (variant != null) {
+      variant.title = titleController.text;
+    } else {
+      _recipe.title = titleController.text;
+    }
+    _recipe.source = sourceController.text;
+    _recipe.prepTime = int.tryParse(prepTimeController.text) ?? 0;
+    _recipe.cookTime = int.tryParse(cookTimeController.text) ?? 0;
+    _recipe.restTime = int.tryParse(restTimeController.text) ?? 0;
+    _recipe.time = _recipe.prepTime + _recipe.cookTime + _recipe.restTime;
+    _recipe.notes = notesController.text;
+    _recipe.makeAhead = makeAheadController.text;
+    _recipe.videoUrl = videoUrlController.text.isNotEmpty ? videoUrlController.text : "";
+    _recipe.servings = int.tryParse(servingsController.text) ?? _recipe.servings;
+    _recipe.piecesPerServing = int.tryParse(piecesPerServingController.text);
+    _recipe.category = _category;
+    _recipe.month = _month;
+    _recipe.countryCode = _country.countryCode;
+  }
+
+  /// The step displayed and edited at base step position
+  RecipeStep getTargetStep(int index) => _editableTargetStep(index) ?? _recipe.steps[index];
+
+  /// Returns step at position [index], original or override if present
+  RecipeStep? _editableTargetStep(int index) {
+    if (_activeVariant == null) return _recipe.steps[index];
+    for (final step in _activeVariant!.steps) {
+      if (step.order == _recipe.steps[index].order) return step;
+    }
+    return null; // read-only step
+  }
+
+  /// Returns the writable step at [index], override if read-only
+  RecipeStep _ensureTargetStep(int index) {
+    final step = _editableTargetStep(index);
+    if (step != null) return step;
+    // read-only, we need an override
+    final baseStep = _recipe.steps[index];
+    final override = RecipeStep(
+      name: baseStep.name,
+      instruction: baseStep.instruction,
+      imagePath: baseStep.imagePath,
+      videoUrl: baseStep.videoUrl,
+      timer: baseStep.timer,
+      order: baseStep.order,
+    );
+    for (final ingredient in baseStep.ingredients) {
+      final copy = IngredientItem(
+        name: ingredient.name,
+        unit: ingredient.unit,
+        quantity: ingredient.quantity,
+        shape: ingredient.shape,
+        foodId: ingredient.foodId,
+        conversionId: ingredient.conversionId,
+        optional: ingredient.optional,
+      )..step.target = override;
+      override.ingredients.add(copy);
+    }
+    override.variant.target = _activeVariant;
+    _activeVariant!.steps.add(override);
+    return override;
+  }
+
+  Future<void> overrideStep(int index) async {
+    if (isVariantMode && index >= 0 && index < _recipe.steps.length) {
+      _ensureTargetStep(index);
+      notifyListeners();
+    }
+  }
+
+  /// Drops the active variant's override of the base step at position [index].
+  Future<void> removeOverride(int index) async {
+    final variant = _activeVariant;
+    if (variant == null || index < 0 || index >= _recipe.steps.length) return;
+    final order = _recipe.steps[index].order;
+    for (final step in variant.steps.toList()) {
+      if (step.order == order) variant.steps.remove(step);
+    }
+    notifyListeners();
+  }
+
+  bool isStepOverridden(int index) {
+    final variant = _activeVariant;
+    if (variant == null || index < 0 || index >= _recipe.steps.length) return false;
+    final order = _recipe.steps[index].order;
+    return variant.steps.any((step) => step.order == order);
+  }
+
+  bool isStepReadOnly(int index) => isVariantMode && !isStepOverridden(index);
+
+  /// Whether an ingredient can move between the base steps at positions [from]
+  /// and [to]. In variant mode both steps must be overridden
+  bool canMoveIngredient(int from, int to) {
+    if (from < 0 ||
+        to < 0 ||
+        from == to ||
+        from >= _recipe.steps.length ||
+        to >= _recipe.steps.length) {
+      return false;
+    }
+    if (!isVariantMode) return true;
+    return isStepOverridden(from) && isStepOverridden(to);
+  }
+
+  /// Keeps the active variant's override orders aligned with base steps after
+  /// an insert at [from] (+1) or a removal at [from] (-1).
+  void _shiftVariantOrders(int from, int delta) {
+    final variant = activeVariant;
+    if (variant == null) return;
+    for (final step in variant.steps.toList()) {
+      if (delta > 0) {
+        if (step.order >= from) step.order += 1;
+      } else if (step.order == from) {
+        variant.steps.remove(step);
+      } else if (step.order > from) {
+        step.order -= 1;
+      }
+    }
+  }
 
   late Command<void, Recipe> initializeCommand;
 
@@ -81,13 +294,14 @@ class EditRecipeViewModel extends ChangeNotifier {
     }
   }
 
-  // Constructor requires repositories and optional recipeId
+  // Constructor requires repositories and optional recipeId and variantId
   EditRecipeViewModel(
     this._recipeRepository,
     this._nutrientRepository,
     this._recipeId,
-    this._isNew,
-  ) {
+    this._isNew, [
+    this._initialVariantId,
+  ]) {
     // Initialize controllers here, they will be updated in initViewModel
     titleController = TextEditingController();
     sourceController = TextEditingController();
@@ -113,12 +327,23 @@ class EditRecipeViewModel extends ChangeNotifier {
 
       if (_recipeId != null) {
         _recipe = _recipeRepository.getRecipeById(_recipeId) ?? Recipe();
+        _variants = _recipeRepository.getVariantsForRecipe(_recipeId);
       } else {
         _recipe = Recipe(); // Start with a fresh empty recipe
       }
 
+      // A deep link may target a specific variant of this recipe
+      if (_initialVariantId != null) {
+        for (final variant in _variants) {
+          if (variant.id == _initialVariantId) {
+            _activeVariant = variant;
+            break;
+          }
+        }
+      }
+
       // --- Initialize Controllers Silently ---
-      titleController.text = _recipe.title;
+      titleController.text = effectiveTitle;
       sourceController.text = _recipe.source;
       prepTimeController.text =
           (_recipe.prepTime == 0 && _recipe.cookTime == 0 && _recipe.restTime == 0)
@@ -152,9 +377,11 @@ class EditRecipeViewModel extends ChangeNotifier {
   // --- Update Methods ---
 
   void updateTitle(String value) {
-    if (_recipe.title != value) {
+    final variant = _activeVariant;
+    if (variant != null) {
+      if (variant.title != value) variant.title = value;
+    } else if (_recipe.title != value) {
       _recipe.title = value;
-      // No notifyListeners needed if using TextEditingController
     }
   }
 
@@ -227,6 +454,7 @@ class EditRecipeViewModel extends ChangeNotifier {
         _recipe.steps[i].order = i + 1;
       }
 
+      _shiftVariantOrders(index, 1);
       _recipe.steps.insert(index, newStep);
       _imageVersion.value++;
       notifyListeners();
@@ -246,6 +474,7 @@ class EditRecipeViewModel extends ChangeNotifier {
         _recipe.steps[i].order = i;
       }
 
+      _shiftVariantOrders(index, -1);
       _imageVersion.value++;
 
       notifyListeners();
@@ -253,121 +482,124 @@ class EditRecipeViewModel extends ChangeNotifier {
   }
 
   void updateStepInstruction(int stepIndex, String value) {
-    if (stepIndex < _recipe.steps.length) {
-      _recipe.steps[stepIndex].instruction = value;
+    final step = stepIndex < _recipe.steps.length ? _editableTargetStep(stepIndex) : null;
+    if (step != null) {
+      step.instruction = value;
       // Don't notifyListeners unnecessarily if using TextFormField initialValue
     }
   }
 
   void updateStepTimer(int stepIndex, String value) {
-    if (stepIndex < _recipe.steps.length) {
-      _recipe.steps[stepIndex].timer = int.tryParse(value) ?? 0;
+    final step = stepIndex < _recipe.steps.length ? _editableTargetStep(stepIndex) : null;
+    if (step != null) {
+      step.timer = int.tryParse(value) ?? 0;
       // Don't notifyListeners unnecessarily
     }
   }
 
   void updateStepName(int stepIndex, String value) {
-    if (stepIndex < _recipe.steps.length) {
-      _recipe.steps[stepIndex].name = value;
+    final step = stepIndex < _recipe.steps.length ? _editableTargetStep(stepIndex) : null;
+    if (step != null) {
+      step.name = value;
       // Don't notifyListeners unnecessarily
     }
   }
 
   void updateStepVideoUrl(int stepIndex, String value) {
-    if (stepIndex < _recipe.steps.length) {
-      _recipe.steps[stepIndex].videoUrl = value;
+    final step = stepIndex < _recipe.steps.length ? _editableTargetStep(stepIndex) : null;
+    if (step != null) {
+      step.videoUrl = value;
     }
   }
 
   // --- Ingredient Management ---
 
+  /// The ingredient at [ingredientIndex] of the editable step at [stepIndex],
+  /// or null if the step or slot is out of range, or the step is read-only.
+  IngredientItem? _editableIngredient(int stepIndex, int ingredientIndex) {
+    if (stepIndex < 0 || stepIndex >= _recipe.steps.length || ingredientIndex < 0) {
+      return null;
+    }
+    final step = _editableTargetStep(stepIndex);
+    return step != null && ingredientIndex < step.ingredients.length
+        ? step.ingredients[ingredientIndex]
+        : null;
+  }
+
   void addIngredient(int stepIndex) {
-    if (stepIndex < _recipe.steps.length) {
-      final ingredient = IngredientItem();
-      ingredient.step.target = _recipe.steps[stepIndex];
-      _recipe.steps[stepIndex].ingredients.add(ingredient);
+    final step = stepIndex < _recipe.steps.length ? _editableTargetStep(stepIndex) : null;
+    if (step != null) {
+      final ingredient = IngredientItem()..step.target = step;
+      step.ingredients.add(ingredient);
       notifyListeners();
     }
   }
 
   void removeIngredient(int stepIndex, int ingredientIndex) {
-    if (stepIndex < _recipe.steps.length &&
-        ingredientIndex < _recipe.steps[stepIndex].ingredients.length) {
-      _recipe.steps[stepIndex].ingredients.removeAt(ingredientIndex);
+    final step = stepIndex < _recipe.steps.length ? _editableTargetStep(stepIndex) : null;
+    if (step != null && ingredientIndex < step.ingredients.length) {
+      step.ingredients.removeAt(ingredientIndex);
       notifyListeners();
     }
   }
 
   void updateIngredientQuantity(int stepIndex, int ingredientIndex, String value) {
-    if (stepIndex < _recipe.steps.length &&
-        ingredientIndex < _recipe.steps[stepIndex].ingredients.length) {
-      _recipe.steps[stepIndex].ingredients[ingredientIndex].quantity = double.tryParse(value) ?? 0;
+    final ingredient = _editableIngredient(stepIndex, ingredientIndex);
+    if (ingredient != null) {
+      ingredient.quantity = double.tryParse(value) ?? 0;
       // Don't notifyListeners
     }
   }
 
   void updateIngredientUnit(int stepIndex, int ingredientIndex, String value) {
-    if (stepIndex < _recipe.steps.length &&
-        ingredientIndex < _recipe.steps[stepIndex].ingredients.length) {
-      _recipe.steps[stepIndex].ingredients[ingredientIndex].unit = value;
+    final ingredient = _editableIngredient(stepIndex, ingredientIndex);
+    if (ingredient != null) {
+      ingredient.unit = value;
       notifyListeners();
     }
   }
 
   void updateIngredientName(int stepIndex, int ingredientIndex, String value) {
-    if (stepIndex < _recipe.steps.length &&
-        ingredientIndex < _recipe.steps[stepIndex].ingredients.length) {
-      final ingredient = _recipe.steps[stepIndex].ingredients[ingredientIndex];
+    final ingredient = _editableIngredient(stepIndex, ingredientIndex);
+    if (ingredient == null || ingredient.name == value) return;
 
-      if (ingredient.name != value) {
-        ingredient.name = value;
+    ingredient.name = value;
 
-        if (ingredient.foodId > 0 || ingredient.conversionId > 0) {
-          ingredient.foodId = 0;
-          ingredient.conversionId = 0;
-        }
-
-        if (value.isNotEmpty) {
-          checkForMatchingIngredient(stepIndex, ingredientIndex);
-        }
-
-        notifyListeners();
-      }
+    if (ingredient.foodId > 0 || ingredient.conversionId > 0) {
+      ingredient.foodId = 0;
+      ingredient.conversionId = 0;
     }
+
+    if (value.isNotEmpty) {
+      checkForMatchingIngredient(stepIndex, ingredientIndex);
+    }
+
+    notifyListeners();
   }
 
   void updateIngredientShape(int stepIndex, int ingredientIndex, String? value) {
-    if (stepIndex < _recipe.steps.length &&
-        ingredientIndex < _recipe.steps[stepIndex].ingredients.length) {
-      final ingredient = _recipe.steps[stepIndex].ingredients[ingredientIndex];
-      if (ingredient.shape != value?.trim()) {
-        ingredient.shape = value?.trim() ?? '';
-        if (ingredient.name.isNotEmpty) {
-          checkForMatchingIngredient(stepIndex, ingredientIndex);
-        }
-      }
+    final ingredient = _editableIngredient(stepIndex, ingredientIndex);
+    if (ingredient == null || ingredient.shape == value?.trim()) return;
+    ingredient.shape = value?.trim() ?? '';
+    if (ingredient.name.isNotEmpty) {
+      checkForMatchingIngredient(stepIndex, ingredientIndex);
     }
   }
 
   void updateIngredientFoodId(int stepIndex, int ingredientIndex, int foodId) {
-    if (stepIndex < _recipe.steps.length &&
-        ingredientIndex < _recipe.steps[stepIndex].ingredients.length) {
-      final ingredient = _recipe.steps[stepIndex].ingredients[ingredientIndex];
+    final ingredient = _editableIngredient(stepIndex, ingredientIndex);
+    if (ingredient == null) return;
 
-      ingredient.foodId = foodId;
-      ingredient.conversionId = 0;
-      notifyListeners();
-    }
+    ingredient.foodId = foodId;
+    ingredient.conversionId = 0;
+    notifyListeners();
   }
 
   void updateIngredientFactorId(int stepIndex, int ingredientIndex, int factorId) {
-    if (stepIndex < _recipe.steps.length &&
-        ingredientIndex < _recipe.steps[stepIndex].ingredients.length) {
-      final ingredient = _recipe.steps[stepIndex].ingredients[ingredientIndex];
-      if (ingredient.conversionId != factorId) {
-        ingredient.conversionId = factorId;
-        notifyListeners();
-      }
+    final ingredient = _editableIngredient(stepIndex, ingredientIndex);
+    if (ingredient != null && ingredient.conversionId != factorId) {
+      ingredient.conversionId = factorId;
+      notifyListeners();
     }
   }
 
@@ -788,8 +1020,9 @@ class EditRecipeViewModel extends ChangeNotifier {
         oldPathToDelete = _recipe.imagePath; // Get old path before updating
         _recipe.imagePath = savedImagePath;
       } else if (stepIndex >= 0 && stepIndex < _recipe.steps.length) {
-        oldPathToDelete = _recipe.steps[stepIndex].imagePath;
-        _recipe.steps[stepIndex].imagePath = savedImagePath;
+        final step = _ensureTargetStep(stepIndex);
+        oldPathToDelete = step.imagePath;
+        step.imagePath = savedImagePath;
       } else {
         // Invalid step index, clean up and exit
         await _recipeRepository.deleteImageFile(savedImagePath);
@@ -818,7 +1051,9 @@ class EditRecipeViewModel extends ChangeNotifier {
       // Clean up saved image if processing failed after saving
       if (savedImagePath != null &&
           _recipe.imagePath != savedImagePath &&
-          (stepIndex == null || _recipe.steps[stepIndex].imagePath != savedImagePath)) {
+          (stepIndex == null ||
+              (stepIndex < _recipe.steps.length &&
+                  getTargetStep(stepIndex).imagePath != savedImagePath))) {
         clearImageCache(savedImagePath);
         await _recipeRepository.deleteImageFile(savedImagePath);
         await _recipeRepository.deleteImageFile(PathUtils.thumbnailPath(savedImagePath));
@@ -830,8 +1065,9 @@ class EditRecipeViewModel extends ChangeNotifier {
   }
 
   Future<void> deleteRecipe() async {
-    if (_recipeId != null) {
-      await _recipeRepository.deleteRecipe(_recipeId);
+    // only saved to database if > 0
+    if (_recipeId != null && _recipe.id > 0) {
+      await _recipeRepository.deleteRecipe(_recipe.id);
     }
   }
 
@@ -842,100 +1078,9 @@ class EditRecipeViewModel extends ChangeNotifier {
 
     bool success = false;
     try {
-      // 1. Update recipe object from controllers before saving
-      _recipe.title = titleController.text;
-      _recipe.source = sourceController.text;
-      _recipe.prepTime = int.tryParse(prepTimeController.text) ?? 0;
-      _recipe.cookTime = int.tryParse(cookTimeController.text) ?? 0;
-      _recipe.restTime = int.tryParse(restTimeController.text) ?? 0;
-      _recipe.time = _recipe.prepTime + _recipe.cookTime + _recipe.restTime;
-
-      _recipe.notes = notesController.text;
-      _recipe.makeAhead = makeAheadController.text;
-      _recipe.videoUrl = videoUrlController.text.isNotEmpty ? videoUrlController.text : "";
-      _recipe.servings = int.tryParse(servingsController.text) ?? _recipe.servings;
-      _recipe.piecesPerServing = int.tryParse(piecesPerServingController.text);
-      _recipe.category = _category; // Ensure category is updated
-      _recipe.month = _month; // Ensure month is updated
-      _recipe.countryCode = _country.countryCode;
-
-      if (_recipe.languageTag.isEmpty) {
-        _recipe.languageTag = languageCode; // set default language to user defined language
-      }
-
-      // Automatically set timer from step instructions
-      if (_recipe.steps.isNotEmpty) {
-        final RegExp minutesRegex = RegExp(
-          r'(\d+)\s?' + RegExp.escape(l10n.minutes),
-          caseSensitive: false,
-        );
-
-        // Process timer for each step
-        for (var step in _recipe.steps) {
-          final instruction = step.instruction;
-          final match = minutesRegex.firstMatch(instruction);
-
-          if (match != null && match.groupCount >= 1) {
-            // Extract the number and set it as the timer, except if user set it manually
-            final minutes = int.tryParse(match.group(1) ?? "0") ?? 0;
-            if (minutes > 0 && (step.timer == 0 || step.timer != minutes)) {
-              step.timer = minutes;
-            }
-          }
-        }
-      }
-
-      // 2. Update calories and carbohydrates
-      var totalCalories = 0.0;
-      var totalCarbs = 0.0;
-
-      // Only process steps if there are any
-      if (_recipe.steps.isNotEmpty) {
-        for (var s in _recipe.steps) {
-          for (var i in s.ingredients) {
-            if (i.foodId <= 0 || i.conversionId <= 0) continue;
-
-            var nutrient = _nutrientRepository.getNutrientByFoodId(i.foodId);
-            var factor = getFactor(i);
-
-            // Check if nutrient is not null and factor is valid before calculation
-            if (nutrient != null && nutrient.id > 0 && factor > 0) {
-              totalCalories += factor * i.quantity * nutrient.energKcal;
-              totalCarbs += factor * i.quantity * nutrient.carbohydrates;
-            }
-          }
-        }
-      }
-
-      int servings = _recipe.servings;
-      if (totalCalories > 0) {
-        // We managed to compute calories, override old or imported value
-        _recipe.calories = servings > 0 ? totalCalories ~/ servings : 0;
-      }
-      if (totalCarbs > 0) {
-        // We managed to compute carbohydrates, override old or imported value
-        _recipe.carbohydrates = servings > 0 ? totalCarbs ~/ servings : 0;
-      }
-
-      if (_recipe.carbohydrates < 0) {
-        _recipe.carbohydrates = 0;
-      }
-
-      // 3. Update tags
-      _recipe.tags.clear();
-      if (_recipe.source.isNotEmpty) _recipe.tags.add(Tag(name: _recipe.source));
-
-      // Only process tags if there are any steps
-      if (_recipe.steps.isNotEmpty) {
-        for (var s in _recipe.steps) {
-          for (var i in s.ingredients) {
-            if (i.name.isNotEmpty) _recipe.tags.add(Tag(name: i.name));
-          }
-        }
-      }
-
-      // 4. Save with transaction
-      _recipe.id = await _recipeRepository.saveRecipe(_recipe); // TODO needed assignment?
+      _syncContextFromControllers();
+      _finalizeRecipe(l10n, languageCode);
+      await _persistActiveContext();
       success = true;
     } catch (e) {
       debugPrint("Error saving recipe: $e");
@@ -945,6 +1090,83 @@ class EditRecipeViewModel extends ChangeNotifier {
       notifyListeners(); // Notify loading END
     }
     return success;
+  }
+
+  void _finalizeRecipe(AppLocalizations l10n, String languageCode) {
+    if (_recipe.languageTag.isEmpty) {
+      _recipe.languageTag = languageCode; // set default language to user defined language
+    }
+
+    // Automatically set timer from step instructions
+    if (_recipe.steps.isNotEmpty) {
+      final RegExp minutesRegex = RegExp(
+        r'(\d+)\s?' + RegExp.escape(l10n.minutes),
+        caseSensitive: false,
+      );
+
+      // Process timer for each step
+      for (var step in _recipe.steps) {
+        final instruction = step.instruction;
+        final match = minutesRegex.firstMatch(instruction);
+
+        if (match != null && match.groupCount >= 1) {
+          // Extract the number and set it as the timer, except if user set it manually
+          final minutes = int.tryParse(match.group(1) ?? "0") ?? 0;
+          if (minutes > 0 && (step.timer == 0 || step.timer != minutes)) {
+            step.timer = minutes;
+          }
+        }
+      }
+    }
+
+    // Update calories and carbohydrates
+    var totalCalories = 0.0;
+    var totalCarbs = 0.0;
+
+    // Only process steps if there are any
+    if (_recipe.steps.isNotEmpty) {
+      for (var s in _recipe.steps) {
+        for (var i in s.ingredients) {
+          if (i.foodId <= 0 || i.conversionId <= 0) continue;
+
+          var nutrient = _nutrientRepository.getNutrientByFoodId(i.foodId);
+          var factor = getFactor(i);
+
+          // Check if nutrient is not null and factor is valid before calculation
+          if (nutrient != null && nutrient.id > 0 && factor > 0) {
+            totalCalories += factor * i.quantity * nutrient.energKcal;
+            totalCarbs += factor * i.quantity * nutrient.carbohydrates;
+          }
+        }
+      }
+    }
+
+    int servings = _recipe.servings;
+    if (totalCalories > 0) {
+      // We managed to compute calories, override old or imported value
+      _recipe.calories = servings > 0 ? totalCalories ~/ servings : 0;
+    }
+    if (totalCarbs > 0) {
+      // We managed to compute carbohydrates, override old or imported value
+      _recipe.carbohydrates = servings > 0 ? totalCarbs ~/ servings : 0;
+    }
+
+    if (_recipe.carbohydrates < 0) {
+      _recipe.carbohydrates = 0;
+    }
+
+    // Update tags
+    _recipe.tags.clear();
+    if (_recipe.source.isNotEmpty) _recipe.tags.add(Tag(name: _recipe.source));
+
+    // Only process tags if there are any steps
+    if (_recipe.steps.isNotEmpty) {
+      for (var s in _recipe.steps) {
+        for (var i in s.ingredients) {
+          if (i.name.isNotEmpty) _recipe.tags.add(Tag(name: i.name));
+        }
+      }
+    }
   }
 
   // Silent update method for servings
@@ -990,60 +1212,58 @@ class EditRecipeViewModel extends ChangeNotifier {
     if (stepIndex == null) {
       _recipe.imagePath = '';
     } else if (stepIndex >= 0 && stepIndex < _recipe.steps.length) {
-      _recipe.steps[stepIndex].imagePath = '';
+      _ensureTargetStep(stepIndex).imagePath = '';
     }
     _imageVersion.value++;
     notifyListeners();
   }
 
   void updateIngredientOptional(int stepIndex, int ingredientIndex, bool value) {
-    if (stepIndex < _recipe.steps.length &&
-        ingredientIndex < _recipe.steps[stepIndex].ingredients.length) {
-      _recipe.steps[stepIndex].ingredients[ingredientIndex].optional = value;
+    final ingredient = _editableIngredient(stepIndex, ingredientIndex);
+    if (ingredient != null) {
+      ingredient.optional = value;
       notifyListeners();
     }
   }
 
   void moveIngredientToNextStep(int currentStepIndex, int ingredientIndex) {
-    if (currentStepIndex < _recipe.steps.length - 1 &&
-        currentStepIndex >= 0 &&
-        ingredientIndex >= 0 &&
-        ingredientIndex < _recipe.steps[currentStepIndex].ingredients.length) {
-      // Dispose the controller for the ingredient at its current position
-      EditIngredientManager.disposeController(currentStepIndex, ingredientIndex);
-
-      final ingredientToMove = _recipe.steps[currentStepIndex].ingredients.removeAt(
-        ingredientIndex,
-      );
-      final nextStep = _recipe.steps[currentStepIndex + 1];
-
-      ingredientToMove.step.target = nextStep;
-      nextStep.ingredients.add(ingredientToMove);
-      _recipeRepository.saveRecipe(_recipe); // ensure atomic change is correctly saved to db
-
-      notifyListeners();
+    if (!canMoveIngredient(currentStepIndex, currentStepIndex + 1) || ingredientIndex < 0) {
+      return;
     }
+    final currentStep = _editableTargetStep(currentStepIndex);
+    final nextStep = _editableTargetStep(currentStepIndex + 1);
+    if (currentStep == null ||
+        nextStep == null ||
+        ingredientIndex >= currentStep.ingredients.length) {
+      return;
+    }
+    // Dispose the controller for the ingredient at its current position
+    EditIngredientManager.disposeController(currentStepIndex, ingredientIndex);
+
+    final ingredientToMove = currentStep.ingredients.removeAt(ingredientIndex);
+    ingredientToMove.step.target = nextStep;
+    nextStep.ingredients.add(ingredientToMove);
+    notifyListeners();
   }
 
   void moveIngredientToPreviousStep(int currentStepIndex, int ingredientIndex) {
-    if (currentStepIndex > 0 &&
-        currentStepIndex < _recipe.steps.length &&
-        ingredientIndex >= 0 &&
-        ingredientIndex < _recipe.steps[currentStepIndex].ingredients.length) {
-      // Dispose the controller for the ingredient at its current position
-      EditIngredientManager.disposeController(currentStepIndex, ingredientIndex);
-
-      final ingredientToMove = _recipe.steps[currentStepIndex].ingredients.removeAt(
-        ingredientIndex,
-      );
-      final prevStep = _recipe.steps[currentStepIndex - 1];
-
-      ingredientToMove.step.target = prevStep;
-      prevStep.ingredients.add(ingredientToMove);
-      _recipeRepository.saveRecipe(_recipe); // ensure atomic change is correctly saved to db
-
-      notifyListeners();
+    if (!canMoveIngredient(currentStepIndex, currentStepIndex - 1) || ingredientIndex < 0) {
+      return;
     }
+    final currentStep = _editableTargetStep(currentStepIndex);
+    final prevStep = _editableTargetStep(currentStepIndex - 1);
+    if (currentStep == null ||
+        prevStep == null ||
+        ingredientIndex >= currentStep.ingredients.length) {
+      return;
+    }
+    // Dispose the controller for the ingredient at its current position
+    EditIngredientManager.disposeController(currentStepIndex, ingredientIndex);
+
+    final ingredientToMove = currentStep.ingredients.removeAt(ingredientIndex);
+    ingredientToMove.step.target = prevStep;
+    prevStep.ingredients.add(ingredientToMove);
+    notifyListeners();
   }
 
   // Helper method to find matching ingredients with the same name and shape
@@ -1055,32 +1275,29 @@ class EditRecipeViewModel extends ChangeNotifier {
 
     // Debounce to avoid excessive database queries while typing
     _debounceTimers[key] = Timer(const Duration(milliseconds: 500), () {
-      if (stepIndex >= 0 &&
-          stepIndex < _recipe.steps.length &&
-          ingredientIndex < _recipe.steps[stepIndex].ingredients.length) {
-        final ingredient = _recipe.steps[stepIndex].ingredients[ingredientIndex];
+      final ingredient = _editableIngredient(stepIndex, ingredientIndex);
+      if (ingredient == null) return;
 
-        if (ingredient.name.isNotEmpty && ingredient.foodId <= 0) {
-          final allRecipes = _recipeRepository.getAllRecipes();
+      if (ingredient.name.isNotEmpty && ingredient.foodId <= 0) {
+        final allRecipes = _recipeRepository.getAllRecipes();
 
-          // Search for a matching ingredient
-          for (final recipe in allRecipes) {
-            // Skip current recipe being edited
-            if (recipe.id == _recipe.id) continue;
+        // Search for a matching ingredient
+        for (final otherRecipe in allRecipes) {
+          // Skip current recipe being edited
+          if (otherRecipe.id == _recipe.id) continue;
 
-            for (final step in recipe.steps) {
-              for (final otherIngredient in step.ingredients) {
-                // Check for name and shape match (case-insensitive name)
-                if (otherIngredient.name.toLowerCase() == ingredient.name.toLowerCase() &&
-                    otherIngredient.shape == ingredient.shape &&
-                    otherIngredient.foodId > 0) {
-                  // Found a match! Copy the foodId and conversionId
-                  debugPrint("Found matching ingredient: ${otherIngredient.name}");
-                  ingredient.foodId = otherIngredient.foodId;
-                  ingredient.conversionId = otherIngredient.conversionId;
-                  notifyListeners();
-                  return; // Exit once we find a match
-                }
+          for (final otherStep in otherRecipe.steps) {
+            for (final otherIngredient in otherStep.ingredients) {
+              // Check for name and shape match (case-insensitive name)
+              if (otherIngredient.name.toLowerCase() == ingredient.name.toLowerCase() &&
+                  otherIngredient.shape == ingredient.shape &&
+                  otherIngredient.foodId > 0) {
+                // Found a match! Copy the foodId and conversionId
+                debugPrint("Found matching ingredient: ${otherIngredient.name}");
+                ingredient.foodId = otherIngredient.foodId;
+                ingredient.conversionId = otherIngredient.conversionId;
+                notifyListeners();
+                return; // Exit once we find a match
               }
             }
           }
