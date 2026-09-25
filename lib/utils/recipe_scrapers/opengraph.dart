@@ -1,20 +1,19 @@
 import 'package:html/dom.dart';
 
 /// Parser for OpenGraph metadata in HTML documents
-class OpenGraph {
-  final Document document;
-  final Map<String, String> _data = {};
+class OpenGraph(final Document document) {
+  late final Map<String, String> _data = _extract(document);
 
-  OpenGraph(this.document) {
-    var ogTags = document.querySelectorAll('meta[property^="og:"]');
-
-    for (var tag in ogTags) {
-      if (tag.attributes.containsKey('property') && tag.attributes.containsKey('content')) {
-        String property = tag.attributes['property']!.replaceFirst('og:', '');
-        String content = tag.attributes['content']!;
-        _data[property] = content;
+  static Map<String, String> _extract(Document document) {
+    final data = <String, String>{};
+    for (final tag in document.querySelectorAll('meta[property^="og:"]')) {
+      final property = tag.attributes['property'];
+      final content = tag.attributes['content'];
+      if (property != null && content != null) {
+        data[property.replaceFirst('og:', '')] = content;
       }
     }
+    return data;
   }
 
   String? get(String property) {

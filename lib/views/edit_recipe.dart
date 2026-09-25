@@ -18,9 +18,7 @@ import 'package:shefu/widgets/edit_ingredient_input.dart';
 import 'package:shefu/widgets/edit_recipe/recipe_image_picker.dart';
 import 'package:shefu/widgets/edit_recipe/recipe_step_card.dart';
 
-class EditRecipe extends StatefulWidget {
-  const EditRecipe({super.key});
-
+class const EditRecipe({super.key}) extends StatefulWidget {
   @override
   State<EditRecipe> createState() => _EditRecipeState();
 }

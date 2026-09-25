@@ -4,20 +4,13 @@ import 'package:shefu/l10n/app_localizations.dart';
 import 'package:shefu/viewmodels/edit_recipe_viewmodel.dart';
 import 'package:shefu/widgets/edit_ingredient_input.dart';
 
-class IngredientsSection extends StatelessWidget {
-  final EditRecipeViewModel viewModel;
-  final int stepIndex;
-  final bool isVariant;
-  final bool isOverridden;
-
-  const IngredientsSection({
-    super.key,
-    required this.viewModel,
-    required this.stepIndex,
-    this.isVariant = false,
-    this.isOverridden = false,
-  });
-
+class const IngredientsSection({
+  super.key,
+  required final EditRecipeViewModel viewModel,
+  required final int stepIndex,
+  final bool isVariant = false,
+  final bool isOverridden = false,
+}) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;

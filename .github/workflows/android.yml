@@ -32,7 +32,8 @@ jobs:
         run: flutter pub get
 
       - name: Run build_runner
-        run: flutter pub run build_runner build
+        # build_runner bundles an older analyzer that still gates primary constructors.
+        run: dart run build_runner build --enable-experiment=primary-constructors
 
       - name: Decode Keystore
         env:

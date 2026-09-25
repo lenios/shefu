@@ -3,10 +3,7 @@ import 'package:html/parser.dart';
 import 'package:shefu/l10n/l10n_utils.dart';
 
 /// Exception thrown when an element is not found in HTML
-class ElementNotFoundInHtml implements Exception {
-  final String message;
-  ElementNotFoundInHtml(this.message);
-
+class ElementNotFoundInHtml(final String message) implements Exception {
   @override
   String toString() => 'ElementNotFoundInHtml: $message';
 }
@@ -735,12 +732,12 @@ double? _parseJapaneseNumber(String s) {
   return (quantity, unit, name, shape);
 }
 
-class ScrapedRecipeStep {
-  final String instruction;
-  final String? imagePath; // Local path to the downloaded image
+class ScrapedRecipeStep({
+  required final String instruction,
 
-  ScrapedRecipeStep({required this.instruction, this.imagePath});
-}
+  /// Local path to the downloaded image.
+  final String? imagePath,
+});
 
 // Helper to parse ISO 8601 duration (PT5M = 5 minutes)
 int parseISODuration(String isoDuration) {

@@ -28,11 +28,7 @@ import 'package:wakelock_plus/wakelock_plus.dart';
 import '../widgets/header_stats.dart';
 
 // ignore: must_be_immutable
-class DisplayRecipe extends StatefulWidget {
-  final int recipeId;
-
-  const DisplayRecipe({super.key, required this.recipeId});
-
+class const DisplayRecipe({super.key, required final int recipeId}) extends StatefulWidget {
   @override
   State<DisplayRecipe> createState() => _DisplayRecipeState();
 }

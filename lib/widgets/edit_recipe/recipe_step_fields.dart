@@ -6,18 +6,12 @@ import 'package:shefu/viewmodels/edit_recipe_viewmodel.dart';
 /// A widget that displays the fields for a recipe step.
 ///
 /// Stateful because the text fields need to be updated when the recipe is loaded or changed.
-class RecipeStepFields extends StatefulWidget {
-  final EditRecipeViewModel viewModel;
-  final int stepIndex;
-  final bool showVideoUrl;
-
-  const RecipeStepFields({
-    super.key,
-    required this.viewModel,
-    required this.stepIndex,
-    this.showVideoUrl = false,
-  });
-
+class const RecipeStepFields({
+  super.key,
+  required final EditRecipeViewModel viewModel,
+  required final int stepIndex,
+  final bool showVideoUrl = false,
+}) extends StatefulWidget {
   @override
   State<RecipeStepFields> createState() => _RecipeStepFieldsState();
 }

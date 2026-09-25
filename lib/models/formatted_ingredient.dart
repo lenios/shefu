@@ -1,21 +1,10 @@
-class FormattedIngredient {
-  final String primaryQuantityDisplay;
-  final String name;
-  final String shape;
-  final String descriptionText;
-  final bool showDescription;
-  final bool isChecked;
-  final bool optional;
-  final bool displayReversed;
-
-  FormattedIngredient({
-    required this.primaryQuantityDisplay,
-    required this.name,
-    this.shape = '',
-    this.descriptionText = '',
-    required this.showDescription,
-    this.isChecked = false,
-    this.optional = false,
-    this.displayReversed = false,
-  });
-}
+class FormattedIngredient({
+  required final String primaryQuantityDisplay,
+  required final String name,
+  final String shape = '',
+  final String descriptionText = '',
+  required final bool showDescription,
+  final bool isChecked = false,
+  final bool optional = false,
+  final bool displayReversed = false,
+}) {}

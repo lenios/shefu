@@ -5,9 +5,7 @@ import 'package:shefu/utils/recipe_scrapers/utils.dart';
 import '../abstract_scraper.dart';
 import '../grouping_utils.dart';
 
-class ThePioneerWomanScraper extends AbstractScraper {
-  ThePioneerWomanScraper(super.html, super.url);
-
+class ThePioneerWomanScraper(super.html, super.url) extends AbstractScraper {
   @override
   List<String> instructionsList() {
     // Try schema / standard HTML paths first.

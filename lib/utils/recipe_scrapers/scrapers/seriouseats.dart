@@ -4,9 +4,7 @@ import 'package:http/http.dart' as http;
 
 import '../abstract_scraper.dart';
 
-class SeriousEatsScraper extends AbstractScraper {
-  SeriousEatsScraper(super.html, super.url);
-
+class SeriousEatsScraper(super.html, super.url) extends AbstractScraper {
   @override
   String makeAhead() {
     final tocSpan = soup.querySelector('span.heading-toc#toc-make-ahead-and-storage');

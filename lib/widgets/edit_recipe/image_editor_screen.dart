@@ -7,11 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shefu/l10n/app_localizations.dart';
 
-class ImageEditorScreen extends StatefulWidget {
-  final XFile imageFile;
-
-  const ImageEditorScreen({super.key, required this.imageFile});
-
+class const ImageEditorScreen({super.key, required final XFile imageFile}) extends StatefulWidget {
   @override
   State<ImageEditorScreen> createState() => _ImageEditorScreenState();
 }
@@ -296,19 +292,12 @@ class _ImageEditorScreenState extends State<ImageEditorScreen> {
   }
 }
 
-class _RectangleEditorPainter extends CustomPainter {
-  final ui.Image image;
-  final List<Rect> rectangles;
-  final Offset? startPoint;
-  final Offset? currentPoint;
-
-  _RectangleEditorPainter({
-    required this.image,
-    required this.rectangles,
-    this.startPoint,
-    this.currentPoint,
-  });
-
+class _RectangleEditorPainter({
+  required final ui.Image image,
+  required final List<Rect> rectangles,
+  final Offset? startPoint,
+  final Offset? currentPoint,
+}) extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     // Calculate aspect ratio to display the image properly

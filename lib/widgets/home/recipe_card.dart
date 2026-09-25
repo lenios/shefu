@@ -13,12 +13,8 @@ import '../../widgets/image_helper.dart';
 import '../header_stats.dart';
 import '../misc.dart';
 
-class RecipeCard extends StatelessWidget {
-  final Recipe recipe;
-  final RecipeVariant? variant;
-
-  const RecipeCard({super.key, required this.recipe, this.variant});
-
+class const RecipeCard({super.key, required final Recipe recipe, final RecipeVariant? variant})
+    extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);

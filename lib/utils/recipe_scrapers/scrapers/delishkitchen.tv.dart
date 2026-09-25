@@ -2,9 +2,7 @@ import 'package:http/http.dart' as http;
 
 import '../abstract_scraper.dart';
 
-class DelishKitchenScraper extends AbstractScraper {
-  DelishKitchenScraper(super.html, super.url);
-
+class DelishKitchenScraper(super.html, super.url) extends AbstractScraper {
   /// Decodes JavaScript Unicode escape sequences (e.g. \u002F → /).
   static String _decodeJsEscapes(String s) {
     return s.replaceAllMapped(

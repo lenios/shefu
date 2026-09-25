@@ -9,18 +9,12 @@ import 'ingredients_section.dart';
 import 'recipe_image_picker.dart';
 import 'recipe_step_fields.dart';
 
-class RecipeStepCard extends StatefulWidget {
-  final EditRecipeViewModel viewModel;
-  final int stepIndex;
-  final bool isHandset;
-
-  const RecipeStepCard({
-    super.key,
-    required this.viewModel,
-    required this.stepIndex,
-    required this.isHandset,
-  });
-
+class const RecipeStepCard({
+  super.key,
+  required final EditRecipeViewModel viewModel,
+  required final int stepIndex,
+  required final bool isHandset,
+}) extends StatefulWidget {
   @override
   State<RecipeStepCard> createState() => _RecipeStepCardState();
 }

@@ -3,9 +3,7 @@ import 'package:http/http.dart' as http;
 
 import '../abstract_scraper.dart';
 
-class MarmitonScraper extends AbstractScraper {
-  MarmitonScraper(super.pageData, super.url);
-
+class MarmitonScraper(super.pageData, super.url) extends AbstractScraper {
   @override
   String description() {
     String desc = "";

@@ -8,12 +8,10 @@ import 'utils.dart';
 import 'grouping_utils.dart';
 
 /// Base scraper implementation with fallback mechanisms
-class AbstractScraper {
-  late String pageData;
-  late String url;
-  late Document soup;
-  late SchemaOrg schema;
-  late OpenGraph opengraph;
+class AbstractScraper(final String pageData, final String url) {
+  late final Document soup = parse(pageData);
+  late final SchemaOrg schema = SchemaOrg(pageData);
+  late final OpenGraph opengraph = OpenGraph(soup);
 
   // Field to store override values
   final Map<String, dynamic> _overrides = {};
@@ -36,12 +34,6 @@ class AbstractScraper {
     "User-Agent":
         "Mozilla/5.0 (compatible; Windows NT 10.0; Win64; x64; rv:$version) recipe-scrapers/$version",
   };
-
-  AbstractScraper(this.pageData, this.url) {
-    soup = parse(pageData);
-    opengraph = OpenGraph(soup);
-    schema = SchemaOrg(pageData);
-  }
 
   bool _isIngredientSectionMarker(String value) {
     return RegExp(r'^(for\s+.+|to\s+serve)$', caseSensitive: false).hasMatch(value);

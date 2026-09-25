@@ -1,8 +1,6 @@
 import '../abstract_scraper.dart';
 
-class ZaubertopfScraper extends AbstractScraper {
-  ZaubertopfScraper(super.pageData, super.url);
-
+class ZaubertopfScraper(super.pageData, super.url) extends AbstractScraper {
   @override
   List<String> ingredients() {
     final ingredients = <String>[];

@@ -2,19 +2,12 @@ import 'package:material_ui/material_ui.dart';
 
 /// Colors of a single recipe variant, derived from the active theme.
 @immutable
-class VariantPalette {
-  const VariantPalette({
-    required this.container,
-    required this.onContainer,
-    required this.accent,
-    required this.outline,
-  });
-
-  final Color container;
-  final Color onContainer;
-  final Color accent;
-  final Color outline;
-}
+class const VariantPalette({
+  required final Color container,
+  required final Color onContainer,
+  required final Color accent,
+  required final Color outline,
+}) {}
 
 /// Theme-aware palettes for recipe variants.
 ///

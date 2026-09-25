@@ -4,11 +4,12 @@ import 'package:shefu/widgets/circular_countdown_timer.dart';
 import 'package:shefu/l10n/app_localizations.dart';
 import 'package:audioplayers/audioplayers.dart';
 
-class StepTimerWidget extends StatefulWidget {
-  final int timerDurationSeconds; // Pass duration in seconds
+class const StepTimerWidget({
+  super.key,
 
-  const StepTimerWidget({super.key, required this.timerDurationSeconds});
-
+  /// Duration in seconds.
+  required final int timerDurationSeconds,
+}) extends StatefulWidget {
   @override
   State<StepTimerWidget> createState() => _StepTimerWidgetState();
 }

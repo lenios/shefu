@@ -13,17 +13,12 @@ import '../models/objectbox_models.dart';
 import 'image_helper.dart';
 import 'misc.dart';
 
-class RecipeStepCard extends StatelessWidget {
-  final RecipeStep recipeStep;
-  final double servings;
-  final bool isCurrentStep;
-
-  const RecipeStepCard({
-    super.key,
-    required this.recipeStep,
-    required this.servings,
-    this.isCurrentStep = false,
-  });
+class const RecipeStepCard({
+  super.key,
+  required final RecipeStep recipeStep,
+  required final double servings,
+  final bool isCurrentStep = false,
+}) extends StatelessWidget {
   RichText _buildInstructionText(String instruction, BuildContext context) {
     final theme = Theme.of(context);
     final defaultStyle = theme.textTheme.bodyMedium;

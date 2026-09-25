@@ -1,8 +1,6 @@
 import '../abstract_scraper.dart';
 
-class AllRecipesScraper extends AbstractScraper {
-  AllRecipesScraper(super.html, super.url);
-
+class AllRecipesScraper(super.html, super.url) extends AbstractScraper {
   @override
   List<String> stepImages() {
     List<String> imageUrls = [];

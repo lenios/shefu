@@ -6,9 +6,7 @@ import 'package:shefu/utils/recipe_scrapers/utils.dart';
 
 import '../abstract_scraper.dart';
 
-class ZeitScraper extends AbstractScraper {
-  ZeitScraper(super.pageData, super.url);
-
+class ZeitScraper(super.pageData, super.url) extends AbstractScraper {
   @override
   String author() {
     final authorElement = soup.querySelector('a[rel="author"]');

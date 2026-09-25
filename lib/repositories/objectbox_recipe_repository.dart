@@ -6,13 +6,10 @@ import 'package:shefu/repositories/objectbox.dart';
 import 'package:shefu/objectbox.g.dart';
 import 'package:shefu/utils/path_utils.dart';
 
-class ObjectBoxRecipeRepository {
-  final ObjectBox _objectBox;
+class ObjectBoxRecipeRepository._internal(final ObjectBox _objectBox) {
   bool _isInitialized = false;
 
   // Private constructor for singleton pattern
-  ObjectBoxRecipeRepository._internal(this._objectBox);
-
   static ObjectBoxRecipeRepository? _instance;
 
   factory ObjectBoxRecipeRepository(ObjectBox objectBox) {

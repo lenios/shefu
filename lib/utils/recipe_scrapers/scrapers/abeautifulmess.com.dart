@@ -1,8 +1,6 @@
 import '../abstract_scraper.dart';
 
-class ABeautifulMessScraper extends AbstractScraper {
-  ABeautifulMessScraper(super.pageData, super.url);
-
+class ABeautifulMessScraper(super.pageData, super.url) extends AbstractScraper {
   @override
   List<String> equipment() {
     final equipmentContainer = soup.querySelector('.wprm-recipe-equipment-container');

@@ -43,12 +43,10 @@ Widget recipeCardStack(
   );
 }
 
-class RecipeCardGridDelegate extends SliverGridDelegate {
-  final int crossAxisCount;
-  final List<double> itemHeights;
-
-  const RecipeCardGridDelegate({required this.crossAxisCount, required this.itemHeights});
-
+class const RecipeCardGridDelegate({
+  required final int crossAxisCount,
+  required final List<double> itemHeights,
+}) extends SliverGridDelegate {
   @override
   SliverGridLayout getLayout(SliverConstraints constraints) {
     final crossAxisExtent = constraints.crossAxisExtent / crossAxisCount;
@@ -86,17 +84,13 @@ class RecipeCardGridDelegate extends SliverGridDelegate {
   }
 }
 
-class _RecipeCardGridLayout extends SliverGridLayout {
-  final int crossAxisCount;
-  final double crossAxisExtent;
-  final List<double> rowHeights;
+// ignore: prefer_const_constructors_in_immutables
+class _RecipeCardGridLayout({
+  required final int crossAxisCount,
+  required final double crossAxisExtent,
+  required final List<double> rowHeights,
+}) extends SliverGridLayout {
   late final List<double> _rowOffsets = _computeRowOffsets(rowHeights);
-
-  _RecipeCardGridLayout({
-    required this.crossAxisCount,
-    required this.crossAxisExtent,
-    required this.rowHeights,
-  });
 
   static List<double> _computeRowOffsets(List<double> heights) {
     final offsets = <double>[0];

@@ -1,12 +1,7 @@
 import 'package:shefu/models/objectbox_models.dart';
 
 // Not stored in DB, reset on app close
-class ShoppingBasket {
-  List<BasketItem> items;
-  List<BasketRecipe> recipes;
-
-  ShoppingBasket(this.items, this.recipes);
-
+class ShoppingBasket(var List<BasketItem> items, var List<BasketRecipe> recipes) {
   bool get isEmpty => items.isEmpty && recipes.isEmpty;
 
   void removeRecipe(int recipeId) {
@@ -38,12 +33,7 @@ class ShoppingBasket {
   }
 }
 
-class BasketRecipe {
-  late int recipeId;
-  late String title;
-
-  BasketRecipe({this.recipeId = 0, this.title = ''});
-}
+class BasketRecipe({var int recipeId = 0, var String title = ''});
 
 class BasketItem {
   final String? recipeId;

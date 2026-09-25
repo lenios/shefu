@@ -6,7 +6,36 @@ import 'package:path/path.dart' as p;
 import '../utils/path_utils.dart';
 
 @Entity()
-class Recipe {
+class Recipe({
+  this.id = 0,
+  this.title = "",
+  this.source = "",
+  this.imagePath = "",
+  this.notes = "",
+  this.servings = 4,
+  this.piecesPerServing,
+  this.category = 0,
+  this.countryCode = "WW",
+  this.calories = 0,
+  this.fat = 0,
+  this.carbohydrates = 0,
+  this.protein = 0,
+  this.saturatedFat = 0,
+  this.transFat = 0,
+  this.sugar = 0,
+  this.fiber = 0,
+  this.cholesterol = 0,
+  this.sodium = 0,
+  this.time = 0,
+  this.cookTime = 0,
+  this.prepTime = 0,
+  this.restTime = 0,
+  this.month = 1,
+  this.makeAhead = "",
+  this.videoUrl = "",
+  this.questions = const [],
+  this.languageTag = "",
+}) {
   @Id()
   int id;
 
@@ -45,37 +74,6 @@ class Recipe {
   final variants = ToMany<RecipeVariant>();
 
   List<Tag> tags = ToMany<Tag>();
-
-  Recipe({
-    this.id = 0,
-    this.title = "",
-    this.source = "",
-    this.imagePath = "",
-    this.notes = "",
-    this.servings = 4,
-    this.piecesPerServing,
-    this.category = 0,
-    this.countryCode = "WW",
-    this.calories = 0,
-    this.fat = 0,
-    this.carbohydrates = 0,
-    this.protein = 0,
-    this.saturatedFat = 0,
-    this.transFat = 0,
-    this.sugar = 0,
-    this.fiber = 0,
-    this.cholesterol = 0,
-    this.sodium = 0,
-    this.time = 0,
-    this.cookTime = 0,
-    this.prepTime = 0,
-    this.restTime = 0,
-    this.month = 1,
-    this.makeAhead = "",
-    this.videoUrl = "",
-    this.questions = const [],
-    this.languageTag = "",
-  });
 
   Map<String, dynamic> toMap() {
     final steps = List<RecipeStep>.from(this.steps)..sort((a, b) => a.order.compareTo(b.order));
@@ -166,46 +164,48 @@ class Recipe {
     };
   }
 
-  Recipe.fromMap(Map<String, dynamic> m)
-    : id = _int(m, 'id'),
-      title = _str(m, 'title'),
-      source = _str(m, 'source'),
-      imagePath = _str(m, 'imageFile'),
-      notes = _str(m, 'notes'),
-      servings = _int(m, 'servings'),
-      piecesPerServing = m['piecesPerServing'] as int?,
-      category = _int(m, 'category'),
-      countryCode = _str(m, 'countryCode'),
-      calories = _int(m, 'calories'),
-      fat = _int(m, 'fat'),
-      carbohydrates = _int(m, 'carbohydrates'),
-      protein = _int(m, 'protein'),
-      saturatedFat = _int(m, 'saturatedFat'),
-      transFat = _int(m, 'transFat'),
-      sugar = _int(m, 'sugar'),
-      fiber = _int(m, 'fiber'),
-      cholesterol = _int(m, 'cholesterol'),
-      sodium = _int(m, 'sodium'),
-      time = _int(m, 'time'),
-      cookTime = _int(m, 'cookTime'),
-      prepTime = _int(m, 'prepTime'),
-      restTime = _int(m, 'restTime'),
-      month = _int(m, 'month'),
-      makeAhead = _str(m, 'makeAhead'),
-      videoUrl = _str(m, 'videoUrl'),
-      questions = _stringList(m['questions']),
-      languageTag = _str(m, 'languageTag') {
+  factory Recipe.fromMap(Map<String, dynamic> m) {
+    final recipe = Recipe(
+      id: _int(m, 'id'),
+      title: _str(m, 'title'),
+      source: _str(m, 'source'),
+      imagePath: _str(m, 'imageFile'),
+      notes: _str(m, 'notes'),
+      servings: _int(m, 'servings'),
+      piecesPerServing: m['piecesPerServing'] as int?,
+      category: _int(m, 'category'),
+      countryCode: _str(m, 'countryCode'),
+      calories: _int(m, 'calories'),
+      fat: _int(m, 'fat'),
+      carbohydrates: _int(m, 'carbohydrates'),
+      protein: _int(m, 'protein'),
+      saturatedFat: _int(m, 'saturatedFat'),
+      transFat: _int(m, 'transFat'),
+      sugar: _int(m, 'sugar'),
+      fiber: _int(m, 'fiber'),
+      cholesterol: _int(m, 'cholesterol'),
+      sodium: _int(m, 'sodium'),
+      time: _int(m, 'time'),
+      cookTime: _int(m, 'cookTime'),
+      prepTime: _int(m, 'prepTime'),
+      restTime: _int(m, 'restTime'),
+      month: _int(m, 'month'),
+      makeAhead: _str(m, 'makeAhead'),
+      videoUrl: _str(m, 'videoUrl'),
+      questions: _stringList(m['questions']),
+      languageTag: _str(m, 'languageTag'),
+    );
     final rawTags = m['tags'];
     if (rawTags is List) {
       for (final t in rawTags) {
-        if (t is String) tags.add(Tag(name: t));
+        if (t is String) recipe.tags.add(Tag(name: t));
       }
     }
 
     final rawSteps = m['steps'];
     if (rawSteps is List) {
       for (final s in rawSteps) {
-        steps.add(RecipeStep.fromMap(s as Map<String, dynamic>));
+        recipe.steps.add(RecipeStep.fromMap(s as Map<String, dynamic>));
       }
     }
 
@@ -214,16 +214,17 @@ class Recipe {
       for (final vRaw in rawVariants) {
         final vm = vRaw as Map<String, dynamic>;
         final variant = RecipeVariant(title: _str(vm, 'title'))
-          ..recipe.target = this; // TODO check if needed
+          ..recipe.target = recipe; // TODO check if needed
         final rawVSteps = vm['steps'];
         if (rawVSteps is List) {
           for (final s in rawVSteps) {
             variant.steps.add(RecipeStep.fromMap(s as Map<String, dynamic>));
           }
         }
-        variants.add(variant);
+        recipe.variants.add(variant);
       }
     }
+    return recipe;
   }
 }
 
@@ -247,7 +248,15 @@ enum Category {
 }
 
 @Entity()
-class RecipeStep {
+class RecipeStep({
+  this.id = 0,
+  this.name = "",
+  this.instruction = "",
+  this.imagePath = "",
+  this.videoUrl = "",
+  this.timer = 0,
+  this.order = 0,
+}) {
   @Id()
   int id;
 
@@ -264,29 +273,20 @@ class RecipeStep {
   @Backlink()
   final ingredients = ToMany<IngredientItem>();
 
-  RecipeStep({
-    this.id = 0,
-    this.name = "",
-    this.instruction = "",
-    this.imagePath = "",
-    this.videoUrl = "",
-    this.timer = 0,
-    this.order = 0,
-  });
-
-  RecipeStep.fromMap(Map<String, dynamic> sm)
-    : id = 0,
-      name = _str(sm, 'name'),
-      instruction = _str(sm, 'instruction'),
-      imagePath = _str(sm, 'imageFile'),
-      videoUrl = _str(sm, 'videoUrl'),
-      timer = _int(sm, 'timer'),
-      order = _int(sm, 'order') {
+  factory RecipeStep.fromMap(Map<String, dynamic> sm) {
+    final step = RecipeStep(
+      name: _str(sm, 'name'),
+      instruction: _str(sm, 'instruction'),
+      imagePath: _str(sm, 'imageFile'),
+      videoUrl: _str(sm, 'videoUrl'),
+      timer: _int(sm, 'timer'),
+      order: _int(sm, 'order'),
+    );
     final rawIngs = sm['ingredients'];
     if (rawIngs is List) {
       for (final im in rawIngs) {
         final inm = im as Map<String, dynamic>;
-        ingredients.add(
+        step.ingredients.add(
           IngredientItem(
             name: _str(inm, 'name'),
             unit: _str(inm, 'unit'),
@@ -299,11 +299,12 @@ class RecipeStep {
         );
       }
     }
+    return step;
   }
 }
 
 @Entity()
-class RecipeVariant {
+class RecipeVariant({this.id = 0, this.title = ""}) {
   @Id()
   int id;
 
@@ -314,14 +315,21 @@ class RecipeVariant {
   @Backlink('variant')
   final steps = ToMany<RecipeStep>();
 
-  RecipeVariant({this.id = 0, this.title = ""});
-
   //@override
   //String toString() => title;
 }
 
 @Entity()
-class IngredientItem {
+class IngredientItem({
+  this.id = 0,
+  this.name = "",
+  this.unit = "",
+  this.quantity = 1.0,
+  this.shape = "",
+  this.foodId = 0,
+  this.conversionId = 0,
+  this.optional = false,
+}) {
   @Id()
   int id;
 
@@ -334,17 +342,6 @@ class IngredientItem {
   bool optional;
 
   final step = ToOne<RecipeStep>();
-
-  IngredientItem({
-    this.id = 0,
-    this.name = "",
-    this.unit = "",
-    this.quantity = 1.0,
-    this.shape = "",
-    this.foodId = 0,
-    this.conversionId = 0,
-    this.optional = false,
-  });
 }
 
 enum Unit {
@@ -374,7 +371,7 @@ enum Unit {
 }
 
 @Entity()
-class Tag {
+class Tag({this.id = 0, this.name = ""}) {
   @Id()
   int id;
 
@@ -382,12 +379,61 @@ class Tag {
   String name;
 
   final recipe = ToOne<Recipe>();
-
-  Tag({this.id = 0, this.name = ""});
 }
 
 @Entity()
-class Nutrient {
+class Nutrient({
+  this.id = 0,
+  this.foodId = 0,
+  this.descEN = "",
+  this.descFR = "",
+  this.protein = 0.0,
+  this.water = 0.0,
+  this.lipidTotal = 0.0,
+  this.energKcal = 0.0,
+  this.carbohydrates = 0.0,
+  this.ash = 0.0,
+  this.fiber = 0.0,
+  this.sugar = 0.0,
+  this.calcium = 0.0,
+  this.iron = 0.0,
+  this.magnesium = 0.0,
+  this.phosphorus = 0.0,
+  this.potassium = 0.0,
+  this.sodium = 0.0,
+  this.zinc = 0.0,
+  this.copper = 0.0,
+  this.manganese = 0.0,
+  this.selenium = 0.0,
+  this.vitaminC = 0.0,
+  this.thiamin = 0.0,
+  this.riboflavin = 0.0,
+  this.niacin = 0.0,
+  this.pantoAcid = 0.0,
+  this.vitaminB6 = 0.0,
+  this.folateTotal = 0.0,
+  this.folicAcid = 0.0,
+  this.foodFolate = 0.0,
+  this.folateDFE = 0.0,
+  this.cholineTotal = 0.0,
+  this.vitaminB12 = 0.0,
+  this.vitaminAIU = 0.0,
+  this.vitaminARAE = 0.0,
+  this.retinol = 0.0,
+  this.alphaCarot = 0.0,
+  this.betaCarot = 0.0,
+  this.betaCrypt = 0.0,
+  this.lycopene = 0.0,
+  this.lutZea = 0.0,
+  this.vitaminE = 0.0,
+  this.vitaminD = 0.0,
+  this.vitaminDIU = 0.0,
+  this.vitaminK = 0.0,
+  this.FASat = 0.0,
+  this.FAMono = 0.0,
+  this.FAPoly = 0.0,
+  this.cholesterol = 0.0,
+}) {
   @Id()
   int id;
 
@@ -444,63 +490,17 @@ class Nutrient {
 
   @Backlink('nutrient')
   final conversions = ToMany<Conversion>();
-
-  Nutrient({
-    this.id = 0,
-    this.foodId = 0,
-    this.descEN = "",
-    this.descFR = "",
-    this.protein = 0.0,
-    this.water = 0.0,
-    this.lipidTotal = 0.0,
-    this.energKcal = 0.0,
-    this.carbohydrates = 0.0,
-    this.ash = 0.0,
-    this.fiber = 0.0,
-    this.sugar = 0.0,
-    this.calcium = 0.0,
-    this.iron = 0.0,
-    this.magnesium = 0.0,
-    this.phosphorus = 0.0,
-    this.potassium = 0.0,
-    this.sodium = 0.0,
-    this.zinc = 0.0,
-    this.copper = 0.0,
-    this.manganese = 0.0,
-    this.selenium = 0.0,
-    this.vitaminC = 0.0,
-    this.thiamin = 0.0,
-    this.riboflavin = 0.0,
-    this.niacin = 0.0,
-    this.pantoAcid = 0.0,
-    this.vitaminB6 = 0.0,
-    this.folateTotal = 0.0,
-    this.folicAcid = 0.0,
-    this.foodFolate = 0.0,
-    this.folateDFE = 0.0,
-    this.cholineTotal = 0.0,
-    this.vitaminB12 = 0.0,
-    this.vitaminAIU = 0.0,
-    this.vitaminARAE = 0.0,
-    this.retinol = 0.0,
-    this.alphaCarot = 0.0,
-    this.betaCarot = 0.0,
-    this.betaCrypt = 0.0,
-    this.lycopene = 0.0,
-    this.lutZea = 0.0,
-    this.vitaminE = 0.0,
-    this.vitaminD = 0.0,
-    this.vitaminDIU = 0.0,
-    this.vitaminK = 0.0,
-    this.FASat = 0.0,
-    this.FAMono = 0.0,
-    this.FAPoly = 0.0,
-    this.cholesterol = 0.0,
-  });
 }
 
 @Entity()
-class Conversion {
+class Conversion({
+  this.id = 0,
+  this.foodId = 0,
+  this.measureId = 0,
+  this.descEN = "",
+  this.descFR = "",
+  this.factor = 1.0,
+}) {
   @Id()
   int id;
 
@@ -513,15 +513,6 @@ class Conversion {
   double factor;
 
   final nutrient = ToOne<Nutrient>();
-
-  Conversion({
-    this.id = 0,
-    this.foodId = 0,
-    this.measureId = 0,
-    this.descEN = "",
-    this.descFR = "",
-    this.factor = 1.0,
-  });
 }
 
 /// Zip entry name for an image path, or null when the path is empty.

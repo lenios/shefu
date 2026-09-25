@@ -1,9 +1,7 @@
 import '../abstract_scraper.dart';
 import '../utils.dart';
 
-class AnovaCulinary extends AbstractScraper {
-  AnovaCulinary(super.pageData, super.url);
-
+class AnovaCulinary(super.pageData, super.url) extends AbstractScraper {
   // This site is not putting the instructions in json-ld script...
   @override
   List<String> instructionsList() {

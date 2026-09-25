@@ -8,9 +8,7 @@ import 'package:shefu/viewmodels/export_recipes_viewmodel.dart';
 import 'package:shefu/widgets/back_button.dart';
 import 'package:shefu/widgets/gradient_fade.dart';
 
-class ExportRecipesPage extends StatelessWidget {
-  const ExportRecipesPage({super.key});
-
+class const ExportRecipesPage({super.key}) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<ExportRecipesViewModel>();

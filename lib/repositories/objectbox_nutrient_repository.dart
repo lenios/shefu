@@ -6,14 +6,11 @@ import 'package:shefu/objectbox.g.dart';
 import 'package:shefu/repositories/objectbox.dart';
 import 'package:shefu/utils/string_extension.dart';
 
-class ObjectBoxNutrientRepository {
-  final ObjectBox _objectBox;
+class ObjectBoxNutrientRepository._internal(final ObjectBox _objectBox) {
   List<Nutrient> _inMemoryNutrients = [];
   bool _isInitialized = false;
 
   // Private constructor for singleton pattern
-  ObjectBoxNutrientRepository._internal(this._objectBox);
-
   // Static instance variable
   static ObjectBoxNutrientRepository? _instance;
 

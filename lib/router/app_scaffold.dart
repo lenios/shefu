@@ -5,26 +5,16 @@ import 'package:shefu/provider/my_app_state.dart';
 import 'package:shefu/widgets/shopping_basket_modal.dart';
 
 /// A wrapper scaffold that adds the Shopping Basket FAB to any screen
-class AppScaffold extends StatelessWidget {
-  final Widget child;
-  final PreferredSizeWidget? appBar;
-  final Widget? floatingActionButton;
-  final Color? backgroundColor;
-  final bool extendBodyBehindAppBar;
-  final bool resizeToAvoidBottomInset;
-  final FloatingActionButtonLocation? floatingActionButtonLocation;
-
-  const AppScaffold({
-    super.key,
-    required this.child,
-    this.appBar,
-    this.floatingActionButton,
-    this.backgroundColor,
-    this.extendBodyBehindAppBar = false,
-    this.resizeToAvoidBottomInset = true,
-    this.floatingActionButtonLocation,
-  });
-
+class const AppScaffold({
+  super.key,
+  required final Widget child,
+  final PreferredSizeWidget? appBar,
+  final Widget? floatingActionButton,
+  final Color? backgroundColor,
+  final bool extendBodyBehindAppBar = false,
+  final bool resizeToAvoidBottomInset = true,
+  final FloatingActionButtonLocation? floatingActionButtonLocation,
+}) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appState = Provider.of<MyAppState>(context);

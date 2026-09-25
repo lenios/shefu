@@ -10,9 +10,7 @@ import 'package:shefu/repositories/objectbox_recipe_repository.dart';
 import 'package:shefu/widgets/ingredient_display.dart';
 import 'package:shefu/widgets/misc.dart';
 
-class ShoppingBasketModal extends StatelessWidget {
-  const ShoppingBasketModal({super.key});
-
+class const ShoppingBasketModal({super.key}) extends StatelessWidget {
   Map<String?, List<BasketItem>> _groupItemsByRecipe(List<BasketItem> items) {
     final Map<String?, List<BasketItem>> grouped = {};
 

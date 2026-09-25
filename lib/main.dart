@@ -29,14 +29,13 @@ void main() async {
   runApp(MyApp(objectBoxNutrientRepo: objectBoxNutrientRepo));
 }
 
-class MyApp extends StatefulWidget {
-  final ObjectBoxNutrientRepository objectBoxNutrientRepo;
+class const MyApp({
+  super.key,
+  required final ObjectBoxNutrientRepository objectBoxNutrientRepo,
 
   /// Overrides the ObjectBox-backed repository, for tests running on fakes.
-  final ObjectBoxRecipeRepository? recipeRepo;
-
-  const MyApp({super.key, required this.objectBoxNutrientRepo, this.recipeRepo});
-
+  final ObjectBoxRecipeRepository? recipeRepo,
+}) extends StatefulWidget {
   @override
   State<MyApp> createState() => _MyAppState();
 

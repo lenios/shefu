@@ -16,12 +16,7 @@ final List<(String, List<String>, List<String>)> defaultGroupings = [
 ];
 
 /// Represents a group of ingredients with an optional heading (purpose)
-class IngredientGroup {
-  final String? purpose;
-  final List<String> ingredients;
-
-  IngredientGroup({this.purpose, required this.ingredients});
-
+class IngredientGroup({final String? purpose, required final List<String> ingredients}) {
   Map<String, dynamic> toJson() {
     return {'purpose': purpose, 'ingredients': ingredients};
   }

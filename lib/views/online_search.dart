@@ -6,9 +6,7 @@ import 'package:shefu/utils/string_extension.dart';
 import 'package:shefu/viewmodels/online_search_viewmodel.dart';
 import 'package:shefu/widgets/back_button.dart';
 
-class OnlineSearchPage extends StatelessWidget {
-  const OnlineSearchPage({super.key});
-
+class const OnlineSearchPage({super.key}) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<OnlineSearchViewModel>(context);

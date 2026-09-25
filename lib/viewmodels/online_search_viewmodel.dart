@@ -11,23 +11,14 @@ import 'package:shefu/utils/recipe_scrapers/scrapers/marmiton.dart';
 import 'package:shefu/utils/recipe_scrapers/scrapers/seriouseats.dart';
 import 'package:shefu/viewmodels/edit_recipe_viewmodel.dart';
 
-class OnlineSearchResult {
-  final String title;
-  final String url;
-  final String imageUrl;
-  final String sourceSite;
-  final int? nbReviews;
-  final double? rating;
-
-  OnlineSearchResult({
-    required this.title,
-    required this.url,
-    required this.imageUrl,
-    required this.sourceSite,
-    this.nbReviews,
-    this.rating,
-  });
-}
+class OnlineSearchResult({
+  required final String title,
+  required final String url,
+  required final String imageUrl,
+  required final String sourceSite,
+  final int? nbReviews,
+  final double? rating,
+}) {}
 
 class OnlineSearchViewModel extends ChangeNotifier {
   final TextEditingController searchController = TextEditingController();

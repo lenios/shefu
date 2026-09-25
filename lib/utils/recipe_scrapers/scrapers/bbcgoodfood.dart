@@ -1,9 +1,7 @@
 import '../abstract_scraper.dart';
 import '../grouping_utils.dart';
 
-class BBCGoodFoodScraper extends AbstractScraper {
-  BBCGoodFoodScraper(super.html, super.url);
-
+class BBCGoodFoodScraper(super.html, super.url) extends AbstractScraper {
   @override
   List<IngredientGroup>? ingredientGroups() {
     final allIngredients = ingredients();

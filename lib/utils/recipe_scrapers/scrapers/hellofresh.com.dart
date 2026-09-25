@@ -1,8 +1,6 @@
 import '../abstract_scraper.dart';
 
-class HelloFreshScraper extends AbstractScraper {
-  HelloFreshScraper(super.html, super.url);
-
+class HelloFreshScraper(super.html, super.url) extends AbstractScraper {
   @override
   int? prepTime() {
     final scriptTag = soup.querySelector('script#__NEXT_DATA__');

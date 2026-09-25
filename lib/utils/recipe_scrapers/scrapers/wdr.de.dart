@@ -4,9 +4,7 @@ import 'package:path/path.dart';
 
 import '../abstract_scraper.dart';
 
-class WdrScraper extends AbstractScraper {
-  WdrScraper(super.pageData, super.url);
-
+class WdrScraper(super.pageData, super.url) extends AbstractScraper {
   @override
   List<String> ingredients() {
     try {

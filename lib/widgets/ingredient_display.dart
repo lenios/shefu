@@ -3,24 +3,15 @@ import 'package:shefu/l10n/app_localizations.dart';
 import 'package:shefu/models/formatted_ingredient.dart';
 import 'package:shefu/widgets/recipe_step_card.dart';
 
-class IngredientDisplay extends StatelessWidget {
-  final FormattedIngredient ingredient;
-  final String bulletType;
-  final String descBullet;
-  final Color? primaryColor;
-  final bool lineShape;
-  final bool isBold;
-
-  const IngredientDisplay({
-    super.key,
-    required this.ingredient,
-    this.bulletType = "□ ",
-    this.descBullet = "",
-    this.primaryColor,
-    this.lineShape = true,
-    this.isBold = false,
-  });
-
+class const IngredientDisplay({
+  super.key,
+  required final FormattedIngredient ingredient,
+  final String bulletType = "□ ",
+  final String descBullet = "",
+  final Color? primaryColor,
+  final bool lineShape = true,
+  final bool isBold = false,
+}) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);

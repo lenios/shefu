@@ -4,9 +4,7 @@ import 'package:html/parser.dart';
 import '../abstract_scraper.dart';
 import '../utils.dart';
 
-class PapillesEtPupillesScraper extends AbstractScraper {
-  PapillesEtPupillesScraper(super.pageData, super.url);
-
+class PapillesEtPupillesScraper(super.pageData, super.url) extends AbstractScraper {
   @override
   String image() {
     final imageElement = soup.querySelector('.post_content img');

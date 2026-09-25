@@ -17,12 +17,10 @@ const int kRecipeExportVersion = 1;
 
 /// A parsed export archive: the deserialized recipes plus the raw image
 /// entries (keyed by their entry name inside the zip).
-class ParsedExport {
-  final List<Recipe> recipes;
-  final Map<String, List<int>> images;
-
-  ParsedExport({required this.recipes, required this.images});
-}
+class ParsedExport({
+  required final List<Recipe> recipes,
+  required final Map<String, List<int>> images,
+}) {}
 
 /// Builds a zip archive of the given recipes.
 ///

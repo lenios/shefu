@@ -15,9 +15,7 @@ import 'package:shefu/widgets/open_modal_settings_button.dart';
 import '../l10n/app_localizations.dart';
 import '../models/objectbox_models.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
-
+class const HomePage({super.key}) extends StatefulWidget {
   @override
   State<HomePage> createState() => _HomePageState();
 }

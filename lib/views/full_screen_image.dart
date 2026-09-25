@@ -3,10 +3,7 @@ import 'dart:io';
 import 'package:material_ui/material_ui.dart';
 import 'package:shefu/utils/path_utils.dart';
 
-class FullScreenImage extends StatelessWidget {
-  final String imagePath;
-  const FullScreenImage({super.key, required this.imagePath});
-
+class const FullScreenImage({super.key, required final String imagePath}) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
