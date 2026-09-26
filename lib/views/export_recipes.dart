@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import 'package:shefu/l10n/app_localizations.dart';
 import 'package:shefu/l10n/l10n_utils.dart';
-import 'package:shefu/models/objectbox_models.dart';
+import 'package:shefu/models/entities.dart';
 import 'package:shefu/viewmodels/export_recipes_viewmodel.dart';
 import 'package:shefu/widgets/back_button.dart';
 import 'package:shefu/widgets/gradient_fade.dart';

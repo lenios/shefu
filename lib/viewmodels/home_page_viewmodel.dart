@@ -5,33 +5,31 @@ import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shefu/l10n/app_localizations.dart';
-import 'package:shefu/models/objectbox_models.dart';
-import 'package:shefu/objectbox.g.dart';
-import 'package:shefu/repositories/objectbox_recipe_repository.dart';
+import 'package:shefu/models/entities.dart';
+import 'package:shefu/repositories/recipe_repository.dart';
 import 'package:shefu/utils/recipe_exporter.dart';
 import 'package:shefu/widgets/home/recipe_search_result.dart';
 
 class HomePageViewModel extends ChangeNotifier {
-  late final ObjectBoxRecipeRepository _objectBoxRepository;
+  HomePageViewModel(this._recipeRepository) {
+    _subscription = _recipeRepository.watchAllRecipes().listen((recipes) {
+      _recipes = recipes;
+      notifyListeners();
+    }, onError: (Object e, StackTrace s) => debugPrint('Error loading recipes: $e\n$s'));
+  }
 
-  Store? _store;
-  Box<Recipe>? _recipeBox;
+  final RecipeRepository _recipeRepository;
+  late final StreamSubscription<List<Recipe>> _subscription;
 
-  late Stream<List<Recipe>> _stream;
-  Stream<List<Recipe>> get stream => _stream;
+  List<Recipe>? _recipes;
 
-  bool hasBeenInitialized = false;
-
-  final List<Recipe> _recipes = [];
-  List<Recipe> get recipes => _recipes;
+  /// All recipes with steps and variants, kept up to date with the database;
+  /// null until the first load completes.
+  List<Recipe>? get recipes => _recipes;
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
-  Stream<List<Recipe>> get recipeStream => _objectBoxRepository.watchAllRecipes();
-
-  final String _filter = '';
-  String get filter => _filter;
   Category? _selectedCategory;
   Category? get selectedCategory => _selectedCategory;
   void setCategory(Category category) {
@@ -64,17 +62,6 @@ class HomePageViewModel extends ChangeNotifier {
   /// Rebuilds the list, the recipes or their variants may have changed.
   void refresh() => notifyListeners();
 
-  HomePageViewModel(this._objectBoxRepository) {
-    _checkMigrationStatus();
-  }
-
-  Future<void> _checkMigrationStatus() async {
-    _setLoading(true);
-    await initializeObjectBoxAndMigrate(_store);
-    await _objectBoxRepository.initialize();
-    _setLoading(false);
-  }
-
   void _setLoading(bool value) {
     if (_isLoading != value) {
       _isLoading = value;
@@ -82,15 +69,22 @@ class HomePageViewModel extends ChangeNotifier {
     }
   }
 
-  void filterByCategory(Category? category) {
-    _selectedCategory = category;
-    notifyListeners();
-  }
+  /// [Category.all] followed by the categories used by recipes.
+  List<Category> get availableCategories => [
+    Category.all,
+    ...{
+      for (final recipe in _recipes ?? const <Recipe>[])
+        if (recipe.category > 0 && recipe.category < Category.values.length)
+          Category.values[recipe.category],
+    },
+  ];
 
-  Future<List<String>> getAvailableCountries() async {
-    await _objectBoxRepository.initialize();
-    return await _objectBoxRepository.getAvailableCountries();
-  }
+  /// Sorted country codes used by recipes, with "" (all countries) first.
+  List<String> get availableCountries => {
+    '',
+    for (final recipe in _recipes ?? const <Recipe>[])
+      if (recipe.countryCode.isNotEmpty) recipe.countryCode,
+  }.toList()..sort();
 
   // Filter recipes by search term, category, and country
   List<RecipeSearchResult> getFilteredRecipes(List<Recipe> allRecipes, String searchTerm) {
@@ -160,13 +154,9 @@ class HomePageViewModel extends ChangeNotifier {
         .toList();
   }
 
-  List<RecipeVariant> variantsForRecipe(Recipe recipe) {
-    if (recipe.variants.isNotEmpty) return recipe.variants.toList();
-    if (recipe.id <= 0) return const [];
-    return _objectBoxRepository.getVariantsForRecipe(recipe.id);
-  }
+  List<RecipeVariant> variantsForRecipe(Recipe recipe) => recipe.variants;
 
-  bool stepsMatch(ToMany<RecipeStep> steps, String term) {
+  bool stepsMatch(List<RecipeStep> steps, String term) {
     return steps.any(
       (step) =>
           step.instruction.toLowerCase().contains(term) ||
@@ -196,64 +186,16 @@ class HomePageViewModel extends ChangeNotifier {
     }
   }
 
-  Future<bool> initializeObjectBoxAndMigrate(Store? store) async {
-    // Ensure store is properly initialized
-    if (store == null) {
-      _store = _objectBoxRepository.getStore();
-    } else {
-      _store = store;
-    }
-
-    if (_store == null) {
-      debugPrint("Failed to initialize ObjectBox store");
-      return false;
-    }
-
-    // Initialize boxes using the proper accessors
-    _recipeBox = _objectBoxRepository.recipeBox;
-
-    // TODO: Remove this in production
-    // Clear all existing data in ObjectBox on startup
-    // if (_ingredientBox != null) _objectBoxRepository.ingredientBox!.removeAll();
-    // if (_recipeStepBox != null) _objectBoxRepository.recipeStepBox!.removeAll();
-    // if (_recipeBox != null) _recipeBox!.removeAll();
-    // debugPrint("Cleared all ObjectBox data on startup");
-    // final mockRecipes = populateMockRecipes();
-    // _recipeBox!.putMany(mockRecipes);
-    // debugPrint("Populated ObjectBox with mock recipes");
-
-    // Set up the stream
-    if (_recipeBox != null) {
-      _stream = _recipeBox!.query().watch(triggerImmediately: true).map((query) => query.find());
-      hasBeenInitialized = true;
-      return true;
-    }
-
-    return false;
-  }
-
-  Future<List<Category>> getAvailableCategories() async {
-    await _objectBoxRepository.initialize();
-
-    final categoryCodes = await _objectBoxRepository.getAvailableCategories();
-
-    // Always include Category.all
-    final availableCategories = [Category.all];
-
-    for (final code in categoryCodes) {
-      final category = Category.values.firstWhere((c) => c.index == code);
-      if (!availableCategories.contains(category)) {
-        availableCategories.add(category);
-      }
-    }
-
-    return availableCategories;
+  @override
+  void dispose() {
+    _subscription.cancel();
+    super.dispose();
   }
 }
 
 Future<void> importRecipesZip(BuildContext context, ThemeData theme) async {
   final l10n = AppLocalizations.of(context)!;
-  final repo = Provider.of<ObjectBoxRecipeRepository>(context, listen: false);
+  final repo = Provider.of<RecipeRepository>(context, listen: false);
 
   try {
     final result = await FilePicker.pickFile(

@@ -10,9 +10,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as p;
 import 'package:provider/provider.dart';
 import 'package:shefu/l10n/l10n_utils.dart';
-import 'package:shefu/models/objectbox_models.dart';
-import 'package:shefu/repositories/objectbox_nutrient_repository.dart';
-import 'package:shefu/repositories/objectbox_recipe_repository.dart';
+import 'package:shefu/models/entities.dart';
+import 'package:shefu/repositories/nutrient_repository.dart';
+import 'package:shefu/repositories/recipe_repository.dart';
 import 'package:shefu/utils/mlkit.dart';
 import 'package:shefu/utils/path_utils.dart';
 import 'package:shefu/utils/recipe_scrapers/scraper_factory.dart';
@@ -25,8 +25,8 @@ import 'package:intl/intl.dart';
 import '../l10n/app_localizations.dart';
 
 class EditRecipeViewModel extends ChangeNotifier {
-  final ObjectBoxRecipeRepository _recipeRepository;
-  final ObjectBoxNutrientRepository _nutrientRepository;
+  final RecipeRepository _recipeRepository;
+  final NutrientRepository _nutrientRepository;
   final int? _recipeId;
   final bool _isNew;
   final int? _initialVariantId;
@@ -70,7 +70,7 @@ class EditRecipeViewModel extends ChangeNotifier {
   /// Returns the label of the context that was saved before the switch.
   Future<String> addVariant() async {
     final savedLabel = await saveActiveContext();
-    final variant = RecipeVariant(title: _recipe.title)..recipe.target = _recipe;
+    final variant = RecipeVariant(recipeId: _recipe.id, title: _recipe.title);
     _variants.add(variant);
     _activeVariant = variant;
     titleController.text = variant.title;
@@ -117,7 +117,7 @@ class EditRecipeViewModel extends ChangeNotifier {
     _recipe.id = await _recipeRepository.saveRecipe(_recipe);
     final variant = _activeVariant;
     if (variant == null) return _recipe.title;
-    variant.recipe.target = _recipe;
+    variant.recipeId = _recipe.id;
     await _recipeRepository.saveVariant(variant);
     return variant.title;
   }
@@ -179,10 +179,9 @@ class EditRecipeViewModel extends ChangeNotifier {
         foodId: ingredient.foodId,
         conversionId: ingredient.conversionId,
         optional: ingredient.optional,
-      )..step.target = override;
+      );
       override.ingredients.add(copy);
     }
-    override.variant.target = _activeVariant;
     _activeVariant!.steps.add(override);
     return override;
   }
@@ -253,6 +252,7 @@ class EditRecipeViewModel extends ChangeNotifier {
   bool get isLoading => _isLoading;
 
   final Map<String, Timer> _debounceTimers = {};
+  bool _disposed = false;
 
   // Controllers for text fields to manage state efficiently
   late TextEditingController titleController;
@@ -326,8 +326,8 @@ class EditRecipeViewModel extends ChangeNotifier {
       await _nutrientRepository.initialize();
 
       if (_recipeId != null) {
-        _recipe = _recipeRepository.getRecipeById(_recipeId) ?? Recipe();
-        _variants = _recipeRepository.getVariantsForRecipe(_recipeId);
+        _recipe = await _recipeRepository.getRecipeById(_recipeId) ?? Recipe();
+        _variants = _recipe.variants;
       } else {
         _recipe = Recipe(); // Start with a fresh empty recipe
       }
@@ -529,8 +529,7 @@ class EditRecipeViewModel extends ChangeNotifier {
   void addIngredient(int stepIndex) {
     final step = stepIndex < _recipe.steps.length ? _editableTargetStep(stepIndex) : null;
     if (step != null) {
-      final ingredient = IngredientItem()..step.target = step;
-      step.ingredients.add(ingredient);
+      step.ingredients.add(IngredientItem());
       notifyListeners();
     }
   }
@@ -931,11 +930,6 @@ class EditRecipeViewModel extends ChangeNotifier {
     return _nutrientRepository.filterNutrients(filter);
   }
 
-  Nutrient? getNutrientById(int id) {
-    if (id == 0) return null; // Handle case where no foodId is selected
-    return _nutrientRepository.getNutrientById(id);
-  }
-
   List<Conversion> getNutrientConversions(int foodId) {
     if (foodId == 0) return [];
 
@@ -1078,6 +1072,8 @@ class EditRecipeViewModel extends ChangeNotifier {
 
     bool success = false;
     try {
+      // Nutrition totals need the reference data (no-op once loaded).
+      await _nutrientRepository.initialize();
       _syncContextFromControllers();
       _finalizeRecipe(l10n, languageCode);
       await _persistActiveContext();
@@ -1177,6 +1173,7 @@ class EditRecipeViewModel extends ChangeNotifier {
 
   @override
   void dispose() {
+    _disposed = true;
     titleController.dispose();
     sourceController.dispose();
     prepTimeController.dispose();
@@ -1240,9 +1237,7 @@ class EditRecipeViewModel extends ChangeNotifier {
     // Dispose the controller for the ingredient at its current position
     EditIngredientManager.disposeController(currentStepIndex, ingredientIndex);
 
-    final ingredientToMove = currentStep.ingredients.removeAt(ingredientIndex);
-    ingredientToMove.step.target = nextStep;
-    nextStep.ingredients.add(ingredientToMove);
+    nextStep.ingredients.add(currentStep.ingredients.removeAt(ingredientIndex));
     notifyListeners();
   }
 
@@ -1260,9 +1255,7 @@ class EditRecipeViewModel extends ChangeNotifier {
     // Dispose the controller for the ingredient at its current position
     EditIngredientManager.disposeController(currentStepIndex, ingredientIndex);
 
-    final ingredientToMove = currentStep.ingredients.removeAt(ingredientIndex);
-    ingredientToMove.step.target = prevStep;
-    prevStep.ingredients.add(ingredientToMove);
+    prevStep.ingredients.add(currentStep.ingredients.removeAt(ingredientIndex));
     notifyListeners();
   }
 
@@ -1274,35 +1267,21 @@ class EditRecipeViewModel extends ChangeNotifier {
     _debounceTimers[key]?.cancel();
 
     // Debounce to avoid excessive database queries while typing
-    _debounceTimers[key] = Timer(const Duration(milliseconds: 500), () {
+    _debounceTimers[key] = Timer(const Duration(milliseconds: 500), () async {
       final ingredient = _editableIngredient(stepIndex, ingredientIndex);
-      if (ingredient == null) return;
+      if (ingredient == null || ingredient.name.isEmpty || ingredient.foodId > 0) return;
 
-      if (ingredient.name.isNotEmpty && ingredient.foodId <= 0) {
-        final allRecipes = _recipeRepository.getAllRecipes();
-
-        // Search for a matching ingredient
-        for (final otherRecipe in allRecipes) {
-          // Skip current recipe being edited
-          if (otherRecipe.id == _recipe.id) continue;
-
-          for (final otherStep in otherRecipe.steps) {
-            for (final otherIngredient in otherStep.ingredients) {
-              // Check for name and shape match (case-insensitive name)
-              if (otherIngredient.name.toLowerCase() == ingredient.name.toLowerCase() &&
-                  otherIngredient.shape == ingredient.shape &&
-                  otherIngredient.foodId > 0) {
-                // Found a match! Copy the foodId and conversionId
-                debugPrint("Found matching ingredient: ${otherIngredient.name}");
-                ingredient.foodId = otherIngredient.foodId;
-                ingredient.conversionId = otherIngredient.conversionId;
-                notifyListeners();
-                return; // Exit once we find a match
-              }
-            }
-          }
-        }
-      }
+      final match = await _recipeRepository.findLinkedIngredient(
+        ingredient.name,
+        ingredient.shape,
+        excludeRecipeId: _recipe.id,
+      );
+      // The user may have linked the ingredient or left the page meanwhile.
+      if (match == null || _disposed || ingredient.foodId > 0) return;
+      debugPrint("Found matching ingredient: ${match.name}");
+      ingredient.foodId = match.foodId;
+      ingredient.conversionId = match.conversionId;
+      notifyListeners();
     });
   }
 

@@ -8,7 +8,7 @@ import 'package:shefu/utils/variant_colors.dart';
 import 'package:shefu/viewmodels/home_page_viewmodel.dart';
 
 import '../../l10n/app_localizations.dart';
-import '../../models/objectbox_models.dart';
+import '../../models/entities.dart';
 import '../../widgets/image_helper.dart';
 import '../header_stats.dart';
 import '../misc.dart';

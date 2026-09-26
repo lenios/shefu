@@ -1,0 +1,11 @@
+targets:
+  $default:
+    builders:
+      # Only the database layer declares drift tables; skipping the rest of the
+      # app keeps builds fast.
+      drift_dev:preparing_builder:
+        generate_for:
+          - lib/database/**
+      drift_dev:
+        generate_for:
+          - lib/database/**

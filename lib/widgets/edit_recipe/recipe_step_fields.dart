@@ -1,6 +1,6 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:shefu/l10n/app_localizations.dart';
-import 'package:shefu/models/objectbox_models.dart';
+import 'package:shefu/models/entities.dart';
 import 'package:shefu/viewmodels/edit_recipe_viewmodel.dart';
 
 /// A widget that displays the fields for a recipe step.

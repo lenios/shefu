@@ -7,8 +7,8 @@ import 'package:path/path.dart' as p;
 import 'package:shefu/utils/string_extension.dart';
 import 'package:shefu/widgets/image_helper.dart';
 
-import 'package:shefu/repositories/objectbox_recipe_repository.dart';
-import 'package:shefu/models/objectbox_models.dart';
+import 'package:shefu/repositories/recipe_repository.dart';
+import 'package:shefu/models/entities.dart';
 import 'package:shefu/utils/path_utils.dart';
 
 const String kRecipeExportFormat = 'shefu/recipes';
@@ -96,12 +96,11 @@ Future<ParsedExport> parseRecipesZip(List<int> zipBytes) async {
   return ParsedExport(recipes: recipes, images: images);
 }
 
-/// Imports a parsed export: writes the recipe, its steps, variants, ingredients and tags
-/// through [ObjectBoxRecipeRepository], then writes the image files into the application
+/// Imports a parsed export: writes the recipe, its steps, variants and ingredients
+/// through [RecipeRepository], then writes the image files into the application
 /// documents directory (regenerating thumbnails).
-Future<(int, int)> importParsedExport(ObjectBoxRecipeRepository repo, ParsedExport parsed) async {
-  await repo.initialize();
-  final existing = repo.getAllRecipes();
+Future<(int, int)> importParsedExport(RecipeRepository repo, ParsedExport parsed) async {
+  final existing = await repo.getAllRecipes();
 
   var imported = 0;
   var skipped = 0;
@@ -116,7 +115,7 @@ Future<(int, int)> importParsedExport(ObjectBoxRecipeRepository repo, ParsedExpo
       continue;
     }
 
-    // Reset to 0 so ObjectBox assigns a fresh id instead of overwriting an
+    // Reset to 0 so the database assigns a fresh id instead of overwriting an
     // existing recipe row with the same id.
     recipe.id = 0;
     final newId = await repo.saveRecipe(recipe);
@@ -175,7 +174,7 @@ Future<(int, int)> importParsedExport(ObjectBoxRecipeRepository repo, ParsedExpo
       }
     }
     for (final variant in recipe.variants) {
-      await repo.saveVariant(variant);
+      await repo.saveVariant(variant..recipeId = newId);
     }
     existing.add(recipe);
     imported++;

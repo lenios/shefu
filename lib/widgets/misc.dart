@@ -3,9 +3,9 @@ import 'package:material_ui/material_ui.dart';
 import 'package:fraction/fraction.dart';
 import 'package:provider/provider.dart';
 import 'package:shefu/l10n/l10n_utils.dart';
-import 'package:shefu/models/objectbox_models.dart';
+import 'package:shefu/models/entities.dart';
 import 'package:shefu/provider/my_app_state.dart';
-import 'package:shefu/repositories/objectbox_nutrient_repository.dart';
+import 'package:shefu/repositories/nutrient_repository.dart';
 import 'package:shefu/models/formatted_ingredient.dart';
 import 'package:shefu/utils/unit_converter.dart';
 import 'package:video_player/video_player.dart';
@@ -113,7 +113,7 @@ FormattedIngredient formatIngredient({
   int conversionId = 0,
   bool isChecked = false,
   double servingsMultiplier = 1.0,
-  required ObjectBoxNutrientRepository nutrientRepository,
+  required NutrientRepository nutrientRepository,
   bool optional = false,
 }) {
   final appState = Provider.of<MyAppState>(context, listen: false);

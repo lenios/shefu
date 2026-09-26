@@ -10,7 +10,7 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shefu/l10n/app_localizations.dart';
-import 'package:shefu/repositories/objectbox_nutrient_repository.dart';
+import 'package:shefu/repositories/nutrient_repository.dart';
 import 'package:shefu/utils/path_utils.dart';
 import 'package:shefu/viewmodels/display_recipe_viewmodel.dart';
 import 'package:shefu/widgets/misc.dart';
@@ -18,7 +18,7 @@ import 'package:shefu/widgets/misc.dart';
 Future<void> exportRecipeToPdf(
   BuildContext context,
   DisplayRecipeViewModel viewModel,
-  ObjectBoxNutrientRepository nutrientRepository,
+  NutrientRepository nutrientRepository,
 ) async {
   final recipe = viewModel.recipe;
   if (recipe == null) return;

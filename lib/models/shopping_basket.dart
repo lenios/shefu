@@ -1,4 +1,4 @@
-import 'package:shefu/models/objectbox_models.dart';
+import 'package:shefu/models/entities.dart';
 
 // Not stored in DB, reset on app close
 class ShoppingBasket(var List<BasketItem> items, var List<BasketRecipe> recipes) {

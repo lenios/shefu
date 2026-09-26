@@ -1,7 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:shefu/l10n/app_localizations.dart';
-import 'package:shefu/models/objectbox_models.dart';
-import 'package:shefu/repositories/objectbox_nutrient_repository.dart';
+import 'package:shefu/models/entities.dart';
+import 'package:shefu/repositories/nutrient_repository.dart';
 import 'package:shefu/viewmodels/display_recipe_viewmodel.dart';
 import 'package:shefu/widgets/ingredient_display.dart';
 import 'package:shefu/widgets/misc.dart';
@@ -97,7 +97,7 @@ Widget buildShoppingList(BuildContext context, DisplayRecipeViewModel viewModel)
 /// Quantities are normalized to grams when multiple units are added
 List<IngredientItem> mergeIngredients(
   List<IngredientItem> ingredients,
-  ObjectBoxNutrientRepository nutrientRepository,
+  NutrientRepository nutrientRepository,
 ) {
   final Map<String, IngredientItem> mergedIngredientsMap = {};
   for (final ingredient in ingredients) {
@@ -138,7 +138,7 @@ List<IngredientItem> mergeIngredients(
 /// Grams of mass represented by one unit of an ingredient's quantity, or
 /// null when it cannot be determined (no nutrient entry and the unit is
 /// not grams).
-double? _gramsPerUnit(IngredientItem ingredient, ObjectBoxNutrientRepository nutrientRepository) {
+double? _gramsPerUnit(IngredientItem ingredient, NutrientRepository nutrientRepository) {
   if (ingredient.foodId > 0) {
     return nutrientRepository.getConversionFactor(ingredient.foodId, ingredient.conversionId) * 100;
   }

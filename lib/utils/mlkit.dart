@@ -2,7 +2,7 @@
 //import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shefu/l10n/app_localizations.dart';
-import 'package:shefu/models/objectbox_models.dart';
+import 'package:shefu/models/entities.dart';
 
 // Return potentialTitle
 Future<String?> ocrParse(XFile image, Recipe recipe, AppLocalizations l10n, viewModel) async {

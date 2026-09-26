@@ -2,8 +2,8 @@ import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 import 'package:shefu/l10n/app_localizations.dart';
-import 'package:shefu/repositories/objectbox_nutrient_repository.dart' as nutrient_repository;
-import 'package:shefu/repositories/objectbox_recipe_repository.dart';
+import 'package:shefu/repositories/nutrient_repository.dart' as nutrient_repository;
+import 'package:shefu/repositories/recipe_repository.dart';
 import 'package:shefu/viewmodels/edit_recipe_viewmodel.dart';
 import 'package:shefu/viewmodels/home_page_viewmodel.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -66,8 +66,8 @@ Widget addRecipeButton(BuildContext context, HomePageViewModel viewModel) {
 
 Future<void> _importFromUrl(BuildContext context, ThemeData theme) async {
   final l10n = AppLocalizations.of(context)!;
-  final repo = context.read<ObjectBoxRecipeRepository>();
-  final nutrientRepo = context.read<nutrient_repository.ObjectBoxNutrientRepository>();
+  final repo = context.read<RecipeRepository>();
+  final nutrientRepo = context.read<nutrient_repository.NutrientRepository>();
   final messenger = ScaffoldMessenger.maybeOf(context);
   final urlController = TextEditingController();
   bool confirmed = false;

@@ -2,18 +2,18 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart' hide Category;
 
 import 'package:shefu/l10n/app_localizations.dart';
-import 'package:shefu/models/objectbox_models.dart';
-import 'package:shefu/repositories/objectbox_recipe_repository.dart';
+import 'package:shefu/models/entities.dart';
+import 'package:shefu/repositories/recipe_repository.dart';
 import 'package:shefu/utils/recipe_exporter.dart';
 import 'package:shefu/utils/string_extension.dart';
 
 class ExportRecipesViewModel extends ChangeNotifier {
-  ExportRecipesViewModel(ObjectBoxRecipeRepository repository) {
+  ExportRecipesViewModel(RecipeRepository repository) {
     _repository = repository;
     _loadRecipes();
   }
 
-  late final ObjectBoxRecipeRepository _repository;
+  late final RecipeRepository _repository;
 
   List<Recipe> _recipes = [];
   List<Recipe> get recipes => _recipes;
@@ -35,8 +35,7 @@ class ExportRecipesViewModel extends ChangeNotifier {
 
   Future<void> _loadRecipes() async {
     try {
-      await _repository.initialize();
-      final recipes = _repository.getAllRecipes();
+      final recipes = await _repository.getAllRecipes();
       _recipes = recipes;
       _selected = Set.of(recipes.map((r) => r.id));
       _selectAll = recipes.isNotEmpty;

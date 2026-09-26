@@ -1,6 +1,6 @@
 import 'package:flutter/rendering.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:shefu/models/objectbox_models.dart';
+import 'package:shefu/models/entities.dart';
 import 'package:shefu/widgets/home/recipe_card.dart';
 
 Widget recipeCardStack(

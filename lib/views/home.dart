@@ -13,7 +13,7 @@ import 'package:shefu/widgets/home/recipe_card_stack.dart';
 import 'package:shefu/widgets/open_modal_settings_button.dart';
 
 import '../l10n/app_localizations.dart';
-import '../models/objectbox_models.dart';
+import '../models/entities.dart';
 
 class const HomePage({super.key}) extends StatefulWidget {
   @override
@@ -25,29 +25,10 @@ class _HomePageState extends State<HomePage> {
 
   final _countryDropdownKey = GlobalKey();
 
-  bool hasBeenInitialized = false;
-
-  final _futuresRefreshNotifier = ValueNotifier<int>(0);
-
   @override
   void initState() {
     super.initState();
     _searchController = TextEditingController();
-
-    // Add listener to recipe stream to refresh dropdowns when recipes change (add/edit/delete)
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final viewModel = Provider.of<HomePageViewModel>(context, listen: false);
-      viewModel.recipeStream.listen((_) {
-        if (mounted) {
-          _futuresRefreshNotifier.value++;
-          setState(() {});
-        }
-      });
-    });
-
-    setState(() {
-      hasBeenInitialized = true;
-    });
   }
 
   @override
@@ -59,6 +40,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<HomePageViewModel>(context);
+    final recipes = viewModel.recipes;
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
@@ -87,45 +69,34 @@ class _HomePageState extends State<HomePage> {
                       borderRadius: BorderRadius.circular(10),
                       color: colorScheme.surface.withAlpha(180),
                     ),
-                    child: StreamBuilder<Object>(
-                      stream: viewModel.recipeStream,
-                      builder: (context, snapshot) {
-                        final recipeCount = (snapshot.data as List<Recipe>?)?.length ?? 0;
-                        return TextFormField(
-                          controller: _searchController,
-                          onChanged: (value) {
-                            viewModel.setSearchTerm(value);
-                          },
-                          textInputAction: TextInputAction.search,
-                          maxLines: 1,
-                          style: TextStyle(
-                            color: colorScheme.onSurface,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                          ),
-                          decoration: InputDecoration(
-                            hintText: AppLocalizations.of(context)!.searchXRecipes(recipeCount),
-                            hintStyle: TextStyle(color: colorScheme.onSurface),
-                            prefixIconConstraints: const BoxConstraints(
-                              maxHeight: 20,
-                              minWidth: 40,
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 17),
-                            focusedBorder: InputBorder.none,
-                            border: InputBorder.none,
-                            prefixIcon: Padding(
-                              padding: const EdgeInsets.only(left: 10, right: 12),
-                              child: SvgPicture.asset(
-                                'assets/icons/search.svg',
-                                colorFilter: ColorFilter.mode(
-                                  colorScheme.onSurface,
-                                  BlendMode.srcIn,
-                                ),
-                              ),
-                            ),
-                          ),
-                        );
+                    child: TextFormField(
+                      controller: _searchController,
+                      onChanged: (value) {
+                        viewModel.setSearchTerm(value);
                       },
+                      textInputAction: TextInputAction.search,
+                      maxLines: 1,
+                      style: TextStyle(
+                        color: colorScheme.onSurface,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                      ),
+                      decoration: InputDecoration(
+                        hintText: AppLocalizations.of(context)!
+                            .searchXRecipes(recipes?.length ?? 0),
+                        hintStyle: TextStyle(color: colorScheme.onSurface),
+                        prefixIconConstraints: const BoxConstraints(maxHeight: 20, minWidth: 40),
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 17),
+                        focusedBorder: InputBorder.none,
+                        border: InputBorder.none,
+                        prefixIcon: Padding(
+                          padding: const EdgeInsets.only(left: 10, right: 12),
+                          child: SvgPicture.asset(
+                            'assets/icons/search.svg',
+                            colorFilter: ColorFilter.mode(colorScheme.onSurface, BlendMode.srcIn),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -168,119 +139,20 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 const SizedBox(width: 10), // Spacing
-                // Country Dropdown
-                FutureBuilder<Widget>(
-                  future: countryDropdown(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const SizedBox(
-                        width: 130,
-                        height: 48,
-                        child: Center(child: CircularProgressIndicator(strokeWidth: 2)),
-                      );
-                    }
-                    if (snapshot.hasData) {
-                      return snapshot.data!;
-                    }
-                    return const SizedBox(width: 130, height: 48);
-                  },
-                ),
+                countryDropdown(viewModel),
                 const SizedBox(width: 10), // Spacing
-                // Category Dropdown
-                FutureBuilder<Widget>(
-                  future: categoryDropdown(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const SizedBox(
-                        width: 130,
-                        height: 48,
-                        child: Center(child: CircularProgressIndicator(strokeWidth: 2)),
-                      );
-                    }
-                    if (snapshot.hasData) {
-                      return snapshot.data!;
-                    }
-                    return const SizedBox(width: 130, height: 48);
-                  },
-                ),
+                categoryDropdown(viewModel),
                 const SizedBox(height: 5), // Spacing
               ],
             ),
           ),
           // Section 2 - Recipe List (Scrollable)
           Expanded(
-            child: !hasBeenInitialized
+            child: recipes == null
                 ? const Center(child: CircularProgressIndicator())
                 : Stack(
                     children: [
-                      StreamBuilder<List<Recipe>>(
-                        stream: viewModel.recipeStream,
-                        builder: (context, snapshot) {
-                          if (!snapshot.hasData) {
-                            return const Center(child: CircularProgressIndicator());
-                          } else {
-                            final displayedRecipes = viewModel.getFilteredRecipes(
-                              snapshot.data!,
-                              viewModel.searchTerm,
-                            );
-
-                            return displayedRecipes.isEmpty
-                                ? Center(
-                                    child: Text(
-                                      AppLocalizations.of(context)!.noRecipe,
-                                      textAlign: TextAlign.center,
-                                      style: theme.textTheme.bodyLarge,
-                                    ),
-                                  )
-                                : GridView.builder(
-                                    padding: EdgeInsets.fromLTRB(
-                                      8.0,
-                                      4.0,
-                                      8.0,
-                                      // allow selection of last recipe even with FAB
-                                      MediaQuery.of(context).padding.bottom + 78.0,
-                                    ),
-                                    itemCount: displayedRecipes.length,
-                                    // we need a custom delegate to handle dynamic height of cards
-                                    gridDelegate: RecipeCardGridDelegate(
-                                      crossAxisCount: isHandset ? 1 : 2,
-                                      itemHeights: [
-                                        for (final entry in displayedRecipes.reversed)
-                                          100.0 +
-                                              (entry.isVariant
-                                                  ? 0
-                                                  : viewModel
-                                                            .variantsMatchingSearch(
-                                                              entry.recipe,
-                                                              viewModel.searchTerm,
-                                                            )
-                                                            .length *
-                                                        25.0),
-                                      ],
-                                    ),
-                                    scrollCacheExtent: ScrollCacheExtent.viewport(20),
-                                    itemBuilder: (context, index) {
-                                      // Reverse the index to show the last recipe first
-                                      final reverseIndex = displayedRecipes.length - 1 - index;
-                                      final entry = displayedRecipes[reverseIndex];
-                                      final variants = entry.isVariant
-                                          ? [entry.variant!]
-                                          : viewModel.variantsMatchingSearch(
-                                              entry.recipe,
-                                              viewModel.searchTerm,
-                                            );
-                                      return RepaintBoundary(
-                                        child: recipeCardStack(
-                                          entry.recipe,
-                                          variants,
-                                          includeRecipe: !entry.isVariant,
-                                        ),
-                                      );
-                                    },
-                                  );
-                          }
-                        },
-                      ),
+                      _buildRecipeList(viewModel, recipes, theme, isHandset),
                       gradientFade(theme),
                     ],
                   ),
@@ -290,13 +162,63 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Future<Widget> categoryDropdown() async {
-    final viewModel = context.read<HomePageViewModel>();
-    final categories = await viewModel.getAvailableCategories();
+  Widget _buildRecipeList(
+    HomePageViewModel viewModel,
+    List<Recipe> recipes,
+    ThemeData theme,
+    bool isHandset,
+  ) {
+    final displayedRecipes = viewModel.getFilteredRecipes(recipes, viewModel.searchTerm);
 
+    return displayedRecipes.isEmpty
+        ? Center(
+            child: Text(
+              AppLocalizations.of(context)!.noRecipe,
+              textAlign: TextAlign.center,
+              style: theme.textTheme.bodyLarge,
+            ),
+          )
+        : GridView.builder(
+            padding: EdgeInsets.fromLTRB(
+              8.0,
+              4.0,
+              8.0,
+              // allow selection of last recipe even with FAB
+              MediaQuery.of(context).padding.bottom + 78.0,
+            ),
+            itemCount: displayedRecipes.length,
+            // we need a custom delegate to handle dynamic height of cards
+            gridDelegate: RecipeCardGridDelegate(
+              crossAxisCount: isHandset ? 1 : 2,
+              itemHeights: [
+                for (final entry in displayedRecipes.reversed)
+                  100.0 +
+                      (entry.isVariant
+                          ? 0
+                          : viewModel
+                                    .variantsMatchingSearch(entry.recipe, viewModel.searchTerm)
+                                    .length *
+                                25.0),
+              ],
+            ),
+            scrollCacheExtent: ScrollCacheExtent.viewport(20),
+            itemBuilder: (context, index) {
+              // Reverse the index to show the last recipe first
+              final reverseIndex = displayedRecipes.length - 1 - index;
+              final entry = displayedRecipes[reverseIndex];
+              final variants = entry.isVariant
+                  ? [entry.variant!]
+                  : viewModel.variantsMatchingSearch(entry.recipe, viewModel.searchTerm);
+              return RepaintBoundary(
+                child: recipeCardStack(entry.recipe, variants, includeRecipe: !entry.isVariant),
+              );
+            },
+          );
+  }
+
+  Widget categoryDropdown(HomePageViewModel viewModel) {
+    final categories = viewModel.availableCategories;
     if (categories.length <= 1) return const SizedBox.shrink();
-
-    if (!mounted) return const SizedBox.shrink(); // Context safeguard
 
     return DropdownButtonHideUnderline(
       child: ConstrainedBox(
@@ -343,14 +265,10 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Future<Widget> countryDropdown() async {
-    final viewModel = context.read<HomePageViewModel>();
-    final countries = await viewModel.getAvailableCountries();
-
+  Widget countryDropdown(HomePageViewModel viewModel) {
+    final countries = viewModel.availableCountries;
     // Check if the countries list is empty or contains only "WW" (no specific country)
     if (countries.length <= 2) return const SizedBox.shrink();
-
-    if (!mounted) return const SizedBox.shrink(); // Context safeguard
 
     return DropdownButtonHideUnderline(
       key: _countryDropdownKey,

@@ -2,8 +2,8 @@ import 'package:material_ui/material_ui.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:shefu/l10n/app_localizations.dart';
-import 'package:shefu/repositories/objectbox_nutrient_repository.dart';
-import 'package:shefu/repositories/objectbox_recipe_repository.dart';
+import 'package:shefu/repositories/nutrient_repository.dart';
+import 'package:shefu/repositories/recipe_repository.dart';
 import 'package:shefu/utils/recipe_scrapers/scraper_factory.dart';
 import 'package:shefu/utils/recipe_scrapers/scrapers/delishkitchen.tv.dart';
 import 'package:shefu/utils/recipe_scrapers/scrapers/lacuisinedessouvenirs.com.dart';
@@ -129,18 +129,18 @@ class OnlineSearchViewModel extends ChangeNotifier {
     bool success = false;
     int? recipeId;
 
-    final recipeRepository = context.read<ObjectBoxRecipeRepository>();
-    final nutrientRepository = context.read<ObjectBoxNutrientRepository>();
+    final recipeRepository = context.read<RecipeRepository>();
+    final nutrientRepository = context.read<NutrientRepository>();
 
     final editViewModel = EditRecipeViewModel(recipeRepository, nutrientRepository, null, true);
 
-    final int newRecipeId = recipeRepository.createNewRecipe(
+    final languageTag = Localizations.localeOf(context).toLanguageTag();
+    final int newRecipeId = await recipeRepository.createNewRecipe(
       AppLocalizations.of(context)!.newRecipe,
     );
     editViewModel.recipe.id = newRecipeId;
 
     try {
-      String languageTag = Localizations.localeOf(context).toLanguageTag();
       await editViewModel.scrapeData(url, l10n);
       success = await editViewModel.saveRecipe(l10n, languageTag);
 
