@@ -8,11 +8,11 @@ import 'package:material_ui/material_ui.dart';
 import 'package:command_it/command_it.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:shefu/l10n/app_localizations.dart';
-import 'package:shefu/models/objectbox_models.dart';
+import 'package:shefu/models/entities.dart';
 import 'package:shefu/models/shopping_basket.dart';
 import 'package:shefu/provider/my_app_state.dart';
-import 'package:shefu/repositories/objectbox_nutrient_repository.dart';
-import 'package:shefu/repositories/objectbox_recipe_repository.dart';
+import 'package:shefu/repositories/nutrient_repository.dart';
+import 'package:shefu/repositories/recipe_repository.dart';
 import 'package:shefu/utils/tts_language_helper.dart';
 import 'package:shefu/widgets/misc.dart';
 import 'package:video_player/video_player.dart';
@@ -20,8 +20,8 @@ import 'package:video_player/video_player.dart';
 enum TtsState { start, stop, pause, continued }
 
 class DisplayRecipeViewModel extends ChangeNotifier {
-  final ObjectBoxRecipeRepository _recipeRepository;
-  final ObjectBoxNutrientRepository nutrientRepository;
+  final RecipeRepository _recipeRepository;
+  final NutrientRepository nutrientRepository;
   final MyAppState _appState;
   final int _recipeId;
 
@@ -259,8 +259,8 @@ class DisplayRecipeViewModel extends ChangeNotifier {
     try {
       initTts();
       await nutrientRepository.initialize();
-      _recipe = _recipeRepository.getRecipeById(_recipeId);
-      variants = _recipeRepository.getVariantsForRecipe(_recipeId);
+      _recipe = await _recipeRepository.getRecipeById(_recipeId);
+      variants = _recipe?.variants ?? [];
       _initializeBasket();
       if (context.mounted) _prefetchNutrientData(context);
       if (context.mounted) _getTtsDefaults();
@@ -454,7 +454,7 @@ class DisplayRecipeViewModel extends ChangeNotifier {
           await _recipeRepository.deleteImageFile(step.imagePath);
         }
 
-        _appState.removeRecipeFromShoppingBasket(_recipe);
+        _appState.removeRecipeFromShoppingBasket(_recipe!.id);
         await _recipeRepository.deleteRecipe(_recipe!.id);
       } catch (e) {
         debugPrint("Error deleting recipe: $e");
@@ -620,7 +620,7 @@ class DisplayRecipeViewModel extends ChangeNotifier {
 
 Map<String, double> calculateTotalNutrients({
   required List<RecipeStep> steps,
-  required ObjectBoxNutrientRepository nutrientRepository,
+  required NutrientRepository nutrientRepository,
   bool full = false,
 }) {
   if (steps.isEmpty) return {};

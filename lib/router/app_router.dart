@@ -1,8 +1,8 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:shefu/repositories/objectbox_nutrient_repository.dart';
-import 'package:shefu/repositories/objectbox_recipe_repository.dart';
+import 'package:shefu/repositories/nutrient_repository.dart';
+import 'package:shefu/repositories/recipe_repository.dart';
 import 'package:shefu/viewmodels/online_search_viewmodel.dart';
 import 'package:shefu/views/edit_recipe.dart';
 import 'package:shefu/views/display_recipe.dart';
@@ -31,9 +31,9 @@ class AppRouter {
           final variantId = int.tryParse(state.uri.queryParameters['variant'] ?? '');
           return ChangeNotifierProvider<DisplayRecipeViewModel>(
             create: (context) => DisplayRecipeViewModel(
-              context.read<ObjectBoxRecipeRepository>(),
+              context.read<RecipeRepository>(),
               context.read<MyAppState>(),
-              context.read<ObjectBoxNutrientRepository>(),
+              context.read<NutrientRepository>(),
               id,
               variantId,
             ),
@@ -51,8 +51,8 @@ class AppRouter {
           final variantId = int.tryParse(state.uri.queryParameters['variant'] ?? '');
           return ChangeNotifierProvider<EditRecipeViewModel>(
             create: (context) => EditRecipeViewModel(
-              context.read<ObjectBoxRecipeRepository>(),
-              context.read<ObjectBoxNutrientRepository>(),
+              context.read<RecipeRepository>(),
+              context.read<NutrientRepository>(),
               id,
               state.uri.queryParameters['new'] == '1',
               variantId,
@@ -73,7 +73,7 @@ class AppRouter {
       GoRoute(
         path: '/export-recipes',
         builder: (context, state) => ChangeNotifierProvider<ExportRecipesViewModel>(
-          create: (context) => ExportRecipesViewModel(context.read<ObjectBoxRecipeRepository>()),
+          create: (context) => ExportRecipesViewModel(context.read<RecipeRepository>()),
           child: AppScaffold(child: const ExportRecipesPage()),
         ),
       ),

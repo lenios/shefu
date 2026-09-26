@@ -4,7 +4,7 @@ description: Offline recipes manager
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
-version: 3.19.0+2803
+version: 4.0.0+2813
 
 environment:
   sdk: ^3.13.2
@@ -38,8 +38,10 @@ dependencies:
   html: ^0.15.7
   http: ^1.6.0
   audioplayers: ^6.8.1
-  objectbox: ^5.3.2
-  objectbox_flutter_libs: ^5.3.2
+  drift: ^2.35.0
+  drift_flutter: ^0.3.1
+  flat_buffers: ^25.9.23
+  sqlite3: ^3.6.0
   wakelock_plus: ^1.8.0
   url_launcher: ^6.3.2
   video_player: ^2.14.0
@@ -57,8 +59,8 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
-  build_runner: ^2.15.1
-  objectbox_generator: ^5.3.2
+  build_runner: ^2.16.1
+  drift_dev: ^2.35.0
   test: ^1.31.1
   integration_test:
     sdk: flutter

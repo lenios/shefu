@@ -1,11 +1,9 @@
 // ignore_for_file: non_constant_identifier_names
 
-import 'package:objectbox/objectbox.dart';
 import 'package:path/path.dart' as p;
 
 import '../utils/path_utils.dart';
 
-@Entity()
 class Recipe({
   this.id = 0,
   this.title = "",
@@ -36,7 +34,6 @@ class Recipe({
   this.questions = const [],
   this.languageTag = "",
 }) {
-  @Id()
   int id;
 
   String title;
@@ -67,13 +64,13 @@ class Recipe({
   List<String> questions;
   String languageTag; // Unicode BCP 47 locale identifier
 
-  @Backlink('recipe')
-  final steps = ToMany<RecipeStep>();
+  /// Base steps, sorted by [RecipeStep.order].
+  List<RecipeStep> steps = [];
 
-  @Backlink('recipe')
-  final variants = ToMany<RecipeVariant>();
+  List<RecipeVariant> variants = [];
 
-  List<Tag> tags = ToMany<Tag>();
+  /// Derived from the source and ingredient names when saving; not persisted.
+  List<Tag> tags = [];
 
   Map<String, dynamic> toMap() {
     final steps = List<RecipeStep>.from(this.steps)..sort((a, b) => a.order.compareTo(b.order));
@@ -213,8 +210,7 @@ class Recipe({
     if (rawVariants is List) {
       for (final vRaw in rawVariants) {
         final vm = vRaw as Map<String, dynamic>;
-        final variant = RecipeVariant(title: _str(vm, 'title'))
-          ..recipe.target = recipe; // TODO check if needed
+        final variant = RecipeVariant(title: _str(vm, 'title'));
         final rawVSteps = vm['steps'];
         if (rawVSteps is List) {
           for (final s in rawVSteps) {
@@ -247,7 +243,6 @@ enum Category {
   String toString() => name;
 }
 
-@Entity()
 class RecipeStep({
   this.id = 0,
   this.name = "",
@@ -257,7 +252,6 @@ class RecipeStep({
   this.timer = 0,
   this.order = 0,
 }) {
-  @Id()
   int id;
 
   String name;
@@ -267,11 +261,7 @@ class RecipeStep({
   int timer;
   int order;
 
-  final recipe = ToOne<Recipe>();
-  final variant = ToOne<RecipeVariant>();
-
-  @Backlink()
-  final ingredients = ToMany<IngredientItem>();
+  List<IngredientItem> ingredients = [];
 
   factory RecipeStep.fromMap(Map<String, dynamic> sm) {
     final step = RecipeStep(
@@ -303,23 +293,16 @@ class RecipeStep({
   }
 }
 
-@Entity()
-class RecipeVariant({this.id = 0, this.title = ""}) {
-  @Id()
+/// Alternative version of a recipe: its [steps] override the base steps
+/// with the same [RecipeStep.order].
+class RecipeVariant({this.id = 0, this.recipeId = 0, this.title = ""}) {
   int id;
-
+  int recipeId;
   String title;
 
-  final recipe = ToOne<Recipe>();
-
-  @Backlink('variant')
-  final steps = ToMany<RecipeStep>();
-
-  //@override
-  //String toString() => title;
+  List<RecipeStep> steps = [];
 }
 
-@Entity()
 class IngredientItem({
   this.id = 0,
   this.name = "",
@@ -330,7 +313,6 @@ class IngredientItem({
   this.conversionId = 0,
   this.optional = false,
 }) {
-  @Id()
   int id;
 
   String name;
@@ -340,8 +322,6 @@ class IngredientItem({
   int foodId;
   int conversionId;
   bool optional;
-
-  final step = ToOne<RecipeStep>();
 }
 
 enum Unit {
@@ -370,18 +350,8 @@ enum Unit {
   String toString() => name != "none" ? name : "";
 }
 
-@Entity()
-class Tag({this.id = 0, this.name = ""}) {
-  @Id()
-  int id;
+class const Tag({required final String name});
 
-  @Unique()
-  String name;
-
-  final recipe = ToOne<Recipe>();
-}
-
-@Entity()
 class Nutrient({
   this.id = 0,
   this.foodId = 0,
@@ -434,10 +404,8 @@ class Nutrient({
   this.FAPoly = 0.0,
   this.cholesterol = 0.0,
 }) {
-  @Id()
   int id;
 
-  @Unique()
   int foodId;
   String descEN;
   String descFR;
@@ -488,11 +456,9 @@ class Nutrient({
   double FAPoly;
   double cholesterol;
 
-  @Backlink('nutrient')
-  final conversions = ToMany<Conversion>();
+  List<Conversion> conversions = [];
 }
 
-@Entity()
 class Conversion({
   this.id = 0,
   this.foodId = 0,
@@ -501,7 +467,6 @@ class Conversion({
   this.descFR = "",
   this.factor = 1.0,
 }) {
-  @Id()
   int id;
 
   int foodId;
@@ -511,8 +476,6 @@ class Conversion({
   String descEN;
   String descFR;
   double factor;
-
-  final nutrient = ToOne<Nutrient>();
 }
 
 /// Zip entry name for an image path, or null when the path is empty.

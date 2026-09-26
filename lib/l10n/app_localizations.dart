@@ -1929,6 +1929,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Variant {variant} saved'**
   String variantSaved(Object variant);
+
+  /// No description provided for @legacyMigrationFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Your recipes from the previous version could not be migrated yet. They are kept safe and the migration will be retried at the next start. If this persists, please open a bug at https://github.com/lenios/shefu/issues.'**
+  String get legacyMigrationFailed;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

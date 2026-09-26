@@ -971,4 +971,8 @@ class AppLocalizationsJa extends AppLocalizations {
   String variantSaved(Object variant) {
     return '「$variant」のバリエーションを保存しました';
   }
+
+  @override
+  String get legacyMigrationFailed =>
+      '以前のバージョンのレシピをまだ移行できませんでした。レシピは安全に保存されており、次回起動時に移行を再試行します。問題が続く場合は https://github.com/lenios/shefu/issues からバグを報告してください。';
 }

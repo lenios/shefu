@@ -4,8 +4,6 @@ import 'package:material_ui/material_ui.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shefu/models/shopping_basket.dart';
 
-import '../models/objectbox_models.dart';
-
 final _prefs = SharedPreferencesAsync();
 
 enum MeasurementSystem { metric, us }
@@ -127,10 +125,8 @@ class MyAppState extends ChangeNotifier {
     }
   }
 
-  void removeRecipeFromShoppingBasket(Recipe? recipe) {
-    if (recipe == null) return;
-
-    final recipeIdStr = recipe.id.toString();
+  void removeRecipeFromShoppingBasket(int recipeId) {
+    final recipeIdStr = recipeId.toString();
     bool changed = false;
 
     // Iterate backwards to allow safe removal

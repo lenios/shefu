@@ -984,4 +984,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String variantSaved(Object variant) {
     return 'Variant $variant saved';
   }
+
+  @override
+  String get legacyMigrationFailed =>
+      'Your recipes from the previous version could not be migrated yet. They are kept safe and the migration will be retried at the next start. If this persists, please open a bug at https://github.com/lenios/shefu/issues.';
 }

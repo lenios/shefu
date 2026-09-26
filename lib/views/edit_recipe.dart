@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:shefu/l10n/app_localizations.dart';
 import 'package:shefu/l10n/l10n_utils.dart';
-import 'package:shefu/models/objectbox_models.dart';
+import 'package:shefu/models/entities.dart';
 import 'package:shefu/utils/recipe_scrapers/scraper_factory.dart';
 import 'package:shefu/utils/variant_colors.dart';
 import 'package:shefu/viewmodels/edit_recipe_viewmodel.dart';

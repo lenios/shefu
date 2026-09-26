@@ -2,14 +2,14 @@ import 'package:material_ui/material_ui.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:shefu/l10n/l10n_utils.dart';
-import 'package:shefu/repositories/objectbox_nutrient_repository.dart';
+import 'package:shefu/repositories/nutrient_repository.dart';
 import 'package:shefu/utils/path_utils.dart';
 import 'package:shefu/utils/string_extension.dart';
 import 'package:shefu/views/full_screen_image.dart';
 import 'package:shefu/widgets/ingredient_display.dart';
 import 'package:shefu/widgets/step_timer_widget.dart';
 
-import '../models/objectbox_models.dart';
+import '../models/entities.dart';
 import 'image_helper.dart';
 import 'misc.dart';
 
@@ -201,7 +201,7 @@ class const RecipeStepCard({
   }
 
   Widget stepIngredientsList(BuildContext context) {
-    final nutrientRepository = Provider.of<ObjectBoxNutrientRepository>(context, listen: false);
+    final nutrientRepository = Provider.of<NutrientRepository>(context, listen: false);
 
     return recipeStep.ingredients.isNotEmpty
         ? Expanded(

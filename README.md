@@ -33,6 +33,8 @@ Feel free to help!
 
 ## News
 
+New in 4.0.0: storage moved from ObjectBox to [drift](https://drift.simonbinder.eu) (SQLite), making Shefu eligible for F-Droid. Recipes of previous versions are imported automatically on first launch;
+
 New in 3.4.0: Video player
 
 New in v2: nutritional informations are automatically generated (for EN and FR only)! Source: Santé Canada (Fichier canadien sur les éléments nutritifs, 2015)-> https://www.canada.ca/fr/sante-canada/services/aliments-nutrition/saine-alimentation/donnees-nutritionnelles/fichier-canadien-elements-nutritifs-fcen-2015.html. This is all done on-device with no internet access required.
@@ -61,33 +63,51 @@ Tools SVG icons from https://opensourcesvgicons.com/
 
 Nutrients SVG icons from https://www.svgrepo.com/
 
+## Building
+
+```sh
+flutter pub get
+dart run build_runner build --enable-experiment=primary-constructors # drift code generation
+```
+
+SQLite is provided by [`package:sqlite3`](https://pub.dev/packages/sqlite3), which downloads prebuilt, checksum-verified binaries by default. To build SQLite from source instead (e.g. for F-Droid), download the [amalgamation](https://sqlite.org/download.html) and add to `pubspec.yaml`:
+
+```yaml
+hooks:
+  user_defines:
+    sqlite3:
+      source: source
+      path: third_party/sqlite3/sqlite3.c
+```
+
 ## Comparison with other applications
 
 Identical: Works offline with local storage, does **not** require online account, ad-free, dark mode, full-text search, recipes import + export, cook mode (keep screen awake)
 
-| Feature                                 | Shefu                        | Paprika Recipes Manager 3 (Demo) | Paprika recipe manager 3 (unlocked full version) |
-|------------------------------------------|------------------------------|----------------------------------------|--------------------------------------|
-| **Licence**                               | GPLv3, open source    | Proprietary                                  | Proprietary                 |
-| Platforms (price in $/€)                           | Android (Free)   | Android, iOS, Windows (Free)            | Android (4.99), iOS (4.99), Mac(34.99), Windows (29.99)           |
-| Multi-language Support              | ✅ Yes (EN, FR, JA, HU)       | ✅ Yes (16 languages)                      | ✅ Yes (16 languages)                    |
-| **Web search for import**               | ✅ Optimized web search (supported sites, perfect import) | ✅ Full browser in-app (average import quality) | ✅ Full browser in-app (average import quality) |
-| Print recipe                        | ✅ Yes (basic)                | ✅ Yes (with many options)             | ✅ Yes (with many options)           |
-| Shopping List                       | ✅ Yes (basic)                | ✅ Multiple (advanced)                 | ✅ Multiple (advanced)               |
-| Auto-generated Timers               | ✅ Yes (max 1 per step)       | ✅ Yes (unlimited)                     | ✅ Yes (unlimited)                   |
-| **Favorites**                           | ❌ Unavailable                | ✅ Available                           | ✅ Available                         |
-| **Duplicate recipe**                    | ❌ Unavailable                | ✅ Available                           | ✅ Available                         |
-| **Recipe variant**                    | ✅ Available                | ❌ Unavailable                           | ❌ Unavailable                         |
-| **Images per recipe**                   | 1 (+1 for each step)         | Multiple | Multiple (with cloud sync)           |
-| **Recipe display**                      | Ingredients & steps on one page, per step | Ingredients and instructions on separate pages | Ingredients and instructions on separate pages |
-| **Monthly Meal Planner**                | ❌ No                         | ✅ Yes                                 | ✅ Yes                               |
-| **Cloud Sync between devices**          | ❌ No                         | ❌ No                                  | ✅ Yes                               |
-| **Maximum number of recipes**                   | ✅ Unlimited                       | ❌ 50                         | ✅ Unlimited                               |
-| **Nutrient Tracking**                   | ✅ Yes (offline, EN/FR)       | ❌ No                                  | ❌ No                                |
-| **Auto-generated nutrition table**      | ✅ Yes (offline, EN/FR)       | ❌ No                                  | ❌ No                                |
-| **Ingredients set on**                  | Recipe steps                  | Recipe                                 | Recipe                               |
-| **Step Images**                         | ✅ Yes (1 per step)                       | ❌ No                                  | ❌ No                                |
-| **Video Player**                        | ✅ Yes                       | ❌ No                                  | ❌ No                                |
-| **OCR Recipe Scan**                     | ✅ Yes       | ❌ No                                  | ❌ No                                |
+| Feature                                 | Shefu                        | Paprika Recipe Manager 3 (full version) |
+|------------------------------------------|------------------------------|--------------------------------------|
+| **Licence**                               | GPLv3, open source    | Proprietary                 |
+| Platforms (price in $/€)                           | Android (Free)   | Android (4.99\*), iOS (4.99\*), Mac (34.99\*), Windows (29.99\*)           |
+| Multi-language Support              | ✅ Yes (EN, FR, JA, HU)       | ✅ Yes (16 languages)                    |
+| **Web search for import**               | ✅ Optimized web search (supported sites, perfect import) | ✅ Full browser in-app (average import quality) |
+| Print recipe                        | ✅ Yes (basic)                | ✅ Yes (with many options)           |
+| Shopping List                       | ✅ Yes (basic)                | ✅ Multiple (advanced)               |
+| Auto-generated Timers               | ✅ Yes (max 1 per step)       | ✅ Yes (unlimited)                   |
+| **Favorites**                           | ❌ Unavailable                | ✅ Available                         |
+| **Duplicate recipe**                    | ❌ Unavailable                | ✅ Available                         |
+| **Recipe variant**                    | ✅ Available                | ❌ Unavailable                         |
+| **Images per recipe**                   | 1 (+1 for each step)         | Multiple (with cloud sync)           |
+| **Recipe display**                      | Ingredients & steps on one page, per step | Ingredients and instructions on separate pages |
+| **Monthly Meal Planner**                | ❌ No                         | ✅ Yes                               |
+| **Cloud Sync between devices**          | ❌ No                         | ✅ Yes                               |
+| **Maximum number of recipes**                   | ✅ Unlimited                       | ✅ Unlimited                               |
+| **Nutrient Tracking**                   | ✅ Yes (offline, EN/FR)       | ❌ No                                |
+| **Auto-generated nutrition table**      | ✅ Yes (offline, EN/FR)       | ❌ No                                |
+| **Ingredients set on**                  | Recipe steps                  | Recipe                               |
+| **Step Images**                         | ✅ Yes (1 per step)                       | ❌ No                                |
+| **Video Player**                        | ✅ Yes                       | ❌ No                                |
+| **OCR Recipe Scan**                     | ✅ Yes       | ❌ No                                |
 
+\* A free "demo" version of Paprika is available, but it only allows 50 recipes and does not have cloud sync.
 
 _Feature comparison as of 09/2026. For more details, see each app's documentation._

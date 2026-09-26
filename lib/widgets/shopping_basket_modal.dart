@@ -3,10 +3,9 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:shefu/l10n/app_localizations.dart';
 import 'package:shefu/models/shopping_basket.dart';
-import 'package:shefu/models/objectbox_models.dart';
 import 'package:shefu/provider/my_app_state.dart';
-import 'package:shefu/repositories/objectbox_nutrient_repository.dart';
-import 'package:shefu/repositories/objectbox_recipe_repository.dart';
+import 'package:shefu/repositories/nutrient_repository.dart';
+import 'package:shefu/repositories/recipe_repository.dart';
 import 'package:shefu/widgets/ingredient_display.dart';
 import 'package:shefu/widgets/misc.dart';
 
@@ -29,9 +28,8 @@ class const ShoppingBasketModal({super.key}) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appState = context.watch<MyAppState>();
-    final ObjectBoxRecipeRepository recipeRepository = context.read<ObjectBoxRecipeRepository>();
-    final ObjectBoxNutrientRepository nutrientRepository = context
-        .read<ObjectBoxNutrientRepository>();
+    final RecipeRepository recipeRepository = context.read<RecipeRepository>();
+    final NutrientRepository nutrientRepository = context.read<NutrientRepository>();
     final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
@@ -96,22 +94,22 @@ class const ShoppingBasketModal({super.key}) extends StatelessWidget {
                             final recipeId = entry.key;
                             final items = entry.value;
 
-                            // Get recipe title if recipeId exists
-                            Recipe? recipe;
-                            if (recipeId != null) {
-                              recipe = recipeRepository.getRecipeById(int.parse(recipeId));
-                            }
-
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                if (recipe?.title != null)
-                                  _buildRecipeTitleCard(
-                                    context,
-                                    recipe!,
-                                    recipeId!,
-                                    appState,
-                                    l10n,
+                                if (int.tryParse(recipeId ?? '') case final id?)
+                                  FutureBuilder<String?>(
+                                    future: recipeRepository.getRecipeTitle(id),
+                                    builder: (context, snapshot) => switch (snapshot.data) {
+                                      final title? => _buildRecipeTitleCard(
+                                        context,
+                                        id,
+                                        title,
+                                        appState,
+                                        l10n,
+                                      ),
+                                      null => const SizedBox.shrink(),
+                                    },
                                   ),
 
                                 // ingredients
@@ -172,8 +170,8 @@ class const ShoppingBasketModal({super.key}) extends StatelessWidget {
 
   Widget _buildRecipeTitleCard(
     BuildContext context,
-    Recipe recipe,
-    String recipeId,
+    int recipeId,
+    String title,
     MyAppState appState,
     AppLocalizations l10n,
   ) {
@@ -186,8 +184,8 @@ class const ShoppingBasketModal({super.key}) extends StatelessWidget {
         margin: const EdgeInsets.symmetric(vertical: 4.0),
         child: ListTile(
           dense: true,
-          title: Text(recipe.title, overflow: TextOverflow.ellipsis),
-          onTap: recipeId == "0"
+          title: Text(title, overflow: TextOverflow.ellipsis),
+          onTap: recipeId == 0
               ? null
               : () {
                   Navigator.pop(context); // Close modal first
@@ -197,7 +195,7 @@ class const ShoppingBasketModal({super.key}) extends StatelessWidget {
             icon: Icon(Icons.remove_circle_outline, color: theme.colorScheme.error),
             tooltip: l10n.remove,
             onPressed: () {
-              appState.removeRecipeFromShoppingBasket(recipe);
+              appState.removeRecipeFromShoppingBasket(recipeId);
             },
           ),
         ),

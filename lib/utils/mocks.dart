@@ -1,4 +1,4 @@
-import 'package:shefu/models/objectbox_models.dart';
+import 'package:shefu/models/entities.dart';
 
 List<Recipe> populateMockRecipes() {
   // First recipe - The Ultimate Harvest Feast

@@ -988,4 +988,8 @@ class AppLocalizationsHu extends AppLocalizations {
   String variantSaved(Object variant) {
     return 'Változat $variant mentve';
   }
+
+  @override
+  String get legacyMigrationFailed =>
+      'Az előző verzió receptjeit még nem sikerült átköltöztetni. A receptek biztonságban vannak, az átköltöztetés a következő indításkor újra megtörténik. Ha a hiba továbbra is fennáll, kérjük, nyiss egy hibajelentést a https://github.com/lenios/shefu/issues címen.';
 }

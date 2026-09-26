@@ -3,7 +3,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:shefu/l10n/app_localizations.dart';
-import 'package:shefu/models/objectbox_models.dart';
+import 'package:shefu/models/entities.dart';
 import 'package:shefu/provider/my_app_state.dart';
 import 'package:shefu/utils/path_utils.dart';
 import 'package:shefu/utils/variant_colors.dart';

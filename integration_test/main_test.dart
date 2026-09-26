@@ -2,23 +2,30 @@ import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:shefu/main.dart';
-import 'package:shefu/models/objectbox_models.dart';
-import 'package:shefu/repositories/objectbox.dart';
-import 'package:shefu/repositories/objectbox_nutrient_repository.dart';
+import 'package:shefu/models/entities.dart';
+import 'package:drift/native.dart';
+import 'package:shefu/database/app_database.dart';
+import 'package:shefu/repositories/nutrient_repository.dart';
+import 'package:shefu/repositories/recipe_repository.dart';
 import 'package:shefu/router/app_router.dart';
 import 'package:shefu/utils/string_extension.dart';
 import 'package:shefu/views/display_recipe.dart';
 import 'package:shefu/views/edit_recipe.dart';
 import 'package:shefu/widgets/home/recipe_card.dart';
 
-import '../test/support/mock_repositories.dart';
+import '../test/support/fake_repositories.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   group('end-to-end test', () {
     testWidgets('create a new recipe, and check it is listed on homepage', (tester) async {
-      await tester.pumpWidget(MyApp(objectBoxNutrientRepo: await mockObjectBoxNutrientRepo()));
+      await tester.pumpWidget(
+        MyApp(
+          recipeRepository: RecipeRepository(_database()),
+          nutrientRepository: _nutrientRepository(),
+        ),
+      );
 
       // Wait for locale and initial load
       await tester.pumpAndSettle();
@@ -54,10 +61,10 @@ void main() {
     testWidgets('create a variant with an overriden step, and check it is saved', (tester) async {
       const variantTitle = "matcha tiramisu";
       const newIngredient = "matcha";
-      final recipeRepo = MockRecipeRepository([_mockRecipe()]);
+      final recipeRepo = FakeRecipeRepository([_mockRecipe()]);
 
       await tester.pumpWidget(
-        MyApp(objectBoxNutrientRepo: MockNutrientRepository(), recipeRepo: recipeRepo),
+        MyApp(nutrientRepository: FakeNutrientRepository(), recipeRepository: recipeRepo),
       );
 
       // Wait for locale and initial load
@@ -137,10 +144,10 @@ void main() {
 
     testWidgets('add ingredient and nutrient', (tester) async {
       final recipe = _mockRecipeWithTwoFullSteps();
-      final recipeRepo = MockRecipeRepository([recipe]);
+      final recipeRepo = FakeRecipeRepository([recipe]);
 
       await tester.pumpWidget(
-        MyApp(objectBoxNutrientRepo: await mockObjectBoxNutrientRepo(), recipeRepo: recipeRepo),
+        MyApp(nutrientRepository: _nutrientRepository(), recipeRepository: recipeRepo),
       );
       await tester.pumpAndSettle();
       // The router is a static singleton: an earlier test may have left it on a recipe page.
@@ -267,13 +274,15 @@ void main() {
   });
 }
 
-// Real nutrient repository
-ObjectBox? _sharedObjectBox;
+// Real repositories, on an in-memory database shared by the tests.
+AppDatabase? _sharedDatabase;
+NutrientRepository? _sharedNutrientRepository;
 
-Future<ObjectBoxNutrientRepository> mockObjectBoxNutrientRepo() async {
-  objectBox = _sharedObjectBox ??= await ObjectBox.create();
-  return ObjectBoxNutrientRepository(objectBox);
-}
+AppDatabase _database() =>
+    _sharedDatabase ??= AppDatabase(NativeDatabase.memory(setup: configureConnection));
+
+NutrientRepository _nutrientRepository() =>
+    _sharedNutrientRepository ??= NutrientRepository(_database());
 
 // Recipe with a category and two steps, the first one holding three ingredients.
 Recipe _mockRecipe() {
