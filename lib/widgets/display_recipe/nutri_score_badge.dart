@@ -8,9 +8,6 @@ class const NutriScoreBadge({
   required final NutriScoreGrade grade,
   final String footnote = '',
 }) extends StatelessWidget {
-  static const _cell = 26.0;
-  static const _selected = 36.0;
-
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
@@ -58,13 +55,13 @@ class const NutriScoreBadge({
     final color = Color(g.color);
     if (g == grade) {
       return Container(
-        width: _selected,
-        height: _selected,
+        width: 34.0,
+        height: 46.0,
         alignment: .center,
         decoration: BoxDecoration(
           color: color,
-          shape: BoxShape.circle,
-          border: Border.all(color: Colors.white, width: 2),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: Colors.white, width: 2.5),
           boxShadow: const [BoxShadow(color: Colors.black26, blurRadius: 3)],
         ),
         child: Text(
@@ -75,8 +72,8 @@ class const NutriScoreBadge({
     }
     const radius = Radius.circular(8);
     return Container(
-      width: _cell,
-      height: _cell,
+      width: 26.0,
+      height: 30.0,
       alignment: .center,
       decoration: BoxDecoration(
         color: color.withAlpha(150),
