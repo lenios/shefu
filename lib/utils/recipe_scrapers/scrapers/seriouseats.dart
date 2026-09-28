@@ -6,6 +6,14 @@ import '../abstract_scraper.dart';
 
 class SeriousEatsScraper(super.html, super.url) extends AbstractScraper {
   @override
+  String image() {
+    final lead = soup.querySelector('figure.mntl-sc-block-image img');
+    final srcset = lead?.attributes['data-srcset'] ?? lead?.attributes['srcset'] ?? '';
+    final url = srcset.split(',').first.trim().split(' ').first;
+    return url.startsWith('http') ? url : super.image();
+  }
+
+  @override
   String makeAhead() {
     final tocSpan = soup.querySelector('span.heading-toc#toc-make-ahead-and-storage');
     if (tocSpan == null) return "";
@@ -35,43 +43,28 @@ class SeriousEatsScraper(super.html, super.url) extends AbstractScraper {
   Future<List<Map<String, dynamic>>> search(String query) async {
     final url = 'https://www.seriouseats.com/search?q=${Uri.encodeComponent(query)}';
     final response = await http.get(Uri.parse(url));
-    if (response.statusCode == 200) {
-      final document = parser.parse(response.body);
-      final results = <Map<String, dynamic>>[];
-
-      // Each recipe card is in a div with class 'card-list__item'
-      final recipeCards = document.querySelectorAll('.card-list__item--card');
-      for (final card in recipeCards) {
-        // Title
-        final titleElem = card.querySelector('h2, h3, .card__title');
-        final title = titleElem?.text.trim() ?? '';
-
-        // URL
-        final linkElem = card.querySelector('a');
-        final url = linkElem?.attributes['href'] ?? '';
-        final fullUrl = url.startsWith('http') ? url : 'https://www.seriouseats.com$url';
-
-        if (RegExp(r'-\d+$').hasMatch(fullUrl)) {
-          continue; // ignore pages with multiple recipes (link ending in -XXXXXX)
-        }
-
-        // Image
-        final imgElem = card.querySelector('img');
-        String imageUrl = '';
-        if (imgElem != null) {
-          imageUrl = imgElem.attributes['src'] ?? imgElem.attributes['data-src'] ?? '';
-          // Some URLs may be relative, so prepend domain if needed
-          if (imageUrl.isNotEmpty && !imageUrl.startsWith('http')) {
-            imageUrl = 'https://www.seriouseats.com$imageUrl';
-          }
-        }
-        if (title.isNotEmpty && fullUrl.isNotEmpty) {
-          results.add({'title': title, 'url': fullUrl, 'imageUrl': imageUrl});
-        }
-      }
-      return results;
-    } else {
+    if (response.statusCode != 200) {
       throw Exception('Failed to fetch search results from Serious Eats');
     }
+    return parseSearchResults(response.body);
+  }
+
+  /// Recipes of a search results page: each result is a card link; recipes
+  /// have a rating/time line, articles (which can't be imported) don't.
+  static List<Map<String, dynamic>> parseSearchResults(String html) {
+    final results = <Map<String, dynamic>>[];
+    for (final card in parser.parse(html).querySelectorAll('a.mntl-card-list-card--extendable')) {
+      if (card.querySelector('.mntl-recipe-card-meta') == null) continue;
+      final title = card.querySelector('.card__title-text')?.text.trim() ?? '';
+      final url = card.attributes['href'] ?? '';
+      if (title.isEmpty || !url.startsWith('http')) continue;
+      final image = card.querySelector('img');
+      results.add({
+        'title': title,
+        'url': url,
+        'imageUrl': image?.attributes['data-src'] ?? image?.attributes['src'] ?? '',
+      });
+    }
+    return results;
   }
 }

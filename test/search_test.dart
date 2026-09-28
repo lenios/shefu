@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:shefu/utils/recipe_scrapers/scrapers/delishkitchen.tv.dart';
 import 'package:shefu/utils/recipe_scrapers/scrapers/lacuisinedessouvenirs.com.dart';
+import 'package:shefu/utils/recipe_scrapers/scrapers/seriouseats.dart';
 
 /// Parser alias used by all search tests.
 typedef SearchParser = List<Map<String, dynamic>> Function(String html);
@@ -15,6 +16,7 @@ void main() {
   final Map<String, SearchParser> parsers = {
     'lacuisinedessouvenirs.com': (html) => LaCuisineDesSouvenirsScraper.parseSearchResults(html),
     'delishkitchen.tv': DelishKitchenScraper.parseSearchResults,
+    'seriouseats.com': SeriousEatsScraper.parseSearchResults,
   };
 
   parsers.forEach((site, parser) {

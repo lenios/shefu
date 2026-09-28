@@ -626,7 +626,7 @@ class _EditRecipeState extends State<EditRecipe> {
                                                   children: [
                                                     Text(
                                                       "${country.flagEmoji} ${country.name}",
-                                                      style: const TextStyle(fontSize: 16),
+                                                      style: const TextStyle(fontSize: 15),
                                                     ),
                                                     const Spacer(),
                                                     if (!isVariant)

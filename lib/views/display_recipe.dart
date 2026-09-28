@@ -1,4 +1,5 @@
 import 'package:command_it/command_it.dart';
+import 'package:flutter/rendering.dart' show OverflowBoxFit;
 import 'package:material_ui/material_ui.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -361,74 +362,69 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                     ),
                   categoryLine(recipe.category, context, color: headerFg),
                   const SizedBox(height: 3),
-                  // Stats Row
-                  Row(
-                    mainAxisAlignment: .end,
-                    children: [
-                      Selector<MyAppState, bool>(
+                  // Stats row
+                  SizedBox(
+                    width: double.infinity,
+                    child: OverflowBox(
+                      maxWidth: double.infinity,
+                      alignment: Alignment.centerRight,
+                      fit: OverflowBoxFit.deferToChild,
+                      child: Selector<MyAppState, bool>(
                         selector: (context, appState) => appState.showCarbohydrates,
-                        builder: (context, showCarbohydrates, child) {
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              if (showCarbohydrates && nutrition.carbohydrates > 0) ...[
-                                buildHeaderStat(
-                                  context,
-                                  iconPath: 'assets/icons/carbohydrates.svg',
-                                  value: nutrition.carbohydrates,
-                                  unit: AppLocalizations.of(context)!.gps,
-                                  color: headerFg,
-                                ),
-                              ],
-                            ],
-                          );
-                        },
-                      ),
-
-                      const SizedBox(width: 6),
-                      buildHeaderStat(
-                        context,
-                        iconPath: 'assets/icons/fire-filled.svg',
-                        value: nutrition.calories,
-                        unit: AppLocalizations.of(context)!.kcps,
-                        color: headerFg,
-                      ),
-                      const SizedBox(width: 6),
-                      if (recipe.prepTime > 0 || recipe.cookTime > 0)
-                        Row(
+                        builder: (context, showCarbohydrates, child) => Row(
+                          mainAxisSize: .min,
+                          spacing: 5,
                           children: [
-                            Column(
-                              crossAxisAlignment: .start,
-                              children: [
-                                if (recipe.prepTime > 0)
-                                  buildHeaderStat(
-                                    context,
-                                    iconData: Icons.restaurant_menu,
-                                    value: recipe.prepTime,
-                                    unit: AppLocalizations.of(context)!.min,
-                                    color: headerFg,
-                                  ),
-                                if (recipe.cookTime > 0)
-                                  buildHeaderStat(
-                                    context,
-                                    iconData: Icons.microwave,
-                                    value: recipe.cookTime,
-                                    unit: AppLocalizations.of(context)!.min,
-                                    color: headerFg,
-                                  ),
-                                if (recipe.restTime > 0)
-                                  buildHeaderStat(
-                                    context,
-                                    iconData: Icons.schedule,
-                                    value: recipe.restTime,
-                                    unit: AppLocalizations.of(context)!.min,
-                                    color: headerFg,
-                                  ),
-                              ],
-                            ),
+                            if (showCarbohydrates && nutrition.carbohydrates > 0)
+                              buildHeaderStat(
+                                context,
+                                iconPath: 'assets/icons/carbohydrates.svg',
+                                value: nutrition.carbohydrates,
+                                unit: AppLocalizations.of(context)!.gps,
+                                color: headerFg,
+                              ),
+                            if (nutrition.calories > 0)
+                              buildHeaderStat(
+                                context,
+                                iconPath: 'assets/icons/fire-filled.svg',
+                                value: nutrition.calories,
+                                unit: AppLocalizations.of(context)!.kcps,
+                                color: headerFg,
+                              ),
+                            if (recipe.prepTime > 0 || recipe.cookTime > 0 || recipe.restTime > 0)
+                              Column(
+                                crossAxisAlignment: .start,
+                                children: [
+                                  if (recipe.prepTime > 0)
+                                    buildHeaderStat(
+                                      context,
+                                      iconData: Icons.restaurant_menu,
+                                      value: recipe.prepTime,
+                                      unit: AppLocalizations.of(context)!.min,
+                                      color: headerFg,
+                                    ),
+                                  if (recipe.cookTime > 0)
+                                    buildHeaderStat(
+                                      context,
+                                      iconData: Icons.microwave,
+                                      value: recipe.cookTime,
+                                      unit: AppLocalizations.of(context)!.min,
+                                      color: headerFg,
+                                    ),
+                                  if (recipe.restTime > 0)
+                                    buildHeaderStat(
+                                      context,
+                                      iconData: Icons.schedule,
+                                      value: recipe.restTime,
+                                      unit: AppLocalizations.of(context)!.min,
+                                      color: headerFg,
+                                    ),
+                                ],
+                              ),
                           ],
                         ),
-                    ],
+                      ),
+                    ),
                   ),
                 ],
               ),

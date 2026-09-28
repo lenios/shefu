@@ -1,0 +1,69 @@
+{
+  "author": "Stella Parks",
+  "canonical_url": "https://www.seriouseats.com/thick-and-fluffy-pancakes",
+  "site_name": "Serious Eats",
+  "host": "seriouseats.com",
+  "language": "en",
+  "title": "Thick and Fluffy Pancakes From Homemade Pancake Mix Recipe",
+  "ingredients": [
+    "4 1/2 ounces all-purpose flour, such as Gold Medal blue label (about 1 cup, spooned; 125g)",
+    "1/2 ounce sugar (about 1 tablespoon; 15g)",
+    "1/2 ounce malted milk powder, such as Carnation or Hoosier Hill Farms (about 2 tablespoons; 15g)",
+    "1 1/2 teaspoons (6.8g) baking powder",
+    "1/2 teaspoon (2g) Diamond Crystal kosher salt; for table salt, use about half as much by volume or the same weight",
+    "1/4 teaspoon (1.6g) baking soda",
+    "2 1/2 ounces refined coconut oil, solid and firm, between 68°F and 72°F (about 1/3 cup; 70g)",
+    "4 ounces milk, any percentage will do , or non-dairy alternatives (about 1/2 cup; 115g)",
+    "1 large egg, straight from the fridge (1 3/4 ounces; 50g)",
+    "1/4 ounce vanilla extract (about 1 1/2 teaspoons ; 7g)",
+    "1 batch pancake mix, above (about 1 1/2 cups; 8 1/4 ounces; 233g)"
+  ],
+  "instructions_list": [
+    "For the Pancake Mix: In the bowl of a food processor, combine flour, sugar, malted milk powder, baking powder, salt, and baking soda. Process about 30 seconds to ensure the leavening agents are fully homogenized into flour.",
+    "Add solid coconut oil and pulse only until it disappears into a dry and powdery mix, just a few seconds. It's important that the coconut oil is fully combined into the flour, while also remaining powdery and dry, so use caution and avoid over-processing, especially with larger batches. At this point, you can either continue with the recipe or transfer the mix to an airtight container and store up to one year at or below 74°F (24°C), or until the date stamped on the package of coconut oil.",
+    "For the Pancakes: Preheat an electric griddle to 350°F (177°C), or heat a large, nonstick skillet to a similar temperature on the stovetop. In a large mixing bowl, whisk milk, egg, and vanilla extract until well combined. Add the prepared pancake mix, and whisk until relatively smooth, although a few flecks of coconut oil may dot the batter.",
+    "With a large scoop, measuring cup, or piping bag, divide batter in 1/3-cup portions (or as desired), and griddle until golden brown on either side, and cooked through the middle, about 90 seconds per side. Serve immediately, with butter, maple syrup, fresh fruit, whipped cream, or whatever other toppings sound fun.",
+    "Troubleshooting: The timing and yield of this recipe will vary substantially depending on how the pancake batter is portioned as well as the exact temperature of the griddle itself. When pancakes are excessively browned but raw in the middle, the griddle is likely too hot; when the pancakes are cooked through but too soft and pale, the griddle may be too cool."
+  ],
+  "step_images": [
+    "https://www.seriouseats.com/thmb/wvEgsuqF-nKe_wiXtjWTSQbVZeA=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/__opt__aboutcom__coeus__resources__content_migration__serious_eats__seriouseats.com__2019__03__20190129-pancakes-vicky-wasik-processor-before-after-2cbc6ce4e74a4f18b191ad4a99825fa4.jpg",
+    "https://www.seriouseats.com/thmb/Yefw8Bu77Yxe4d6tGKbsPIQ8C50=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/__opt__aboutcom__coeus__resources__content_migration__serious_eats__seriouseats.com__2019__03__20190129-pancakes-vicky-wasik-mix-before-after-f0835bbe80ed458184933bf1bf7ae113.jpg",
+    "https://www.seriouseats.com/thmb/hEtjK48XkahDFNKTvKHAj9ivAWY=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/__opt__aboutcom__coeus__resources__content_migration__serious_eats__seriouseats.com__2019__03__20190129-pancakes-vicky-wasik-adding-wet-ingredients-9577841220a942898914a0e613f6e06c.jpg",
+    "https://www.seriouseats.com/thmb/csFkifo3TJg4Ryb4NyMdq-qh9eU=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/__opt__aboutcom__coeus__resources__content_migration__serious_eats__seriouseats.com__2019__03__20190129-pancakes-vicky-wasik-27-1d6ec83141264d41a2af7a4b35a0c1d4.jpg",
+    ""
+  ],
+  "category": "Breakfast,Brunch,Breakfast Sweets,Pancake,Quick and Easy,Quick Bread",
+  "yields": "8 servings",
+  "description": "Thick pancakes that are fluffy, not dense, with a tender, pillowy soft crumb. Much like Japanese pancakes, these cook up extra thick and light.",
+  "total_time": 10,
+  "cook_time": 5,
+  "prep_time": 5,
+  "cuisine": "American",
+  "ratings": 4.7,
+  "ratings_count": 13,
+  "nutrients": {
+    "calories": "167 kcal",
+    "carbohydrateContent": "16 g",
+    "cholesterolContent": "24 mg",
+    "fiberContent": "1 g",
+    "proteinContent": "3 g",
+    "saturatedFatContent": "8 g",
+    "sodiumContent": "247 mg",
+    "sugarContent": "4 g",
+    "fatContent": "10 g",
+    "servingSize": "makes eight 4 1/2-inch pancakes",
+    "unsaturatedFatContent": "0 g"
+  },
+  "image": "https://www.seriouseats.com/thmb/3Mml8RtALzzGUYE3xPZ1io2EZus=/750x0/filters:no_upscale():max_bytes(150000):strip_icc()/__opt__aboutcom__coeus__resources__content_migration__serious_eats__seriouseats.com__2019__03__20190129-pancakes-vicky-wasik-25-65785016b87544f485cd40ea86f83303.jpg",
+  "video": "https://content.jwplatform.com/videos/GDgubzVU-YWmivM3Y.mp4",
+  "keywords": [
+    "baking",
+    "breakfast",
+    "brunch",
+    "coconut oil",
+    "food processor",
+    "griddle",
+    "malted milk powder"
+  ],
+  "makeAhead": "In an airtight container, the pancake mix can be stored up to one year at or below 74°F (24°C), or until the date stamped on the package of coconut oil."
+}

@@ -940,6 +940,10 @@ class EditRecipeViewModel extends ChangeNotifier {
     return _nutrientRepository.filterNutrients(filter);
   }
 
+  /// The food [foodId] (0: none).
+  Nutrient? getNutrientByFoodId(int foodId) =>
+      foodId > 0 ? _nutrientRepository.getNutrientByFoodId(foodId) : null;
+
   List<Conversion> getNutrientConversions(int foodId) {
     if (foodId == 0) return [];
 

@@ -9,7 +9,7 @@ Widget buildHeaderStat(
   required String unit,
   Color? color,
 }) {
-  if (value == 0) return Container();
+  if (value == 0) return const SizedBox.shrink();
 
   final displayColor = color ?? Theme.of(context).colorScheme.onPrimary;
 
@@ -28,6 +28,7 @@ Widget buildHeaderStat(
   }
 
   return Row(
+    mainAxisSize: MainAxisSize.min,
     children: [
       iconWidget,
       const SizedBox(width: 2),
