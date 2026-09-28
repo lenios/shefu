@@ -40,8 +40,8 @@ class RecipeImagePicker extends StatelessWidget {
       builder: (context, version, _) {
         // Get the CURRENT path from the view model INSIDE the builder
         final String path = stepIndex != null
-            ? viewModel!.getTargetStep(stepIndex!).imagePath
-            : viewModel!.recipe.imagePath;
+            ? viewModel!.stepImagePath(stepIndex!)
+            : viewModel!.mainImagePath;
 
         final bool pathIsValid = path.isNotEmpty && File(PathUtils.cleanPath(path)).existsSync();
         if (pathIsValid) {

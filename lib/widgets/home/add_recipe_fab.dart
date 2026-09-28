@@ -147,7 +147,7 @@ Future<void> _importFromUrl(BuildContext context, ThemeData theme) async {
   final viewModel = EditRecipeViewModel(repo, nutrientRepo, 0, true);
   try {
     await viewModel.scrapeData(urlController.text.trim(), l10n);
-    await repo.saveRecipe(viewModel.recipe);
+    await viewModel.saveImportedRecipe();
     messenger?.showSnackBar(SnackBar(content: Text(l10n.recipeImportedSuccessfully)));
   } catch (_) {
     messenger?.showSnackBar(

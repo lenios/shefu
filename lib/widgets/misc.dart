@@ -115,8 +115,10 @@ FormattedIngredient formatIngredient({
   double servingsMultiplier = 1.0,
   required NutrientRepository nutrientRepository,
   bool optional = false,
+  String originalMeasure = '',
 }) {
   final appState = Provider.of<MyAppState>(context, listen: false);
+  final measure = scaleMeasure(originalMeasure, servingsMultiplier);
   final displayReversed = Localizations.localeOf(context).languageCode == 'ja';
 
   // Special case for pinch
@@ -127,6 +129,7 @@ FormattedIngredient formatIngredient({
       primaryQuantityDisplay: primaryQuantityDisplay,
       name: name,
       shape: shape,
+      originalMeasure: measure,
       descriptionText: "",
       showDescription: false,
       isChecked: isChecked,
@@ -176,12 +179,28 @@ FormattedIngredient formatIngredient({
     primaryQuantityDisplay: primaryQuantityDisplay,
     name: name,
     shape: shape,
+    originalMeasure: measure,
     descriptionText: desc,
     showDescription: showDesc,
     isChecked: isChecked,
     optional: optional,
     displayReversed: displayReversed,
   );
+}
+
+/// Scales the leading number of a measure written as text ("2 medium",
+/// "1 1/2 cups"); measures without a leading number are returned unchanged.
+String scaleMeasure(String measure, double multiplier) {
+  if (multiplier == 1 || measure.isEmpty) return measure;
+  final match = RegExp(r'^(?:(\d+)\s+(\d+)/(\d+)|(\d+)/(\d+)|(\d+(?:[.,]\d+)?))')
+      .firstMatch(measure);
+  if (match == null) return measure;
+  final value = switch (match) {
+    _ when match[1] != null => int.parse(match[1]!) + int.parse(match[2]!) / int.parse(match[3]!),
+    _ when match[4] != null => int.parse(match[4]!) / int.parse(match[5]!),
+    _ => double.parse(match[6]!.replaceAll(',', '.')),
+  };
+  return '${formattedQuantity(value * multiplier)}${measure.substring(match.end)}';
 }
 
 bool shouldConvertUnit(String unit, MeasurementSystem targetSystem) {
@@ -241,38 +260,6 @@ Widget noteCard({
       ),
     ),
   );
-}
-
-/// Detects cooking tools in instruction text using localized names
-Map<String, dynamic> detectCookingTools(String instruction, BuildContext context) {
-  // Use dynamic for values so we can mix IconData and drawable strings
-  final Map<String, dynamic> cookingTools = {
-    'paddle': 'assets/icons/paddle.svg',
-    'knife': 'assets/icons/knife.svg',
-    'whisk': 'assets/icons/whisk.svg',
-    'rolling-pin': 'assets/icons/rolling-pin.svg',
-    'bowl': 'assets/icons/bowl.svg',
-    'blender': Icons.blender_outlined,
-    'mixer': 'assets/icons/mixer.svg',
-    'pot': 'assets/icons/cooking-pot.svg',
-    'fridge': 'assets/icons/fridge.svg',
-    'freezer': 'assets/icons/freezer.svg',
-    'microwave': Icons.microwave_outlined,
-    'skillet': 'assets/icons/skillet_24.svg',
-    'oven': 'assets/icons/oven-outline.svg',
-  };
-
-  final String instructionLower = instruction.toLowerCase();
-  final Map<String, dynamic> foundTools = {};
-
-  for (final tool in cookingTools.keys) {
-    // Use localized tool name for matching
-    if (instructionLower.contains(formattedTool(tool, context))) {
-      foundTools[tool] = cookingTools[tool]!;
-    }
-  }
-
-  return foundTools;
 }
 
 Future<void> showVideoPlayer(BuildContext context, String videoUrl) async {

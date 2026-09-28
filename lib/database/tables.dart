@@ -32,6 +32,9 @@ class Recipes extends Table {
   TextColumn get videoUrl => text()();
   TextColumn get questions => text().map(const StringListConverter())();
   TextColumn get languageTag => text()();
+
+  /// Added in schema version 2.
+  BoolColumn get favorite => boolean().withDefault(const Constant(false))();
 }
 
 @DataClassName('RecipeVariantRow')
@@ -40,6 +43,7 @@ class RecipeVariants extends Table {
   IntColumn get id => integer().autoIncrement()();
   IntColumn get recipeId => integer().references(Recipes, #id, onDelete: KeyAction.cascade)();
   TextColumn get title => text()();
+  TextColumn get imagePath => text().withDefault(const Constant(''))();
 }
 
 /// A step belongs either to a recipe (base step) or to a variant (override of
@@ -59,6 +63,11 @@ class RecipeSteps extends Table {
   TextColumn get videoUrl => text()();
   IntColumn get timer => integer()();
   IntColumn get stepOrder => integer()();
+
+  /// Recipe used as this step (e.g. a puff pastry in an apple pie)
+  /// Its ingredients are scaled to the servings
+  IntColumn get linkedRecipeId =>
+      integer().nullable().references(Recipes, #id, onDelete: KeyAction.setNull)();
 
   @override
   List<String> get customConstraints => ['CHECK ((recipe_id IS NULL) <> (variant_id IS NULL))'];
@@ -84,6 +93,10 @@ class IngredientItems extends Table {
   IntColumn get foodId => integer()();
   IntColumn get conversionId => integer()();
   BoolColumn get optional => boolean()();
+
+  /// Measure as written by the source ("2 medium") when [quantity] is its
+  /// metric equivalent.
+  TextColumn get originalMeasure => text().withDefault(const Constant(''))();
 }
 
 @DataClassName('NutrientRow')
@@ -138,6 +151,10 @@ class Nutrients extends Table {
   RealColumn get faMono => real()();
   RealColumn get faPoly => real()();
   RealColumn get cholesterol => real()();
+
+  /// Canadian Nutrient File food group (9: fruits, 11: vegetables...), 0 if
+  /// unknown.
+  IntColumn get foodGroup => integer().withDefault(const Constant(0))();
 }
 
 @DataClassName('ConversionRow')

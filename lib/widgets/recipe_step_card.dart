@@ -1,11 +1,15 @@
+import 'package:shefu/l10n/app_localizations.dart';
+import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
-import 'package:shefu/l10n/l10n_utils.dart';
+import 'package:shefu/models/glossary.dart';
 import 'package:shefu/repositories/nutrient_repository.dart';
 import 'package:shefu/utils/path_utils.dart';
+import 'package:shefu/utils/recipe_icons.dart';
 import 'package:shefu/utils/string_extension.dart';
 import 'package:shefu/views/full_screen_image.dart';
+import 'package:shefu/widgets/display_recipe/instruction_text.dart';
 import 'package:shefu/widgets/ingredient_display.dart';
 import 'package:shefu/widgets/step_timer_widget.dart';
 
@@ -18,34 +22,11 @@ class const RecipeStepCard({
   required final RecipeStep recipeStep,
   required final double servings,
   final bool isCurrentStep = false,
+  final Glossary? glossary,
+
+  /// To recognize the equipments.
+  final String? languageCode,
 }) extends StatelessWidget {
-  RichText _buildInstructionText(String instruction, BuildContext context) {
-    final theme = Theme.of(context);
-    final defaultStyle = theme.textTheme.bodyMedium;
-    final highlightStyle = theme.textTheme.labelLarge?.copyWith(
-      fontWeight: FontWeight.bold,
-      color: theme.colorScheme.primary,
-      fontSize: (theme.textTheme.labelLarge?.fontSize ?? 14) * 1.3,
-    );
-
-    final tempRegex = RegExp(r'(\d+\s*°?[CF])');
-    final spans = <TextSpan>[];
-    int last = 0;
-
-    // Split the instruction text into spans based on the temperature regex matches
-    for (final match in tempRegex.allMatches(instruction)) {
-      if (match.start > last) {
-        spans.add(TextSpan(text: instruction.substring(last, match.start), style: defaultStyle));
-      }
-      spans.add(TextSpan(text: match.group(0), style: highlightStyle));
-      last = match.end;
-    }
-    if (last < instruction.length) {
-      spans.add(TextSpan(text: instruction.substring(last), style: defaultStyle));
-    }
-    return RichText(text: TextSpan(children: spans));
-  }
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -68,33 +49,38 @@ class const RecipeStepCard({
   }
 
   Widget stepDirection(BuildContext context) {
-    final foundTools = detectCookingTools(recipeStep.instruction, context);
+    final appLanguage = Localizations.localeOf(context).languageCode;
+    final equipment = equipmentIn(
+      recipeStep.instruction,
+      languageCode: languageCode ?? appLanguage,
+      labelLanguageCode: appLanguage,
+    );
+    final color = Theme.of(context).colorScheme.primary;
 
     // Create the cooking tools row
     final Widget toolsRow = ConstrainedBox(
       constraints: const BoxConstraints(maxWidth: 150),
-      child: foundTools.isNotEmpty
+      child: equipment.isNotEmpty
           ? Row(
               mainAxisSize: .min,
               mainAxisAlignment: .end,
               children: [
-                ...foundTools.entries
-                    .take(recipeStep.ingredients.isNotEmpty ? 2 : 4)
-                    .map(
-                      (tool) => Padding(
-                        padding: const EdgeInsets.only(right: 8.0),
-                        child: Tooltip(
-                          message: tool.key.capitalize(),
-                          child: tool.value is IconData
-                              ? Icon(
-                                  tool.value as IconData,
-                                  color: Theme.of(context).colorScheme.primary,
-                                  size: 24,
-                                )
-                              : SvgPicture.asset(tool.value, width: 24, height: 24),
+                for (final item in equipment.take(recipeStep.ingredients.isNotEmpty ? 2 : 4))
+                  Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: Tooltip(
+                      message: item.label.capitalize(),
+                      child: switch (item.icon) {
+                        final IconData icon => Icon(icon, color: color, size: 24),
+                        final asset as String => SvgPicture.asset(
+                          asset,
+                          width: 24,
+                          height: 24,
+                          colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
                         ),
-                      ),
+                      },
                     ),
+                  ),
               ],
             )
           : const SizedBox.shrink(),
@@ -113,7 +99,13 @@ class const RecipeStepCard({
             child: Column(
               crossAxisAlignment: .start,
               children: [
-                _buildInstructionText(recipeStep.instruction, context),
+                InstructionText(recipeStep.instruction, glossary: glossary ?? Glossary.empty),
+                if (recipeStep.linkedRecipeId > 0)
+                  TextButton.icon(
+                    icon: const Icon(Icons.open_in_new, size: 18),
+                    label: Text(AppLocalizations.of(context)!.openLinkedRecipe),
+                    onPressed: () => context.push('/recipe/${recipeStep.linkedRecipeId}'),
+                  ),
                 Row(
                   mainAxisAlignment: .end,
                   crossAxisAlignment: .center,
@@ -220,6 +212,7 @@ class const RecipeStepCard({
                     servingsMultiplier: servings,
                     nutrientRepository: nutrientRepository,
                     optional: ingredient.optional,
+                    originalMeasure: ingredient.originalMeasure,
                   );
 
                   final String bulletType = ingredient.conversionId > 0 ? "■ " : "□ ";
@@ -242,85 +235,16 @@ class const RecipeStepCard({
   }
 }
 
-Widget nutrientIcon(BuildContext context, ingredientName) {
-  final availableNutrients = [
-    'apple',
-    'apricot',
-    'asparagus',
-    'avocado',
-    'banana',
-    'bell-pepper',
-    'blackberry',
-    'blueberry',
-    'broccoli',
-    'butter',
-    'cabbage',
-    'carambola',
-    'carrot',
-    'cauliflower',
-    'celery',
-    'cherry',
-    'chicken',
-    'chocolate-dark',
-    'chocolate-milk',
-    'chocolate-white',
-    'chocolate-ruby',
-    'coconut',
-    'corn',
-    'cucumber',
-    'dragon-fruit',
-    'egg',
-    'eggplant',
-    'fig',
-    'garlic',
-    'grapes',
-    'green-beans',
-    'kiwi',
-    'leek',
-    'lemon',
-    'lettuce',
-    'lime',
-    'lychee',
-    'mango',
-    'melon',
-    'milk',
-    'mushroom',
-    'olive-oil',
-    'onion',
-    'orange',
-    'peach',
-    'pear',
-    'peas',
-    'pineapple',
-    'plum',
-    'pomegranate',
-    'potato',
-    'pumpkin',
-    'radish',
-    'raspberry',
-    'salmon',
-    'spinach',
-    'strawberry',
-    'sweet-potato',
-    'tomato',
-    'watermelon',
-    'zucchini',
-  ];
-
-  return Builder(
-    builder: (context) {
-      for (String i in availableNutrients) {
-        if (getLocalizedNutrientName(i, context) == ingredientName.toLowerCase()) {
-          final String iconPath = 'assets/icons/nutrients/$i.svg';
-          return SvgPicture.asset(
-            iconPath,
-            width: 21,
-            height: 21,
-            placeholderBuilder: (context) => const SizedBox.shrink(),
-          );
-        }
-      }
-      return const SizedBox.shrink();
-    },
+Widget nutrientIcon(BuildContext context, String ingredientName) {
+  final asset = ingredientIconAsset(
+    ingredientName,
+    languageCode: Localizations.localeOf(context).languageCode,
+  );
+  if (asset == null) return const SizedBox.shrink();
+  return SvgPicture.asset(
+    asset,
+    width: 21,
+    height: 21,
+    placeholderBuilder: (context) => const SizedBox.shrink(),
   );
 }

@@ -33,8 +33,7 @@ class const IngredientDisplay({
                 children: [
                   Flexible(
                     child: Text(
-                      "${ingredient.displayReversed ? '${ingredient.name} ${ingredient.primaryQuantityDisplay}' : '${ingredient.primaryQuantityDisplay} ${ingredient.name}'}"
-                      "${lineShape && ingredient.shape.isNotEmpty ? ', ${ingredient.shape}' : ''}",
+                      lineShape ? ingredient.fullText : ingredient.quantifiedName,
                       style: TextStyle(
                         fontWeight: isBold ? FontWeight.bold : null,
                         fontStyle: ingredient.optional ? FontStyle.italic : null,
@@ -61,9 +60,10 @@ class const IngredientDisplay({
                   maxLines: 3,
                   overflow: TextOverflow.ellipsis,
                 ),
-              if ((!lineShape && ingredient.shape.isNotEmpty) || ingredient.optional)
+              if ((!lineShape && ingredient.details.isNotEmpty) || ingredient.optional)
                 Text(
-                  "${ingredient.shape} ${ingredient.optional ? '(${AppLocalizations.of(context)?.optional})' : ''}",
+                  "${lineShape ? '' : ingredient.details} ${ingredient.optional ? '(${AppLocalizations.of(context)?.optional})' : ''}"
+                      .trim(),
                   style: theme.textTheme.bodyMedium?.copyWith(
                     fontStyle: FontStyle.italic,
                     color: ingredient.optional ? theme.colorScheme.tertiary : effectivePrimaryColor,

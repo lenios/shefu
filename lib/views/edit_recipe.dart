@@ -822,17 +822,28 @@ class _EditRecipeState extends State<EditRecipe> {
                   ),
                   // Add step
                   const SizedBox(height: 10),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: ElevatedButton.icon(
-                      icon: const Icon(Icons.add),
-                      label: Text(l10n.addStep),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Theme.of(context).colorScheme.secondary,
-                        foregroundColor: Theme.of(context).colorScheme.onSecondary,
+                  Wrap(
+                    alignment: .end,
+                    spacing: 8,
+                    runSpacing: 8,
+                    children: [
+                      if (!viewModel.isVariantMode)
+                        OutlinedButton.icon(
+                          key: const Key('addRecipeAsStep'),
+                          icon: const Icon(Icons.menu_book_outlined),
+                          label: Text(l10n.addRecipeAsStep),
+                          onPressed: () => viewModel.addRecipeAsStep(context),
+                        ),
+                      ElevatedButton.icon(
+                        icon: const Icon(Icons.add),
+                        label: Text(l10n.addStep),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Theme.of(context).colorScheme.secondary,
+                          foregroundColor: Theme.of(context).colorScheme.onSecondary,
+                        ),
+                        onPressed: viewModel.addEmptyStep,
                       ),
-                      onPressed: viewModel.addEmptyStep,
-                    ),
+                    ],
                   ),
 
                   // Make ahead

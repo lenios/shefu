@@ -1,6 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:shefu/utils/nutrition.dart';
 import 'package:shefu/provider/my_app_state.dart';
 import 'package:shefu/utils/path_utils.dart';
 import 'package:shefu/utils/string_extension.dart';
@@ -13,8 +14,12 @@ import '../../widgets/image_helper.dart';
 import '../header_stats.dart';
 import '../misc.dart';
 
-class const RecipeCard({super.key, required final Recipe recipe, final RecipeVariant? variant})
-    extends StatelessWidget {
+class const RecipeCard({
+  super.key,
+  required final Recipe recipe,
+  final RecipeVariant? variant,
+  required final ServingNutrition nutrition,
+}) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -49,7 +54,9 @@ class const RecipeCard({super.key, required final Recipe recipe, final RecipeVar
                 child: Container(
                   child: buildFutureImageWidget(
                     context,
-                    PathUtils.thumbnailPath(recipe.imagePath),
+                    PathUtils.thumbnailPath(
+                      (v?.imagePath.isNotEmpty ?? false) ? v!.imagePath : recipe.imagePath,
+                    ),
                     width: 100,
                     height: 100,
                   ),
@@ -105,7 +112,7 @@ class const RecipeCard({super.key, required final Recipe recipe, final RecipeVar
                                   buildHeaderStat(
                                     context,
                                     iconPath: 'assets/icons/carbohydrates.svg',
-                                    value: recipe.carbohydrates,
+                                    value: nutrition.carbohydrates,
                                     unit: AppLocalizations.of(context)!.gps,
                                     color: statColor,
                                   ),
@@ -120,7 +127,7 @@ class const RecipeCard({super.key, required final Recipe recipe, final RecipeVar
                         buildHeaderStat(
                           context,
                           iconPath: 'assets/icons/fire-filled.svg',
-                          value: recipe.calories,
+                          value: nutrition.calories,
                           unit: AppLocalizations.of(context)!.kc,
                           color: statColor,
                         ),

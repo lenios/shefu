@@ -1,0 +1,632 @@
+[
+ {
+  "term": "abaisser",
+  "definitions": [
+   {
+    "text": "Étaler une pâte au rouleau jusqu'à l'épaisseur voulue."
+   }
+  ]
+ },
+ {
+  "term": "abricoter",
+  "definitions": [
+   {
+    "text": "Napper une pâtisserie de nappage ou de confiture d'abricot tiède pour la faire briller."
+   }
+  ]
+ },
+ {
+  "term": "arroser",
+  "definitions": [
+   {
+    "text": "Verser régulièrement le jus ou la graisse de cuisson sur un aliment pendant qu'il cuit, pour qu'il ne se dessèche pas."
+   }
+  ]
+ },
+ {
+  "term": "assaisonner",
+  "definitions": [
+   {
+    "text": "Ajouter sel, poivre, épices ou condiments pour relever le goût."
+   }
+  ]
+ },
+ {
+  "term": "bain-marie",
+  "definitions": [
+   {
+    "text": "Mode de cuisson ou de maintien au chaud : la préparation est placée dans un récipient posé dans (ou sur) une casserole d'eau frémissante."
+   }
+  ]
+ },
+ {
+  "term": "barder",
+  "definitions": [
+   {
+    "text": "Envelopper une viande ou une volaille de fines tranches de lard pour la protéger pendant la cuisson."
+   }
+  ]
+ },
+ {
+  "term": "battre",
+  "definitions": [
+   {
+    "text": "Mélanger vigoureusement au fouet ou à la fourchette pour rendre homogène ou incorporer de l'air."
+   }
+  ]
+ },
+ {
+  "term": "beurrer",
+  "definitions": [
+   {
+    "text": "Enduire un moule ou un plat de beurre pour que la préparation n'attache pas."
+   }
+  ]
+ },
+ {
+  "term": "beurre noisette",
+  "definitions": [
+   {
+    "text": "Beurre chauffé jusqu'à ce qu'il prenne une couleur blonde et un parfum de noisette."
+   }
+  ]
+ },
+ {
+  "term": "blanchir",
+  "definitions": [
+   {
+    "context": "œufs",
+    "text": "Battre des jaunes d'œufs et du sucre pour les faire mousser."
+   },
+   {
+    "context": "viande, légumes",
+    "text": "Porter à ébullition dans de l'eau salée, avant de rafraîchir à l'eau froide."
+   }
+  ]
+ },
+ {
+  "term": "blondir",
+  "definitions": [
+   {
+    "text": "Faire colorer légèrement dans une matière grasse, sans laisser brunir (oignons, échalotes...)."
+   }
+  ]
+ },
+ {
+  "term": "braiser",
+  "definitions": [
+   {
+    "text": "Cuire lentement, à couvert et avec peu de liquide, après avoir fait colorer."
+   }
+  ]
+ },
+ {
+  "term": "brider",
+  "definitions": [
+   {
+    "text": "Maintenir les membres d'une volaille avec une ficelle pour qu'elle garde sa forme à la cuisson."
+   }
+  ]
+ },
+ {
+  "term": "brunoise",
+  "definitions": [
+   {
+    "text": "Légumes taillés en tout petits dés réguliers (1 à 2 mm)."
+   }
+  ]
+ },
+ {
+  "term": "caraméliser",
+  "definitions": [
+   {
+    "context": "sucre",
+    "text": "Chauffer du sucre jusqu'à ce qu'il se transforme en caramel."
+   },
+   {
+    "context": "moule",
+    "text": "Tapisser un moule de caramel."
+   },
+   {
+    "context": "aliments",
+    "text": "Faire dorer pour développer les sucs et une saveur légèrement sucrée."
+   }
+  ]
+ },
+ {
+  "term": "chemiser",
+  "definitions": [
+   {
+    "text": "Tapisser les parois d'un moule (papier sulfurisé, beurre et farine, biscuits, gelée...)."
+   }
+  ]
+ },
+ {
+  "term": "chinoiser",
+  "definitions": [
+   {
+    "text": "Passer une préparation liquide au chinois (passoire conique très fine)."
+   }
+  ]
+ },
+ {
+  "term": "ciseler",
+  "definitions": [
+   {
+    "context": "herbes, oignons",
+    "text": "Hacher finement au couteau."
+   },
+   {
+    "context": "poisson",
+    "text": "Faire de légères entailles sur la peau pour une cuisson régulière."
+   }
+  ]
+ },
+ {
+  "term": "clarifier",
+  "definitions": [
+   {
+    "context": "beurre",
+    "text": "Faire fondre doucement et retirer le petit-lait pour ne garder que la matière grasse limpide."
+   },
+   {
+    "context": "bouillon",
+    "text": "Rendre limpide un bouillon ou une gelée."
+   },
+   {
+    "context": "œufs",
+    "text": "Séparer les blancs des jaunes."
+   }
+  ]
+ },
+ {
+  "term": "confire",
+  "definitions": [
+   {
+    "text": "Cuire lentement dans une graisse (canard, oie) ou dans un sirop de sucre (fruits), pour attendrir et conserver."
+   }
+  ]
+ },
+ {
+  "term": "coucher",
+  "definitions": [
+   {
+    "text": "Déposer une pâte ou une crème sur une plaque à l'aide d'une poche à douille."
+   }
+  ]
+ },
+ {
+  "term": "cuire à blanc",
+  "definitions": [
+   {
+    "text": "Cuire un fond de tarte sans garniture, recouvert de papier et lesté de billes ou de légumes secs."
+   }
+  ]
+ },
+ {
+  "term": "décanter",
+  "definitions": [
+   {
+    "text": "Laisser reposer un liquide pour que les impuretés se déposent au fond, puis le verser délicatement."
+   }
+  ]
+ },
+ {
+  "term": "déglacer",
+  "definitions": [
+   {
+    "text": "Verser un liquide (vin, bouillon, eau) dans le récipient de cuisson chaud pour dissoudre les sucs caramélisés."
+   }
+  ]
+ },
+ {
+  "term": "dégorger",
+  "definitions": [
+   {
+    "context": "légumes",
+    "text": "Saupoudrer de sel pour faire rendre leur eau (concombre, aubergine...)."
+   },
+   {
+    "context": "viande, poisson",
+    "text": "Faire tremper dans l'eau froide pour éliminer le sang et les impuretés."
+   }
+  ]
+ },
+ {
+  "term": "délayer",
+  "definitions": [
+   {
+    "text": "Diluer une substance (farine, fécule, cacao...) dans un liquide en remuant, pour éviter les grumeaux."
+   }
+  ]
+ },
+ {
+  "term": "détailler",
+  "definitions": [
+   {
+    "text": "Découper en morceaux, tranches ou formes régulières."
+   }
+  ]
+ },
+ {
+  "term": "détendre",
+  "definitions": [
+   {
+    "text": "Rendre une préparation moins épaisse en y ajoutant un liquide."
+   }
+  ]
+ },
+ {
+  "term": "dorer",
+  "definitions": [
+   {
+    "context": "pâtisserie",
+    "text": "Badigeonner d'œuf battu au pinceau pour obtenir une belle couleur à la cuisson."
+   },
+   {
+    "context": "cuisson",
+    "text": "Faire colorer un aliment dans une matière grasse ou au four."
+   }
+  ]
+ },
+ {
+  "term": "écaler",
+  "definitions": [
+   {
+    "text": "Retirer la coquille d'un œuf dur."
+   }
+  ]
+ },
+ {
+  "term": "écumer",
+  "definitions": [
+   {
+    "text": "Retirer l'écume qui se forme à la surface d'un liquide en ébullition."
+   }
+  ]
+ },
+ {
+  "term": "effiler",
+  "definitions": [
+   {
+    "context": "amandes",
+    "text": "Couper en fines lamelles."
+   },
+   {
+    "context": "haricots verts",
+    "text": "Retirer les fils."
+   }
+  ]
+ },
+ {
+  "term": "émincer",
+  "definitions": [
+   {
+    "text": "Couper en tranches fines."
+   }
+  ]
+ },
+ {
+  "term": "émulsionner",
+  "definitions": [
+   {
+    "text": "Mélanger vigoureusement deux liquides qui ne se mélangent pas naturellement (huile et vinaigre...) pour obtenir une préparation homogène."
+   }
+  ]
+ },
+ {
+  "term": "étuver",
+  "definitions": [
+   {
+    "text": "Cuire à couvert et à feu doux, avec très peu de liquide, dans le jus de l'aliment."
+   }
+  ]
+ },
+ {
+  "term": "flamber",
+  "definitions": [
+   {
+    "context": "plat",
+    "text": "Arroser d'alcool chaud et l'enflammer."
+   },
+   {
+    "context": "volaille",
+    "text": "Passer à la flamme pour brûler le duvet."
+   }
+  ]
+ },
+ {
+  "term": "foncer",
+  "definitions": [
+   {
+    "text": "Garnir le fond et les bords d'un moule avec une pâte."
+   }
+  ]
+ },
+ {
+  "term": "frémir",
+  "definitions": [
+   {
+    "text": "Chauffer un liquide juste en dessous de l'ébullition : de petites bulles apparaissent à la surface."
+   }
+  ]
+ },
+ {
+  "term": "glacer",
+  "definitions": [
+   {
+    "context": "pâtisserie",
+    "text": "Recouvrir d'une fine couche brillante (glaçage, sucre glace, nappage)."
+   },
+   {
+    "context": "légumes",
+    "text": "Cuire avec de l'eau, du beurre et du sucre jusqu'à ce qu'ils soient enrobés d'un sirop brillant."
+   },
+   {
+    "context": "préparation",
+    "text": "Refroidir rapidement."
+   }
+  ]
+ },
+ {
+  "term": "gratiner",
+  "definitions": [
+   {
+    "text": "Faire dorer la surface d'un plat au four ou sous le gril, souvent avec du fromage ou de la chapelure."
+   }
+  ]
+ },
+ {
+  "term": "hacher",
+  "definitions": [
+   {
+    "text": "Couper en petits morceaux, avec un instrument tranchant (couteau, hachoir...)."
+   }
+  ]
+ },
+ {
+  "term": "imbiber",
+  "definitions": [
+   {
+    "text": "Humecter une pâtisserie d'un sirop ou d'un alcool."
+   }
+  ]
+ },
+ {
+  "term": "julienne",
+  "definitions": [
+   {
+    "text": "Légumes taillés en fins bâtonnets."
+   }
+  ]
+ },
+ {
+  "term": "larder",
+  "definitions": [
+   {
+    "text": "Introduire des bandes de lard dans une pièce de viande à l'aide d'une lardoire."
+   }
+  ]
+ },
+ {
+  "term": "lier",
+  "definitions": [
+   {
+    "text": "Épaissir une sauce ou un liquide (farine, fécule, jaune d'œuf, crème...)."
+   }
+  ]
+ },
+ {
+  "term": "lustrer",
+  "definitions": [
+   {
+    "text": "Badigeonner une préparation (beurre, gelée, sirop) pour la rendre brillante."
+   }
+  ]
+ },
+ {
+  "term": "macérer",
+  "definitions": [
+   {
+    "text": "Laisser tremper des aliments crus (fruits...) dans un liquide (alcool, sirop) pour qu'ils s'en imprègnent."
+   }
+  ]
+ },
+ {
+  "term": "mijoter",
+  "definitions": [
+   {
+    "text": "Cuire lentement, à petit feu."
+   }
+  ]
+ },
+ {
+  "term": "mirepoix",
+  "definitions": [
+   {
+    "text": "Légumes (carotte, oignon, céleri) coupés en dés, servant de garniture aromatique."
+   }
+  ]
+ },
+ {
+  "term": "monder",
+  "definitions": [
+   {
+    "text": "Retirer la peau (tomates, amandes, pêches...) après un passage rapide dans l'eau bouillante."
+   }
+  ]
+ },
+ {
+  "term": "nacrer",
+  "definitions": [
+   {
+    "text": "Faire revenir du riz dans une matière grasse jusqu'à ce qu'il devienne translucide (risotto)."
+   }
+  ]
+ },
+ {
+  "term": "napper",
+  "definitions": [
+   {
+    "text": "Recouvrir d'une couche de sauce ou de crème assez épaisse pour qu'elle adhère."
+   }
+  ]
+ },
+ {
+  "term": "paner",
+  "definitions": [
+   {
+    "text": "Enrober successivement de farine, d'œuf battu et de chapelure avant de frire ou de dorer."
+   }
+  ]
+ },
+ {
+  "term": "parer",
+  "definitions": [
+   {
+    "text": "Retirer les parties non comestibles ou inesthétiques d'un aliment (nerfs, graisse, peau...)."
+   }
+  ]
+ },
+ {
+  "term": "pocher",
+  "definitions": [
+   {
+    "text": "Cuire dans un liquide frémissant, sans ébullition."
+   }
+  ]
+ },
+ {
+  "term": "pommade",
+  "definitions": [
+   {
+    "text": "Beurre ramolli jusqu'à avoir la consistance d'une crème."
+   }
+  ]
+ },
+ {
+  "term": "rectifier",
+  "definitions": [
+   {
+    "text": "Goûter et ajuster l'assaisonnement."
+   }
+  ]
+ },
+ {
+  "term": "réduire",
+  "definitions": [
+   {
+    "text": "Faire évaporer un liquide à feu vif pour le concentrer et l'épaissir."
+   }
+  ]
+ },
+ {
+  "term": "rissoler",
+  "definitions": [
+   {
+    "text": "Faire dorer à feu vif dans une matière grasse."
+   }
+  ]
+ },
+ {
+  "term": "roux",
+  "definitions": [
+   {
+    "text": "Mélange cuit de beurre et de farine qui sert à lier les sauces (béchamel...)."
+   }
+  ]
+ },
+ {
+  "term": "ruban",
+  "definitions": [
+   {
+    "text": "Consistance d'une préparation (œufs et sucre) qui s'écoule de la spatule en un ruban continu, sans se casser."
+   }
+  ]
+ },
+ {
+  "term": "sabler",
+  "definitions": [
+   {
+    "text": "Mélanger du bout des doigts la farine et le beurre jusqu'à obtenir une texture de sable."
+   }
+  ]
+ },
+ {
+  "term": "saisir",
+  "definitions": [
+   {
+    "text": "Cuire à feu très vif pour colorer rapidement la surface d'un aliment."
+   }
+  ]
+ },
+ {
+  "term": "singer",
+  "definitions": [
+   {
+    "text": "Saupoudrer de farine des aliments rissolés avant de les mouiller, pour lier la sauce."
+   }
+  ]
+ },
+ {
+  "term": "faire suer",
+  "definitions": [
+   {
+    "text": "Chauffer des légumes à feu doux dans une matière grasse pour qu'ils rendent leur eau, sans les colorer."
+   }
+  ]
+ },
+ {
+  "term": "tamiser",
+  "definitions": [
+   {
+    "text": "Passer une poudre (farine, sucre glace...) au tamis pour éliminer les grumeaux."
+   }
+  ]
+ },
+ {
+  "term": "tempérer",
+  "definitions": [
+   {
+    "context": "chocolat",
+    "text": "Faire fondre, refroidir puis réchauffer le chocolat à des températures précises pour qu'il soit brillant et cassant."
+   },
+   {
+    "context": "préparation",
+    "text": "Ajouter progressivement un liquide chaud à des œufs pour les réchauffer sans les cuire."
+   }
+  ]
+ },
+ {
+  "term": "torréfier",
+  "definitions": [
+   {
+    "text": "Griller à sec (fruits secs, café, épices) pour développer les arômes."
+   }
+  ]
+ },
+ {
+  "term": "trousser",
+  "definitions": [
+   {
+    "text": "Maintenir les pattes d'une volaille repliées contre le corps."
+   }
+  ]
+ },
+ {
+  "term": "vanner",
+  "definitions": [
+   {
+    "text": "Remuer une sauce ou une crème pendant qu'elle refroidit, pour éviter la formation d'une peau."
+   }
+  ]
+ },
+ {
+  "term": "zester",
+  "definitions": [
+   {
+    "text": "Prélever le zeste (la peau colorée) d'un agrume."
+   }
+  ]
+ }
+]

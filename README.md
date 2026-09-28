@@ -12,7 +12,8 @@ Key Features:
 - **Organize Your Recipes**: Easily add, edit, and search your categorized recipes (mains, desserts, etc.). Use advanced search, and filters (like category, country) to find exactly what you need, right when you need it. Search 'egg' and you'll find all your recipes including eggs, even meringue!
 - **Scan Recipes with OCR**: Have a recipe in a book or magazine? Just snap a photo! Shefu's built-in OCR (Optical Character Recognition) intelligently extracts the title, ingredients, and steps. (Note: OCR performs best with clear, well-structured text layouts).
 - **Detailed Step-by-Step View**: Follow recipes with clear, easy-to-read instructions. Add images and optional timers to individual steps. Ingredients quantities are automatically adapted to desired servings.
-- **Nutrient Tracking & Insights**: Link your ingredients to an extensive included offline nutrient database (Source: Santé Canada). Shefu automatically calculates all nutritional values per serving based on your ingredients and specified serving size, helping you make more informed dietary choices. Refer to nutrition tab on recipes.
+- **Nutrient Tracking & Insights**: Link your ingredients to an extensive included offline nutrient database (Source: Santé Canada). Shefu automatically calculates all nutritional values per serving based on your ingredients and specified serving size, and estimates the recipe's Nutri-Score (2023 updated algorithm), helping you make more informed dietary choices. Refer to nutrition tab on recipes.
+- **Cooking glossary**: Technical terms in recipe steps ("blanchir", "deglaze"...) are underlined with a "?": tap one to read its definition.
 - **Offline text to speech**: let the application speak the steps for you, while you are busy cooking.
 - **Shopping List Generation**: Automatically generate a convenient shopping list based on the ingredients needed for your selected recipes. *(Note: shopping list is only available until the application is closed)*
 - **Multi-language Support**: Fully available in English, French, Japanese, and Hungarian.
@@ -59,9 +60,9 @@ See the full list of supported recipe websites in [supported_websites.md](https:
 
 **Recipe scraping now follows/uses https://github.com/hhursev/recipe-scrapers format to support as much websites as possible.**
 
-Tools SVG icons from https://opensourcesvgicons.com/
+Some tools SVG icons are from https://opensourcesvgicons.com/
 
-Nutrients SVG icons from https://www.svgrepo.com/
+Some nutrients SVG icons from https://www.svgrepo.com/
 
 ## Building
 
@@ -82,7 +83,7 @@ hooks:
 
 ## Comparison with other applications
 
-Identical: Works offline with local storage, does **not** require online account, ad-free, dark mode, full-text search, recipes import + export, cook mode (keep screen awake)
+Identical: Works offline with local storage, does **not** require online account, ad-free, dark mode, full-text search, recipes import + export, cook mode (keep screen awake), favorites
 
 | Feature                                 | Shefu                        | Paprika Recipe Manager 3 (full version) |
 |------------------------------------------|------------------------------|--------------------------------------|
@@ -93,7 +94,6 @@ Identical: Works offline with local storage, does **not** require online account
 | Print recipe                        | ✅ Yes (basic)                | ✅ Yes (with many options)           |
 | Shopping List                       | ✅ Yes (basic)                | ✅ Multiple (advanced)               |
 | Auto-generated Timers               | ✅ Yes (max 1 per step)       | ✅ Yes (unlimited)                   |
-| **Favorites**                           | ❌ Unavailable                | ✅ Available                         |
 | **Duplicate recipe**                    | ❌ Unavailable                | ✅ Available                         |
 | **Recipe variant**                    | ✅ Available                | ❌ Unavailable                         |
 | **Images per recipe**                   | 1 (+1 for each step)         | Multiple (with cloud sync)           |
@@ -103,6 +103,7 @@ Identical: Works offline with local storage, does **not** require online account
 | **Maximum number of recipes**                   | ✅ Unlimited                       | ✅ Unlimited                               |
 | **Nutrient Tracking**                   | ✅ Yes (offline, EN/FR)       | ❌ No                                |
 | **Auto-generated nutrition table**      | ✅ Yes (offline, EN/FR)       | ❌ No                                |
+| **Nutri-Score**                         | ✅ Yes (estimated)            | ❌ No                                |
 | **Ingredients set on**                  | Recipe steps                  | Recipe                               |
 | **Step Images**                         | ✅ Yes (1 per step)                       | ❌ No                                |
 | **Video Player**                        | ✅ Yes                       | ❌ No                                |

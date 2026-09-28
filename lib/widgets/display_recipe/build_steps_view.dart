@@ -70,6 +70,8 @@ Widget buildStepsView(BuildContext context, DisplayRecipeViewModel viewModel) {
                   recipeStep: variantSteps[index],
                   servings: servingsMultiplier,
                   isCurrentStep: isCurrentStepIndex,
+                  glossary: viewModel.glossary,
+                  languageCode: viewModel.recipeLanguage,
                 ),
               ),
             ),

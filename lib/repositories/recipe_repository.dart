@@ -1,10 +1,7 @@
-import 'dart:io';
-
 import 'package:drift/drift.dart';
-import 'package:flutter/foundation.dart';
 import 'package:shefu/database/app_database.dart';
 import 'package:shefu/models/entities.dart';
-import 'package:shefu/utils/path_utils.dart';
+import 'package:shefu/widgets/image_helper.dart';
 
 /// Recipes, their steps, ingredients and variants, stored with drift.
 ///
@@ -66,6 +63,26 @@ class RecipeRepository(final AppDatabase _db) {
     });
   }
 
+  /// The recipes used as steps by [recipe] (base or variant steps), and by
+  /// these recipes, recursively, by id.
+  Future<Map<int, Recipe>> getLinkedRecipes(Recipe recipe) async {
+    final linked = <int, Recipe>{};
+    Iterable<int> linkedIds(Recipe r) => [
+      for (final step in [...r.steps, for (final v in r.variants) ...v.steps])
+        if (step.linkedRecipeId > 0) step.linkedRecipeId,
+    ];
+    final pending = [...linkedIds(recipe)];
+    while (pending.isNotEmpty) {
+      final id = pending.removeLast();
+      if (id == recipe.id || linked.containsKey(id)) continue;
+      final found = await getRecipeById(id);
+      if (found == null) continue;
+      linked[id] = found;
+      pending.addAll(linkedIds(found));
+    }
+    return linked;
+  }
+
   Future<String?> getRecipeTitle(int id) async {
     final query = _db.selectOnly(_db.recipes)
       ..addColumns([_db.recipes.title])
@@ -101,12 +118,41 @@ class RecipeRepository(final AppDatabase _db) {
     return variant.id;
   });
 
-  Future<bool> deleteVariant(int variantId) async =>
-      await (_db.delete(_db.recipeVariants)..where((v) => v.id.equals(variantId))).go() > 0;
+  Future<void> setFavorite(int recipeId, bool favorite) => (_db.update(
+    _db.recipes,
+  )..where((r) => r.id.equals(recipeId))).write(RecipesCompanion(favorite: Value(favorite)));
 
-  /// Deletes the recipe with its steps, ingredients and variants.
-  Future<bool> deleteRecipe(int id) async =>
-      await (_db.delete(_db.recipes)..where((r) => r.id.equals(id))).go() > 0;
+  /// Deletes the variant with its steps, ingredients and images. Overrides
+  /// of older versions may show their base step image, which is kept.
+  Future<bool> deleteVariant(int variantId) async {
+    final images = [
+      ...await _imagePaths('SELECT image_path FROM recipe_variants WHERE id = ?', [variantId]),
+      for (final path in await _imagePaths(
+        'SELECT image_path FROM recipe_steps WHERE variant_id = ?',
+        [variantId],
+      ))
+        if (isImageOf(path, main: false, variantId: variantId)) path,
+    ];
+    final deleted =
+        await (_db.delete(_db.recipeVariants)..where((v) => v.id.equals(variantId))).go() > 0;
+    if (deleted) await deleteImageFiles(images);
+    return deleted;
+  }
+
+  /// Deletes the recipe with its steps, ingredients, variants and images.
+  Future<bool> deleteRecipe(int id) async {
+    final images = await _imagePaths(
+      'SELECT image_path FROM recipes WHERE id = ?1 '
+      'UNION SELECT image_path FROM recipe_variants WHERE recipe_id = ?1 '
+      'UNION SELECT s.image_path FROM recipe_steps s '
+      'LEFT JOIN recipe_variants v ON v.id = s.variant_id '
+      'WHERE coalesce(s.recipe_id, v.recipe_id) = ?1',
+      [id],
+    );
+    final deleted = await (_db.delete(_db.recipes)..where((r) => r.id.equals(id))).go() > 0;
+    if (deleted) await deleteImageFiles(images);
+    return deleted;
+  }
 
   /// Inserts an empty recipe titled [title] and returns its id.
   Future<int> createNewRecipe(String title) =>
@@ -149,19 +195,11 @@ class RecipeRepository(final AppDatabase _db) {
     return [for (final row in await query.get()) row.read(source)!];
   }
 
-  /// Deletes the image file at [path], if any.
-  Future<void> deleteImageFile(String? path) async {
-    if (path == null || path.isEmpty) return;
-    try {
-      final file = File(PathUtils.cleanPath(path));
-      if (await file.exists()) {
-        await file.delete();
-        debugPrint("Deleted image file: $path");
-      }
-    } catch (e) {
-      debugPrint("Error deleting image file: $e");
-    }
-  }
+  Future<List<String>> _imagePaths(String query, List<Object> args) async => [
+    for (final row
+        in await _db.customSelect(query, variables: [for (final arg in args) Variable(arg)]).get())
+      if (row.read<String>('image_path') case final path when path.isNotEmpty) path,
+  ];
 
   Future<int> _upsertVariant(RecipeVariant variant) async {
     assert(variant.recipeId > 0, 'A variant must belong to a saved recipe');
@@ -169,6 +207,7 @@ class RecipeRepository(final AppDatabase _db) {
       id: variant.id > 0 ? Value(variant.id) : const Value.absent(),
       recipeId: Value(variant.recipeId),
       title: Value(variant.title),
+      imagePath: Value(variant.imagePath),
     );
     if (variant.id > 0) {
       await _db.into(_db.recipeVariants).insertOnConflictUpdate(row);
@@ -195,6 +234,7 @@ class RecipeRepository(final AppDatabase _db) {
               videoUrl: step.videoUrl,
               timer: step.timer,
               stepOrder: step.order,
+              linkedRecipeId: Value(step.linkedRecipeId > 0 ? step.linkedRecipeId : null),
             ),
           );
     }
@@ -248,8 +288,12 @@ class RecipeRepository(final AppDatabase _db) {
     final variantsByRecipe = <int, List<RecipeVariant>>{};
     for (final row in variants.toList()..sort((a, b) => a.id.compareTo(b.id))) {
       (variantsByRecipe[row.recipeId] ??= []).add(
-        RecipeVariant(id: row.id, recipeId: row.recipeId, title: row.title)
-          ..steps = stepsByVariant[row.id] ?? [],
+        RecipeVariant(
+          id: row.id,
+          recipeId: row.recipeId,
+          title: row.title,
+          imagePath: row.imagePath,
+        )..steps = stepsByVariant[row.id] ?? [],
       );
     }
 
@@ -292,6 +336,7 @@ extension on Recipe {
     videoUrl: videoUrl,
     questions: questions,
     languageTag: languageTag,
+    favorite: Value(favorite),
   );
 }
 
@@ -325,6 +370,7 @@ extension on RecipeRow {
     videoUrl: videoUrl,
     questions: questions,
     languageTag: languageTag,
+    favorite: favorite,
   );
 }
 
@@ -337,6 +383,7 @@ extension on RecipeStepRow {
     videoUrl: videoUrl,
     timer: timer,
     order: stepOrder,
+    linkedRecipeId: linkedRecipeId ?? 0,
   );
 }
 
@@ -353,6 +400,7 @@ extension on IngredientItem {
     foodId: foodId,
     conversionId: conversionId,
     optional: optional,
+    originalMeasure: Value(originalMeasure),
   );
 }
 
@@ -366,5 +414,6 @@ extension on IngredientRow {
     foodId: foodId,
     conversionId: conversionId,
     optional: optional,
+    originalMeasure: originalMeasure,
   );
 }

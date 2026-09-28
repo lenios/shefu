@@ -104,6 +104,7 @@ LegacyObjectBoxData readLegacyObjectBox(Uint8List bytes) {
               protein: o.int64(22),
               questions: o.stringList(23),
               languageTag: o.string(24),
+              favorite: false,
               saturatedFat: o.int64(25),
               sugar: o.int64(26),
               fiber: o.int64(27),
@@ -140,11 +141,14 @@ LegacyObjectBoxData readLegacyObjectBox(Uint8List bytes) {
               stepId: o.int64(8),
               conversionId: o.int64(9),
               optional: o.boolean(10),
+              originalMeasure: '',
               position: 0,
             ),
           );
         case _Entity.recipeVariant:
-          variants.add(RecipeVariantRow(id: id, title: o.string(2), recipeId: o.int64(4)));
+          variants.add(
+            RecipeVariantRow(id: id, title: o.string(2), recipeId: o.int64(4), imagePath: ''),
+          );
         case _Entity.conversion:
           conversions.add(
             ConversionRow(

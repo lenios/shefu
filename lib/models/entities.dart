@@ -33,6 +33,7 @@ class Recipe({
   this.videoUrl = "",
   this.questions = const [],
   this.languageTag = "",
+  this.favorite = false,
 }) {
   int id;
 
@@ -63,6 +64,7 @@ class Recipe({
   String videoUrl;
   List<String> questions;
   String languageTag; // Unicode BCP 47 locale identifier
+  bool favorite;
 
   /// Base steps, sorted by [RecipeStep.order].
   List<RecipeStep> steps = [];
@@ -71,6 +73,30 @@ class Recipe({
 
   /// Derived from the source and ingredient names when saving; not persisted.
   List<Tag> tags = [];
+
+  /// Steps of [variant] (the recipe itself if null): the base steps, each
+  /// replaced by the variant override with the same order. An override
+  /// without its own image shows the base step image.
+  List<RecipeStep> stepsFor(RecipeVariant? variant) {
+    if (variant == null) return steps.toList();
+    return [
+      for (final step in steps)
+        switch (variant.steps.where((o) => o.order == step.order).firstOrNull) {
+          null => step,
+          final override when override.imagePath.isNotEmpty || step.imagePath.isEmpty => override,
+          final override => RecipeStep(
+            id: override.id,
+            name: override.name,
+            instruction: override.instruction,
+            imagePath: step.imagePath,
+            videoUrl: override.videoUrl,
+            timer: override.timer,
+            order: override.order,
+            linkedRecipeId: override.linkedRecipeId,
+          )..ingredients = override.ingredients,
+        },
+    ];
+  }
 
   Map<String, dynamic> toMap() {
     final steps = List<RecipeStep>.from(this.steps)..sort((a, b) => a.order.compareTo(b.order));
@@ -105,6 +131,7 @@ class Recipe({
       'videoUrl': videoUrl,
       'questions': List<String>.from(questions),
       'languageTag': languageTag,
+      'favorite': favorite,
       'tags': [for (final t in tags) t.name],
       'steps': [
         for (int j = 0; j < steps.length; j++)
@@ -125,21 +152,23 @@ class Recipe({
                   'foodId': ing.foodId,
                   'conversionId': ing.conversionId,
                   'optional': ing.optional,
+                  'originalMeasure': ing.originalMeasure,
                 },
             ],
           },
       ],
       'variants': [
-        for (final v in variants)
+        for (final (vi, v) in variants.indexed)
           {
             'title': v.title,
+            'imageFile': imageFileName(v.imagePath, id, null, vi),
             'steps': [
               for (int j = 0; j < v.steps.length; j++)
                 {
                   'order': v.steps[j].order,
                   'name': v.steps[j].name,
                   'instruction': v.steps[j].instruction,
-                  'imageFile': imageFileName(v.steps[j].imagePath, id, j),
+                  'imageFile': imageFileName(v.steps[j].imagePath, id, j, vi),
                   'videoUrl': v.steps[j].videoUrl,
                   'timer': v.steps[j].timer,
                   'ingredients': [
@@ -152,6 +181,7 @@ class Recipe({
                         'foodId': ing.foodId,
                         'conversionId': ing.conversionId,
                         'optional': ing.optional,
+                        'originalMeasure': ing.originalMeasure,
                       },
                   ],
                 },
@@ -191,6 +221,7 @@ class Recipe({
       videoUrl: _str(m, 'videoUrl'),
       questions: _stringList(m['questions']),
       languageTag: _str(m, 'languageTag'),
+      favorite: (m['favorite'] as bool?) ?? false,
     );
     final rawTags = m['tags'];
     if (rawTags is List) {
@@ -210,7 +241,7 @@ class Recipe({
     if (rawVariants is List) {
       for (final vRaw in rawVariants) {
         final vm = vRaw as Map<String, dynamic>;
-        final variant = RecipeVariant(title: _str(vm, 'title'));
+        final variant = RecipeVariant(title: _str(vm, 'title'), imagePath: _str(vm, 'imageFile'));
         final rawVSteps = vm['steps'];
         if (rawVSteps is List) {
           for (final s in rawVSteps) {
@@ -222,6 +253,74 @@ class Recipe({
     }
     return recipe;
   }
+}
+
+/// [steps] of a recipe for [servings] servings, where each step using another
+/// recipe ([RecipeStep.linkedRecipeId], looked up in [recipes]) is completed
+/// with that recipe: its ingredients, scaled from its own servings to
+/// [servings] (a recipe for 4 used in a recipe for 3 counts for 3/4), and its
+/// instructions. Nested recipes are expanded too, except a recipe of
+/// [including] (the recipes being expanded), which would never end.
+List<RecipeStep> withLinkedRecipes(
+  List<RecipeStep> steps,
+  int servings,
+  Map<int, Recipe> recipes, {
+  Set<int> including = const {},
+}) => [
+  for (final step in steps)
+    switch (recipes[step.linkedRecipeId]) {
+      final linked? when !including.contains(linked.id) => _expandLinkedStep(
+        step,
+        linked,
+        withLinkedRecipes(
+          linked.steps,
+          linked.servings,
+          recipes,
+          including: {...including, linked.id},
+        ),
+        linked.servings > 0 && servings > 0 ? servings / linked.servings : 1.0,
+      ),
+      _ => step,
+    },
+];
+
+RecipeStep _expandLinkedStep(
+  RecipeStep step,
+  Recipe linked,
+  List<RecipeStep> linkedSteps,
+  double factor,
+) {
+  final instructions = [
+    if (step.instruction.isNotEmpty) step.instruction,
+    for (final (index, s) in linkedSteps.indexed)
+      if (s.instruction.isNotEmpty || s.name.isNotEmpty)
+        '${index + 1}. ${[if (s.name.isNotEmpty) s.name, if (s.instruction.isNotEmpty) s.instruction].join(': ')}',
+  ];
+  return RecipeStep(
+      id: step.id,
+      name: step.name.isNotEmpty ? step.name : linked.title,
+      instruction: instructions.join('\n'),
+      imagePath: step.imagePath.isNotEmpty ? step.imagePath : linked.imagePath,
+      videoUrl: step.videoUrl,
+      timer: step.timer,
+      order: step.order,
+      linkedRecipeId: step.linkedRecipeId,
+    )
+    ..ingredients = [
+      ...step.ingredients,
+      for (final s in linkedSteps)
+        for (final i in s.ingredients)
+          IngredientItem(
+            name: i.name,
+            unit: i.unit,
+            quantity: i.quantity * factor,
+            shape: i.shape,
+            foodId: i.foodId,
+            conversionId: i.conversionId,
+            optional: i.optional,
+            originalMeasure: factor == 1 ? i.originalMeasure : '',
+          ),
+    ];
 }
 
 enum Category {
@@ -251,6 +350,7 @@ class RecipeStep({
   this.videoUrl = "",
   this.timer = 0,
   this.order = 0,
+  this.linkedRecipeId = 0,
 }) {
   int id;
 
@@ -260,6 +360,9 @@ class RecipeStep({
   String videoUrl;
   int timer;
   int order;
+
+  /// Recipe used as this step (0: none), e.g. a puff pastry in an apple pie.
+  int linkedRecipeId;
 
   List<IngredientItem> ingredients = [];
 
@@ -285,6 +388,7 @@ class RecipeStep({
             foodId: _int(inm, 'foodId'),
             conversionId: _int(inm, 'conversionId'),
             optional: (inm['optional'] as bool?) ?? false,
+            originalMeasure: _str(inm, 'originalMeasure'),
           ),
         );
       }
@@ -295,11 +399,12 @@ class RecipeStep({
 
 /// Alternative version of a recipe: its [steps] override the base steps
 /// with the same [RecipeStep.order].
-class RecipeVariant({this.id = 0, this.recipeId = 0, this.title = ""}) {
+class RecipeVariant({this.id = 0, this.recipeId = 0, this.title = "", this.imagePath = ""}) {
   int id;
   int recipeId;
   String title;
 
+  String imagePath;
   List<RecipeStep> steps = [];
 }
 
@@ -312,6 +417,7 @@ class IngredientItem({
   this.foodId = 0,
   this.conversionId = 0,
   this.optional = false,
+  this.originalMeasure = "",
 }) {
   int id;
 
@@ -322,6 +428,10 @@ class IngredientItem({
   int foodId;
   int conversionId;
   bool optional;
+
+  /// Measure as written by the imported source ("2 medium") when [quantity]
+  /// is its metric equivalent; cleared when the quantity is edited.
+  String originalMeasure;
 }
 
 enum Unit {
@@ -403,6 +513,7 @@ class Nutrient({
   this.FAMono = 0.0,
   this.FAPoly = 0.0,
   this.cholesterol = 0.0,
+  this.foodGroup = 0,
 }) {
   int id;
 
@@ -456,7 +567,20 @@ class Nutrient({
   double FAPoly;
   double cholesterol;
 
+  /// Canadian Nutrient File food group id, 0 if unknown.
+  int foodGroup;
+
   List<Conversion> conversions = [];
+
+  static const _fruits = 9, _vegetables = 11, _legumes = 16;
+  static final _starchyTuber = RegExp(r'^(potato|sweet potato|yam|cassava)', caseSensitive: false);
+
+  /// Whether the food counts as fruits, vegetables or legumes for the
+  /// Nutri-Score (2023 algorithm: nuts and oils no longer count, and starchy
+  /// tubers never did).
+  bool get isFruitVegetableOrLegume =>
+      (foodGroup == _fruits || foodGroup == _vegetables || foodGroup == _legumes) &&
+      !_starchyTuber.hasMatch(descEN);
 }
 
 class Conversion({
@@ -483,7 +607,9 @@ class Conversion({
 String? imageFileName(String? imagePath, int recipeId, int? stepIndex, [int? variantIndex]) {
   final cleanPath = PathUtils.cleanPath(imagePath ?? '');
   if (cleanPath.isEmpty) return null;
-  final label = variantIndex == null ? '${stepIndex ?? 'main'}' : 'v$variantIndex-$stepIndex';
+  final label = variantIndex == null
+      ? '${stepIndex ?? 'main'}'
+      : 'v$variantIndex-${stepIndex ?? 'main'}';
   return '${recipeId}_$label${p.extension(cleanPath)}';
 }
 

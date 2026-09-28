@@ -6,19 +6,35 @@ import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shefu/l10n/app_localizations.dart';
 import 'package:shefu/models/entities.dart';
+import 'package:shefu/repositories/nutrient_repository.dart';
 import 'package:shefu/repositories/recipe_repository.dart';
+import 'package:shefu/utils/nutrition.dart';
 import 'package:shefu/utils/recipe_exporter.dart';
 import 'package:shefu/widgets/home/recipe_search_result.dart';
 
 class HomePageViewModel extends ChangeNotifier {
-  HomePageViewModel(this._recipeRepository) {
+  HomePageViewModel(this._recipeRepository, this._nutrientRepository) {
+    // Variant values are computed from nutrients: refresh once loaded.
+    _nutrientRepository.initialize().then((_) {
+      if (!_disposed) notifyListeners();
+    }, onError: (Object e) => debugPrint('Nutrients unavailable: $e'));
     _subscription = _recipeRepository.watchAllRecipes().listen((recipes) {
       _recipes = recipes;
+      _recipesById = {for (final recipe in recipes) recipe.id: recipe};
       notifyListeners();
     }, onError: (Object e, StackTrace s) => debugPrint('Error loading recipes: $e\n$s'));
   }
 
   final RecipeRepository _recipeRepository;
+  final NutrientRepository _nutrientRepository;
+  bool _disposed = false;
+
+  /// Calories and carbohydrates per serving shown on the card of [recipe],
+  /// or of its [variant].
+  ServingNutrition nutritionOf(Recipe recipe, RecipeVariant? variant) =>
+      nutritionPerServing(recipe, variant, _nutrientRepository, linked: _recipesById);
+
+  Map<int, Recipe> _recipesById = const {};
   late final StreamSubscription<List<Recipe>> _subscription;
 
   List<Recipe>? _recipes;
@@ -50,6 +66,17 @@ class HomePageViewModel extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  bool _favoritesOnly = false;
+  bool get favoritesOnly => _favoritesOnly;
+  void setFavoritesOnly(bool value) {
+    if (_favoritesOnly != value) {
+      _favoritesOnly = value;
+      notifyListeners();
+    }
+  }
+
+  bool get hasFavorites => _recipes?.any((recipe) => recipe.favorite) ?? false;
 
   String _searchTerm = '';
   String get searchTerm => _searchTerm;
@@ -115,7 +142,8 @@ class HomePageViewModel extends ChangeNotifier {
       return (selectedCategory == null ||
               selectedCategory == Category.all ||
               recipe.category == selectedCategory!.index) &&
-          (countryCode.isEmpty || recipe.countryCode == countryCode);
+          (countryCode.isEmpty || recipe.countryCode == countryCode) &&
+          (!favoritesOnly || recipe.favorite);
     }).toList();
 
     final baseRecipeIds = visible
@@ -188,6 +216,7 @@ class HomePageViewModel extends ChangeNotifier {
 
   @override
   void dispose() {
+    _disposed = true;
     _subscription.cancel();
     super.dispose();
   }

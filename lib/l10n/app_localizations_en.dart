@@ -285,9 +285,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get titleCannotBeEmpty => 'Title cannot be empty';
 
   @override
-  String get notImplementedYet => 'Feature not yet available';
-
-  @override
   String get start => 'Start';
 
   @override
@@ -344,7 +341,16 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get resetFilters => 'Reset filters';
+  String get reset => 'Reset';
+
+  @override
+  String get favorites => 'Favorites';
+
+  @override
+  String get addToFavorites => 'Add to favorites';
+
+  @override
+  String get removeFromFavorites => 'Remove from favorites';
 
   @override
   String get addIngredient => 'Add ingredient';
@@ -439,45 +445,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get gatherIngredients => 'Gather ingredients';
 
   @override
-  String get bowl => 'bowl';
-
-  @override
-  String get pot => 'pot';
-
-  @override
-  String get fridge => 'fridge';
-
-  @override
-  String get freezer => 'freezer';
-
-  @override
-  String get oven => 'oven';
-
-  @override
-  String get microwave => 'microwave';
-
-  @override
-  String get blender => 'blender';
-
-  @override
-  String get mixer => 'mixer';
-
-  @override
-  String get whisk => 'whisk';
-
-  @override
-  String get skillet => 'skillet';
-
-  @override
-  String get paddle => 'paddle';
-
-  @override
-  String get cut => 'cut';
-
-  @override
-  String get rollingPin => 'rolling pin';
-
-  @override
   String get editImage => 'Edit image';
 
   @override
@@ -493,189 +460,6 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get rectangleDetails =>
       'Unfortunately, OCR is not working well on layouts with multiple columns. We will need to reformat the image.\n\nFirst select the title+ingredients block, then each column.\nThey will be merged in a new image.';
-
-  @override
-  String get apple => 'apple';
-
-  @override
-  String get apricot => 'apricot';
-
-  @override
-  String get asparagus => 'asparagus';
-
-  @override
-  String get avocado => 'avocado';
-
-  @override
-  String get banana => 'banana';
-
-  @override
-  String get bellPepper => 'bell pepper';
-
-  @override
-  String get blackberry => 'blackberry';
-
-  @override
-  String get blueberry => 'blueberry';
-
-  @override
-  String get broccoli => 'broccoli';
-
-  @override
-  String get butter => 'butter';
-
-  @override
-  String get cabbage => 'cabbage';
-
-  @override
-  String get carambola => 'star fruit';
-
-  @override
-  String get carrot => 'carrot';
-
-  @override
-  String get cauliflower => 'cauliflower';
-
-  @override
-  String get celery => 'celery';
-
-  @override
-  String get cherry => 'cherry';
-
-  @override
-  String get chicken => 'chicken';
-
-  @override
-  String get coconut => 'coconut';
-
-  @override
-  String get corn => 'corn';
-
-  @override
-  String get cucumber => 'cucumber';
-
-  @override
-  String get chocolateDark => 'dark chocolate';
-
-  @override
-  String get chocolateMilk => 'milk chocolate';
-
-  @override
-  String get chocolateRuby => 'ruby chocolate';
-
-  @override
-  String get chocolateWhite => 'white chocolate';
-
-  @override
-  String get dragonFruit => 'dragon fruit';
-
-  @override
-  String get egg => 'egg';
-
-  @override
-  String get eggplant => 'eggplant';
-
-  @override
-  String get fig => 'fig';
-
-  @override
-  String get garlic => 'garlic';
-
-  @override
-  String get grapes => 'grapes';
-
-  @override
-  String get greenBean => 'green beans';
-
-  @override
-  String get kiwi => 'kiwi';
-
-  @override
-  String get leek => 'leek';
-
-  @override
-  String get lemon => 'lemon';
-
-  @override
-  String get lettuce => 'lettuce';
-
-  @override
-  String get lime => 'lime';
-
-  @override
-  String get lychee => 'lychee';
-
-  @override
-  String get mango => 'mango';
-
-  @override
-  String get melon => 'melon';
-
-  @override
-  String get milk => 'milk';
-
-  @override
-  String get mushroom => 'mushroom';
-
-  @override
-  String get oliveOil => 'olive oil';
-
-  @override
-  String get onion => 'onion';
-
-  @override
-  String get orange => 'orange';
-
-  @override
-  String get peach => 'peach';
-
-  @override
-  String get pear => 'pear';
-
-  @override
-  String get peas => 'peas';
-
-  @override
-  String get pineapple => 'pineapple';
-
-  @override
-  String get plum => 'plum';
-
-  @override
-  String get pomegranate => 'pomegranate';
-
-  @override
-  String get potato => 'potato';
-
-  @override
-  String get pumpkin => 'pumpkin';
-
-  @override
-  String get radish => 'radish';
-
-  @override
-  String get raspberry => 'raspberry';
-
-  @override
-  String get salmon => 'salmon';
-
-  @override
-  String get spinach => 'spinach';
-
-  @override
-  String get strawberry => 'strawberry';
-
-  @override
-  String get sweetPotato => 'sweet potato';
-
-  @override
-  String get tomato => 'tomato';
-
-  @override
-  String get watermelon => 'watermelon';
-
-  @override
-  String get zucchini => 'zucchini';
 
   @override
   String get measurementSystem => 'Measurement System';
@@ -795,7 +579,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get nutritionImportedNote => 'Nutritional values from imported recipe data';
 
   @override
-  String get dailyValueDisclaimer => 'Percent Daily Values are based on a 2,000 calorie diet.';
+  String get dailyValueDisclaimer =>
+      'Percent Daily Values are based on a 2,000 calorie diet. Your daily values may be higher or lower depending on your calorie needs.';
 
   @override
   String get amountPerServing => 'Amount per serving';
@@ -832,6 +617,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get potassium => 'Potassium';
+
+  @override
+  String get vitaminC => 'Vitamin C';
+
+  @override
+  String get nutriScoreNote =>
+      'Estimated for the whole recipe as a general food, from the raw weights of the linked ingredients';
 
   @override
   String postedOnBy(Object author, Object date) {
@@ -908,6 +700,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get copyAsText => 'Copy as text';
+
+  @override
+  String get shareSourceLink => 'Share source link';
 
   @override
   String get recipeCopied => 'Recipe copied to the clipboard';
@@ -988,4 +783,21 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get legacyMigrationFailed =>
       'Your recipes from the previous version could not be migrated yet. They are kept safe and the migration will be retried at the next start. If this persists, please open a bug at https://github.com/lenios/shefu/issues.';
+
+  @override
+  String get addRecipeAsStep => 'Add a recipe';
+
+  @override
+  String get chooseRecipe => 'Choose a recipe to use as a step';
+
+  @override
+  String get noLinkableRecipe => 'No other recipe available';
+
+  @override
+  String linkedRecipeInfo(int servings) {
+    return 'Recipe for $servings servings: its quantities follow this recipe';
+  }
+
+  @override
+  String get openLinkedRecipe => 'See recipe';
 }

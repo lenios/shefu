@@ -19,6 +19,7 @@ import 'package:shefu/utils/recipe_scrapers/scraper_factory.dart';
 import 'package:shefu/utils/recipe_scrapers/utils.dart';
 import 'package:shefu/widgets/edit_ingredient_input.dart';
 import 'package:shefu/widgets/edit_recipe/image_editor_screen.dart';
+import 'package:shefu/widgets/edit_recipe/recipe_picker_dialog.dart';
 import 'package:shefu/widgets/image_helper.dart';
 import 'package:intl/intl.dart';
 
@@ -116,10 +117,12 @@ class EditRecipeViewModel extends ChangeNotifier {
   Future<String> _persistActiveContext() async {
     _recipe.id = await _recipeRepository.saveRecipe(_recipe);
     final variant = _activeVariant;
-    if (variant == null) return _recipe.title;
-    variant.recipeId = _recipe.id;
-    await _recipeRepository.saveVariant(variant);
-    return variant.title;
+    if (variant != null) {
+      variant.recipeId = _recipe.id;
+      await _recipeRepository.saveVariant(variant);
+    }
+    await _renameImagesAfterSave();
+    return variant?.title ?? _recipe.title;
   }
 
   void _syncContextFromControllers() {
@@ -165,10 +168,10 @@ class EditRecipeViewModel extends ChangeNotifier {
     final override = RecipeStep(
       name: baseStep.name,
       instruction: baseStep.instruction,
-      imagePath: baseStep.imagePath,
       videoUrl: baseStep.videoUrl,
       timer: baseStep.timer,
       order: baseStep.order,
+      linkedRecipeId: baseStep.linkedRecipeId,
     );
     for (final ingredient in baseStep.ingredients) {
       final copy = IngredientItem(
@@ -179,6 +182,7 @@ class EditRecipeViewModel extends ChangeNotifier {
         foodId: ingredient.foodId,
         conversionId: ingredient.conversionId,
         optional: ingredient.optional,
+        originalMeasure: ingredient.originalMeasure,
       );
       override.ingredients.add(copy);
     }
@@ -237,6 +241,9 @@ class EditRecipeViewModel extends ChangeNotifier {
         if (step.order >= from) step.order += 1;
       } else if (step.order == from) {
         variant.steps.remove(step);
+        if (isImageOf(step.imagePath, main: false, variantId: variant.id)) {
+          unawaited(deleteImageFiles([step.imagePath]));
+        }
       } else if (step.order > from) {
         step.order -= 1;
       }
@@ -327,6 +334,7 @@ class EditRecipeViewModel extends ChangeNotifier {
 
       if (_recipeId != null) {
         _recipe = await _recipeRepository.getRecipeById(_recipeId) ?? Recipe();
+        _linkedRecipes = await _recipeRepository.getLinkedRecipes(_recipe);
         _variants = _recipe.variants;
       } else {
         _recipe = Recipe(); // Start with a fresh empty recipe
@@ -463,11 +471,8 @@ class EditRecipeViewModel extends ChangeNotifier {
 
   void removeStep(int index) {
     if (index >= 0 && index < _recipe.steps.length) {
-      // Delete associated image file before removing the step
-      final imagePath = _recipe.steps[index].imagePath;
-      _recipeRepository.deleteImageFile(imagePath); // Use repository method
-
-      _recipe.steps.removeAt(index);
+      final imagePath = _recipe.steps.removeAt(index).imagePath;
+      if (isImageOf(imagePath, main: false)) unawaited(deleteImageFiles([imagePath]));
 
       // Update order of all steps after the removed step
       for (int i = index; i < _recipe.steps.length; i++) {
@@ -546,6 +551,7 @@ class EditRecipeViewModel extends ChangeNotifier {
     final ingredient = _editableIngredient(stepIndex, ingredientIndex);
     if (ingredient != null) {
       ingredient.quantity = double.tryParse(value) ?? 0;
+      ingredient.originalMeasure = '';
       // Don't notifyListeners
     }
   }
@@ -554,6 +560,7 @@ class EditRecipeViewModel extends ChangeNotifier {
     final ingredient = _editableIngredient(stepIndex, ingredientIndex);
     if (ingredient != null) {
       ingredient.unit = value;
+      ingredient.originalMeasure = '';
       notifyListeners();
     }
   }
@@ -753,12 +760,13 @@ class EditRecipeViewModel extends ChangeNotifier {
         .toList();
     if (ingredients.isNotEmpty) {
       for (var i in ingredients) {
-        double quantity = double.tryParse(i.$1.replaceAll(',', '.')) ?? 0;
-        String unit = i.$2;
-        String name = i.$3;
-        String shape = i.$4;
-
-        processImportedIngredient(quantity: quantity, unit: unit, name: name, shape: shape);
+        processImportedIngredient(
+          quantity: double.tryParse(i.quantity.replaceAll(',', '.')) ?? 0,
+          unit: i.unit,
+          name: i.name,
+          shape: i.shape,
+          originalMeasure: i.originalMeasure,
+        );
       }
     }
 
@@ -814,6 +822,7 @@ class EditRecipeViewModel extends ChangeNotifier {
     required String unit,
     required String name,
     required String shape,
+    String originalMeasure = '',
   }) {
     if (name.trim().isEmpty) return;
 
@@ -838,7 +847,8 @@ class EditRecipeViewModel extends ChangeNotifier {
       IngredientItem(name: name)
         ..quantity = quantity
         ..unit = unit
-        ..shape = shape,
+        ..shape = shape
+        ..originalMeasure = originalMeasure,
     );
 
     notifyListeners();
@@ -1001,36 +1011,35 @@ class EditRecipeViewModel extends ChangeNotifier {
         titleController.text = ocrTitle; // Update controller
       }
 
+      if (stepIndex != null && (stepIndex < 0 || stepIndex >= _recipe.steps.length)) return;
+
+      // In variant mode, images belong to the variant: the recipe's stay untouched.
+      final variant = _activeVariant;
       savedImagePath = await saveImage(
         image: image,
         recipeId: recipeId,
         stepIndex: stepIndex,
+        variantId: variant?.id,
         ext: p.extension(image.name),
-      ); // Use repo method
+      );
 
-      String? oldPathToDelete;
-      if (stepIndex == null) {
-        // Main recipe image
-        oldPathToDelete = _recipe.imagePath; // Get old path before updating
+      final String oldPath;
+      if (stepIndex == null && variant != null) {
+        oldPath = variant.imagePath;
+        variant.imagePath = savedImagePath;
+      } else if (stepIndex == null) {
+        oldPath = _recipe.imagePath;
         _recipe.imagePath = savedImagePath;
-      } else if (stepIndex >= 0 && stepIndex < _recipe.steps.length) {
-        final step = _ensureTargetStep(stepIndex);
-        oldPathToDelete = step.imagePath;
-        step.imagePath = savedImagePath;
       } else {
-        // Invalid step index, clean up and exit
-        await _recipeRepository.deleteImageFile(savedImagePath);
-        _isLoading = false;
-        notifyListeners(); // Notify loading END
-        return;
+        final step = _ensureTargetStep(stepIndex);
+        oldPath = step.imagePath;
+        step.imagePath = savedImagePath;
       }
 
-      // --- Delete old image AFTER updating the path in the model ---
-      if (oldPathToDelete.isNotEmpty && oldPathToDelete != savedImagePath) {
-        // Clear both the old image and its thumbnail from cache
-        clearImageCache(oldPathToDelete);
-        await _recipeRepository.deleteImageFile(oldPathToDelete);
-        await _recipeRepository.deleteImageFile(PathUtils.thumbnailPath(oldPathToDelete));
+      // An image of the same slot with another extension is replaced.
+      if (oldPath != savedImagePath &&
+          isImageOf(oldPath, main: stepIndex == null, variantId: variant?.id)) {
+        await deleteImageFiles([oldPath]);
       }
 
       // Ensure the new image's thumbnail is properly generated
@@ -1044,19 +1053,122 @@ class EditRecipeViewModel extends ChangeNotifier {
       debugPrint("Error picking/processing image: $e\n$stackTrace");
       // Clean up saved image if processing failed after saving
       if (savedImagePath != null &&
-          _recipe.imagePath != savedImagePath &&
-          (stepIndex == null ||
-              (stepIndex < _recipe.steps.length &&
-                  getTargetStep(stepIndex).imagePath != savedImagePath))) {
-        clearImageCache(savedImagePath);
-        await _recipeRepository.deleteImageFile(savedImagePath);
-        await _recipeRepository.deleteImageFile(PathUtils.thumbnailPath(savedImagePath));
+          mainImagePath != savedImagePath &&
+          (stepIndex == null || stepImagePath(stepIndex) != savedImagePath)) {
+        await deleteImageFiles([savedImagePath]);
       }
     } finally {
       _isLoading = false;
       notifyListeners();
     }
   }
+
+  /// Image shown for the recipe: the active variant's own image, if any.
+  String get mainImagePath {
+    final variantImage = _activeVariant?.imagePath ?? '';
+    return variantImage.isNotEmpty ? variantImage : _recipe.imagePath;
+  }
+
+  /// Image shown for step [index]: the variant override's own image, if any.
+  String stepImagePath(int index) {
+    final image = getTargetStep(index).imagePath;
+    return image.isNotEmpty ? image : _recipe.steps[index].imagePath;
+  }
+
+  /// Names images after the saved recipe (see [recipeImageName]): images of
+  /// an imported recipe are saved with id 0 until it gets its id, and step
+  /// images follow reordered steps. Saves again what was renamed.
+  Future<void> _renameImagesAfterSave() async {
+    final renames = <String, String>{};
+    final updates = <String, List<void Function(String)>>{};
+    final changedVariants = <RecipeVariant>{};
+    var recipeChanged = false;
+    void slot(String path, void Function(String) update, {int? stepIndex, RecipeVariant? variant}) {
+      if (path.isEmpty || !isImageOf(path, main: stepIndex == null, variantId: variant?.id)) {
+        return;
+      }
+      final name = recipeImageName(
+        _recipe.id,
+        stepIndex: stepIndex,
+        variantId: variant?.id,
+        ext: p.extension(path),
+      );
+      if (p.basename(path) == name) return;
+      renames[path] = name;
+      (updates[path] ??= []).add(update);
+      if (variant != null) {
+        changedVariants.add(variant);
+      } else {
+        recipeChanged = true;
+      }
+    }
+
+    slot(_recipe.imagePath, (path) => _recipe.imagePath = path);
+    for (final (index, step) in _recipe.steps.indexed) {
+      slot(step.imagePath, (path) => step.imagePath = path, stepIndex: index);
+    }
+    for (final variant in _variants.where((v) => v.id > 0)) {
+      slot(variant.imagePath, (path) => variant.imagePath = path, variant: variant);
+      for (final step in variant.steps) {
+        slot(
+          step.imagePath,
+          (path) => step.imagePath = path,
+          stepIndex: step.order,
+          variant: variant,
+        );
+      }
+    }
+    if (renames.isEmpty) return;
+
+    for (final MapEntry(key: path, value: renamed) in (await renameImages(renames)).entries) {
+      for (final update in updates[path]!) {
+        update(renamed);
+      }
+    }
+    if (recipeChanged) await _recipeRepository.saveRecipe(_recipe);
+    for (final variant in changedVariants) {
+      await _recipeRepository.saveVariant(variant..recipeId = _recipe.id);
+    }
+    _imageVersion.value++;
+  }
+
+  /// Recipes used as steps, and the recipes they use, by id.
+  Map<int, Recipe> _linkedRecipes = {};
+
+  /// The recipe used by a step (see [RecipeStep.linkedRecipeId]), if loaded.
+  Recipe? linkedRecipe(int id) => _linkedRecipes[id];
+
+  /// Recipes that can be added as a step: all but this one and the recipes
+  /// using it (directly or not), which would include each other forever.
+  Future<List<Recipe>> linkableRecipes() async {
+    final all = await _recipeRepository.getAllRecipes();
+    final byId = {for (final recipe in all) recipe.id: recipe};
+    bool uses(Recipe recipe, Set<int> visited) => recipe.steps.any((step) {
+      final id = step.linkedRecipeId;
+      if (id == 0 || !visited.add(id)) return false;
+      return id == _recipe.id || (byId[id] != null && uses(byId[id]!, visited));
+    });
+    return [
+      for (final recipe in all)
+        if (recipe.id != _recipe.id && (_recipe.id == 0 || !uses(recipe, {}))) recipe,
+    ]..sort((a, b) => a.title.toLowerCase().compareTo(b.title.toLowerCase()));
+  }
+
+  /// Adds [recipe] as a new last step; its ingredients will be scaled to the
+  /// servings of this recipe.
+  Future<void> addLinkedStep(Recipe recipe) async {
+    _recipe.steps.add(
+      RecipeStep(name: recipe.title, order: _recipe.steps.length, linkedRecipeId: recipe.id),
+    );
+    _linkedRecipes
+      ..[recipe.id] = recipe
+      ..addAll(await _recipeRepository.getLinkedRecipes(recipe));
+    _imageVersion.value++;
+    notifyListeners();
+  }
+
+  /// Saves a recipe imported outside of the editor (e.g. from a URL).
+  Future<void> saveImportedRecipe() => _persistActiveContext();
 
   Future<void> deleteRecipe() async {
     // only saved to database if > 0
@@ -1089,6 +1201,10 @@ class EditRecipeViewModel extends ChangeNotifier {
   }
 
   void _finalizeRecipe(AppLocalizations l10n, String languageCode) {
+    if (_recipe.title.trim().isEmpty) {
+      _recipe.title = l10n.newRecipe;
+      if (_activeVariant == null) titleController.text = _recipe.title;
+    }
     if (_recipe.languageTag.isEmpty) {
       _recipe.languageTag = languageCode; // set default language to user defined language
     }
@@ -1119,9 +1235,14 @@ class EditRecipeViewModel extends ChangeNotifier {
     var totalCalories = 0.0;
     var totalCarbs = 0.0;
 
-    // Only process steps if there are any
+    // Only process steps if there are any (recipes used as steps included)
     if (_recipe.steps.isNotEmpty) {
-      for (var s in _recipe.steps) {
+      for (var s in withLinkedRecipes(
+        _recipe.steps,
+        _recipe.servings,
+        _linkedRecipes,
+        including: {_recipe.id},
+      )) {
         for (var i in s.ingredients) {
           if (i.foodId <= 0 || i.conversionId <= 0) continue;
 
@@ -1206,7 +1327,9 @@ class EditRecipeViewModel extends ChangeNotifier {
 
   void deleteImage({int? stepIndex}) {
     // TODO rm image from the filesystem?
-    if (stepIndex == null) {
+    if (stepIndex == null && _activeVariant != null) {
+      _activeVariant!.imagePath = ''; // the recipe image shows again
+    } else if (stepIndex == null) {
       _recipe.imagePath = '';
     } else if (stepIndex >= 0 && stepIndex < _recipe.steps.length) {
       _ensureTargetStep(stepIndex).imagePath = '';
@@ -1313,5 +1436,16 @@ class EditRecipeViewModel extends ChangeNotifier {
   void setLanguageTag(String languageTag) {
     _recipe.languageTag = languageTag;
     notifyListeners();
+  }
+
+  Future<void> addRecipeAsStep(BuildContext context) async {
+    final l10n = AppLocalizations.of(context)!;
+    final recipes = await linkableRecipes();
+    if (!context.mounted) return;
+    final chosen = await showDialog<Recipe>(
+      context: context,
+      builder: (context) => RecipePickerDialog(title: l10n.chooseRecipe, recipes: recipes),
+    );
+    if (chosen != null) await addLinkedStep(chosen);
   }
 }

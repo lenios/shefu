@@ -15,17 +15,78 @@ const _thumbnailWidth = 250;
 /// JPEG quality of the generated thumbnails.
 const _thumbnailQuality = 80;
 
-// Update your saveImage method to handle XFile properly
+/// File name of an image of recipe [recipeId]: `<recipeId>_<stepIndex|main><ext>`,
+/// `<recipeId>_<stepIndex|main>_v<variantId><ext>` for a variant image.
+///
+/// Images of a recipe being imported use id 0 until the recipe is saved,
+/// then get renamed (see [renameImages]).
+String recipeImageName(int recipeId, {int? stepIndex, int? variantId, required String ext}) =>
+    '${recipeId}_${stepIndex ?? 'main'}${variantId != null ? '_v$variantId' : ''}$ext';
+
+/// Whether [path] was saved for the same kind of slot: main image or step
+/// image, of the recipe or of variant [variantId], whatever its recipe id or
+/// step index. Variant overrides of older versions reference the image of
+/// their base step, which the variant must neither rename nor delete.
+bool isImageOf(String path, {required bool main, int? variantId}) =>
+    RegExp('^\\d+_${main ? 'main' : '\\d+'}${variantId != null ? '_v$variantId' : ''}\$')
+        .hasMatch(p.basenameWithoutExtension(path));
+
+/// Deletes the images at [paths] and their thumbnails, if they exist.
+Future<void> deleteImageFiles(Iterable<String> paths) async {
+  for (final path in paths) {
+    final image = PathUtils.cleanPath(path);
+    if (image.isEmpty) continue;
+    clearImageCache(image);
+    // The thumbnail path is only resolved while the image exists.
+    for (final file in [PathUtils.thumbnailPath(image), image]) {
+      try {
+        if (file.isNotEmpty) await File(file).delete();
+      } on FileSystemException catch (e) {
+        debugPrint('Error deleting image $file: $e');
+      }
+    }
+  }
+}
+
+/// Renames images with their thumbnails ([renames] maps current paths to new
+/// file names) and returns the new path of each renamed one (missing files
+/// are skipped). Goes through temporary names, so that images can swap names
+/// (e.g. reordered steps).
+Future<Map<String, String>> renameImages(Map<String, String> renames) async {
+  final moves = <(String path, String from, String to)>[];
+  for (final MapEntry(key: path, value: name) in renames.entries) {
+    final image = PathUtils.cleanPath(path);
+    if (image.isEmpty) continue;
+    moves.add((path, image, p.join(p.dirname(image), name)));
+  }
+  String thumbnail(String path) => p.join(p.dirname(path), 't_${p.basename(path)}');
+  Future<void> move(String from, String to) async {
+    for (final (source, target) in [(from, to), (thumbnail(from), thumbnail(to))]) {
+      if (await File(source).exists()) await File(source).rename(target);
+    }
+  }
+
+  for (final (_, from, to) in moves) {
+    await move(from, '$to.renaming');
+  }
+  for (final (_, _, to) in moves) {
+    await move('$to.renaming', to);
+    clearImageCache(to);
+  }
+  return {for (final (path, _, to) in moves) path: to};
+}
+
 Future<String> saveImage({
   required dynamic image,
   required int recipeId,
   int? stepIndex,
+  int? variantId,
   String? ext,
 }) async {
   final dirPath = await getApplicationDocumentsDirectory();
 
-  final validExt = ['.jpg', '.jpeg', '.png', '.gif', '.webp'].contains(ext) ? ext : '.jpg';
-  final name = "${recipeId}_${stepIndex ?? 'main'}$validExt";
+  final validExt = ['.jpg', '.jpeg', '.png', '.gif', '.webp'].contains(ext) ? ext! : '.jpg';
+  final name = recipeImageName(recipeId, stepIndex: stepIndex, variantId: variantId, ext: validExt);
   final filePath = p.join(dirPath.path, name);
 
   final Uint8List bytes;

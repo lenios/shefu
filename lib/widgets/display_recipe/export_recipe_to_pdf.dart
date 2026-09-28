@@ -9,9 +9,11 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:shefu/utils/nutrition.dart';
 import 'package:shefu/l10n/app_localizations.dart';
 import 'package:shefu/repositories/nutrient_repository.dart';
 import 'package:shefu/utils/path_utils.dart';
+import 'package:shefu/utils/recipe_icons.dart';
 import 'package:shefu/viewmodels/display_recipe_viewmodel.dart';
 import 'package:shefu/widgets/misc.dart';
 
@@ -45,39 +47,30 @@ Future<void> exportRecipeToPdf(
     pw.MemoryImage? appIcon;
     final Map<String, pw.MemoryImage> cookingToolImages = {};
 
-    // Load cooking tools SVGs
-    final cookingTools = {
-      'paddle': 'assets/icons/paddle.svg',
-      'knife': 'assets/icons/knife.svg',
-      'whisk': 'assets/icons/whisk.svg',
-      'rolling-pin': 'assets/icons/rolling-pin.svg',
-      'bowl': 'assets/icons/bowl.svg',
-      'mixer': 'assets/icons/mixer.svg',
-      'pot': 'assets/icons/cooking-pot.svg',
-      'fridge': 'assets/icons/fridge.svg',
-      'freezer': 'assets/icons/freezer.svg',
-      'skillet': 'assets/icons/skillet_24.svg',
-      'oven': 'assets/icons/oven-outline.svg',
-      // Note: We skip 'blender' and 'microwave' since they use IconData in the shared function
-      // and we need SVG files for PDF generation
+    // Rasterize the equipment icons of the steps (Material icons are skipped).
+    final equipmentAssets = {
+      for (final step in variantSteps)
+        for (final equipment in equipmentIn(
+          step.instruction,
+          languageCode: viewModel.recipeLanguage,
+          labelLanguageCode: viewModel.recipeLanguage,
+        ))
+          if (equipment.icon case final String asset) equipment.key: asset,
     };
-
-    // Load cooking tool images
-    for (final entry in cookingTools.entries) {
+    for (final MapEntry(key: tool, value: asset) in equipmentAssets.entries) {
       try {
-        // Load SVG and convert to image
-        final svgString = await rootBundle.loadString(entry.value);
-        final pictureInfo = await vg.loadPicture(SvgStringLoader(svgString), null);
+        final pictureInfo = await vg.loadPicture(
+          SvgStringLoader(await rootBundle.loadString(asset)),
+          null,
+        );
         final image = await pictureInfo.picture.toImage(24, 24);
         final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
-
         if (byteData != null) {
-          cookingToolImages[entry.key] = pw.MemoryImage(byteData.buffer.asUint8List());
+          cookingToolImages[tool] = pw.MemoryImage(byteData.buffer.asUint8List());
         }
-
         pictureInfo.picture.dispose();
       } catch (e) {
-        debugPrint('Error loading cooking tool ${entry.key}: $e');
+        debugPrint('Error loading cooking tool $tool: $e');
       }
     }
 
@@ -91,10 +84,10 @@ Future<void> exportRecipeToPdf(
     }
 
     // Load recipe main image
-    if (recipe.imagePath.isNotEmpty) {
+    if (viewModel.imagePath.isNotEmpty) {
       // TODO factorize l109
       try {
-        final File imageFile = File(PathUtils.cleanPath(recipe.imagePath));
+        final File imageFile = File(PathUtils.cleanPath(viewModel.imagePath));
         if (await imageFile.exists()) {
           final imageBytes = await imageFile.readAsBytes();
           recipeImage = pw.MemoryImage(imageBytes);
@@ -152,10 +145,10 @@ Future<void> exportRecipeToPdf(
                     regularFont,
                     boldFont,
                   ),
-                if (recipe.calories > 0)
+                if (viewModel.servingNutrition.calories > 0)
                   _buildPdfStat(
                     l10n.calories,
-                    '${recipe.calories} ${l10n.kcps}',
+                    '${viewModel.servingNutrition.calories} ${l10n.kcps}',
                     regularFont,
                     boldFont,
                   ),
@@ -216,13 +209,12 @@ Future<void> exportRecipeToPdf(
                                 servingsMultiplier: servingsMultiplier,
                                 nutrientRepository: nutrientRepository,
                                 optional: ingredient.optional,
+                                originalMeasure: ingredient.originalMeasure,
                               );
 
                               return pw.Padding(
                                 padding: const pw.EdgeInsets.only(bottom: 2),
-                                child: pw.Text(
-                                  '- ${formatted.displayReversed ? '${formatted.name} ${formatted.primaryQuantityDisplay}' : '${formatted.primaryQuantityDisplay} ${formatted.name}'}  ',
-                                ),
+                                child: pw.Text('- ${formatted.fullText}  '),
                               );
                             }),
                           ],
@@ -246,7 +238,11 @@ Future<void> exportRecipeToPdf(
 
                           // Cooking tools row
                           pw.SizedBox(height: 4),
-                          _buildCookingToolsRow(step.instruction, cookingToolImages, context),
+                          _buildCookingToolsRow(
+                            step.instruction,
+                            cookingToolImages,
+                            viewModel.recipeLanguage,
+                          ),
                         ],
                       ),
                     ),
@@ -434,6 +430,14 @@ Future<void> exportRecipeToPdf(
                     pw.Text(l10n.potassium),
                   ],
                 ),
+              if (perServing('vitaminC') != 0)
+                pw.Row(
+                  mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                  children: [
+                    pw.Text('${formatNumberPdf(perServing('vitaminC'))} mg'),
+                    pw.Text(l10n.vitaminC),
+                  ],
+                ),
             ]);
 
             return pw.Column(
@@ -540,17 +544,17 @@ pw.Widget _buildPdfStat(String label, String value, pw.Font regularFont, pw.Font
 pw.Widget _buildCookingToolsRow(
   String instruction,
   Map<String, pw.MemoryImage> cookingToolImages,
-  BuildContext context,
+  String languageCode,
 ) {
-  // Use the shared detectCookingTools function
-  final foundTools = detectCookingTools(instruction, context);
-
-  if (foundTools.isEmpty) {
-    return pw.SizedBox.shrink();
-  }
-
-  // Extract only the tool names (keys) since we need the pw.MemoryImage versions
-  final toolNames = foundTools.keys.toList();
+  final toolNames = [
+    for (final equipment in equipmentIn(
+      instruction,
+      languageCode: languageCode,
+      labelLanguageCode: languageCode,
+    ))
+      equipment.key,
+  ];
+  if (toolNames.isEmpty) return pw.SizedBox.shrink();
 
   return pw.Row(
     mainAxisAlignment: pw.MainAxisAlignment.end,

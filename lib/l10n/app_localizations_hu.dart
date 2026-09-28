@@ -286,9 +286,6 @@ class AppLocalizationsHu extends AppLocalizations {
   String get titleCannotBeEmpty => 'A cím nem lehet üres';
 
   @override
-  String get notImplementedYet => 'Funkció még nem elérhető';
-
-  @override
   String get start => 'Indítás';
 
   @override
@@ -345,7 +342,16 @@ class AppLocalizationsHu extends AppLocalizations {
   }
 
   @override
-  String get resetFilters => 'Szűrők visszaállítása';
+  String get reset => 'Törlés';
+
+  @override
+  String get favorites => 'Kedvencek';
+
+  @override
+  String get addToFavorites => 'Hozzáadás a kedvencekhez';
+
+  @override
+  String get removeFromFavorites => 'Eltávolítás a kedvencek közül';
 
   @override
   String get addIngredient => 'Hozzávaló hozzáadása';
@@ -441,45 +447,6 @@ class AppLocalizationsHu extends AppLocalizations {
   String get gatherIngredients => 'Hozzávalók összegyűjtése';
 
   @override
-  String get bowl => 'tál';
-
-  @override
-  String get pot => 'fazék';
-
-  @override
-  String get fridge => 'hűtőszekrény';
-
-  @override
-  String get freezer => 'fagyasztó';
-
-  @override
-  String get oven => 'sütő';
-
-  @override
-  String get microwave => 'mikró';
-
-  @override
-  String get blender => 'turmixgép';
-
-  @override
-  String get mixer => 'mixer';
-
-  @override
-  String get whisk => 'habverő';
-
-  @override
-  String get skillet => 'serpenyő';
-
-  @override
-  String get paddle => 'spatula';
-
-  @override
-  String get cut => 'vágódeszka';
-
-  @override
-  String get rollingPin => 'nyújtófa';
-
-  @override
   String get editImage => 'Kép szerkesztése';
 
   @override
@@ -495,189 +462,6 @@ class AppLocalizationsHu extends AppLocalizations {
   @override
   String get rectangleDetails =>
       'Sajnos a szövegfelismerés nem működik jól a többoszlopos elrendezéseknél. Át kell formáznunk a képet.\n\nElőször válassza ki a cím+hozzávalók blokkot, majd minden oszlopot.\nEzeket egy új képpé fogjuk egyesíteni.';
-
-  @override
-  String get apple => 'alma';
-
-  @override
-  String get apricot => 'sárgabarack';
-
-  @override
-  String get asparagus => 'spárga';
-
-  @override
-  String get avocado => 'avokádó';
-
-  @override
-  String get banana => 'banán';
-
-  @override
-  String get bellPepper => 'kaliforniai paprika';
-
-  @override
-  String get blackberry => 'szeder';
-
-  @override
-  String get blueberry => 'áfonya';
-
-  @override
-  String get broccoli => 'brokkoli';
-
-  @override
-  String get butter => 'vaj';
-
-  @override
-  String get cabbage => 'káposzta';
-
-  @override
-  String get carambola => 'csillaggyümölcs';
-
-  @override
-  String get carrot => 'répa';
-
-  @override
-  String get cauliflower => 'karfiol';
-
-  @override
-  String get celery => 'zeller';
-
-  @override
-  String get cherry => 'cseresznye';
-
-  @override
-  String get chicken => 'csirke';
-
-  @override
-  String get coconut => 'kókuszdió';
-
-  @override
-  String get corn => 'kukorica';
-
-  @override
-  String get cucumber => 'uborka';
-
-  @override
-  String get chocolateDark => 'étcsokoládé';
-
-  @override
-  String get chocolateMilk => 'tejcsokoládé';
-
-  @override
-  String get chocolateRuby => 'rubincsokoládé';
-
-  @override
-  String get chocolateWhite => 'fehércsokoládé';
-
-  @override
-  String get dragonFruit => 'sárkánygyümölcs';
-
-  @override
-  String get egg => 'hús';
-
-  @override
-  String get eggplant => 'padlizsán';
-
-  @override
-  String get fig => 'füge';
-
-  @override
-  String get garlic => 'fokhagyma';
-
-  @override
-  String get grapes => 'szőlő';
-
-  @override
-  String get greenBean => 'zöldbab';
-
-  @override
-  String get kiwi => 'kiwi';
-
-  @override
-  String get leek => 'póréhagyma';
-
-  @override
-  String get lemon => 'citrom';
-
-  @override
-  String get lettuce => 'saláta';
-
-  @override
-  String get lime => 'lime';
-
-  @override
-  String get lychee => 'licsi';
-
-  @override
-  String get mango => 'mangó';
-
-  @override
-  String get melon => 'dinnye';
-
-  @override
-  String get milk => 'tej';
-
-  @override
-  String get mushroom => 'gomba';
-
-  @override
-  String get oliveOil => 'olívaolaj';
-
-  @override
-  String get onion => 'hagyma';
-
-  @override
-  String get orange => 'narancs';
-
-  @override
-  String get peach => 'őszibarack';
-
-  @override
-  String get pear => 'körte';
-
-  @override
-  String get peas => 'borsó';
-
-  @override
-  String get pineapple => 'ananász';
-
-  @override
-  String get plum => 'szilva';
-
-  @override
-  String get pomegranate => 'gránátalma';
-
-  @override
-  String get potato => 'burgonya';
-
-  @override
-  String get pumpkin => 'tök';
-
-  @override
-  String get radish => 'retek';
-
-  @override
-  String get raspberry => 'málna';
-
-  @override
-  String get salmon => 'lazac';
-
-  @override
-  String get spinach => 'spenót';
-
-  @override
-  String get strawberry => 'eper';
-
-  @override
-  String get sweetPotato => 'édesburgonya';
-
-  @override
-  String get tomato => 'paradicsom';
-
-  @override
-  String get watermelon => 'görögdinnye';
-
-  @override
-  String get zucchini => 'cukkini';
 
   @override
   String get measurementSystem => 'Mértékegység rendszer';
@@ -798,7 +582,8 @@ class AppLocalizationsHu extends AppLocalizations {
   String get nutritionImportedNote => 'A tápértékek az importált recept adataiból származnak';
 
   @override
-  String get dailyValueDisclaimer => 'A napi érték százalékai 2000 kalóriás étren-den alapulnak.';
+  String get dailyValueDisclaimer =>
+      'A napi érték százalékai 2000 kalóriás étrenden alapulnak. Az Ön napi értékei a kalóriaszükségletétől függően magasabbak vagy alacsonyabbak lehetnek.';
 
   @override
   String get amountPerServing => 'Adagonkénti mennyiség';
@@ -835,6 +620,13 @@ class AppLocalizationsHu extends AppLocalizations {
 
   @override
   String get potassium => 'Kálium';
+
+  @override
+  String get vitaminC => 'C-vitamin';
+
+  @override
+  String get nutriScoreNote =>
+      'Becslés a teljes receptre általános élelmiszerként, a hozzárendelt összetevők nyers tömege alapján';
 
   @override
   String postedOnBy(Object author, Object date) {
@@ -911,6 +703,9 @@ class AppLocalizationsHu extends AppLocalizations {
 
   @override
   String get copyAsText => 'Másolás szövegként';
+
+  @override
+  String get shareSourceLink => 'Forráslink megosztása';
 
   @override
   String get recipeCopied => 'A recept a vágólapra másolva';
@@ -992,4 +787,21 @@ class AppLocalizationsHu extends AppLocalizations {
   @override
   String get legacyMigrationFailed =>
       'Az előző verzió receptjeit még nem sikerült átköltöztetni. A receptek biztonságban vannak, az átköltöztetés a következő indításkor újra megtörténik. Ha a hiba továbbra is fennáll, kérjük, nyiss egy hibajelentést a https://github.com/lenios/shefu/issues címen.';
+
+  @override
+  String get addRecipeAsStep => 'Recept hozzáadása';
+
+  @override
+  String get chooseRecipe => 'Válassz egy receptet lépésként';
+
+  @override
+  String get noLinkableRecipe => 'Nincs más elérhető recept';
+
+  @override
+  String linkedRecipeInfo(int servings) {
+    return '$servings adagos recept: a mennyiségei ehhez a recepthez igazodnak';
+  }
+
+  @override
+  String get openLinkedRecipe => 'Recept megtekintése';
 }

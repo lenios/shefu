@@ -35,6 +35,20 @@ class FakeRecipeRepository([List<Recipe>? recipes]) implements RecipeRepository 
   @override
   Future<String?> getRecipeTitle(int id) async => byId[id]?.title;
 
+  @override
+  Future<Map<int, Recipe>> getLinkedRecipes(Recipe recipe) async {
+    final linked = <int, Recipe>{};
+    final pending = [for (final s in recipe.steps) s.linkedRecipeId];
+    while (pending.isNotEmpty) {
+      final id = pending.removeLast();
+      final found = byId[id];
+      if (found == null || id == recipe.id || linked.containsKey(id)) continue;
+      linked[id] = found;
+      pending.addAll([for (final s in found.steps) s.linkedRecipeId]);
+    }
+    return linked;
+  }
+
   /// Like the database, assigns a fresh id to a new recipe.
   @override
   Future<int> saveRecipe(Recipe recipe) async {
@@ -63,6 +77,11 @@ class FakeRecipeRepository([List<Recipe>? recipes]) implements RecipeRepository 
     final before = stubVariants.length;
     stubVariants.removeWhere((variant) => variant.id == variantId);
     return stubVariants.length != before;
+  }
+
+  @override
+  Future<void> setFavorite(int recipeId, bool favorite) async {
+    byId[recipeId]?.favorite = favorite;
   }
 
   @override
@@ -103,9 +122,6 @@ class FakeRecipeRepository([List<Recipe>? recipes]) implements RecipeRepository 
 
   @override
   Future<List<String>> getUniqueSources({int limit = 5}) async => [];
-
-  @override
-  Future<void> deleteImageFile(String? path) async {}
 }
 
 /// [NutrientRepository] serving the nutrients and conversion factors set by
@@ -119,6 +135,9 @@ class FakeNutrientRepository implements NutrientRepository {
   /// Factor of [foodId] for [conversionId], or for any conversion if omitted.
   void setFactor(int foodId, double factor, {int? conversionId}) =>
       _factors[(foodId, conversionId)] = factor;
+
+  @override
+  bool isInitialized = true;
 
   @override
   Future<void> initialize() async {}

@@ -108,6 +108,23 @@ class _RecipeStepCardState extends State<RecipeStepCard> {
                           const SizedBox(width: 45), // delete button space
                         ],
                       ),
+                      // linked recipe
+                      if (widget.viewModel.linkedRecipe(step.linkedRecipeId) case final linked?)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8),
+                          child: Row(
+                            children: [
+                              Icon(Icons.menu_book_outlined, size: 18, color: scheme.primary),
+                              const SizedBox(width: 6),
+                              Expanded(
+                                child: Text(
+                                  AppLocalizations.of(context)!.linkedRecipeInfo(linked.servings),
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       const Divider(height: 15, thickness: 1),
                       // Step Fields (Instruction, Timer, optional Video URL)
                       IgnorePointer(

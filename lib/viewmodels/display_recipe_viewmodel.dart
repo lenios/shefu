@@ -9,10 +9,12 @@ import 'package:command_it/command_it.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:shefu/l10n/app_localizations.dart';
 import 'package:shefu/models/entities.dart';
+import 'package:shefu/models/glossary.dart';
 import 'package:shefu/models/shopping_basket.dart';
 import 'package:shefu/provider/my_app_state.dart';
 import 'package:shefu/repositories/nutrient_repository.dart';
 import 'package:shefu/repositories/recipe_repository.dart';
+import 'package:shefu/utils/nutrition.dart';
 import 'package:shefu/utils/tts_language_helper.dart';
 import 'package:shefu/widgets/misc.dart';
 import 'package:video_player/video_player.dart';
@@ -206,18 +208,29 @@ class DisplayRecipeViewModel extends ChangeNotifier {
     return null;
   }
 
+  /// Recipes used as steps, by id (see [withLinkedRecipes]).
+  Map<int, Recipe> _linkedRecipes = const {};
+
+  /// Steps of the recipe or active variant, recipes used as steps included.
   List<RecipeStep> getVariantSteps() {
-    if (_recipe == null) return [];
-    final baseSteps = _recipe!.steps.toList();
-    if (activeVariant == null) {
-      return baseSteps;
-    } else {
-      final overrides = activeVariant!.steps.toList();
-      // return full list of steps, with some steps overriden
-      return baseSteps.map((step) {
-        return overrides.firstWhere((o) => o.order == step.order, orElse: () => step);
-      }).toList();
-    }
+    final recipe = _recipe;
+    if (recipe == null) return [];
+    return withLinkedRecipes(
+      recipe.stepsFor(activeVariant),
+      recipe.servings,
+      _linkedRecipes,
+      including: {recipe.id},
+    );
+  }
+
+  /// Calories and carbohydrates per serving of the recipe, or of the active variant.
+  ServingNutrition get servingNutrition =>
+      nutritionPerServing(_recipe!, activeVariant, nutrientRepository, linked: _linkedRecipes);
+
+  /// The active variant's own image, or the recipe image.
+  String get imagePath {
+    final variantImage = activeVariant?.imagePath ?? '';
+    return variantImage.isNotEmpty ? variantImage : _recipe?.imagePath ?? '';
   }
 
   String get variantTitle {
@@ -247,7 +260,27 @@ class DisplayRecipeViewModel extends ChangeNotifier {
   final Map<String, bool> _basket = {};
   Map<String, bool> get basket => _basket;
 
-  bool isBookmarked = false; // TODO: Implement bookmark logic
+  /// Language the recipe is written in (its tag, else the app language).
+  String recipeLanguage = 'en';
+
+  /// Cooking terms explained in the steps, in the recipe language.
+  Glossary glossary = Glossary.empty;
+
+  bool get isFavorite => _recipe?.favorite ?? false;
+
+  Future<void> toggleFavorite() async {
+    final recipe = _recipe;
+    if (recipe == null) return;
+    recipe.favorite = !recipe.favorite;
+    notifyListeners();
+    try {
+      await _recipeRepository.setFavorite(recipe.id, recipe.favorite);
+    } catch (e) {
+      debugPrint('Error saving favorite: $e');
+      recipe.favorite = !recipe.favorite;
+      notifyListeners();
+    }
+  }
 
   MeasurementSystem _measurementSystem = MeasurementSystem.metric;
 
@@ -257,10 +290,18 @@ class DisplayRecipeViewModel extends ChangeNotifier {
 
   Future<Recipe?> _initializeAndLoadData(BuildContext context) async {
     try {
+      // Instructions are explained in the language they are written in.
+      final appLanguage = Localizations.localeOf(context).languageCode;
       initTts();
       await nutrientRepository.initialize();
       _recipe = await _recipeRepository.getRecipeById(_recipeId);
+      final languageTag = _recipe?.languageTag.split(RegExp('[-_]')).first ?? '';
+      recipeLanguage = languageTag.isNotEmpty ? languageTag : appLanguage;
+      glossary = await Glossary.load(recipeLanguage);
       variants = _recipe?.variants ?? [];
+      if (_recipe case final recipe?) {
+        _linkedRecipes = await _recipeRepository.getLinkedRecipes(recipe);
+      }
       _initializeBasket();
       if (context.mounted) _prefetchNutrientData(context);
       if (context.mounted) _getTtsDefaults();
@@ -448,12 +489,6 @@ class DisplayRecipeViewModel extends ChangeNotifier {
   Future<void> deleteRecipe() async {
     if (_recipe != null) {
       try {
-        await _recipeRepository.deleteImageFile(_recipe!.imagePath);
-
-        for (final step in getVariantSteps()) {
-          await _recipeRepository.deleteImageFile(step.imagePath);
-        }
-
         _appState.removeRecipeFromShoppingBasket(_recipe!.id);
         await _recipeRepository.deleteRecipe(_recipe!.id);
       } catch (e) {
@@ -616,76 +651,4 @@ class DisplayRecipeViewModel extends ChangeNotifier {
   void setRecipeForTesting(Recipe recipe) {
     _recipe = recipe;
   }
-}
-
-Map<String, double> calculateTotalNutrients({
-  required List<RecipeStep> steps,
-  required NutrientRepository nutrientRepository,
-  bool full = false,
-}) {
-  if (steps.isEmpty) return {};
-  double totalProtein = 0, totalFat = 0, totalCarbs = 0, totalCalories = 0;
-  double totalFASat = 0, totalFAPoly = 0, totalChol = 0, totalSodium = 0;
-  double totalFiber = 0, totalSugar = 0, totalAddedSugar = 0;
-  double totalVitaminD = 0, totalCalcium = 0, totalIron = 0, totalPotassium = 0;
-
-  for (final step in steps) {
-    for (final ingredient in step.ingredients) {
-      if (ingredient.foodId > 0 && ingredient.conversionId > 0) {
-        final nutrient = nutrientRepository.getNutrientByFoodId(ingredient.foodId);
-        final factor = nutrientRepository.getConversionFactor(
-          ingredient.foodId,
-          ingredient.conversionId,
-        );
-
-        if (nutrient != null && factor > 0) {
-          final multiplier = ingredient.quantity * factor;
-
-          totalProtein += nutrient.protein * multiplier;
-          totalFat += nutrient.lipidTotal * multiplier;
-          totalCarbs += nutrient.carbohydrates * multiplier;
-          totalCalories += nutrient.energKcal * multiplier;
-
-          if (full) {
-            totalFASat += nutrient.FASat * multiplier;
-            totalFAPoly += nutrient.FAPoly * multiplier;
-            totalChol += nutrient.cholesterol * multiplier;
-            totalSodium += nutrient.sodium * multiplier;
-            totalFiber += nutrient.fiber * multiplier;
-            totalSugar += nutrient.sugar * multiplier;
-            // Added sugar is not in DB, so remains 0
-            totalVitaminD += nutrient.vitaminD * multiplier;
-            totalCalcium += nutrient.calcium * multiplier;
-            totalIron += nutrient.iron * multiplier;
-            totalPotassium += nutrient.potassium * multiplier;
-          }
-        }
-      }
-    }
-  }
-
-  final result = {
-    'protein': totalProtein,
-    'fat': totalFat,
-    'carbohydrates': totalCarbs,
-    'calories': totalCalories,
-  };
-
-  if (full) {
-    result.addAll({
-      'FASat': totalFASat,
-      'FAPoly': totalFAPoly,
-      'cholesterol': totalChol,
-      'sodium': totalSodium,
-      'fiber': totalFiber,
-      'sugar': totalSugar,
-      'addedSugar': totalAddedSugar,
-      'vitaminD': totalVitaminD,
-      'calcium': totalCalcium,
-      'iron': totalIron,
-      'potassium': totalPotassium,
-    });
-  }
-
-  return result;
 }

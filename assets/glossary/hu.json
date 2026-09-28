@@ -1,0 +1,333 @@
+[
+ {
+  "term": "locsol",
+  "definitions": [
+   {
+    "text": "A sült húst sütés közben a saját levével vagy zsiradékával locsolgatni, hogy szaftos maradjon."
+   }
+  ]
+ },
+ {
+  "term": "felver",
+  "definitions": [
+   {
+    "text": "Erőteljesen keverni, hogy a massza sima legyen, és levegő kerüljön bele."
+   }
+  ]
+ },
+ {
+  "term": "blansíroz",
+  "definitions": [
+   {
+    "context": "zöldség",
+    "text": "Rövid időre forrásban lévő sós vízbe tenni, majd jeges vízben lehűteni, hogy megálljon a főzés."
+   },
+   {
+    "context": "mandula, paradicsom",
+    "text": "Forró vízbe mártani, hogy a héja könnyen lejöjjön."
+   }
+  ]
+ },
+ {
+  "term": "forráz",
+  "definitions": [
+   {
+    "text": "Forró vizet önteni rá, vagy egy pillanatra forró vízbe mártani."
+   }
+  ]
+ },
+ {
+  "term": "elősüt",
+  "definitions": [
+   {
+    "text": "A tésztalapot töltelék nélkül, sütőpapírral és nehezékkel (pl. babbal) előre megsütni."
+   }
+  ]
+ },
+ {
+  "term": "beáztat",
+  "definitions": [
+   {
+    "context": "zselatin",
+    "text": "Hideg vízbe áztatni, hogy megduzzadjon, mielőtt feloldjuk."
+   }
+  ]
+ },
+ {
+  "term": "pároljuk",
+  "definitions": [
+   {
+    "text": "Kevés folyadékban, lefedve, lassan puhára főzni."
+   }
+  ]
+ },
+ {
+  "term": "pácol",
+  "definitions": [
+   {
+    "text": "Sós lében, fűszeres folyadékban vagy olajban állni hagyni, hogy ízt kapjon és puhuljon."
+   }
+  ]
+ },
+ {
+  "term": "karamelliz",
+  "definitions": [
+   {
+    "text": "Hevítéssel barnára pirítani a cukrot vagy az étel cukortartalmát."
+   }
+  ]
+ },
+ {
+  "term": "felaprít",
+  "definitions": [
+   {
+    "text": "Késsel kisebb darabokra vágni."
+   }
+  ]
+ },
+ {
+  "term": "tisztított vaj",
+  "definitions": [
+   {
+    "text": "Olvasztott vaj, amelyből eltávolították a tejszárazanyagot és a vizet; nehezen ég meg."
+   }
+  ]
+ },
+ {
+  "term": "kockára",
+  "definitions": [
+   {
+    "text": "Egyforma kis kockákra vágni."
+   }
+  ]
+ },
+ {
+  "term": "panír",
+  "definitions": [
+   {
+    "text": "Lisztbe, felvert tojásba, majd zsemlemorzsába forgatni sütés előtt."
+   }
+  ]
+ },
+ {
+  "term": "emulgeál",
+  "definitions": [
+   {
+    "text": "Két nem keveredő folyadékot (pl. olajat és ecetet) erőteljes keveréssel egyneművé tenni."
+   }
+  ]
+ },
+ {
+  "term": "glazúr",
+  "definitions": [
+   {
+    "text": "Fényes bevonat (cukormáz, zselé, redukált mártás) az étel felületén."
+   }
+  ]
+ },
+ {
+  "term": "julienne",
+  "definitions": [
+   {
+    "text": "Vékony, gyufaszál méretű csíkokra vágott zöldség."
+   }
+  ]
+ },
+ {
+  "term": "dagaszt",
+  "definitions": [
+   {
+    "text": "A tésztát nyomkodva, hajtogatva gyúrni, amíg sima és rugalmas lesz."
+   }
+  ]
+ },
+ {
+  "term": "apróra vág",
+  "definitions": [
+   {
+    "text": "Nagyon apró darabokra vágni."
+   }
+  ]
+ },
+ {
+  "term": "mirepoix",
+  "definitions": [
+   {
+    "text": "Kockára vágott hagyma, sárgarépa és zeller keveréke, alapok és mártások ízesítésére."
+   }
+  ]
+ },
+ {
+  "term": "buggyant",
+  "definitions": [
+   {
+    "text": "Gyöngyöző, forráspont alatti folyadékban óvatosan megfőzni."
+   }
+  ]
+ },
+ {
+  "term": "keleszt",
+  "definitions": [
+   {
+    "text": "Az élesztős tésztát langyos helyen pihentetni, amíg megkel."
+   }
+  ]
+ },
+ {
+  "term": "püré",
+  "definitions": [
+   {
+    "text": "Főtt zöldség vagy gyümölcs, simára törve vagy turmixolva."
+   }
+  ]
+ },
+ {
+  "term": "beforral",
+  "definitions": [
+   {
+    "text": "Fedő nélkül forralni, hogy a folyadék elpárologjon, és a mártás sűrűbb, ízesebb legyen."
+   }
+  ]
+ },
+ {
+  "term": "rántás",
+  "definitions": [
+   {
+    "text": "Zsiradékon megpirított liszt, levesek és mártások sűrítésére."
+   }
+  ]
+ },
+ {
+  "term": "pirít",
+  "definitions": [
+   {
+    "text": "Kevés forró zsiradékon, gyakran kevergetve, gyorsan sütni."
+   }
+  ]
+ },
+ {
+  "term": "fűszerez",
+  "definitions": [
+   {
+    "text": "Sóval, borssal, fűszerekkel ízesíteni."
+   }
+  ]
+ },
+ {
+  "term": "szitál",
+  "definitions": [
+   {
+    "text": "Szitán átengedni a lisztet, hogy csomómentes és levegős legyen."
+   }
+  ]
+ },
+ {
+  "term": "lassú tűzön",
+  "definitions": [
+   {
+    "text": "Épp csak gyöngyözve, forráspont alatt főzni."
+   }
+  ]
+ },
+ {
+  "term": "lehaboz",
+  "definitions": [
+   {
+    "text": "A főzés közben felgyűlő habot, szennyeződést vagy zsírt leszedni a lé tetejéről."
+   }
+  ]
+ },
+ {
+  "term": "leszűr",
+  "definitions": [
+   {
+    "text": "Szűrőn átengedni, hogy a folyadékot elválasszuk a szilárd részektől."
+   }
+  ]
+ },
+ {
+  "term": "temperál",
+  "definitions": [
+   {
+    "context": "csokoládé",
+    "text": "Megolvasztani, majd meghatározott hőmérsékletre hűteni, hogy fényes és roppanós legyen."
+   },
+   {
+    "context": "tojás",
+    "text": "Forró folyadékot fokozatosan hozzáadni, hogy a tojás ne csapódjon ki."
+   }
+  ]
+ },
+ {
+  "term": "habar",
+  "definitions": [
+   {
+    "text": "Lisztes tejföllel vagy tejszínnel sűríteni a levest, főzeléket."
+   }
+  ]
+ },
+ {
+  "term": "vízfürdő",
+  "definitions": [
+   {
+    "text": "Az edényt forró vízbe állítva, közvetett, kíméletes hővel melegíteni."
+   }
+  ]
+ },
+ {
+  "term": "üvegesre",
+  "definitions": [
+   {
+    "text": "Kevés zsiradékon, pirítás nélkül puhára párolni, amíg áttetsző lesz."
+   }
+  ]
+ },
+ {
+  "term": "flambíroz",
+  "definitions": [
+   {
+    "text": "Szeszes italt önteni az ételre, és meggyújtani, hogy az alkohol elégjen, és aromát adjon."
+   }
+  ]
+ },
+ {
+  "term": "kinyújt",
+  "definitions": [
+   {
+    "text": "A tésztát nyújtófával a kívánt vastagságúra teríteni."
+   }
+  ]
+ },
+ {
+  "term": "kivajaz",
+  "definitions": [
+   {
+    "text": "A formát vagy edényt vékonyan vajjal bekenni, hogy ne ragadjon."
+   }
+  ]
+ },
+ {
+  "term": "marinál",
+  "definitions": [
+   {
+    "text": "Fűszeres, savas vagy olajos lében állni hagyni, hogy ízt kapjon."
+   }
+  ]
+ },
+ {
+  "term": "konfitál",
+  "definitions": [
+   {
+    "text": "Zsiradékban vagy cukorszirupban lassan, alacsony hőfokon főzni."
+   }
+  ]
+ },
+ {
+  "term": "gratinír",
+  "definitions": [
+   {
+    "text": "Sütőben, sajttal vagy morzsával megszórva aranybarnára sütni a tetejét."
+   }
+  ]
+ }
+]

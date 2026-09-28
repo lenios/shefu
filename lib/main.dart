@@ -113,10 +113,11 @@ class _MyAppState extends State<MyApp> {
         Provider<NutrientRepository>.value(value: widget.nutrientRepository),
 
         // --- ViewModels (depend on Repositories) ---
-        ChangeNotifierProxyProvider<RecipeRepository, HomePageViewModel>(
-          create: (context) => HomePageViewModel(context.read<RecipeRepository>()),
-          update: (context, recipeRepository, previousViewModel) =>
-              previousViewModel ?? HomePageViewModel(recipeRepository),
+        ChangeNotifierProvider(
+          create: (context) => HomePageViewModel(
+            context.read<RecipeRepository>(),
+            context.read<NutrientRepository>(),
+          ),
         ),
       ],
       child: Consumer<MyAppState>(

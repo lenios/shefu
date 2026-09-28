@@ -517,7 +517,59 @@ double? _parseJapaneseNumber(String s) {
   return ('', '', ingredient);
 }
 
-(String, String, String, String) parseIngredient(String ingredient, String language) {
+/// An ingredient line split into its parts.
+///
+/// [originalMeasure] is the measure as written by the source (e.g. "2 medium",
+/// "2 tablespoons") when [quantity] and [unit] come from its metric equivalent.
+typedef ParsedIngredient = ({
+  String quantity,
+  String unit,
+  String name,
+  String shape,
+  String originalMeasure,
+});
+
+/// Size words that complete a count, e.g. "2 medium onions".
+const _sizeWords = [
+  'small',
+  'medium',
+  'large',
+  'big',
+  'petit',
+  'petite',
+  'petits',
+  'petites',
+  'moyen',
+  'moyenne',
+  'moyens',
+  'moyennes',
+  'gros',
+  'grosse',
+  'grosses',
+];
+
+/// Leading amount of [text]: a number, optionally followed by a unit from
+/// [units] or a size word, as written. Returns the measure and the rest.
+(String, String) _splitLeadingMeasure(String text, Iterable<String> units) {
+  final number = RegExp(r'^(\d+\s+\d+/\d+|\d+/\d+|\d+(?:[.,]\d+)?)').firstMatch(text);
+  if (number == null) return ('', text);
+  var end = number.end;
+  final rest = text.substring(end);
+  final words = [...units, ..._sizeWords]..sort((a, b) => b.length.compareTo(a.length));
+  for (final word in words) {
+    final match = RegExp(
+      '^\\s*${RegExp.escape(word)}s?(?=\\s|\$)',
+      caseSensitive: false,
+    ).firstMatch(rest);
+    if (match != null) {
+      end += match.end;
+      break;
+    }
+  }
+  return (text.substring(0, end).trim(), text.substring(end).trim());
+}
+
+ParsedIngredient parseIngredient(String ingredient, String language) {
   // Mapping of units to standardized abbreviations
   final unitsMap = {
     'tablespoon': 'tbsp',
@@ -586,6 +638,7 @@ double? _parseJapaneseNumber(String s) {
   String unit = '';
   String name = ingredient;
   String shape = '';
+  String originalMeasure = '';
 
   // Check for metric measurements in parentheses first (keeping existing logic)
   final parentheticalMatch = RegExp(r'\(([^)]+)\)').firstMatch(ingredient);
@@ -605,14 +658,20 @@ double? _parseJapaneseNumber(String s) {
       quantity = metricMatch.group(1)?.trim() ?? '';
       unit = metricMatch.group(2)?.toLowerCase() ?? '';
 
-      // Remove the parenthetical content from the name
-      name = ingredient.replaceAll(RegExp(r'\([^)]+\)'), '').trim();
+      // Remove the parenthetical content from the name, with the space before
+      // it ("onions (200g), chopped" → "onions, chopped")
+      name = ingredient.replaceAll(RegExp(r'\s*\([^)]+\)'), '').trim();
 
       // For Japanese ingredients, strip any remaining quantity notation from the name
       // e.g. "ごはん どんぶり1杯" (after removing "(200g)") → "ごはん"
       if (_hasJapanese(name)) {
         final cleaned = _parseJapaneseIngredient(name);
         if (cleaned.$3.isNotEmpty && cleaned.$3 != name) name = cleaned.$3;
+      } else {
+        // The measure written by the source ("2 medium", "2 tablespoons")
+        // is kept apart from the name: the quantity is its metric equivalent.
+        (originalMeasure, name) = _splitLeadingMeasure(name, unitsMap.keys);
+        name = removeArticles(name, language);
       }
     }
   }
@@ -634,7 +693,13 @@ double? _parseJapaneseNumber(String s) {
         quantity = jQty;
         unit = jUnit;
         name = parentheticalNotes.isNotEmpty ? '$jName $parentheticalNotes' : jName;
-        return (quantity, unit, name, shape);
+        return (
+          quantity: quantity,
+          unit: unit,
+          name: name,
+          shape: shape,
+          originalMeasure: originalMeasure,
+        );
       }
     }
 
@@ -679,8 +744,12 @@ double? _parseJapaneseNumber(String s) {
         // Skip preposition again after unit extraction (e.g. "100g de sucre")
         name = removeArticles(name, language);
 
-        // If we had parenthetical notes, add them back to the name
-        if (parentheticalNotes.isNotEmpty) {
+        // A parenthetical amount ("454g (2 medium) onions") is the measure
+        // as written; other notes go back to the name.
+        final notes = parentheticalNotes.replaceAll(RegExp(r'^\(|\)$'), '').trim();
+        if (RegExp(r'^\d').hasMatch(notes)) {
+          originalMeasure = notes;
+        } else if (parentheticalNotes.isNotEmpty) {
           name = '$name $parentheticalNotes';
         }
         break;
@@ -700,8 +769,18 @@ double? _parseJapaneseNumber(String s) {
     }
   }
 
-  // Check for shape information (diced, chopped, etc.)
-  final shapePatterns = [
+  // Preparation notes after a comma ("onions, quartered") are the shape.
+  final comma = name.indexOf(',');
+  if (comma > 0) {
+    shape = name.substring(comma + 1).trim();
+    name = name.substring(0, comma).trim();
+  }
+
+  // Otherwise, look for known shapes in the name ("chopped onion")
+  const shapePatterns = [
+    'roughly chopped',
+    'finely chopped',
+    'thinly sliced',
     'diced',
     'chopped',
     'minced',
@@ -717,19 +796,34 @@ double? _parseJapaneseNumber(String s) {
     'pitted',
     'halved',
     'quartered',
-    'roughly chopped',
-    'finely chopped',
-    'thinly sliced',
   ];
-
-  for (final s in shapePatterns) {
-    if (name.toLowerCase().contains(s)) {
-      shape = s;
-      break;
+  if (shape.isEmpty) {
+    for (final pattern in shapePatterns) {
+      final match = RegExp(
+        '\\b${RegExp.escape(pattern)}\\b',
+        caseSensitive: false,
+      ).firstMatch(name);
+      if (match != null) {
+        final rest = name
+            .replaceRange(match.start, match.end, '')
+            .replaceAll(RegExp(r'\s+'), ' ')
+            .trim();
+        if (rest.isNotEmpty) {
+          shape = pattern;
+          name = rest;
+        }
+        break;
+      }
     }
   }
 
-  return (quantity, unit, name, shape);
+  return (
+    quantity: quantity,
+    unit: unit,
+    name: name,
+    shape: shape,
+    originalMeasure: originalMeasure,
+  );
 }
 
 class ScrapedRecipeStep({

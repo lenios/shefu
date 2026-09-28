@@ -41,6 +41,7 @@ Widget buildShoppingList(BuildContext context, DisplayRecipeViewModel viewModel)
                 servingsMultiplier: viewModel.servings / recipe.servings,
                 nutrientRepository: viewModel.nutrientRepository,
                 optional: ingredient.optional,
+                originalMeasure: ingredient.originalMeasure,
               );
 
               return CheckboxListTile(
@@ -118,6 +119,7 @@ List<IngredientItem> mergeIngredients(
       }
       // TODO allow optional + required
       if (ingredient.optional) existingIngredient.optional = true;
+      existingIngredient.originalMeasure = '';
     } else {
       // First time seeing this ingredient, create a copy to avoid modifying original
       final ingredientCopy = IngredientItem(
@@ -128,6 +130,7 @@ List<IngredientItem> mergeIngredients(
         foodId: ingredient.foodId,
         conversionId: ingredient.conversionId,
         optional: ingredient.optional,
+        originalMeasure: ingredient.originalMeasure,
       );
       mergedIngredientsMap[key] = ingredientCopy;
     }

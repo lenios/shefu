@@ -17,8 +17,18 @@ class NutrientRepository(final AppDatabase _db) {
   static const nutrientsAsset = 'assets/nutrients_full.csv';
   static const conversionsAsset = 'assets/conversions_full.csv';
 
+  /// Version of the nutrient values stored from [nutrientsAsset]; bump it
+  /// when they change so that existing databases get them refreshed.
+  /// 2: values read by column name (they were shifted from column 18 on).
+  /// 3: food groups.
+  static const dataVersion = '3';
+  static const _dataVersionKey = 'nutrientsDataVersion';
+
   Future<void>? _initialization;
   bool _isInitialized = false;
+
+  /// Whether the reference data is loaded: lookups are available.
+  bool get isInitialized => _isInitialized;
   List<_IndexedNutrient> _searchIndex = const [];
   Map<int, Nutrient> _byFoodId = const {};
   Map<int, Conversion> _conversionsById = const {};
@@ -34,6 +44,9 @@ class NutrientRepository(final AppDatabase _db) {
     if (await _db.nutrients.count().getSingle() == 0) {
       debugPrint("Nutrients database is empty. Populating from CSV...");
       await _populateFromCsv();
+    } else if (await _db.readMetadata(_dataVersionKey) != dataVersion) {
+      debugPrint("Nutrient values are outdated. Refreshing from CSV...");
+      await _refreshNutrientValues();
     }
     // Reference data doesn't change after population: no transaction needed.
     final (nutrientRows, conversionRows) = await (
@@ -79,10 +92,32 @@ class NutrientRepository(final AppDatabase _db) {
     final nutrientsCsv = await rootBundle.loadString(nutrientsAsset);
     final conversionsCsv = await rootBundle.loadString(conversionsAsset);
     final (nutrients, conversions) = await _parseInBackground(nutrientsCsv, conversionsCsv);
-    await _db.batch((batch) {
-      batch
-        ..insertAll(_db.nutrients, nutrients)
-        ..insertAll(_db.conversions, conversions);
+    await _db.transaction(() async {
+      await _db.batch((batch) {
+        batch
+          ..insertAll(_db.nutrients, nutrients)
+          ..insertAll(_db.conversions, conversions);
+      });
+      await _db.writeMetadata(_dataVersionKey, dataVersion);
+    });
+  }
+
+  /// Rewrites the values of the stored nutrients, matched by food id: row ids
+  /// and conversions (referenced by ingredients) are kept.
+  Future<void> _refreshNutrientValues() async {
+    final nutrientsCsv = await rootBundle.loadString(nutrientsAsset);
+    final nutrients = await _parseNutrientsInBackground(nutrientsCsv);
+    await _db.transaction(() async {
+      await _db.batch((batch) {
+        for (final nutrient in nutrients) {
+          batch.update(
+            _db.nutrients,
+            nutrient,
+            where: (n) => n.foodId.equals(nutrient.foodId.value),
+          );
+        }
+      });
+      await _db.writeMetadata(_dataVersionKey, dataVersion);
     });
   }
 
@@ -91,6 +126,9 @@ class NutrientRepository(final AppDatabase _db) {
     String nutrientsCsv,
     String conversionsCsv,
   ) => Isolate.run(() => parseNutrientCsv(nutrientsCsv, conversionsCsv));
+
+  static Future<List<NutrientsCompanion>> _parseNutrientsInBackground(String nutrientsCsv) =>
+      Isolate.run(() => parseNutrients(nutrientsCsv));
 
   void _checkInitialized() {
     if (!_isInitialized) {
@@ -176,67 +214,10 @@ typedef _IndexedNutrient = ({Nutrient nutrient, String en, String fr});
     if (foodId != null) (conversionsByFood[foodId] ??= []).add(row);
   }
 
-  final nutrients = <NutrientsCompanion>[];
+  final nutrients = parseNutrients(nutrientsCsv);
   final conversions = <ConversionsCompanion>[];
-  for (final row in csv.decodeWithHeaders(nutrientsCsv)) {
-    if (row.length < 18) continue;
-    final foodId = _parseInt(row[0]);
-    if (foodId == null) continue;
-    double at(int index) => index < row.length ? _parseDouble(row[index]) : 0.0;
-
-    nutrients.add(
-      NutrientsCompanion.insert(
-        foodId: foodId,
-        descEN: '${row[1]}',
-        descFR: '${row[2]}',
-        protein: at(9),
-        water: at(10),
-        lipidTotal: at(15),
-        energKcal: at(16),
-        carbohydrates: at(17),
-        ash: at(18),
-        fiber: at(19),
-        sugar: at(20),
-        calcium: at(21),
-        iron: at(22),
-        magnesium: at(23),
-        phosphorus: at(24),
-        potassium: at(25),
-        sodium: at(26),
-        zinc: at(27),
-        copper: at(28),
-        manganese: at(29),
-        selenium: at(30),
-        vitaminC: at(31),
-        thiamin: at(32),
-        riboflavin: at(33),
-        niacin: at(34),
-        pantoAcid: at(35),
-        vitaminB6: at(36),
-        folateTotal: at(37),
-        folicAcid: at(38),
-        foodFolate: at(39),
-        folateDFE: at(40),
-        cholineTotal: at(41),
-        vitaminB12: at(42),
-        vitaminAIU: at(43),
-        vitaminARAE: at(44),
-        retinol: at(45),
-        alphaCarot: at(46),
-        betaCarot: at(47),
-        betaCrypt: at(48),
-        lycopene: at(49),
-        lutZea: at(50),
-        vitaminE: at(51),
-        vitaminD: at(52),
-        vitaminDIU: at(53),
-        vitaminK: at(54),
-        faSat: at(55),
-        faMono: at(56),
-        faPoly: at(57),
-        cholesterol: at(58),
-      ),
-    );
+  for (final nutrient in nutrients) {
+    final foodId = nutrient.foodId.value;
     for (final c in conversionsByFood[foodId] ?? const <List<dynamic>>[]) {
       final measureId = _parseInt(c[1]);
       if (measureId == null) continue;
@@ -252,6 +233,69 @@ typedef _IndexedNutrient = ({Nutrient nutrient, String en, String fr});
     }
   }
   return (nutrients, conversions);
+}
+
+/// Parses the nutrients CSV (Canadian Nutrient File, values per 100 g), whose
+/// columns are named by nutrient symbol.
+List<NutrientsCompanion> parseNutrients(String nutrientsCsv) => [
+  for (final row in csv.decodeWithHeaders(nutrientsCsv))
+    if (_parseInt(row['FoodID']) case final foodId?) _nutrientFromRow(row, foodId),
+];
+
+NutrientsCompanion _nutrientFromRow(CsvRow row, int foodId) {
+  double value(String symbol) => _parseDouble(row[symbol]);
+  return NutrientsCompanion.insert(
+    foodId: foodId,
+    descEN: '${row['DescEN']}',
+    descFR: '${row['DescFR']}',
+    protein: value('PROT'),
+    water: value('H2O'),
+    lipidTotal: value('FAT'),
+    energKcal: value('KCAL'),
+    carbohydrates: value('CARB'),
+    ash: value('ASH'),
+    fiber: value('TDF'),
+    sugar: value('TSUG'),
+    calcium: value('CA'),
+    iron: value('FE'),
+    magnesium: value('MG'),
+    phosphorus: value('P'),
+    potassium: value('K'),
+    sodium: value('NA'),
+    zinc: value('ZN'),
+    copper: value('CU'),
+    manganese: value('MN'),
+    selenium: value('SE'),
+    vitaminC: value('VITC'),
+    thiamin: value('THIA'),
+    riboflavin: value('RIBO'),
+    niacin: value('N-MG'),
+    pantoAcid: value('PANT'),
+    vitaminB6: value('B6'),
+    folateTotal: value('FOLA'),
+    folicAcid: value('FOAC'),
+    foodFolate: value('FOLN'),
+    folateDFE: value('DFE'),
+    cholineTotal: value('CHOLN'),
+    vitaminB12: value('B12'),
+    vitaminAIU: 0, // not in the Canadian Nutrient File
+    vitaminARAE: value('RAE'),
+    retinol: value('RT-µG'),
+    alphaCarot: value('AC-µG'),
+    betaCarot: value('BC-µG'),
+    betaCrypt: value('CRYPX'),
+    lycopene: value('LYCPN'),
+    lutZea: value('LUT+ZEA'),
+    vitaminE: value('ATMG'),
+    vitaminD: value('D3+D2-µG'),
+    vitaminDIU: value('D-IU'),
+    vitaminK: value('VITK'),
+    faSat: value('TSAT'),
+    faMono: value('MUFA'),
+    faPoly: value('PUFA'),
+    cholesterol: value('CHOL'),
+    foodGroup: Value(_parseInt(row['FoodGroupID']) ?? 0),
+  );
 }
 
 int? _parseInt(Object? value) => value is int ? value : int.tryParse('$value'.trim());
@@ -311,5 +355,6 @@ extension on NutrientRow {
     FAMono: faMono,
     FAPoly: faPoly,
     cholesterol: cholesterol,
+    foodGroup: foodGroup,
   );
 }

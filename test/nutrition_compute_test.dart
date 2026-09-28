@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shefu/utils/nutrition.dart';
 import 'package:shefu/models/entities.dart';
 import 'package:shefu/provider/my_app_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';

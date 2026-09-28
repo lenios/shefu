@@ -49,6 +49,7 @@ Future<List<int>> buildRecipesZip(List<Recipe> recipes) async {
     final variants = List<RecipeVariant>.from(r.variants)
       ..sort((a, b) => a.title.compareTo(b.title));
     for (int vi = 0; vi < variants.length; vi++) {
+      _addImage(archive, variants[vi].imagePath, r.id, null, vi);
       for (int j = 0; j < variants[vi].steps.length; j++) {
         _addImage(archive, variants[vi].steps[j].imagePath, r.id, j, vi);
       }
@@ -120,61 +121,45 @@ Future<(int, int)> importParsedExport(RecipeRepository repo, ParsedExport parsed
     recipe.id = 0;
     final newId = await repo.saveRecipe(recipe);
 
-    // Resolve the documents directory only when images actually get written.
-    final needsImages =
-        recipe.imagePath.isNotEmpty ||
-        recipe.steps.any((s) => s.imagePath.isNotEmpty) ||
-        recipe.variants.any((v) => v.steps.any((s) => s.imagePath.isNotEmpty));
-    String? docsDirPath;
-    if (needsImages) {
+    // Images named after the new ids; references missing from the archive are dropped.
+    Future<String> importImage(String zipName, {int? stepIndex, int? variantId}) async {
+      final bytes = parsed.images[zipName];
+      if (zipName.isEmpty || bytes == null) return '';
       await PathUtils.init();
-      docsDirPath = PathUtils.documentsDirectory;
+      final filePath = p.join(
+        PathUtils.documentsDirectory!,
+        recipeImageName(
+          newId,
+          stepIndex: stepIndex,
+          variantId: variantId,
+          ext: p.extension(zipName),
+        ),
+      );
+      await File(filePath).writeAsBytes(bytes);
+      await regenerateThumbnail(filePath);
+      return filePath;
     }
 
-    // Main recipe image
-    if (recipe.imagePath.isNotEmpty) {
-      final bytes = parsed.images[recipe.imagePath];
-      if (bytes != null && docsDirPath != null) {
-        final filePath = await _writeImportedImage(
-          bytes: bytes,
-          docsDirPath: docsDirPath,
-          recipeId: newId,
-          stepIndex: null,
-          ext: p.extension(recipe.imagePath),
-        );
-        recipe.imagePath = filePath;
-        await repo.saveRecipe(recipe);
-      } else {
-        // Referenced in the manifest but missing from the archive:
-        // drop the dangling reference.
-        recipe.imagePath = '';
-        await repo.saveRecipe(recipe);
+    if (recipe.imagePath.isNotEmpty || recipe.steps.any((s) => s.imagePath.isNotEmpty)) {
+      recipe.imagePath = await importImage(recipe.imagePath);
+      for (final (index, step) in recipe.steps.indexed) {
+        step.imagePath = await importImage(step.imagePath, stepIndex: index);
       }
+      await repo.saveRecipe(recipe);
     }
 
-    // Step images
-    for (int idx = 0; idx < recipe.steps.length; idx++) {
-      final step = recipe.steps[idx];
-      if (step.imagePath.isNotEmpty) {
-        final bytes = parsed.images[step.imagePath];
-        if (bytes != null && docsDirPath != null) {
-          final filePath = await _writeImportedImage(
-            bytes: bytes,
-            docsDirPath: docsDirPath,
-            recipeId: newId,
-            stepIndex: idx,
-            ext: p.extension(step.imagePath),
-          );
-          step.imagePath = filePath;
-          await repo.saveRecipe(recipe);
-        } else {
-          step.imagePath = '';
-          await repo.saveRecipe(recipe);
-        }
-      }
-    }
     for (final variant in recipe.variants) {
+      // The variant id names its images: save it first.
       await repo.saveVariant(variant..recipeId = newId);
+      variant.imagePath = await importImage(variant.imagePath, variantId: variant.id);
+      for (final step in variant.steps) {
+        step.imagePath = await importImage(
+          step.imagePath,
+          stepIndex: step.order,
+          variantId: variant.id,
+        );
+      }
+      await repo.saveVariant(variant);
     }
     existing.add(recipe);
     imported++;
@@ -195,20 +180,4 @@ void _addImage(
   final name = imageFileName(imagePath, recipeId, stepIndex, variantIndex);
   if (name == null) return;
   archive.add(ArchiveFile.bytes(name, Uint8List.fromList(File(cleanPath).readAsBytesSync())));
-}
-
-/// Writes [bytes] into the documents directory using the app's image
-/// naming convention, regenerates the thumbnail, and returns the full path.
-Future<String> _writeImportedImage({
-  required List<int> bytes,
-  required String docsDirPath,
-  required int recipeId,
-  int? stepIndex,
-  required String ext,
-}) async {
-  final fileName = '${recipeId}_${stepIndex ?? 'main'}$ext';
-  final filePath = p.join(docsDirPath, fileName);
-  await File(filePath).writeAsBytes(bytes);
-  await regenerateThumbnail(filePath);
-  return filePath;
 }

@@ -2,6 +2,7 @@ import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
 import 'package:sqlite3/common.dart';
 
+import 'app_database.steps.dart';
 import 'tables.dart';
 
 export 'tables.dart';
@@ -24,10 +25,21 @@ class AppDatabase extends _$AppDatabase {
   );
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 6;
 
   @override
-  MigrationStrategy get migration => MigrationStrategy(onCreate: (m) => m.createAll());
+  MigrationStrategy get migration => MigrationStrategy(
+    onCreate: (m) => m.createAll(),
+    onUpgrade: stepByStep(
+      from1To2: (m, schema) => m.addColumn(schema.recipes, schema.recipes.favorite),
+      from2To3: (m, schema) =>
+          m.addColumn(schema.ingredientItems, schema.ingredientItems.originalMeasure),
+      from3To4: (m, schema) => m.addColumn(schema.recipeVariants, schema.recipeVariants.imagePath),
+      from4To5: (m, schema) => m.addColumn(schema.recipeSteps, schema.recipeSteps.linkedRecipeId),
+      // The values are filled by the nutrient data refresh (NutrientRepository.dataVersion).
+      from5To6: (m, schema) => m.addColumn(schema.nutrients, schema.nutrients.foodGroup),
+    ),
+  );
 
   Future<String?> readMetadata(String key) async {
     final entry = await (select(metadata)..where((m) => m.key.equals(key))).getSingleOrNull();

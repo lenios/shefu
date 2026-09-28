@@ -19,6 +19,7 @@ import 'package:shefu/widgets/display_recipe/build_steps_view.dart';
 import 'package:shefu/widgets/display_recipe/copy_recipe_text.dart';
 import 'package:shefu/widgets/display_recipe/export_recipe_to_pdf.dart';
 import 'package:shefu/widgets/display_recipe/export_recipe_to_zip.dart';
+import 'package:shefu/widgets/display_recipe/share_source_link.dart';
 import 'package:shefu/widgets/display_recipe/switch_variant_button.dart';
 import 'package:shefu/widgets/icon_button.dart';
 import 'package:shefu/widgets/image_helper.dart';
@@ -68,7 +69,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
             appBar: _buildAppBar(context, viewModel),
             body: Column(
               children: [
-                _buildHeader(context, viewModel, data!.imagePath),
+                _buildHeader(context, viewModel, viewModel.imagePath),
                 // TabBar
                 Container(
                   height: 40,
@@ -142,6 +143,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
 
   Widget _buildHeader(BuildContext context, DisplayRecipeViewModel viewModel, String imagePath) {
     final recipe = viewModel.recipe!;
+    final nutrition = viewModel.servingNutrition;
     final headerBg = _headerColor(context, viewModel);
     final headerFg = _headerTextColor(context, viewModel);
     final screenSize = MediaQuery.of(context).size;
@@ -369,11 +371,11 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                           return Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              if (showCarbohydrates && recipe.carbohydrates > 0) ...[
+                              if (showCarbohydrates && nutrition.carbohydrates > 0) ...[
                                 buildHeaderStat(
                                   context,
                                   iconPath: 'assets/icons/carbohydrates.svg',
-                                  value: recipe.carbohydrates,
+                                  value: nutrition.carbohydrates,
                                   unit: AppLocalizations.of(context)!.gps,
                                   color: headerFg,
                                 ),
@@ -387,7 +389,7 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                       buildHeaderStat(
                         context,
                         iconPath: 'assets/icons/fire-filled.svg',
-                        value: recipe.calories,
+                        value: nutrition.calories,
                         unit: AppLocalizations.of(context)!.kcps,
                         color: headerFg,
                       ),
@@ -499,13 +501,12 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
 
           // Favorite
           IconButton(
-            onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(AppLocalizations.of(context)!.notImplementedYet)),
-              );
-            },
+            onPressed: viewModel.toggleFavorite,
+            tooltip: viewModel.isFavorite
+                ? AppLocalizations.of(context)!.removeFromFavorites
+                : AppLocalizations.of(context)!.addToFavorites,
             icon: Icon(
-              viewModel.isBookmarked ? Icons.bookmark_remove_outlined : Icons.bookmark_add_outlined,
+              viewModel.isFavorite ? Icons.favorite : Icons.favorite_border,
               color: headerFg,
             ),
           ),
@@ -548,6 +549,19 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                     ],
                   ),
                 ),
+                if (sourceLink(viewModel.recipe?.source ?? '') != null)
+                  PopupMenuItem(
+                    value: 'link',
+                    child: Row(
+                      children: [
+                        Icon(Icons.link),
+                        const SizedBox(width: 5),
+                        Flexible(
+                          child: Text(l10n.shareSourceLink, style: theme.textTheme.titleMedium),
+                        ),
+                      ],
+                    ),
+                  ),
                 PopupMenuItem(
                   value: 'hint',
                   enabled: false,
@@ -575,6 +589,9 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                   break;
                 case 'text':
                   copyRecipeText(context, viewModel);
+                  break;
+                case 'link':
+                  shareSourceLink(viewModel);
                   break;
                 case _:
                   break;

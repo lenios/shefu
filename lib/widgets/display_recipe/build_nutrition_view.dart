@@ -1,4 +1,7 @@
 import 'package:material_ui/material_ui.dart';
+import 'package:shefu/utils/nutri_score.dart';
+import 'package:shefu/utils/nutrition.dart';
+import 'package:shefu/widgets/display_recipe/nutri_score_badge.dart';
 import 'package:shefu/l10n/app_localizations.dart';
 import 'package:shefu/viewmodels/display_recipe_viewmodel.dart';
 
@@ -15,11 +18,20 @@ Widget buildNutritionView(BuildContext context, DisplayRecipeViewModel viewModel
     nutrientRepository: viewModel.nutrientRepository,
     full: true,
   );
+  // A variant falls back to the stored (imported) recipe values only for
+  // what the recipe itself doesn't compute from linked ingredients.
+  final baseNutrients = viewModel.activeVariant == null
+      ? nutrients
+      : calculateTotalNutrients(
+          steps: recipe.steps,
+          nutrientRepository: viewModel.nutrientRepository,
+          full: true,
+        );
   final servings = recipe.servings > 0 ? recipe.servings : 1;
   // Per-serving: divide recipe totals by original recipe.servings.
   double perServing(String key, [double? fallback]) {
     final total = nutrients[key] ?? 0.0;
-    if (total > 0) {
+    if (total > 0 || (baseNutrients[key] ?? 0) > 0) {
       return total / servings;
     }
     // fallback values (stored per-serving in Recipe.*)
@@ -47,6 +59,7 @@ Widget buildNutritionView(BuildContext context, DisplayRecipeViewModel viewModel
       (value > 0 && daily > 0) ? ((value / daily * 100).round()).toString() : '0';
 
   final hasCalculatedValues = nutrients['calories'] != null && nutrients['calories']! > 0;
+  final nutriScore = hasCalculatedValues ? recipeNutriScore(nutrients) : null;
 
   return SingleChildScrollView(
     padding: const EdgeInsets.all(16.0),
@@ -62,30 +75,44 @@ Widget buildNutritionView(BuildContext context, DisplayRecipeViewModel viewModel
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                l10n.nutritionFacts,
-                style: theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
-              ),
-              Divider(color: theme.dividerColor, thickness: 8, height: 16),
-
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(l10n.servingsPerRecipe, style: theme.textTheme.bodyMedium),
-                  if (recipe.piecesPerServing != null)
-                    Text(
-                      '${viewModel.servings} (${l10n.piecesPerServing(recipe.piecesPerServing.toString())})',
-                      style: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
-                    )
-                  else
-                    Text(
-                      '${viewModel.servings}',
-                      style: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          l10n.nutritionFacts,
+                          style: theme.textTheme.headlineSmall?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text.rich(
+                          TextSpan(
+                            text: '${l10n.servingsPerRecipe}: ',
+                            children: [
+                              TextSpan(
+                                text: recipe.piecesPerServing != null
+                                    ? '${viewModel.servings} (${l10n.piecesPerServing(recipe.piecesPerServing.toString())})'
+                                    : '${viewModel.servings}',
+                                style: const TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                          style: theme.textTheme.bodyMedium,
+                        ),
+                      ],
                     ),
+                  ),
+                  if (nutriScore != null) ...[
+                    const SizedBox(width: 4),
+                    NutriScoreBadge(grade: nutriScore.grade, footnote: _nutriScoreMarker),
+                  ],
                 ],
               ),
-
-              Divider(color: theme.dividerColor, thickness: 2, height: 16),
+              Divider(color: theme.dividerColor, thickness: 8, height: 16),
 
               Text(
                 l10n.amountPerServing,
@@ -229,6 +256,13 @@ Widget buildNutritionView(BuildContext context, DisplayRecipeViewModel viewModel
                   dv(perServing('potassium'), 4700),
                   theme,
                 ),
+              if (perServing('vitaminC') > 0)
+                _buildNutrientRow(
+                  l10n.vitaminC,
+                  '${fmt(perServing('vitaminC'), 2)} mg',
+                  dv(perServing('vitaminC'), 90),
+                  theme,
+                ),
 
               Divider(color: theme.dividerColor, thickness: 8, height: 16),
               Text(
@@ -243,6 +277,16 @@ Widget buildNutritionView(BuildContext context, DisplayRecipeViewModel viewModel
                 l10n.dailyValueDisclaimer,
                 style: theme.textTheme.bodySmall?.copyWith(color: Colors.grey[600]),
               ),
+              if (nutriScore != null) ...[
+                const SizedBox(height: 8),
+                Text(
+                  '$_nutriScoreMarker ${l10n.nutriScoreNote}',
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    fontStyle: FontStyle.italic,
+                    color: Colors.grey[600],
+                  ),
+                ),
+              ],
             ],
           ),
         ),
@@ -250,6 +294,8 @@ Widget buildNutritionView(BuildContext context, DisplayRecipeViewModel viewModel
     ),
   );
 }
+
+const _nutriScoreMarker = '**';
 
 Widget _buildNutrientRow(
   String label,
@@ -259,6 +305,8 @@ Widget _buildNutrientRow(
   bool isBold = false,
   bool isIndented = false,
 }) {
+  // Over 100% of the daily value: highlighted as a warning.
+  final exceedsDailyValue = (int.tryParse(dailyValue) ?? 0) > 100;
   return Column(
     children: [
       Padding(
@@ -296,14 +344,19 @@ Widget _buildNutrientRow(
                 padding: dailyValue.isNotEmpty
                     ? const EdgeInsets.symmetric(vertical: 2.0)
                     : EdgeInsets.zero,
-                decoration: BoxDecoration(color: theme.colorScheme.secondary.withAlpha(30)),
+                decoration: BoxDecoration(
+                  color: exceedsDailyValue
+                      ? Colors.yellow
+                      : theme.colorScheme.secondary.withAlpha(30),
+                ),
                 alignment: Alignment.center,
                 child: dailyValue.isNotEmpty
                     ? Text(
                         '$dailyValue%',
                         style: theme.textTheme.bodyMedium?.copyWith(
                           fontWeight: FontWeight.bold,
-                          color: theme.colorScheme.secondary,
+                          // Readable on yellow in both light and dark themes.
+                          color: exceedsDailyValue ? Colors.black87 : theme.colorScheme.secondary,
                         ),
                         textAlign: TextAlign.center,
                       )

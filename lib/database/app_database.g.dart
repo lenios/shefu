@@ -17,7 +17,9 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, RecipeRow> {
     hasAutoIncrement: true,
     type: DriftSqlType.int,
     requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'),
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
   );
   static const VerificationMeta _titleMeta = const VerificationMeta('title');
   @override
@@ -37,7 +39,9 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, RecipeRow> {
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _imagePathMeta = const VerificationMeta('imagePath');
+  static const VerificationMeta _imagePathMeta = const VerificationMeta(
+    'imagePath',
+  );
   @override
   late final GeneratedColumn<String> imagePath = GeneratedColumn<String>(
     'image_path',
@@ -55,7 +59,9 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, RecipeRow> {
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _servingsMeta = const VerificationMeta('servings');
+  static const VerificationMeta _servingsMeta = const VerificationMeta(
+    'servings',
+  );
   @override
   late final GeneratedColumn<int> servings = GeneratedColumn<int>(
     'servings',
@@ -64,7 +70,9 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, RecipeRow> {
     type: DriftSqlType.int,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _piecesPerServingMeta = const VerificationMeta('piecesPerServing');
+  static const VerificationMeta _piecesPerServingMeta = const VerificationMeta(
+    'piecesPerServing',
+  );
   @override
   late final GeneratedColumn<int> piecesPerServing = GeneratedColumn<int>(
     'pieces_per_serving',
@@ -73,7 +81,9 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, RecipeRow> {
     type: DriftSqlType.int,
     requiredDuringInsert: false,
   );
-  static const VerificationMeta _categoryMeta = const VerificationMeta('category');
+  static const VerificationMeta _categoryMeta = const VerificationMeta(
+    'category',
+  );
   @override
   late final GeneratedColumn<int> category = GeneratedColumn<int>(
     'category',
@@ -82,7 +92,9 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, RecipeRow> {
     type: DriftSqlType.int,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _countryCodeMeta = const VerificationMeta('countryCode');
+  static const VerificationMeta _countryCodeMeta = const VerificationMeta(
+    'countryCode',
+  );
   @override
   late final GeneratedColumn<String> countryCode = GeneratedColumn<String>(
     'country_code',
@@ -91,7 +103,9 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, RecipeRow> {
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _caloriesMeta = const VerificationMeta('calories');
+  static const VerificationMeta _caloriesMeta = const VerificationMeta(
+    'calories',
+  );
   @override
   late final GeneratedColumn<int> calories = GeneratedColumn<int>(
     'calories',
@@ -109,7 +123,9 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, RecipeRow> {
     type: DriftSqlType.int,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _carbohydratesMeta = const VerificationMeta('carbohydrates');
+  static const VerificationMeta _carbohydratesMeta = const VerificationMeta(
+    'carbohydrates',
+  );
   @override
   late final GeneratedColumn<int> carbohydrates = GeneratedColumn<int>(
     'carbohydrates',
@@ -118,7 +134,9 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, RecipeRow> {
     type: DriftSqlType.int,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _proteinMeta = const VerificationMeta('protein');
+  static const VerificationMeta _proteinMeta = const VerificationMeta(
+    'protein',
+  );
   @override
   late final GeneratedColumn<int> protein = GeneratedColumn<int>(
     'protein',
@@ -127,7 +145,9 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, RecipeRow> {
     type: DriftSqlType.int,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _saturatedFatMeta = const VerificationMeta('saturatedFat');
+  static const VerificationMeta _saturatedFatMeta = const VerificationMeta(
+    'saturatedFat',
+  );
   @override
   late final GeneratedColumn<int> saturatedFat = GeneratedColumn<int>(
     'saturated_fat',
@@ -136,7 +156,9 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, RecipeRow> {
     type: DriftSqlType.int,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _transFatMeta = const VerificationMeta('transFat');
+  static const VerificationMeta _transFatMeta = const VerificationMeta(
+    'transFat',
+  );
   @override
   late final GeneratedColumn<int> transFat = GeneratedColumn<int>(
     'trans_fat',
@@ -163,7 +185,9 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, RecipeRow> {
     type: DriftSqlType.int,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _cholesterolMeta = const VerificationMeta('cholesterol');
+  static const VerificationMeta _cholesterolMeta = const VerificationMeta(
+    'cholesterol',
+  );
   @override
   late final GeneratedColumn<int> cholesterol = GeneratedColumn<int>(
     'cholesterol',
@@ -190,7 +214,9 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, RecipeRow> {
     type: DriftSqlType.int,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _cookTimeMeta = const VerificationMeta('cookTime');
+  static const VerificationMeta _cookTimeMeta = const VerificationMeta(
+    'cookTime',
+  );
   @override
   late final GeneratedColumn<int> cookTime = GeneratedColumn<int>(
     'cook_time',
@@ -199,7 +225,9 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, RecipeRow> {
     type: DriftSqlType.int,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _prepTimeMeta = const VerificationMeta('prepTime');
+  static const VerificationMeta _prepTimeMeta = const VerificationMeta(
+    'prepTime',
+  );
   @override
   late final GeneratedColumn<int> prepTime = GeneratedColumn<int>(
     'prep_time',
@@ -208,7 +236,9 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, RecipeRow> {
     type: DriftSqlType.int,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _restTimeMeta = const VerificationMeta('restTime');
+  static const VerificationMeta _restTimeMeta = const VerificationMeta(
+    'restTime',
+  );
   @override
   late final GeneratedColumn<int> restTime = GeneratedColumn<int>(
     'rest_time',
@@ -226,7 +256,9 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, RecipeRow> {
     type: DriftSqlType.int,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _makeAheadMeta = const VerificationMeta('makeAhead');
+  static const VerificationMeta _makeAheadMeta = const VerificationMeta(
+    'makeAhead',
+  );
   @override
   late final GeneratedColumn<String> makeAhead = GeneratedColumn<String>(
     'make_ahead',
@@ -235,7 +267,9 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, RecipeRow> {
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _videoUrlMeta = const VerificationMeta('videoUrl');
+  static const VerificationMeta _videoUrlMeta = const VerificationMeta(
+    'videoUrl',
+  );
   @override
   late final GeneratedColumn<String> videoUrl = GeneratedColumn<String>(
     'video_url',
@@ -253,7 +287,9 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, RecipeRow> {
         type: DriftSqlType.string,
         requiredDuringInsert: true,
       ).withConverter<List<String>>($RecipesTable.$converterquestions);
-  static const VerificationMeta _languageTagMeta = const VerificationMeta('languageTag');
+  static const VerificationMeta _languageTagMeta = const VerificationMeta(
+    'languageTag',
+  );
   @override
   late final GeneratedColumn<String> languageTag = GeneratedColumn<String>(
     'language_tag',
@@ -261,6 +297,21 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, RecipeRow> {
     false,
     type: DriftSqlType.string,
     requiredDuringInsert: true,
+  );
+  static const VerificationMeta _favoriteMeta = const VerificationMeta(
+    'favorite',
+  );
+  @override
+  late final GeneratedColumn<bool> favorite = GeneratedColumn<bool>(
+    'favorite',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("favorite" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
   );
   @override
   List<GeneratedColumn> get $columns => [
@@ -292,6 +343,7 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, RecipeRow> {
     videoUrl,
     questions,
     languageTag,
+    favorite,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -309,12 +361,18 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, RecipeRow> {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
     if (data.containsKey('title')) {
-      context.handle(_titleMeta, title.isAcceptableOrUnknown(data['title']!, _titleMeta));
+      context.handle(
+        _titleMeta,
+        title.isAcceptableOrUnknown(data['title']!, _titleMeta),
+      );
     } else if (isInserting) {
       context.missing(_titleMeta);
     }
     if (data.containsKey('source')) {
-      context.handle(_sourceMeta, source.isAcceptableOrUnknown(data['source']!, _sourceMeta));
+      context.handle(
+        _sourceMeta,
+        source.isAcceptableOrUnknown(data['source']!, _sourceMeta),
+      );
     } else if (isInserting) {
       context.missing(_sourceMeta);
     }
@@ -327,7 +385,10 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, RecipeRow> {
       context.missing(_imagePathMeta);
     }
     if (data.containsKey('notes')) {
-      context.handle(_notesMeta, notes.isAcceptableOrUnknown(data['notes']!, _notesMeta));
+      context.handle(
+        _notesMeta,
+        notes.isAcceptableOrUnknown(data['notes']!, _notesMeta),
+      );
     } else if (isInserting) {
       context.missing(_notesMeta);
     }
@@ -342,7 +403,10 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, RecipeRow> {
     if (data.containsKey('pieces_per_serving')) {
       context.handle(
         _piecesPerServingMeta,
-        piecesPerServing.isAcceptableOrUnknown(data['pieces_per_serving']!, _piecesPerServingMeta),
+        piecesPerServing.isAcceptableOrUnknown(
+          data['pieces_per_serving']!,
+          _piecesPerServingMeta,
+        ),
       );
     }
     if (data.containsKey('category')) {
@@ -356,7 +420,10 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, RecipeRow> {
     if (data.containsKey('country_code')) {
       context.handle(
         _countryCodeMeta,
-        countryCode.isAcceptableOrUnknown(data['country_code']!, _countryCodeMeta),
+        countryCode.isAcceptableOrUnknown(
+          data['country_code']!,
+          _countryCodeMeta,
+        ),
       );
     } else if (isInserting) {
       context.missing(_countryCodeMeta);
@@ -370,27 +437,39 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, RecipeRow> {
       context.missing(_caloriesMeta);
     }
     if (data.containsKey('fat')) {
-      context.handle(_fatMeta, fat.isAcceptableOrUnknown(data['fat']!, _fatMeta));
+      context.handle(
+        _fatMeta,
+        fat.isAcceptableOrUnknown(data['fat']!, _fatMeta),
+      );
     } else if (isInserting) {
       context.missing(_fatMeta);
     }
     if (data.containsKey('carbohydrates')) {
       context.handle(
         _carbohydratesMeta,
-        carbohydrates.isAcceptableOrUnknown(data['carbohydrates']!, _carbohydratesMeta),
+        carbohydrates.isAcceptableOrUnknown(
+          data['carbohydrates']!,
+          _carbohydratesMeta,
+        ),
       );
     } else if (isInserting) {
       context.missing(_carbohydratesMeta);
     }
     if (data.containsKey('protein')) {
-      context.handle(_proteinMeta, protein.isAcceptableOrUnknown(data['protein']!, _proteinMeta));
+      context.handle(
+        _proteinMeta,
+        protein.isAcceptableOrUnknown(data['protein']!, _proteinMeta),
+      );
     } else if (isInserting) {
       context.missing(_proteinMeta);
     }
     if (data.containsKey('saturated_fat')) {
       context.handle(
         _saturatedFatMeta,
-        saturatedFat.isAcceptableOrUnknown(data['saturated_fat']!, _saturatedFatMeta),
+        saturatedFat.isAcceptableOrUnknown(
+          data['saturated_fat']!,
+          _saturatedFatMeta,
+        ),
       );
     } else if (isInserting) {
       context.missing(_saturatedFatMeta);
@@ -404,30 +483,45 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, RecipeRow> {
       context.missing(_transFatMeta);
     }
     if (data.containsKey('sugar')) {
-      context.handle(_sugarMeta, sugar.isAcceptableOrUnknown(data['sugar']!, _sugarMeta));
+      context.handle(
+        _sugarMeta,
+        sugar.isAcceptableOrUnknown(data['sugar']!, _sugarMeta),
+      );
     } else if (isInserting) {
       context.missing(_sugarMeta);
     }
     if (data.containsKey('fiber')) {
-      context.handle(_fiberMeta, fiber.isAcceptableOrUnknown(data['fiber']!, _fiberMeta));
+      context.handle(
+        _fiberMeta,
+        fiber.isAcceptableOrUnknown(data['fiber']!, _fiberMeta),
+      );
     } else if (isInserting) {
       context.missing(_fiberMeta);
     }
     if (data.containsKey('cholesterol')) {
       context.handle(
         _cholesterolMeta,
-        cholesterol.isAcceptableOrUnknown(data['cholesterol']!, _cholesterolMeta),
+        cholesterol.isAcceptableOrUnknown(
+          data['cholesterol']!,
+          _cholesterolMeta,
+        ),
       );
     } else if (isInserting) {
       context.missing(_cholesterolMeta);
     }
     if (data.containsKey('sodium')) {
-      context.handle(_sodiumMeta, sodium.isAcceptableOrUnknown(data['sodium']!, _sodiumMeta));
+      context.handle(
+        _sodiumMeta,
+        sodium.isAcceptableOrUnknown(data['sodium']!, _sodiumMeta),
+      );
     } else if (isInserting) {
       context.missing(_sodiumMeta);
     }
     if (data.containsKey('time')) {
-      context.handle(_timeMeta, time.isAcceptableOrUnknown(data['time']!, _timeMeta));
+      context.handle(
+        _timeMeta,
+        time.isAcceptableOrUnknown(data['time']!, _timeMeta),
+      );
     } else if (isInserting) {
       context.missing(_timeMeta);
     }
@@ -456,7 +550,10 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, RecipeRow> {
       context.missing(_restTimeMeta);
     }
     if (data.containsKey('month')) {
-      context.handle(_monthMeta, month.isAcceptableOrUnknown(data['month']!, _monthMeta));
+      context.handle(
+        _monthMeta,
+        month.isAcceptableOrUnknown(data['month']!, _monthMeta),
+      );
     } else if (isInserting) {
       context.missing(_monthMeta);
     }
@@ -479,10 +576,19 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, RecipeRow> {
     if (data.containsKey('language_tag')) {
       context.handle(
         _languageTagMeta,
-        languageTag.isAcceptableOrUnknown(data['language_tag']!, _languageTagMeta),
+        languageTag.isAcceptableOrUnknown(
+          data['language_tag']!,
+          _languageTagMeta,
+        ),
       );
     } else if (isInserting) {
       context.missing(_languageTagMeta);
+    }
+    if (data.containsKey('favorite')) {
+      context.handle(
+        _favoriteMeta,
+        favorite.isAcceptableOrUnknown(data['favorite']!, _favoriteMeta),
+      );
     }
     return context;
   }
@@ -493,7 +599,10 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, RecipeRow> {
   RecipeRow map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return RecipeRow(
-      id: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
       title: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}title'],
@@ -530,7 +639,10 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, RecipeRow> {
         DriftSqlType.int,
         data['${effectivePrefix}calories'],
       )!,
-      fat: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}fat'])!,
+      fat: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}fat'],
+      )!,
       carbohydrates: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
         data['${effectivePrefix}carbohydrates'],
@@ -547,8 +659,14 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, RecipeRow> {
         DriftSqlType.int,
         data['${effectivePrefix}trans_fat'],
       )!,
-      sugar: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}sugar'])!,
-      fiber: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}fiber'])!,
+      sugar: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}sugar'],
+      )!,
+      fiber: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}fiber'],
+      )!,
       cholesterol: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
         data['${effectivePrefix}cholesterol'],
@@ -557,7 +675,10 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, RecipeRow> {
         DriftSqlType.int,
         data['${effectivePrefix}sodium'],
       )!,
-      time: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}time'])!,
+      time: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}time'],
+      )!,
       cookTime: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
         data['${effectivePrefix}cook_time'],
@@ -570,7 +691,10 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, RecipeRow> {
         DriftSqlType.int,
         data['${effectivePrefix}rest_time'],
       )!,
-      month: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}month'])!,
+      month: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}month'],
+      )!,
       makeAhead: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}make_ahead'],
@@ -589,6 +713,10 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, RecipeRow> {
         DriftSqlType.string,
         data['${effectivePrefix}language_tag'],
       )!,
+      favorite: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}favorite'],
+      )!,
     );
   }
 
@@ -597,7 +725,8 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, RecipeRow> {
     return $RecipesTable(attachedDatabase, alias);
   }
 
-  static TypeConverter<List<String>, String> $converterquestions = const StringListConverter();
+  static TypeConverter<List<String>, String> $converterquestions =
+      const StringListConverter();
 }
 
 class RecipeRow extends DataClass implements Insertable<RecipeRow> {
@@ -629,6 +758,9 @@ class RecipeRow extends DataClass implements Insertable<RecipeRow> {
   final String videoUrl;
   final List<String> questions;
   final String languageTag;
+
+  /// Added in schema version 2.
+  final bool favorite;
   const RecipeRow({
     required this.id,
     required this.title,
@@ -658,6 +790,7 @@ class RecipeRow extends DataClass implements Insertable<RecipeRow> {
     required this.videoUrl,
     required this.questions,
     required this.languageTag,
+    required this.favorite,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -691,9 +824,12 @@ class RecipeRow extends DataClass implements Insertable<RecipeRow> {
     map['make_ahead'] = Variable<String>(makeAhead);
     map['video_url'] = Variable<String>(videoUrl);
     {
-      map['questions'] = Variable<String>($RecipesTable.$converterquestions.toSql(questions));
+      map['questions'] = Variable<String>(
+        $RecipesTable.$converterquestions.toSql(questions),
+      );
     }
     map['language_tag'] = Variable<String>(languageTag);
+    map['favorite'] = Variable<bool>(favorite);
     return map;
   }
 
@@ -729,10 +865,14 @@ class RecipeRow extends DataClass implements Insertable<RecipeRow> {
       videoUrl: Value(videoUrl),
       questions: Value(questions),
       languageTag: Value(languageTag),
+      favorite: Value(favorite),
     );
   }
 
-  factory RecipeRow.fromJson(Map<String, dynamic> json, {ValueSerializer? serializer}) {
+  factory RecipeRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return RecipeRow(
       id: serializer.fromJson<int>(json['id']),
@@ -763,6 +903,7 @@ class RecipeRow extends DataClass implements Insertable<RecipeRow> {
       videoUrl: serializer.fromJson<String>(json['videoUrl']),
       questions: serializer.fromJson<List<String>>(json['questions']),
       languageTag: serializer.fromJson<String>(json['languageTag']),
+      favorite: serializer.fromJson<bool>(json['favorite']),
     );
   }
   @override
@@ -797,6 +938,7 @@ class RecipeRow extends DataClass implements Insertable<RecipeRow> {
       'videoUrl': serializer.toJson<String>(videoUrl),
       'questions': serializer.toJson<List<String>>(questions),
       'languageTag': serializer.toJson<String>(languageTag),
+      'favorite': serializer.toJson<bool>(favorite),
     };
   }
 
@@ -829,6 +971,7 @@ class RecipeRow extends DataClass implements Insertable<RecipeRow> {
     String? videoUrl,
     List<String>? questions,
     String? languageTag,
+    bool? favorite,
   }) => RecipeRow(
     id: id ?? this.id,
     title: title ?? this.title,
@@ -836,7 +979,9 @@ class RecipeRow extends DataClass implements Insertable<RecipeRow> {
     imagePath: imagePath ?? this.imagePath,
     notes: notes ?? this.notes,
     servings: servings ?? this.servings,
-    piecesPerServing: piecesPerServing.present ? piecesPerServing.value : this.piecesPerServing,
+    piecesPerServing: piecesPerServing.present
+        ? piecesPerServing.value
+        : this.piecesPerServing,
     category: category ?? this.category,
     countryCode: countryCode ?? this.countryCode,
     calories: calories ?? this.calories,
@@ -858,6 +1003,7 @@ class RecipeRow extends DataClass implements Insertable<RecipeRow> {
     videoUrl: videoUrl ?? this.videoUrl,
     questions: questions ?? this.questions,
     languageTag: languageTag ?? this.languageTag,
+    favorite: favorite ?? this.favorite,
   );
   RecipeRow copyWithCompanion(RecipesCompanion data) {
     return RecipeRow(
@@ -871,16 +1017,24 @@ class RecipeRow extends DataClass implements Insertable<RecipeRow> {
           ? data.piecesPerServing.value
           : this.piecesPerServing,
       category: data.category.present ? data.category.value : this.category,
-      countryCode: data.countryCode.present ? data.countryCode.value : this.countryCode,
+      countryCode: data.countryCode.present
+          ? data.countryCode.value
+          : this.countryCode,
       calories: data.calories.present ? data.calories.value : this.calories,
       fat: data.fat.present ? data.fat.value : this.fat,
-      carbohydrates: data.carbohydrates.present ? data.carbohydrates.value : this.carbohydrates,
+      carbohydrates: data.carbohydrates.present
+          ? data.carbohydrates.value
+          : this.carbohydrates,
       protein: data.protein.present ? data.protein.value : this.protein,
-      saturatedFat: data.saturatedFat.present ? data.saturatedFat.value : this.saturatedFat,
+      saturatedFat: data.saturatedFat.present
+          ? data.saturatedFat.value
+          : this.saturatedFat,
       transFat: data.transFat.present ? data.transFat.value : this.transFat,
       sugar: data.sugar.present ? data.sugar.value : this.sugar,
       fiber: data.fiber.present ? data.fiber.value : this.fiber,
-      cholesterol: data.cholesterol.present ? data.cholesterol.value : this.cholesterol,
+      cholesterol: data.cholesterol.present
+          ? data.cholesterol.value
+          : this.cholesterol,
       sodium: data.sodium.present ? data.sodium.value : this.sodium,
       time: data.time.present ? data.time.value : this.time,
       cookTime: data.cookTime.present ? data.cookTime.value : this.cookTime,
@@ -890,7 +1044,10 @@ class RecipeRow extends DataClass implements Insertable<RecipeRow> {
       makeAhead: data.makeAhead.present ? data.makeAhead.value : this.makeAhead,
       videoUrl: data.videoUrl.present ? data.videoUrl.value : this.videoUrl,
       questions: data.questions.present ? data.questions.value : this.questions,
-      languageTag: data.languageTag.present ? data.languageTag.value : this.languageTag,
+      languageTag: data.languageTag.present
+          ? data.languageTag.value
+          : this.languageTag,
+      favorite: data.favorite.present ? data.favorite.value : this.favorite,
     );
   }
 
@@ -924,7 +1081,8 @@ class RecipeRow extends DataClass implements Insertable<RecipeRow> {
           ..write('makeAhead: $makeAhead, ')
           ..write('videoUrl: $videoUrl, ')
           ..write('questions: $questions, ')
-          ..write('languageTag: $languageTag')
+          ..write('languageTag: $languageTag, ')
+          ..write('favorite: $favorite')
           ..write(')'))
         .toString();
   }
@@ -959,6 +1117,7 @@ class RecipeRow extends DataClass implements Insertable<RecipeRow> {
     videoUrl,
     questions,
     languageTag,
+    favorite,
   ]);
   @override
   bool operator ==(Object other) =>
@@ -991,7 +1150,8 @@ class RecipeRow extends DataClass implements Insertable<RecipeRow> {
           other.makeAhead == this.makeAhead &&
           other.videoUrl == this.videoUrl &&
           other.questions == this.questions &&
-          other.languageTag == this.languageTag);
+          other.languageTag == this.languageTag &&
+          other.favorite == this.favorite);
 }
 
 class RecipesCompanion extends UpdateCompanion<RecipeRow> {
@@ -1023,6 +1183,7 @@ class RecipesCompanion extends UpdateCompanion<RecipeRow> {
   final Value<String> videoUrl;
   final Value<List<String>> questions;
   final Value<String> languageTag;
+  final Value<bool> favorite;
   const RecipesCompanion({
     this.id = const Value.absent(),
     this.title = const Value.absent(),
@@ -1052,6 +1213,7 @@ class RecipesCompanion extends UpdateCompanion<RecipeRow> {
     this.videoUrl = const Value.absent(),
     this.questions = const Value.absent(),
     this.languageTag = const Value.absent(),
+    this.favorite = const Value.absent(),
   });
   RecipesCompanion.insert({
     this.id = const Value.absent(),
@@ -1082,6 +1244,7 @@ class RecipesCompanion extends UpdateCompanion<RecipeRow> {
     required String videoUrl,
     required List<String> questions,
     required String languageTag,
+    this.favorite = const Value.absent(),
   }) : title = Value(title),
        source = Value(source),
        imagePath = Value(imagePath),
@@ -1137,6 +1300,7 @@ class RecipesCompanion extends UpdateCompanion<RecipeRow> {
     Expression<String>? videoUrl,
     Expression<String>? questions,
     Expression<String>? languageTag,
+    Expression<bool>? favorite,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -1167,6 +1331,7 @@ class RecipesCompanion extends UpdateCompanion<RecipeRow> {
       if (videoUrl != null) 'video_url': videoUrl,
       if (questions != null) 'questions': questions,
       if (languageTag != null) 'language_tag': languageTag,
+      if (favorite != null) 'favorite': favorite,
     });
   }
 
@@ -1199,6 +1364,7 @@ class RecipesCompanion extends UpdateCompanion<RecipeRow> {
     Value<String>? videoUrl,
     Value<List<String>>? questions,
     Value<String>? languageTag,
+    Value<bool>? favorite,
   }) {
     return RecipesCompanion(
       id: id ?? this.id,
@@ -1229,6 +1395,7 @@ class RecipesCompanion extends UpdateCompanion<RecipeRow> {
       videoUrl: videoUrl ?? this.videoUrl,
       questions: questions ?? this.questions,
       languageTag: languageTag ?? this.languageTag,
+      favorite: favorite ?? this.favorite,
     );
   }
 
@@ -1314,10 +1481,15 @@ class RecipesCompanion extends UpdateCompanion<RecipeRow> {
       map['video_url'] = Variable<String>(videoUrl.value);
     }
     if (questions.present) {
-      map['questions'] = Variable<String>($RecipesTable.$converterquestions.toSql(questions.value));
+      map['questions'] = Variable<String>(
+        $RecipesTable.$converterquestions.toSql(questions.value),
+      );
     }
     if (languageTag.present) {
       map['language_tag'] = Variable<String>(languageTag.value);
+    }
+    if (favorite.present) {
+      map['favorite'] = Variable<bool>(favorite.value);
     }
     return map;
   }
@@ -1352,7 +1524,8 @@ class RecipesCompanion extends UpdateCompanion<RecipeRow> {
           ..write('makeAhead: $makeAhead, ')
           ..write('videoUrl: $videoUrl, ')
           ..write('questions: $questions, ')
-          ..write('languageTag: $languageTag')
+          ..write('languageTag: $languageTag, ')
+          ..write('favorite: $favorite')
           ..write(')'))
         .toString();
   }
@@ -1373,9 +1546,13 @@ class $RecipeVariantsTable extends RecipeVariants
     hasAutoIncrement: true,
     type: DriftSqlType.int,
     requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'),
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
   );
-  static const VerificationMeta _recipeIdMeta = const VerificationMeta('recipeId');
+  static const VerificationMeta _recipeIdMeta = const VerificationMeta(
+    'recipeId',
+  );
   @override
   late final GeneratedColumn<int> recipeId = GeneratedColumn<int>(
     'recipe_id',
@@ -1396,8 +1573,20 @@ class $RecipeVariantsTable extends RecipeVariants
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
+  static const VerificationMeta _imagePathMeta = const VerificationMeta(
+    'imagePath',
+  );
   @override
-  List<GeneratedColumn> get $columns => [id, recipeId, title];
+  late final GeneratedColumn<String> imagePath = GeneratedColumn<String>(
+    'image_path',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(''),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [id, recipeId, title, imagePath];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -1422,9 +1611,18 @@ class $RecipeVariantsTable extends RecipeVariants
       context.missing(_recipeIdMeta);
     }
     if (data.containsKey('title')) {
-      context.handle(_titleMeta, title.isAcceptableOrUnknown(data['title']!, _titleMeta));
+      context.handle(
+        _titleMeta,
+        title.isAcceptableOrUnknown(data['title']!, _titleMeta),
+      );
     } else if (isInserting) {
       context.missing(_titleMeta);
+    }
+    if (data.containsKey('image_path')) {
+      context.handle(
+        _imagePathMeta,
+        imagePath.isAcceptableOrUnknown(data['image_path']!, _imagePathMeta),
+      );
     }
     return context;
   }
@@ -1435,7 +1633,10 @@ class $RecipeVariantsTable extends RecipeVariants
   RecipeVariantRow map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return RecipeVariantRow(
-      id: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
       recipeId: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
         data['${effectivePrefix}recipe_id'],
@@ -1443,6 +1644,10 @@ class $RecipeVariantsTable extends RecipeVariants
       title: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}title'],
+      )!,
+      imagePath: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}image_path'],
       )!,
     );
   }
@@ -1453,30 +1658,49 @@ class $RecipeVariantsTable extends RecipeVariants
   }
 }
 
-class RecipeVariantRow extends DataClass implements Insertable<RecipeVariantRow> {
+class RecipeVariantRow extends DataClass
+    implements Insertable<RecipeVariantRow> {
   final int id;
   final int recipeId;
   final String title;
-  const RecipeVariantRow({required this.id, required this.recipeId, required this.title});
+
+  /// Image replacing the recipe image for this variant; added in schema version 4.
+  final String imagePath;
+  const RecipeVariantRow({
+    required this.id,
+    required this.recipeId,
+    required this.title,
+    required this.imagePath,
+  });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
     map['recipe_id'] = Variable<int>(recipeId);
     map['title'] = Variable<String>(title);
+    map['image_path'] = Variable<String>(imagePath);
     return map;
   }
 
   RecipeVariantsCompanion toCompanion(bool nullToAbsent) {
-    return RecipeVariantsCompanion(id: Value(id), recipeId: Value(recipeId), title: Value(title));
+    return RecipeVariantsCompanion(
+      id: Value(id),
+      recipeId: Value(recipeId),
+      title: Value(title),
+      imagePath: Value(imagePath),
+    );
   }
 
-  factory RecipeVariantRow.fromJson(Map<String, dynamic> json, {ValueSerializer? serializer}) {
+  factory RecipeVariantRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return RecipeVariantRow(
       id: serializer.fromJson<int>(json['id']),
       recipeId: serializer.fromJson<int>(json['recipeId']),
       title: serializer.fromJson<String>(json['title']),
+      imagePath: serializer.fromJson<String>(json['imagePath']),
     );
   }
   @override
@@ -1486,19 +1710,27 @@ class RecipeVariantRow extends DataClass implements Insertable<RecipeVariantRow>
       'id': serializer.toJson<int>(id),
       'recipeId': serializer.toJson<int>(recipeId),
       'title': serializer.toJson<String>(title),
+      'imagePath': serializer.toJson<String>(imagePath),
     };
   }
 
-  RecipeVariantRow copyWith({int? id, int? recipeId, String? title}) => RecipeVariantRow(
+  RecipeVariantRow copyWith({
+    int? id,
+    int? recipeId,
+    String? title,
+    String? imagePath,
+  }) => RecipeVariantRow(
     id: id ?? this.id,
     recipeId: recipeId ?? this.recipeId,
     title: title ?? this.title,
+    imagePath: imagePath ?? this.imagePath,
   );
   RecipeVariantRow copyWithCompanion(RecipeVariantsCompanion data) {
     return RecipeVariantRow(
       id: data.id.present ? data.id.value : this.id,
       recipeId: data.recipeId.present ? data.recipeId.value : this.recipeId,
       title: data.title.present ? data.title.value : this.title,
+      imagePath: data.imagePath.present ? data.imagePath.value : this.imagePath,
     );
   }
 
@@ -1507,54 +1739,67 @@ class RecipeVariantRow extends DataClass implements Insertable<RecipeVariantRow>
     return (StringBuffer('RecipeVariantRow(')
           ..write('id: $id, ')
           ..write('recipeId: $recipeId, ')
-          ..write('title: $title')
+          ..write('title: $title, ')
+          ..write('imagePath: $imagePath')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, recipeId, title);
+  int get hashCode => Object.hash(id, recipeId, title, imagePath);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is RecipeVariantRow &&
           other.id == this.id &&
           other.recipeId == this.recipeId &&
-          other.title == this.title);
+          other.title == this.title &&
+          other.imagePath == this.imagePath);
 }
 
 class RecipeVariantsCompanion extends UpdateCompanion<RecipeVariantRow> {
   final Value<int> id;
   final Value<int> recipeId;
   final Value<String> title;
+  final Value<String> imagePath;
   const RecipeVariantsCompanion({
     this.id = const Value.absent(),
     this.recipeId = const Value.absent(),
     this.title = const Value.absent(),
+    this.imagePath = const Value.absent(),
   });
   RecipeVariantsCompanion.insert({
     this.id = const Value.absent(),
     required int recipeId,
     required String title,
+    this.imagePath = const Value.absent(),
   }) : recipeId = Value(recipeId),
        title = Value(title);
   static Insertable<RecipeVariantRow> custom({
     Expression<int>? id,
     Expression<int>? recipeId,
     Expression<String>? title,
+    Expression<String>? imagePath,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (recipeId != null) 'recipe_id': recipeId,
       if (title != null) 'title': title,
+      if (imagePath != null) 'image_path': imagePath,
     });
   }
 
-  RecipeVariantsCompanion copyWith({Value<int>? id, Value<int>? recipeId, Value<String>? title}) {
+  RecipeVariantsCompanion copyWith({
+    Value<int>? id,
+    Value<int>? recipeId,
+    Value<String>? title,
+    Value<String>? imagePath,
+  }) {
     return RecipeVariantsCompanion(
       id: id ?? this.id,
       recipeId: recipeId ?? this.recipeId,
       title: title ?? this.title,
+      imagePath: imagePath ?? this.imagePath,
     );
   }
 
@@ -1570,6 +1815,9 @@ class RecipeVariantsCompanion extends UpdateCompanion<RecipeVariantRow> {
     if (title.present) {
       map['title'] = Variable<String>(title.value);
     }
+    if (imagePath.present) {
+      map['image_path'] = Variable<String>(imagePath.value);
+    }
     return map;
   }
 
@@ -1578,13 +1826,15 @@ class RecipeVariantsCompanion extends UpdateCompanion<RecipeVariantRow> {
     return (StringBuffer('RecipeVariantsCompanion(')
           ..write('id: $id, ')
           ..write('recipeId: $recipeId, ')
-          ..write('title: $title')
+          ..write('title: $title, ')
+          ..write('imagePath: $imagePath')
           ..write(')'))
         .toString();
   }
 }
 
-class $RecipeStepsTable extends RecipeSteps with TableInfo<$RecipeStepsTable, RecipeStepRow> {
+class $RecipeStepsTable extends RecipeSteps
+    with TableInfo<$RecipeStepsTable, RecipeStepRow> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
@@ -1598,9 +1848,13 @@ class $RecipeStepsTable extends RecipeSteps with TableInfo<$RecipeStepsTable, Re
     hasAutoIncrement: true,
     type: DriftSqlType.int,
     requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'),
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
   );
-  static const VerificationMeta _recipeIdMeta = const VerificationMeta('recipeId');
+  static const VerificationMeta _recipeIdMeta = const VerificationMeta(
+    'recipeId',
+  );
   @override
   late final GeneratedColumn<int> recipeId = GeneratedColumn<int>(
     'recipe_id',
@@ -1612,7 +1866,9 @@ class $RecipeStepsTable extends RecipeSteps with TableInfo<$RecipeStepsTable, Re
       'REFERENCES recipes (id) ON DELETE CASCADE',
     ),
   );
-  static const VerificationMeta _variantIdMeta = const VerificationMeta('variantId');
+  static const VerificationMeta _variantIdMeta = const VerificationMeta(
+    'variantId',
+  );
   @override
   late final GeneratedColumn<int> variantId = GeneratedColumn<int>(
     'variant_id',
@@ -1633,7 +1889,9 @@ class $RecipeStepsTable extends RecipeSteps with TableInfo<$RecipeStepsTable, Re
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _instructionMeta = const VerificationMeta('instruction');
+  static const VerificationMeta _instructionMeta = const VerificationMeta(
+    'instruction',
+  );
   @override
   late final GeneratedColumn<String> instruction = GeneratedColumn<String>(
     'instruction',
@@ -1642,7 +1900,9 @@ class $RecipeStepsTable extends RecipeSteps with TableInfo<$RecipeStepsTable, Re
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _imagePathMeta = const VerificationMeta('imagePath');
+  static const VerificationMeta _imagePathMeta = const VerificationMeta(
+    'imagePath',
+  );
   @override
   late final GeneratedColumn<String> imagePath = GeneratedColumn<String>(
     'image_path',
@@ -1651,7 +1911,9 @@ class $RecipeStepsTable extends RecipeSteps with TableInfo<$RecipeStepsTable, Re
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _videoUrlMeta = const VerificationMeta('videoUrl');
+  static const VerificationMeta _videoUrlMeta = const VerificationMeta(
+    'videoUrl',
+  );
   @override
   late final GeneratedColumn<String> videoUrl = GeneratedColumn<String>(
     'video_url',
@@ -1669,7 +1931,9 @@ class $RecipeStepsTable extends RecipeSteps with TableInfo<$RecipeStepsTable, Re
     type: DriftSqlType.int,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _stepOrderMeta = const VerificationMeta('stepOrder');
+  static const VerificationMeta _stepOrderMeta = const VerificationMeta(
+    'stepOrder',
+  );
   @override
   late final GeneratedColumn<int> stepOrder = GeneratedColumn<int>(
     'step_order',
@@ -1677,6 +1941,20 @@ class $RecipeStepsTable extends RecipeSteps with TableInfo<$RecipeStepsTable, Re
     false,
     type: DriftSqlType.int,
     requiredDuringInsert: true,
+  );
+  static const VerificationMeta _linkedRecipeIdMeta = const VerificationMeta(
+    'linkedRecipeId',
+  );
+  @override
+  late final GeneratedColumn<int> linkedRecipeId = GeneratedColumn<int>(
+    'linked_recipe_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES recipes (id) ON DELETE SET NULL',
+    ),
   );
   @override
   List<GeneratedColumn> get $columns => [
@@ -1689,6 +1967,7 @@ class $RecipeStepsTable extends RecipeSteps with TableInfo<$RecipeStepsTable, Re
     videoUrl,
     timer,
     stepOrder,
+    linkedRecipeId,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -1718,14 +1997,20 @@ class $RecipeStepsTable extends RecipeSteps with TableInfo<$RecipeStepsTable, Re
       );
     }
     if (data.containsKey('name')) {
-      context.handle(_nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
     } else if (isInserting) {
       context.missing(_nameMeta);
     }
     if (data.containsKey('instruction')) {
       context.handle(
         _instructionMeta,
-        instruction.isAcceptableOrUnknown(data['instruction']!, _instructionMeta),
+        instruction.isAcceptableOrUnknown(
+          data['instruction']!,
+          _instructionMeta,
+        ),
       );
     } else if (isInserting) {
       context.missing(_instructionMeta);
@@ -1747,7 +2032,10 @@ class $RecipeStepsTable extends RecipeSteps with TableInfo<$RecipeStepsTable, Re
       context.missing(_videoUrlMeta);
     }
     if (data.containsKey('timer')) {
-      context.handle(_timerMeta, timer.isAcceptableOrUnknown(data['timer']!, _timerMeta));
+      context.handle(
+        _timerMeta,
+        timer.isAcceptableOrUnknown(data['timer']!, _timerMeta),
+      );
     } else if (isInserting) {
       context.missing(_timerMeta);
     }
@@ -1759,6 +2047,15 @@ class $RecipeStepsTable extends RecipeSteps with TableInfo<$RecipeStepsTable, Re
     } else if (isInserting) {
       context.missing(_stepOrderMeta);
     }
+    if (data.containsKey('linked_recipe_id')) {
+      context.handle(
+        _linkedRecipeIdMeta,
+        linkedRecipeId.isAcceptableOrUnknown(
+          data['linked_recipe_id']!,
+          _linkedRecipeIdMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -1768,7 +2065,10 @@ class $RecipeStepsTable extends RecipeSteps with TableInfo<$RecipeStepsTable, Re
   RecipeStepRow map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return RecipeStepRow(
-      id: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
       recipeId: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
         data['${effectivePrefix}recipe_id'],
@@ -1777,7 +2077,10 @@ class $RecipeStepsTable extends RecipeSteps with TableInfo<$RecipeStepsTable, Re
         DriftSqlType.int,
         data['${effectivePrefix}variant_id'],
       ),
-      name: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}name'])!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
       instruction: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}instruction'],
@@ -1790,11 +2093,18 @@ class $RecipeStepsTable extends RecipeSteps with TableInfo<$RecipeStepsTable, Re
         DriftSqlType.string,
         data['${effectivePrefix}video_url'],
       )!,
-      timer: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}timer'])!,
+      timer: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}timer'],
+      )!,
       stepOrder: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
         data['${effectivePrefix}step_order'],
       )!,
+      linkedRecipeId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}linked_recipe_id'],
+      ),
     );
   }
 
@@ -1814,6 +2124,10 @@ class RecipeStepRow extends DataClass implements Insertable<RecipeStepRow> {
   final String videoUrl;
   final int timer;
   final int stepOrder;
+
+  /// Recipe used as this step (e.g. a puff pastry in an apple pie); its
+  /// ingredients are scaled to the servings. Added in schema version 5.
+  final int? linkedRecipeId;
   const RecipeStepRow({
     required this.id,
     this.recipeId,
@@ -1824,6 +2138,7 @@ class RecipeStepRow extends DataClass implements Insertable<RecipeStepRow> {
     required this.videoUrl,
     required this.timer,
     required this.stepOrder,
+    this.linkedRecipeId,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -1841,24 +2156,37 @@ class RecipeStepRow extends DataClass implements Insertable<RecipeStepRow> {
     map['video_url'] = Variable<String>(videoUrl);
     map['timer'] = Variable<int>(timer);
     map['step_order'] = Variable<int>(stepOrder);
+    if (!nullToAbsent || linkedRecipeId != null) {
+      map['linked_recipe_id'] = Variable<int>(linkedRecipeId);
+    }
     return map;
   }
 
   RecipeStepsCompanion toCompanion(bool nullToAbsent) {
     return RecipeStepsCompanion(
       id: Value(id),
-      recipeId: recipeId == null && nullToAbsent ? const Value.absent() : Value(recipeId),
-      variantId: variantId == null && nullToAbsent ? const Value.absent() : Value(variantId),
+      recipeId: recipeId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(recipeId),
+      variantId: variantId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(variantId),
       name: Value(name),
       instruction: Value(instruction),
       imagePath: Value(imagePath),
       videoUrl: Value(videoUrl),
       timer: Value(timer),
       stepOrder: Value(stepOrder),
+      linkedRecipeId: linkedRecipeId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(linkedRecipeId),
     );
   }
 
-  factory RecipeStepRow.fromJson(Map<String, dynamic> json, {ValueSerializer? serializer}) {
+  factory RecipeStepRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return RecipeStepRow(
       id: serializer.fromJson<int>(json['id']),
@@ -1870,6 +2198,7 @@ class RecipeStepRow extends DataClass implements Insertable<RecipeStepRow> {
       videoUrl: serializer.fromJson<String>(json['videoUrl']),
       timer: serializer.fromJson<int>(json['timer']),
       stepOrder: serializer.fromJson<int>(json['stepOrder']),
+      linkedRecipeId: serializer.fromJson<int?>(json['linkedRecipeId']),
     );
   }
   @override
@@ -1885,6 +2214,7 @@ class RecipeStepRow extends DataClass implements Insertable<RecipeStepRow> {
       'videoUrl': serializer.toJson<String>(videoUrl),
       'timer': serializer.toJson<int>(timer),
       'stepOrder': serializer.toJson<int>(stepOrder),
+      'linkedRecipeId': serializer.toJson<int?>(linkedRecipeId),
     };
   }
 
@@ -1898,6 +2228,7 @@ class RecipeStepRow extends DataClass implements Insertable<RecipeStepRow> {
     String? videoUrl,
     int? timer,
     int? stepOrder,
+    Value<int?> linkedRecipeId = const Value.absent(),
   }) => RecipeStepRow(
     id: id ?? this.id,
     recipeId: recipeId.present ? recipeId.value : this.recipeId,
@@ -1908,6 +2239,9 @@ class RecipeStepRow extends DataClass implements Insertable<RecipeStepRow> {
     videoUrl: videoUrl ?? this.videoUrl,
     timer: timer ?? this.timer,
     stepOrder: stepOrder ?? this.stepOrder,
+    linkedRecipeId: linkedRecipeId.present
+        ? linkedRecipeId.value
+        : this.linkedRecipeId,
   );
   RecipeStepRow copyWithCompanion(RecipeStepsCompanion data) {
     return RecipeStepRow(
@@ -1915,11 +2249,16 @@ class RecipeStepRow extends DataClass implements Insertable<RecipeStepRow> {
       recipeId: data.recipeId.present ? data.recipeId.value : this.recipeId,
       variantId: data.variantId.present ? data.variantId.value : this.variantId,
       name: data.name.present ? data.name.value : this.name,
-      instruction: data.instruction.present ? data.instruction.value : this.instruction,
+      instruction: data.instruction.present
+          ? data.instruction.value
+          : this.instruction,
       imagePath: data.imagePath.present ? data.imagePath.value : this.imagePath,
       videoUrl: data.videoUrl.present ? data.videoUrl.value : this.videoUrl,
       timer: data.timer.present ? data.timer.value : this.timer,
       stepOrder: data.stepOrder.present ? data.stepOrder.value : this.stepOrder,
+      linkedRecipeId: data.linkedRecipeId.present
+          ? data.linkedRecipeId.value
+          : this.linkedRecipeId,
     );
   }
 
@@ -1934,7 +2273,8 @@ class RecipeStepRow extends DataClass implements Insertable<RecipeStepRow> {
           ..write('imagePath: $imagePath, ')
           ..write('videoUrl: $videoUrl, ')
           ..write('timer: $timer, ')
-          ..write('stepOrder: $stepOrder')
+          ..write('stepOrder: $stepOrder, ')
+          ..write('linkedRecipeId: $linkedRecipeId')
           ..write(')'))
         .toString();
   }
@@ -1950,6 +2290,7 @@ class RecipeStepRow extends DataClass implements Insertable<RecipeStepRow> {
     videoUrl,
     timer,
     stepOrder,
+    linkedRecipeId,
   );
   @override
   bool operator ==(Object other) =>
@@ -1963,7 +2304,8 @@ class RecipeStepRow extends DataClass implements Insertable<RecipeStepRow> {
           other.imagePath == this.imagePath &&
           other.videoUrl == this.videoUrl &&
           other.timer == this.timer &&
-          other.stepOrder == this.stepOrder);
+          other.stepOrder == this.stepOrder &&
+          other.linkedRecipeId == this.linkedRecipeId);
 }
 
 class RecipeStepsCompanion extends UpdateCompanion<RecipeStepRow> {
@@ -1976,6 +2318,7 @@ class RecipeStepsCompanion extends UpdateCompanion<RecipeStepRow> {
   final Value<String> videoUrl;
   final Value<int> timer;
   final Value<int> stepOrder;
+  final Value<int?> linkedRecipeId;
   const RecipeStepsCompanion({
     this.id = const Value.absent(),
     this.recipeId = const Value.absent(),
@@ -1986,6 +2329,7 @@ class RecipeStepsCompanion extends UpdateCompanion<RecipeStepRow> {
     this.videoUrl = const Value.absent(),
     this.timer = const Value.absent(),
     this.stepOrder = const Value.absent(),
+    this.linkedRecipeId = const Value.absent(),
   });
   RecipeStepsCompanion.insert({
     this.id = const Value.absent(),
@@ -1997,6 +2341,7 @@ class RecipeStepsCompanion extends UpdateCompanion<RecipeStepRow> {
     required String videoUrl,
     required int timer,
     required int stepOrder,
+    this.linkedRecipeId = const Value.absent(),
   }) : name = Value(name),
        instruction = Value(instruction),
        imagePath = Value(imagePath),
@@ -2013,6 +2358,7 @@ class RecipeStepsCompanion extends UpdateCompanion<RecipeStepRow> {
     Expression<String>? videoUrl,
     Expression<int>? timer,
     Expression<int>? stepOrder,
+    Expression<int>? linkedRecipeId,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -2024,6 +2370,7 @@ class RecipeStepsCompanion extends UpdateCompanion<RecipeStepRow> {
       if (videoUrl != null) 'video_url': videoUrl,
       if (timer != null) 'timer': timer,
       if (stepOrder != null) 'step_order': stepOrder,
+      if (linkedRecipeId != null) 'linked_recipe_id': linkedRecipeId,
     });
   }
 
@@ -2037,6 +2384,7 @@ class RecipeStepsCompanion extends UpdateCompanion<RecipeStepRow> {
     Value<String>? videoUrl,
     Value<int>? timer,
     Value<int>? stepOrder,
+    Value<int?>? linkedRecipeId,
   }) {
     return RecipeStepsCompanion(
       id: id ?? this.id,
@@ -2048,6 +2396,7 @@ class RecipeStepsCompanion extends UpdateCompanion<RecipeStepRow> {
       videoUrl: videoUrl ?? this.videoUrl,
       timer: timer ?? this.timer,
       stepOrder: stepOrder ?? this.stepOrder,
+      linkedRecipeId: linkedRecipeId ?? this.linkedRecipeId,
     );
   }
 
@@ -2081,6 +2430,9 @@ class RecipeStepsCompanion extends UpdateCompanion<RecipeStepRow> {
     if (stepOrder.present) {
       map['step_order'] = Variable<int>(stepOrder.value);
     }
+    if (linkedRecipeId.present) {
+      map['linked_recipe_id'] = Variable<int>(linkedRecipeId.value);
+    }
     return map;
   }
 
@@ -2095,7 +2447,8 @@ class RecipeStepsCompanion extends UpdateCompanion<RecipeStepRow> {
           ..write('imagePath: $imagePath, ')
           ..write('videoUrl: $videoUrl, ')
           ..write('timer: $timer, ')
-          ..write('stepOrder: $stepOrder')
+          ..write('stepOrder: $stepOrder, ')
+          ..write('linkedRecipeId: $linkedRecipeId')
           ..write(')'))
         .toString();
   }
@@ -2116,7 +2469,9 @@ class $IngredientItemsTable extends IngredientItems
     hasAutoIncrement: true,
     type: DriftSqlType.int,
     requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'),
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
   );
   static const VerificationMeta _stepIdMeta = const VerificationMeta('stepId');
   @override
@@ -2130,7 +2485,9 @@ class $IngredientItemsTable extends IngredientItems
       'REFERENCES recipe_steps (id) ON DELETE CASCADE',
     ),
   );
-  static const VerificationMeta _positionMeta = const VerificationMeta('position');
+  static const VerificationMeta _positionMeta = const VerificationMeta(
+    'position',
+  );
   @override
   late final GeneratedColumn<int> position = GeneratedColumn<int>(
     'position',
@@ -2148,7 +2505,9 @@ class $IngredientItemsTable extends IngredientItems
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _lowerNameMeta = const VerificationMeta('lowerName');
+  static const VerificationMeta _lowerNameMeta = const VerificationMeta(
+    'lowerName',
+  );
   @override
   late final GeneratedColumn<String> lowerName = GeneratedColumn<String>(
     'lower_name',
@@ -2166,7 +2525,9 @@ class $IngredientItemsTable extends IngredientItems
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _quantityMeta = const VerificationMeta('quantity');
+  static const VerificationMeta _quantityMeta = const VerificationMeta(
+    'quantity',
+  );
   @override
   late final GeneratedColumn<double> quantity = GeneratedColumn<double>(
     'quantity',
@@ -2193,7 +2554,9 @@ class $IngredientItemsTable extends IngredientItems
     type: DriftSqlType.int,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _conversionIdMeta = const VerificationMeta('conversionId');
+  static const VerificationMeta _conversionIdMeta = const VerificationMeta(
+    'conversionId',
+  );
   @override
   late final GeneratedColumn<int> conversionId = GeneratedColumn<int>(
     'conversion_id',
@@ -2202,7 +2565,9 @@ class $IngredientItemsTable extends IngredientItems
     type: DriftSqlType.int,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _optionalMeta = const VerificationMeta('optional');
+  static const VerificationMeta _optionalMeta = const VerificationMeta(
+    'optional',
+  );
   @override
   late final GeneratedColumn<bool> optional = GeneratedColumn<bool>(
     'optional',
@@ -2210,7 +2575,21 @@ class $IngredientItemsTable extends IngredientItems
     false,
     type: DriftSqlType.bool,
     requiredDuringInsert: true,
-    defaultConstraints: GeneratedColumn.constraintIsAlways('CHECK ("optional" IN (0, 1))'),
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("optional" IN (0, 1))',
+    ),
+  );
+  static const VerificationMeta _originalMeasureMeta = const VerificationMeta(
+    'originalMeasure',
+  );
+  @override
+  late final GeneratedColumn<String> originalMeasure = GeneratedColumn<String>(
+    'original_measure',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(''),
   );
   @override
   List<GeneratedColumn> get $columns => [
@@ -2225,6 +2604,7 @@ class $IngredientItemsTable extends IngredientItems
     foodId,
     conversionId,
     optional,
+    originalMeasure,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -2242,7 +2622,10 @@ class $IngredientItemsTable extends IngredientItems
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
     if (data.containsKey('step_id')) {
-      context.handle(_stepIdMeta, stepId.isAcceptableOrUnknown(data['step_id']!, _stepIdMeta));
+      context.handle(
+        _stepIdMeta,
+        stepId.isAcceptableOrUnknown(data['step_id']!, _stepIdMeta),
+      );
     } else if (isInserting) {
       context.missing(_stepIdMeta);
     }
@@ -2255,7 +2638,10 @@ class $IngredientItemsTable extends IngredientItems
       context.missing(_positionMeta);
     }
     if (data.containsKey('name')) {
-      context.handle(_nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
     } else if (isInserting) {
       context.missing(_nameMeta);
     }
@@ -2268,7 +2654,10 @@ class $IngredientItemsTable extends IngredientItems
       context.missing(_lowerNameMeta);
     }
     if (data.containsKey('unit')) {
-      context.handle(_unitMeta, unit.isAcceptableOrUnknown(data['unit']!, _unitMeta));
+      context.handle(
+        _unitMeta,
+        unit.isAcceptableOrUnknown(data['unit']!, _unitMeta),
+      );
     } else if (isInserting) {
       context.missing(_unitMeta);
     }
@@ -2281,19 +2670,28 @@ class $IngredientItemsTable extends IngredientItems
       context.missing(_quantityMeta);
     }
     if (data.containsKey('shape')) {
-      context.handle(_shapeMeta, shape.isAcceptableOrUnknown(data['shape']!, _shapeMeta));
+      context.handle(
+        _shapeMeta,
+        shape.isAcceptableOrUnknown(data['shape']!, _shapeMeta),
+      );
     } else if (isInserting) {
       context.missing(_shapeMeta);
     }
     if (data.containsKey('food_id')) {
-      context.handle(_foodIdMeta, foodId.isAcceptableOrUnknown(data['food_id']!, _foodIdMeta));
+      context.handle(
+        _foodIdMeta,
+        foodId.isAcceptableOrUnknown(data['food_id']!, _foodIdMeta),
+      );
     } else if (isInserting) {
       context.missing(_foodIdMeta);
     }
     if (data.containsKey('conversion_id')) {
       context.handle(
         _conversionIdMeta,
-        conversionId.isAcceptableOrUnknown(data['conversion_id']!, _conversionIdMeta),
+        conversionId.isAcceptableOrUnknown(
+          data['conversion_id']!,
+          _conversionIdMeta,
+        ),
       );
     } else if (isInserting) {
       context.missing(_conversionIdMeta);
@@ -2306,6 +2704,15 @@ class $IngredientItemsTable extends IngredientItems
     } else if (isInserting) {
       context.missing(_optionalMeta);
     }
+    if (data.containsKey('original_measure')) {
+      context.handle(
+        _originalMeasureMeta,
+        originalMeasure.isAcceptableOrUnknown(
+          data['original_measure']!,
+          _originalMeasureMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -2315,7 +2722,10 @@ class $IngredientItemsTable extends IngredientItems
   IngredientRow map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return IngredientRow(
-      id: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
       stepId: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
         data['${effectivePrefix}step_id'],
@@ -2324,12 +2734,18 @@ class $IngredientItemsTable extends IngredientItems
         DriftSqlType.int,
         data['${effectivePrefix}position'],
       )!,
-      name: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}name'])!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
       lowerName: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}lower_name'],
       )!,
-      unit: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}unit'])!,
+      unit: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}unit'],
+      )!,
       quantity: attachedDatabase.typeMapping.read(
         DriftSqlType.double,
         data['${effectivePrefix}quantity'],
@@ -2349,6 +2765,10 @@ class $IngredientItemsTable extends IngredientItems
       optional: attachedDatabase.typeMapping.read(
         DriftSqlType.bool,
         data['${effectivePrefix}optional'],
+      )!,
+      originalMeasure: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}original_measure'],
       )!,
     );
   }
@@ -2376,6 +2796,10 @@ class IngredientRow extends DataClass implements Insertable<IngredientRow> {
   final int foodId;
   final int conversionId;
   final bool optional;
+
+  /// Measure as written by the source ("2 medium") when [quantity] is its
+  /// metric equivalent. Added in schema version 3.
+  final String originalMeasure;
   const IngredientRow({
     required this.id,
     required this.stepId,
@@ -2388,6 +2812,7 @@ class IngredientRow extends DataClass implements Insertable<IngredientRow> {
     required this.foodId,
     required this.conversionId,
     required this.optional,
+    required this.originalMeasure,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -2403,6 +2828,7 @@ class IngredientRow extends DataClass implements Insertable<IngredientRow> {
     map['food_id'] = Variable<int>(foodId);
     map['conversion_id'] = Variable<int>(conversionId);
     map['optional'] = Variable<bool>(optional);
+    map['original_measure'] = Variable<String>(originalMeasure);
     return map;
   }
 
@@ -2419,10 +2845,14 @@ class IngredientRow extends DataClass implements Insertable<IngredientRow> {
       foodId: Value(foodId),
       conversionId: Value(conversionId),
       optional: Value(optional),
+      originalMeasure: Value(originalMeasure),
     );
   }
 
-  factory IngredientRow.fromJson(Map<String, dynamic> json, {ValueSerializer? serializer}) {
+  factory IngredientRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return IngredientRow(
       id: serializer.fromJson<int>(json['id']),
@@ -2436,6 +2866,7 @@ class IngredientRow extends DataClass implements Insertable<IngredientRow> {
       foodId: serializer.fromJson<int>(json['foodId']),
       conversionId: serializer.fromJson<int>(json['conversionId']),
       optional: serializer.fromJson<bool>(json['optional']),
+      originalMeasure: serializer.fromJson<String>(json['originalMeasure']),
     );
   }
   @override
@@ -2453,6 +2884,7 @@ class IngredientRow extends DataClass implements Insertable<IngredientRow> {
       'foodId': serializer.toJson<int>(foodId),
       'conversionId': serializer.toJson<int>(conversionId),
       'optional': serializer.toJson<bool>(optional),
+      'originalMeasure': serializer.toJson<String>(originalMeasure),
     };
   }
 
@@ -2468,6 +2900,7 @@ class IngredientRow extends DataClass implements Insertable<IngredientRow> {
     int? foodId,
     int? conversionId,
     bool? optional,
+    String? originalMeasure,
   }) => IngredientRow(
     id: id ?? this.id,
     stepId: stepId ?? this.stepId,
@@ -2480,6 +2913,7 @@ class IngredientRow extends DataClass implements Insertable<IngredientRow> {
     foodId: foodId ?? this.foodId,
     conversionId: conversionId ?? this.conversionId,
     optional: optional ?? this.optional,
+    originalMeasure: originalMeasure ?? this.originalMeasure,
   );
   IngredientRow copyWithCompanion(IngredientItemsCompanion data) {
     return IngredientRow(
@@ -2492,8 +2926,13 @@ class IngredientRow extends DataClass implements Insertable<IngredientRow> {
       quantity: data.quantity.present ? data.quantity.value : this.quantity,
       shape: data.shape.present ? data.shape.value : this.shape,
       foodId: data.foodId.present ? data.foodId.value : this.foodId,
-      conversionId: data.conversionId.present ? data.conversionId.value : this.conversionId,
+      conversionId: data.conversionId.present
+          ? data.conversionId.value
+          : this.conversionId,
       optional: data.optional.present ? data.optional.value : this.optional,
+      originalMeasure: data.originalMeasure.present
+          ? data.originalMeasure.value
+          : this.originalMeasure,
     );
   }
 
@@ -2510,7 +2949,8 @@ class IngredientRow extends DataClass implements Insertable<IngredientRow> {
           ..write('shape: $shape, ')
           ..write('foodId: $foodId, ')
           ..write('conversionId: $conversionId, ')
-          ..write('optional: $optional')
+          ..write('optional: $optional, ')
+          ..write('originalMeasure: $originalMeasure')
           ..write(')'))
         .toString();
   }
@@ -2528,6 +2968,7 @@ class IngredientRow extends DataClass implements Insertable<IngredientRow> {
     foodId,
     conversionId,
     optional,
+    originalMeasure,
   );
   @override
   bool operator ==(Object other) =>
@@ -2543,7 +2984,8 @@ class IngredientRow extends DataClass implements Insertable<IngredientRow> {
           other.shape == this.shape &&
           other.foodId == this.foodId &&
           other.conversionId == this.conversionId &&
-          other.optional == this.optional);
+          other.optional == this.optional &&
+          other.originalMeasure == this.originalMeasure);
 }
 
 class IngredientItemsCompanion extends UpdateCompanion<IngredientRow> {
@@ -2558,6 +3000,7 @@ class IngredientItemsCompanion extends UpdateCompanion<IngredientRow> {
   final Value<int> foodId;
   final Value<int> conversionId;
   final Value<bool> optional;
+  final Value<String> originalMeasure;
   const IngredientItemsCompanion({
     this.id = const Value.absent(),
     this.stepId = const Value.absent(),
@@ -2570,6 +3013,7 @@ class IngredientItemsCompanion extends UpdateCompanion<IngredientRow> {
     this.foodId = const Value.absent(),
     this.conversionId = const Value.absent(),
     this.optional = const Value.absent(),
+    this.originalMeasure = const Value.absent(),
   });
   IngredientItemsCompanion.insert({
     this.id = const Value.absent(),
@@ -2583,6 +3027,7 @@ class IngredientItemsCompanion extends UpdateCompanion<IngredientRow> {
     required int foodId,
     required int conversionId,
     required bool optional,
+    this.originalMeasure = const Value.absent(),
   }) : stepId = Value(stepId),
        position = Value(position),
        name = Value(name),
@@ -2605,6 +3050,7 @@ class IngredientItemsCompanion extends UpdateCompanion<IngredientRow> {
     Expression<int>? foodId,
     Expression<int>? conversionId,
     Expression<bool>? optional,
+    Expression<String>? originalMeasure,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -2618,6 +3064,7 @@ class IngredientItemsCompanion extends UpdateCompanion<IngredientRow> {
       if (foodId != null) 'food_id': foodId,
       if (conversionId != null) 'conversion_id': conversionId,
       if (optional != null) 'optional': optional,
+      if (originalMeasure != null) 'original_measure': originalMeasure,
     });
   }
 
@@ -2633,6 +3080,7 @@ class IngredientItemsCompanion extends UpdateCompanion<IngredientRow> {
     Value<int>? foodId,
     Value<int>? conversionId,
     Value<bool>? optional,
+    Value<String>? originalMeasure,
   }) {
     return IngredientItemsCompanion(
       id: id ?? this.id,
@@ -2646,6 +3094,7 @@ class IngredientItemsCompanion extends UpdateCompanion<IngredientRow> {
       foodId: foodId ?? this.foodId,
       conversionId: conversionId ?? this.conversionId,
       optional: optional ?? this.optional,
+      originalMeasure: originalMeasure ?? this.originalMeasure,
     );
   }
 
@@ -2685,6 +3134,9 @@ class IngredientItemsCompanion extends UpdateCompanion<IngredientRow> {
     if (optional.present) {
       map['optional'] = Variable<bool>(optional.value);
     }
+    if (originalMeasure.present) {
+      map['original_measure'] = Variable<String>(originalMeasure.value);
+    }
     return map;
   }
 
@@ -2701,13 +3153,15 @@ class IngredientItemsCompanion extends UpdateCompanion<IngredientRow> {
           ..write('shape: $shape, ')
           ..write('foodId: $foodId, ')
           ..write('conversionId: $conversionId, ')
-          ..write('optional: $optional')
+          ..write('optional: $optional, ')
+          ..write('originalMeasure: $originalMeasure')
           ..write(')'))
         .toString();
   }
 }
 
-class $NutrientsTable extends Nutrients with TableInfo<$NutrientsTable, NutrientRow> {
+class $NutrientsTable extends Nutrients
+    with TableInfo<$NutrientsTable, NutrientRow> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
@@ -2721,7 +3175,9 @@ class $NutrientsTable extends Nutrients with TableInfo<$NutrientsTable, Nutrient
     hasAutoIncrement: true,
     type: DriftSqlType.int,
     requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'),
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
   );
   static const VerificationMeta _foodIdMeta = const VerificationMeta('foodId');
   @override
@@ -2751,7 +3207,9 @@ class $NutrientsTable extends Nutrients with TableInfo<$NutrientsTable, Nutrient
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _proteinMeta = const VerificationMeta('protein');
+  static const VerificationMeta _proteinMeta = const VerificationMeta(
+    'protein',
+  );
   @override
   late final GeneratedColumn<double> protein = GeneratedColumn<double>(
     'protein',
@@ -2769,7 +3227,9 @@ class $NutrientsTable extends Nutrients with TableInfo<$NutrientsTable, Nutrient
     type: DriftSqlType.double,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _lipidTotalMeta = const VerificationMeta('lipidTotal');
+  static const VerificationMeta _lipidTotalMeta = const VerificationMeta(
+    'lipidTotal',
+  );
   @override
   late final GeneratedColumn<double> lipidTotal = GeneratedColumn<double>(
     'lipid_total',
@@ -2778,7 +3238,9 @@ class $NutrientsTable extends Nutrients with TableInfo<$NutrientsTable, Nutrient
     type: DriftSqlType.double,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _energKcalMeta = const VerificationMeta('energKcal');
+  static const VerificationMeta _energKcalMeta = const VerificationMeta(
+    'energKcal',
+  );
   @override
   late final GeneratedColumn<double> energKcal = GeneratedColumn<double>(
     'energ_kcal',
@@ -2787,7 +3249,9 @@ class $NutrientsTable extends Nutrients with TableInfo<$NutrientsTable, Nutrient
     type: DriftSqlType.double,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _carbohydratesMeta = const VerificationMeta('carbohydrates');
+  static const VerificationMeta _carbohydratesMeta = const VerificationMeta(
+    'carbohydrates',
+  );
   @override
   late final GeneratedColumn<double> carbohydrates = GeneratedColumn<double>(
     'carbohydrates',
@@ -2823,7 +3287,9 @@ class $NutrientsTable extends Nutrients with TableInfo<$NutrientsTable, Nutrient
     type: DriftSqlType.double,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _calciumMeta = const VerificationMeta('calcium');
+  static const VerificationMeta _calciumMeta = const VerificationMeta(
+    'calcium',
+  );
   @override
   late final GeneratedColumn<double> calcium = GeneratedColumn<double>(
     'calcium',
@@ -2841,7 +3307,9 @@ class $NutrientsTable extends Nutrients with TableInfo<$NutrientsTable, Nutrient
     type: DriftSqlType.double,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _magnesiumMeta = const VerificationMeta('magnesium');
+  static const VerificationMeta _magnesiumMeta = const VerificationMeta(
+    'magnesium',
+  );
   @override
   late final GeneratedColumn<double> magnesium = GeneratedColumn<double>(
     'magnesium',
@@ -2850,7 +3318,9 @@ class $NutrientsTable extends Nutrients with TableInfo<$NutrientsTable, Nutrient
     type: DriftSqlType.double,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _phosphorusMeta = const VerificationMeta('phosphorus');
+  static const VerificationMeta _phosphorusMeta = const VerificationMeta(
+    'phosphorus',
+  );
   @override
   late final GeneratedColumn<double> phosphorus = GeneratedColumn<double>(
     'phosphorus',
@@ -2859,7 +3329,9 @@ class $NutrientsTable extends Nutrients with TableInfo<$NutrientsTable, Nutrient
     type: DriftSqlType.double,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _potassiumMeta = const VerificationMeta('potassium');
+  static const VerificationMeta _potassiumMeta = const VerificationMeta(
+    'potassium',
+  );
   @override
   late final GeneratedColumn<double> potassium = GeneratedColumn<double>(
     'potassium',
@@ -2895,7 +3367,9 @@ class $NutrientsTable extends Nutrients with TableInfo<$NutrientsTable, Nutrient
     type: DriftSqlType.double,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _manganeseMeta = const VerificationMeta('manganese');
+  static const VerificationMeta _manganeseMeta = const VerificationMeta(
+    'manganese',
+  );
   @override
   late final GeneratedColumn<double> manganese = GeneratedColumn<double>(
     'manganese',
@@ -2904,7 +3378,9 @@ class $NutrientsTable extends Nutrients with TableInfo<$NutrientsTable, Nutrient
     type: DriftSqlType.double,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _seleniumMeta = const VerificationMeta('selenium');
+  static const VerificationMeta _seleniumMeta = const VerificationMeta(
+    'selenium',
+  );
   @override
   late final GeneratedColumn<double> selenium = GeneratedColumn<double>(
     'selenium',
@@ -2913,7 +3389,9 @@ class $NutrientsTable extends Nutrients with TableInfo<$NutrientsTable, Nutrient
     type: DriftSqlType.double,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _vitaminCMeta = const VerificationMeta('vitaminC');
+  static const VerificationMeta _vitaminCMeta = const VerificationMeta(
+    'vitaminC',
+  );
   @override
   late final GeneratedColumn<double> vitaminC = GeneratedColumn<double>(
     'vitamin_c',
@@ -2922,7 +3400,9 @@ class $NutrientsTable extends Nutrients with TableInfo<$NutrientsTable, Nutrient
     type: DriftSqlType.double,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _thiaminMeta = const VerificationMeta('thiamin');
+  static const VerificationMeta _thiaminMeta = const VerificationMeta(
+    'thiamin',
+  );
   @override
   late final GeneratedColumn<double> thiamin = GeneratedColumn<double>(
     'thiamin',
@@ -2931,7 +3411,9 @@ class $NutrientsTable extends Nutrients with TableInfo<$NutrientsTable, Nutrient
     type: DriftSqlType.double,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _riboflavinMeta = const VerificationMeta('riboflavin');
+  static const VerificationMeta _riboflavinMeta = const VerificationMeta(
+    'riboflavin',
+  );
   @override
   late final GeneratedColumn<double> riboflavin = GeneratedColumn<double>(
     'riboflavin',
@@ -2949,7 +3431,9 @@ class $NutrientsTable extends Nutrients with TableInfo<$NutrientsTable, Nutrient
     type: DriftSqlType.double,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _pantoAcidMeta = const VerificationMeta('pantoAcid');
+  static const VerificationMeta _pantoAcidMeta = const VerificationMeta(
+    'pantoAcid',
+  );
   @override
   late final GeneratedColumn<double> pantoAcid = GeneratedColumn<double>(
     'panto_acid',
@@ -2958,7 +3442,9 @@ class $NutrientsTable extends Nutrients with TableInfo<$NutrientsTable, Nutrient
     type: DriftSqlType.double,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _vitaminB6Meta = const VerificationMeta('vitaminB6');
+  static const VerificationMeta _vitaminB6Meta = const VerificationMeta(
+    'vitaminB6',
+  );
   @override
   late final GeneratedColumn<double> vitaminB6 = GeneratedColumn<double>(
     'vitamin_b6',
@@ -2967,7 +3453,9 @@ class $NutrientsTable extends Nutrients with TableInfo<$NutrientsTable, Nutrient
     type: DriftSqlType.double,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _folateTotalMeta = const VerificationMeta('folateTotal');
+  static const VerificationMeta _folateTotalMeta = const VerificationMeta(
+    'folateTotal',
+  );
   @override
   late final GeneratedColumn<double> folateTotal = GeneratedColumn<double>(
     'folate_total',
@@ -2976,7 +3464,9 @@ class $NutrientsTable extends Nutrients with TableInfo<$NutrientsTable, Nutrient
     type: DriftSqlType.double,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _folicAcidMeta = const VerificationMeta('folicAcid');
+  static const VerificationMeta _folicAcidMeta = const VerificationMeta(
+    'folicAcid',
+  );
   @override
   late final GeneratedColumn<double> folicAcid = GeneratedColumn<double>(
     'folic_acid',
@@ -2985,7 +3475,9 @@ class $NutrientsTable extends Nutrients with TableInfo<$NutrientsTable, Nutrient
     type: DriftSqlType.double,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _foodFolateMeta = const VerificationMeta('foodFolate');
+  static const VerificationMeta _foodFolateMeta = const VerificationMeta(
+    'foodFolate',
+  );
   @override
   late final GeneratedColumn<double> foodFolate = GeneratedColumn<double>(
     'food_folate',
@@ -2994,7 +3486,9 @@ class $NutrientsTable extends Nutrients with TableInfo<$NutrientsTable, Nutrient
     type: DriftSqlType.double,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _folateDFEMeta = const VerificationMeta('folateDFE');
+  static const VerificationMeta _folateDFEMeta = const VerificationMeta(
+    'folateDFE',
+  );
   @override
   late final GeneratedColumn<double> folateDFE = GeneratedColumn<double>(
     'folate_dfe',
@@ -3003,7 +3497,9 @@ class $NutrientsTable extends Nutrients with TableInfo<$NutrientsTable, Nutrient
     type: DriftSqlType.double,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _cholineTotalMeta = const VerificationMeta('cholineTotal');
+  static const VerificationMeta _cholineTotalMeta = const VerificationMeta(
+    'cholineTotal',
+  );
   @override
   late final GeneratedColumn<double> cholineTotal = GeneratedColumn<double>(
     'choline_total',
@@ -3012,7 +3508,9 @@ class $NutrientsTable extends Nutrients with TableInfo<$NutrientsTable, Nutrient
     type: DriftSqlType.double,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _vitaminB12Meta = const VerificationMeta('vitaminB12');
+  static const VerificationMeta _vitaminB12Meta = const VerificationMeta(
+    'vitaminB12',
+  );
   @override
   late final GeneratedColumn<double> vitaminB12 = GeneratedColumn<double>(
     'vitamin_b12',
@@ -3021,7 +3519,9 @@ class $NutrientsTable extends Nutrients with TableInfo<$NutrientsTable, Nutrient
     type: DriftSqlType.double,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _vitaminAIUMeta = const VerificationMeta('vitaminAIU');
+  static const VerificationMeta _vitaminAIUMeta = const VerificationMeta(
+    'vitaminAIU',
+  );
   @override
   late final GeneratedColumn<double> vitaminAIU = GeneratedColumn<double>(
     'vitamin_a_iu',
@@ -3030,7 +3530,9 @@ class $NutrientsTable extends Nutrients with TableInfo<$NutrientsTable, Nutrient
     type: DriftSqlType.double,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _vitaminARAEMeta = const VerificationMeta('vitaminARAE');
+  static const VerificationMeta _vitaminARAEMeta = const VerificationMeta(
+    'vitaminARAE',
+  );
   @override
   late final GeneratedColumn<double> vitaminARAE = GeneratedColumn<double>(
     'vitamin_a_rae',
@@ -3039,7 +3541,9 @@ class $NutrientsTable extends Nutrients with TableInfo<$NutrientsTable, Nutrient
     type: DriftSqlType.double,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _retinolMeta = const VerificationMeta('retinol');
+  static const VerificationMeta _retinolMeta = const VerificationMeta(
+    'retinol',
+  );
   @override
   late final GeneratedColumn<double> retinol = GeneratedColumn<double>(
     'retinol',
@@ -3048,7 +3552,9 @@ class $NutrientsTable extends Nutrients with TableInfo<$NutrientsTable, Nutrient
     type: DriftSqlType.double,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _alphaCarotMeta = const VerificationMeta('alphaCarot');
+  static const VerificationMeta _alphaCarotMeta = const VerificationMeta(
+    'alphaCarot',
+  );
   @override
   late final GeneratedColumn<double> alphaCarot = GeneratedColumn<double>(
     'alpha_carot',
@@ -3057,7 +3563,9 @@ class $NutrientsTable extends Nutrients with TableInfo<$NutrientsTable, Nutrient
     type: DriftSqlType.double,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _betaCarotMeta = const VerificationMeta('betaCarot');
+  static const VerificationMeta _betaCarotMeta = const VerificationMeta(
+    'betaCarot',
+  );
   @override
   late final GeneratedColumn<double> betaCarot = GeneratedColumn<double>(
     'beta_carot',
@@ -3066,7 +3574,9 @@ class $NutrientsTable extends Nutrients with TableInfo<$NutrientsTable, Nutrient
     type: DriftSqlType.double,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _betaCryptMeta = const VerificationMeta('betaCrypt');
+  static const VerificationMeta _betaCryptMeta = const VerificationMeta(
+    'betaCrypt',
+  );
   @override
   late final GeneratedColumn<double> betaCrypt = GeneratedColumn<double>(
     'beta_crypt',
@@ -3075,7 +3585,9 @@ class $NutrientsTable extends Nutrients with TableInfo<$NutrientsTable, Nutrient
     type: DriftSqlType.double,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _lycopeneMeta = const VerificationMeta('lycopene');
+  static const VerificationMeta _lycopeneMeta = const VerificationMeta(
+    'lycopene',
+  );
   @override
   late final GeneratedColumn<double> lycopene = GeneratedColumn<double>(
     'lycopene',
@@ -3093,7 +3605,9 @@ class $NutrientsTable extends Nutrients with TableInfo<$NutrientsTable, Nutrient
     type: DriftSqlType.double,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _vitaminEMeta = const VerificationMeta('vitaminE');
+  static const VerificationMeta _vitaminEMeta = const VerificationMeta(
+    'vitaminE',
+  );
   @override
   late final GeneratedColumn<double> vitaminE = GeneratedColumn<double>(
     'vitamin_e',
@@ -3102,7 +3616,9 @@ class $NutrientsTable extends Nutrients with TableInfo<$NutrientsTable, Nutrient
     type: DriftSqlType.double,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _vitaminDMeta = const VerificationMeta('vitaminD');
+  static const VerificationMeta _vitaminDMeta = const VerificationMeta(
+    'vitaminD',
+  );
   @override
   late final GeneratedColumn<double> vitaminD = GeneratedColumn<double>(
     'vitamin_d',
@@ -3111,7 +3627,9 @@ class $NutrientsTable extends Nutrients with TableInfo<$NutrientsTable, Nutrient
     type: DriftSqlType.double,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _vitaminDIUMeta = const VerificationMeta('vitaminDIU');
+  static const VerificationMeta _vitaminDIUMeta = const VerificationMeta(
+    'vitaminDIU',
+  );
   @override
   late final GeneratedColumn<double> vitaminDIU = GeneratedColumn<double>(
     'vitamin_d_iu',
@@ -3120,7 +3638,9 @@ class $NutrientsTable extends Nutrients with TableInfo<$NutrientsTable, Nutrient
     type: DriftSqlType.double,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _vitaminKMeta = const VerificationMeta('vitaminK');
+  static const VerificationMeta _vitaminKMeta = const VerificationMeta(
+    'vitaminK',
+  );
   @override
   late final GeneratedColumn<double> vitaminK = GeneratedColumn<double>(
     'vitamin_k',
@@ -3156,7 +3676,9 @@ class $NutrientsTable extends Nutrients with TableInfo<$NutrientsTable, Nutrient
     type: DriftSqlType.double,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _cholesterolMeta = const VerificationMeta('cholesterol');
+  static const VerificationMeta _cholesterolMeta = const VerificationMeta(
+    'cholesterol',
+  );
   @override
   late final GeneratedColumn<double> cholesterol = GeneratedColumn<double>(
     'cholesterol',
@@ -3164,6 +3686,18 @@ class $NutrientsTable extends Nutrients with TableInfo<$NutrientsTable, Nutrient
     false,
     type: DriftSqlType.double,
     requiredDuringInsert: true,
+  );
+  static const VerificationMeta _foodGroupMeta = const VerificationMeta(
+    'foodGroup',
+  );
+  @override
+  late final GeneratedColumn<int> foodGroup = GeneratedColumn<int>(
+    'food_group',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
   );
   @override
   List<GeneratedColumn> get $columns => [
@@ -3217,6 +3751,7 @@ class $NutrientsTable extends Nutrients with TableInfo<$NutrientsTable, Nutrient
     faMono,
     faPoly,
     cholesterol,
+    foodGroup,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -3234,27 +3769,42 @@ class $NutrientsTable extends Nutrients with TableInfo<$NutrientsTable, Nutrient
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
     if (data.containsKey('food_id')) {
-      context.handle(_foodIdMeta, foodId.isAcceptableOrUnknown(data['food_id']!, _foodIdMeta));
+      context.handle(
+        _foodIdMeta,
+        foodId.isAcceptableOrUnknown(data['food_id']!, _foodIdMeta),
+      );
     } else if (isInserting) {
       context.missing(_foodIdMeta);
     }
     if (data.containsKey('desc_en')) {
-      context.handle(_descENMeta, descEN.isAcceptableOrUnknown(data['desc_en']!, _descENMeta));
+      context.handle(
+        _descENMeta,
+        descEN.isAcceptableOrUnknown(data['desc_en']!, _descENMeta),
+      );
     } else if (isInserting) {
       context.missing(_descENMeta);
     }
     if (data.containsKey('desc_fr')) {
-      context.handle(_descFRMeta, descFR.isAcceptableOrUnknown(data['desc_fr']!, _descFRMeta));
+      context.handle(
+        _descFRMeta,
+        descFR.isAcceptableOrUnknown(data['desc_fr']!, _descFRMeta),
+      );
     } else if (isInserting) {
       context.missing(_descFRMeta);
     }
     if (data.containsKey('protein')) {
-      context.handle(_proteinMeta, protein.isAcceptableOrUnknown(data['protein']!, _proteinMeta));
+      context.handle(
+        _proteinMeta,
+        protein.isAcceptableOrUnknown(data['protein']!, _proteinMeta),
+      );
     } else if (isInserting) {
       context.missing(_proteinMeta);
     }
     if (data.containsKey('water')) {
-      context.handle(_waterMeta, water.isAcceptableOrUnknown(data['water']!, _waterMeta));
+      context.handle(
+        _waterMeta,
+        water.isAcceptableOrUnknown(data['water']!, _waterMeta),
+      );
     } else if (isInserting) {
       context.missing(_waterMeta);
     }
@@ -3277,33 +3827,51 @@ class $NutrientsTable extends Nutrients with TableInfo<$NutrientsTable, Nutrient
     if (data.containsKey('carbohydrates')) {
       context.handle(
         _carbohydratesMeta,
-        carbohydrates.isAcceptableOrUnknown(data['carbohydrates']!, _carbohydratesMeta),
+        carbohydrates.isAcceptableOrUnknown(
+          data['carbohydrates']!,
+          _carbohydratesMeta,
+        ),
       );
     } else if (isInserting) {
       context.missing(_carbohydratesMeta);
     }
     if (data.containsKey('ash')) {
-      context.handle(_ashMeta, ash.isAcceptableOrUnknown(data['ash']!, _ashMeta));
+      context.handle(
+        _ashMeta,
+        ash.isAcceptableOrUnknown(data['ash']!, _ashMeta),
+      );
     } else if (isInserting) {
       context.missing(_ashMeta);
     }
     if (data.containsKey('fiber')) {
-      context.handle(_fiberMeta, fiber.isAcceptableOrUnknown(data['fiber']!, _fiberMeta));
+      context.handle(
+        _fiberMeta,
+        fiber.isAcceptableOrUnknown(data['fiber']!, _fiberMeta),
+      );
     } else if (isInserting) {
       context.missing(_fiberMeta);
     }
     if (data.containsKey('sugar')) {
-      context.handle(_sugarMeta, sugar.isAcceptableOrUnknown(data['sugar']!, _sugarMeta));
+      context.handle(
+        _sugarMeta,
+        sugar.isAcceptableOrUnknown(data['sugar']!, _sugarMeta),
+      );
     } else if (isInserting) {
       context.missing(_sugarMeta);
     }
     if (data.containsKey('calcium')) {
-      context.handle(_calciumMeta, calcium.isAcceptableOrUnknown(data['calcium']!, _calciumMeta));
+      context.handle(
+        _calciumMeta,
+        calcium.isAcceptableOrUnknown(data['calcium']!, _calciumMeta),
+      );
     } else if (isInserting) {
       context.missing(_calciumMeta);
     }
     if (data.containsKey('iron')) {
-      context.handle(_ironMeta, iron.isAcceptableOrUnknown(data['iron']!, _ironMeta));
+      context.handle(
+        _ironMeta,
+        iron.isAcceptableOrUnknown(data['iron']!, _ironMeta),
+      );
     } else if (isInserting) {
       context.missing(_ironMeta);
     }
@@ -3332,17 +3900,26 @@ class $NutrientsTable extends Nutrients with TableInfo<$NutrientsTable, Nutrient
       context.missing(_potassiumMeta);
     }
     if (data.containsKey('sodium')) {
-      context.handle(_sodiumMeta, sodium.isAcceptableOrUnknown(data['sodium']!, _sodiumMeta));
+      context.handle(
+        _sodiumMeta,
+        sodium.isAcceptableOrUnknown(data['sodium']!, _sodiumMeta),
+      );
     } else if (isInserting) {
       context.missing(_sodiumMeta);
     }
     if (data.containsKey('zinc')) {
-      context.handle(_zincMeta, zinc.isAcceptableOrUnknown(data['zinc']!, _zincMeta));
+      context.handle(
+        _zincMeta,
+        zinc.isAcceptableOrUnknown(data['zinc']!, _zincMeta),
+      );
     } else if (isInserting) {
       context.missing(_zincMeta);
     }
     if (data.containsKey('copper')) {
-      context.handle(_copperMeta, copper.isAcceptableOrUnknown(data['copper']!, _copperMeta));
+      context.handle(
+        _copperMeta,
+        copper.isAcceptableOrUnknown(data['copper']!, _copperMeta),
+      );
     } else if (isInserting) {
       context.missing(_copperMeta);
     }
@@ -3371,7 +3948,10 @@ class $NutrientsTable extends Nutrients with TableInfo<$NutrientsTable, Nutrient
       context.missing(_vitaminCMeta);
     }
     if (data.containsKey('thiamin')) {
-      context.handle(_thiaminMeta, thiamin.isAcceptableOrUnknown(data['thiamin']!, _thiaminMeta));
+      context.handle(
+        _thiaminMeta,
+        thiamin.isAcceptableOrUnknown(data['thiamin']!, _thiaminMeta),
+      );
     } else if (isInserting) {
       context.missing(_thiaminMeta);
     }
@@ -3384,7 +3964,10 @@ class $NutrientsTable extends Nutrients with TableInfo<$NutrientsTable, Nutrient
       context.missing(_riboflavinMeta);
     }
     if (data.containsKey('niacin')) {
-      context.handle(_niacinMeta, niacin.isAcceptableOrUnknown(data['niacin']!, _niacinMeta));
+      context.handle(
+        _niacinMeta,
+        niacin.isAcceptableOrUnknown(data['niacin']!, _niacinMeta),
+      );
     } else if (isInserting) {
       context.missing(_niacinMeta);
     }
@@ -3407,7 +3990,10 @@ class $NutrientsTable extends Nutrients with TableInfo<$NutrientsTable, Nutrient
     if (data.containsKey('folate_total')) {
       context.handle(
         _folateTotalMeta,
-        folateTotal.isAcceptableOrUnknown(data['folate_total']!, _folateTotalMeta),
+        folateTotal.isAcceptableOrUnknown(
+          data['folate_total']!,
+          _folateTotalMeta,
+        ),
       );
     } else if (isInserting) {
       context.missing(_folateTotalMeta);
@@ -3439,7 +4025,10 @@ class $NutrientsTable extends Nutrients with TableInfo<$NutrientsTable, Nutrient
     if (data.containsKey('choline_total')) {
       context.handle(
         _cholineTotalMeta,
-        cholineTotal.isAcceptableOrUnknown(data['choline_total']!, _cholineTotalMeta),
+        cholineTotal.isAcceptableOrUnknown(
+          data['choline_total']!,
+          _cholineTotalMeta,
+        ),
       );
     } else if (isInserting) {
       context.missing(_cholineTotalMeta);
@@ -3455,7 +4044,10 @@ class $NutrientsTable extends Nutrients with TableInfo<$NutrientsTable, Nutrient
     if (data.containsKey('vitamin_a_iu')) {
       context.handle(
         _vitaminAIUMeta,
-        vitaminAIU.isAcceptableOrUnknown(data['vitamin_a_iu']!, _vitaminAIUMeta),
+        vitaminAIU.isAcceptableOrUnknown(
+          data['vitamin_a_iu']!,
+          _vitaminAIUMeta,
+        ),
       );
     } else if (isInserting) {
       context.missing(_vitaminAIUMeta);
@@ -3463,13 +4055,19 @@ class $NutrientsTable extends Nutrients with TableInfo<$NutrientsTable, Nutrient
     if (data.containsKey('vitamin_a_rae')) {
       context.handle(
         _vitaminARAEMeta,
-        vitaminARAE.isAcceptableOrUnknown(data['vitamin_a_rae']!, _vitaminARAEMeta),
+        vitaminARAE.isAcceptableOrUnknown(
+          data['vitamin_a_rae']!,
+          _vitaminARAEMeta,
+        ),
       );
     } else if (isInserting) {
       context.missing(_vitaminARAEMeta);
     }
     if (data.containsKey('retinol')) {
-      context.handle(_retinolMeta, retinol.isAcceptableOrUnknown(data['retinol']!, _retinolMeta));
+      context.handle(
+        _retinolMeta,
+        retinol.isAcceptableOrUnknown(data['retinol']!, _retinolMeta),
+      );
     } else if (isInserting) {
       context.missing(_retinolMeta);
     }
@@ -3506,7 +4104,10 @@ class $NutrientsTable extends Nutrients with TableInfo<$NutrientsTable, Nutrient
       context.missing(_lycopeneMeta);
     }
     if (data.containsKey('lut_zea')) {
-      context.handle(_lutZeaMeta, lutZea.isAcceptableOrUnknown(data['lut_zea']!, _lutZeaMeta));
+      context.handle(
+        _lutZeaMeta,
+        lutZea.isAcceptableOrUnknown(data['lut_zea']!, _lutZeaMeta),
+      );
     } else if (isInserting) {
       context.missing(_lutZeaMeta);
     }
@@ -3529,7 +4130,10 @@ class $NutrientsTable extends Nutrients with TableInfo<$NutrientsTable, Nutrient
     if (data.containsKey('vitamin_d_iu')) {
       context.handle(
         _vitaminDIUMeta,
-        vitaminDIU.isAcceptableOrUnknown(data['vitamin_d_iu']!, _vitaminDIUMeta),
+        vitaminDIU.isAcceptableOrUnknown(
+          data['vitamin_d_iu']!,
+          _vitaminDIUMeta,
+        ),
       );
     } else if (isInserting) {
       context.missing(_vitaminDIUMeta);
@@ -3543,27 +4147,45 @@ class $NutrientsTable extends Nutrients with TableInfo<$NutrientsTable, Nutrient
       context.missing(_vitaminKMeta);
     }
     if (data.containsKey('fa_sat')) {
-      context.handle(_faSatMeta, faSat.isAcceptableOrUnknown(data['fa_sat']!, _faSatMeta));
+      context.handle(
+        _faSatMeta,
+        faSat.isAcceptableOrUnknown(data['fa_sat']!, _faSatMeta),
+      );
     } else if (isInserting) {
       context.missing(_faSatMeta);
     }
     if (data.containsKey('fa_mono')) {
-      context.handle(_faMonoMeta, faMono.isAcceptableOrUnknown(data['fa_mono']!, _faMonoMeta));
+      context.handle(
+        _faMonoMeta,
+        faMono.isAcceptableOrUnknown(data['fa_mono']!, _faMonoMeta),
+      );
     } else if (isInserting) {
       context.missing(_faMonoMeta);
     }
     if (data.containsKey('fa_poly')) {
-      context.handle(_faPolyMeta, faPoly.isAcceptableOrUnknown(data['fa_poly']!, _faPolyMeta));
+      context.handle(
+        _faPolyMeta,
+        faPoly.isAcceptableOrUnknown(data['fa_poly']!, _faPolyMeta),
+      );
     } else if (isInserting) {
       context.missing(_faPolyMeta);
     }
     if (data.containsKey('cholesterol')) {
       context.handle(
         _cholesterolMeta,
-        cholesterol.isAcceptableOrUnknown(data['cholesterol']!, _cholesterolMeta),
+        cholesterol.isAcceptableOrUnknown(
+          data['cholesterol']!,
+          _cholesterolMeta,
+        ),
       );
     } else if (isInserting) {
       context.missing(_cholesterolMeta);
+    }
+    if (data.containsKey('food_group')) {
+      context.handle(
+        _foodGroupMeta,
+        foodGroup.isAcceptableOrUnknown(data['food_group']!, _foodGroupMeta),
+      );
     }
     return context;
   }
@@ -3574,7 +4196,10 @@ class $NutrientsTable extends Nutrients with TableInfo<$NutrientsTable, Nutrient
   NutrientRow map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return NutrientRow(
-      id: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
       foodId: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
         data['${effectivePrefix}food_id'],
@@ -3607,7 +4232,10 @@ class $NutrientsTable extends Nutrients with TableInfo<$NutrientsTable, Nutrient
         DriftSqlType.double,
         data['${effectivePrefix}carbohydrates'],
       )!,
-      ash: attachedDatabase.typeMapping.read(DriftSqlType.double, data['${effectivePrefix}ash'])!,
+      ash: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}ash'],
+      )!,
       fiber: attachedDatabase.typeMapping.read(
         DriftSqlType.double,
         data['${effectivePrefix}fiber'],
@@ -3620,7 +4248,10 @@ class $NutrientsTable extends Nutrients with TableInfo<$NutrientsTable, Nutrient
         DriftSqlType.double,
         data['${effectivePrefix}calcium'],
       )!,
-      iron: attachedDatabase.typeMapping.read(DriftSqlType.double, data['${effectivePrefix}iron'])!,
+      iron: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}iron'],
+      )!,
       magnesium: attachedDatabase.typeMapping.read(
         DriftSqlType.double,
         data['${effectivePrefix}magnesium'],
@@ -3637,7 +4268,10 @@ class $NutrientsTable extends Nutrients with TableInfo<$NutrientsTable, Nutrient
         DriftSqlType.double,
         data['${effectivePrefix}sodium'],
       )!,
-      zinc: attachedDatabase.typeMapping.read(DriftSqlType.double, data['${effectivePrefix}zinc'])!,
+      zinc: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}zinc'],
+      )!,
       copper: attachedDatabase.typeMapping.read(
         DriftSqlType.double,
         data['${effectivePrefix}copper'],
@@ -3762,6 +4396,10 @@ class $NutrientsTable extends Nutrients with TableInfo<$NutrientsTable, Nutrient
         DriftSqlType.double,
         data['${effectivePrefix}cholesterol'],
       )!,
+      foodGroup: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}food_group'],
+      )!,
     );
   }
 
@@ -3822,6 +4460,10 @@ class NutrientRow extends DataClass implements Insertable<NutrientRow> {
   final double faMono;
   final double faPoly;
   final double cholesterol;
+
+  /// Canadian Nutrient File food group (9: fruits, 11: vegetables...), 0 if
+  /// unknown. Added in schema version 6.
+  final int foodGroup;
   const NutrientRow({
     required this.id,
     required this.foodId,
@@ -3873,6 +4515,7 @@ class NutrientRow extends DataClass implements Insertable<NutrientRow> {
     required this.faMono,
     required this.faPoly,
     required this.cholesterol,
+    required this.foodGroup,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -3927,6 +4570,7 @@ class NutrientRow extends DataClass implements Insertable<NutrientRow> {
     map['fa_mono'] = Variable<double>(faMono);
     map['fa_poly'] = Variable<double>(faPoly);
     map['cholesterol'] = Variable<double>(cholesterol);
+    map['food_group'] = Variable<int>(foodGroup);
     return map;
   }
 
@@ -3982,10 +4626,14 @@ class NutrientRow extends DataClass implements Insertable<NutrientRow> {
       faMono: Value(faMono),
       faPoly: Value(faPoly),
       cholesterol: Value(cholesterol),
+      foodGroup: Value(foodGroup),
     );
   }
 
-  factory NutrientRow.fromJson(Map<String, dynamic> json, {ValueSerializer? serializer}) {
+  factory NutrientRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return NutrientRow(
       id: serializer.fromJson<int>(json['id']),
@@ -4038,6 +4686,7 @@ class NutrientRow extends DataClass implements Insertable<NutrientRow> {
       faMono: serializer.fromJson<double>(json['faMono']),
       faPoly: serializer.fromJson<double>(json['faPoly']),
       cholesterol: serializer.fromJson<double>(json['cholesterol']),
+      foodGroup: serializer.fromJson<int>(json['foodGroup']),
     );
   }
   @override
@@ -4094,6 +4743,7 @@ class NutrientRow extends DataClass implements Insertable<NutrientRow> {
       'faMono': serializer.toJson<double>(faMono),
       'faPoly': serializer.toJson<double>(faPoly),
       'cholesterol': serializer.toJson<double>(cholesterol),
+      'foodGroup': serializer.toJson<int>(foodGroup),
     };
   }
 
@@ -4148,6 +4798,7 @@ class NutrientRow extends DataClass implements Insertable<NutrientRow> {
     double? faMono,
     double? faPoly,
     double? cholesterol,
+    int? foodGroup,
   }) => NutrientRow(
     id: id ?? this.id,
     foodId: foodId ?? this.foodId,
@@ -4199,6 +4850,7 @@ class NutrientRow extends DataClass implements Insertable<NutrientRow> {
     faMono: faMono ?? this.faMono,
     faPoly: faPoly ?? this.faPoly,
     cholesterol: cholesterol ?? this.cholesterol,
+    foodGroup: foodGroup ?? this.foodGroup,
   );
   NutrientRow copyWithCompanion(NutrientsCompanion data) {
     return NutrientRow(
@@ -4208,16 +4860,22 @@ class NutrientRow extends DataClass implements Insertable<NutrientRow> {
       descFR: data.descFR.present ? data.descFR.value : this.descFR,
       protein: data.protein.present ? data.protein.value : this.protein,
       water: data.water.present ? data.water.value : this.water,
-      lipidTotal: data.lipidTotal.present ? data.lipidTotal.value : this.lipidTotal,
+      lipidTotal: data.lipidTotal.present
+          ? data.lipidTotal.value
+          : this.lipidTotal,
       energKcal: data.energKcal.present ? data.energKcal.value : this.energKcal,
-      carbohydrates: data.carbohydrates.present ? data.carbohydrates.value : this.carbohydrates,
+      carbohydrates: data.carbohydrates.present
+          ? data.carbohydrates.value
+          : this.carbohydrates,
       ash: data.ash.present ? data.ash.value : this.ash,
       fiber: data.fiber.present ? data.fiber.value : this.fiber,
       sugar: data.sugar.present ? data.sugar.value : this.sugar,
       calcium: data.calcium.present ? data.calcium.value : this.calcium,
       iron: data.iron.present ? data.iron.value : this.iron,
       magnesium: data.magnesium.present ? data.magnesium.value : this.magnesium,
-      phosphorus: data.phosphorus.present ? data.phosphorus.value : this.phosphorus,
+      phosphorus: data.phosphorus.present
+          ? data.phosphorus.value
+          : this.phosphorus,
       potassium: data.potassium.present ? data.potassium.value : this.potassium,
       sodium: data.sodium.present ? data.sodium.value : this.sodium,
       zinc: data.zinc.present ? data.zinc.value : this.zinc,
@@ -4226,32 +4884,53 @@ class NutrientRow extends DataClass implements Insertable<NutrientRow> {
       selenium: data.selenium.present ? data.selenium.value : this.selenium,
       vitaminC: data.vitaminC.present ? data.vitaminC.value : this.vitaminC,
       thiamin: data.thiamin.present ? data.thiamin.value : this.thiamin,
-      riboflavin: data.riboflavin.present ? data.riboflavin.value : this.riboflavin,
+      riboflavin: data.riboflavin.present
+          ? data.riboflavin.value
+          : this.riboflavin,
       niacin: data.niacin.present ? data.niacin.value : this.niacin,
       pantoAcid: data.pantoAcid.present ? data.pantoAcid.value : this.pantoAcid,
       vitaminB6: data.vitaminB6.present ? data.vitaminB6.value : this.vitaminB6,
-      folateTotal: data.folateTotal.present ? data.folateTotal.value : this.folateTotal,
+      folateTotal: data.folateTotal.present
+          ? data.folateTotal.value
+          : this.folateTotal,
       folicAcid: data.folicAcid.present ? data.folicAcid.value : this.folicAcid,
-      foodFolate: data.foodFolate.present ? data.foodFolate.value : this.foodFolate,
+      foodFolate: data.foodFolate.present
+          ? data.foodFolate.value
+          : this.foodFolate,
       folateDFE: data.folateDFE.present ? data.folateDFE.value : this.folateDFE,
-      cholineTotal: data.cholineTotal.present ? data.cholineTotal.value : this.cholineTotal,
-      vitaminB12: data.vitaminB12.present ? data.vitaminB12.value : this.vitaminB12,
-      vitaminAIU: data.vitaminAIU.present ? data.vitaminAIU.value : this.vitaminAIU,
-      vitaminARAE: data.vitaminARAE.present ? data.vitaminARAE.value : this.vitaminARAE,
+      cholineTotal: data.cholineTotal.present
+          ? data.cholineTotal.value
+          : this.cholineTotal,
+      vitaminB12: data.vitaminB12.present
+          ? data.vitaminB12.value
+          : this.vitaminB12,
+      vitaminAIU: data.vitaminAIU.present
+          ? data.vitaminAIU.value
+          : this.vitaminAIU,
+      vitaminARAE: data.vitaminARAE.present
+          ? data.vitaminARAE.value
+          : this.vitaminARAE,
       retinol: data.retinol.present ? data.retinol.value : this.retinol,
-      alphaCarot: data.alphaCarot.present ? data.alphaCarot.value : this.alphaCarot,
+      alphaCarot: data.alphaCarot.present
+          ? data.alphaCarot.value
+          : this.alphaCarot,
       betaCarot: data.betaCarot.present ? data.betaCarot.value : this.betaCarot,
       betaCrypt: data.betaCrypt.present ? data.betaCrypt.value : this.betaCrypt,
       lycopene: data.lycopene.present ? data.lycopene.value : this.lycopene,
       lutZea: data.lutZea.present ? data.lutZea.value : this.lutZea,
       vitaminE: data.vitaminE.present ? data.vitaminE.value : this.vitaminE,
       vitaminD: data.vitaminD.present ? data.vitaminD.value : this.vitaminD,
-      vitaminDIU: data.vitaminDIU.present ? data.vitaminDIU.value : this.vitaminDIU,
+      vitaminDIU: data.vitaminDIU.present
+          ? data.vitaminDIU.value
+          : this.vitaminDIU,
       vitaminK: data.vitaminK.present ? data.vitaminK.value : this.vitaminK,
       faSat: data.faSat.present ? data.faSat.value : this.faSat,
       faMono: data.faMono.present ? data.faMono.value : this.faMono,
       faPoly: data.faPoly.present ? data.faPoly.value : this.faPoly,
-      cholesterol: data.cholesterol.present ? data.cholesterol.value : this.cholesterol,
+      cholesterol: data.cholesterol.present
+          ? data.cholesterol.value
+          : this.cholesterol,
+      foodGroup: data.foodGroup.present ? data.foodGroup.value : this.foodGroup,
     );
   }
 
@@ -4307,7 +4986,8 @@ class NutrientRow extends DataClass implements Insertable<NutrientRow> {
           ..write('faSat: $faSat, ')
           ..write('faMono: $faMono, ')
           ..write('faPoly: $faPoly, ')
-          ..write('cholesterol: $cholesterol')
+          ..write('cholesterol: $cholesterol, ')
+          ..write('foodGroup: $foodGroup')
           ..write(')'))
         .toString();
   }
@@ -4364,6 +5044,7 @@ class NutrientRow extends DataClass implements Insertable<NutrientRow> {
     faMono,
     faPoly,
     cholesterol,
+    foodGroup,
   ]);
   @override
   bool operator ==(Object other) =>
@@ -4418,7 +5099,8 @@ class NutrientRow extends DataClass implements Insertable<NutrientRow> {
           other.faSat == this.faSat &&
           other.faMono == this.faMono &&
           other.faPoly == this.faPoly &&
-          other.cholesterol == this.cholesterol);
+          other.cholesterol == this.cholesterol &&
+          other.foodGroup == this.foodGroup);
 }
 
 class NutrientsCompanion extends UpdateCompanion<NutrientRow> {
@@ -4472,6 +5154,7 @@ class NutrientsCompanion extends UpdateCompanion<NutrientRow> {
   final Value<double> faMono;
   final Value<double> faPoly;
   final Value<double> cholesterol;
+  final Value<int> foodGroup;
   const NutrientsCompanion({
     this.id = const Value.absent(),
     this.foodId = const Value.absent(),
@@ -4523,6 +5206,7 @@ class NutrientsCompanion extends UpdateCompanion<NutrientRow> {
     this.faMono = const Value.absent(),
     this.faPoly = const Value.absent(),
     this.cholesterol = const Value.absent(),
+    this.foodGroup = const Value.absent(),
   });
   NutrientsCompanion.insert({
     this.id = const Value.absent(),
@@ -4575,6 +5259,7 @@ class NutrientsCompanion extends UpdateCompanion<NutrientRow> {
     required double faMono,
     required double faPoly,
     required double cholesterol,
+    this.foodGroup = const Value.absent(),
   }) : foodId = Value(foodId),
        descEN = Value(descEN),
        descFR = Value(descFR),
@@ -4675,6 +5360,7 @@ class NutrientsCompanion extends UpdateCompanion<NutrientRow> {
     Expression<double>? faMono,
     Expression<double>? faPoly,
     Expression<double>? cholesterol,
+    Expression<int>? foodGroup,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -4727,6 +5413,7 @@ class NutrientsCompanion extends UpdateCompanion<NutrientRow> {
       if (faMono != null) 'fa_mono': faMono,
       if (faPoly != null) 'fa_poly': faPoly,
       if (cholesterol != null) 'cholesterol': cholesterol,
+      if (foodGroup != null) 'food_group': foodGroup,
     });
   }
 
@@ -4781,6 +5468,7 @@ class NutrientsCompanion extends UpdateCompanion<NutrientRow> {
     Value<double>? faMono,
     Value<double>? faPoly,
     Value<double>? cholesterol,
+    Value<int>? foodGroup,
   }) {
     return NutrientsCompanion(
       id: id ?? this.id,
@@ -4833,6 +5521,7 @@ class NutrientsCompanion extends UpdateCompanion<NutrientRow> {
       faMono: faMono ?? this.faMono,
       faPoly: faPoly ?? this.faPoly,
       cholesterol: cholesterol ?? this.cholesterol,
+      foodGroup: foodGroup ?? this.foodGroup,
     );
   }
 
@@ -4989,6 +5678,9 @@ class NutrientsCompanion extends UpdateCompanion<NutrientRow> {
     if (cholesterol.present) {
       map['cholesterol'] = Variable<double>(cholesterol.value);
     }
+    if (foodGroup.present) {
+      map['food_group'] = Variable<int>(foodGroup.value);
+    }
     return map;
   }
 
@@ -5044,13 +5736,15 @@ class NutrientsCompanion extends UpdateCompanion<NutrientRow> {
           ..write('faSat: $faSat, ')
           ..write('faMono: $faMono, ')
           ..write('faPoly: $faPoly, ')
-          ..write('cholesterol: $cholesterol')
+          ..write('cholesterol: $cholesterol, ')
+          ..write('foodGroup: $foodGroup')
           ..write(')'))
         .toString();
   }
 }
 
-class $ConversionsTable extends Conversions with TableInfo<$ConversionsTable, ConversionRow> {
+class $ConversionsTable extends Conversions
+    with TableInfo<$ConversionsTable, ConversionRow> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
@@ -5064,7 +5758,9 @@ class $ConversionsTable extends Conversions with TableInfo<$ConversionsTable, Co
     hasAutoIncrement: true,
     type: DriftSqlType.int,
     requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'),
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
   );
   static const VerificationMeta _foodIdMeta = const VerificationMeta('foodId');
   @override
@@ -5075,7 +5771,9 @@ class $ConversionsTable extends Conversions with TableInfo<$ConversionsTable, Co
     type: DriftSqlType.int,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _measureIdMeta = const VerificationMeta('measureId');
+  static const VerificationMeta _measureIdMeta = const VerificationMeta(
+    'measureId',
+  );
   @override
   late final GeneratedColumn<int> measureId = GeneratedColumn<int>(
     'measure_id',
@@ -5112,7 +5810,14 @@ class $ConversionsTable extends Conversions with TableInfo<$ConversionsTable, Co
     requiredDuringInsert: true,
   );
   @override
-  List<GeneratedColumn> get $columns => [id, foodId, measureId, descEN, descFR, factor];
+  List<GeneratedColumn> get $columns => [
+    id,
+    foodId,
+    measureId,
+    descEN,
+    descFR,
+    factor,
+  ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -5129,7 +5834,10 @@ class $ConversionsTable extends Conversions with TableInfo<$ConversionsTable, Co
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
     if (data.containsKey('food_id')) {
-      context.handle(_foodIdMeta, foodId.isAcceptableOrUnknown(data['food_id']!, _foodIdMeta));
+      context.handle(
+        _foodIdMeta,
+        foodId.isAcceptableOrUnknown(data['food_id']!, _foodIdMeta),
+      );
     } else if (isInserting) {
       context.missing(_foodIdMeta);
     }
@@ -5142,17 +5850,26 @@ class $ConversionsTable extends Conversions with TableInfo<$ConversionsTable, Co
       context.missing(_measureIdMeta);
     }
     if (data.containsKey('desc_en')) {
-      context.handle(_descENMeta, descEN.isAcceptableOrUnknown(data['desc_en']!, _descENMeta));
+      context.handle(
+        _descENMeta,
+        descEN.isAcceptableOrUnknown(data['desc_en']!, _descENMeta),
+      );
     } else if (isInserting) {
       context.missing(_descENMeta);
     }
     if (data.containsKey('desc_fr')) {
-      context.handle(_descFRMeta, descFR.isAcceptableOrUnknown(data['desc_fr']!, _descFRMeta));
+      context.handle(
+        _descFRMeta,
+        descFR.isAcceptableOrUnknown(data['desc_fr']!, _descFRMeta),
+      );
     } else if (isInserting) {
       context.missing(_descFRMeta);
     }
     if (data.containsKey('factor')) {
-      context.handle(_factorMeta, factor.isAcceptableOrUnknown(data['factor']!, _factorMeta));
+      context.handle(
+        _factorMeta,
+        factor.isAcceptableOrUnknown(data['factor']!, _factorMeta),
+      );
     } else if (isInserting) {
       context.missing(_factorMeta);
     }
@@ -5165,7 +5882,10 @@ class $ConversionsTable extends Conversions with TableInfo<$ConversionsTable, Co
   ConversionRow map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return ConversionRow(
-      id: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
       foodId: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
         data['${effectivePrefix}food_id'],
@@ -5233,7 +5953,10 @@ class ConversionRow extends DataClass implements Insertable<ConversionRow> {
     );
   }
 
-  factory ConversionRow.fromJson(Map<String, dynamic> json, {ValueSerializer? serializer}) {
+  factory ConversionRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return ConversionRow(
       id: serializer.fromJson<int>(json['id']),
@@ -5297,7 +6020,8 @@ class ConversionRow extends DataClass implements Insertable<ConversionRow> {
   }
 
   @override
-  int get hashCode => Object.hash(id, foodId, measureId, descEN, descFR, factor);
+  int get hashCode =>
+      Object.hash(id, foodId, measureId, descEN, descFR, factor);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -5411,7 +6135,8 @@ class ConversionsCompanion extends UpdateCompanion<ConversionRow> {
   }
 }
 
-class $MetadataTable extends Metadata with TableInfo<$MetadataTable, MetadataEntry> {
+class $MetadataTable extends Metadata
+    with TableInfo<$MetadataTable, MetadataEntry> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
@@ -5449,12 +6174,18 @@ class $MetadataTable extends Metadata with TableInfo<$MetadataTable, MetadataEnt
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('key')) {
-      context.handle(_keyMeta, key.isAcceptableOrUnknown(data['key']!, _keyMeta));
+      context.handle(
+        _keyMeta,
+        key.isAcceptableOrUnknown(data['key']!, _keyMeta),
+      );
     } else if (isInserting) {
       context.missing(_keyMeta);
     }
     if (data.containsKey('value')) {
-      context.handle(_valueMeta, value.isAcceptableOrUnknown(data['value']!, _valueMeta));
+      context.handle(
+        _valueMeta,
+        value.isAcceptableOrUnknown(data['value']!, _valueMeta),
+      );
     } else if (isInserting) {
       context.missing(_valueMeta);
     }
@@ -5467,7 +6198,10 @@ class $MetadataTable extends Metadata with TableInfo<$MetadataTable, MetadataEnt
   MetadataEntry map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return MetadataEntry(
-      key: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}key'])!,
+      key: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}key'],
+      )!,
       value: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}value'],
@@ -5497,7 +6231,10 @@ class MetadataEntry extends DataClass implements Insertable<MetadataEntry> {
     return MetadataCompanion(key: Value(key), value: Value(value));
   }
 
-  factory MetadataEntry.fromJson(Map<String, dynamic> json, {ValueSerializer? serializer}) {
+  factory MetadataEntry.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return MetadataEntry(
       key: serializer.fromJson<String>(json['key']),
@@ -5536,7 +6273,9 @@ class MetadataEntry extends DataClass implements Insertable<MetadataEntry> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is MetadataEntry && other.key == this.key && other.value == this.value);
+      (other is MetadataEntry &&
+          other.key == this.key &&
+          other.value == this.value);
 }
 
 class MetadataCompanion extends UpdateCompanion<MetadataEntry> {
@@ -5566,7 +6305,11 @@ class MetadataCompanion extends UpdateCompanion<MetadataEntry> {
     });
   }
 
-  MetadataCompanion copyWith({Value<String>? key, Value<String>? value, Value<int>? rowid}) {
+  MetadataCompanion copyWith({
+    Value<String>? key,
+    Value<String>? value,
+    Value<int>? rowid,
+  }) {
     return MetadataCompanion(
       key: key ?? this.key,
       value: value ?? this.value,
@@ -5606,7 +6349,9 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $RecipesTable recipes = $RecipesTable(this);
   late final $RecipeVariantsTable recipeVariants = $RecipeVariantsTable(this);
   late final $RecipeStepsTable recipeSteps = $RecipeStepsTable(this);
-  late final $IngredientItemsTable ingredientItems = $IngredientItemsTable(this);
+  late final $IngredientItemsTable ingredientItems = $IngredientItemsTable(
+    this,
+  );
   late final $NutrientsTable nutrients = $NutrientsTable(this);
   late final $ConversionsTable conversions = $ConversionsTable(this);
   late final $MetadataTable metadata = $MetadataTable(this);
@@ -5656,19 +6401,38 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   @override
   StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules([
     WritePropagation(
-      on: TableUpdateQuery.onTableName('recipes', limitUpdateKind: UpdateKind.delete),
+      on: TableUpdateQuery.onTableName(
+        'recipes',
+        limitUpdateKind: UpdateKind.delete,
+      ),
       result: [TableUpdate('recipe_variants', kind: UpdateKind.delete)],
     ),
     WritePropagation(
-      on: TableUpdateQuery.onTableName('recipes', limitUpdateKind: UpdateKind.delete),
+      on: TableUpdateQuery.onTableName(
+        'recipes',
+        limitUpdateKind: UpdateKind.delete,
+      ),
       result: [TableUpdate('recipe_steps', kind: UpdateKind.delete)],
     ),
     WritePropagation(
-      on: TableUpdateQuery.onTableName('recipe_variants', limitUpdateKind: UpdateKind.delete),
+      on: TableUpdateQuery.onTableName(
+        'recipe_variants',
+        limitUpdateKind: UpdateKind.delete,
+      ),
       result: [TableUpdate('recipe_steps', kind: UpdateKind.delete)],
     ),
     WritePropagation(
-      on: TableUpdateQuery.onTableName('recipe_steps', limitUpdateKind: UpdateKind.delete),
+      on: TableUpdateQuery.onTableName(
+        'recipes',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('recipe_steps', kind: UpdateKind.update)],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'recipe_steps',
+        limitUpdateKind: UpdateKind.delete,
+      ),
       result: [TableUpdate('ingredient_items', kind: UpdateKind.delete)],
     ),
   ]);
@@ -5703,6 +6467,7 @@ typedef $$RecipesTableCreateCompanionBuilder = RecipesCompanion Function({
   required String videoUrl,
   required List<String> questions,
   required String languageTag,
+  Value<bool> favorite,
 });
 typedef $$RecipesTableUpdateCompanionBuilder = RecipesCompanion Function({
   Value<int> id,
@@ -5733,15 +6498,15 @@ typedef $$RecipesTableUpdateCompanionBuilder = RecipesCompanion Function({
   Value<String> videoUrl,
   Value<List<String>> questions,
   Value<String> languageTag,
+  Value<bool> favorite,
 });
 
 final class $$RecipesTableReferences
     extends BaseReferences<_$AppDatabase, $RecipesTable, RecipeRow> {
   $$RecipesTableReferences(super.$_db, super.$_table, super.$_typedResult);
 
-  static MultiTypedResultKey<$RecipeVariantsTable, List<RecipeVariantRow>> _recipeVariantsRefsTable(
-    _$AppDatabase db,
-  ) => MultiTypedResultKey.fromTable(
+  static MultiTypedResultKey<$RecipeVariantsTable, List<RecipeVariantRow>>
+  _recipeVariantsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
     db.recipeVariants,
     aliasName: 'recipes__id__recipe_variants__recipe_id',
   );
@@ -5753,28 +6518,14 @@ final class $$RecipesTableReferences
     ).filter((f) => f.recipeId.id.sqlEquals($_itemColumn<int>('id')!));
 
     final cache = $_typedResult.readTableOrNull(_recipeVariantsRefsTable($_db));
-    return ProcessedTableManager(manager.$state.copyWith(prefetchedData: cache));
-  }
-
-  static MultiTypedResultKey<$RecipeStepsTable, List<RecipeStepRow>> _recipeStepsRefsTable(
-    _$AppDatabase db,
-  ) => MultiTypedResultKey.fromTable(
-    db.recipeSteps,
-    aliasName: 'recipes__id__recipe_steps__recipe_id',
-  );
-
-  $$RecipeStepsTableProcessedTableManager get recipeStepsRefs {
-    final manager = $$RecipeStepsTableTableManager(
-      $_db,
-      $_db.recipeSteps,
-    ).filter((f) => f.recipeId.id.sqlEquals($_itemColumn<int>('id')!));
-
-    final cache = $_typedResult.readTableOrNull(_recipeStepsRefsTable($_db));
-    return ProcessedTableManager(manager.$state.copyWith(prefetchedData: cache));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
   }
 }
 
-class $$RecipesTableFilterComposer extends Composer<_$AppDatabase, $RecipesTable> {
+class $$RecipesTableFilterComposer
+    extends Composer<_$AppDatabase, $RecipesTable> {
   $$RecipesTableFilterComposer({
     required super.$db,
     required super.$table,
@@ -5782,94 +6533,151 @@ class $$RecipesTableFilterComposer extends Composer<_$AppDatabase, $RecipesTable
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnFilters<int> get id =>
-      $composableBuilder(column: $table.id, builder: (column) => ColumnFilters(column));
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<String> get title =>
-      $composableBuilder(column: $table.title, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get title => $composableBuilder(
+    column: $table.title,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<String> get source =>
-      $composableBuilder(column: $table.source, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get source => $composableBuilder(
+    column: $table.source,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<String> get imagePath =>
-      $composableBuilder(column: $table.imagePath, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get imagePath => $composableBuilder(
+    column: $table.imagePath,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<String> get notes =>
-      $composableBuilder(column: $table.notes, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get notes => $composableBuilder(
+    column: $table.notes,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<int> get servings =>
-      $composableBuilder(column: $table.servings, builder: (column) => ColumnFilters(column));
+  ColumnFilters<int> get servings => $composableBuilder(
+    column: $table.servings,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<int> get piecesPerServing => $composableBuilder(
     column: $table.piecesPerServing,
     builder: (column) => ColumnFilters(column),
   );
 
-  ColumnFilters<int> get category =>
-      $composableBuilder(column: $table.category, builder: (column) => ColumnFilters(column));
+  ColumnFilters<int> get category => $composableBuilder(
+    column: $table.category,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<String> get countryCode =>
-      $composableBuilder(column: $table.countryCode, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get countryCode => $composableBuilder(
+    column: $table.countryCode,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<int> get calories =>
-      $composableBuilder(column: $table.calories, builder: (column) => ColumnFilters(column));
+  ColumnFilters<int> get calories => $composableBuilder(
+    column: $table.calories,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<int> get fat =>
-      $composableBuilder(column: $table.fat, builder: (column) => ColumnFilters(column));
+  ColumnFilters<int> get fat => $composableBuilder(
+    column: $table.fat,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<int> get carbohydrates =>
-      $composableBuilder(column: $table.carbohydrates, builder: (column) => ColumnFilters(column));
+  ColumnFilters<int> get carbohydrates => $composableBuilder(
+    column: $table.carbohydrates,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<int> get protein =>
-      $composableBuilder(column: $table.protein, builder: (column) => ColumnFilters(column));
+  ColumnFilters<int> get protein => $composableBuilder(
+    column: $table.protein,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<int> get saturatedFat =>
-      $composableBuilder(column: $table.saturatedFat, builder: (column) => ColumnFilters(column));
+  ColumnFilters<int> get saturatedFat => $composableBuilder(
+    column: $table.saturatedFat,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<int> get transFat =>
-      $composableBuilder(column: $table.transFat, builder: (column) => ColumnFilters(column));
+  ColumnFilters<int> get transFat => $composableBuilder(
+    column: $table.transFat,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<int> get sugar =>
-      $composableBuilder(column: $table.sugar, builder: (column) => ColumnFilters(column));
+  ColumnFilters<int> get sugar => $composableBuilder(
+    column: $table.sugar,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<int> get fiber =>
-      $composableBuilder(column: $table.fiber, builder: (column) => ColumnFilters(column));
+  ColumnFilters<int> get fiber => $composableBuilder(
+    column: $table.fiber,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<int> get cholesterol =>
-      $composableBuilder(column: $table.cholesterol, builder: (column) => ColumnFilters(column));
+  ColumnFilters<int> get cholesterol => $composableBuilder(
+    column: $table.cholesterol,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<int> get sodium =>
-      $composableBuilder(column: $table.sodium, builder: (column) => ColumnFilters(column));
+  ColumnFilters<int> get sodium => $composableBuilder(
+    column: $table.sodium,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<int> get time =>
-      $composableBuilder(column: $table.time, builder: (column) => ColumnFilters(column));
+  ColumnFilters<int> get time => $composableBuilder(
+    column: $table.time,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<int> get cookTime =>
-      $composableBuilder(column: $table.cookTime, builder: (column) => ColumnFilters(column));
+  ColumnFilters<int> get cookTime => $composableBuilder(
+    column: $table.cookTime,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<int> get prepTime =>
-      $composableBuilder(column: $table.prepTime, builder: (column) => ColumnFilters(column));
+  ColumnFilters<int> get prepTime => $composableBuilder(
+    column: $table.prepTime,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<int> get restTime =>
-      $composableBuilder(column: $table.restTime, builder: (column) => ColumnFilters(column));
+  ColumnFilters<int> get restTime => $composableBuilder(
+    column: $table.restTime,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<int> get month =>
-      $composableBuilder(column: $table.month, builder: (column) => ColumnFilters(column));
+  ColumnFilters<int> get month => $composableBuilder(
+    column: $table.month,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<String> get makeAhead =>
-      $composableBuilder(column: $table.makeAhead, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get makeAhead => $composableBuilder(
+    column: $table.makeAhead,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<String> get videoUrl =>
-      $composableBuilder(column: $table.videoUrl, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get videoUrl => $composableBuilder(
+    column: $table.videoUrl,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnWithTypeConverterFilters<List<String>, List<String>, String> get questions =>
-      $composableBuilder(
-        column: $table.questions,
-        builder: (column) => ColumnWithTypeConverterFilters(column),
-      );
+  ColumnWithTypeConverterFilters<List<String>, List<String>, String>
+  get questions => $composableBuilder(
+    column: $table.questions,
+    builder: (column) => ColumnWithTypeConverterFilters(column),
+  );
 
-  ColumnFilters<String> get languageTag =>
-      $composableBuilder(column: $table.languageTag, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get languageTag => $composableBuilder(
+    column: $table.languageTag,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get favorite => $composableBuilder(
+    column: $table.favorite,
+    builder: (column) => ColumnFilters(column),
+  );
 
   Expression<bool> recipeVariantsRefs(
     Expression<bool> Function($$RecipeVariantsTableFilterComposer f) f,
@@ -5879,40 +6687,26 @@ class $$RecipesTableFilterComposer extends Composer<_$AppDatabase, $RecipesTable
       getCurrentColumn: (t) => t.id,
       referencedTable: $db.recipeVariants,
       getReferencedColumn: (t) => t.recipeId,
-      builder: (joinBuilder, {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
-          $$RecipeVariantsTableFilterComposer(
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$RecipeVariantsTableFilterComposer(
             $db: $db,
             $table: $db.recipeVariants,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return f(composer);
-  }
-
-  Expression<bool> recipeStepsRefs(
-    Expression<bool> Function($$RecipeStepsTableFilterComposer f) f,
-  ) {
-    final $$RecipeStepsTableFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.recipeSteps,
-      getReferencedColumn: (t) => t.recipeId,
-      builder: (joinBuilder, {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
-          $$RecipeStepsTableFilterComposer(
-            $db: $db,
-            $table: $db.recipeSteps,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
           ),
     );
     return f(composer);
   }
 }
 
-class $$RecipesTableOrderingComposer extends Composer<_$AppDatabase, $RecipesTable> {
+class $$RecipesTableOrderingComposer
+    extends Composer<_$AppDatabase, $RecipesTable> {
   $$RecipesTableOrderingComposer({
     required super.$db,
     required super.$table,
@@ -5920,96 +6714,154 @@ class $$RecipesTableOrderingComposer extends Composer<_$AppDatabase, $RecipesTab
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnOrderings<int> get id =>
-      $composableBuilder(column: $table.id, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<String> get title =>
-      $composableBuilder(column: $table.title, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get title => $composableBuilder(
+    column: $table.title,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<String> get source =>
-      $composableBuilder(column: $table.source, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get source => $composableBuilder(
+    column: $table.source,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<String> get imagePath =>
-      $composableBuilder(column: $table.imagePath, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get imagePath => $composableBuilder(
+    column: $table.imagePath,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<String> get notes =>
-      $composableBuilder(column: $table.notes, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get notes => $composableBuilder(
+    column: $table.notes,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<int> get servings =>
-      $composableBuilder(column: $table.servings, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<int> get servings => $composableBuilder(
+    column: $table.servings,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<int> get piecesPerServing => $composableBuilder(
     column: $table.piecesPerServing,
     builder: (column) => ColumnOrderings(column),
   );
 
-  ColumnOrderings<int> get category =>
-      $composableBuilder(column: $table.category, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<int> get category => $composableBuilder(
+    column: $table.category,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<String> get countryCode =>
-      $composableBuilder(column: $table.countryCode, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get countryCode => $composableBuilder(
+    column: $table.countryCode,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<int> get calories =>
-      $composableBuilder(column: $table.calories, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<int> get calories => $composableBuilder(
+    column: $table.calories,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<int> get fat =>
-      $composableBuilder(column: $table.fat, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<int> get fat => $composableBuilder(
+    column: $table.fat,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<int> get carbohydrates => $composableBuilder(
     column: $table.carbohydrates,
     builder: (column) => ColumnOrderings(column),
   );
 
-  ColumnOrderings<int> get protein =>
-      $composableBuilder(column: $table.protein, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<int> get protein => $composableBuilder(
+    column: $table.protein,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<int> get saturatedFat =>
-      $composableBuilder(column: $table.saturatedFat, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<int> get saturatedFat => $composableBuilder(
+    column: $table.saturatedFat,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<int> get transFat =>
-      $composableBuilder(column: $table.transFat, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<int> get transFat => $composableBuilder(
+    column: $table.transFat,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<int> get sugar =>
-      $composableBuilder(column: $table.sugar, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<int> get sugar => $composableBuilder(
+    column: $table.sugar,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<int> get fiber =>
-      $composableBuilder(column: $table.fiber, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<int> get fiber => $composableBuilder(
+    column: $table.fiber,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<int> get cholesterol =>
-      $composableBuilder(column: $table.cholesterol, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<int> get cholesterol => $composableBuilder(
+    column: $table.cholesterol,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<int> get sodium =>
-      $composableBuilder(column: $table.sodium, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<int> get sodium => $composableBuilder(
+    column: $table.sodium,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<int> get time =>
-      $composableBuilder(column: $table.time, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<int> get time => $composableBuilder(
+    column: $table.time,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<int> get cookTime =>
-      $composableBuilder(column: $table.cookTime, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<int> get cookTime => $composableBuilder(
+    column: $table.cookTime,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<int> get prepTime =>
-      $composableBuilder(column: $table.prepTime, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<int> get prepTime => $composableBuilder(
+    column: $table.prepTime,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<int> get restTime =>
-      $composableBuilder(column: $table.restTime, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<int> get restTime => $composableBuilder(
+    column: $table.restTime,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<int> get month =>
-      $composableBuilder(column: $table.month, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<int> get month => $composableBuilder(
+    column: $table.month,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<String> get makeAhead =>
-      $composableBuilder(column: $table.makeAhead, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get makeAhead => $composableBuilder(
+    column: $table.makeAhead,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<String> get videoUrl =>
-      $composableBuilder(column: $table.videoUrl, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get videoUrl => $composableBuilder(
+    column: $table.videoUrl,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<String> get questions =>
-      $composableBuilder(column: $table.questions, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get questions => $composableBuilder(
+    column: $table.questions,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<String> get languageTag =>
-      $composableBuilder(column: $table.languageTag, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get languageTag => $composableBuilder(
+    column: $table.languageTag,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get favorite => $composableBuilder(
+    column: $table.favorite,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
-class $$RecipesTableAnnotationComposer extends Composer<_$AppDatabase, $RecipesTable> {
+class $$RecipesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $RecipesTable> {
   $$RecipesTableAnnotationComposer({
     required super.$db,
     required super.$table,
@@ -6017,7 +6869,8 @@ class $$RecipesTableAnnotationComposer extends Composer<_$AppDatabase, $RecipesT
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  GeneratedColumn<int> get id => $composableBuilder(column: $table.id, builder: (column) => column);
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
 
   GeneratedColumn<String> get title =>
       $composableBuilder(column: $table.title, builder: (column) => column);
@@ -6034,14 +6887,18 @@ class $$RecipesTableAnnotationComposer extends Composer<_$AppDatabase, $RecipesT
   GeneratedColumn<int> get servings =>
       $composableBuilder(column: $table.servings, builder: (column) => column);
 
-  GeneratedColumn<int> get piecesPerServing =>
-      $composableBuilder(column: $table.piecesPerServing, builder: (column) => column);
+  GeneratedColumn<int> get piecesPerServing => $composableBuilder(
+    column: $table.piecesPerServing,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<int> get category =>
       $composableBuilder(column: $table.category, builder: (column) => column);
 
-  GeneratedColumn<String> get countryCode =>
-      $composableBuilder(column: $table.countryCode, builder: (column) => column);
+  GeneratedColumn<String> get countryCode => $composableBuilder(
+    column: $table.countryCode,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<int> get calories =>
       $composableBuilder(column: $table.calories, builder: (column) => column);
@@ -6049,14 +6906,18 @@ class $$RecipesTableAnnotationComposer extends Composer<_$AppDatabase, $RecipesT
   GeneratedColumn<int> get fat =>
       $composableBuilder(column: $table.fat, builder: (column) => column);
 
-  GeneratedColumn<int> get carbohydrates =>
-      $composableBuilder(column: $table.carbohydrates, builder: (column) => column);
+  GeneratedColumn<int> get carbohydrates => $composableBuilder(
+    column: $table.carbohydrates,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<int> get protein =>
       $composableBuilder(column: $table.protein, builder: (column) => column);
 
-  GeneratedColumn<int> get saturatedFat =>
-      $composableBuilder(column: $table.saturatedFat, builder: (column) => column);
+  GeneratedColumn<int> get saturatedFat => $composableBuilder(
+    column: $table.saturatedFat,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<int> get transFat =>
       $composableBuilder(column: $table.transFat, builder: (column) => column);
@@ -6067,8 +6928,10 @@ class $$RecipesTableAnnotationComposer extends Composer<_$AppDatabase, $RecipesT
   GeneratedColumn<int> get fiber =>
       $composableBuilder(column: $table.fiber, builder: (column) => column);
 
-  GeneratedColumn<int> get cholesterol =>
-      $composableBuilder(column: $table.cholesterol, builder: (column) => column);
+  GeneratedColumn<int> get cholesterol => $composableBuilder(
+    column: $table.cholesterol,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<int> get sodium =>
       $composableBuilder(column: $table.sodium, builder: (column) => column);
@@ -6097,8 +6960,13 @@ class $$RecipesTableAnnotationComposer extends Composer<_$AppDatabase, $RecipesT
   GeneratedColumnWithTypeConverter<List<String>, String> get questions =>
       $composableBuilder(column: $table.questions, builder: (column) => column);
 
-  GeneratedColumn<String> get languageTag =>
-      $composableBuilder(column: $table.languageTag, builder: (column) => column);
+  GeneratedColumn<String> get languageTag => $composableBuilder(
+    column: $table.languageTag,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<bool> get favorite =>
+      $composableBuilder(column: $table.favorite, builder: (column) => column);
 
   Expression<T> recipeVariantsRefs<T extends Object>(
     Expression<T> Function($$RecipeVariantsTableAnnotationComposer a) f,
@@ -6108,33 +6976,18 @@ class $$RecipesTableAnnotationComposer extends Composer<_$AppDatabase, $RecipesT
       getCurrentColumn: (t) => t.id,
       referencedTable: $db.recipeVariants,
       getReferencedColumn: (t) => t.recipeId,
-      builder: (joinBuilder, {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
-          $$RecipeVariantsTableAnnotationComposer(
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$RecipeVariantsTableAnnotationComposer(
             $db: $db,
             $table: $db.recipeVariants,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return f(composer);
-  }
-
-  Expression<T> recipeStepsRefs<T extends Object>(
-    Expression<T> Function($$RecipeStepsTableAnnotationComposer a) f,
-  ) {
-    final $$RecipeStepsTableAnnotationComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.recipeSteps,
-      getReferencedColumn: (t) => t.recipeId,
-      builder: (joinBuilder, {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
-          $$RecipeStepsTableAnnotationComposer(
-            $db: $db,
-            $table: $db.recipeSteps,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
           ),
     );
     return f(composer);
@@ -6154,15 +7007,17 @@ class $$RecipesTableTableManager
           $$RecipesTableUpdateCompanionBuilder,
           (RecipeRow, $$RecipesTableReferences),
           RecipeRow,
-          PrefetchHooks Function({bool recipeVariantsRefs, bool recipeStepsRefs})
+          PrefetchHooks Function({bool recipeVariantsRefs})
         > {
   $$RecipesTableTableManager(_$AppDatabase db, $RecipesTable table)
     : super(
         TableManagerState(
           db: db,
           table: table,
-          createFilteringComposer: () => $$RecipesTableFilterComposer($db: db, $table: table),
-          createOrderingComposer: () => $$RecipesTableOrderingComposer($db: db, $table: table),
+          createFilteringComposer: () =>
+              $$RecipesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$RecipesTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
               $$RecipesTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback:
@@ -6195,6 +7050,7 @@ class $$RecipesTableTableManager
                 Value<String> videoUrl = const Value.absent(),
                 Value<List<String>> questions = const Value.absent(),
                 Value<String> languageTag = const Value.absent(),
+                Value<bool> favorite = const Value.absent(),
               }) => RecipesCompanion(
                 id: id,
                 title: title,
@@ -6224,6 +7080,7 @@ class $$RecipesTableTableManager
                 videoUrl: videoUrl,
                 questions: questions,
                 languageTag: languageTag,
+                favorite: favorite,
               ),
           createCompanionCallback:
               ({
@@ -6255,6 +7112,7 @@ class $$RecipesTableTableManager
                 required String videoUrl,
                 required List<String> questions,
                 required String languageTag,
+                Value<bool> favorite = const Value.absent(),
               }) => RecipesCompanion.insert(
                 id: id,
                 title: title,
@@ -6284,6 +7142,7 @@ class $$RecipesTableTableManager
                 videoUrl: videoUrl,
                 questions: questions,
                 languageTag: languageTag,
+                favorite: favorite,
               ),
           withReferenceMapper: (p0) => p0
               .map(
@@ -6293,32 +7152,29 @@ class $$RecipesTableTableManager
                 ),
               )
               .toList(),
-          prefetchHooksCallback: ({recipeVariantsRefs = false, recipeStepsRefs = false}) {
+          prefetchHooksCallback: ({recipeVariantsRefs = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [
                 if (recipeVariantsRefs) db.recipeVariants,
-                if (recipeStepsRefs) db.recipeSteps,
               ],
               addJoins: null,
               getPrefetchedDataCallback: (items) async {
                 return [
                   if (recipeVariantsRefs)
-                    await $_getPrefetchedData<RecipeRow, $RecipesTable, RecipeVariantRow>(
+                    await $_getPrefetchedData<
+                      RecipeRow,
+                      $RecipesTable,
+                      RecipeVariantRow
+                    >(
                       currentTable: table,
-                      referencedTable: $$RecipesTableReferences._recipeVariantsRefsTable(db),
-                      managerFromTypedResult: (p0) =>
-                          $$RecipesTableReferences(db, table, p0).recipeVariantsRefs,
-                      referencedItemsForCurrentItem: (item, referencedItems) =>
-                          referencedItems.where((e) => e.recipeId == item.id),
-                      typedResults: items,
-                    ),
-                  if (recipeStepsRefs)
-                    await $_getPrefetchedData<RecipeRow, $RecipesTable, RecipeStepRow>(
-                      currentTable: table,
-                      referencedTable: $$RecipesTableReferences._recipeStepsRefsTable(db),
-                      managerFromTypedResult: (p0) =>
-                          $$RecipesTableReferences(db, table, p0).recipeStepsRefs,
+                      referencedTable: $$RecipesTableReferences
+                          ._recipeVariantsRefsTable(db),
+                      managerFromTypedResult: (p0) => $$RecipesTableReferences(
+                        db,
+                        table,
+                        p0,
+                      ).recipeVariantsRefs,
                       referencedItemsForCurrentItem: (item, referencedItems) =>
                           referencedItems.where((e) => e.recipeId == item.id),
                       typedResults: items,
@@ -6343,22 +7199,31 @@ typedef $$RecipesTableProcessedTableManager =
       $$RecipesTableUpdateCompanionBuilder,
       (RecipeRow, $$RecipesTableReferences),
       RecipeRow,
-      PrefetchHooks Function({bool recipeVariantsRefs, bool recipeStepsRefs})
+      PrefetchHooks Function({bool recipeVariantsRefs})
     >;
-typedef $$RecipeVariantsTableCreateCompanionBuilder = RecipeVariantsCompanion Function({
-  Value<int> id,
-  required int recipeId,
-  required String title,
-});
-typedef $$RecipeVariantsTableUpdateCompanionBuilder = RecipeVariantsCompanion Function({
-  Value<int> id,
-  Value<int> recipeId,
-  Value<String> title,
-});
+typedef $$RecipeVariantsTableCreateCompanionBuilder =
+    RecipeVariantsCompanion Function({
+      Value<int> id,
+      required int recipeId,
+      required String title,
+      Value<String> imagePath,
+    });
+typedef $$RecipeVariantsTableUpdateCompanionBuilder =
+    RecipeVariantsCompanion Function({
+      Value<int> id,
+      Value<int> recipeId,
+      Value<String> title,
+      Value<String> imagePath,
+    });
 
 final class $$RecipeVariantsTableReferences
-    extends BaseReferences<_$AppDatabase, $RecipeVariantsTable, RecipeVariantRow> {
-  $$RecipeVariantsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+    extends
+        BaseReferences<_$AppDatabase, $RecipeVariantsTable, RecipeVariantRow> {
+  $$RecipeVariantsTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
 
   static $RecipesTable _recipeIdTable(_$AppDatabase db) =>
       db.recipes.createAlias('recipe_variants__recipe_id__recipes__id');
@@ -6372,12 +7237,13 @@ final class $$RecipeVariantsTableReferences
     ).filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_recipeIdTable($_db));
     if (item == null) return manager;
-    return ProcessedTableManager(manager.$state.copyWith(prefetchedData: [item]));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
   }
 
-  static MultiTypedResultKey<$RecipeStepsTable, List<RecipeStepRow>> _recipeStepsRefsTable(
-    _$AppDatabase db,
-  ) => MultiTypedResultKey.fromTable(
+  static MultiTypedResultKey<$RecipeStepsTable, List<RecipeStepRow>>
+  _recipeStepsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
     db.recipeSteps,
     aliasName: 'recipe_variants__id__recipe_steps__variant_id',
   );
@@ -6389,11 +7255,14 @@ final class $$RecipeVariantsTableReferences
     ).filter((f) => f.variantId.id.sqlEquals($_itemColumn<int>('id')!));
 
     final cache = $_typedResult.readTableOrNull(_recipeStepsRefsTable($_db));
-    return ProcessedTableManager(manager.$state.copyWith(prefetchedData: cache));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
   }
 }
 
-class $$RecipeVariantsTableFilterComposer extends Composer<_$AppDatabase, $RecipeVariantsTable> {
+class $$RecipeVariantsTableFilterComposer
+    extends Composer<_$AppDatabase, $RecipeVariantsTable> {
   $$RecipeVariantsTableFilterComposer({
     required super.$db,
     required super.$table,
@@ -6401,11 +7270,20 @@ class $$RecipeVariantsTableFilterComposer extends Composer<_$AppDatabase, $Recip
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnFilters<int> get id =>
-      $composableBuilder(column: $table.id, builder: (column) => ColumnFilters(column));
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<String> get title =>
-      $composableBuilder(column: $table.title, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get title => $composableBuilder(
+    column: $table.title,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get imagePath => $composableBuilder(
+    column: $table.imagePath,
+    builder: (column) => ColumnFilters(column),
+  );
 
   $$RecipesTableFilterComposer get recipeId {
     final $$RecipesTableFilterComposer composer = $composerBuilder(
@@ -6413,13 +7291,18 @@ class $$RecipeVariantsTableFilterComposer extends Composer<_$AppDatabase, $Recip
       getCurrentColumn: (t) => t.recipeId,
       referencedTable: $db.recipes,
       getReferencedColumn: (t) => t.id,
-      builder: (joinBuilder, {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
-          $$RecipesTableFilterComposer(
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$RecipesTableFilterComposer(
             $db: $db,
             $table: $db.recipes,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
           ),
     );
     return composer;
@@ -6433,20 +7316,26 @@ class $$RecipeVariantsTableFilterComposer extends Composer<_$AppDatabase, $Recip
       getCurrentColumn: (t) => t.id,
       referencedTable: $db.recipeSteps,
       getReferencedColumn: (t) => t.variantId,
-      builder: (joinBuilder, {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
-          $$RecipeStepsTableFilterComposer(
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$RecipeStepsTableFilterComposer(
             $db: $db,
             $table: $db.recipeSteps,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
           ),
     );
     return f(composer);
   }
 }
 
-class $$RecipeVariantsTableOrderingComposer extends Composer<_$AppDatabase, $RecipeVariantsTable> {
+class $$RecipeVariantsTableOrderingComposer
+    extends Composer<_$AppDatabase, $RecipeVariantsTable> {
   $$RecipeVariantsTableOrderingComposer({
     required super.$db,
     required super.$table,
@@ -6454,11 +7343,20 @@ class $$RecipeVariantsTableOrderingComposer extends Composer<_$AppDatabase, $Rec
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnOrderings<int> get id =>
-      $composableBuilder(column: $table.id, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<String> get title =>
-      $composableBuilder(column: $table.title, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get title => $composableBuilder(
+    column: $table.title,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get imagePath => $composableBuilder(
+    column: $table.imagePath,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   $$RecipesTableOrderingComposer get recipeId {
     final $$RecipesTableOrderingComposer composer = $composerBuilder(
@@ -6466,13 +7364,18 @@ class $$RecipeVariantsTableOrderingComposer extends Composer<_$AppDatabase, $Rec
       getCurrentColumn: (t) => t.recipeId,
       referencedTable: $db.recipes,
       getReferencedColumn: (t) => t.id,
-      builder: (joinBuilder, {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
-          $$RecipesTableOrderingComposer(
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$RecipesTableOrderingComposer(
             $db: $db,
             $table: $db.recipes,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
           ),
     );
     return composer;
@@ -6488,10 +7391,14 @@ class $$RecipeVariantsTableAnnotationComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  GeneratedColumn<int> get id => $composableBuilder(column: $table.id, builder: (column) => column);
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
 
   GeneratedColumn<String> get title =>
       $composableBuilder(column: $table.title, builder: (column) => column);
+
+  GeneratedColumn<String> get imagePath =>
+      $composableBuilder(column: $table.imagePath, builder: (column) => column);
 
   $$RecipesTableAnnotationComposer get recipeId {
     final $$RecipesTableAnnotationComposer composer = $composerBuilder(
@@ -6499,13 +7406,18 @@ class $$RecipeVariantsTableAnnotationComposer
       getCurrentColumn: (t) => t.recipeId,
       referencedTable: $db.recipes,
       getReferencedColumn: (t) => t.id,
-      builder: (joinBuilder, {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
-          $$RecipesTableAnnotationComposer(
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$RecipesTableAnnotationComposer(
             $db: $db,
             $table: $db.recipes,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
           ),
     );
     return composer;
@@ -6519,13 +7431,18 @@ class $$RecipeVariantsTableAnnotationComposer
       getCurrentColumn: (t) => t.id,
       referencedTable: $db.recipeSteps,
       getReferencedColumn: (t) => t.variantId,
-      builder: (joinBuilder, {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
-          $$RecipeStepsTableAnnotationComposer(
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$RecipeStepsTableAnnotationComposer(
             $db: $db,
             $table: $db.recipeSteps,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
           ),
     );
     return f(composer);
@@ -6547,8 +7464,10 @@ class $$RecipeVariantsTableTableManager
           RecipeVariantRow,
           PrefetchHooks Function({bool recipeId, bool recipeStepsRefs})
         > {
-  $$RecipeVariantsTableTableManager(_$AppDatabase db, $RecipeVariantsTable table)
-    : super(
+  $$RecipeVariantsTableTableManager(
+    _$AppDatabase db,
+    $RecipeVariantsTable table,
+  ) : super(
         TableManagerState(
           db: db,
           table: table,
@@ -6558,16 +7477,30 @@ class $$RecipeVariantsTableTableManager
               $$RecipeVariantsTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
               $$RecipeVariantsTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback: ({
-            Value<int> id = const Value.absent(),
-            Value<int> recipeId = const Value.absent(),
-            Value<String> title = const Value.absent(),
-          }) => RecipeVariantsCompanion(id: id, recipeId: recipeId, title: title),
-          createCompanionCallback: ({
-            Value<int> id = const Value.absent(),
-            required int recipeId,
-            required String title,
-          }) => RecipeVariantsCompanion.insert(id: id, recipeId: recipeId, title: title),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int> recipeId = const Value.absent(),
+                Value<String> title = const Value.absent(),
+                Value<String> imagePath = const Value.absent(),
+              }) => RecipeVariantsCompanion(
+                id: id,
+                recipeId: recipeId,
+                title: title,
+                imagePath: imagePath,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required int recipeId,
+                required String title,
+                Value<String> imagePath = const Value.absent(),
+              }) => RecipeVariantsCompanion.insert(
+                id: id,
+                recipeId: recipeId,
+                title: title,
+                imagePath: imagePath,
+              ),
           withReferenceMapper: (p0) => p0
               .map(
                 (e) => (
@@ -6600,8 +7533,11 @@ class $$RecipeVariantsTableTableManager
                       state = state.withJoin(
                         currentTable: table,
                         currentColumn: table.recipeId,
-                        referencedTable: $$RecipeVariantsTableReferences._recipeIdTable(db),
-                        referencedColumn: $$RecipeVariantsTableReferences._recipeIdTable(db).id,
+                        referencedTable: $$RecipeVariantsTableReferences
+                            ._recipeIdTable(db),
+                        referencedColumn: $$RecipeVariantsTableReferences
+                            ._recipeIdTable(db)
+                            .id,
                       ) as T;
                     }
 
@@ -6616,9 +7552,14 @@ class $$RecipeVariantsTableTableManager
                       RecipeStepRow
                     >(
                       currentTable: table,
-                      referencedTable: $$RecipeVariantsTableReferences._recipeStepsRefsTable(db),
+                      referencedTable: $$RecipeVariantsTableReferences
+                          ._recipeStepsRefsTable(db),
                       managerFromTypedResult: (p0) =>
-                          $$RecipeVariantsTableReferences(db, table, p0).recipeStepsRefs,
+                          $$RecipeVariantsTableReferences(
+                            db,
+                            table,
+                            p0,
+                          ).recipeStepsRefs,
                       referencedItemsForCurrentItem: (item, referencedItems) =>
                           referencedItems.where((e) => e.variantId == item.id),
                       typedResults: items,
@@ -6645,28 +7586,32 @@ typedef $$RecipeVariantsTableProcessedTableManager =
       RecipeVariantRow,
       PrefetchHooks Function({bool recipeId, bool recipeStepsRefs})
     >;
-typedef $$RecipeStepsTableCreateCompanionBuilder = RecipeStepsCompanion Function({
-  Value<int> id,
-  Value<int?> recipeId,
-  Value<int?> variantId,
-  required String name,
-  required String instruction,
-  required String imagePath,
-  required String videoUrl,
-  required int timer,
-  required int stepOrder,
-});
-typedef $$RecipeStepsTableUpdateCompanionBuilder = RecipeStepsCompanion Function({
-  Value<int> id,
-  Value<int?> recipeId,
-  Value<int?> variantId,
-  Value<String> name,
-  Value<String> instruction,
-  Value<String> imagePath,
-  Value<String> videoUrl,
-  Value<int> timer,
-  Value<int> stepOrder,
-});
+typedef $$RecipeStepsTableCreateCompanionBuilder =
+    RecipeStepsCompanion Function({
+      Value<int> id,
+      Value<int?> recipeId,
+      Value<int?> variantId,
+      required String name,
+      required String instruction,
+      required String imagePath,
+      required String videoUrl,
+      required int timer,
+      required int stepOrder,
+      Value<int?> linkedRecipeId,
+    });
+typedef $$RecipeStepsTableUpdateCompanionBuilder =
+    RecipeStepsCompanion Function({
+      Value<int> id,
+      Value<int?> recipeId,
+      Value<int?> variantId,
+      Value<String> name,
+      Value<String> instruction,
+      Value<String> imagePath,
+      Value<String> videoUrl,
+      Value<int> timer,
+      Value<int> stepOrder,
+      Value<int?> linkedRecipeId,
+    });
 
 final class $$RecipeStepsTableReferences
     extends BaseReferences<_$AppDatabase, $RecipeStepsTable, RecipeStepRow> {
@@ -6684,11 +7629,14 @@ final class $$RecipeStepsTableReferences
     ).filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_recipeIdTable($_db));
     if (item == null) return manager;
-    return ProcessedTableManager(manager.$state.copyWith(prefetchedData: [item]));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
   }
 
-  static $RecipeVariantsTable _variantIdTable(_$AppDatabase db) =>
-      db.recipeVariants.createAlias('recipe_steps__variant_id__recipe_variants__id');
+  static $RecipeVariantsTable _variantIdTable(_$AppDatabase db) => db
+      .recipeVariants
+      .createAlias('recipe_steps__variant_id__recipe_variants__id');
 
   $$RecipeVariantsTableProcessedTableManager? get variantId {
     final $_column = $_itemColumn<int>('variant_id');
@@ -6699,12 +7647,30 @@ final class $$RecipeStepsTableReferences
     ).filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_variantIdTable($_db));
     if (item == null) return manager;
-    return ProcessedTableManager(manager.$state.copyWith(prefetchedData: [item]));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
   }
 
-  static MultiTypedResultKey<$IngredientItemsTable, List<IngredientRow>> _ingredientItemsRefsTable(
-    _$AppDatabase db,
-  ) => MultiTypedResultKey.fromTable(
+  static $RecipesTable _linkedRecipeIdTable(_$AppDatabase db) =>
+      db.recipes.createAlias('recipe_steps__linked_recipe_id__recipes__id');
+
+  $$RecipesTableProcessedTableManager? get linkedRecipeId {
+    final $_column = $_itemColumn<int>('linked_recipe_id');
+    if ($_column == null) return null;
+    final manager = $$RecipesTableTableManager(
+      $_db,
+      $_db.recipes,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_linkedRecipeIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static MultiTypedResultKey<$IngredientItemsTable, List<IngredientRow>>
+  _ingredientItemsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
     db.ingredientItems,
     aliasName: 'recipe_steps__id__ingredient_items__step_id',
   );
@@ -6715,12 +7681,17 @@ final class $$RecipeStepsTableReferences
       $_db.ingredientItems,
     ).filter((f) => f.stepId.id.sqlEquals($_itemColumn<int>('id')!));
 
-    final cache = $_typedResult.readTableOrNull(_ingredientItemsRefsTable($_db));
-    return ProcessedTableManager(manager.$state.copyWith(prefetchedData: cache));
+    final cache = $_typedResult.readTableOrNull(
+      _ingredientItemsRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
   }
 }
 
-class $$RecipeStepsTableFilterComposer extends Composer<_$AppDatabase, $RecipeStepsTable> {
+class $$RecipeStepsTableFilterComposer
+    extends Composer<_$AppDatabase, $RecipeStepsTable> {
   $$RecipeStepsTableFilterComposer({
     required super.$db,
     required super.$table,
@@ -6728,26 +7699,40 @@ class $$RecipeStepsTableFilterComposer extends Composer<_$AppDatabase, $RecipeSt
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnFilters<int> get id =>
-      $composableBuilder(column: $table.id, builder: (column) => ColumnFilters(column));
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<String> get name =>
-      $composableBuilder(column: $table.name, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<String> get instruction =>
-      $composableBuilder(column: $table.instruction, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get instruction => $composableBuilder(
+    column: $table.instruction,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<String> get imagePath =>
-      $composableBuilder(column: $table.imagePath, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get imagePath => $composableBuilder(
+    column: $table.imagePath,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<String> get videoUrl =>
-      $composableBuilder(column: $table.videoUrl, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get videoUrl => $composableBuilder(
+    column: $table.videoUrl,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<int> get timer =>
-      $composableBuilder(column: $table.timer, builder: (column) => ColumnFilters(column));
+  ColumnFilters<int> get timer => $composableBuilder(
+    column: $table.timer,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<int> get stepOrder =>
-      $composableBuilder(column: $table.stepOrder, builder: (column) => ColumnFilters(column));
+  ColumnFilters<int> get stepOrder => $composableBuilder(
+    column: $table.stepOrder,
+    builder: (column) => ColumnFilters(column),
+  );
 
   $$RecipesTableFilterComposer get recipeId {
     final $$RecipesTableFilterComposer composer = $composerBuilder(
@@ -6755,13 +7740,18 @@ class $$RecipeStepsTableFilterComposer extends Composer<_$AppDatabase, $RecipeSt
       getCurrentColumn: (t) => t.recipeId,
       referencedTable: $db.recipes,
       getReferencedColumn: (t) => t.id,
-      builder: (joinBuilder, {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
-          $$RecipesTableFilterComposer(
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$RecipesTableFilterComposer(
             $db: $db,
             $table: $db.recipes,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
           ),
     );
     return composer;
@@ -6773,13 +7763,41 @@ class $$RecipeStepsTableFilterComposer extends Composer<_$AppDatabase, $RecipeSt
       getCurrentColumn: (t) => t.variantId,
       referencedTable: $db.recipeVariants,
       getReferencedColumn: (t) => t.id,
-      builder: (joinBuilder, {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
-          $$RecipeVariantsTableFilterComposer(
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$RecipeVariantsTableFilterComposer(
             $db: $db,
             $table: $db.recipeVariants,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$RecipesTableFilterComposer get linkedRecipeId {
+    final $$RecipesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.linkedRecipeId,
+      referencedTable: $db.recipes,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$RecipesTableFilterComposer(
+            $db: $db,
+            $table: $db.recipes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
           ),
     );
     return composer;
@@ -6793,20 +7811,26 @@ class $$RecipeStepsTableFilterComposer extends Composer<_$AppDatabase, $RecipeSt
       getCurrentColumn: (t) => t.id,
       referencedTable: $db.ingredientItems,
       getReferencedColumn: (t) => t.stepId,
-      builder: (joinBuilder, {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
-          $$IngredientItemsTableFilterComposer(
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$IngredientItemsTableFilterComposer(
             $db: $db,
             $table: $db.ingredientItems,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
           ),
     );
     return f(composer);
   }
 }
 
-class $$RecipeStepsTableOrderingComposer extends Composer<_$AppDatabase, $RecipeStepsTable> {
+class $$RecipeStepsTableOrderingComposer
+    extends Composer<_$AppDatabase, $RecipeStepsTable> {
   $$RecipeStepsTableOrderingComposer({
     required super.$db,
     required super.$table,
@@ -6814,26 +7838,40 @@ class $$RecipeStepsTableOrderingComposer extends Composer<_$AppDatabase, $Recipe
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnOrderings<int> get id =>
-      $composableBuilder(column: $table.id, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<String> get name =>
-      $composableBuilder(column: $table.name, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<String> get instruction =>
-      $composableBuilder(column: $table.instruction, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get instruction => $composableBuilder(
+    column: $table.instruction,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<String> get imagePath =>
-      $composableBuilder(column: $table.imagePath, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get imagePath => $composableBuilder(
+    column: $table.imagePath,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<String> get videoUrl =>
-      $composableBuilder(column: $table.videoUrl, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get videoUrl => $composableBuilder(
+    column: $table.videoUrl,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<int> get timer =>
-      $composableBuilder(column: $table.timer, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<int> get timer => $composableBuilder(
+    column: $table.timer,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<int> get stepOrder =>
-      $composableBuilder(column: $table.stepOrder, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<int> get stepOrder => $composableBuilder(
+    column: $table.stepOrder,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   $$RecipesTableOrderingComposer get recipeId {
     final $$RecipesTableOrderingComposer composer = $composerBuilder(
@@ -6841,13 +7879,18 @@ class $$RecipeStepsTableOrderingComposer extends Composer<_$AppDatabase, $Recipe
       getCurrentColumn: (t) => t.recipeId,
       referencedTable: $db.recipes,
       getReferencedColumn: (t) => t.id,
-      builder: (joinBuilder, {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
-          $$RecipesTableOrderingComposer(
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$RecipesTableOrderingComposer(
             $db: $db,
             $table: $db.recipes,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
           ),
     );
     return composer;
@@ -6859,20 +7902,49 @@ class $$RecipeStepsTableOrderingComposer extends Composer<_$AppDatabase, $Recipe
       getCurrentColumn: (t) => t.variantId,
       referencedTable: $db.recipeVariants,
       getReferencedColumn: (t) => t.id,
-      builder: (joinBuilder, {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
-          $$RecipeVariantsTableOrderingComposer(
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$RecipeVariantsTableOrderingComposer(
             $db: $db,
             $table: $db.recipeVariants,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$RecipesTableOrderingComposer get linkedRecipeId {
+    final $$RecipesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.linkedRecipeId,
+      referencedTable: $db.recipes,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$RecipesTableOrderingComposer(
+            $db: $db,
+            $table: $db.recipes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
           ),
     );
     return composer;
   }
 }
 
-class $$RecipeStepsTableAnnotationComposer extends Composer<_$AppDatabase, $RecipeStepsTable> {
+class $$RecipeStepsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $RecipeStepsTable> {
   $$RecipeStepsTableAnnotationComposer({
     required super.$db,
     required super.$table,
@@ -6880,13 +7952,16 @@ class $$RecipeStepsTableAnnotationComposer extends Composer<_$AppDatabase, $Reci
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  GeneratedColumn<int> get id => $composableBuilder(column: $table.id, builder: (column) => column);
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
 
   GeneratedColumn<String> get name =>
       $composableBuilder(column: $table.name, builder: (column) => column);
 
-  GeneratedColumn<String> get instruction =>
-      $composableBuilder(column: $table.instruction, builder: (column) => column);
+  GeneratedColumn<String> get instruction => $composableBuilder(
+    column: $table.instruction,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<String> get imagePath =>
       $composableBuilder(column: $table.imagePath, builder: (column) => column);
@@ -6906,13 +7981,18 @@ class $$RecipeStepsTableAnnotationComposer extends Composer<_$AppDatabase, $Reci
       getCurrentColumn: (t) => t.recipeId,
       referencedTable: $db.recipes,
       getReferencedColumn: (t) => t.id,
-      builder: (joinBuilder, {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
-          $$RecipesTableAnnotationComposer(
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$RecipesTableAnnotationComposer(
             $db: $db,
             $table: $db.recipes,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
           ),
     );
     return composer;
@@ -6924,13 +8004,41 @@ class $$RecipeStepsTableAnnotationComposer extends Composer<_$AppDatabase, $Reci
       getCurrentColumn: (t) => t.variantId,
       referencedTable: $db.recipeVariants,
       getReferencedColumn: (t) => t.id,
-      builder: (joinBuilder, {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
-          $$RecipeVariantsTableAnnotationComposer(
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$RecipeVariantsTableAnnotationComposer(
             $db: $db,
             $table: $db.recipeVariants,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$RecipesTableAnnotationComposer get linkedRecipeId {
+    final $$RecipesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.linkedRecipeId,
+      referencedTable: $db.recipes,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$RecipesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.recipes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
           ),
     );
     return composer;
@@ -6944,13 +8052,18 @@ class $$RecipeStepsTableAnnotationComposer extends Composer<_$AppDatabase, $Reci
       getCurrentColumn: (t) => t.id,
       referencedTable: $db.ingredientItems,
       getReferencedColumn: (t) => t.stepId,
-      builder: (joinBuilder, {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
-          $$IngredientItemsTableAnnotationComposer(
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$IngredientItemsTableAnnotationComposer(
             $db: $db,
             $table: $db.ingredientItems,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
           ),
     );
     return f(composer);
@@ -6970,15 +8083,22 @@ class $$RecipeStepsTableTableManager
           $$RecipeStepsTableUpdateCompanionBuilder,
           (RecipeStepRow, $$RecipeStepsTableReferences),
           RecipeStepRow,
-          PrefetchHooks Function({bool recipeId, bool variantId, bool ingredientItemsRefs})
+          PrefetchHooks Function({
+            bool recipeId,
+            bool variantId,
+            bool linkedRecipeId,
+            bool ingredientItemsRefs,
+          })
         > {
   $$RecipeStepsTableTableManager(_$AppDatabase db, $RecipeStepsTable table)
     : super(
         TableManagerState(
           db: db,
           table: table,
-          createFilteringComposer: () => $$RecipeStepsTableFilterComposer($db: db, $table: table),
-          createOrderingComposer: () => $$RecipeStepsTableOrderingComposer($db: db, $table: table),
+          createFilteringComposer: () =>
+              $$RecipeStepsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$RecipeStepsTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
               $$RecipeStepsTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback:
@@ -6992,6 +8112,7 @@ class $$RecipeStepsTableTableManager
                 Value<String> videoUrl = const Value.absent(),
                 Value<int> timer = const Value.absent(),
                 Value<int> stepOrder = const Value.absent(),
+                Value<int?> linkedRecipeId = const Value.absent(),
               }) => RecipeStepsCompanion(
                 id: id,
                 recipeId: recipeId,
@@ -7002,6 +8123,7 @@ class $$RecipeStepsTableTableManager
                 videoUrl: videoUrl,
                 timer: timer,
                 stepOrder: stepOrder,
+                linkedRecipeId: linkedRecipeId,
               ),
           createCompanionCallback:
               ({
@@ -7014,6 +8136,7 @@ class $$RecipeStepsTableTableManager
                 required String videoUrl,
                 required int timer,
                 required int stepOrder,
+                Value<int?> linkedRecipeId = const Value.absent(),
               }) => RecipeStepsCompanion.insert(
                 id: id,
                 recipeId: recipeId,
@@ -7024,6 +8147,7 @@ class $$RecipeStepsTableTableManager
                 videoUrl: videoUrl,
                 timer: timer,
                 stepOrder: stepOrder,
+                linkedRecipeId: linkedRecipeId,
               ),
           withReferenceMapper: (p0) => p0
               .map(
@@ -7034,10 +8158,17 @@ class $$RecipeStepsTableTableManager
               )
               .toList(),
           prefetchHooksCallback:
-              ({recipeId = false, variantId = false, ingredientItemsRefs = false}) {
+              ({
+                recipeId = false,
+                variantId = false,
+                linkedRecipeId = false,
+                ingredientItemsRefs = false,
+              }) {
                 return PrefetchHooks(
                   db: db,
-                  explicitlyWatchedTables: [if (ingredientItemsRefs) db.ingredientItems],
+                  explicitlyWatchedTables: [
+                    if (ingredientItemsRefs) db.ingredientItems,
+                  ],
                   addJoins:
                       <
                         T extends TableManagerState<
@@ -7058,16 +8189,33 @@ class $$RecipeStepsTableTableManager
                           state = state.withJoin(
                             currentTable: table,
                             currentColumn: table.recipeId,
-                            referencedTable: $$RecipeStepsTableReferences._recipeIdTable(db),
-                            referencedColumn: $$RecipeStepsTableReferences._recipeIdTable(db).id,
+                            referencedTable: $$RecipeStepsTableReferences
+                                ._recipeIdTable(db),
+                            referencedColumn: $$RecipeStepsTableReferences
+                                ._recipeIdTable(db)
+                                .id,
                           ) as T;
                         }
                         if (variantId) {
                           state = state.withJoin(
                             currentTable: table,
                             currentColumn: table.variantId,
-                            referencedTable: $$RecipeStepsTableReferences._variantIdTable(db),
-                            referencedColumn: $$RecipeStepsTableReferences._variantIdTable(db).id,
+                            referencedTable: $$RecipeStepsTableReferences
+                                ._variantIdTable(db),
+                            referencedColumn: $$RecipeStepsTableReferences
+                                ._variantIdTable(db)
+                                .id,
+                          ) as T;
+                        }
+                        if (linkedRecipeId) {
+                          state = state.withJoin(
+                            currentTable: table,
+                            currentColumn: table.linkedRecipeId,
+                            referencedTable: $$RecipeStepsTableReferences
+                                ._linkedRecipeIdTable(db),
+                            referencedColumn: $$RecipeStepsTableReferences
+                                ._linkedRecipeIdTable(db)
+                                .id,
                           ) as T;
                         }
 
@@ -7076,15 +8224,24 @@ class $$RecipeStepsTableTableManager
                   getPrefetchedDataCallback: (items) async {
                     return [
                       if (ingredientItemsRefs)
-                        await $_getPrefetchedData<RecipeStepRow, $RecipeStepsTable, IngredientRow>(
+                        await $_getPrefetchedData<
+                          RecipeStepRow,
+                          $RecipeStepsTable,
+                          IngredientRow
+                        >(
                           currentTable: table,
-                          referencedTable: $$RecipeStepsTableReferences._ingredientItemsRefsTable(
-                            db,
-                          ),
+                          referencedTable: $$RecipeStepsTableReferences
+                              ._ingredientItemsRefsTable(db),
                           managerFromTypedResult: (p0) =>
-                              $$RecipeStepsTableReferences(db, table, p0).ingredientItemsRefs,
-                          referencedItemsForCurrentItem: (item, referencedItems) =>
-                              referencedItems.where((e) => e.stepId == item.id),
+                              $$RecipeStepsTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).ingredientItemsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.stepId == item.id,
+                              ),
                           typedResults: items,
                         ),
                     ];
@@ -7107,38 +8264,52 @@ typedef $$RecipeStepsTableProcessedTableManager =
       $$RecipeStepsTableUpdateCompanionBuilder,
       (RecipeStepRow, $$RecipeStepsTableReferences),
       RecipeStepRow,
-      PrefetchHooks Function({bool recipeId, bool variantId, bool ingredientItemsRefs})
+      PrefetchHooks Function({
+        bool recipeId,
+        bool variantId,
+        bool linkedRecipeId,
+        bool ingredientItemsRefs,
+      })
     >;
-typedef $$IngredientItemsTableCreateCompanionBuilder = IngredientItemsCompanion Function({
-  Value<int> id,
-  required int stepId,
-  required int position,
-  required String name,
-  required String lowerName,
-  required String unit,
-  required double quantity,
-  required String shape,
-  required int foodId,
-  required int conversionId,
-  required bool optional,
-});
-typedef $$IngredientItemsTableUpdateCompanionBuilder = IngredientItemsCompanion Function({
-  Value<int> id,
-  Value<int> stepId,
-  Value<int> position,
-  Value<String> name,
-  Value<String> lowerName,
-  Value<String> unit,
-  Value<double> quantity,
-  Value<String> shape,
-  Value<int> foodId,
-  Value<int> conversionId,
-  Value<bool> optional,
-});
+typedef $$IngredientItemsTableCreateCompanionBuilder =
+    IngredientItemsCompanion Function({
+      Value<int> id,
+      required int stepId,
+      required int position,
+      required String name,
+      required String lowerName,
+      required String unit,
+      required double quantity,
+      required String shape,
+      required int foodId,
+      required int conversionId,
+      required bool optional,
+      Value<String> originalMeasure,
+    });
+typedef $$IngredientItemsTableUpdateCompanionBuilder =
+    IngredientItemsCompanion Function({
+      Value<int> id,
+      Value<int> stepId,
+      Value<int> position,
+      Value<String> name,
+      Value<String> lowerName,
+      Value<String> unit,
+      Value<double> quantity,
+      Value<String> shape,
+      Value<int> foodId,
+      Value<int> conversionId,
+      Value<bool> optional,
+      Value<String> originalMeasure,
+    });
 
 final class $$IngredientItemsTableReferences
-    extends BaseReferences<_$AppDatabase, $IngredientItemsTable, IngredientRow> {
-  $$IngredientItemsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+    extends
+        BaseReferences<_$AppDatabase, $IngredientItemsTable, IngredientRow> {
+  $$IngredientItemsTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
 
   static $RecipeStepsTable _stepIdTable(_$AppDatabase db) =>
       db.recipeSteps.createAlias('ingredient_items__step_id__recipe_steps__id');
@@ -7152,11 +8323,14 @@ final class $$IngredientItemsTableReferences
     ).filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_stepIdTable($_db));
     if (item == null) return manager;
-    return ProcessedTableManager(manager.$state.copyWith(prefetchedData: [item]));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
   }
 }
 
-class $$IngredientItemsTableFilterComposer extends Composer<_$AppDatabase, $IngredientItemsTable> {
+class $$IngredientItemsTableFilterComposer
+    extends Composer<_$AppDatabase, $IngredientItemsTable> {
   $$IngredientItemsTableFilterComposer({
     required super.$db,
     required super.$table,
@@ -7164,35 +8338,60 @@ class $$IngredientItemsTableFilterComposer extends Composer<_$AppDatabase, $Ingr
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnFilters<int> get id =>
-      $composableBuilder(column: $table.id, builder: (column) => ColumnFilters(column));
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<int> get position =>
-      $composableBuilder(column: $table.position, builder: (column) => ColumnFilters(column));
+  ColumnFilters<int> get position => $composableBuilder(
+    column: $table.position,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<String> get name =>
-      $composableBuilder(column: $table.name, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<String> get lowerName =>
-      $composableBuilder(column: $table.lowerName, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get lowerName => $composableBuilder(
+    column: $table.lowerName,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<String> get unit =>
-      $composableBuilder(column: $table.unit, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get unit => $composableBuilder(
+    column: $table.unit,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<double> get quantity =>
-      $composableBuilder(column: $table.quantity, builder: (column) => ColumnFilters(column));
+  ColumnFilters<double> get quantity => $composableBuilder(
+    column: $table.quantity,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<String> get shape =>
-      $composableBuilder(column: $table.shape, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get shape => $composableBuilder(
+    column: $table.shape,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<int> get foodId =>
-      $composableBuilder(column: $table.foodId, builder: (column) => ColumnFilters(column));
+  ColumnFilters<int> get foodId => $composableBuilder(
+    column: $table.foodId,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<int> get conversionId =>
-      $composableBuilder(column: $table.conversionId, builder: (column) => ColumnFilters(column));
+  ColumnFilters<int> get conversionId => $composableBuilder(
+    column: $table.conversionId,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<bool> get optional =>
-      $composableBuilder(column: $table.optional, builder: (column) => ColumnFilters(column));
+  ColumnFilters<bool> get optional => $composableBuilder(
+    column: $table.optional,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get originalMeasure => $composableBuilder(
+    column: $table.originalMeasure,
+    builder: (column) => ColumnFilters(column),
+  );
 
   $$RecipeStepsTableFilterComposer get stepId {
     final $$RecipeStepsTableFilterComposer composer = $composerBuilder(
@@ -7200,13 +8399,18 @@ class $$IngredientItemsTableFilterComposer extends Composer<_$AppDatabase, $Ingr
       getCurrentColumn: (t) => t.stepId,
       referencedTable: $db.recipeSteps,
       getReferencedColumn: (t) => t.id,
-      builder: (joinBuilder, {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
-          $$RecipeStepsTableFilterComposer(
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$RecipeStepsTableFilterComposer(
             $db: $db,
             $table: $db.recipeSteps,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
           ),
     );
     return composer;
@@ -7222,35 +8426,60 @@ class $$IngredientItemsTableOrderingComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnOrderings<int> get id =>
-      $composableBuilder(column: $table.id, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<int> get position =>
-      $composableBuilder(column: $table.position, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<int> get position => $composableBuilder(
+    column: $table.position,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<String> get name =>
-      $composableBuilder(column: $table.name, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<String> get lowerName =>
-      $composableBuilder(column: $table.lowerName, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get lowerName => $composableBuilder(
+    column: $table.lowerName,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<String> get unit =>
-      $composableBuilder(column: $table.unit, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get unit => $composableBuilder(
+    column: $table.unit,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<double> get quantity =>
-      $composableBuilder(column: $table.quantity, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<double> get quantity => $composableBuilder(
+    column: $table.quantity,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<String> get shape =>
-      $composableBuilder(column: $table.shape, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get shape => $composableBuilder(
+    column: $table.shape,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<int> get foodId =>
-      $composableBuilder(column: $table.foodId, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<int> get foodId => $composableBuilder(
+    column: $table.foodId,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<int> get conversionId =>
-      $composableBuilder(column: $table.conversionId, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<int> get conversionId => $composableBuilder(
+    column: $table.conversionId,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<bool> get optional =>
-      $composableBuilder(column: $table.optional, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<bool> get optional => $composableBuilder(
+    column: $table.optional,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get originalMeasure => $composableBuilder(
+    column: $table.originalMeasure,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   $$RecipeStepsTableOrderingComposer get stepId {
     final $$RecipeStepsTableOrderingComposer composer = $composerBuilder(
@@ -7258,13 +8487,18 @@ class $$IngredientItemsTableOrderingComposer
       getCurrentColumn: (t) => t.stepId,
       referencedTable: $db.recipeSteps,
       getReferencedColumn: (t) => t.id,
-      builder: (joinBuilder, {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
-          $$RecipeStepsTableOrderingComposer(
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$RecipeStepsTableOrderingComposer(
             $db: $db,
             $table: $db.recipeSteps,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
           ),
     );
     return composer;
@@ -7280,7 +8514,8 @@ class $$IngredientItemsTableAnnotationComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  GeneratedColumn<int> get id => $composableBuilder(column: $table.id, builder: (column) => column);
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
 
   GeneratedColumn<int> get position =>
       $composableBuilder(column: $table.position, builder: (column) => column);
@@ -7303,11 +8538,18 @@ class $$IngredientItemsTableAnnotationComposer
   GeneratedColumn<int> get foodId =>
       $composableBuilder(column: $table.foodId, builder: (column) => column);
 
-  GeneratedColumn<int> get conversionId =>
-      $composableBuilder(column: $table.conversionId, builder: (column) => column);
+  GeneratedColumn<int> get conversionId => $composableBuilder(
+    column: $table.conversionId,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<bool> get optional =>
       $composableBuilder(column: $table.optional, builder: (column) => column);
+
+  GeneratedColumn<String> get originalMeasure => $composableBuilder(
+    column: $table.originalMeasure,
+    builder: (column) => column,
+  );
 
   $$RecipeStepsTableAnnotationComposer get stepId {
     final $$RecipeStepsTableAnnotationComposer composer = $composerBuilder(
@@ -7315,13 +8557,18 @@ class $$IngredientItemsTableAnnotationComposer
       getCurrentColumn: (t) => t.stepId,
       referencedTable: $db.recipeSteps,
       getReferencedColumn: (t) => t.id,
-      builder: (joinBuilder, {$addJoinBuilderToRootComposer, $removeJoinBuilderFromRootComposer}) =>
-          $$RecipeStepsTableAnnotationComposer(
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$RecipeStepsTableAnnotationComposer(
             $db: $db,
             $table: $db.recipeSteps,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer: $removeJoinBuilderFromRootComposer,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
           ),
     );
     return composer;
@@ -7343,8 +8590,10 @@ class $$IngredientItemsTableTableManager
           IngredientRow,
           PrefetchHooks Function({bool stepId})
         > {
-  $$IngredientItemsTableTableManager(_$AppDatabase db, $IngredientItemsTable table)
-    : super(
+  $$IngredientItemsTableTableManager(
+    _$AppDatabase db,
+    $IngredientItemsTable table,
+  ) : super(
         TableManagerState(
           db: db,
           table: table,
@@ -7367,6 +8616,7 @@ class $$IngredientItemsTableTableManager
                 Value<int> foodId = const Value.absent(),
                 Value<int> conversionId = const Value.absent(),
                 Value<bool> optional = const Value.absent(),
+                Value<String> originalMeasure = const Value.absent(),
               }) => IngredientItemsCompanion(
                 id: id,
                 stepId: stepId,
@@ -7379,6 +8629,7 @@ class $$IngredientItemsTableTableManager
                 foodId: foodId,
                 conversionId: conversionId,
                 optional: optional,
+                originalMeasure: originalMeasure,
               ),
           createCompanionCallback:
               ({
@@ -7393,6 +8644,7 @@ class $$IngredientItemsTableTableManager
                 required int foodId,
                 required int conversionId,
                 required bool optional,
+                Value<String> originalMeasure = const Value.absent(),
               }) => IngredientItemsCompanion.insert(
                 id: id,
                 stepId: stepId,
@@ -7405,6 +8657,7 @@ class $$IngredientItemsTableTableManager
                 foodId: foodId,
                 conversionId: conversionId,
                 optional: optional,
+                originalMeasure: originalMeasure,
               ),
           withReferenceMapper: (p0) => p0
               .map(
@@ -7438,8 +8691,11 @@ class $$IngredientItemsTableTableManager
                       state = state.withJoin(
                         currentTable: table,
                         currentColumn: table.stepId,
-                        referencedTable: $$IngredientItemsTableReferences._stepIdTable(db),
-                        referencedColumn: $$IngredientItemsTableReferences._stepIdTable(db).id,
+                        referencedTable: $$IngredientItemsTableReferences
+                            ._stepIdTable(db),
+                        referencedColumn: $$IngredientItemsTableReferences
+                            ._stepIdTable(db)
+                            .id,
                       ) as T;
                     }
 
@@ -7519,6 +8775,7 @@ typedef $$NutrientsTableCreateCompanionBuilder = NutrientsCompanion Function({
   required double faMono,
   required double faPoly,
   required double cholesterol,
+  Value<int> foodGroup,
 });
 typedef $$NutrientsTableUpdateCompanionBuilder = NutrientsCompanion Function({
   Value<int> id,
@@ -7571,9 +8828,11 @@ typedef $$NutrientsTableUpdateCompanionBuilder = NutrientsCompanion Function({
   Value<double> faMono,
   Value<double> faPoly,
   Value<double> cholesterol,
+  Value<int> foodGroup,
 });
 
-class $$NutrientsTableFilterComposer extends Composer<_$AppDatabase, $NutrientsTable> {
+class $$NutrientsTableFilterComposer
+    extends Composer<_$AppDatabase, $NutrientsTable> {
   $$NutrientsTableFilterComposer({
     required super.$db,
     required super.$table,
@@ -7581,158 +8840,264 @@ class $$NutrientsTableFilterComposer extends Composer<_$AppDatabase, $NutrientsT
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnFilters<int> get id =>
-      $composableBuilder(column: $table.id, builder: (column) => ColumnFilters(column));
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<int> get foodId =>
-      $composableBuilder(column: $table.foodId, builder: (column) => ColumnFilters(column));
+  ColumnFilters<int> get foodId => $composableBuilder(
+    column: $table.foodId,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<String> get descEN =>
-      $composableBuilder(column: $table.descEN, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get descEN => $composableBuilder(
+    column: $table.descEN,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<String> get descFR =>
-      $composableBuilder(column: $table.descFR, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get descFR => $composableBuilder(
+    column: $table.descFR,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<double> get protein =>
-      $composableBuilder(column: $table.protein, builder: (column) => ColumnFilters(column));
+  ColumnFilters<double> get protein => $composableBuilder(
+    column: $table.protein,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<double> get water =>
-      $composableBuilder(column: $table.water, builder: (column) => ColumnFilters(column));
+  ColumnFilters<double> get water => $composableBuilder(
+    column: $table.water,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<double> get lipidTotal =>
-      $composableBuilder(column: $table.lipidTotal, builder: (column) => ColumnFilters(column));
+  ColumnFilters<double> get lipidTotal => $composableBuilder(
+    column: $table.lipidTotal,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<double> get energKcal =>
-      $composableBuilder(column: $table.energKcal, builder: (column) => ColumnFilters(column));
+  ColumnFilters<double> get energKcal => $composableBuilder(
+    column: $table.energKcal,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<double> get carbohydrates =>
-      $composableBuilder(column: $table.carbohydrates, builder: (column) => ColumnFilters(column));
+  ColumnFilters<double> get carbohydrates => $composableBuilder(
+    column: $table.carbohydrates,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<double> get ash =>
-      $composableBuilder(column: $table.ash, builder: (column) => ColumnFilters(column));
+  ColumnFilters<double> get ash => $composableBuilder(
+    column: $table.ash,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<double> get fiber =>
-      $composableBuilder(column: $table.fiber, builder: (column) => ColumnFilters(column));
+  ColumnFilters<double> get fiber => $composableBuilder(
+    column: $table.fiber,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<double> get sugar =>
-      $composableBuilder(column: $table.sugar, builder: (column) => ColumnFilters(column));
+  ColumnFilters<double> get sugar => $composableBuilder(
+    column: $table.sugar,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<double> get calcium =>
-      $composableBuilder(column: $table.calcium, builder: (column) => ColumnFilters(column));
+  ColumnFilters<double> get calcium => $composableBuilder(
+    column: $table.calcium,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<double> get iron =>
-      $composableBuilder(column: $table.iron, builder: (column) => ColumnFilters(column));
+  ColumnFilters<double> get iron => $composableBuilder(
+    column: $table.iron,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<double> get magnesium =>
-      $composableBuilder(column: $table.magnesium, builder: (column) => ColumnFilters(column));
+  ColumnFilters<double> get magnesium => $composableBuilder(
+    column: $table.magnesium,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<double> get phosphorus =>
-      $composableBuilder(column: $table.phosphorus, builder: (column) => ColumnFilters(column));
+  ColumnFilters<double> get phosphorus => $composableBuilder(
+    column: $table.phosphorus,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<double> get potassium =>
-      $composableBuilder(column: $table.potassium, builder: (column) => ColumnFilters(column));
+  ColumnFilters<double> get potassium => $composableBuilder(
+    column: $table.potassium,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<double> get sodium =>
-      $composableBuilder(column: $table.sodium, builder: (column) => ColumnFilters(column));
+  ColumnFilters<double> get sodium => $composableBuilder(
+    column: $table.sodium,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<double> get zinc =>
-      $composableBuilder(column: $table.zinc, builder: (column) => ColumnFilters(column));
+  ColumnFilters<double> get zinc => $composableBuilder(
+    column: $table.zinc,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<double> get copper =>
-      $composableBuilder(column: $table.copper, builder: (column) => ColumnFilters(column));
+  ColumnFilters<double> get copper => $composableBuilder(
+    column: $table.copper,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<double> get manganese =>
-      $composableBuilder(column: $table.manganese, builder: (column) => ColumnFilters(column));
+  ColumnFilters<double> get manganese => $composableBuilder(
+    column: $table.manganese,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<double> get selenium =>
-      $composableBuilder(column: $table.selenium, builder: (column) => ColumnFilters(column));
+  ColumnFilters<double> get selenium => $composableBuilder(
+    column: $table.selenium,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<double> get vitaminC =>
-      $composableBuilder(column: $table.vitaminC, builder: (column) => ColumnFilters(column));
+  ColumnFilters<double> get vitaminC => $composableBuilder(
+    column: $table.vitaminC,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<double> get thiamin =>
-      $composableBuilder(column: $table.thiamin, builder: (column) => ColumnFilters(column));
+  ColumnFilters<double> get thiamin => $composableBuilder(
+    column: $table.thiamin,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<double> get riboflavin =>
-      $composableBuilder(column: $table.riboflavin, builder: (column) => ColumnFilters(column));
+  ColumnFilters<double> get riboflavin => $composableBuilder(
+    column: $table.riboflavin,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<double> get niacin =>
-      $composableBuilder(column: $table.niacin, builder: (column) => ColumnFilters(column));
+  ColumnFilters<double> get niacin => $composableBuilder(
+    column: $table.niacin,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<double> get pantoAcid =>
-      $composableBuilder(column: $table.pantoAcid, builder: (column) => ColumnFilters(column));
+  ColumnFilters<double> get pantoAcid => $composableBuilder(
+    column: $table.pantoAcid,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<double> get vitaminB6 =>
-      $composableBuilder(column: $table.vitaminB6, builder: (column) => ColumnFilters(column));
+  ColumnFilters<double> get vitaminB6 => $composableBuilder(
+    column: $table.vitaminB6,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<double> get folateTotal =>
-      $composableBuilder(column: $table.folateTotal, builder: (column) => ColumnFilters(column));
+  ColumnFilters<double> get folateTotal => $composableBuilder(
+    column: $table.folateTotal,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<double> get folicAcid =>
-      $composableBuilder(column: $table.folicAcid, builder: (column) => ColumnFilters(column));
+  ColumnFilters<double> get folicAcid => $composableBuilder(
+    column: $table.folicAcid,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<double> get foodFolate =>
-      $composableBuilder(column: $table.foodFolate, builder: (column) => ColumnFilters(column));
+  ColumnFilters<double> get foodFolate => $composableBuilder(
+    column: $table.foodFolate,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<double> get folateDFE =>
-      $composableBuilder(column: $table.folateDFE, builder: (column) => ColumnFilters(column));
+  ColumnFilters<double> get folateDFE => $composableBuilder(
+    column: $table.folateDFE,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<double> get cholineTotal =>
-      $composableBuilder(column: $table.cholineTotal, builder: (column) => ColumnFilters(column));
+  ColumnFilters<double> get cholineTotal => $composableBuilder(
+    column: $table.cholineTotal,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<double> get vitaminB12 =>
-      $composableBuilder(column: $table.vitaminB12, builder: (column) => ColumnFilters(column));
+  ColumnFilters<double> get vitaminB12 => $composableBuilder(
+    column: $table.vitaminB12,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<double> get vitaminAIU =>
-      $composableBuilder(column: $table.vitaminAIU, builder: (column) => ColumnFilters(column));
+  ColumnFilters<double> get vitaminAIU => $composableBuilder(
+    column: $table.vitaminAIU,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<double> get vitaminARAE =>
-      $composableBuilder(column: $table.vitaminARAE, builder: (column) => ColumnFilters(column));
+  ColumnFilters<double> get vitaminARAE => $composableBuilder(
+    column: $table.vitaminARAE,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<double> get retinol =>
-      $composableBuilder(column: $table.retinol, builder: (column) => ColumnFilters(column));
+  ColumnFilters<double> get retinol => $composableBuilder(
+    column: $table.retinol,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<double> get alphaCarot =>
-      $composableBuilder(column: $table.alphaCarot, builder: (column) => ColumnFilters(column));
+  ColumnFilters<double> get alphaCarot => $composableBuilder(
+    column: $table.alphaCarot,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<double> get betaCarot =>
-      $composableBuilder(column: $table.betaCarot, builder: (column) => ColumnFilters(column));
+  ColumnFilters<double> get betaCarot => $composableBuilder(
+    column: $table.betaCarot,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<double> get betaCrypt =>
-      $composableBuilder(column: $table.betaCrypt, builder: (column) => ColumnFilters(column));
+  ColumnFilters<double> get betaCrypt => $composableBuilder(
+    column: $table.betaCrypt,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<double> get lycopene =>
-      $composableBuilder(column: $table.lycopene, builder: (column) => ColumnFilters(column));
+  ColumnFilters<double> get lycopene => $composableBuilder(
+    column: $table.lycopene,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<double> get lutZea =>
-      $composableBuilder(column: $table.lutZea, builder: (column) => ColumnFilters(column));
+  ColumnFilters<double> get lutZea => $composableBuilder(
+    column: $table.lutZea,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<double> get vitaminE =>
-      $composableBuilder(column: $table.vitaminE, builder: (column) => ColumnFilters(column));
+  ColumnFilters<double> get vitaminE => $composableBuilder(
+    column: $table.vitaminE,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<double> get vitaminD =>
-      $composableBuilder(column: $table.vitaminD, builder: (column) => ColumnFilters(column));
+  ColumnFilters<double> get vitaminD => $composableBuilder(
+    column: $table.vitaminD,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<double> get vitaminDIU =>
-      $composableBuilder(column: $table.vitaminDIU, builder: (column) => ColumnFilters(column));
+  ColumnFilters<double> get vitaminDIU => $composableBuilder(
+    column: $table.vitaminDIU,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<double> get vitaminK =>
-      $composableBuilder(column: $table.vitaminK, builder: (column) => ColumnFilters(column));
+  ColumnFilters<double> get vitaminK => $composableBuilder(
+    column: $table.vitaminK,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<double> get faSat =>
-      $composableBuilder(column: $table.faSat, builder: (column) => ColumnFilters(column));
+  ColumnFilters<double> get faSat => $composableBuilder(
+    column: $table.faSat,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<double> get faMono =>
-      $composableBuilder(column: $table.faMono, builder: (column) => ColumnFilters(column));
+  ColumnFilters<double> get faMono => $composableBuilder(
+    column: $table.faMono,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<double> get faPoly =>
-      $composableBuilder(column: $table.faPoly, builder: (column) => ColumnFilters(column));
+  ColumnFilters<double> get faPoly => $composableBuilder(
+    column: $table.faPoly,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<double> get cholesterol =>
-      $composableBuilder(column: $table.cholesterol, builder: (column) => ColumnFilters(column));
+  ColumnFilters<double> get cholesterol => $composableBuilder(
+    column: $table.cholesterol,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get foodGroup => $composableBuilder(
+    column: $table.foodGroup,
+    builder: (column) => ColumnFilters(column),
+  );
 }
 
-class $$NutrientsTableOrderingComposer extends Composer<_$AppDatabase, $NutrientsTable> {
+class $$NutrientsTableOrderingComposer
+    extends Composer<_$AppDatabase, $NutrientsTable> {
   $$NutrientsTableOrderingComposer({
     required super.$db,
     required super.$table,
@@ -7740,160 +9105,264 @@ class $$NutrientsTableOrderingComposer extends Composer<_$AppDatabase, $Nutrient
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnOrderings<int> get id =>
-      $composableBuilder(column: $table.id, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<int> get foodId =>
-      $composableBuilder(column: $table.foodId, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<int> get foodId => $composableBuilder(
+    column: $table.foodId,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<String> get descEN =>
-      $composableBuilder(column: $table.descEN, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get descEN => $composableBuilder(
+    column: $table.descEN,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<String> get descFR =>
-      $composableBuilder(column: $table.descFR, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get descFR => $composableBuilder(
+    column: $table.descFR,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<double> get protein =>
-      $composableBuilder(column: $table.protein, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<double> get protein => $composableBuilder(
+    column: $table.protein,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<double> get water =>
-      $composableBuilder(column: $table.water, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<double> get water => $composableBuilder(
+    column: $table.water,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<double> get lipidTotal =>
-      $composableBuilder(column: $table.lipidTotal, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<double> get lipidTotal => $composableBuilder(
+    column: $table.lipidTotal,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<double> get energKcal =>
-      $composableBuilder(column: $table.energKcal, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<double> get energKcal => $composableBuilder(
+    column: $table.energKcal,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<double> get carbohydrates => $composableBuilder(
     column: $table.carbohydrates,
     builder: (column) => ColumnOrderings(column),
   );
 
-  ColumnOrderings<double> get ash =>
-      $composableBuilder(column: $table.ash, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<double> get ash => $composableBuilder(
+    column: $table.ash,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<double> get fiber =>
-      $composableBuilder(column: $table.fiber, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<double> get fiber => $composableBuilder(
+    column: $table.fiber,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<double> get sugar =>
-      $composableBuilder(column: $table.sugar, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<double> get sugar => $composableBuilder(
+    column: $table.sugar,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<double> get calcium =>
-      $composableBuilder(column: $table.calcium, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<double> get calcium => $composableBuilder(
+    column: $table.calcium,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<double> get iron =>
-      $composableBuilder(column: $table.iron, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<double> get iron => $composableBuilder(
+    column: $table.iron,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<double> get magnesium =>
-      $composableBuilder(column: $table.magnesium, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<double> get magnesium => $composableBuilder(
+    column: $table.magnesium,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<double> get phosphorus =>
-      $composableBuilder(column: $table.phosphorus, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<double> get phosphorus => $composableBuilder(
+    column: $table.phosphorus,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<double> get potassium =>
-      $composableBuilder(column: $table.potassium, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<double> get potassium => $composableBuilder(
+    column: $table.potassium,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<double> get sodium =>
-      $composableBuilder(column: $table.sodium, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<double> get sodium => $composableBuilder(
+    column: $table.sodium,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<double> get zinc =>
-      $composableBuilder(column: $table.zinc, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<double> get zinc => $composableBuilder(
+    column: $table.zinc,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<double> get copper =>
-      $composableBuilder(column: $table.copper, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<double> get copper => $composableBuilder(
+    column: $table.copper,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<double> get manganese =>
-      $composableBuilder(column: $table.manganese, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<double> get manganese => $composableBuilder(
+    column: $table.manganese,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<double> get selenium =>
-      $composableBuilder(column: $table.selenium, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<double> get selenium => $composableBuilder(
+    column: $table.selenium,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<double> get vitaminC =>
-      $composableBuilder(column: $table.vitaminC, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<double> get vitaminC => $composableBuilder(
+    column: $table.vitaminC,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<double> get thiamin =>
-      $composableBuilder(column: $table.thiamin, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<double> get thiamin => $composableBuilder(
+    column: $table.thiamin,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<double> get riboflavin =>
-      $composableBuilder(column: $table.riboflavin, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<double> get riboflavin => $composableBuilder(
+    column: $table.riboflavin,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<double> get niacin =>
-      $composableBuilder(column: $table.niacin, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<double> get niacin => $composableBuilder(
+    column: $table.niacin,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<double> get pantoAcid =>
-      $composableBuilder(column: $table.pantoAcid, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<double> get pantoAcid => $composableBuilder(
+    column: $table.pantoAcid,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<double> get vitaminB6 =>
-      $composableBuilder(column: $table.vitaminB6, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<double> get vitaminB6 => $composableBuilder(
+    column: $table.vitaminB6,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<double> get folateTotal =>
-      $composableBuilder(column: $table.folateTotal, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<double> get folateTotal => $composableBuilder(
+    column: $table.folateTotal,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<double> get folicAcid =>
-      $composableBuilder(column: $table.folicAcid, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<double> get folicAcid => $composableBuilder(
+    column: $table.folicAcid,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<double> get foodFolate =>
-      $composableBuilder(column: $table.foodFolate, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<double> get foodFolate => $composableBuilder(
+    column: $table.foodFolate,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<double> get folateDFE =>
-      $composableBuilder(column: $table.folateDFE, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<double> get folateDFE => $composableBuilder(
+    column: $table.folateDFE,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<double> get cholineTotal =>
-      $composableBuilder(column: $table.cholineTotal, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<double> get cholineTotal => $composableBuilder(
+    column: $table.cholineTotal,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<double> get vitaminB12 =>
-      $composableBuilder(column: $table.vitaminB12, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<double> get vitaminB12 => $composableBuilder(
+    column: $table.vitaminB12,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<double> get vitaminAIU =>
-      $composableBuilder(column: $table.vitaminAIU, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<double> get vitaminAIU => $composableBuilder(
+    column: $table.vitaminAIU,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<double> get vitaminARAE =>
-      $composableBuilder(column: $table.vitaminARAE, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<double> get vitaminARAE => $composableBuilder(
+    column: $table.vitaminARAE,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<double> get retinol =>
-      $composableBuilder(column: $table.retinol, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<double> get retinol => $composableBuilder(
+    column: $table.retinol,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<double> get alphaCarot =>
-      $composableBuilder(column: $table.alphaCarot, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<double> get alphaCarot => $composableBuilder(
+    column: $table.alphaCarot,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<double> get betaCarot =>
-      $composableBuilder(column: $table.betaCarot, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<double> get betaCarot => $composableBuilder(
+    column: $table.betaCarot,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<double> get betaCrypt =>
-      $composableBuilder(column: $table.betaCrypt, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<double> get betaCrypt => $composableBuilder(
+    column: $table.betaCrypt,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<double> get lycopene =>
-      $composableBuilder(column: $table.lycopene, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<double> get lycopene => $composableBuilder(
+    column: $table.lycopene,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<double> get lutZea =>
-      $composableBuilder(column: $table.lutZea, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<double> get lutZea => $composableBuilder(
+    column: $table.lutZea,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<double> get vitaminE =>
-      $composableBuilder(column: $table.vitaminE, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<double> get vitaminE => $composableBuilder(
+    column: $table.vitaminE,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<double> get vitaminD =>
-      $composableBuilder(column: $table.vitaminD, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<double> get vitaminD => $composableBuilder(
+    column: $table.vitaminD,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<double> get vitaminDIU =>
-      $composableBuilder(column: $table.vitaminDIU, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<double> get vitaminDIU => $composableBuilder(
+    column: $table.vitaminDIU,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<double> get vitaminK =>
-      $composableBuilder(column: $table.vitaminK, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<double> get vitaminK => $composableBuilder(
+    column: $table.vitaminK,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<double> get faSat =>
-      $composableBuilder(column: $table.faSat, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<double> get faSat => $composableBuilder(
+    column: $table.faSat,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<double> get faMono =>
-      $composableBuilder(column: $table.faMono, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<double> get faMono => $composableBuilder(
+    column: $table.faMono,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<double> get faPoly =>
-      $composableBuilder(column: $table.faPoly, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<double> get faPoly => $composableBuilder(
+    column: $table.faPoly,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<double> get cholesterol =>
-      $composableBuilder(column: $table.cholesterol, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<double> get cholesterol => $composableBuilder(
+    column: $table.cholesterol,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get foodGroup => $composableBuilder(
+    column: $table.foodGroup,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
-class $$NutrientsTableAnnotationComposer extends Composer<_$AppDatabase, $NutrientsTable> {
+class $$NutrientsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $NutrientsTable> {
   $$NutrientsTableAnnotationComposer({
     required super.$db,
     required super.$table,
@@ -7901,7 +9370,8 @@ class $$NutrientsTableAnnotationComposer extends Composer<_$AppDatabase, $Nutrie
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  GeneratedColumn<int> get id => $composableBuilder(column: $table.id, builder: (column) => column);
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
 
   GeneratedColumn<int> get foodId =>
       $composableBuilder(column: $table.foodId, builder: (column) => column);
@@ -7918,14 +9388,18 @@ class $$NutrientsTableAnnotationComposer extends Composer<_$AppDatabase, $Nutrie
   GeneratedColumn<double> get water =>
       $composableBuilder(column: $table.water, builder: (column) => column);
 
-  GeneratedColumn<double> get lipidTotal =>
-      $composableBuilder(column: $table.lipidTotal, builder: (column) => column);
+  GeneratedColumn<double> get lipidTotal => $composableBuilder(
+    column: $table.lipidTotal,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<double> get energKcal =>
       $composableBuilder(column: $table.energKcal, builder: (column) => column);
 
-  GeneratedColumn<double> get carbohydrates =>
-      $composableBuilder(column: $table.carbohydrates, builder: (column) => column);
+  GeneratedColumn<double> get carbohydrates => $composableBuilder(
+    column: $table.carbohydrates,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<double> get ash =>
       $composableBuilder(column: $table.ash, builder: (column) => column);
@@ -7945,8 +9419,10 @@ class $$NutrientsTableAnnotationComposer extends Composer<_$AppDatabase, $Nutrie
   GeneratedColumn<double> get magnesium =>
       $composableBuilder(column: $table.magnesium, builder: (column) => column);
 
-  GeneratedColumn<double> get phosphorus =>
-      $composableBuilder(column: $table.phosphorus, builder: (column) => column);
+  GeneratedColumn<double> get phosphorus => $composableBuilder(
+    column: $table.phosphorus,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<double> get potassium =>
       $composableBuilder(column: $table.potassium, builder: (column) => column);
@@ -7972,8 +9448,10 @@ class $$NutrientsTableAnnotationComposer extends Composer<_$AppDatabase, $Nutrie
   GeneratedColumn<double> get thiamin =>
       $composableBuilder(column: $table.thiamin, builder: (column) => column);
 
-  GeneratedColumn<double> get riboflavin =>
-      $composableBuilder(column: $table.riboflavin, builder: (column) => column);
+  GeneratedColumn<double> get riboflavin => $composableBuilder(
+    column: $table.riboflavin,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<double> get niacin =>
       $composableBuilder(column: $table.niacin, builder: (column) => column);
@@ -7984,35 +9462,49 @@ class $$NutrientsTableAnnotationComposer extends Composer<_$AppDatabase, $Nutrie
   GeneratedColumn<double> get vitaminB6 =>
       $composableBuilder(column: $table.vitaminB6, builder: (column) => column);
 
-  GeneratedColumn<double> get folateTotal =>
-      $composableBuilder(column: $table.folateTotal, builder: (column) => column);
+  GeneratedColumn<double> get folateTotal => $composableBuilder(
+    column: $table.folateTotal,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<double> get folicAcid =>
       $composableBuilder(column: $table.folicAcid, builder: (column) => column);
 
-  GeneratedColumn<double> get foodFolate =>
-      $composableBuilder(column: $table.foodFolate, builder: (column) => column);
+  GeneratedColumn<double> get foodFolate => $composableBuilder(
+    column: $table.foodFolate,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<double> get folateDFE =>
       $composableBuilder(column: $table.folateDFE, builder: (column) => column);
 
-  GeneratedColumn<double> get cholineTotal =>
-      $composableBuilder(column: $table.cholineTotal, builder: (column) => column);
+  GeneratedColumn<double> get cholineTotal => $composableBuilder(
+    column: $table.cholineTotal,
+    builder: (column) => column,
+  );
 
-  GeneratedColumn<double> get vitaminB12 =>
-      $composableBuilder(column: $table.vitaminB12, builder: (column) => column);
+  GeneratedColumn<double> get vitaminB12 => $composableBuilder(
+    column: $table.vitaminB12,
+    builder: (column) => column,
+  );
 
-  GeneratedColumn<double> get vitaminAIU =>
-      $composableBuilder(column: $table.vitaminAIU, builder: (column) => column);
+  GeneratedColumn<double> get vitaminAIU => $composableBuilder(
+    column: $table.vitaminAIU,
+    builder: (column) => column,
+  );
 
-  GeneratedColumn<double> get vitaminARAE =>
-      $composableBuilder(column: $table.vitaminARAE, builder: (column) => column);
+  GeneratedColumn<double> get vitaminARAE => $composableBuilder(
+    column: $table.vitaminARAE,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<double> get retinol =>
       $composableBuilder(column: $table.retinol, builder: (column) => column);
 
-  GeneratedColumn<double> get alphaCarot =>
-      $composableBuilder(column: $table.alphaCarot, builder: (column) => column);
+  GeneratedColumn<double> get alphaCarot => $composableBuilder(
+    column: $table.alphaCarot,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<double> get betaCarot =>
       $composableBuilder(column: $table.betaCarot, builder: (column) => column);
@@ -8032,8 +9524,10 @@ class $$NutrientsTableAnnotationComposer extends Composer<_$AppDatabase, $Nutrie
   GeneratedColumn<double> get vitaminD =>
       $composableBuilder(column: $table.vitaminD, builder: (column) => column);
 
-  GeneratedColumn<double> get vitaminDIU =>
-      $composableBuilder(column: $table.vitaminDIU, builder: (column) => column);
+  GeneratedColumn<double> get vitaminDIU => $composableBuilder(
+    column: $table.vitaminDIU,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<double> get vitaminK =>
       $composableBuilder(column: $table.vitaminK, builder: (column) => column);
@@ -8047,8 +9541,13 @@ class $$NutrientsTableAnnotationComposer extends Composer<_$AppDatabase, $Nutrie
   GeneratedColumn<double> get faPoly =>
       $composableBuilder(column: $table.faPoly, builder: (column) => column);
 
-  GeneratedColumn<double> get cholesterol =>
-      $composableBuilder(column: $table.cholesterol, builder: (column) => column);
+  GeneratedColumn<double> get cholesterol => $composableBuilder(
+    column: $table.cholesterol,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get foodGroup =>
+      $composableBuilder(column: $table.foodGroup, builder: (column) => column);
 }
 
 class $$NutrientsTableTableManager
@@ -8062,7 +9561,10 @@ class $$NutrientsTableTableManager
           $$NutrientsTableAnnotationComposer,
           $$NutrientsTableCreateCompanionBuilder,
           $$NutrientsTableUpdateCompanionBuilder,
-          (NutrientRow, BaseReferences<_$AppDatabase, $NutrientsTable, NutrientRow>),
+          (
+            NutrientRow,
+            BaseReferences<_$AppDatabase, $NutrientsTable, NutrientRow>,
+          ),
           NutrientRow,
           PrefetchHooks Function()
         > {
@@ -8071,8 +9573,10 @@ class $$NutrientsTableTableManager
         TableManagerState(
           db: db,
           table: table,
-          createFilteringComposer: () => $$NutrientsTableFilterComposer($db: db, $table: table),
-          createOrderingComposer: () => $$NutrientsTableOrderingComposer($db: db, $table: table),
+          createFilteringComposer: () =>
+              $$NutrientsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$NutrientsTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
               $$NutrientsTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback:
@@ -8127,6 +9631,7 @@ class $$NutrientsTableTableManager
                 Value<double> faMono = const Value.absent(),
                 Value<double> faPoly = const Value.absent(),
                 Value<double> cholesterol = const Value.absent(),
+                Value<int> foodGroup = const Value.absent(),
               }) => NutrientsCompanion(
                 id: id,
                 foodId: foodId,
@@ -8178,6 +9683,7 @@ class $$NutrientsTableTableManager
                 faMono: faMono,
                 faPoly: faPoly,
                 cholesterol: cholesterol,
+                foodGroup: foodGroup,
               ),
           createCompanionCallback:
               ({
@@ -8231,6 +9737,7 @@ class $$NutrientsTableTableManager
                 required double faMono,
                 required double faPoly,
                 required double cholesterol,
+                Value<int> foodGroup = const Value.absent(),
               }) => NutrientsCompanion.insert(
                 id: id,
                 foodId: foodId,
@@ -8282,12 +9789,17 @@ class $$NutrientsTableTableManager
                 faMono: faMono,
                 faPoly: faPoly,
                 cholesterol: cholesterol,
+                foodGroup: foodGroup,
               ),
           withReferenceMapper: (p0) => p0
               .map(
                 (e) => (
                   e.readTable<$NutrientsTable, NutrientRow>(table),
-                  BaseReferences<_$AppDatabase, $NutrientsTable, NutrientRow>(db, table, e),
+                  BaseReferences<_$AppDatabase, $NutrientsTable, NutrientRow>(
+                    db,
+                    table,
+                    e,
+                  ),
                 ),
               )
               .toList(),
@@ -8306,28 +9818,34 @@ typedef $$NutrientsTableProcessedTableManager =
       $$NutrientsTableAnnotationComposer,
       $$NutrientsTableCreateCompanionBuilder,
       $$NutrientsTableUpdateCompanionBuilder,
-      (NutrientRow, BaseReferences<_$AppDatabase, $NutrientsTable, NutrientRow>),
+      (
+        NutrientRow,
+        BaseReferences<_$AppDatabase, $NutrientsTable, NutrientRow>,
+      ),
       NutrientRow,
       PrefetchHooks Function()
     >;
-typedef $$ConversionsTableCreateCompanionBuilder = ConversionsCompanion Function({
-  Value<int> id,
-  required int foodId,
-  required int measureId,
-  required String descEN,
-  required String descFR,
-  required double factor,
-});
-typedef $$ConversionsTableUpdateCompanionBuilder = ConversionsCompanion Function({
-  Value<int> id,
-  Value<int> foodId,
-  Value<int> measureId,
-  Value<String> descEN,
-  Value<String> descFR,
-  Value<double> factor,
-});
+typedef $$ConversionsTableCreateCompanionBuilder =
+    ConversionsCompanion Function({
+      Value<int> id,
+      required int foodId,
+      required int measureId,
+      required String descEN,
+      required String descFR,
+      required double factor,
+    });
+typedef $$ConversionsTableUpdateCompanionBuilder =
+    ConversionsCompanion Function({
+      Value<int> id,
+      Value<int> foodId,
+      Value<int> measureId,
+      Value<String> descEN,
+      Value<String> descFR,
+      Value<double> factor,
+    });
 
-class $$ConversionsTableFilterComposer extends Composer<_$AppDatabase, $ConversionsTable> {
+class $$ConversionsTableFilterComposer
+    extends Composer<_$AppDatabase, $ConversionsTable> {
   $$ConversionsTableFilterComposer({
     required super.$db,
     required super.$table,
@@ -8335,26 +9853,39 @@ class $$ConversionsTableFilterComposer extends Composer<_$AppDatabase, $Conversi
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnFilters<int> get id =>
-      $composableBuilder(column: $table.id, builder: (column) => ColumnFilters(column));
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<int> get foodId =>
-      $composableBuilder(column: $table.foodId, builder: (column) => ColumnFilters(column));
+  ColumnFilters<int> get foodId => $composableBuilder(
+    column: $table.foodId,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<int> get measureId =>
-      $composableBuilder(column: $table.measureId, builder: (column) => ColumnFilters(column));
+  ColumnFilters<int> get measureId => $composableBuilder(
+    column: $table.measureId,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<String> get descEN =>
-      $composableBuilder(column: $table.descEN, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get descEN => $composableBuilder(
+    column: $table.descEN,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<String> get descFR =>
-      $composableBuilder(column: $table.descFR, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get descFR => $composableBuilder(
+    column: $table.descFR,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<double> get factor =>
-      $composableBuilder(column: $table.factor, builder: (column) => ColumnFilters(column));
+  ColumnFilters<double> get factor => $composableBuilder(
+    column: $table.factor,
+    builder: (column) => ColumnFilters(column),
+  );
 }
 
-class $$ConversionsTableOrderingComposer extends Composer<_$AppDatabase, $ConversionsTable> {
+class $$ConversionsTableOrderingComposer
+    extends Composer<_$AppDatabase, $ConversionsTable> {
   $$ConversionsTableOrderingComposer({
     required super.$db,
     required super.$table,
@@ -8362,26 +9893,39 @@ class $$ConversionsTableOrderingComposer extends Composer<_$AppDatabase, $Conver
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnOrderings<int> get id =>
-      $composableBuilder(column: $table.id, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<int> get foodId =>
-      $composableBuilder(column: $table.foodId, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<int> get foodId => $composableBuilder(
+    column: $table.foodId,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<int> get measureId =>
-      $composableBuilder(column: $table.measureId, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<int> get measureId => $composableBuilder(
+    column: $table.measureId,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<String> get descEN =>
-      $composableBuilder(column: $table.descEN, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get descEN => $composableBuilder(
+    column: $table.descEN,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<String> get descFR =>
-      $composableBuilder(column: $table.descFR, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get descFR => $composableBuilder(
+    column: $table.descFR,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<double> get factor =>
-      $composableBuilder(column: $table.factor, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<double> get factor => $composableBuilder(
+    column: $table.factor,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
-class $$ConversionsTableAnnotationComposer extends Composer<_$AppDatabase, $ConversionsTable> {
+class $$ConversionsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $ConversionsTable> {
   $$ConversionsTableAnnotationComposer({
     required super.$db,
     required super.$table,
@@ -8389,7 +9933,8 @@ class $$ConversionsTableAnnotationComposer extends Composer<_$AppDatabase, $Conv
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  GeneratedColumn<int> get id => $composableBuilder(column: $table.id, builder: (column) => column);
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
 
   GeneratedColumn<int> get foodId =>
       $composableBuilder(column: $table.foodId, builder: (column) => column);
@@ -8418,7 +9963,10 @@ class $$ConversionsTableTableManager
           $$ConversionsTableAnnotationComposer,
           $$ConversionsTableCreateCompanionBuilder,
           $$ConversionsTableUpdateCompanionBuilder,
-          (ConversionRow, BaseReferences<_$AppDatabase, $ConversionsTable, ConversionRow>),
+          (
+            ConversionRow,
+            BaseReferences<_$AppDatabase, $ConversionsTable, ConversionRow>,
+          ),
           ConversionRow,
           PrefetchHooks Function()
         > {
@@ -8427,8 +9975,10 @@ class $$ConversionsTableTableManager
         TableManagerState(
           db: db,
           table: table,
-          createFilteringComposer: () => $$ConversionsTableFilterComposer($db: db, $table: table),
-          createOrderingComposer: () => $$ConversionsTableOrderingComposer($db: db, $table: table),
+          createFilteringComposer: () =>
+              $$ConversionsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ConversionsTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
               $$ConversionsTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback:
@@ -8467,7 +10017,11 @@ class $$ConversionsTableTableManager
               .map(
                 (e) => (
                   e.readTable<$ConversionsTable, ConversionRow>(table),
-                  BaseReferences<_$AppDatabase, $ConversionsTable, ConversionRow>(db, table, e),
+                  BaseReferences<
+                    _$AppDatabase,
+                    $ConversionsTable,
+                    ConversionRow
+                  >(db, table, e),
                 ),
               )
               .toList(),
@@ -8486,7 +10040,10 @@ typedef $$ConversionsTableProcessedTableManager =
       $$ConversionsTableAnnotationComposer,
       $$ConversionsTableCreateCompanionBuilder,
       $$ConversionsTableUpdateCompanionBuilder,
-      (ConversionRow, BaseReferences<_$AppDatabase, $ConversionsTable, ConversionRow>),
+      (
+        ConversionRow,
+        BaseReferences<_$AppDatabase, $ConversionsTable, ConversionRow>,
+      ),
       ConversionRow,
       PrefetchHooks Function()
     >;
@@ -8501,7 +10058,8 @@ typedef $$MetadataTableUpdateCompanionBuilder = MetadataCompanion Function({
   Value<int> rowid,
 });
 
-class $$MetadataTableFilterComposer extends Composer<_$AppDatabase, $MetadataTable> {
+class $$MetadataTableFilterComposer
+    extends Composer<_$AppDatabase, $MetadataTable> {
   $$MetadataTableFilterComposer({
     required super.$db,
     required super.$table,
@@ -8509,14 +10067,19 @@ class $$MetadataTableFilterComposer extends Composer<_$AppDatabase, $MetadataTab
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnFilters<String> get key =>
-      $composableBuilder(column: $table.key, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get key => $composableBuilder(
+    column: $table.key,
+    builder: (column) => ColumnFilters(column),
+  );
 
-  ColumnFilters<String> get value =>
-      $composableBuilder(column: $table.value, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get value => $composableBuilder(
+    column: $table.value,
+    builder: (column) => ColumnFilters(column),
+  );
 }
 
-class $$MetadataTableOrderingComposer extends Composer<_$AppDatabase, $MetadataTable> {
+class $$MetadataTableOrderingComposer
+    extends Composer<_$AppDatabase, $MetadataTable> {
   $$MetadataTableOrderingComposer({
     required super.$db,
     required super.$table,
@@ -8524,14 +10087,19 @@ class $$MetadataTableOrderingComposer extends Composer<_$AppDatabase, $MetadataT
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnOrderings<String> get key =>
-      $composableBuilder(column: $table.key, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get key => $composableBuilder(
+    column: $table.key,
+    builder: (column) => ColumnOrderings(column),
+  );
 
-  ColumnOrderings<String> get value =>
-      $composableBuilder(column: $table.value, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get value => $composableBuilder(
+    column: $table.value,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
-class $$MetadataTableAnnotationComposer extends Composer<_$AppDatabase, $MetadataTable> {
+class $$MetadataTableAnnotationComposer
+    extends Composer<_$AppDatabase, $MetadataTable> {
   $$MetadataTableAnnotationComposer({
     required super.$db,
     required super.$table,
@@ -8557,7 +10125,10 @@ class $$MetadataTableTableManager
           $$MetadataTableAnnotationComposer,
           $$MetadataTableCreateCompanionBuilder,
           $$MetadataTableUpdateCompanionBuilder,
-          (MetadataEntry, BaseReferences<_$AppDatabase, $MetadataTable, MetadataEntry>),
+          (
+            MetadataEntry,
+            BaseReferences<_$AppDatabase, $MetadataTable, MetadataEntry>,
+          ),
           MetadataEntry,
           PrefetchHooks Function()
         > {
@@ -8566,8 +10137,10 @@ class $$MetadataTableTableManager
         TableManagerState(
           db: db,
           table: table,
-          createFilteringComposer: () => $$MetadataTableFilterComposer($db: db, $table: table),
-          createOrderingComposer: () => $$MetadataTableOrderingComposer($db: db, $table: table),
+          createFilteringComposer: () =>
+              $$MetadataTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$MetadataTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
               $$MetadataTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback: ({
@@ -8584,7 +10157,11 @@ class $$MetadataTableTableManager
               .map(
                 (e) => (
                   e.readTable<$MetadataTable, MetadataEntry>(table),
-                  BaseReferences<_$AppDatabase, $MetadataTable, MetadataEntry>(db, table, e),
+                  BaseReferences<_$AppDatabase, $MetadataTable, MetadataEntry>(
+                    db,
+                    table,
+                    e,
+                  ),
                 ),
               )
               .toList(),
@@ -8603,7 +10180,10 @@ typedef $$MetadataTableProcessedTableManager =
       $$MetadataTableAnnotationComposer,
       $$MetadataTableCreateCompanionBuilder,
       $$MetadataTableUpdateCompanionBuilder,
-      (MetadataEntry, BaseReferences<_$AppDatabase, $MetadataTable, MetadataEntry>),
+      (
+        MetadataEntry,
+        BaseReferences<_$AppDatabase, $MetadataTable, MetadataEntry>,
+      ),
       MetadataEntry,
       PrefetchHooks Function()
     >;
@@ -8611,15 +10191,18 @@ typedef $$MetadataTableProcessedTableManager =
 class $AppDatabaseManager {
   final _$AppDatabase _db;
   $AppDatabaseManager(this._db);
-  $$RecipesTableTableManager get recipes => $$RecipesTableTableManager(_db, _db.recipes);
+  $$RecipesTableTableManager get recipes =>
+      $$RecipesTableTableManager(_db, _db.recipes);
   $$RecipeVariantsTableTableManager get recipeVariants =>
       $$RecipeVariantsTableTableManager(_db, _db.recipeVariants);
   $$RecipeStepsTableTableManager get recipeSteps =>
       $$RecipeStepsTableTableManager(_db, _db.recipeSteps);
   $$IngredientItemsTableTableManager get ingredientItems =>
       $$IngredientItemsTableTableManager(_db, _db.ingredientItems);
-  $$NutrientsTableTableManager get nutrients => $$NutrientsTableTableManager(_db, _db.nutrients);
+  $$NutrientsTableTableManager get nutrients =>
+      $$NutrientsTableTableManager(_db, _db.nutrients);
   $$ConversionsTableTableManager get conversions =>
       $$ConversionsTableTableManager(_db, _db.conversions);
-  $$MetadataTableTableManager get metadata => $$MetadataTableTableManager(_db, _db.metadata);
+  $$MetadataTableTableManager get metadata =>
+      $$MetadataTableTableManager(_db, _db.metadata);
 }

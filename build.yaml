@@ -9,3 +9,10 @@ targets:
       drift_dev:
         generate_for:
           - lib/database/**
+        options:
+          # Used by `dart run drift_dev make-migrations`: schema snapshots and
+          # generated migration tests, one per schema version.
+          databases:
+            default: lib/database/app_database.dart
+          schema_dir: drift_schemas/
+          test_dir: test/drift/

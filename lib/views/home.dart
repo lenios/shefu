@@ -117,31 +117,40 @@ class _HomePageState extends State<HomePage> {
                 if ((viewModel.selectedCategory != null &&
                         viewModel.selectedCategory != Category.all) ||
                     viewModel.countryCode.isNotEmpty ||
-                    viewModel.searchTerm.isNotEmpty)
+                    viewModel.searchTerm.isNotEmpty ||
+                    viewModel.favoritesOnly)
                   // button to reinitialize filters
-                  ElevatedButton.icon(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: theme.colorScheme.tertiary.withAlpha(200),
-                      side: BorderSide(color: theme.colorScheme.onPrimary.withAlpha(175)),
-                      elevation: 2,
-                    ),
-                    icon: Icon(Icons.refresh, color: theme.colorScheme.onTertiary),
-                    onPressed: () {
-                      _searchController.clear();
-                      viewModel.setCategory(Category.all);
-                      viewModel.setCountryCode("");
-                      viewModel.setSearchTerm("");
-                    },
-                    label: Text(
-                      AppLocalizations.of(context)!.resetFilters,
-                      style: Theme.of(context).textTheme.labelSmall
-                          ?.copyWith(color: Theme.of(context).colorScheme.onTertiary, fontSize: 12),
+                  Flexible(
+                    child: ElevatedButton.icon(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: theme.colorScheme.tertiary.withAlpha(200),
+                        side: BorderSide(color: theme.colorScheme.onPrimary.withAlpha(175)),
+                        elevation: 2,
+                      ),
+                      icon: Icon(Icons.refresh, color: theme.colorScheme.onTertiary),
+                      onPressed: () {
+                        _searchController.clear();
+                        viewModel.setCategory(Category.all);
+                        viewModel.setCountryCode("");
+                        viewModel.setSearchTerm("");
+                        viewModel.setFavoritesOnly(false);
+                      },
+                      label: Text(
+                        AppLocalizations.of(context)!.reset,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                          color: Theme.of(context).colorScheme.onTertiary,
+                          fontSize: 12,
+                        ),
+                      ),
                     ),
                   ),
                 const SizedBox(width: 10), // Spacing
-                countryDropdown(viewModel),
+                Flexible(child: countryDropdown(viewModel)),
                 const SizedBox(width: 10), // Spacing
-                categoryDropdown(viewModel),
+                Flexible(child: categoryDropdown(viewModel)),
+                favoritesFilter(viewModel),
                 const SizedBox(height: 5), // Spacing
               ],
             ),
@@ -210,10 +219,30 @@ class _HomePageState extends State<HomePage> {
                   ? [entry.variant!]
                   : viewModel.variantsMatchingSearch(entry.recipe, viewModel.searchTerm);
               return RepaintBoundary(
-                child: recipeCardStack(entry.recipe, variants, includeRecipe: !entry.isVariant),
+                child: recipeCardStack(
+                  entry.recipe,
+                  variants,
+                  includeRecipe: !entry.isVariant,
+                  nutritionOf: viewModel.nutritionOf,
+                ),
               );
             },
           );
+  }
+
+  /// Toggles showing favorites only; hidden until a recipe is a favorite.
+  Widget favoritesFilter(HomePageViewModel viewModel) {
+    if (!viewModel.hasFavorites && !viewModel.favoritesOnly) return const SizedBox.shrink();
+    final onPrimary = Theme.of(context).colorScheme.onPrimary;
+    return IconButton(
+      key: const Key('favoritesFilter'),
+      tooltip: AppLocalizations.of(context)!.favorites,
+      isSelected: viewModel.favoritesOnly,
+      visualDensity: VisualDensity.compact,
+      icon: Icon(Icons.favorite_border, color: onPrimary),
+      selectedIcon: Icon(Icons.favorite, color: onPrimary),
+      onPressed: () => viewModel.setFavoritesOnly(!viewModel.favoritesOnly),
+    );
   }
 
   Widget categoryDropdown(HomePageViewModel viewModel) {

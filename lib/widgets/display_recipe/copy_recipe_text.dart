@@ -44,13 +44,10 @@ String buildRecipeText(BuildContext context, DisplayRecipeViewModel viewModel) {
         servingsMultiplier: servingsMultiplier,
         nutrientRepository: viewModel.nutrientRepository,
         optional: ingredient.optional,
+        originalMeasure: ingredient.originalMeasure,
       );
-      final quantified = formatted.displayReversed
-          ? "${formatted.name} ${formatted.primaryQuantityDisplay}"
-          : "${formatted.primaryQuantityDisplay} ${formatted.name}";
       buffer
-        ..write("- ${quantified.trim()}")
-        ..write(formatted.shape.isEmpty ? "" : ", ${formatted.shape}")
+        ..write("- ${formatted.fullText}")
         ..writeln(formatted.optional ? " (${l10n.optional})" : "");
     }
 
