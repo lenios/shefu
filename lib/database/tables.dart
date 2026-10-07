@@ -53,6 +53,7 @@ class RecipeVariants extends Table {
 @TableIndex(name: 'recipe_steps_variant_id', columns: {#variantId})
 class RecipeSteps extends Table {
   IntColumn get id => integer().autoIncrement()();
+  @ReferenceName('baseRecipe')
   IntColumn get recipeId =>
       integer().nullable().references(Recipes, #id, onDelete: KeyAction.cascade)();
   IntColumn get variantId =>
@@ -66,6 +67,7 @@ class RecipeSteps extends Table {
 
   /// Recipe used as this step (e.g. a puff pastry in an apple pie)
   /// Its ingredients are scaled to the servings
+  @ReferenceName('linkedRecipe')
   IntColumn get linkedRecipeId =>
       integer().nullable().references(Recipes, #id, onDelete: KeyAction.setNull)();
 

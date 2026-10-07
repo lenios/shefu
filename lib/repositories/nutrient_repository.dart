@@ -166,6 +166,11 @@ class NutrientRepository(final AppDatabase _db) {
     return factor > 0 ? factor : 1.0;
   }
 
+  /// Whether [foodId] is a known food with a factor for [conversionId]: an
+  /// ingredient linked to them has computed nutrients.
+  bool hasNutrients(int foodId, int conversionId) =>
+      getNutrientByFoodId(foodId) != null && (_conversion(foodId, conversionId)?.factor ?? 0) > 0;
+
   String getNutrientDesc(BuildContext context, int foodId) {
     if (foodId <= 0) return "";
     final nutrient = getNutrientByFoodId(foodId);
@@ -173,28 +178,39 @@ class NutrientRepository(final AppDatabase _db) {
     return _isFrench(context) ? nutrient.descFR : nutrient.descEN;
   }
 
-  /// Nutrients whose English or French description contains [filter].
-  /// Over 30 matches, prefers descriptions where the term is followed by a
-  /// comma ("apple," / "apples,"), otherwise returns the first 30.
+  /// Nutrients whose English or French description contains [filter], best
+  /// first as a word ("eau municipale" for
+  /// "eau"), max 30 results
   List<Nutrient> filterNutrients(String filter) {
     _checkInitialized();
     final term = filter.normalize();
     if (term.isEmpty) return [];
 
-    final matches = _searchIndex.where((n) => n.en.contains(term) || n.fr.contains(term)).toList();
-    if (matches.length <= 30) return [for (final n in matches) n.nutrient];
+    // The term as a whole word, singular or plural ("oeuf", "oeufs").
+    final word = RegExp('${RegExp.escape(term)}[sx]?', unicode: true);
+    // 0: starts with the word, 1: contains the word, 2: inside another word.
+    int? rank(String description) {
+      if (!description.contains(term)) return null;
+      final match = word.firstMatch(description);
+      return match == null ? 2 : (match.start == 0 ? 0 : 1);
+    }
 
-    final singular = '$term,';
-    final plural = '${term}s,';
-    final reduced = [
-      for (final n in matches)
-        if (n.en.contains(singular) ||
-            n.en.contains(plural) ||
-            n.fr.contains(singular) ||
-            n.fr.contains(plural))
-          n.nutrient,
-    ];
-    return reduced.isNotEmpty ? reduced : [for (final n in matches.take(30)) n.nutrient];
+    final ranked = <({Nutrient nutrient, int rank, int length})>[];
+    for (final n in _searchIndex) {
+      ({int rank, int length})? best;
+      for (final description in [n.en, n.fr]) {
+        final r = rank(description);
+        if (r == null) continue;
+        if (best == null || r < best.rank || (r == best.rank && description.length < best.length)) {
+          best = (rank: r, length: description.length);
+        }
+      }
+      if (best != null) ranked.add((nutrient: n.nutrient, rank: best.rank, length: best.length));
+    }
+    // sort by rank, or length if not available
+    ranked.sort((a, b) => a.rank != b.rank ? a.rank - b.rank : a.length - b.length);
+
+    return [for (final r in ranked.take(30)) r.nutrient];
   }
 
   static bool _isFrench(BuildContext context) =>

@@ -1,6 +1,7 @@
 import 'package:flutter/rendering.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:shefu/models/entities.dart';
+import 'package:shefu/utils/nutri_score.dart';
 import 'package:shefu/utils/nutrition.dart';
 import 'package:shefu/widgets/home/recipe_card.dart';
 
@@ -9,9 +10,14 @@ Widget recipeCardStack(
   List<RecipeVariant> displayedVariants, {
   bool includeRecipe = true,
   required ServingNutrition Function(Recipe recipe, RecipeVariant? variant) nutritionOf,
+  required NutriScore? Function(Recipe recipe, RecipeVariant? variant) nutriScoreOf,
 }) {
-  RecipeCard card(RecipeVariant? variant) =>
-      RecipeCard(recipe: recipe, variant: variant, nutrition: nutritionOf(recipe, variant));
+  RecipeCard card(RecipeVariant? variant) => RecipeCard(
+    recipe: recipe,
+    variant: variant,
+    nutrition: nutritionOf(recipe, variant),
+    nutriScore: nutriScoreOf(recipe, variant),
+  );
 
   final stackHeight = includeRecipe
       ? 100.0 + displayedVariants.length * 25.0

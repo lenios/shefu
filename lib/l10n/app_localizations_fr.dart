@@ -575,12 +575,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get totalFat => 'Matières grasses';
 
   @override
-  String get nutritionCalculatedNote =>
-      'Valeurs nutritionnelles calculées à partir des ingrédients liés';
+  String get nutritionCalculatedNote => 'calculées à partir des ingrédients liés';
 
   @override
-  String get nutritionImportedNote =>
-      'Valeurs nutritionnelles issues des données de la recette importée';
+  String get nutritionImportedNote => 'issues des données de la recette importée';
 
   @override
   String get dailyValueDisclaimer =>
@@ -624,6 +622,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get vitaminC => 'Vitamine C';
+
+  @override
+  String get nutriScoreLabel => 'NUTRI-SCORE';
 
   @override
   String get nutriScoreNote =>

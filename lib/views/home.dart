@@ -224,6 +224,7 @@ class _HomePageState extends State<HomePage> {
                   variants,
                   includeRecipe: !entry.isVariant,
                   nutritionOf: viewModel.nutritionOf,
+                  nutriScoreOf: viewModel.nutriScoreOf,
                 ),
               );
             },

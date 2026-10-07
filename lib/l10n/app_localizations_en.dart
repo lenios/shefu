@@ -573,10 +573,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get totalFat => 'Total Fat';
 
   @override
-  String get nutritionCalculatedNote => 'Nutritional values calculated from linked ingredients';
+  String get nutritionCalculatedNote => 'computed from linked ingredients';
 
   @override
-  String get nutritionImportedNote => 'Nutritional values from imported recipe data';
+  String get nutritionImportedNote => 'from imported recipe data';
 
   @override
   String get dailyValueDisclaimer =>
@@ -620,6 +620,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get vitaminC => 'Vitamin C';
+
+  @override
+  String get nutriScoreLabel => 'NUTRI-SCORE';
 
   @override
   String get nutriScoreNote =>

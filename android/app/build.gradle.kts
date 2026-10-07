@@ -3,6 +3,9 @@ plugins {
     id("dev.flutter.flutter-gradle-plugin")
 }
 
+// The F-Droid workflow disables OCR and removes the native OCR channel.
+val withOcr = (findProperty("withOcr") as? String)?.toBoolean() ?: true
+
 android {
     namespace = "fr.orvidia.shefu"
     compileSdk = 36
@@ -38,6 +41,9 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            if (!withOcr) {
+                proguardFiles("proguard-rules-no-ocr.pro")
+            }
         }
     }
 
@@ -51,11 +57,16 @@ flutter {
     source = "../.."
 }
 
+// The F-Droid workflow builds with -PwithOcr=false
+
 dependencies {
-    implementation("com.google.mlkit:text-recognition-chinese:16.0.0")
-    implementation("com.google.mlkit:text-recognition-devanagari:16.0.0")
-    implementation("com.google.mlkit:text-recognition-japanese:16.0.0")
-    implementation("com.google.mlkit:text-recognition-korean:16.0.0")
+    if (withOcr) {
+        implementation("com.google.mlkit:text-recognition:16.0.1")
+        implementation("com.google.mlkit:text-recognition-chinese:16.0.1")
+        implementation("com.google.mlkit:text-recognition-devanagari:16.0.1")
+        implementation("com.google.mlkit:text-recognition-japanese:16.0.1")
+        implementation("com.google.mlkit:text-recognition-korean:16.0.1")
+    }
 }
 
 val abiCodes = mapOf("x86_64" to 1, "armeabi-v7a" to 2, "arm64-v8a" to 3)

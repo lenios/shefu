@@ -665,8 +665,8 @@ ParsedIngredient parseIngredient(String ingredient, String language) {
       // For Japanese ingredients, strip any remaining quantity notation from the name
       // e.g. "ごはん どんぶり1杯" (after removing "(200g)") → "ごはん"
       if (_hasJapanese(name)) {
-        final cleaned = _parseJapaneseIngredient(name);
-        if (cleaned.$3.isNotEmpty && cleaned.$3 != name) name = cleaned.$3;
+        final (jQty, jUnit, jName) = _parseJapaneseIngredient(name);
+        if (jName.isNotEmpty) name = jName;
       } else {
         // The measure written by the source ("2 medium", "2 tablespoons")
         // is kept apart from the name: the quantity is its metric equivalent.

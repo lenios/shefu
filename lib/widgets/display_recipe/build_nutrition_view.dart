@@ -1,5 +1,4 @@
 import 'package:material_ui/material_ui.dart';
-import 'package:shefu/utils/nutri_score.dart';
 import 'package:shefu/utils/nutrition.dart';
 import 'package:shefu/widgets/display_recipe/nutri_score_badge.dart';
 import 'package:shefu/l10n/app_localizations.dart';
@@ -13,8 +12,9 @@ Widget buildNutritionView(BuildContext context, DisplayRecipeViewModel viewModel
   final l10n = AppLocalizations.of(context)!;
 
   // Calculate total nutrients from ingredients
+  final steps = viewModel.getVariantSteps();
   final nutrients = calculateTotalNutrients(
-    steps: viewModel.getVariantSteps(),
+    steps: steps,
     nutrientRepository: viewModel.nutrientRepository,
     full: true,
   );
@@ -59,7 +59,8 @@ Widget buildNutritionView(BuildContext context, DisplayRecipeViewModel viewModel
       (value > 0 && daily > 0) ? ((value / daily * 100).round()).toString() : '0';
 
   final hasCalculatedValues = nutrients['calories'] != null && nutrients['calories']! > 0;
-  final nutriScore = hasCalculatedValues ? recipeNutriScore(nutrients) : null;
+  // Only when every ingredient has nutrients (a partial score would mislead).
+  final nutriScore = stepsNutriScore(steps, viewModel.nutrientRepository);
 
   return SingleChildScrollView(
     padding: const EdgeInsets.all(16.0),
@@ -71,37 +72,27 @@ Widget buildNutritionView(BuildContext context, DisplayRecipeViewModel viewModel
             border: Border.all(color: theme.colorScheme.onSurface, width: 2),
             borderRadius: BorderRadius.circular(8),
           ),
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(5),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Text(
+                '↓ ${hasCalculatedValues ? l10n.nutritionCalculatedNote : l10n.nutritionImportedNote}',
+                style: theme.textTheme.bodySmall?.copyWith(color: Colors.grey[600]),
+                maxLines: 1,
+                overflow: TextOverflow.visible,
+              ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           l10n.nutritionFacts,
                           style: theme.textTheme.headlineSmall?.copyWith(
                             fontWeight: FontWeight.bold,
                           ),
-                        ),
-                        const SizedBox(height: 4),
-                        Text.rich(
-                          TextSpan(
-                            text: '${l10n.servingsPerRecipe}: ',
-                            children: [
-                              TextSpan(
-                                text: recipe.piecesPerServing != null
-                                    ? '${viewModel.servings} (${l10n.piecesPerServing(recipe.piecesPerServing.toString())})'
-                                    : '${viewModel.servings}',
-                                style: const TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          ),
-                          style: theme.textTheme.bodyMedium,
                         ),
                       ],
                     ),
@@ -112,10 +103,8 @@ Widget buildNutritionView(BuildContext context, DisplayRecipeViewModel viewModel
                   ],
                 ],
               ),
-              Divider(color: theme.dividerColor, thickness: 8, height: 16),
-
               Text(
-                l10n.amountPerServing,
+                "(${l10n.amountPerServing})",
                 style: theme.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 4),
@@ -127,7 +116,8 @@ Widget buildNutritionView(BuildContext context, DisplayRecipeViewModel viewModel
                     style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    perServing('calories', caloriesFallback).round().toString(),
+                    "${perServing('calories', caloriesFallback).round()} ${l10n.kc}",
+
                     style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
                   ),
                 ],
@@ -140,7 +130,7 @@ Widget buildNutritionView(BuildContext context, DisplayRecipeViewModel viewModel
                   decoration: BoxDecoration(color: theme.colorScheme.secondary.withAlpha(30)),
 
                   child: Text(
-                    '% ${l10n.dailyValue}*',
+                    '% ${l10n.dailyValue}',
                     style: theme.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -226,7 +216,7 @@ Widget buildNutritionView(BuildContext context, DisplayRecipeViewModel viewModel
                 isBold: true,
               ),
 
-              Divider(color: theme.dividerColor, thickness: 2, height: 16),
+              Divider(color: theme.dividerColor, thickness: 2, height: 4),
 
               if (perServing('vitaminD') > 0)
                 _buildNutrientRow(
@@ -264,15 +254,7 @@ Widget buildNutritionView(BuildContext context, DisplayRecipeViewModel viewModel
                   theme,
                 ),
 
-              Divider(color: theme.dividerColor, thickness: 8, height: 16),
-              Text(
-                '* ${hasCalculatedValues ? l10n.nutritionCalculatedNote : l10n.nutritionImportedNote}',
-                style: theme.textTheme.bodySmall?.copyWith(
-                  fontStyle: FontStyle.italic,
-                  color: Colors.grey[600],
-                ),
-              ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 12),
               Text(
                 l10n.dailyValueDisclaimer,
                 style: theme.textTheme.bodySmall?.copyWith(color: Colors.grey[600]),
@@ -295,7 +277,7 @@ Widget buildNutritionView(BuildContext context, DisplayRecipeViewModel viewModel
   );
 }
 
-const _nutriScoreMarker = '**';
+const _nutriScoreMarker = '*';
 
 Widget _buildNutrientRow(
   String label,

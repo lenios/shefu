@@ -150,6 +150,12 @@ class FakeNutrientRepository implements NutrientRepository {
       _factors[(foodId, conversionId)] ?? _factors[(foodId, null)] ?? 1.0;
 
   @override
+  bool hasNutrients(int foodId, int conversionId) =>
+      conversionId > 0 &&
+      _nutrients.containsKey(foodId) &&
+      (_factors[(foodId, conversionId)] ?? _factors[(foodId, null)] ?? 0) > 0;
+
+  @override
   List<Conversion> getNutrientConversions(int foodId) => [];
 
   @override

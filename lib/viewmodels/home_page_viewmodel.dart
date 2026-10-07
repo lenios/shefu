@@ -8,7 +8,9 @@ import 'package:shefu/l10n/app_localizations.dart';
 import 'package:shefu/models/entities.dart';
 import 'package:shefu/repositories/nutrient_repository.dart';
 import 'package:shefu/repositories/recipe_repository.dart';
+import 'package:shefu/utils/nutri_score.dart';
 import 'package:shefu/utils/nutrition.dart';
+import 'package:shefu/utils/nutrition.dart' as nutrition show nutriScoreOf;
 import 'package:shefu/utils/recipe_exporter.dart';
 import 'package:shefu/widgets/home/recipe_search_result.dart';
 
@@ -16,11 +18,13 @@ class HomePageViewModel extends ChangeNotifier {
   HomePageViewModel(this._recipeRepository, this._nutrientRepository) {
     // Variant values are computed from nutrients: refresh once loaded.
     _nutrientRepository.initialize().then((_) {
+      _nutriScores.clear();
       if (!_disposed) notifyListeners();
     }, onError: (Object e) => debugPrint('Nutrients unavailable: $e'));
     _subscription = _recipeRepository.watchAllRecipes().listen((recipes) {
       _recipes = recipes;
       _recipesById = {for (final recipe in recipes) recipe.id: recipe};
+      _nutriScores.clear();
       notifyListeners();
     }, onError: (Object e, StackTrace s) => debugPrint('Error loading recipes: $e\n$s'));
   }
@@ -33,6 +37,14 @@ class HomePageViewModel extends ChangeNotifier {
   /// or of its [variant].
   ServingNutrition nutritionOf(Recipe recipe, RecipeVariant? variant) =>
       nutritionPerServing(recipe, variant, _nutrientRepository, linked: _recipesById);
+
+  /// Nutri-Score shown on the card of [recipe], or of its [variant]; computed
+  /// once per recipe list and nutrient data.
+  NutriScore? nutriScoreOf(Recipe recipe, RecipeVariant? variant) => _nutriScores.putIfAbsent((
+    recipe.id,
+    variant?.id,
+  ), () => nutrition.nutriScoreOf(recipe, variant, _nutrientRepository, linked: _recipesById));
+  final _nutriScores = <(int, int?), NutriScore?>{};
 
   Map<int, Recipe> _recipesById = const {};
   late final StreamSubscription<List<Recipe>> _subscription;

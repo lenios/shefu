@@ -351,20 +351,39 @@ class _EditRecipeState extends State<EditRecipe> {
                               const SizedBox(height: 8),
                               // OCR toggle
                               Selector<EditRecipeViewModel, bool>(
-                                selector: (_, vm) => vm.ocrEnabled,
-                                builder: (context, ocrEnabled, _) {
-                                  return Row(
+                                selector: (_, vm) => vm.ocrAvailable,
+                                builder: (context, ocrAvailable, _) {
+                                  if (!ocrAvailable) return const SizedBox.shrink();
+                                  return Column(
                                     mainAxisSize: .min,
+                                    crossAxisAlignment: .center,
                                     children: [
-                                      Text(
-                                        "OCR:",
-                                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-                                      ),
-                                      Switch(
-                                        value: ocrEnabled,
-                                        onChanged: (value) => viewModel.toggleOcr(value),
-                                        activeThumbColor: Theme.of(context).colorScheme.secondary,
-                                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                      const SizedBox(height: 8),
+                                      Selector<EditRecipeViewModel, bool>(
+                                        selector: (_, vm) => vm.ocrEnabled,
+                                        builder: (context, ocrEnabled, _) {
+                                          return Row(
+                                            mainAxisSize: .min,
+                                            children: [
+                                              Text(
+                                                "OCR:",
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 14,
+                                                ),
+                                              ),
+                                              Switch(
+                                                value: ocrEnabled,
+                                                onChanged: (value) => viewModel.toggleOcr(value),
+                                                activeThumbColor: Theme.of(context)
+                                                    .colorScheme
+                                                    .secondary,
+                                                materialTapTargetSize:
+                                                    MaterialTapTargetSize.shrinkWrap,
+                                              ),
+                                            ],
+                                          );
+                                        },
                                       ),
                                     ],
                                   );
@@ -795,8 +814,9 @@ class _EditRecipeState extends State<EditRecipe> {
                           ),
                         );
 
-                        // Add insert button after each step (except the last one)
-                        if (i < steps.length - 1) {
+                        // Add insert button after each step (except the last
+                        // one); steps are only added to the base recipe.
+                        if (i < steps.length - 1 && !viewModel.isVariantMode) {
                           stepWidgets.add(
                             SizedBox(
                               height: 24.0,
@@ -820,31 +840,33 @@ class _EditRecipeState extends State<EditRecipe> {
                       return Column(children: stepWidgets);
                     },
                   ),
-                  // Add step
-                  const SizedBox(height: 10),
-                  Wrap(
-                    alignment: .end,
-                    spacing: 8,
-                    runSpacing: 8,
-                    children: [
-                      if (!viewModel.isVariantMode)
+                  // Add step (base recipe only: variants adapt its steps)
+                  if (!viewModel.isVariantMode) ...[
+                    const SizedBox(height: 10),
+                    Wrap(
+                      alignment: .end,
+                      spacing: 8,
+                      runSpacing: 8,
+                      children: [
                         OutlinedButton.icon(
                           key: const Key('addRecipeAsStep'),
                           icon: const Icon(Icons.menu_book_outlined),
                           label: Text(l10n.addRecipeAsStep),
                           onPressed: () => viewModel.addRecipeAsStep(context),
                         ),
-                      ElevatedButton.icon(
-                        icon: const Icon(Icons.add),
-                        label: Text(l10n.addStep),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Theme.of(context).colorScheme.secondary,
-                          foregroundColor: Theme.of(context).colorScheme.onSecondary,
+                        ElevatedButton.icon(
+                          key: const Key('addStep'),
+                          icon: const Icon(Icons.add),
+                          label: Text(l10n.addStep),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Theme.of(context).colorScheme.secondary,
+                            foregroundColor: Theme.of(context).colorScheme.onSecondary,
+                          ),
+                          onPressed: viewModel.addEmptyStep,
                         ),
-                        onPressed: viewModel.addEmptyStep,
-                      ),
-                    ],
-                  ),
+                      ],
+                    ),
+                  ],
 
                   // Make ahead
                   const SizedBox(height: 16),

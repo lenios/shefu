@@ -1,8 +1,9 @@
 import 'package:material_ui/material_ui.dart';
+import 'package:shefu/l10n/app_localizations.dart';
 import 'package:shefu/utils/nutri_score.dart';
 
 /// The five Nutri-Score letters on their official colors, [grade] enlarged.
-/// [footnote] (e.g. "**") follows the title, referring to a note.
+/// [footnote] (e.g. "*") follows the title, referring to a note.
 class const NutriScoreBadge({
   super.key,
   required final NutriScoreGrade grade,
@@ -10,9 +11,10 @@ class const NutriScoreBadge({
 }) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final textTheme = Theme.of(context).textTheme;
     return Semantics(
-      label: 'Nutri-Score ${grade.letter}',
+      label: '${l10n.nutriScoreLabel} ${grade.letter}',
       excludeSemantics: true,
       child: Container(
         padding: const EdgeInsets.fromLTRB(6, 2, 6, 6),
@@ -25,7 +27,7 @@ class const NutriScoreBadge({
           mainAxisSize: .min,
           children: [
             Text(
-              'NUTRI-SCORE$footnote',
+              '${l10n.nutriScoreLabel}$footnote',
               style: textTheme.labelMedium?.copyWith(
                 color: Colors.grey.shade700,
                 fontWeight: FontWeight.bold,
@@ -85,6 +87,35 @@ class const NutriScoreBadge({
       child: Text(
         g.letter,
         style: textTheme.titleSmall?.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+}
+
+/// The Nutri-Score [grade] alone, compact enough to follow a title.
+class const NutriScoreGradeChip({super.key, required final NutriScoreGrade grade})
+    extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      label: 'Nutri-Score ${grade.letter}',
+      excludeSemantics: true,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
+        decoration: BoxDecoration(
+          color: Color(grade.color),
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: Colors.white, width: 1.5),
+        ),
+        child: Text(
+          grade.letter,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 12,
+            fontWeight: FontWeight.w900,
+            height: 1.2,
+          ),
+        ),
       ),
     );
   }

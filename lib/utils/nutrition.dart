@@ -1,5 +1,6 @@
 import 'package:shefu/models/entities.dart';
 import 'package:shefu/repositories/nutrient_repository.dart';
+import 'package:shefu/utils/nutri_score.dart';
 
 typedef ServingNutrition = ({int calories, int carbohydrates});
 
@@ -34,6 +35,32 @@ ServingNutrition nutritionPerServing(
     calories: perServing('calories', recipe.calories),
     carbohydrates: perServing('carbohydrates', recipe.carbohydrates),
   );
+}
+
+/// Nutri-Score of [recipe], or of its [variant] (recipes used as steps looked
+/// up in [linked]); see [stepsNutriScore].
+NutriScore? nutriScoreOf(
+  Recipe recipe,
+  RecipeVariant? variant,
+  NutrientRepository nutrients, {
+  Map<int, Recipe> linked = const {},
+}) => stepsNutriScore(
+  withLinkedRecipes(recipe.stepsFor(variant), recipe.servings, linked, including: {recipe.id}),
+  nutrients,
+);
+
+/// Nutri-Score of a recipe of [steps] (recipes used as steps included), or
+/// null unless every ingredient is linked to a food and a conversion factor:
+/// a partial score would be misleading.
+NutriScore? stepsNutriScore(List<RecipeStep> steps, NutrientRepository nutrients) {
+  if (!nutrients.isInitialized) return null;
+  final ingredients = [for (final step in steps) ...step.ingredients];
+  if (ingredients.isEmpty ||
+      !ingredients.every((i) => nutrients.hasNutrients(i.foodId, i.conversionId))) {
+    return null;
+  }
+  final totals = calculateTotalNutrients(steps: steps, nutrientRepository: nutrients, full: true);
+  return (totals['calories'] ?? 0) > 0 ? recipeNutriScore(totals) : null;
 }
 
 Map<String, double> calculateTotalNutrients({

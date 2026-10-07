@@ -37,7 +37,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get moveToNextStep => '次の手順へ進む';
 
   @override
-  String get calories => 'カロリー';
+  String get calories => 'エネルギー';
 
   @override
   String get carbohydrates => '炭水化物';
@@ -571,10 +571,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get totalFat => '脂質';
 
   @override
-  String get nutritionCalculatedNote => '栄養価はリンクされた材料から計算されています';
+  String get nutritionCalculatedNote => 'リンクされた材料から計算されています';
 
   @override
-  String get nutritionImportedNote => '栄養価はインポートされたレシピデータから取得されています';
+  String get nutritionImportedNote => 'インポートされたレシピデータから取得されています';
 
   @override
   String get dailyValueDisclaimer =>
@@ -593,7 +593,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get cholesterol => 'コレステロール';
 
   @override
-  String get sodium => 'ナトリウム';
+  String get sodium => '食塩相当量';
 
   @override
   String get dietaryFiber => '食物繊維';
@@ -618,6 +618,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get vitaminC => 'ビタミンC';
+
+  @override
+  String get nutriScoreLabel => 'ニュトリスコア';
 
   @override
   String get nutriScoreNote => 'レシピ全体を一般食品として、リンクされた材料の生の重量から推定';

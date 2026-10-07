@@ -85,36 +85,41 @@ class _ImageEditorScreenState extends State<ImageEditorScreen> {
                   ),
           ),
           Container(
-            padding: const EdgeInsets.all(16.0),
             color: Colors.grey[200],
-            child: Column(
-              crossAxisAlignment: .start,
-              children: [
-                Text(
-                  l10n.rectangleInstructions,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 4),
-                Text(l10n.rectangleDetails),
-                const SizedBox(height: 8),
-                Row(
-                  mainAxisAlignment: .spaceEvenly,
+            child: SafeArea(
+              top: false,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: .start,
                   children: [
-                    ElevatedButton.icon(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      icon: const Icon(Icons.cancel),
-                      label: Text(l10n.cancel),
+                    Text(
+                      l10n.rectangleInstructions,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    ElevatedButton.icon(
-                      onPressed: _isProcessing ? null : _processAndReturnImage,
-                      icon: const Icon(Icons.check),
-                      label: Text(_isProcessing ? l10n.processing : l10n.save),
+                    const SizedBox(height: 4),
+                    Text(l10n.rectangleDetails),
+                    const SizedBox(height: 8),
+                    Row(
+                      mainAxisAlignment: .spaceEvenly,
+                      children: [
+                        ElevatedButton.icon(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          icon: const Icon(Icons.cancel),
+                          label: Text(l10n.cancel),
+                        ),
+                        ElevatedButton.icon(
+                          onPressed: _isProcessing ? null : _processAndReturnImage,
+                          icon: const Icon(Icons.check),
+                          label: Text(_isProcessing ? l10n.processing : l10n.save),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ],
+              ),
             ),
           ),
         ],

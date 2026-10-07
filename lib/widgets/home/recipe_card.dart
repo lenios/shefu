@@ -6,7 +6,9 @@ import 'package:shefu/provider/my_app_state.dart';
 import 'package:shefu/utils/path_utils.dart';
 import 'package:shefu/utils/string_extension.dart';
 import 'package:shefu/utils/variant_colors.dart';
+import 'package:shefu/utils/nutri_score.dart';
 import 'package:shefu/viewmodels/home_page_viewmodel.dart';
+import 'package:shefu/widgets/display_recipe/nutri_score_badge.dart';
 
 import '../../l10n/app_localizations.dart';
 import '../../models/entities.dart';
@@ -19,6 +21,9 @@ class const RecipeCard({
   required final Recipe recipe,
   final RecipeVariant? variant,
   required final ServingNutrition nutrition,
+
+  /// Shown after the title when computed from linked ingredients.
+  final NutriScore? nutriScore,
 }) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -76,8 +81,20 @@ class const RecipeCard({
                       crossAxisAlignment: .start,
                       children: [
                         Expanded(
-                          child: Text(
-                            title,
+                          child: Text.rich(
+                            TextSpan(
+                              text: title,
+                              children: [
+                                if (nutriScore case final score?)
+                                  WidgetSpan(
+                                    alignment: PlaceholderAlignment.middle,
+                                    child: Padding(
+                                      padding: .only(left: 3),
+                                      child: NutriScoreGradeChip(grade: score.grade),
+                                    ),
+                                  ),
+                              ],
+                            ),
                             style: textTheme.titleSmall?.copyWith(
                               fontWeight: FontWeight.bold,
                               color: foreground,

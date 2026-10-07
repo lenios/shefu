@@ -129,6 +129,18 @@ void main() {
     });
   });
 
+  test('parseQuantity reads the quantities typed in the editor', () {
+    expect(parseQuantity('2/3'), closeTo(0.667, 0.001));
+    expect(parseQuantity('1 1/2'), 1.5);
+    expect(parseQuantity(' 2,5 '), 2.5);
+    expect(parseQuantity('2.5'), 2.5);
+    expect(parseQuantity('3'), 3);
+    // Not a quantity: nothing is guessed.
+    for (final text in ['', '2/', '1/0', '2 eggs', 'abc']) {
+      expect(parseQuantity(text), isNull, reason: text);
+    }
+  });
+
   group('scaleMeasure', () {
     test('scales the leading number of a written measure', () {
       expect(scaleMeasure('2 medium', 2), '4 medium');

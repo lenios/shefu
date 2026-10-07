@@ -575,11 +575,10 @@ class AppLocalizationsHu extends AppLocalizations {
   String get totalFat => 'Összes zsír';
 
   @override
-  String get nutritionCalculatedNote =>
-      'A tápértékek a kapcsolt összetevőkből kerültek kiszámításra';
+  String get nutritionCalculatedNote => 'a kapcsolt összetevőkből kiszámítva';
 
   @override
-  String get nutritionImportedNote => 'A tápértékek az importált recept adataiból származnak';
+  String get nutritionImportedNote => 'az importált recept adataiból származnak';
 
   @override
   String get dailyValueDisclaimer =>
@@ -623,6 +622,9 @@ class AppLocalizationsHu extends AppLocalizations {
 
   @override
   String get vitaminC => 'C-vitamin';
+
+  @override
+  String get nutriScoreLabel => 'NUTRI-SCORE';
 
   @override
   String get nutriScoreNote =>

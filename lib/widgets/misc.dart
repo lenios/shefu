@@ -188,19 +188,35 @@ FormattedIngredient formatIngredient({
   );
 }
 
-/// Scales the leading number of a measure written as text ("2 medium",
-/// "1 1/2 cups"); measures without a leading number are returned unchanged.
-String scaleMeasure(String measure, double multiplier) {
-  if (multiplier == 1 || measure.isEmpty) return measure;
-  final match = RegExp(r'^(?:(\d+)\s+(\d+)/(\d+)|(\d+)/(\d+)|(\d+(?:[.,]\d+)?))')
-      .firstMatch(measure);
-  if (match == null) return measure;
+/// A quantity as written: "2", "2.5" or "2,5", "2/3", "1 1/2".
+final _quantityPattern = RegExp(r'^(?:(\d+)\s+(\d+)/(\d+)|(\d+)/(\d+)|(\d+(?:[.,]\d+)?))');
+
+/// The quantity at the start of [text], and where it ends.
+({double value, int end})? _leadingQuantity(String text) {
+  final match = _quantityPattern.firstMatch(text);
+  if (match == null) return null;
   final value = switch (match) {
     _ when match[1] != null => int.parse(match[1]!) + int.parse(match[2]!) / int.parse(match[3]!),
     _ when match[4] != null => int.parse(match[4]!) / int.parse(match[5]!),
     _ => double.parse(match[6]!.replaceAll(',', '.')),
   };
-  return '${formattedQuantity(value * multiplier)}${measure.substring(match.end)}';
+  return value.isFinite ? (value: value, end: match.end) : null; // x/0
+}
+
+/// The quantity typed in [text] ("2/3", "1 1/2", "2,5"...), or null.
+double? parseQuantity(String text) {
+  final trimmed = text.trim();
+  final quantity = _leadingQuantity(trimmed);
+  return quantity != null && quantity.end == trimmed.length ? quantity.value : null;
+}
+
+/// Scales the leading number of a measure written as text ("2 medium",
+/// "1 1/2 cups"); measures without a leading number are returned unchanged.
+String scaleMeasure(String measure, double multiplier) {
+  if (multiplier == 1 || measure.isEmpty) return measure;
+  final quantity = _leadingQuantity(measure);
+  if (quantity == null) return measure;
+  return '${formattedQuantity(quantity.value * multiplier)}${measure.substring(quantity.end)}';
 }
 
 bool shouldConvertUnit(String unit, MeasurementSystem targetSystem) {

@@ -1195,13 +1195,13 @@ abstract class AppLocalizations {
   /// No description provided for @nutritionCalculatedNote.
   ///
   /// In en, this message translates to:
-  /// **'Nutritional values calculated from linked ingredients'**
+  /// **'computed from linked ingredients'**
   String get nutritionCalculatedNote;
 
   /// No description provided for @nutritionImportedNote.
   ///
   /// In en, this message translates to:
-  /// **'Nutritional values from imported recipe data'**
+  /// **'from imported recipe data'**
   String get nutritionImportedNote;
 
   /// No description provided for @dailyValueDisclaimer.
@@ -1287,6 +1287,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Vitamin C'**
   String get vitaminC;
+
+  /// No description provided for @nutriScoreLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'NUTRI-SCORE'**
+  String get nutriScoreLabel;
 
   /// No description provided for @nutriScoreNote.
   ///

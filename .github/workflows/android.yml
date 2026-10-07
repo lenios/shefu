@@ -1,4 +1,4 @@
-name: Build and Attach APK to Release
+name: Build and Attach APK and IPA to Release
 
 permissions:
   contents: write
@@ -65,8 +65,61 @@ jobs:
           name: app-release.aab
           path: build/app/outputs/bundle/release/app-release.aab
 
+      - name: Build F-Droid APK without OCR
+        env:
+          SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
+          SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
+        run: |
+          flutter pub remove google_mlkit_text_recognition
+          sed -i '/import io\.flutter\.embedding\.engine\.FlutterEngine/d; /override fun configureFlutterEngine/,/^    }$/d' android/app/src/main/kotlin/fr/orvidia/shefu/MainActivity.kt
+          rm android/app/src/main/kotlin/fr/orvidia/shefu/TextRecognitionChannel.kt
+          flutter build apk --release --split-per-abi --target-platform="android-arm64" -PwithOcr=false --dart-define=OCR_ENABLED=false
+          mv build/app/outputs/flutter-apk/app-arm64-v8a-release{,-fdroid}.apk # rename to avoid overwriting
+
+      - name: Upload fdroid APK as artifact
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        with:
+          name: app-arm64-v8a-release-fdroid.apk
+          path: build/app/outputs/flutter-apk/app-arm64-v8a-release-fdroid.apk
+
+  # iPhone build for testers: unsigned, so it can be installed with a
+  # sideloading tool that signs it with the tester's own Apple ID (see README).
+  build-ios:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2.23.0
+        with:
+          channel: "stable"
+          flutter-version-file: pubspec.yaml
+
+      - name: Get Flutter dependencies
+        run: flutter pub get
+
+      - name: Run build_runner
+        run: dart run build_runner build --enable-experiment=primary-constructors
+
+      - name: Build app
+        run: flutter build ios --release --no-codesign
+
+      - name: Package IPA
+        run: |
+          mkdir -p build/ipa/Payload
+          cp -R build/ios/iphoneos/Runner.app build/ipa/Payload/
+          cd build/ipa && zip -qry shefu-unsigned.ipa Payload
+
+      - name: Upload IPA as artifact
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        with:
+          name: shefu-unsigned.ipa
+          path: build/ipa/shefu-unsigned.ipa
+
   release:
-    needs: build
+    needs: [build, build-ios]
     runs-on: ubuntu-latest
     # Only run this job if the commit message indicates a release-worthy change
     if: >
@@ -85,11 +138,23 @@ jobs:
           name: app-arm64-v8a-release.apk
           path: ./apk
 
+      - name: Download fdroid APK from build
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
+        with:
+          name: app-arm64-v8a-release-fdroid.apk
+          path: ./apk
+
       - name: Download appbundle from build
         uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
         with:
           name: app-release.aab
           path: ./apk
+
+      - name: Download IPA from build
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
+        with:
+          name: shefu-unsigned.ipa
+          path: ./ipa
 
       - name: Get Version from pubspec.yaml
         id: package_version
@@ -108,7 +173,9 @@ jobs:
           prerelease: false
           files: |
             ./apk/app-arm64-v8a-release.apk
+            ./apk/app-arm64-v8a-release-fdroid.apk
             ./apk/app-release.aab
+            ./ipa/shefu-unsigned.ipa
 
       - name: Upload .aab to Play Store Production Track
         if: ${{ !endsWith(github.event.head_commit.message, 'testrel') }}

@@ -13,7 +13,7 @@ import 'package:shefu/l10n/l10n_utils.dart';
 import 'package:shefu/models/entities.dart';
 import 'package:shefu/repositories/nutrient_repository.dart';
 import 'package:shefu/repositories/recipe_repository.dart';
-import 'package:shefu/utils/mlkit.dart';
+import 'package:shefu/utils/ocr.dart';
 import 'package:shefu/utils/path_utils.dart';
 import 'package:shefu/utils/recipe_scrapers/scraper_factory.dart';
 import 'package:shefu/utils/recipe_scrapers/utils.dart';
@@ -21,6 +21,7 @@ import 'package:shefu/widgets/edit_ingredient_input.dart';
 import 'package:shefu/widgets/edit_recipe/image_editor_screen.dart';
 import 'package:shefu/widgets/edit_recipe/recipe_picker_dialog.dart';
 import 'package:shefu/widgets/image_helper.dart';
+import 'package:shefu/widgets/misc.dart';
 import 'package:intl/intl.dart';
 
 import '../l10n/app_localizations.dart';
@@ -83,7 +84,6 @@ class EditRecipeViewModel extends ChangeNotifier {
 
   /// Deletes the variant [variantId]. If it was active, falls back to the original recipe.
   Future<void> deleteVariant(int variantId) async {
-    // TODO optim we know the variant exists
     // Unsaved variants share id 0, so prefer the active one when deleting it.
     RecipeVariant? target;
     if (_activeVariant != null && _activeVariant!.id == variantId) {
@@ -98,6 +98,7 @@ class EditRecipeViewModel extends ChangeNotifier {
     }
     if (target == null) return;
     _variants.remove(target);
+    _shiftedVariants.remove(target);
     if (identical(_activeVariant, target)) {
       _activeVariant = null;
       titleController.text = _recipe.title;
@@ -117,10 +118,11 @@ class EditRecipeViewModel extends ChangeNotifier {
   Future<String> _persistActiveContext() async {
     _recipe.id = await _recipeRepository.saveRecipe(_recipe);
     final variant = _activeVariant;
-    if (variant != null) {
-      variant.recipeId = _recipe.id;
-      await _recipeRepository.saveVariant(variant);
+    for (final changed in {?variant, ..._shiftedVariants}) {
+      changed.recipeId = _recipe.id;
+      await _recipeRepository.saveVariant(changed);
     }
+    _shiftedVariants.clear();
     await _renameImagesAfterSave();
     return variant?.title ?? _recipe.title;
   }
@@ -231,24 +233,33 @@ class EditRecipeViewModel extends ChangeNotifier {
     return isStepOverridden(from) && isStepOverridden(to);
   }
 
-  /// Keeps the active variant's override orders aligned with base steps after
-  /// an insert at [from] (+1) or a removal at [from] (-1).
+  /// Keeps the step overrides of every variant on their base step when base
+  /// steps are inserted or removed at [from]; overrides of a removed step go.
   void _shiftVariantOrders(int from, int delta) {
-    final variant = activeVariant;
-    if (variant == null) return;
-    for (final step in variant.steps.toList()) {
-      if (delta > 0) {
-        if (step.order >= from) step.order += 1;
-      } else if (step.order == from) {
-        variant.steps.remove(step);
-        if (isImageOf(step.imagePath, main: false, variantId: variant.id)) {
-          unawaited(deleteImageFiles([step.imagePath]));
+    for (final variant in _variants) {
+      var changed = false;
+      for (final step in variant.steps.toList()) {
+        if (delta > 0) {
+          if (step.order < from) continue;
+          step.order += 1;
+        } else if (step.order == from) {
+          variant.steps.remove(step);
+          if (isImageOf(step.imagePath, main: false, variantId: variant.id)) {
+            unawaited(deleteImageFiles([step.imagePath]));
+          }
+        } else if (step.order > from) {
+          step.order -= 1;
+        } else {
+          continue;
         }
-      } else if (step.order > from) {
-        step.order -= 1;
+        changed = true;
       }
+      if (changed) _shiftedVariants.add(variant);
     }
   }
+
+  /// Variants whose overrides followed base step changes, saved with the recipe.
+  final _shiftedVariants = <RecipeVariant>{};
 
   late Command<void, Recipe> initializeCommand;
 
@@ -288,7 +299,11 @@ class EditRecipeViewModel extends ChangeNotifier {
   final ValueNotifier<int> _imageVersion = ValueNotifier<int>(0);
   ValueNotifier<int> get imageVersion => _imageVersion;
 
-  bool _ocrEnabled = true;
+  /// Whether this build recognizes text on recipe photos (not F-Droid).
+  bool _ocrAvailable = false;
+  bool get ocrAvailable => _ocrAvailable;
+
+  bool _ocrEnabled = false;
   bool get ocrEnabled => _ocrEnabled;
 
   List<String> _availableSourceSuggestions = [];
@@ -321,6 +336,13 @@ class EditRecipeViewModel extends ChangeNotifier {
     makeAheadController = TextEditingController();
     videoUrlController = TextEditingController();
     initializeCommand = Command.createAsyncNoParam<Recipe>(_initializeData, initialValue: Recipe());
+    // Not awaited by the page: the OCR switch shows up once known. No
+    // platform to ask (e.g. in tests) means no OCR.
+    isOcrAvailable().onError((_, _) => false).then((available) {
+      if (_disposed || !available) return;
+      _ocrAvailable = _ocrEnabled = true;
+      notifyListeners();
+    });
   }
 
   // Static helper to access the viewmodel from context
@@ -336,6 +358,8 @@ class EditRecipeViewModel extends ChangeNotifier {
         _recipe = await _recipeRepository.getRecipeById(_recipeId) ?? Recipe();
         _linkedRecipes = await _recipeRepository.getLinkedRecipes(_recipe);
         _variants = _recipe.variants;
+        // Reloaded variants start unshifted.
+        _shiftedVariants.clear();
       } else {
         _recipe = Recipe(); // Start with a fresh empty recipe
       }
@@ -442,7 +466,9 @@ class EditRecipeViewModel extends ChangeNotifier {
 
   // --- Step Management ---
 
+  // Steps are added to the base recipe only: a variant adapts its steps.
   void addEmptyStep() {
+    if (isVariantMode) return;
     final newStep = RecipeStep();
     newStep.order = _recipe.steps.length; // Set order to last position
     _recipe.steps.add(newStep);
@@ -453,6 +479,7 @@ class EditRecipeViewModel extends ChangeNotifier {
 
   /// Insert a new empty step at the specified index
   void insertStepAt(int index) {
+    if (isVariantMode) return;
     if (index >= 0 && index <= _recipe.steps.length) {
       final newStep = RecipeStep();
       newStep.order = index;
@@ -550,7 +577,7 @@ class EditRecipeViewModel extends ChangeNotifier {
   void updateIngredientQuantity(int stepIndex, int ingredientIndex, String value) {
     final ingredient = _editableIngredient(stepIndex, ingredientIndex);
     if (ingredient != null) {
-      ingredient.quantity = double.tryParse(value) ?? 0;
+      ingredient.quantity = parseQuantity(value) ?? 0;
       ingredient.originalMeasure = '';
       // Don't notifyListeners
     }
@@ -988,23 +1015,22 @@ class EditRecipeViewModel extends ChangeNotifier {
 
     String? savedImagePath;
     String? ocrTitle;
-    var l10n = context!.mounted ? AppLocalizations.of(context) : null;
-    final viewModel = context.mounted
-        ? Provider.of<EditRecipeViewModel>(context, listen: false)
-        : null;
+    final activeContext = context;
+    final l10n = activeContext?.mounted == true ? AppLocalizations.of(activeContext!) : null;
 
     try {
-      if (ocrEnabled && stepIndex == null) {
-        XFile? editedImage;
-        if (context.mounted) {
-          // Launch the image editor screen to select columns if needed
-          editedImage = await Navigator.of(context).push<XFile>(
-            MaterialPageRoute(builder: (context) => ImageEditorScreen(imageFile: image)),
-          );
-        }
+      if (ocrEnabled &&
+          stepIndex == null &&
+          activeContext != null &&
+          activeContext.mounted &&
+          l10n != null) {
+        // Launch the image editor screen to select columns if needed
+        final editedImage = await Navigator.of(
+          activeContext,
+        ).push<XFile>(MaterialPageRoute(builder: (context) => ImageEditorScreen(imageFile: image)));
         // If the user cancelled the editing, return
         if (editedImage == null) return;
-        ocrTitle = await ocrParse(editedImage, _recipe, l10n!, viewModel);
+        ocrTitle = await ocrParse(editedImage, _recipe, l10n, processImportedIngredient);
       } else {
         ocrTitle = null;
       }
@@ -1158,9 +1184,10 @@ class EditRecipeViewModel extends ChangeNotifier {
     ]..sort((a, b) => a.title.toLowerCase().compareTo(b.title.toLowerCase()));
   }
 
-  /// Adds [recipe] as a new last step; its ingredients will be scaled to the
-  /// servings of this recipe.
+  /// Adds [recipe] as a new last step of the base recipe; its ingredients will
+  /// be scaled to the servings of this recipe.
   Future<void> addLinkedStep(Recipe recipe) async {
+    if (isVariantMode) return;
     _recipe.steps.add(
       RecipeStep(name: recipe.title, order: _recipe.steps.length, linkedRecipeId: recipe.id),
     );
