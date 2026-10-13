@@ -85,12 +85,13 @@ Widget buildStepsView(BuildContext context, DisplayRecipeViewModel viewModel) {
           ],
         );
       }),
-      noteCard(
-        context: context,
-        title: AppLocalizations.of(context)!.notes,
-        icon: Icons.notes,
-        text: Text(recipe.notes),
-      ),
+      if (recipe.notes.isNotEmpty)
+        noteCard(
+          context: context,
+          title: AppLocalizations.of(context)!.notes,
+          icon: Icons.notes,
+          text: Text(recipe.notes),
+        ),
     ],
   );
 }

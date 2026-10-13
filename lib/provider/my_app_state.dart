@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:collection';
 
 import 'package:material_ui/material_ui.dart';
@@ -86,9 +87,19 @@ class MyAppState extends ChangeNotifier {
   bool get useMaterialYou => _useMaterialYou;
 
   MyAppState({bool loadPreferences = true}) {
-    if (loadPreferences) {
-      _loadPreferences();
-    }
+    initialized = loadPreferences ? _loadPreferences() : Future<void>.value();
+  }
+
+  late final Future<void> initialized;
+
+  Future<void> _shoppingBasketWrite = Future<void>.value();
+
+  void _persistShoppingBasket() {
+    final json = jsonEncode(_shoppingBasket.map((item) => item.toJson()).toList());
+    _shoppingBasketWrite = _shoppingBasketWrite.then((_) async {
+      await _prefs.setString('shopping_basket', json);
+    });
+    notifyListeners();
   }
 
   Future<void> _loadPreferences() async {
@@ -107,6 +118,18 @@ class MyAppState extends ChangeNotifier {
       (mode) => mode.name == themeModeString,
       orElse: () => ThemeMode.system,
     );
+
+    final storedBasket = await _prefs.getString('shopping_basket');
+    if (storedBasket != null) {
+      try {
+        final decoded = jsonDecode(storedBasket) as List<dynamic>;
+        _shoppingBasket
+          ..clear()
+          ..addAll(decoded.map((item) => BasketItem.fromJson(item as Map<String, dynamic>)));
+      } catch (error) {
+        debugPrint('Could not restore shopping list: $error');
+      }
+    }
 
     notifyListeners();
   }
@@ -142,6 +165,7 @@ class MyAppState extends ChangeNotifier {
   final List<BasketItem> _shoppingBasket = [];
   UnmodifiableListView<BasketItem> get shoppingBasket => UnmodifiableListView(_shoppingBasket);
   bool get isShoppingBasketNotEmpty => _shoppingBasket.isNotEmpty;
+  Future<void> get shoppingBasketSaved => _shoppingBasketWrite;
 
   void addItemsToShoppingBasket(List<BasketItem> itemsToAdd) {
     bool added = false;
@@ -177,7 +201,7 @@ class MyAppState extends ChangeNotifier {
     if (added) {
       // Sort by name after adding/merging
       _shoppingBasket.sort((a, b) => a.ingredientName.compareTo(b.ingredientName));
-      notifyListeners();
+      _persistShoppingBasket();
     }
   }
 
@@ -200,7 +224,7 @@ class MyAppState extends ChangeNotifier {
         if (item.quantity <= 0 || item.recipeContributions!.isEmpty) {
           _shoppingBasket.removeAt(i);
         }
-      // Handle legacy or single-recipe items (no contributions map, but recipeId matches)
+        // Handle legacy or single-recipe items (no contributions map, but recipeId matches)
       } else if ((item.recipeContributions == null || item.recipeContributions!.isEmpty) &&
           item.recipeId == recipeIdStr) {
         _shoppingBasket.removeAt(i);
@@ -219,7 +243,7 @@ class MyAppState extends ChangeNotifier {
     }
 
     if (changed) {
-      notifyListeners();
+      _persistShoppingBasket();
     }
   }
 
@@ -227,14 +251,14 @@ class MyAppState extends ChangeNotifier {
     final index = _shoppingBasket.indexWhere((item) => item.ingredientName == name);
     if (index != -1) {
       _shoppingBasket[index].isChecked = !_shoppingBasket[index].isChecked;
-      notifyListeners();
+      _persistShoppingBasket();
     }
   }
 
   void clearShoppingBasket() {
     if (_shoppingBasket.isNotEmpty) {
       _shoppingBasket.clear();
-      notifyListeners();
+      _persistShoppingBasket();
     }
   }
 }

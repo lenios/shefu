@@ -10,12 +10,13 @@ Widget buildNotesView(BuildContext context, DisplayRecipeViewModel viewModel) {
     padding: const EdgeInsets.all(4.0),
     child: Column(
       children: [
-        noteCard(
-          context: context,
-          title: AppLocalizations.of(context)!.notes,
-          icon: Icons.menu_book_outlined,
-          text: Text(viewModel.recipe?.notes ?? ""),
-        ),
+        if (viewModel.recipe?.notes != null && viewModel.recipe!.notes.isNotEmpty)
+          noteCard(
+            context: context,
+            title: AppLocalizations.of(context)!.notes,
+            icon: Icons.menu_book_outlined,
+            text: Text(viewModel.recipe?.notes ?? ""),
+          ),
         if (viewModel.recipe?.makeAhead != null && viewModel.recipe!.makeAhead.isNotEmpty)
           noteCard(
             context: context,

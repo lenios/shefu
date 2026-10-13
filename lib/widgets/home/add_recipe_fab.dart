@@ -32,7 +32,7 @@ Widget addRecipeButton(BuildContext context, HomePageViewModel viewModel) {
           break;
       }
     },
-    offset: Offset(0, -247),
+    offset: Offset(0, -304), // 60 * options + 4
     popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 100)),
     itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
       PopupMenuItem<String>(

@@ -1,6 +1,5 @@
 import 'package:shefu/models/entities.dart';
 
-// Not stored in DB, reset on app close
 class ShoppingBasket(var List<BasketItem> items, var List<BasketRecipe> recipes) {
   bool get isEmpty => items.isEmpty && recipes.isEmpty;
 
@@ -59,6 +58,37 @@ class BasketItem {
     this.conversionId = 0,
     this.shape = '',
   }) : recipeContributions = contributions ?? (recipeId != null ? {recipeId: quantity} : null);
+
+  Map<String, Object?> toJson() => {
+    "recipeId": recipeId,
+    "ingredientName": ingredientName,
+    "quantity": quantity,
+    "unit": unit,
+    "isChecked": isChecked,
+    "recipeContributions": recipeContributions,
+    "foodId": foodId,
+    "conversionId": conversionId,
+    "shape": shape,
+  };
+
+  factory BasketItem.fromJson(Map<String, dynamic> json) {
+    final rawContributions = json["recipeContributions"];
+    final contributions = rawContributions is Map
+        ? rawContributions.map((key, value) => MapEntry(key.toString(), (value as num).toDouble()))
+        : null;
+
+    return BasketItem(
+      recipeId: json["recipeId"] as String?,
+      ingredientName: json["ingredientName"] as String? ?? "",
+      quantity: (json["quantity"] as num?)?.toDouble() ?? 0.0,
+      unit: json["unit"] as String?,
+      isChecked: json["isChecked"] as bool? ?? false,
+      contributions: contributions,
+      foodId: (json["foodId"] as num?)?.toInt() ?? 0,
+      conversionId: (json["conversionId"] as num?)?.toInt() ?? 0,
+      shape: json["shape"] as String? ?? "",
+    );
+  }
 
   factory BasketItem.fromTuple(IngredientItem tuple, int recipeId) {
     final recipeIdStr = recipeId.toString();
