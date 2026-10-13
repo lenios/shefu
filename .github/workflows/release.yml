@@ -1,4 +1,4 @@
-name: Build and Attach APK and IPA to Release
+name: Build and Attach APK, IPA, and macOS DMG to Release
 
 permissions:
   contents: write
@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  build:
+  build-android:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -41,6 +41,7 @@ jobs:
         run: |
           echo "$ENCODED_STRING" | base64 --decode > android/app/keystore.jks
 
+      # Google Play APK and appbundle
       - name: Build APK
         env:
           SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
@@ -65,6 +66,7 @@ jobs:
           name: app-release.aab
           path: build/app/outputs/bundle/release/app-release.aab
 
+      # F-Droid APK
       - name: Build F-Droid APK without OCR
         env:
           SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
@@ -83,7 +85,7 @@ jobs:
 
   # iPhone build for testers: unsigned, so it can be installed with a
   # sideloading tool that signs it with the tester's own Apple ID (see README).
-  build-ios:
+  build-ios-macos:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -102,6 +104,7 @@ jobs:
       - name: Run build_runner
         run: dart run build_runner build --enable-experiment=primary-constructors
 
+      # IOS
       - name: Build app
         run: flutter build ios --release --no-codesign
 
@@ -117,8 +120,21 @@ jobs:
           name: shefu-unsigned.ipa
           path: build/ipa/shefu-unsigned.ipa
 
+      # MACOS
+      - name: Build macOS app
+        run: flutter build macos --release
+
+      - name: Package macOS app as DMG
+        run: hdiutil create -volname Shefu -srcfolder build/macos/Build/Products/Release/shefu.app -ov -format UDZO shefu-macos.dmg
+
+      - name: Upload macOS DMG as artifact
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        with:
+          name: shefu-macos.dmg
+          path: shefu-macos.dmg
+
   release:
-    needs: [build, build-ios]
+    needs: [build-android, build-ios-macos]
     runs-on: ubuntu-latest
     # Only run this job if the commit message indicates a release-worthy change
     if: >
@@ -155,6 +171,12 @@ jobs:
           name: shefu-unsigned.ipa
           path: ./ipa
 
+      - name: Download macOS DMG from build
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
+        with:
+          name: shefu-macos.dmg
+          path: ./macos
+
       - name: Get Version from pubspec.yaml
         id: package_version
         run: |
@@ -175,6 +197,7 @@ jobs:
             ./apk/app-arm64-v8a-release-fdroid.apk
             ./apk/app-release.aab
             ./ipa/shefu-unsigned.ipa
+            ./macos/shefu-macos.dmg
 
       - name: Upload .aab to Play Store Production Track
         if: ${{ !endsWith(github.event.head_commit.message, 'testrel') }}

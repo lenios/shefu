@@ -84,7 +84,7 @@ Shefu aims to be the best reciper manager. Here is a comparison with other simil
 | Feature                                 | Shefu                        | Paprika 3* |
 |------------------------------------------|------------------------------|--------------------------------------|
 | Price in $/€, and licence                       | **free**, **open source**   | 4.99~34.99$/€ **per platform**, proprietary          |
-| Platforms                          | Android, iOS   | Android, iOS, **Mac, Windows**           |
+| Platforms                          | Android, iOS, MacOS   | Android, iOS, MacOS, **Windows**           |
 | Multi-language Support              | EN, FR, JA, HU       | **16 languages**                    |
 | **Web search**               | on supported websites | browser in-app |
 | **Recipe as step**                    |  **Available**                | ❌ Unavailable                         |
