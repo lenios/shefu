@@ -20,6 +20,7 @@ import 'package:shefu/widgets/display_recipe/build_steps_view.dart';
 import 'package:shefu/widgets/display_recipe/copy_recipe_text.dart';
 import 'package:shefu/widgets/display_recipe/export_recipe_to_pdf.dart';
 import 'package:shefu/widgets/display_recipe/export_recipe_to_zip.dart';
+import 'package:shefu/widgets/display_recipe/nutri_score_badge.dart';
 import 'package:shefu/widgets/display_recipe/share_source_link.dart';
 import 'package:shefu/widgets/display_recipe/switch_variant_button.dart';
 import 'package:shefu/widgets/icon_button.dart';
@@ -227,11 +228,22 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
                     // Title and Flag
                     children: [
                       Expanded(
-                        child: Text(
-                          viewModel.variantTitle.capitalize(),
+                        child: Text.rich(
+                          TextSpan(
+                            text: viewModel.variantTitle.capitalize(),
+                            children: [
+                              if (viewModel.nutriScore case final score?)
+                                WidgetSpan(
+                                  alignment: PlaceholderAlignment.middle,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 6),
+                                    child: NutriScoreGradeChip(grade: score.grade),
+                                  ),
+                                ),
+                            ],
+                          ),
                           style: Theme.of(context).textTheme.titleLarge
                               ?.copyWith(fontWeight: FontWeight.w600, color: headerFg),
-
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),

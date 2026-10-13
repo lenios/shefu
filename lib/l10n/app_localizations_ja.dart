@@ -577,8 +577,42 @@ class AppLocalizationsJa extends AppLocalizations {
   String get nutritionImportedNote => 'インポートされたレシピデータから取得されています';
 
   @override
-  String get dailyValueDisclaimer =>
-      '1日の摂取基準のパーセンテージは2,000カロリーの食事に基づいています。あなたの1日の摂取基準値は、必要なカロリーに応じて高くなったり低くなったりすることがあります。';
+  String dailyValueDisclaimer(Object calories) {
+    return '1日の摂取基準のパーセンテージは$caloriesカロリーの食事に基づいています。あなたの1日の摂取基準値は、必要なカロリーに応じて高くなったり低くなったりすることがあります。';
+  }
+
+  @override
+  String get noNutritionInformation => '栄養情報がありません。計算するには、レシピ編集ページで材料を栄養素にリンクしてください。';
+
+  @override
+  String get changeIt => '変更する';
+
+  @override
+  String get calorieNeeds => 'カロリー必要量';
+
+  @override
+  String get age => '年齢';
+
+  @override
+  String get weight => '体重（kg）';
+
+  @override
+  String get height => '身長（cm）';
+
+  @override
+  String get activityLevel => '活動レベル';
+
+  @override
+  String get activitySedentary => 'ほとんど運動しない';
+
+  @override
+  String get activityLight => 'やや活動的';
+
+  @override
+  String get activityModerate => '活動的';
+
+  @override
+  String get activityVeryActive => '非常に活動的';
 
   @override
   String get amountPerServing => '人前の量';
@@ -681,6 +715,19 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get importFromUrl => 'Web URLからインポート';
+
+  @override
+  String get importFromAiText => 'テキストレシピをインポート';
+
+  @override
+  String get pasteAiRecipeText => 'レシピのテキストを貼り付け';
+
+  @override
+  String get aiRecipeTextHint =>
+      'レシピのテキストを貼り付けてください。AIアシスタントが生成したものでも、以下の形式に従ったものでも構いません:\n\nタイトル（任意）\n材料:\nXX g <材料1>\nYY g <材料2>\n...\n\n作り方\n<手順名>: 説明\n...';
+
+  @override
+  String get aiImportError => 'このレシピテキストを解析できませんでした。形式を確認してもう一度お試しください。';
 
   @override
   String get writeRecipe => 'レシピを書く';

@@ -1,5 +1,6 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:shefu/l10n/app_localizations.dart';
+import 'package:shefu/models/entities.dart';
 import 'package:shefu/viewmodels/display_recipe_viewmodel.dart';
 import 'package:shefu/widgets/misc.dart';
 import 'package:shefu/widgets/recipe_step_card.dart';
@@ -11,6 +12,10 @@ Widget buildStepsView(BuildContext context, DisplayRecipeViewModel viewModel) {
   }
   final servingsMultiplier = viewModel.servings / recipe.servings;
   final variantSteps = viewModel.getVariantSteps();
+  final visibleSteps = [
+    for (var index = 0; index < variantSteps.length; index++)
+      if (!_isEmptyStep(variantSteps[index])) (index: index, step: variantSteps[index]),
+  ];
 
   final theme = Theme.of(context);
   final bool isTtsActive = viewModel.isPlaying || viewModel.isPaused;
@@ -37,10 +42,11 @@ Widget buildStepsView(BuildContext context, DisplayRecipeViewModel viewModel) {
           ),
         ],
       ),
-      ...List.generate(variantSteps.length, (index) {
-        // Identify if this step is the "current" one based solely on index.
-        // When stopped, index is 0, so button appears on first step.
-        final isCurrentStepIndex = viewModel.currentStepIndex == index;
+      ...List.generate(visibleSteps.length, (index) {
+        final originalIndex = visibleSteps[index].index;
+        final step = visibleSteps[index].step;
+        // Keep playback controls aligned with the original step indexes.
+        final isCurrentStepIndex = viewModel.currentStepIndex == originalIndex;
 
         // Only show the active border when actually speaking or paused
         final showActiveBorder = isTtsActive && isCurrentStepIndex;
@@ -57,7 +63,7 @@ Widget buildStepsView(BuildContext context, DisplayRecipeViewModel viewModel) {
 
             GestureDetector(
               onTap: () {
-                viewModel.setCurrentStep(index);
+                viewModel.setCurrentStep(originalIndex);
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -67,7 +73,7 @@ Widget buildStepsView(BuildContext context, DisplayRecipeViewModel viewModel) {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: RecipeStepCard(
-                  recipeStep: variantSteps[index],
+                  recipeStep: step,
                   servings: servingsMultiplier,
                   isCurrentStep: isCurrentStepIndex,
                   glossary: viewModel.glossary,
@@ -88,6 +94,12 @@ Widget buildStepsView(BuildContext context, DisplayRecipeViewModel viewModel) {
     ],
   );
 }
+
+bool _isEmptyStep(RecipeStep step) =>
+    step.name.trim().isEmpty &&
+    step.instruction.trim().isEmpty &&
+    step.ingredients.isEmpty &&
+    step.imagePath.trim().isEmpty;
 
 Widget _buildSpeakControl(BuildContext context, DisplayRecipeViewModel viewModel) {
   final theme = Theme.of(context);

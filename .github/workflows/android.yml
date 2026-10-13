@@ -70,7 +70,6 @@ jobs:
           SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
           SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
         run: |
-          flutter pub remove google_mlkit_text_recognition
           sed -i '/import io\.flutter\.embedding\.engine\.FlutterEngine/d; /override fun configureFlutterEngine/,/^    }$/d' android/app/src/main/kotlin/fr/orvidia/shefu/MainActivity.kt
           rm android/app/src/main/kotlin/fr/orvidia/shefu/TextRecognitionChannel.kt
           flutter build apk --release --split-per-abi --target-platform="android-arm64" -PwithOcr=false --dart-define=OCR_ENABLED=false

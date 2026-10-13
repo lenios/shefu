@@ -1,8 +1,11 @@
 import 'package:material_ui/material_ui.dart';
-import 'package:shefu/utils/nutrition.dart';
-import 'package:shefu/widgets/display_recipe/nutri_score_badge.dart';
+import 'package:provider/provider.dart';
 import 'package:shefu/l10n/app_localizations.dart';
+import 'package:shefu/provider/my_app_state.dart';
+import 'package:shefu/utils/nutrition.dart';
 import 'package:shefu/viewmodels/display_recipe_viewmodel.dart';
+import 'package:shefu/widgets/display_recipe/calorie_needs_dialog.dart';
+import 'package:shefu/widgets/display_recipe/nutri_score_badge.dart';
 
 Widget buildNutritionView(BuildContext context, DisplayRecipeViewModel viewModel) {
   final recipe = viewModel.recipe;
@@ -10,6 +13,7 @@ Widget buildNutritionView(BuildContext context, DisplayRecipeViewModel viewModel
 
   final theme = Theme.of(context);
   final l10n = AppLocalizations.of(context)!;
+  final appState = context.watch<MyAppState>();
 
   // Calculate total nutrients from ingredients
   final steps = viewModel.getVariantSteps();
@@ -52,6 +56,36 @@ Widget buildNutritionView(BuildContext context, DisplayRecipeViewModel viewModel
   final cholesterolFallback = recipe.cholesterol.toDouble();
   final sodiumFallback = recipe.sodium.toDouble();
 
+  final nutriScore = viewModel.nutriScore;
+  final hasNutritionData =
+      nutriScore != null ||
+      nutrients.values.any((value) => value > 0) ||
+      [
+        caloriesFallback,
+        fatFallback,
+        carbsFallback,
+        proteinFallback,
+        saturatedFatFallback,
+        transFatFallback,
+        sugarFallback,
+        fiberFallback,
+        cholesterolFallback,
+        sodiumFallback,
+      ].any((value) => value > 0);
+
+  if (!hasNutritionData) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Text(
+          l10n.noNutritionInformation,
+          textAlign: TextAlign.center,
+          style: theme.textTheme.bodyLarge,
+        ),
+      ),
+    );
+  }
+
   String fmt(double v, [int decimals = 1]) =>
       v == v.truncateToDouble() ? v.toStringAsFixed(0) : v.toStringAsFixed(decimals);
 
@@ -59,8 +93,6 @@ Widget buildNutritionView(BuildContext context, DisplayRecipeViewModel viewModel
       (value > 0 && daily > 0) ? ((value / daily * 100).round()).toString() : '0';
 
   final hasCalculatedValues = nutrients['calories'] != null && nutrients['calories']! > 0;
-  // Only when every ingredient has nutrients (a partial score would mislead).
-  final nutriScore = stepsNutriScore(steps, viewModel.nutrientRepository);
 
   return SingleChildScrollView(
     padding: const EdgeInsets.all(16.0),
@@ -255,9 +287,27 @@ Widget buildNutritionView(BuildContext context, DisplayRecipeViewModel viewModel
                 ),
 
               const SizedBox(height: 12),
-              Text(
-                l10n.dailyValueDisclaimer,
-                style: theme.textTheme.bodySmall?.copyWith(color: Colors.grey[600]),
+              Text.rich(
+                TextSpan(
+                  text: l10n.dailyValueDisclaimer(appState.dailyValueCalories),
+                  style: theme.textTheme.bodySmall?.copyWith(color: Colors.grey[600]),
+                  children: [
+                    const TextSpan(text: ' '),
+                    WidgetSpan(
+                      alignment: PlaceholderAlignment.middle,
+                      child: TextButton.icon(
+                        onPressed: () => showCalorieNeedsDialog(context),
+                        icon: const Icon(Icons.calculate, size: 16),
+                        label: Text(l10n.changeIt),
+                        style: TextButton.styleFrom(
+                          padding: EdgeInsets.zero,
+                          minimumSize: Size.zero,
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
               if (nutriScore != null) ...[
                 const SizedBox(height: 8),

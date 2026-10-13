@@ -21,6 +21,9 @@ Widget addRecipeButton(BuildContext context, HomePageViewModel viewModel) {
         case 'import_url':
           _importFromUrl(context, theme);
           break;
+        case 'import_text':
+          _importFromTextDialog(context, theme);
+          break;
         case 'online_search':
           context.push('/online-search');
           break;
@@ -39,6 +42,10 @@ Widget addRecipeButton(BuildContext context, HomePageViewModel viewModel) {
       PopupMenuItem<String>(
         value: 'import_url',
         child: ListTile(leading: Icon(Icons.link), title: Text(l10n.importFromUrl)),
+      ),
+      PopupMenuItem<String>(
+        value: 'import_text',
+        child: ListTile(leading: Icon(Icons.content_paste_go), title: Text(l10n.importFromAiText)),
       ),
       PopupMenuItem<String>(
         value: 'online_search',
@@ -156,4 +163,99 @@ Future<void> _importFromUrl(BuildContext context, ThemeData theme) async {
   }
   viewModel.dispose();
   urlController.dispose();
+}
+
+Future<void> _importFromTextDialog(BuildContext context, ThemeData theme) async {
+  final l10n = AppLocalizations.of(context)!;
+  final repo = context.read<RecipeRepository>();
+  final nutrientRepo = context.read<nutrient_repository.NutrientRepository>();
+  final messenger = ScaffoldMessenger.maybeOf(context);
+  final textController = TextEditingController();
+  final titleController = TextEditingController();
+  bool confirmed = false;
+  await showDialog(
+    context: context,
+    builder: (dialogContext) {
+      return AlertDialog(
+        title: Row(
+          children: [
+            Expanded(child: Text(l10n.importFromAiText)),
+            IconButton(
+              icon: const Icon(Icons.close),
+              tooltip: l10n.cancel,
+              onPressed: () => Navigator.of(dialogContext).pop(),
+              iconSize: 24,
+              splashRadius: 24,
+            ),
+          ],
+        ),
+        content: SizedBox(
+          width: double.maxFinite,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  controller: titleController,
+                  decoration: InputDecoration(
+                    labelText: "${l10n.title} (${l10n.optional})",
+                    border: const OutlineInputBorder(),
+                  ),
+                ),
+                SizedBox(height: 12),
+                TextField(
+                  controller: textController,
+                  autofocus: true,
+                  minLines: 6,
+                  maxLines: 14,
+                  keyboardType: TextInputType.multiline,
+                  decoration: InputDecoration(
+                    labelText: l10n.pasteAiRecipeText,
+                    hintText: l10n.aiRecipeTextHint,
+                    hintMaxLines: 20,
+                    border: const OutlineInputBorder(),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        actions: <Widget>[
+          OutlinedButton(
+            onPressed: () => Navigator.pop(dialogContext),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [const Icon(Icons.cancel_outlined), SizedBox(width: 5), Text(l10n.cancel)],
+            ),
+          ),
+          FilledButton(
+            onPressed: () {
+              confirmed = textController.text.trim().isNotEmpty;
+              Navigator.pop(dialogContext);
+            },
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [const Icon(Icons.download), SizedBox(width: 5), Text(l10n.importRecipe)],
+            ),
+          ),
+        ],
+      );
+    },
+  );
+  if (!confirmed) {
+    return;
+  }
+  final viewModel = EditRecipeViewModel(repo, nutrientRepo, 0, true);
+  try {
+    viewModel.importFromText(textController.text.trim(), l10n, titleOverride: titleController.text);
+    await viewModel.saveImportedRecipe();
+    messenger?.showSnackBar(SnackBar(content: Text(l10n.recipeImportedSuccessfully)));
+  } catch (_) {
+    messenger?.showSnackBar(
+      SnackBar(content: Text(l10n.aiImportError), backgroundColor: theme.colorScheme.error),
+    );
+  }
+  viewModel.dispose();
+  textController.dispose();
+  titleController.dispose();
 }

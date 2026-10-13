@@ -14,6 +14,7 @@ import 'package:shefu/models/shopping_basket.dart';
 import 'package:shefu/provider/my_app_state.dart';
 import 'package:shefu/repositories/nutrient_repository.dart';
 import 'package:shefu/repositories/recipe_repository.dart';
+import 'package:shefu/utils/nutri_score.dart';
 import 'package:shefu/utils/nutrition.dart';
 import 'package:shefu/utils/tts_language_helper.dart';
 import 'package:shefu/widgets/misc.dart';
@@ -226,6 +227,8 @@ class DisplayRecipeViewModel extends ChangeNotifier {
   /// Calories and carbohydrates per serving of the recipe, or of the active variant.
   ServingNutrition get servingNutrition =>
       nutritionPerServing(_recipe!, activeVariant, nutrientRepository, linked: _linkedRecipes);
+
+  NutriScore? get nutriScore => stepsNutriScore(getVariantSteps(), nutrientRepository);
 
   /// The active variant's own image, or the recipe image.
   String get imagePath {

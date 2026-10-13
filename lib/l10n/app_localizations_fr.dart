@@ -581,8 +581,43 @@ class AppLocalizationsFr extends AppLocalizations {
   String get nutritionImportedNote => 'issues des données de la recette importée';
 
   @override
-  String get dailyValueDisclaimer =>
-      'Les pourcentages de valeurs quotidiennes sont basés sur un régime de 2 000 calories. Vos valeurs quotidiennes peuvent être plus ou moins élevées selon vos besoins caloriques.';
+  String dailyValueDisclaimer(Object calories) {
+    return 'Les pourcentages de valeurs quotidiennes sont basés sur un régime de $calories calories. Vos valeurs quotidiennes peuvent être plus ou moins élevées selon vos besoins caloriques.';
+  }
+
+  @override
+  String get noNutritionInformation =>
+      'Aucune information nutritionnelle n\'est disponible. Veuillez lier les ingrédients aux nutriments sur la page de modification de la recette pour la calculer.';
+
+  @override
+  String get changeIt => 'Changer';
+
+  @override
+  String get calorieNeeds => 'Besoins caloriques';
+
+  @override
+  String get age => 'Âge';
+
+  @override
+  String get weight => 'Poids (kg)';
+
+  @override
+  String get height => 'Taille (cm)';
+
+  @override
+  String get activityLevel => 'Niveau d\'activité';
+
+  @override
+  String get activitySedentary => 'Sédentaire';
+
+  @override
+  String get activityLight => 'Légèrement actif';
+
+  @override
+  String get activityModerate => 'Modérément actif';
+
+  @override
+  String get activityVeryActive => 'Très actif';
 
   @override
   String get amountPerServing => 'Quantités par portion';
@@ -689,6 +724,20 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get importFromUrl => 'Importer une URL web';
+
+  @override
+  String get importFromAiText => 'Importer un texte de recette';
+
+  @override
+  String get pasteAiRecipeText => 'Coller le texte de la recette';
+
+  @override
+  String get aiRecipeTextHint =>
+      'Collez le texte d\'une recette. Celui-ci peut être généré par un assistant IA, ou suivre le format suivant :\n\nTitre (optionnel)\nIngrédients:\nXX g <ingredient 1>\nYY g <ingredient 2>\n...\n\nPréparation\n<nom étape>: instruction\n...';
+
+  @override
+  String get aiImportError =>
+      'Impossible d\'analyser ce texte de recette. Vérifiez le format et réessayez.';
 
   @override
   String get writeRecipe => 'Rédiger la recette';

@@ -9,14 +9,64 @@ final _prefs = SharedPreferencesAsync();
 enum MeasurementSystem { metric, us }
 
 class MyAppState extends ChangeNotifier {
+  static const defaultDailyValueCalories = 2000;
+
   GlobalKey? historyListKey;
 
   int _servings = 4;
   int get servings => _servings;
 
+  int _dailyValueCalories = defaultDailyValueCalories;
+  int get dailyValueCalories => _dailyValueCalories;
+
   void setServings(int newServings) {
     _servings = newServings;
     notifyListeners();
+  }
+
+  Future<void> setDailyValueCalories(int calories) async {
+    if (calories <= 0) return;
+    _dailyValueCalories = calories;
+    await _prefs.setInt('daily_value_calories', calories);
+    notifyListeners();
+  }
+
+  double? _calorieNeedsAge;
+  double? get calorieNeedsAge => _calorieNeedsAge;
+
+  double? _calorieNeedsWeight;
+  double? get calorieNeedsWeight => _calorieNeedsWeight;
+
+  double? _calorieNeedsHeight;
+  double? get calorieNeedsHeight => _calorieNeedsHeight;
+
+  bool _calorieNeedsIsMale = false;
+  bool get calorieNeedsIsMale => _calorieNeedsIsMale;
+
+  double _calorieNeedsActivityFactor = 1.2;
+  double get calorieNeedsActivityFactor => _calorieNeedsActivityFactor;
+
+  /// Persists the inputs of the calorie needs dialog, so it reopens with the
+  /// values the user last entered.
+  Future<void> setCalorieNeedsInputs({
+    required double age,
+    required double weight,
+    required double height,
+    required bool isMale,
+    required double activityFactor,
+  }) async {
+    _calorieNeedsAge = age;
+    _calorieNeedsWeight = weight;
+    _calorieNeedsHeight = height;
+    _calorieNeedsIsMale = isMale;
+    _calorieNeedsActivityFactor = activityFactor;
+    await Future.wait([
+      _prefs.setDouble('calorie_needs_age', age),
+      _prefs.setDouble('calorie_needs_weight', weight),
+      _prefs.setDouble('calorie_needs_height', height),
+      _prefs.setBool('calorie_needs_is_male', isMale),
+      _prefs.setDouble('calorie_needs_activity_factor', activityFactor),
+    ]);
   }
 
   void getNext() {
@@ -46,6 +96,12 @@ class MyAppState extends ChangeNotifier {
     _measurementSystem = isUS ? MeasurementSystem.us : MeasurementSystem.metric;
     _showCarbohydrates = await _prefs.getBool('show_carbohydrates') ?? true;
     _useMaterialYou = await _prefs.getBool('use_material_you') ?? true;
+    _dailyValueCalories = await _prefs.getInt('daily_value_calories') ?? defaultDailyValueCalories;
+    _calorieNeedsAge = await _prefs.getDouble('calorie_needs_age');
+    _calorieNeedsWeight = await _prefs.getDouble('calorie_needs_weight');
+    _calorieNeedsHeight = await _prefs.getDouble('calorie_needs_height');
+    _calorieNeedsIsMale = await _prefs.getBool('calorie_needs_is_male') ?? false;
+    _calorieNeedsActivityFactor = await _prefs.getDouble('calorie_needs_activity_factor') ?? 1.2;
     final themeModeString = await _prefs.getString('theme_mode') ?? 'system';
     _themeMode = ThemeMode.values.firstWhere(
       (mode) => mode.name == themeModeString,
@@ -144,9 +200,8 @@ class MyAppState extends ChangeNotifier {
         if (item.quantity <= 0 || item.recipeContributions!.isEmpty) {
           _shoppingBasket.removeAt(i);
         }
-      }
       // Handle legacy or single-recipe items (no contributions map, but recipeId matches)
-      else if ((item.recipeContributions == null || item.recipeContributions!.isEmpty) &&
+      } else if ((item.recipeContributions == null || item.recipeContributions!.isEmpty) &&
           item.recipeId == recipeIdStr) {
         _shoppingBasket.removeAt(i);
         changed = true;

@@ -581,8 +581,43 @@ class AppLocalizationsHu extends AppLocalizations {
   String get nutritionImportedNote => 'az importált recept adataiból származnak';
 
   @override
-  String get dailyValueDisclaimer =>
-      'A napi érték százalékai 2000 kalóriás étrenden alapulnak. Az Ön napi értékei a kalóriaszükségletétől függően magasabbak vagy alacsonyabbak lehetnek.';
+  String dailyValueDisclaimer(Object calories) {
+    return 'A napi érték százalékai $calories kalóriás étrenden alapulnak. Az Ön napi értékei a kalóriaszükségletétől függően magasabbak vagy alacsonyabbak lehetnek.';
+  }
+
+  @override
+  String get noNutritionInformation =>
+      'Nincs elérhető tápérték-információ. A kiszámításhoz kösse össze az összetevőket a tápanyagokkal a recept szerkesztése oldalon.';
+
+  @override
+  String get changeIt => 'Módosítás';
+
+  @override
+  String get calorieNeeds => 'Kalóriaszükséglet';
+
+  @override
+  String get age => 'Életkor';
+
+  @override
+  String get weight => 'Súly (kg)';
+
+  @override
+  String get height => 'Testmagasság (cm)';
+
+  @override
+  String get activityLevel => 'Tevékenységi szint';
+
+  @override
+  String get activitySedentary => 'Alig mozgalmas';
+
+  @override
+  String get activityLight => 'Kevés mozgás';
+
+  @override
+  String get activityModerate => 'Mozgékony';
+
+  @override
+  String get activityVeryActive => 'Nagyon mozgékony';
 
   @override
   String get amountPerServing => 'Adagonkénti mennyiség';
@@ -689,6 +724,20 @@ class AppLocalizationsHu extends AppLocalizations {
 
   @override
   String get importFromUrl => 'Importálás egy web URL-ból';
+
+  @override
+  String get importFromAiText => 'Szöveges recept importálása';
+
+  @override
+  String get pasteAiRecipeText => 'Recept szövegének beillesztése';
+
+  @override
+  String get aiRecipeTextHint =>
+      'Illessze be egy recept szövegét. Ezt egy MI asszisztens is generálhatja, vagy kövesse az alábbi formátumot:\n\nCím (opcionális)\nHozzávalók:\nXX g <hozzávaló 1>\nYY g <hozzávaló 2>\n...\n\nElkészítés\n<lépés neve>: utasítás\n...';
+
+  @override
+  String get aiImportError =>
+      'Nem sikerült feldolgozni ezt a recept szöveget. Kérjük, ellenőrizze a formátumot és próbálja újra.';
 
   @override
   String get writeRecipe => 'Recept írása';

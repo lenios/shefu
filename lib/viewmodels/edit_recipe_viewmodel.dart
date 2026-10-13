@@ -13,6 +13,7 @@ import 'package:shefu/l10n/l10n_utils.dart';
 import 'package:shefu/models/entities.dart';
 import 'package:shefu/repositories/nutrient_repository.dart';
 import 'package:shefu/repositories/recipe_repository.dart';
+import 'package:shefu/utils/ai_recipe_parser.dart';
 import 'package:shefu/utils/ocr.dart';
 import 'package:shefu/utils/path_utils.dart';
 import 'package:shefu/utils/recipe_scrapers/scraper_factory.dart';
@@ -821,6 +822,89 @@ class EditRecipeViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Parses free-form recipe text pasted from an AI chat assistant (see
+  /// [parseAiRecipeText]) and populates the recipe being edited. Some
+  /// assistants (e.g. Gemini) don't provide a title; [titleOverride], when
+  /// non-empty, always takes precedence over the text parsed out of [text].
+  void importFromText(String text, AppLocalizations l10n, {String? titleOverride}) {
+    final parsed = parseAiRecipeText(text);
+
+    // We consider the user is asking IA (or writing) in his/her native language
+    _recipe.languageTag = l10n.localeName;
+
+    final title = titleOverride?.trim().isNotEmpty == true ? titleOverride!.trim() : parsed.title;
+    recipe.title = title;
+    titleController.text = title;
+
+    recipe.notes = parsed.notes;
+    notesController.text = parsed.notes;
+
+    if (parsed.prepTime > 0) {
+      recipe.prepTime = parsed.prepTime;
+      prepTimeController.text = recipe.prepTime.toString();
+    }
+    if (parsed.cookTime > 0) {
+      recipe.cookTime = parsed.cookTime;
+      cookTimeController.text = recipe.cookTime.toString();
+    }
+    recipe.time = recipe.prepTime + recipe.cookTime + recipe.restTime;
+
+    if (parsed.servings > 0) {
+      recipe.servings = parsed.servings;
+      servingsController.text = recipe.servings.toString();
+    }
+
+    recipe.steps.clear();
+    var order = 0;
+
+    // Named ingredient groups (e.g. "Appareil au chocolat") become their own
+    // step so the grouping survives, inserted before the instructions.
+    for (final group in parsed.ingredientGroups) {
+      if (group.purpose == null) continue;
+      final step = RecipeStep(name: group.purpose!);
+      step.order = order++;
+      for (final line in group.ingredientLines) {
+        final parsedIngredient = parseIngredient(line, _recipe.languageTag);
+        final ingredient = _buildCleanedIngredient(
+          quantity: double.tryParse(parsedIngredient.quantity.replaceAll(',', '.')) ?? 0,
+          unit: parsedIngredient.unit,
+          name: parsedIngredient.name,
+          shape: parsedIngredient.shape,
+          originalMeasure: parsedIngredient.originalMeasure,
+        );
+        if (ingredient != null) step.ingredients.add(ingredient);
+      }
+      recipe.steps.add(step);
+    }
+
+    for (final parsedStep in parsed.steps) {
+      final step = RecipeStep(name: parsedStep.name, instruction: parsedStep.instruction);
+      step.order = order++;
+      recipe.steps.add(step);
+    }
+    if (recipe.steps.isEmpty) {
+      recipe.steps.add(RecipeStep());
+    }
+
+    // Ungrouped ingredients are distributed across the instruction steps by
+    // matching their name against each step's instruction text.
+    for (final group in parsed.ingredientGroups) {
+      if (group.purpose != null) continue;
+      for (final line in group.ingredientLines) {
+        final parsedIngredient = parseIngredient(line, _recipe.languageTag);
+        processImportedIngredient(
+          quantity: double.tryParse(parsedIngredient.quantity.replaceAll(',', '.')) ?? 0,
+          unit: parsedIngredient.unit,
+          name: parsedIngredient.name,
+          shape: parsedIngredient.shape,
+          originalMeasure: parsedIngredient.originalMeasure,
+        );
+      }
+    }
+
+    notifyListeners();
+  }
+
   List<String> _getWordVariants(String word) {
     final result = <String>{word};
 
@@ -851,34 +935,51 @@ class EditRecipeViewModel extends ChangeNotifier {
     required String shape,
     String originalMeasure = '',
   }) {
-    if (name.trim().isEmpty) return;
+    final ingredient = _buildCleanedIngredient(
+      quantity: quantity,
+      unit: unit,
+      name: name,
+      shape: shape,
+      originalMeasure: originalMeasure,
+    );
+    if (ingredient == null) return;
 
-    // Step 1: Extract parentheses content to shape (e.g., "flour (sifted)" -> name: "flour", shape: "sifted")
+    final stepIndex = _findBestStepForIngredient(ingredient.name);
+    recipe.steps[stepIndex].ingredients.add(ingredient);
+
+    notifyListeners();
+  }
+
+  /// Cleans up an imported ingredient (parentheses, articles, trailing shape
+  /// descriptors) without assigning it to a step. Returns null if [name] is
+  /// empty once cleaned.
+  IngredientItem? _buildCleanedIngredient({
+    required double quantity,
+    required String unit,
+    required String name,
+    required String shape,
+    String originalMeasure = '',
+  }) {
+    if (name.trim().isEmpty) return null;
+
+    // Extract parentheses content to shape (e.g., "flour (sifted)" -> name: "flour", shape: "sifted")
     shape = _extractParentheses(name, shape);
     name = name.replaceFirst(RegExp(r'\([^)]*\)'), '').trim();
 
-    // Step 2: Clean the ingredient name (remove articles, extract shapes)
+    // Clean the ingredient name (remove articles, extract shapes)
     final lang = _recipe.languageTag.isNotEmpty ? _recipe.languageTag.split('-').first : '';
     name = removeArticles(name, lang);
     final extracted = _extractShapeFromEnd(name, shape, lang);
     name = extracted.$1;
     shape = extracted.$2;
 
-    if (name.isEmpty) return;
+    if (name.isEmpty) return null;
 
-    // Step 3: Find the best matching step for this ingredient
-    final stepIndex = _findBestStepForIngredient(name);
-
-    // Step 4: Add ingredient to the selected step
-    recipe.steps[stepIndex].ingredients.add(
-      IngredientItem(name: name)
-        ..quantity = quantity
-        ..unit = unit
-        ..shape = shape
-        ..originalMeasure = originalMeasure,
-    );
-
-    notifyListeners();
+    return IngredientItem(name: name)
+      ..quantity = quantity
+      ..unit = unit
+      ..shape = shape
+      ..originalMeasure = originalMeasure;
   }
 
   /// Extract content from parentheses to use as shape descriptor
