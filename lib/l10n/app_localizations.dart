@@ -514,6 +514,246 @@ abstract class AppLocalizations {
   /// **'Shopping list'**
   String get shoppingList;
 
+  /// No description provided for @menu.
+  ///
+  /// In en, this message translates to:
+  /// **'Menu'**
+  String get menu;
+
+  /// No description provided for @menuMealCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} meals'**
+  String menuMealCount(Object count);
+
+  /// No description provided for @menuLunch.
+  ///
+  /// In en, this message translates to:
+  /// **'Lunch'**
+  String get menuLunch;
+
+  /// No description provided for @menuDinner.
+  ///
+  /// In en, this message translates to:
+  /// **'Dinner'**
+  String get menuDinner;
+
+  /// No description provided for @addToMenu.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to menu'**
+  String get addToMenu;
+
+  /// No description provided for @recipeAddedToMenu.
+  ///
+  /// In en, this message translates to:
+  /// **'{recipe} added to menu'**
+  String recipeAddedToMenu(Object recipe);
+
+  /// No description provided for @removeFromMenu.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove from menu'**
+  String get removeFromMenu;
+
+  /// No description provided for @menuEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No recipes in the menu yet.'**
+  String get menuEmpty;
+
+  /// No description provided for @emptyMenu.
+  ///
+  /// In en, this message translates to:
+  /// **'Empty'**
+  String get emptyMenu;
+
+  /// No description provided for @menuCaloriesPerServing.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily menu calories'**
+  String get menuCaloriesPerServing;
+
+  /// No description provided for @fillMenu.
+  ///
+  /// In en, this message translates to:
+  /// **'Fill menu'**
+  String get fillMenu;
+
+  /// No description provided for @menuFilledNeeds.
+  ///
+  /// In en, this message translates to:
+  /// **'Needs met: {nutrients}'**
+  String menuFilledNeeds(Object nutrients);
+
+  /// No description provided for @menuMissingNutrients.
+  ///
+  /// In en, this message translates to:
+  /// **'Amounts still needed to reach daily targets:'**
+  String get menuMissingNutrients;
+
+  /// No description provided for @menuNutrientSuggestion.
+  ///
+  /// In en, this message translates to:
+  /// **'{nutrient}: {missing} {unit} ({percent}%) => {suggestion}'**
+  String menuNutrientSuggestion(
+    Object nutrient,
+    Object missing,
+    Object unit,
+    Object percent,
+    Object suggestion,
+  );
+
+  /// No description provided for @menuSuggestionCalories.
+  ///
+  /// In en, this message translates to:
+  /// **'increase portions or add recipes'**
+  String get menuSuggestionCalories;
+
+  /// No description provided for @menuSuggestionProtein.
+  ///
+  /// In en, this message translates to:
+  /// **'beans, lentils, eggs, dairy, or fish'**
+  String get menuSuggestionProtein;
+
+  /// No description provided for @menuSuggestionCarbohydrates.
+  ///
+  /// In en, this message translates to:
+  /// **'whole grains, beans, or starchy vegetables'**
+  String get menuSuggestionCarbohydrates;
+
+  /// No description provided for @menuSuggestionFat.
+  ///
+  /// In en, this message translates to:
+  /// **'nuts, seeds, or avocado'**
+  String get menuSuggestionFat;
+
+  /// No description provided for @menuSuggestionFiber.
+  ///
+  /// In en, this message translates to:
+  /// **'beans, lentils, whole grains, or vegetables'**
+  String get menuSuggestionFiber;
+
+  /// No description provided for @menuSuggestionVitaminC.
+  ///
+  /// In en, this message translates to:
+  /// **'oranges, lemons, bell peppers, or other vitamin-C-rich foods'**
+  String get menuSuggestionVitaminC;
+
+  /// No description provided for @menuSuggestionVitaminD.
+  ///
+  /// In en, this message translates to:
+  /// **'oily fish, eggs, or fortified milk'**
+  String get menuSuggestionVitaminD;
+
+  /// No description provided for @menuSuggestionCalcium.
+  ///
+  /// In en, this message translates to:
+  /// **'dairy or calcium-fortified alternatives'**
+  String get menuSuggestionCalcium;
+
+  /// No description provided for @menuSuggestionIron.
+  ///
+  /// In en, this message translates to:
+  /// **'lentils, beans, or leafy greens'**
+  String get menuSuggestionIron;
+
+  /// No description provided for @menuSuggestionPotassium.
+  ///
+  /// In en, this message translates to:
+  /// **'potatoes, beans, or fruit'**
+  String get menuSuggestionPotassium;
+
+  /// No description provided for @menuAdviceIncomplete.
+  ///
+  /// In en, this message translates to:
+  /// **'Link each recipe\'s ingredients to foods to estimate vitamins and minerals.'**
+  String get menuAdviceIncomplete;
+
+  /// No description provided for @menuAdviceCaloriesLow.
+  ///
+  /// In en, this message translates to:
+  /// **'Increase portions or add recipes to approach the daily energy target.'**
+  String get menuAdviceCaloriesLow;
+
+  /// No description provided for @menuAdviceCaloriesHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'Reduce portions or choose lighter recipes to stay near the daily energy target.'**
+  String get menuAdviceCaloriesHigh;
+
+  /// No description provided for @menuAdviceProtein.
+  ///
+  /// In en, this message translates to:
+  /// **'Add beans, lentils, eggs, dairy, or fish for more protein.'**
+  String get menuAdviceProtein;
+
+  /// No description provided for @menuAdviceCarbohydrates.
+  ///
+  /// In en, this message translates to:
+  /// **'Add whole grains, beans, or starchy vegetables for carbohydrates.'**
+  String get menuAdviceCarbohydrates;
+
+  /// No description provided for @menuAdviceFat.
+  ///
+  /// In en, this message translates to:
+  /// **'Add nuts, seeds, or avocado for unsaturated fats.'**
+  String get menuAdviceFat;
+
+  /// No description provided for @menuAdviceFiber.
+  ///
+  /// In en, this message translates to:
+  /// **'Add beans, lentils, whole grains, or vegetables for fiber.'**
+  String get menuAdviceFiber;
+
+  /// No description provided for @menuAdviceVitaminC.
+  ///
+  /// In en, this message translates to:
+  /// **'Add an orange, lemon, bell pepper, or another vitamin-C-rich food.'**
+  String get menuAdviceVitaminC;
+
+  /// No description provided for @menuAdviceVitaminD.
+  ///
+  /// In en, this message translates to:
+  /// **'Add vitamin-D-rich food such as oily fish, eggs, or fortified milk.'**
+  String get menuAdviceVitaminD;
+
+  /// No description provided for @menuAdviceCalcium.
+  ///
+  /// In en, this message translates to:
+  /// **'Add dairy or a calcium-fortified alternative.'**
+  String get menuAdviceCalcium;
+
+  /// No description provided for @menuAdviceIron.
+  ///
+  /// In en, this message translates to:
+  /// **'Add lentils, beans, or leafy greens for iron.'**
+  String get menuAdviceIron;
+
+  /// No description provided for @menuAdvicePotassium.
+  ///
+  /// In en, this message translates to:
+  /// **'Add potatoes, beans, or fruit for potassium.'**
+  String get menuAdvicePotassium;
+
+  /// No description provided for @menuAdviceSodium.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose less salty ingredients or recipes to reduce sodium.'**
+  String get menuAdviceSodium;
+
+  /// No description provided for @menuAdviceSaturatedFat.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose leaner ingredients and reduce butter or cream.'**
+  String get menuAdviceSaturatedFat;
+
+  /// No description provided for @menuAdviceCholesterol.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose leaner proteins and limit high-cholesterol foods.'**
+  String get menuAdviceCholesterol;
+
   /// No description provided for @pinch.
   ///
   /// In en, this message translates to:
@@ -651,6 +891,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Start'**
   String get start;
+
+  /// No description provided for @pause.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause'**
+  String get pause;
 
   /// No description provided for @language.
   ///

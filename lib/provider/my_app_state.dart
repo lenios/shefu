@@ -4,6 +4,10 @@ import 'dart:collection';
 import 'package:material_ui/material_ui.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shefu/models/shopping_basket.dart';
+import 'package:shefu/utils/collection_utils.dart';
+
+const _jsonMenuRecipeMealIndicesKey = '_json_menu_recipe_meal_indices';
+const _legacyMenuRecipeMealIndicesKey = 'menu_recipe_meal_indices';
 
 final _prefs = SharedPreferencesAsync();
 
@@ -13,6 +17,143 @@ class MyAppState extends ChangeNotifier {
   static const defaultDailyValueCalories = 2000;
 
   GlobalKey? historyListKey;
+
+  final Set<int> _menuRecipeIds = {};
+  final Map<int, int> _menuRecipeMealIndices = {};
+  UnmodifiableSetView<int> get menuRecipeIds => UnmodifiableSetView(_menuRecipeIds);
+  UnmodifiableMapView<int, int> get menuRecipeMealIndices =>
+      UnmodifiableMapView(_menuRecipeMealIndices);
+  List<List<int>> get menuMeals => [
+    for (var mealIndex = 0; mealIndex < _menuMealCount; mealIndex++)
+      [
+        for (final recipeId in _menuRecipeIds)
+          if (_menuRecipeMealIndices[recipeId] == mealIndex) recipeId,
+      ],
+  ];
+
+  int _menuMealCount = 2;
+  int get menuMealCount => _menuMealCount;
+
+  Future<void> _menuWrite = Future<void>.value();
+
+  bool isRecipeInMenu(int recipeId) => _menuRecipeIds.contains(recipeId);
+
+  Future<void> addRecipeToMenu(int recipeId) async {
+    await initialized;
+    if (recipeId > 0 && !_menuRecipeIds.contains(recipeId)) {
+      await setMenuRecipeIds([..._menuRecipeIds, recipeId]);
+    }
+  }
+
+  Future<void> removeRecipeFromMenu(int recipeId) async {
+    await initialized;
+    if (_menuRecipeIds.contains(recipeId)) {
+      await setMenuRecipeIds(_menuRecipeIds.where((id) => id != recipeId));
+    }
+  }
+
+  Future<void> setMenuRecipeIds(Iterable<int> recipeIds) async {
+    await initialized;
+    final nextIds = recipeIds.where((id) => id > 0).toSet();
+    final nextMealIndices = {
+      for (final entry in _menuRecipeMealIndices.entries)
+        if (nextIds.contains(entry.key) && entry.value < _menuMealCount) entry.key: entry.value,
+    };
+    for (final recipeId in nextIds) {
+      nextMealIndices.putIfAbsent(recipeId, () => _leastFilledMenuIndex(nextMealIndices));
+    }
+    if (sameSet(nextIds, _menuRecipeIds) && sameMap(nextMealIndices, _menuRecipeMealIndices)) {
+      return;
+    }
+    _menuRecipeIds
+      ..clear()
+      ..addAll(nextIds);
+    _menuRecipeMealIndices
+      ..clear()
+      ..addAll(nextMealIndices);
+    notifyListeners();
+    await _persistMenu();
+  }
+
+  Future<void> setMenuMeals(Iterable<Iterable<int>> meals) async {
+    await initialized;
+    final nextIds = <int>{};
+    final nextMealIndices = <int, int>{};
+    var mealIndex = 0;
+    for (final meal in meals) {
+      if (mealIndex >= _menuMealCount) break;
+      for (final recipeId in meal) {
+        if (recipeId > 0 && nextIds.add(recipeId)) {
+          nextMealIndices[recipeId] = mealIndex;
+        }
+      }
+      mealIndex++;
+    }
+    if (sameSet(nextIds, _menuRecipeIds) && sameMap(nextMealIndices, _menuRecipeMealIndices)) {
+      return;
+    }
+    _menuRecipeIds
+      ..clear()
+      ..addAll(nextIds);
+    _menuRecipeMealIndices
+      ..clear()
+      ..addAll(nextMealIndices);
+    notifyListeners();
+    await _persistMenu();
+  }
+
+  Future<void> setMenuMealCount(int mealCount) async {
+    await initialized;
+    if ((mealCount != 2 && mealCount != 3) || mealCount == _menuMealCount) return;
+    final previousAssignments = Map<int, int>.of(_menuRecipeMealIndices);
+    _menuMealCount = mealCount;
+    _menuRecipeMealIndices.clear();
+    if (mealCount == 3) {
+      _menuRecipeMealIndices.addEntries(
+        previousAssignments.entries.map((entry) => MapEntry(entry.key, entry.value + 1)),
+      );
+    } else {
+      for (final entry in previousAssignments.entries) {
+        if (entry.value > 0) {
+          _menuRecipeMealIndices[entry.key] = entry.value - 1;
+        }
+      }
+      for (final entry in previousAssignments.entries) {
+        if (entry.value == 0) {
+          _menuRecipeMealIndices[entry.key] = _leastFilledMenuIndex(_menuRecipeMealIndices);
+        }
+      }
+    }
+    notifyListeners();
+    await _persistMenu();
+  }
+
+  int _leastFilledMenuIndex(Map<int, int> assignments) {
+    var bestMealIndex = 0;
+    var smallestMealSize = assignments.values.where((index) => index == 0).length;
+    for (var mealIndex = 1; mealIndex < _menuMealCount; mealIndex++) {
+      final mealSize = assignments.values.where((index) => index == mealIndex).length;
+      if (mealSize < smallestMealSize) {
+        bestMealIndex = mealIndex;
+        smallestMealSize = mealSize;
+      }
+    }
+    return bestMealIndex;
+  }
+
+  Future<void> _persistMenu() {
+    final storedIds = _menuRecipeIds.map((id) => id.toString()).toList();
+    final storedMealIndices = jsonEncode({
+      for (final entry in _menuRecipeMealIndices.entries) entry.key.toString(): entry.value,
+    });
+    final storedMealCount = _menuMealCount;
+    _menuWrite = _menuWrite.then((_) async {
+      await _prefs.setStringList('menu_recipe_ids', storedIds);
+      await _prefs.setString(_jsonMenuRecipeMealIndicesKey, storedMealIndices);
+      await _prefs.setInt('menu_meal_count', storedMealCount);
+    });
+    return _menuWrite;
+  }
 
   int _servings = 4;
   int get servings => _servings;
@@ -108,6 +249,7 @@ class MyAppState extends ChangeNotifier {
     _showCarbohydrates = await _prefs.getBool('show_carbohydrates') ?? true;
     _useMaterialYou = await _prefs.getBool('use_material_you') ?? true;
     _dailyValueCalories = await _prefs.getInt('daily_value_calories') ?? defaultDailyValueCalories;
+    _menuMealCount = (await _prefs.getInt('menu_meal_count')) == 3 ? 3 : 2;
     _calorieNeedsAge = await _prefs.getDouble('calorie_needs_age');
     _calorieNeedsWeight = await _prefs.getDouble('calorie_needs_weight');
     _calorieNeedsHeight = await _prefs.getDouble('calorie_needs_height');
@@ -119,6 +261,46 @@ class MyAppState extends ChangeNotifier {
       orElse: () => ThemeMode.system,
     );
 
+    final storedMenuRecipeIds = await _prefs.getStringList('menu_recipe_ids');
+    if (storedMenuRecipeIds != null) {
+      _menuRecipeIds
+        ..clear()
+        ..addAll(storedMenuRecipeIds.map(int.tryParse).whereType<int>().where((id) => id > 0));
+    }
+    _menuRecipeMealIndices.clear();
+    var storedMealIndices = await _prefs.getString(_jsonMenuRecipeMealIndicesKey);
+    if (storedMealIndices == null) {
+      storedMealIndices = await _prefs.getString(_legacyMenuRecipeMealIndicesKey);
+      if (storedMealIndices != null) {
+        await _prefs.setString(_jsonMenuRecipeMealIndicesKey, storedMealIndices);
+      }
+    }
+    if (storedMealIndices != null) {
+      try {
+        final decoded = jsonDecode(storedMealIndices);
+        if (decoded is Map) {
+          for (final entry in decoded.entries) {
+            final recipeId = int.tryParse(entry.key.toString());
+            final mealIndex = (entry.value as num?)?.toInt();
+            if (recipeId != null &&
+                _menuRecipeIds.contains(recipeId) &&
+                mealIndex != null &&
+                mealIndex >= 0 &&
+                mealIndex < _menuMealCount) {
+              _menuRecipeMealIndices[recipeId] = mealIndex;
+            }
+          }
+        }
+      } catch (error) {
+        debugPrint('Could not restore menu meal assignments: $error');
+      }
+    }
+    for (final recipeId in _menuRecipeIds) {
+      _menuRecipeMealIndices.putIfAbsent(
+        recipeId,
+        () => _leastFilledMenuIndex(_menuRecipeMealIndices),
+      );
+    }
     final storedBasket = await _prefs.getString('shopping_basket');
     if (storedBasket != null) {
       try {

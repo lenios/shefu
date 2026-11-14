@@ -220,6 +220,154 @@ class AppLocalizationsFr extends AppLocalizations {
   String get shoppingList => 'Liste de courses';
 
   @override
+  String get menu => 'Menu';
+
+  @override
+  String menuMealCount(Object count) {
+    return '$count repas';
+  }
+
+  @override
+  String get menuLunch => 'Déjeuner';
+
+  @override
+  String get menuDinner => 'Dîner';
+
+  @override
+  String get addToMenu => 'Ajouter au menu';
+
+  @override
+  String recipeAddedToMenu(Object recipe) {
+    return '$recipe ajoutée au menu';
+  }
+
+  @override
+  String get removeFromMenu => 'Retirer du menu';
+
+  @override
+  String get menuEmpty => 'Aucune recette dans le menu pour le moment.';
+
+  @override
+  String get emptyMenu => 'Vider';
+
+  @override
+  String get menuCaloriesPerServing => 'Calories du menu du jour';
+
+  @override
+  String get fillMenu => 'Équilibrer le menu';
+
+  @override
+  String menuFilledNeeds(Object nutrients) {
+    return 'Objectifs atteints : $nutrients';
+  }
+
+  @override
+  String get menuMissingNutrients =>
+      'Quantités manquantes pour atteindre les objectifs quotidiens :';
+
+  @override
+  String menuNutrientSuggestion(
+    Object nutrient,
+    Object missing,
+    Object unit,
+    Object percent,
+    Object suggestion,
+  ) {
+    return '$nutrient : $missing $unit ($percent %) => $suggestion';
+  }
+
+  @override
+  String get menuSuggestionCalories => 'augmenter les portions ou ajouter des recettes';
+
+  @override
+  String get menuSuggestionProtein => 'haricots, lentilles, œufs, produits laitiers ou poisson';
+
+  @override
+  String get menuSuggestionCarbohydrates => 'céréales complètes, haricots ou féculents';
+
+  @override
+  String get menuSuggestionFat => 'noix, graines ou avocat';
+
+  @override
+  String get menuSuggestionFiber => 'haricots, lentilles, céréales complètes ou légumes';
+
+  @override
+  String get menuSuggestionVitaminC =>
+      'oranges, citrons, poivrons ou autres aliments riches en vitamine C';
+
+  @override
+  String get menuSuggestionVitaminD => 'poisson gras, œufs ou lait enrichi';
+
+  @override
+  String get menuSuggestionCalcium => 'produits laitiers ou alternatives enrichies en calcium';
+
+  @override
+  String get menuSuggestionIron => 'lentilles, haricots ou légumes à feuilles';
+
+  @override
+  String get menuSuggestionPotassium => 'pommes de terre, haricots ou fruits';
+
+  @override
+  String get menuAdviceIncomplete =>
+      'Associez les ingrédients de chaque recette à des aliments pour estimer les vitamines et minéraux.';
+
+  @override
+  String get menuAdviceCaloriesLow =>
+      'Augmentez les portions ou ajoutez des recettes pour atteindre l\'objectif énergétique quotidien.';
+
+  @override
+  String get menuAdviceCaloriesHigh =>
+      'Réduisez les portions ou choisissez des recettes plus légères pour rester proche de l\'objectif énergétique quotidien.';
+
+  @override
+  String get menuAdviceProtein =>
+      'Ajoutez des haricots, lentilles, œufs, produits laitiers ou du poisson pour les protéines.';
+
+  @override
+  String get menuAdviceCarbohydrates =>
+      'Ajoutez des céréales complètes, des haricots ou des féculents pour les glucides.';
+
+  @override
+  String get menuAdviceFat =>
+      'Ajoutez des noix, des graines ou de l\'avocat pour les graisses insaturées.';
+
+  @override
+  String get menuAdviceFiber =>
+      'Ajoutez des haricots, lentilles, céréales complètes ou légumes pour les fibres.';
+
+  @override
+  String get menuAdviceVitaminC =>
+      'Ajoutez une orange, un citron, un poivron ou un autre aliment riche en vitamine C.';
+
+  @override
+  String get menuAdviceVitaminD =>
+      'Ajoutez un aliment riche en vitamine D, comme du poisson gras, des œufs ou du lait enrichi.';
+
+  @override
+  String get menuAdviceCalcium =>
+      'Ajoutez un produit laitier ou une alternative enrichie en calcium.';
+
+  @override
+  String get menuAdviceIron =>
+      'Ajoutez des lentilles, des haricots ou des légumes à feuilles pour le fer.';
+
+  @override
+  String get menuAdvicePotassium =>
+      'Ajoutez des pommes de terre, des haricots ou des fruits pour le potassium.';
+
+  @override
+  String get menuAdviceSodium =>
+      'Choisissez des ingrédients ou recettes moins salés pour réduire le sodium.';
+
+  @override
+  String get menuAdviceSaturatedFat =>
+      'Choisissez des ingrédients plus maigres et réduisez le beurre ou la crème.';
+
+  @override
+  String get menuAdviceCholesterol =>
+      'Choisissez des protéines maigres et limitez les aliments riches en cholestérol.';
+
+  @override
   String get pinch => ' pincée';
 
   @override
@@ -287,6 +435,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get start => 'Démarrer';
+
+  @override
+  String get pause => 'Pause';
 
   @override
   String get language => 'Langue';

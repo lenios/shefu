@@ -27,8 +27,9 @@ object TextRecognitionChannel {
                         result.error("ocr", e.message, null)
                         return@setMethodCallHandler
                     }
-                    TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS).use {
-                        it.process(image)
+                    val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
+                    try {
+                        recognizer.process(image)
                             .addOnSuccessListener { text ->
                                 // Blocks top to bottom, each a list of lines.
                                 result.success(text.textBlocks.map { block -> block.lines.map { it.text } })
@@ -36,6 +37,12 @@ object TextRecognitionChannel {
                             .addOnFailureListener { e ->
                                 result.error("ocr", e.message, null)
                             }
+                            .addOnCompleteListener {
+                                recognizer.close()
+                            }
+                    } catch (e: Exception) {
+                        recognizer.close()
+                        result.error("ocr", e.message, null)
                     }
                 }
                 else -> result.notImplemented()

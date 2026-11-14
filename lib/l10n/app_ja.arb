@@ -69,6 +69,69 @@
     "country": "国",
     "allCountries": "全ての国",
     "shoppingList": "買い物リスト",
+    "menu": "メニュー",
+    "menuMealCount": "{count}食",
+    "@menuMealCount": {
+      "placeholders": {
+        "count": {}
+      }
+    },
+    "menuLunch": "昼食",
+    "menuDinner": "夕食",
+    "addToMenu": "メニューに追加",
+    "recipeAddedToMenu": "{recipe}をメニューに追加しました",
+    "@recipeAddedToMenu": {
+      "placeholders": {
+        "recipe": {}
+      }
+    },
+    "removeFromMenu": "メニューから削除",
+    "menuEmpty": "メニューにレシピはまだありません。",
+    "emptyMenu": "空にする",
+    "menuCaloriesPerServing": "1日のメニューのカロリー",
+    "fillMenu": "メニューを自動で組み立てる",
+    "menuFilledNeeds": "達成した目標：{nutrients}",
+    "@menuFilledNeeds": {
+      "placeholders": {
+        "nutrients": {}
+      }
+    },
+    "menuMissingNutrients": "1日の目標までに不足している量：",
+    "menuNutrientSuggestion": "{nutrient}: {missing}{unit} ({percent}%) => {suggestion}",
+    "@menuNutrientSuggestion": {
+      "placeholders": {
+        "nutrient": {},
+        "missing": {},
+        "unit": {},
+        "percent": {},
+        "suggestion": {}
+      }
+    },
+    "menuSuggestionCalories": "量を増やすかレシピを追加",
+    "menuSuggestionProtein": "豆類、レンズ豆、卵、乳製品、魚",
+    "menuSuggestionCarbohydrates": "全粒穀物、豆類、いも類",
+    "menuSuggestionFat": "ナッツ、種子、アボカド",
+    "menuSuggestionFiber": "豆類、レンズ豆、全粒穀物、野菜",
+    "menuSuggestionVitaminC": "オレンジ、レモン、ピーマンなどビタミンCの多い食品",
+    "menuSuggestionVitaminD": "脂の多い魚、卵、強化乳",
+    "menuSuggestionCalcium": "乳製品またはカルシウム強化食品",
+    "menuSuggestionIron": "レンズ豆、豆類、葉物野菜",
+    "menuSuggestionPotassium": "じゃがいも、豆類、果物",
+    "menuAdviceIncomplete": "ビタミンやミネラルを推定するには、各レシピの材料を食品データにリンクしてください。",
+    "menuAdviceCaloriesLow": "量を増やすかレシピを追加して、1日のエネルギー目標に近づけてください。",
+    "menuAdviceCaloriesHigh": "量を減らすか軽めのレシピを選び、1日のエネルギー目標に近づけてください。",
+    "menuAdviceProtein": "たんぱく質を増やすには、豆類、レンズ豆、卵、乳製品、魚を加えてください。",
+    "menuAdviceCarbohydrates": "炭水化物を補うには、全粒穀物、豆類、いも類を加えてください。",
+    "menuAdviceFat": "不飽和脂肪を補うには、ナッツ、種子、アボカドを加えてください。",
+    "menuAdviceFiber": "食物繊維を増やすには、豆類、レンズ豆、全粒穀物、野菜を加えてください。",
+    "menuAdviceVitaminC": "ビタミンCを補うには、オレンジ、レモン、ピーマンなどを加えてください。",
+    "menuAdviceVitaminD": "ビタミンDを補うには、脂の多い魚、卵、強化乳などを加えてください。",
+    "menuAdviceCalcium": "乳製品またはカルシウム強化食品を加えてください。",
+    "menuAdviceIron": "鉄分を補うには、レンズ豆、豆類、葉物野菜を加えてください。",
+    "menuAdvicePotassium": "カリウムを補うには、じゃがいも、豆類、果物を加えてください。",
+    "menuAdviceSodium": "ナトリウムを減らすには、塩分の少ない材料やレシピを選んでください。",
+    "menuAdviceSaturatedFat": "脂身の少ない材料を選び、バターやクリームを控えてください。",
+    "menuAdviceCholesterol": "脂肪の少ないたんぱく質を選び、コレステロールの多い食品を控えてください。",
     "pinch": "ひとつまみ",
     "tsp": "小さじ",
     "tbsp": "大さじ",
@@ -92,6 +155,7 @@
     "noIngredientsForStep": "この手順では材料はありません",
     "titleCannotBeEmpty": "タイトルは空にできません",
     "start": "開始",
+    "pause": "一時停止",
     "language": "言語",
     "theme": "テーマ",
     "themeSystem": "システム",

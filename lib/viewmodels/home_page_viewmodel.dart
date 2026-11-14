@@ -6,8 +6,10 @@ import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shefu/l10n/app_localizations.dart';
 import 'package:shefu/models/entities.dart';
+import 'package:shefu/provider/my_app_state.dart';
 import 'package:shefu/repositories/nutrient_repository.dart';
 import 'package:shefu/repositories/recipe_repository.dart';
+import 'package:shefu/utils/menu_balancer.dart';
 import 'package:shefu/utils/nutri_score.dart';
 import 'package:shefu/utils/nutrition.dart';
 import 'package:shefu/utils/nutrition.dart' as nutrition show nutriScoreOf;
@@ -45,6 +47,58 @@ class HomePageViewModel extends ChangeNotifier {
     variant?.id,
   ), () => nutrition.nutriScoreOf(recipe, variant, _nutrientRepository, linked: _recipesById));
   final _nutriScores = <(int, int?), NutriScore?>{};
+
+  Map<int, MenuNutritionProfile> _profilesFor(Iterable<Recipe> subset, List<Recipe> recipes) {
+    final recipesById = {for (final recipe in recipes) recipe.id: recipe};
+    return {
+      for (final recipe in subset)
+        recipe.id: MenuBalancer.profileForRecipe(recipe, recipesById, _nutrientRepository),
+    };
+  }
+
+  MenuAnalysis analyzeMenu(MyAppState appState, List<Recipe> recipes) {
+    final recipesById = {for (final recipe in recipes) recipe.id: recipe};
+    final menuRecipes = [
+      for (final meal in appState.menuMeals)
+        for (final id in meal) ?recipesById[id],
+    ];
+    return MenuBalancer.analyze(
+      recipes: recipes,
+      menuMeals: appState.menuMeals,
+      profiles: _profilesFor(menuRecipes, recipes),
+      dailyCalories: appState.dailyValueCalories,
+      dailyProtein: MenuBalancer.dailyProteinTarget(weightKg: appState.calorieNeedsWeight),
+      mealCount: appState.menuMealCount,
+    );
+  }
+
+  Future<void> fillMenu(MyAppState appState, List<Recipe> recipes) async {
+    await appState.initialized;
+    try {
+      await _nutrientRepository.initialize();
+    } catch (error) {
+      debugPrint('Nutrient data unavailable for menu balancing: $error');
+    }
+    final result = MenuBalancer.fill(
+      recipes: recipes,
+      menuMeals: appState.menuMeals,
+      profiles: _profilesFor(recipes, recipes),
+      dailyCalories: appState.dailyValueCalories,
+      dailyProtein: MenuBalancer.dailyProteinTarget(weightKg: appState.calorieNeedsWeight),
+      mealCount: appState.menuMealCount,
+    );
+    await appState.setMenuMeals(result.mealRecipeIds);
+  }
+
+  Future<void> setMenuMealCount(MyAppState appState, int mealCount) async {
+    if (mealCount == appState.menuMealCount) return;
+    await appState.setMenuMealCount(mealCount);
+  }
+
+  Future<void> removeMenuRecipe(MyAppState appState, int recipeId) =>
+      appState.removeRecipeFromMenu(recipeId);
+
+  Future<void> emptyMenu(MyAppState appState) => appState.setMenuRecipeIds(const []);
 
   Map<int, Recipe> _recipesById = const {};
   late final StreamSubscription<List<Recipe>> _subscription;

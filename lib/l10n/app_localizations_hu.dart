@@ -220,6 +220,151 @@ class AppLocalizationsHu extends AppLocalizations {
   String get shoppingList => 'Bevásárlólista';
 
   @override
+  String get menu => 'Menü';
+
+  @override
+  String menuMealCount(Object count) {
+    return '$count étkezés';
+  }
+
+  @override
+  String get menuLunch => 'Ebéd';
+
+  @override
+  String get menuDinner => 'Vacsora';
+
+  @override
+  String get addToMenu => 'Hozzáadás a menühöz';
+
+  @override
+  String recipeAddedToMenu(Object recipe) {
+    return '$recipe hozzáadva a menühöz';
+  }
+
+  @override
+  String get removeFromMenu => 'Eltávolítás a menüből';
+
+  @override
+  String get menuEmpty => 'Még nincs recept a menüben.';
+
+  @override
+  String get emptyMenu => 'Ürít';
+
+  @override
+  String get menuCaloriesPerServing => 'A napi menü kalóriája';
+
+  @override
+  String get fillMenu => 'Menü kiegyensúlyozása';
+
+  @override
+  String menuFilledNeeds(Object nutrients) {
+    return 'Teljesített célok: $nutrients';
+  }
+
+  @override
+  String get menuMissingNutrients => 'A napi célok eléréséhez még szükséges mennyiségek:';
+
+  @override
+  String menuNutrientSuggestion(
+    Object nutrient,
+    Object missing,
+    Object unit,
+    Object percent,
+    Object suggestion,
+  ) {
+    return '$nutrient: $missing $unit ($percent%) => $suggestion';
+  }
+
+  @override
+  String get menuSuggestionCalories => 'adagok növelése vagy további receptek hozzáadása';
+
+  @override
+  String get menuSuggestionProtein => 'bab, lencse, tojás, tejtermék vagy hal';
+
+  @override
+  String get menuSuggestionCarbohydrates =>
+      'teljes kiőrlésű gabonák, bab vagy keményítőtartalmú zöldségek';
+
+  @override
+  String get menuSuggestionFat => 'diófélék, magvak vagy avokádó';
+
+  @override
+  String get menuSuggestionFiber => 'bab, lencse, teljes kiőrlésű gabonák vagy zöldségek';
+
+  @override
+  String get menuSuggestionVitaminC => 'narancs, citrom, paprika vagy más C-vitaminban gazdag étel';
+
+  @override
+  String get menuSuggestionVitaminD => 'zsíros hal, tojás vagy dúsított tej';
+
+  @override
+  String get menuSuggestionCalcium => 'tejtermék vagy kalciummal dúsított alternatíva';
+
+  @override
+  String get menuSuggestionIron => 'lencse, bab vagy leveles zöldségek';
+
+  @override
+  String get menuSuggestionPotassium => 'burgonya, bab vagy gyümölcs';
+
+  @override
+  String get menuAdviceIncomplete =>
+      'A vitaminok és ásványi anyagok becsléséhez rendelje az egyes receptek hozzávalóit élelmiszerekhez.';
+
+  @override
+  String get menuAdviceCaloriesLow =>
+      'Növelje az adagokat vagy adjon hozzá recepteket a napi energiacél eléréséhez.';
+
+  @override
+  String get menuAdviceCaloriesHigh =>
+      'Csökkentse az adagokat vagy válasszon könnyebb recepteket a napi energiacélhoz.';
+
+  @override
+  String get menuAdviceProtein =>
+      'A fehérjebevitelhez adjon hozzá babot, lencsét, tojást, tejterméket vagy halat.';
+
+  @override
+  String get menuAdviceCarbohydrates =>
+      'A szénhidrátbevitelhez adjon hozzá teljes kiőrlésű gabonát, babot vagy keményítőtartalmú zöldséget.';
+
+  @override
+  String get menuAdviceFat =>
+      'A telítetlen zsírokhoz adjon hozzá dióféléket, magvakat vagy avokádót.';
+
+  @override
+  String get menuAdviceFiber =>
+      'A rostbevitelhez adjon hozzá babot, lencsét, teljes kiőrlésű gabonát vagy zöldséget.';
+
+  @override
+  String get menuAdviceVitaminC =>
+      'Adjon hozzá narancsot, citromot, paprikát vagy más C-vitaminban gazdag ételt.';
+
+  @override
+  String get menuAdviceVitaminD =>
+      'Adjon hozzá D-vitaminban gazdag ételt, például olajos halat, tojást vagy dúsított tejet.';
+
+  @override
+  String get menuAdviceCalcium => 'Adjon hozzá tejterméket vagy kalciummal dúsított alternatívát.';
+
+  @override
+  String get menuAdviceIron => 'A vasbevitelhez adjon hozzá lencsét, babot vagy leveles zöldséget.';
+
+  @override
+  String get menuAdvicePotassium =>
+      'A káliumbevitelhez adjon hozzá burgonyát, babot vagy gyümölcsöt.';
+
+  @override
+  String get menuAdviceSodium =>
+      'A nátrium csökkentéséhez válasszon kevésbé sós hozzávalókat vagy recepteket.';
+
+  @override
+  String get menuAdviceSaturatedFat =>
+      'Válasszon soványabb hozzávalókat, és csökkentse a vaj vagy tejszín mennyiségét.';
+
+  @override
+  String get menuAdviceCholesterol =>
+      'Válasszon sovány fehérjeforrásokat, és mérsékelje a magas koleszterintartalmú ételeket.';
+
+  @override
   String get pinch => ' csipet';
 
   @override
@@ -287,6 +432,9 @@ class AppLocalizationsHu extends AppLocalizations {
 
   @override
   String get start => 'Indítás';
+
+  @override
+  String get pause => 'Szünet';
 
   @override
   String get language => 'Nyelv';

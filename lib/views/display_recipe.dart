@@ -462,6 +462,9 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
   }
 
   PreferredSizeWidget _buildAppBar(BuildContext context, DisplayRecipeViewModel viewModel) {
+    final appState = context.watch<MyAppState>();
+    final l10n = AppLocalizations.of(context)!;
+    final isInMenu = appState.isRecipeInMenu(viewModel.recipe!.id);
     final headerBg = _headerColor(context, viewModel);
     final headerFg = _headerTextColor(context, viewModel);
     return PreferredSize(
@@ -472,6 +475,21 @@ class _DisplayRecipeState extends State<DisplayRecipe> with TickerProviderStateM
         centerTitle: true,
         leading: backButton(context),
         actions: [
+          IconButton(
+            onPressed: () async {
+              if (isInMenu) {
+                await appState.removeRecipeFromMenu(viewModel.recipe!.id);
+              } else {
+                final recipe = viewModel.recipe!;
+                await appState.addRecipeToMenu(recipe.id);
+                if (!context.mounted) return;
+                ScaffoldMessenger.of(context)
+                    .showSnackBar(SnackBar(content: Text(l10n.recipeAddedToMenu(recipe.title))));
+              }
+            },
+            tooltip: isInMenu ? l10n.removeFromMenu : l10n.addToMenu,
+            icon: Icon(isInMenu ? Icons.playlist_remove : Icons.playlist_add, color: headerFg),
+          ),
           // Cook Mode Toggle
           Tooltip(
             message: AppLocalizations.of(context)!.keepScreenOn,

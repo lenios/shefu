@@ -219,6 +219,137 @@ class AppLocalizationsJa extends AppLocalizations {
   String get shoppingList => '買い物リスト';
 
   @override
+  String get menu => 'メニュー';
+
+  @override
+  String menuMealCount(Object count) {
+    return '$count食';
+  }
+
+  @override
+  String get menuLunch => '昼食';
+
+  @override
+  String get menuDinner => '夕食';
+
+  @override
+  String get addToMenu => 'メニューに追加';
+
+  @override
+  String recipeAddedToMenu(Object recipe) {
+    return '$recipeをメニューに追加しました';
+  }
+
+  @override
+  String get removeFromMenu => 'メニューから削除';
+
+  @override
+  String get menuEmpty => 'メニューにレシピはまだありません。';
+
+  @override
+  String get emptyMenu => '空にする';
+
+  @override
+  String get menuCaloriesPerServing => '1日のメニューのカロリー';
+
+  @override
+  String get fillMenu => 'メニューを自動で組み立てる';
+
+  @override
+  String menuFilledNeeds(Object nutrients) {
+    return '達成した目標：$nutrients';
+  }
+
+  @override
+  String get menuMissingNutrients => '1日の目標までに不足している量：';
+
+  @override
+  String menuNutrientSuggestion(
+    Object nutrient,
+    Object missing,
+    Object unit,
+    Object percent,
+    Object suggestion,
+  ) {
+    return '$nutrient: $missing$unit ($percent%) => $suggestion';
+  }
+
+  @override
+  String get menuSuggestionCalories => '量を増やすかレシピを追加';
+
+  @override
+  String get menuSuggestionProtein => '豆類、レンズ豆、卵、乳製品、魚';
+
+  @override
+  String get menuSuggestionCarbohydrates => '全粒穀物、豆類、いも類';
+
+  @override
+  String get menuSuggestionFat => 'ナッツ、種子、アボカド';
+
+  @override
+  String get menuSuggestionFiber => '豆類、レンズ豆、全粒穀物、野菜';
+
+  @override
+  String get menuSuggestionVitaminC => 'オレンジ、レモン、ピーマンなどビタミンCの多い食品';
+
+  @override
+  String get menuSuggestionVitaminD => '脂の多い魚、卵、強化乳';
+
+  @override
+  String get menuSuggestionCalcium => '乳製品またはカルシウム強化食品';
+
+  @override
+  String get menuSuggestionIron => 'レンズ豆、豆類、葉物野菜';
+
+  @override
+  String get menuSuggestionPotassium => 'じゃがいも、豆類、果物';
+
+  @override
+  String get menuAdviceIncomplete => 'ビタミンやミネラルを推定するには、各レシピの材料を食品データにリンクしてください。';
+
+  @override
+  String get menuAdviceCaloriesLow => '量を増やすかレシピを追加して、1日のエネルギー目標に近づけてください。';
+
+  @override
+  String get menuAdviceCaloriesHigh => '量を減らすか軽めのレシピを選び、1日のエネルギー目標に近づけてください。';
+
+  @override
+  String get menuAdviceProtein => 'たんぱく質を増やすには、豆類、レンズ豆、卵、乳製品、魚を加えてください。';
+
+  @override
+  String get menuAdviceCarbohydrates => '炭水化物を補うには、全粒穀物、豆類、いも類を加えてください。';
+
+  @override
+  String get menuAdviceFat => '不飽和脂肪を補うには、ナッツ、種子、アボカドを加えてください。';
+
+  @override
+  String get menuAdviceFiber => '食物繊維を増やすには、豆類、レンズ豆、全粒穀物、野菜を加えてください。';
+
+  @override
+  String get menuAdviceVitaminC => 'ビタミンCを補うには、オレンジ、レモン、ピーマンなどを加えてください。';
+
+  @override
+  String get menuAdviceVitaminD => 'ビタミンDを補うには、脂の多い魚、卵、強化乳などを加えてください。';
+
+  @override
+  String get menuAdviceCalcium => '乳製品またはカルシウム強化食品を加えてください。';
+
+  @override
+  String get menuAdviceIron => '鉄分を補うには、レンズ豆、豆類、葉物野菜を加えてください。';
+
+  @override
+  String get menuAdvicePotassium => 'カリウムを補うには、じゃがいも、豆類、果物を加えてください。';
+
+  @override
+  String get menuAdviceSodium => 'ナトリウムを減らすには、塩分の少ない材料やレシピを選んでください。';
+
+  @override
+  String get menuAdviceSaturatedFat => '脂身の少ない材料を選び、バターやクリームを控えてください。';
+
+  @override
+  String get menuAdviceCholesterol => '脂肪の少ないたんぱく質を選び、コレステロールの多い食品を控えてください。';
+
+  @override
   String get pinch => 'ひとつまみ';
 
   @override
@@ -286,6 +417,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get start => '開始';
+
+  @override
+  String get pause => '一時停止';
 
   @override
   String get language => '言語';

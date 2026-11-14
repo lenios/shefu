@@ -69,6 +69,69 @@
     "country": "Pays",
     "allCountries": "Tous les pays",
     "shoppingList": "Liste de courses",
+    "menu": "Menu",
+    "menuMealCount": "{count} repas",
+    "@menuMealCount": {
+      "placeholders": {
+        "count": {}
+      }
+    },
+    "menuLunch": "Déjeuner",
+    "menuDinner": "Dîner",
+    "addToMenu": "Ajouter au menu",
+    "recipeAddedToMenu": "{recipe} ajoutée au menu",
+    "@recipeAddedToMenu": {
+      "placeholders": {
+        "recipe": {}
+      }
+    },
+    "removeFromMenu": "Retirer du menu",
+    "menuEmpty": "Aucune recette dans le menu pour le moment.",
+    "emptyMenu": "Vider",
+    "menuCaloriesPerServing": "Calories du menu du jour",
+    "fillMenu": "Équilibrer le menu",
+    "menuFilledNeeds": "Objectifs atteints : {nutrients}",
+    "@menuFilledNeeds": {
+      "placeholders": {
+        "nutrients": {}
+      }
+    },
+    "menuMissingNutrients": "Quantités manquantes pour atteindre les objectifs quotidiens :",
+    "menuNutrientSuggestion": "{nutrient} : {missing} {unit} ({percent} %) => {suggestion}",
+    "@menuNutrientSuggestion": {
+      "placeholders": {
+        "nutrient": {},
+        "missing": {},
+        "unit": {},
+        "percent": {},
+        "suggestion": {}
+      }
+    },
+    "menuSuggestionCalories": "augmenter les portions ou ajouter des recettes",
+    "menuSuggestionProtein": "haricots, lentilles, œufs, produits laitiers ou poisson",
+    "menuSuggestionCarbohydrates": "céréales complètes, haricots ou féculents",
+    "menuSuggestionFat": "noix, graines ou avocat",
+    "menuSuggestionFiber": "haricots, lentilles, céréales complètes ou légumes",
+    "menuSuggestionVitaminC": "oranges, citrons, poivrons ou autres aliments riches en vitamine C",
+    "menuSuggestionVitaminD": "poisson gras, œufs ou lait enrichi",
+    "menuSuggestionCalcium": "produits laitiers ou alternatives enrichies en calcium",
+    "menuSuggestionIron": "lentilles, haricots ou légumes à feuilles",
+    "menuSuggestionPotassium": "pommes de terre, haricots ou fruits",
+    "menuAdviceIncomplete": "Associez les ingrédients de chaque recette à des aliments pour estimer les vitamines et minéraux.",
+    "menuAdviceCaloriesLow": "Augmentez les portions ou ajoutez des recettes pour atteindre l'objectif énergétique quotidien.",
+    "menuAdviceCaloriesHigh": "Réduisez les portions ou choisissez des recettes plus légères pour rester proche de l'objectif énergétique quotidien.",
+    "menuAdviceProtein": "Ajoutez des haricots, lentilles, œufs, produits laitiers ou du poisson pour les protéines.",
+    "menuAdviceCarbohydrates": "Ajoutez des céréales complètes, des haricots ou des féculents pour les glucides.",
+    "menuAdviceFat": "Ajoutez des noix, des graines ou de l'avocat pour les graisses insaturées.",
+    "menuAdviceFiber": "Ajoutez des haricots, lentilles, céréales complètes ou légumes pour les fibres.",
+    "menuAdviceVitaminC": "Ajoutez une orange, un citron, un poivron ou un autre aliment riche en vitamine C.",
+    "menuAdviceVitaminD": "Ajoutez un aliment riche en vitamine D, comme du poisson gras, des œufs ou du lait enrichi.",
+    "menuAdviceCalcium": "Ajoutez un produit laitier ou une alternative enrichie en calcium.",
+    "menuAdviceIron": "Ajoutez des lentilles, des haricots ou des légumes à feuilles pour le fer.",
+    "menuAdvicePotassium": "Ajoutez des pommes de terre, des haricots ou des fruits pour le potassium.",
+    "menuAdviceSodium": "Choisissez des ingrédients ou recettes moins salés pour réduire le sodium.",
+    "menuAdviceSaturatedFat": "Choisissez des ingrédients plus maigres et réduisez le beurre ou la crème.",
+    "menuAdviceCholesterol": "Choisissez des protéines maigres et limitez les aliments riches en cholestérol.",
     "pinch": " pincée",
     "tsp": "cc",
     "tbsp": "cs",
@@ -92,6 +155,7 @@
     "noIngredientsForStep": "Aucun ingrédient dans cette étape",
     "titleCannotBeEmpty": "Le titre ne peut pas être vide",
     "start": "Démarrer",
+    "pause": "Pause",
     "language": "Langue",
     "theme": "Thème",
     "themeSystem": "Système",

@@ -30,63 +30,57 @@ class _StepTimerWidgetState extends State<StepTimerWidget> {
     final colorScheme = theme.colorScheme;
     final l10n = AppLocalizations.of(context)!; // Get localizations
 
-    return Column(
-      mainAxisSize: .min,
-      children: [
-        // Display timer duration as text
-        Text(
-          '${(widget.timerDurationSeconds / 60).round()} ${l10n.minutes_abbreviation}',
-          style: TextStyle(fontSize: 12.0, color: colorScheme.onSurfaceVariant),
-        ),
-        const SizedBox(height: 4),
-        GestureDetector(
-          onLongPress: () {
-            _controller.reset();
-            setState(() {
-              _isStarted = false;
+    return GestureDetector(
+      onLongPress: () {
+        _controller.reset();
+        setState(() {
+          _isStarted = false;
+          _isPaused = false;
+        });
+      },
+      onTap: () {
+        setState(() {
+          if (_isStarted) {
+            if (_isPaused) {
+              _controller.resume();
               _isPaused = false;
-            });
-          },
-          onTap: () {
-            setState(() {
-              if (_isStarted) {
-                if (_isPaused) {
-                  _controller.resume();
-                  _isPaused = false;
-                } else {
-                  _controller.pause();
-                  _isPaused = true;
-                }
-              } else {
-                // Restart the timer with the full duration
-                _controller.restart(duration: widget.timerDurationSeconds);
-                _isStarted = true;
-                _isPaused = false;
-              }
-            });
-          },
-          child: Container(
-            width: 72,
-            height: 72,
-            padding: const EdgeInsets.all(4.0),
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: theme.colorScheme.surfaceContainerHighest,
-              border: Border.all(
-                color: theme.colorScheme.onSurface.withAlpha(
-                  theme.brightness == Brightness.dark ? 40 : 140,
-                ),
-                width: 1.5,
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: theme.colorScheme.shadow.withAlpha(80),
-                  blurRadius: 4,
-                  offset: const Offset(0, 2),
-                ),
-              ],
+            } else {
+              _controller.pause();
+              _isPaused = true;
+            }
+          } else {
+            // Restart the timer with the full duration
+            _controller.restart(duration: widget.timerDurationSeconds);
+            _isStarted = true;
+            _isPaused = false;
+          }
+        });
+      },
+      child: Container(
+        width: 72,
+        height: 72,
+        padding: const EdgeInsets.all(4.0),
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: theme.colorScheme.surfaceContainerHighest,
+          border: Border.all(
+            color: theme.colorScheme.onSurface.withAlpha(
+              theme.brightness == Brightness.dark ? 40 : 140,
             ),
-            child: CircularCountDownTimer(
+            width: 1.5,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: theme.colorScheme.shadow.withAlpha(80),
+              blurRadius: 4,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            CircularCountDownTimer(
               duration: widget.timerDurationSeconds,
               initialDuration: 0,
               controller: _controller,
@@ -100,7 +94,7 @@ class _StepTimerWidgetState extends State<StepTimerWidget> {
               strokeWidth: 5.0,
               strokeCap: StrokeCap.round,
               textStyle: TextStyle(
-                fontSize: _isStarted ? 14.0 : 12.0,
+                fontSize: 14.0,
                 color: colorScheme.onSurface,
                 fontWeight: FontWeight.bold,
               ),
@@ -128,17 +122,35 @@ class _StepTimerWidgetState extends State<StepTimerWidget> {
                 HapticFeedback.vibrate();
               },
               timeFormatterFunction: (defaultFormatterFunction, duration) {
-                // Show 'Start' only when not started
                 if (!_isStarted) {
-                  return l10n.start;
+                  // Display timer duration as text
+                  return '${(widget.timerDurationSeconds / 60).round()} ${l10n.minutes_abbreviation}';
                 }
-                // Use default MM:SS format if not started yet
                 return Function.apply(defaultFormatterFunction, [duration]);
               },
             ),
-          ),
+
+            Positioned(
+              bottom: 7,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.play_arrow_rounded, size: 10, color: colorScheme.primary),
+                  Text(
+                    (_isStarted) ? l10n.pause : l10n.start,
+                    style: TextStyle(
+                      fontSize: 7,
+                      height: 1,
+                      color: colorScheme.primary,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }

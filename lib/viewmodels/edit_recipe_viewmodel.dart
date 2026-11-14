@@ -1116,6 +1116,7 @@ class EditRecipeViewModel extends ChangeNotifier {
 
     String? savedImagePath;
     String? ocrTitle;
+    XFile? imageForOcr;
     final activeContext = context;
     final l10n = activeContext?.mounted == true ? AppLocalizations.of(activeContext!) : null;
 
@@ -1125,21 +1126,11 @@ class EditRecipeViewModel extends ChangeNotifier {
           activeContext != null &&
           activeContext.mounted &&
           l10n != null) {
-        // Launch the image editor screen to select columns if needed
-        final editedImage = await Navigator.of(
+        // Launch the image editor screen to select columns if needed.
+        imageForOcr = await Navigator.of(
           activeContext,
         ).push<XFile>(MaterialPageRoute(builder: (context) => ImageEditorScreen(imageFile: image)));
-        // If the user cancelled the editing, return
-        if (editedImage == null) return;
-        ocrTitle = await ocrParse(editedImage, _recipe, l10n, processImportedIngredient);
-      } else {
-        ocrTitle = null;
-      }
-
-      // --- Handle potential title update ---
-      if (ocrTitle != null && _recipe.title != ocrTitle) {
-        _recipe.title = ocrTitle;
-        titleController.text = ocrTitle; // Update controller
+        if (imageForOcr == null) return; // user cancelled
       }
 
       if (stepIndex != null && (stepIndex < 0 || stepIndex >= _recipe.steps.length)) return;
@@ -1173,16 +1164,23 @@ class EditRecipeViewModel extends ChangeNotifier {
         await deleteImageFiles([oldPath]);
       }
 
-      // Ensure the new image's thumbnail is properly generated
       if (savedImagePath.isNotEmpty) {
         await regenerateThumbnail(savedImagePath);
         clearImageCache(savedImagePath);
       }
-
       _imageVersion.value++; // Notify image widgets specifically
+
+      if (imageForOcr != null) {
+        ocrTitle = await ocrParse(imageForOcr, _recipe, l10n!, processImportedIngredient);
+      }
+
+      if (ocrTitle != null) {
+        _recipe.title = ocrTitle;
+        titleController.text = ocrTitle;
+      }
     } catch (e, stackTrace) {
       debugPrint("Error picking/processing image: $e\n$stackTrace");
-      // Clean up saved image if processing failed after saving
+      // Clean up saved image if processing failed before assigning it.
       if (savedImagePath != null &&
           mainImagePath != savedImagePath &&
           (stepIndex == null || stepImagePath(stepIndex) != savedImagePath)) {

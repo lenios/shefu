@@ -69,6 +69,69 @@
     "country": "Country",
     "allCountries": "All countries",
     "shoppingList": "Shopping list",
+    "menu": "Menu",
+    "menuMealCount": "{count} meals",
+    "@menuMealCount": {
+      "placeholders": {
+        "count": {}
+      }
+    },
+    "menuLunch": "Lunch",
+    "menuDinner": "Dinner",
+    "addToMenu": "Add to menu",
+    "recipeAddedToMenu": "{recipe} added to menu",
+    "@recipeAddedToMenu": {
+      "placeholders": {
+        "recipe": {}
+      }
+    },
+    "removeFromMenu": "Remove from menu",
+    "menuEmpty": "No recipes in the menu yet.",
+    "emptyMenu": "Empty",
+    "menuCaloriesPerServing": "Daily menu calories",
+    "fillMenu": "Fill menu",
+    "menuFilledNeeds": "Needs met: {nutrients}",
+    "@menuFilledNeeds": {
+      "placeholders": {
+        "nutrients": {}
+      }
+    },
+    "menuMissingNutrients": "Amounts still needed to reach daily targets:",
+    "menuNutrientSuggestion": "{nutrient}: {missing} {unit} ({percent}%) => {suggestion}",
+    "@menuNutrientSuggestion": {
+      "placeholders": {
+        "nutrient": {},
+        "missing": {},
+        "unit": {},
+        "percent": {},
+        "suggestion": {}
+      }
+    },
+    "menuSuggestionCalories": "increase portions or add recipes",
+    "menuSuggestionProtein": "beans, lentils, eggs, dairy, or fish",
+    "menuSuggestionCarbohydrates": "whole grains, beans, or starchy vegetables",
+    "menuSuggestionFat": "nuts, seeds, or avocado",
+    "menuSuggestionFiber": "beans, lentils, whole grains, or vegetables",
+    "menuSuggestionVitaminC": "oranges, lemons, bell peppers, or other vitamin-C-rich foods",
+    "menuSuggestionVitaminD": "oily fish, eggs, or fortified milk",
+    "menuSuggestionCalcium": "dairy or calcium-fortified alternatives",
+    "menuSuggestionIron": "lentils, beans, or leafy greens",
+    "menuSuggestionPotassium": "potatoes, beans, or fruit",
+    "menuAdviceIncomplete": "Link each recipe's ingredients to foods to estimate vitamins and minerals.",
+    "menuAdviceCaloriesLow": "Increase portions or add recipes to approach the daily energy target.",
+    "menuAdviceCaloriesHigh": "Reduce portions or choose lighter recipes to stay near the daily energy target.",
+    "menuAdviceProtein": "Add beans, lentils, eggs, dairy, or fish for more protein.",
+    "menuAdviceCarbohydrates": "Add whole grains, beans, or starchy vegetables for carbohydrates.",
+    "menuAdviceFat": "Add nuts, seeds, or avocado for unsaturated fats.",
+    "menuAdviceFiber": "Add beans, lentils, whole grains, or vegetables for fiber.",
+    "menuAdviceVitaminC": "Add an orange, lemon, bell pepper, or another vitamin-C-rich food.",
+    "menuAdviceVitaminD": "Add vitamin-D-rich food such as oily fish, eggs, or fortified milk.",
+    "menuAdviceCalcium": "Add dairy or a calcium-fortified alternative.",
+    "menuAdviceIron": "Add lentils, beans, or leafy greens for iron.",
+    "menuAdvicePotassium": "Add potatoes, beans, or fruit for potassium.",
+    "menuAdviceSodium": "Choose less salty ingredients or recipes to reduce sodium.",
+    "menuAdviceSaturatedFat": "Choose leaner ingredients and reduce butter or cream.",
+    "menuAdviceCholesterol": "Choose leaner proteins and limit high-cholesterol foods.",
     "pinch": " pinch",
     "tsp": "tsp",
     "tbsp": "tbsp",
@@ -92,6 +155,7 @@
     "noIngredientsForStep": "No ingredients for this step",
     "titleCannotBeEmpty": "Title cannot be empty",
     "start": "Start",
+    "pause": "Pause",
     "language": "Language",
     "theme": "Theme",
     "themeSystem": "System",

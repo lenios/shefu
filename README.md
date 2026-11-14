@@ -24,6 +24,8 @@ Shefu is an **offline**, open source (GPLv3) digital cookbook and kitchen assist
 
 - **Shopping list**: Automatically generate and maintain a checkable shopping list for ingredients you lack to prepare your selected recipes.
 
+- **Meal menu planner**: Add recipes to a the daily menu (lunch and dinner, with optional breakfast). Auto-balance the menu with other recipes, with one click.
+
 - **Multi-language support**: Fully available in English🇺🇸, French/Français🇫🇷, Japanese/日本語🇯🇵, and Hungarian/Magyar🇭🇺. *Please contact me or open an issue if you wish to add another language.*
 
 - **Free, works offline**: The application is **totally free**, **without ads**, and will stay free forever. Your recipes are stored locally on your device, ensuring you always have access. Shefu does **not** require an online account or online activation. No internet required to use the application. *(except for optional recipe import and online search, see below)*
@@ -63,6 +65,12 @@ Sample:
 flutter pub get
 dart run build_runner build --enable-experiment=primary-constructors # drift code generation
 ```
+
+## Install on macOS
+
+Download `shefu-macos.dmg` from the [latest GitHub release](https://github.com/lenios/shefu/releases/latest), open it, and drag `shefu.app` to Applications.
+
+The app is not signed with an Apple Developer ID or notarized, so macOS may block it with a malware verification warning. If you trust the copy from the official release, open it once, then go to *System Settings > Privacy & Security* and choose *Open Anyway* for Shefu. Confirm *Open* in the next warning. macOS remembers this choice. See [Apple's Gatekeeper instructions](https://support.apple.com/en-us/102445).
 
 ## Install on iPhone
 

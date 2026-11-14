@@ -47,14 +47,8 @@ class const ShoppingBasketModal({super.key}) extends StatelessWidget {
 
         return SafeArea(
           top: false,
-          child: Container(
-            decoration: BoxDecoration(
-              color: theme.colorScheme.surface,
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(20),
-                topRight: Radius.circular(20),
-              ),
-            ),
+          child: Material(
+            color: theme.colorScheme.surface,
             child: Column(
               children: [
                 // Header with Title and Clear Button
@@ -184,7 +178,7 @@ class const ShoppingBasketModal({super.key}) extends StatelessWidget {
         margin: const EdgeInsets.symmetric(vertical: 4.0),
         child: ListTile(
           dense: true,
-          title: Text(title, overflow: TextOverflow.ellipsis),
+          title: Text(title, maxLines: 2, overflow: TextOverflow.ellipsis),
           onTap: recipeId == 0
               ? null
               : () {

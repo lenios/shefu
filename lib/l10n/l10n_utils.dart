@@ -25,6 +25,10 @@ String translatedDesc(Nutrient nutrient, BuildContext context) {
 String formattedUnit(String unit, BuildContext context) {
   final l10n = AppLocalizations.of(context)!;
   switch (unit) {
+    case "kc":
+      return l10n.kc;
+    case "g":
+      return l10n.g;
     case "tsp":
       return l10n.tsp;
     case "tbsp":
@@ -59,6 +63,27 @@ String formattedUnit(String unit, BuildContext context) {
       return unit;
   }
 }
+
+String translatedNutrientName(String key, AppLocalizations l10n) => switch (key) {
+  'calories' => l10n.calories,
+  'protein' => l10n.proteins,
+  'carbohydrates' => l10n.carbohydrates,
+  'fat' => l10n.totalFat,
+  'fiber' => l10n.dietaryFiber,
+  'vitaminD' => l10n.vitaminD,
+  'calcium' => l10n.calcium,
+  'iron' => l10n.iron,
+  'potassium' => l10n.potassium,
+  'vitaminC' => l10n.vitaminC,
+  _ => key,
+};
+
+String formattedNutrientUnit(String key, BuildContext context) => formattedUnit(switch (key) {
+  'calories' => 'kc',
+  'protein' || 'carbohydrates' || 'fat' || 'fiber' => 'g',
+  'vitaminD' => 'mcg',
+  _ => 'mg',
+}, context);
 
 // Transalte category name to localized string
 String translatedCategory(String category, AppLocalizations l10n) {

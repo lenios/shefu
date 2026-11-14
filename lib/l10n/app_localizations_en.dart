@@ -219,6 +219,144 @@ class AppLocalizationsEn extends AppLocalizations {
   String get shoppingList => 'Shopping list';
 
   @override
+  String get menu => 'Menu';
+
+  @override
+  String menuMealCount(Object count) {
+    return '$count meals';
+  }
+
+  @override
+  String get menuLunch => 'Lunch';
+
+  @override
+  String get menuDinner => 'Dinner';
+
+  @override
+  String get addToMenu => 'Add to menu';
+
+  @override
+  String recipeAddedToMenu(Object recipe) {
+    return '$recipe added to menu';
+  }
+
+  @override
+  String get removeFromMenu => 'Remove from menu';
+
+  @override
+  String get menuEmpty => 'No recipes in the menu yet.';
+
+  @override
+  String get emptyMenu => 'Empty';
+
+  @override
+  String get menuCaloriesPerServing => 'Daily menu calories';
+
+  @override
+  String get fillMenu => 'Fill menu';
+
+  @override
+  String menuFilledNeeds(Object nutrients) {
+    return 'Needs met: $nutrients';
+  }
+
+  @override
+  String get menuMissingNutrients => 'Amounts still needed to reach daily targets:';
+
+  @override
+  String menuNutrientSuggestion(
+    Object nutrient,
+    Object missing,
+    Object unit,
+    Object percent,
+    Object suggestion,
+  ) {
+    return '$nutrient: $missing $unit ($percent%) => $suggestion';
+  }
+
+  @override
+  String get menuSuggestionCalories => 'increase portions or add recipes';
+
+  @override
+  String get menuSuggestionProtein => 'beans, lentils, eggs, dairy, or fish';
+
+  @override
+  String get menuSuggestionCarbohydrates => 'whole grains, beans, or starchy vegetables';
+
+  @override
+  String get menuSuggestionFat => 'nuts, seeds, or avocado';
+
+  @override
+  String get menuSuggestionFiber => 'beans, lentils, whole grains, or vegetables';
+
+  @override
+  String get menuSuggestionVitaminC =>
+      'oranges, lemons, bell peppers, or other vitamin-C-rich foods';
+
+  @override
+  String get menuSuggestionVitaminD => 'oily fish, eggs, or fortified milk';
+
+  @override
+  String get menuSuggestionCalcium => 'dairy or calcium-fortified alternatives';
+
+  @override
+  String get menuSuggestionIron => 'lentils, beans, or leafy greens';
+
+  @override
+  String get menuSuggestionPotassium => 'potatoes, beans, or fruit';
+
+  @override
+  String get menuAdviceIncomplete =>
+      'Link each recipe\'s ingredients to foods to estimate vitamins and minerals.';
+
+  @override
+  String get menuAdviceCaloriesLow =>
+      'Increase portions or add recipes to approach the daily energy target.';
+
+  @override
+  String get menuAdviceCaloriesHigh =>
+      'Reduce portions or choose lighter recipes to stay near the daily energy target.';
+
+  @override
+  String get menuAdviceProtein => 'Add beans, lentils, eggs, dairy, or fish for more protein.';
+
+  @override
+  String get menuAdviceCarbohydrates =>
+      'Add whole grains, beans, or starchy vegetables for carbohydrates.';
+
+  @override
+  String get menuAdviceFat => 'Add nuts, seeds, or avocado for unsaturated fats.';
+
+  @override
+  String get menuAdviceFiber => 'Add beans, lentils, whole grains, or vegetables for fiber.';
+
+  @override
+  String get menuAdviceVitaminC =>
+      'Add an orange, lemon, bell pepper, or another vitamin-C-rich food.';
+
+  @override
+  String get menuAdviceVitaminD =>
+      'Add vitamin-D-rich food such as oily fish, eggs, or fortified milk.';
+
+  @override
+  String get menuAdviceCalcium => 'Add dairy or a calcium-fortified alternative.';
+
+  @override
+  String get menuAdviceIron => 'Add lentils, beans, or leafy greens for iron.';
+
+  @override
+  String get menuAdvicePotassium => 'Add potatoes, beans, or fruit for potassium.';
+
+  @override
+  String get menuAdviceSodium => 'Choose less salty ingredients or recipes to reduce sodium.';
+
+  @override
+  String get menuAdviceSaturatedFat => 'Choose leaner ingredients and reduce butter or cream.';
+
+  @override
+  String get menuAdviceCholesterol => 'Choose leaner proteins and limit high-cholesterol foods.';
+
+  @override
   String get pinch => ' pinch';
 
   @override
@@ -286,6 +424,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get start => 'Start';
+
+  @override
+  String get pause => 'Pause';
 
   @override
   String get language => 'Language';

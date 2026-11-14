@@ -67,6 +67,69 @@
     "country": "Ország",
     "allCountries": "Minden ország",
     "shoppingList": "Bevásárlólista",
+    "menu": "Menü",
+    "menuMealCount": "{count} étkezés",
+    "@menuMealCount": {
+      "placeholders": {
+        "count": {}
+      }
+    },
+    "menuLunch": "Ebéd",
+    "menuDinner": "Vacsora",
+    "addToMenu": "Hozzáadás a menühöz",
+    "recipeAddedToMenu": "{recipe} hozzáadva a menühöz",
+    "@recipeAddedToMenu": {
+      "placeholders": {
+        "recipe": {}
+      }
+    },
+    "removeFromMenu": "Eltávolítás a menüből",
+    "menuEmpty": "Még nincs recept a menüben.",
+    "emptyMenu": "Ürít",
+    "menuCaloriesPerServing": "A napi menü kalóriája",
+    "fillMenu": "Menü kiegyensúlyozása",
+    "menuFilledNeeds": "Teljesített célok: {nutrients}",
+    "@menuFilledNeeds": {
+      "placeholders": {
+        "nutrients": {}
+      }
+    },
+    "menuMissingNutrients": "A napi célok eléréséhez még szükséges mennyiségek:",
+    "menuNutrientSuggestion": "{nutrient}: {missing} {unit} ({percent}%) => {suggestion}",
+    "@menuNutrientSuggestion": {
+      "placeholders": {
+        "nutrient": {},
+        "missing": {},
+        "unit": {},
+        "percent": {},
+        "suggestion": {}
+      }
+    },
+    "menuSuggestionCalories": "adagok növelése vagy további receptek hozzáadása",
+    "menuSuggestionProtein": "bab, lencse, tojás, tejtermék vagy hal",
+    "menuSuggestionCarbohydrates": "teljes kiőrlésű gabonák, bab vagy keményítőtartalmú zöldségek",
+    "menuSuggestionFat": "diófélék, magvak vagy avokádó",
+    "menuSuggestionFiber": "bab, lencse, teljes kiőrlésű gabonák vagy zöldségek",
+    "menuSuggestionVitaminC": "narancs, citrom, paprika vagy más C-vitaminban gazdag étel",
+    "menuSuggestionVitaminD": "zsíros hal, tojás vagy dúsított tej",
+    "menuSuggestionCalcium": "tejtermék vagy kalciummal dúsított alternatíva",
+    "menuSuggestionIron": "lencse, bab vagy leveles zöldségek",
+    "menuSuggestionPotassium": "burgonya, bab vagy gyümölcs",
+    "menuAdviceIncomplete": "A vitaminok és ásványi anyagok becsléséhez rendelje az egyes receptek hozzávalóit élelmiszerekhez.",
+    "menuAdviceCaloriesLow": "Növelje az adagokat vagy adjon hozzá recepteket a napi energiacél eléréséhez.",
+    "menuAdviceCaloriesHigh": "Csökkentse az adagokat vagy válasszon könnyebb recepteket a napi energiacélhoz.",
+    "menuAdviceProtein": "A fehérjebevitelhez adjon hozzá babot, lencsét, tojást, tejterméket vagy halat.",
+    "menuAdviceCarbohydrates": "A szénhidrátbevitelhez adjon hozzá teljes kiőrlésű gabonát, babot vagy keményítőtartalmú zöldséget.",
+    "menuAdviceFat": "A telítetlen zsírokhoz adjon hozzá dióféléket, magvakat vagy avokádót.",
+    "menuAdviceFiber": "A rostbevitelhez adjon hozzá babot, lencsét, teljes kiőrlésű gabonát vagy zöldséget.",
+    "menuAdviceVitaminC": "Adjon hozzá narancsot, citromot, paprikát vagy más C-vitaminban gazdag ételt.",
+    "menuAdviceVitaminD": "Adjon hozzá D-vitaminban gazdag ételt, például olajos halat, tojást vagy dúsított tejet.",
+    "menuAdviceCalcium": "Adjon hozzá tejterméket vagy kalciummal dúsított alternatívát.",
+    "menuAdviceIron": "A vasbevitelhez adjon hozzá lencsét, babot vagy leveles zöldséget.",
+    "menuAdvicePotassium": "A káliumbevitelhez adjon hozzá burgonyát, babot vagy gyümölcsöt.",
+    "menuAdviceSodium": "A nátrium csökkentéséhez válasszon kevésbé sós hozzávalókat vagy recepteket.",
+    "menuAdviceSaturatedFat": "Válasszon soványabb hozzávalókat, és csökkentse a vaj vagy tejszín mennyiségét.",
+    "menuAdviceCholesterol": "Válasszon sovány fehérjeforrásokat, és mérsékelje a magas koleszterintartalmú ételeket.",
     "pinch": " csipet",
     "tsp": "tk",
     "tbsp": "ek",
@@ -90,6 +153,7 @@
     "noIngredientsForStep": "Nincs hozzávaló ebben a lépésben",
     "titleCannotBeEmpty": "A cím nem lehet üres",
     "start": "Indítás",
+    "pause": "Szünet",
     "language": "Nyelv",
     "theme": "Téma",
     "themeSystem": "Rendszer",
