@@ -4,7 +4,7 @@ import 'dart:io'; // Import for File
 import 'package:material_ui/material_ui.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:command_it/command_it.dart';
-import 'package:flutter_tts/flutter_tts.dart';
+import 'package:speak/speak.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as p;
@@ -468,33 +468,27 @@ class EditRecipeViewModel extends ChangeNotifier {
   // --- Step Management ---
 
   // Steps are added to the base recipe only: a variant adapts its steps.
-  void addEmptyStep() {
-    if (isVariantMode) return;
-    final newStep = RecipeStep();
-    newStep.order = _recipe.steps.length; // Set order to last position
-    _recipe.steps.add(newStep);
-    _imageVersion.value++;
+  void addEmptyStep() => insertStepAt(_recipe.steps.length);
 
+  /// Insert a new empty step at the specified index.
+  void insertStepAt(int index) {
+    if (isVariantMode) return;
+    _insertStep(index, RecipeStep());
+    _imageVersion.value++;
     notifyListeners();
   }
 
-  /// Insert a new empty step at the specified index
-  void insertStepAt(int index) {
-    if (isVariantMode) return;
-    if (index >= 0 && index <= _recipe.steps.length) {
-      final newStep = RecipeStep();
-      newStep.order = index;
+  bool _insertStep(int index, RecipeStep step) {
+    if (index < 0 || index > _recipe.steps.length) return false;
 
-      // Update order of all steps at and after this index
-      for (int i = index; i < _recipe.steps.length; i++) {
-        _recipe.steps[i].order = i + 1;
-      }
-
-      _shiftVariantOrders(index, 1);
-      _recipe.steps.insert(index, newStep);
-      _imageVersion.value++;
-      notifyListeners();
+    // Update order of all steps at and after this index
+    for (var i = index; i < _recipe.steps.length; i++) {
+      _recipe.steps[i].order = i + 1;
     }
+    step.order = index;
+    _shiftVariantOrders(index, 1);
+    _recipe.steps.insert(index, step);
+    return true;
   }
 
   void removeStep(int index) {
@@ -1283,13 +1277,12 @@ class EditRecipeViewModel extends ChangeNotifier {
     ]..sort((a, b) => a.title.toLowerCase().compareTo(b.title.toLowerCase()));
   }
 
-  /// Adds [recipe] as a new last step of the base recipe; its ingredients will
-  /// be scaled to the servings of this recipe.
-  Future<void> addLinkedStep(Recipe recipe) async {
+  /// Adds [recipe] as a step at [insertAt]. Its ingredients are scaled to the
+  /// servings of this recipe.
+  Future<void> addLinkedStep(Recipe recipe, {required int insertAt}) async {
     if (isVariantMode) return;
-    _recipe.steps.add(
-      RecipeStep(name: recipe.title, order: _recipe.steps.length, linkedRecipeId: recipe.id),
-    );
+    _insertStep(insertAt, RecipeStep(name: recipe.title, linkedRecipeId: recipe.id));
+
     _linkedRecipes
       ..[recipe.id] = recipe
       ..addAll(await _recipeRepository.getLinkedRecipes(recipe));
@@ -1538,29 +1531,21 @@ class EditRecipeViewModel extends ChangeNotifier {
     });
   }
 
-  Future<List<dynamic>> getAvailableTtsLanguages() async {
+  Future<List<String>> getAvailableTtsLanguages() async {
+    const fallbackLanguages = ['en-US', 'fr-FR', 'ja-JP', 'hu-HU'];
+    if (!Speak.isSupported) return fallbackLanguages;
+
+    final speaker = Speak();
     try {
-      final FlutterTts tts = FlutterTts();
-      final languages = await tts.getLanguages;
-
-      if (languages is List) {
-        // Extract unique language codes (remove regional variants)
-        final Set<String> uniqueLangCodes = {};
-        for (var lang in languages) {
-          final langStr = lang.toString();
-          uniqueLangCodes.add(langStr); // Keep full language tag for display
-        }
-
-        // Sort and return
-        final sortedLanguages = uniqueLangCodes.toList()..sort();
-        return sortedLanguages;
-      }
-    } catch (e) {
-      debugPrint("Error getting TTS languages: $e");
+      final languages = (await speaker.voices()).map((voice) => voice.language).toSet().toList()
+        ..sort();
+      return languages.isEmpty ? fallbackLanguages : languages;
+    } catch (error) {
+      debugPrint('Error getting TTS languages: $error');
+      return fallbackLanguages;
+    } finally {
+      await speaker.dispose();
     }
-
-    // Return default supported languages if TTS query fails
-    return ['en-US', 'fr-FR', 'ja-JP', 'hu-HU'];
   }
 
   void setLanguageTag(String languageTag) {
@@ -1568,7 +1553,7 @@ class EditRecipeViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> addRecipeAsStep(BuildContext context) async {
+  Future<void> addRecipeAsStep(BuildContext context, {required int insertAt}) async {
     final l10n = AppLocalizations.of(context)!;
     final recipes = await linkableRecipes();
     if (!context.mounted) return;
@@ -1576,6 +1561,6 @@ class EditRecipeViewModel extends ChangeNotifier {
       context: context,
       builder: (context) => RecipePickerDialog(title: l10n.chooseRecipe, recipes: recipes),
     );
-    if (chosen != null) await addLinkedStep(chosen);
+    if (chosen != null) await addLinkedStep(chosen, insertAt: insertAt);
   }
 }

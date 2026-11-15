@@ -1,12 +1,10 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:async';
-import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:command_it/command_it.dart';
-import 'package:flutter_tts/flutter_tts.dart';
+import 'package:speak/speak.dart';
 import 'package:shefu/l10n/app_localizations.dart';
 import 'package:shefu/models/entities.dart';
 import 'package:shefu/models/glossary.dart';
@@ -16,11 +14,10 @@ import 'package:shefu/repositories/nutrient_repository.dart';
 import 'package:shefu/repositories/recipe_repository.dart';
 import 'package:shefu/utils/nutri_score.dart';
 import 'package:shefu/utils/nutrition.dart';
-import 'package:shefu/utils/tts_language_helper.dart';
 import 'package:shefu/widgets/misc.dart';
 import 'package:video_player/video_player.dart';
 
-enum TtsState { start, stop, pause, continued }
+enum TtsState { start, stop, pause }
 
 class DisplayRecipeViewModel extends ChangeNotifier {
   final RecipeRepository _recipeRepository;
@@ -32,39 +29,46 @@ class DisplayRecipeViewModel extends ChangeNotifier {
 
   VideoPlayerController? videoPlayerController;
 
-  late FlutterTts flutterTts;
-  bool isCurrentLanguageInstalled = false;
-  bool kIsWeb = false;
-
+  final Speak _speaker = Speak();
   TtsState ttsState = TtsState.stop;
   bool get isPlaying => ttsState == TtsState.start;
-  bool get isStopped => ttsState == TtsState.stop;
   bool get isPaused => ttsState == TtsState.pause;
 
   bool _isSpeakingSequence = false;
   bool _stopRequested = false;
-  bool _pauseRequested = false;
-
-  bool get isAndroid => !kIsWeb && Platform.isAndroid;
-  bool get isIOS => !kIsWeb && Platform.isIOS;
-  bool get isMacOS => !kIsWeb && Platform.isMacOS;
-  bool get isWindows => !kIsWeb && Platform.isWindows;
-  bool get isWeb => kIsWeb;
-
-  String? engine;
-  Completer<void> _voiceDataReadyCompleter = Completer<void>();
-  bool getDefaultVoiceRetried = false;
-  List<Map<String, String>?> rawVoices = [];
-  Map<String, String>? voice;
-  String? language;
+  bool _disposed = false;
+  bool _hasPlaybackConsent = false;
+  int? _activeStepIndex;
+  int? _pausedStepIndex;
+  int _speechRequestId = 0;
+  Future<void>? _playbackTask;
 
   int _currentStepIndex = 0;
   int get currentStepIndex => _currentStepIndex;
 
   void setCurrentStep(int index) {
-    if (_recipe != null && index >= 0 && index < _recipe!.steps.length) {
+    final steps = getVariantSteps();
+    if (index >= 0 && index < steps.length) {
       _currentStepIndex = index;
       notifyListeners();
+    }
+  }
+
+  // Pause or resume TTS, if TTS enabled
+  // Switch step midway by clicking another step
+  Future<void> onStepTapped(BuildContext context, int index) async {
+    final activeStepIndex = _activeStepIndex ?? _currentStepIndex;
+    setCurrentStep(index);
+    if (!_hasPlaybackConsent) return;
+
+    if (isPlaying) {
+      if (index == activeStepIndex) {
+        await pauseSpeak();
+      } else {
+        await _restartSpeechAtSelectedStep(context);
+      }
+    } else if (isPaused) {
+      await resumeSpeak(context);
     }
   }
 
@@ -85,115 +89,46 @@ class DisplayRecipeViewModel extends ChangeNotifier {
     );
   }
 
-  void initTts() {
-    flutterTts = FlutterTts();
-
-    _setAwaitOptions();
-
-    flutterTts.setStartHandler(() {
-      ttsState = TtsState.start;
-      notifyListeners();
-    });
-
-    flutterTts.setCompletionHandler(() {
-      if (!_isSpeakingSequence) {
-        ttsState = TtsState.stop;
-        notifyListeners();
-      }
-    });
-
-    flutterTts.setCancelHandler(() {
-      ttsState = TtsState.stop;
-      notifyListeners();
-    });
-
-    flutterTts.setPauseHandler(() {
-      ttsState = TtsState.pause;
-      notifyListeners();
-    });
-
-    flutterTts.setContinueHandler(() {
-      ttsState = TtsState.continued;
-      notifyListeners();
-    });
-
-    flutterTts.setErrorHandler((msg) {
-      ttsState = TtsState.stop;
-      notifyListeners();
-    });
-
-    // Start loading available voices so _getDefaultVoice can complete
-    _loadVoices();
-  }
-
-  /// Loads available voices into `rawVoices` and completes
-  /// `_voiceDataReadyCompleter` so `_getDefaultVoice` won't time out.
-  Future<void> _loadVoices() async {
-    try {
-      final voices = await flutterTts.getVoices;
-      rawVoices.clear();
-      if (voices is List) {
-        for (final v in voices) {
-          try {
-            rawVoices.add(Map<String, String>.from(v as Map));
-          } catch (_) {
-            // Skip malformed entries
-          }
-        }
-      }
-    } catch (e) {
-      debugPrint('Error loading TTS voices: $e');
-    } finally {
-      if (!_voiceDataReadyCompleter.isCompleted) {
-        _voiceDataReadyCompleter.complete();
-      }
-    }
-  }
-
-  void _updateTtsState(TtsState newState, {required bool isSpeaking, bool resetStep = false}) {
+  void _updateTtsState(TtsState newState) {
     ttsState = newState;
-    if (resetStep) {
-      _currentStepIndex = 0;
-    }
-    notifyListeners();
+    if (!_disposed) notifyListeners();
   }
 
   Future<void> _configureTts(BuildContext context) async {
+    final appLanguage = Localizations.localeOf(context).toLanguageTag();
+    final recipeLanguage = _recipe?.languageTag.trim().replaceAll('_', '-');
+
     try {
-      String languageToUse;
-      // Try to use recipe's language tag first
-      if (_recipe != null && _recipe!.languageTag.isNotEmpty) {
-        languageToUse = _recipe!.languageTag;
-
-        // Verify the language is supported by TTS
-        final availableLanguages = await flutterTts.getLanguages;
-        if (availableLanguages is List) {
-          final supported = availableLanguages.any(
-            (lang) => lang.toString().toLowerCase().startsWith(languageToUse.toLowerCase()),
-          );
-
-          if (!supported) {
-            // Fallback to locale language
-            languageToUse = Localizations.localeOf(context).languageCode;
-          }
-        }
+      if (recipeLanguage == null || recipeLanguage.isEmpty) {
+        _speaker.language = appLanguage;
       } else {
-        // Default to locale language
-        languageToUse = Localizations.localeOf(context).languageCode;
+        final availability = await _speaker.availability(recipeLanguage);
+        _speaker.language = switch (availability) {
+          VoiceAvailability.available || VoiceAvailability.needsNetwork => recipeLanguage,
+          _ => appLanguage,
+        };
       }
-
-      await flutterTts.setLanguage(languageToUse);
-      await flutterTts.setSpeechRate(0.45);
-      await flutterTts.setVolume(1.0);
-      await flutterTts.setPitch(0.95);
-      await flutterTts.awaitSpeakCompletion(true);
-    } catch (e) {
-      debugPrint("TTS Configuration error: $e");
+      _speaker
+        ..rate = 0.85
+        ..volume = 1.0
+        ..pitch = 1.0;
+    } catch (error) {
+      debugPrint('TTS configuration error: $error');
+      _speaker.language = appLanguage;
     }
   }
 
-  Future<void> _setAwaitOptions() async {
-    await flutterTts.awaitSpeakCompletion(true);
+  Future<void> _speakText(String text) async {
+    if (text.isEmpty || _stopRequested) return;
+    try {
+      await _speaker(text);
+    } catch (error, stackTrace) {
+      debugPrint('TTS error speaking: $error\n$stackTrace');
+    }
+  }
+
+  Future<void> _pauseBetweenSpeech(Duration duration) async {
+    if (!_stopRequested) await Future<void>.delayed(duration);
   }
 
   Recipe? _recipe;
@@ -295,7 +230,6 @@ class DisplayRecipeViewModel extends ChangeNotifier {
     try {
       // Instructions are explained in the language they are written in.
       final appLanguage = Localizations.localeOf(context).languageCode;
-      initTts();
       await nutrientRepository.initialize();
       _recipe = await _recipeRepository.getRecipeById(_recipeId);
       final languageTag = _recipe?.languageTag.split(RegExp('[-_]')).first ?? '';
@@ -307,7 +241,6 @@ class DisplayRecipeViewModel extends ChangeNotifier {
       }
       _initializeBasket();
       if (context.mounted) _prefetchNutrientData(context);
-      if (context.mounted) _getTtsDefaults();
 
       return _recipe;
     } catch (e, stackTrace) {
@@ -315,87 +248,6 @@ class DisplayRecipeViewModel extends ChangeNotifier {
       _recipe = null;
       rethrow; // Let Command handle the error
     }
-  }
-
-  Future<void> _getTtsDefaults() async {
-    if (isAndroid) await _getDefaultEngine();
-    if (kIsWeb) notifyListeners();
-    await _getDefaultVoice();
-  }
-
-  Future<void> _getDefaultEngine() async {
-    if (!isAndroid) return; // safety-check
-    var e = await flutterTts.getDefaultEngine;
-    if (e != null) {
-      engine = e;
-      debugPrint("set default engine: $e");
-      notifyListeners();
-    }
-  }
-
-  Future<void> _getDefaultVoice() async {
-    try {
-      await _voiceDataReadyCompleter.future.timeout(const Duration(seconds: 2));
-    } on TimeoutException {
-      debugPrint("Timeout waiting for voice data");
-      if (!getDefaultVoiceRetried) {
-        getDefaultVoiceRetried = true; // run only once
-        _voiceDataReadyCompleter = Completer<void>(); // re-use
-        notifyListeners();
-        _getDefaultVoice();
-      }
-      return;
-    } catch (e) {
-      debugPrint("Error waiting for voice data: $e");
-      return;
-    }
-    debugPrint("rawVoices count: ${rawVoices.length}");
-    if (rawVoices.isEmpty) return;
-
-    if (isAndroid) {
-      var defVoice = await flutterTts.getDefaultVoice;
-      debugPrint('Android Default Voice: $defVoice');
-      if (defVoice != null) {
-        var rawVoice = rawVoices.firstWhere((v) => mapEquals(v, defVoice));
-        voice = rawVoice;
-        if (voice != null) changedVoicesDropDownItem(voice);
-      }
-    } else {
-      String myLocale;
-      // Web may return just the language code, e.g. "de", if the browser's
-      // Settings/Language contains preferred language entries containing only
-      // the language without a region (e.g. "German" and not "German (Germany)").
-      Locale deviceLocale = WidgetsBinding.instance.platformDispatcher.locale;
-      if (kDebugMode) debugPrint('Device Locale (ISO): $deviceLocale');
-      // TTS uses Unicode BCP47 Locale Identifiers instead of the ISO standard
-      myLocale = deviceLocale.toLanguageTag();
-      if (kIsWeb && !myLocale.contains('-')) {
-        var webLocale = getBrowserLanguage();
-        if (kDebugMode) debugPrint('webLocale: $webLocale');
-        if (webLocale != null) myLocale = webLocale;
-      }
-      if (kDebugMode) debugPrint('Device/Browser Locale (BCP47): $myLocale');
-      // TTS auto-selects the first matching raw voice with locale
-      var rawVoice = rawVoices.firstWhere(
-        (v) => v?['locale'] == myLocale,
-        orElse: () => rawVoices.firstWhere((v) => v?['locale']?.startsWith(myLocale) ?? false),
-      );
-      voice = rawVoice;
-      if (kDebugMode) debugPrint('Computed Default Voice: $voice');
-      if (voice != null) changedVoicesDropDownItem(voice);
-    }
-  }
-
-  Future<void> changedVoicesDropDownItem(Map<String, String>? selectedVoice) async {
-    if (selectedVoice == null || selectedVoice.isEmpty) {
-      return;
-    }
-    if (kDebugMode) debugPrint('changedVoicesDropDownItem...');
-    await flutterTts.setVoice(selectedVoice);
-    debugPrint("set default voice: $selectedVoice");
-    voice = selectedVoice;
-    language = selectedVoice['locale'];
-    notifyListeners();
   }
 
   void _prefetchNutrientData(BuildContext contextForL10n) {
@@ -536,9 +388,13 @@ class DisplayRecipeViewModel extends ChangeNotifier {
 
   @override
   void dispose() {
+    _disposed = true;
+    _speechRequestId++;
+    _hasPlaybackConsent = false;
+    _stopRequested = true;
     _appState.removeListener(_onAppStateChanged);
+    unawaited(_speaker.dispose());
     super.dispose();
-    flutterTts.stop();
   }
 
   Future<void> speakStep(BuildContext context, int stepIndex) async {
@@ -571,71 +427,89 @@ class DisplayRecipeViewModel extends ChangeNotifier {
     }
 
     final instructionText = step.instruction.trim();
-
-    Future<void> speakAndWait(String text) async {
-      if (text.isNotEmpty) {
-        try {
-          // TODO remove focus when not android
-          await flutterTts.speak(text, focus: true);
-          await Future.delayed(const Duration(milliseconds: 800));
-        } catch (e, st) {
-          debugPrint("TTS Error speaking: $e\n$st");
-        }
-      }
+    await _speakText(headerText);
+    if (step.ingredients.isNotEmpty) {
+      await _pauseBetweenSpeech(const Duration(milliseconds: 450));
+      await _speakText(ingredientsText);
     }
-
-    // Ensure TTS is configured
-    await _configureTts(context);
-
-    await speakAndWait(headerText);
-    await speakAndWait(ingredientsText);
-    await speakAndWait(instructionText);
+    await _pauseBetweenSpeech(const Duration(milliseconds: 650));
+    await _speakText(instructionText);
   }
 
-  Future<void> speakAllSteps(BuildContext context, int startIndex) async {
-    if (_recipe == null) return;
+  Future<void> speakAllSteps(BuildContext context, int startIndex) {
+    if (_recipe == null || _isSpeakingSequence) return Future<void>.value();
 
+    _hasPlaybackConsent = true;
+    _speechRequestId++;
     _isSpeakingSequence = true;
     _stopRequested = false;
-    _pauseRequested = false;
-    _updateTtsState(TtsState.start, isSpeaking: true);
+    _pausedStepIndex = null;
+    _updateTtsState(TtsState.start);
 
+    final task = _runSpeechSequence(context, startIndex);
+    _playbackTask = task;
+    return task;
+  }
+
+  Future<void> _runSpeechSequence(BuildContext context, int startIndex) async {
+    final steps = getVariantSteps();
     try {
-      for (int i = startIndex; i < getVariantSteps().length; i++) {
-        if (_stopRequested || _pauseRequested) {
-          break;
-        }
+      await _configureTts(context);
+      for (var i = startIndex; i < steps.length; i++) {
+        if (_stopRequested) break;
         _currentStepIndex = i;
-        notifyListeners();
+        _activeStepIndex = i;
+        if (!_disposed) notifyListeners();
         await speakStep(context, i);
-
-        if (_stopRequested || _pauseRequested) {
-          break;
+        if (!_stopRequested && i + 1 < steps.length) {
+          await _pauseBetweenSpeech(const Duration(milliseconds: 800));
         }
       }
     } finally {
       _isSpeakingSequence = false;
-      _updateTtsState(_pauseRequested ? TtsState.pause : TtsState.stop, isSpeaking: false);
+      _activeStepIndex = null;
+      _pausedStepIndex = null;
+      if (!_stopRequested) _hasPlaybackConsent = false;
+      if (!_hasPlaybackConsent) _updateTtsState(TtsState.stop);
     }
+  }
+
+  Future<void> _restartSpeechAtSelectedStep(BuildContext context) async {
+    if (!_hasPlaybackConsent || !_isSpeakingSequence) return;
+    final requestId = ++_speechRequestId;
+    final playbackTask = _playbackTask;
+    _stopRequested = true;
+    await _speaker.stop();
+    if (playbackTask != null) await playbackTask;
+    if (_disposed || requestId != _speechRequestId || !_hasPlaybackConsent) return;
+    await speakAllSteps(context, _currentStepIndex);
   }
 
   Future<void> stopSpeak() async {
+    _speechRequestId++;
+    _hasPlaybackConsent = false;
     _stopRequested = true;
-    _pauseRequested = false;
-    var result = await flutterTts.stop();
-    if (result == 1) {
-      ttsState = TtsState.stop;
-      notifyListeners();
-    }
+    _pausedStepIndex = null;
+    await _speaker.stop();
+    _updateTtsState(TtsState.stop);
   }
 
   Future<void> pauseSpeak() async {
-    _pauseRequested = true;
-    var result = await flutterTts.pause();
-    if (result == 1) {
-      ttsState = TtsState.pause;
-      notifyListeners();
+    if (!isPlaying || !_hasPlaybackConsent) return;
+    _pausedStepIndex = _activeStepIndex ?? _currentStepIndex;
+    await _speaker.pause();
+    _updateTtsState(TtsState.pause);
+  }
+
+  Future<void> resumeSpeak(BuildContext context) async {
+    if (!isPaused || !_hasPlaybackConsent) return;
+    if (_pausedStepIndex != null && _pausedStepIndex != _currentStepIndex) {
+      await _restartSpeechAtSelectedStep(context);
+      return;
     }
+    _pausedStepIndex = null;
+    await _speaker.resume();
+    _updateTtsState(TtsState.start);
   }
 
   String getNutrientDescById(int foodId, int factorId) {

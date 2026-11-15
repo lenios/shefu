@@ -1,6 +1,5 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flag/flag.dart';
-import 'package:flutter/rendering.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -43,8 +42,6 @@ class _HomePageState extends State<HomePage> {
     final recipes = viewModel.recipes;
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-
-    bool isHandset = MediaQuery.of(context).size.width < 550;
 
     return AppScaffold(
       floatingActionButton: addRecipeButton(context, viewModel),
@@ -160,10 +157,7 @@ class _HomePageState extends State<HomePage> {
             child: recipes == null
                 ? const Center(child: CircularProgressIndicator())
                 : Stack(
-                    children: [
-                      _buildRecipeList(viewModel, recipes, theme, isHandset),
-                      gradientFade(theme),
-                    ],
+                    children: [_buildRecipeList(viewModel, recipes, theme), gradientFade(theme)],
                   ),
           ),
         ],
@@ -171,64 +165,76 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildRecipeList(
-    HomePageViewModel viewModel,
-    List<Recipe> recipes,
-    ThemeData theme,
-    bool isHandset,
-  ) {
+  Widget _buildRecipeList(HomePageViewModel viewModel, List<Recipe> recipes, ThemeData theme) {
     final displayedRecipes = viewModel.getFilteredRecipes(recipes, viewModel.searchTerm);
 
-    return displayedRecipes.isEmpty
-        ? Center(
-            child: Text(
-              AppLocalizations.of(context)!.noRecipe,
-              textAlign: TextAlign.center,
-              style: theme.textTheme.bodyLarge,
-            ),
-          )
-        : GridView.builder(
-            padding: EdgeInsets.fromLTRB(
-              8.0,
-              4.0,
-              8.0,
-              // allow selection of last recipe even with FAB
-              MediaQuery.of(context).padding.bottom + 78.0,
-            ),
-            itemCount: displayedRecipes.length,
-            // we need a custom delegate to handle dynamic height of cards
-            gridDelegate: RecipeCardGridDelegate(
-              crossAxisCount: isHandset ? 1 : 2,
-              itemHeights: [
-                for (final entry in displayedRecipes.reversed)
-                  100.0 +
-                      (entry.isVariant
-                          ? 0
-                          : viewModel
-                                    .variantsMatchingSearch(entry.recipe, viewModel.searchTerm)
-                                    .length *
-                                25.0),
-              ],
-            ),
-            scrollCacheExtent: ScrollCacheExtent.viewport(20),
-            itemBuilder: (context, index) {
-              // Reverse the index to show the last recipe first
-              final reverseIndex = displayedRecipes.length - 1 - index;
-              final entry = displayedRecipes[reverseIndex];
-              final variants = entry.isVariant
-                  ? [entry.variant!]
-                  : viewModel.variantsMatchingSearch(entry.recipe, viewModel.searchTerm);
-              return RepaintBoundary(
-                child: recipeCardStack(
-                  entry.recipe,
-                  variants,
-                  includeRecipe: !entry.isVariant,
-                  nutritionOf: viewModel.nutritionOf,
-                  nutriScoreOf: viewModel.nutriScoreOf,
-                ),
-              );
-            },
-          );
+    if (displayedRecipes.isEmpty) {
+      return Center(
+        child: Text(
+          AppLocalizations.of(context)!.noRecipe,
+          textAlign: TextAlign.center,
+          style: theme.textTheme.bodyLarge,
+        ),
+      );
+    }
+
+    final entries = displayedRecipes.reversed.toList(growable: false);
+    final variantsByEntry = [
+      for (final entry in entries)
+        entry.isVariant
+            ? [entry.variant!]
+            : viewModel.variantsMatchingSearch(entry.recipe, viewModel.searchTerm),
+    ];
+    final itemKeys = [for (final entry in entries) ValueKey((entry.recipe.id, entry.variant?.id))];
+    final indicesByKey = {
+      for (var index = 0; index < itemKeys.length; index++) itemKeys[index]: index,
+    };
+    final itemExtents = [
+      for (var index = 0; index < entries.length; index++)
+        100.0 + (entries[index].isVariant ? 0 : variantsByEntry[index].length * 25.0),
+    ];
+    final maxItemExtent = itemExtents.reduce((first, second) => first > second ? first : second);
+    final padding = EdgeInsets.all(0);
+
+    Widget buildItem(BuildContext context, int index) {
+      final entry = entries[index];
+      return RepaintBoundary(
+        key: itemKeys[index],
+        child: recipeCardStack(
+          entry.recipe,
+          variantsByEntry[index],
+          includeRecipe: !entry.isVariant,
+          nutritionOf: viewModel.nutritionOf,
+          nutriScoreOf: viewModel.nutriScoreOf,
+        ),
+      );
+    }
+
+    if (MediaQuery.orientationOf(context) == Orientation.landscape) {
+      return GridView.builder(
+        padding: padding,
+        itemCount: entries.length,
+        scrollCacheExtent: ScrollCacheExtent.viewport(20),
+        findChildIndexCallback: (key) => indicesByKey[key],
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          mainAxisExtent: maxItemExtent,
+          mainAxisSpacing: 0,
+          crossAxisSpacing: 0,
+        ),
+        itemBuilder: buildItem,
+      );
+    }
+
+    return ListView.separated(
+      padding: padding,
+      itemCount: entries.length,
+      itemExtentBuilder: (childIndex, _) => childIndex.isOdd ? 0 : itemExtents[childIndex ~/ 2],
+      scrollCacheExtent: ScrollCacheExtent.viewport(20),
+      findItemIndexCallback: (key) => indicesByKey[key],
+      separatorBuilder: (context, index) => const SizedBox(height: 8),
+      itemBuilder: buildItem,
+    );
   }
 
   /// Toggles showing favorites only; hidden until a recipe is a favorite.

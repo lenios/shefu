@@ -18,8 +18,6 @@ import 'package:country_picker/country_picker.dart';
 
 import 'router/app_router.dart';
 
-import 'package:flutter_localizations/flutter_localizations.dart' as flutter_localizations;
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await PathUtils.init();
@@ -171,7 +169,6 @@ class _MyAppState extends State<MyApp> {
             ),
       ),
       localizationsDelegates:
-          flutter_localizations.GlobalMaterialLocalizations.delegates +
           GlobalMaterialLocalizations.delegates +
           const [AppLocalizations.delegate, CountryLocalizations.delegate],
       supportedLocales: AppLocalizations.supportedLocales,

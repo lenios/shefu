@@ -30,8 +30,6 @@ class _EditRecipeState extends State<EditRecipe> {
   late final FocusNode notesFocusNode;
   late final FocusNode servingsFocusNode;
 
-  EditRecipeViewModel? editRecipeViewModel;
-
   @override
   void initState() {
     super.initState();
@@ -46,13 +44,6 @@ class _EditRecipeState extends State<EditRecipe> {
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    // Safe: context is valid here
-    editRecipeViewModel = Provider.of<EditRecipeViewModel>(context, listen: false);
-  }
-
-  @override
   void dispose() {
     titleFocusNode.dispose();
     sourceFocusNode.dispose();
@@ -63,29 +54,29 @@ class _EditRecipeState extends State<EditRecipe> {
     super.dispose();
   }
 
-  void _importRecipe() async {
+  Future<void> _importRecipe() async {
     final viewModel = Provider.of<EditRecipeViewModel>(context, listen: false);
     final url = viewModel.sourceController.text.trim();
     final l10n = AppLocalizations.of(context)!;
-    await Future.microtask(() async {
-      if (mounted) {
-        try {
-          viewModel.scrapeData(url, l10n);
 
-          ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text(l10n.recipeImportedSuccessfully)));
-        } catch (e) {
-          debugPrint('Error importing recipe from URL $url: $e');
-          ScaffoldMessenger.of(context).hideCurrentSnackBar();
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(l10n.scrapeError),
-              backgroundColor: Theme.of(context).colorScheme.error,
-            ),
-          );
-        }
-      }
-    });
+    try {
+      await viewModel.scrapeData(url, l10n);
+      if (!mounted) return;
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(l10n.recipeImportedSuccessfully)));
+    } catch (error) {
+      debugPrint('Error importing recipe from URL $url: $error');
+      if (!mounted) return;
+      final messenger = ScaffoldMessenger.of(context);
+      messenger
+        ..hideCurrentSnackBar()
+        ..showSnackBar(
+          SnackBar(
+            content: Text(l10n.scrapeError),
+            backgroundColor: Theme.of(context).colorScheme.error,
+          ),
+        );
+    }
   }
 
   /// Confirms a save: "recipe saved", or "variant {title} saved"
@@ -132,6 +123,37 @@ class _EditRecipeState extends State<EditRecipe> {
     await viewModel.deleteVariant(variant.id);
     if (!context.mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l10n.deleteVariantWarning)));
+  }
+
+  Widget _stepInsertionRow({
+    required BuildContext context,
+    required EditRecipeViewModel viewModel,
+    required AppLocalizations l10n,
+    required int insertAt,
+  }) {
+    final recipeButtonKey = ValueKey('addRecipeAsStep_$insertAt');
+    final stepButtonKey = ValueKey('addStep_$insertAt');
+
+    return Row(
+      children: [
+        OutlinedButton.icon(
+          key: recipeButtonKey,
+          label: Text(l10n.addRecipeAsStep),
+          onPressed: () => viewModel.addRecipeAsStep(context, insertAt: insertAt),
+        ),
+        const SizedBox(width: 2),
+        ElevatedButton.icon(
+          key: stepButtonKey,
+          icon: const Icon(Icons.add),
+          label: Text(l10n.addStep),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Theme.of(context).colorScheme.secondary,
+            foregroundColor: Theme.of(context).colorScheme.onSecondary,
+          ),
+          onPressed: () => viewModel.insertStepAt(insertAt),
+        ),
+      ],
+    );
   }
 
   @override
@@ -788,86 +810,47 @@ class _EditRecipeState extends State<EditRecipe> {
                         prev.$3 != next.$3, // Active variant changed
                     builder: (context, data, _) {
                       final steps = data.$1;
-                      if (steps.isEmpty) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: Text(
-                            l10n.noStepsAddedYet,
-                            style: TextStyle(
-                              fontStyle: FontStyle.italic,
-                              color: Theme.of(context).colorScheme.onSurfaceVariant,
-                            ),
-                          ),
-                        );
-                      }
-
-                      // Create a list that includes both steps and insert buttons
-                      final List<Widget> stepWidgets = [];
-                      for (int i = 0; i < steps.length; i++) {
-                        // Add the step card
-                        stepWidgets.add(
-                          RecipeStepCard(
-                            key: ValueKey('step_list_item_${steps[i].id}_$i'),
-                            viewModel: viewModel,
-                            stepIndex: i,
-                            isHandset: isHandset,
-                          ),
-                        );
-
-                        // Add insert button after each step (except the last
-                        // one); steps are only added to the base recipe.
-                        if (i < steps.length - 1 && !viewModel.isVariantMode) {
-                          stepWidgets.add(
-                            SizedBox(
-                              height: 24.0,
-                              child: Center(
-                                // Horizontally centers the FAB within the available width
-                                child: FloatingActionButton(
-                                  heroTag: 'insert_step_fab_$i', // Unique heroTag
-                                  onPressed: () => viewModel.insertStepAt(i + 1),
-                                  tooltip: l10n.insertStep,
-
-                                  backgroundColor: Theme.of(context).colorScheme.secondary,
-                                  foregroundColor: Theme.of(context).colorScheme.onSecondary,
-                                  child: const Icon(Icons.add),
+                      return Column(
+                        children: [
+                          if (steps.isEmpty)
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 8),
+                              child: Text(
+                                l10n.noStepsAddedYet,
+                                style: TextStyle(
+                                  fontStyle: FontStyle.italic,
+                                  color: Theme.of(context).colorScheme.onSurfaceVariant,
                                 ),
                               ),
                             ),
-                          );
-                        }
-                      }
-
-                      return Column(children: stepWidgets);
+                          for (var index = 0; index < steps.length; index++) ...[
+                            RecipeStepCard(
+                              key: ValueKey('step_list_item_${steps[index].id}_$index'),
+                              viewModel: viewModel,
+                              stepIndex: index,
+                              isHandset: isHandset,
+                            ),
+                            if (index < steps.length - 1 && !viewModel.isVariantMode)
+                              _stepInsertionRow(
+                                context: context,
+                                viewModel: viewModel,
+                                l10n: l10n,
+                                insertAt: index + 1,
+                              ),
+                          ],
+                          if (!viewModel.isVariantMode) ...[
+                            _stepInsertionRow(
+                              context: context,
+                              viewModel: viewModel,
+                              l10n: l10n,
+                              insertAt: steps.length,
+                            ),
+                            const SizedBox(height: 10),
+                          ],
+                        ],
+                      );
                     },
                   ),
-                  // Add step (base recipe only: variants adapt its steps)
-                  if (!viewModel.isVariantMode) ...[
-                    const SizedBox(height: 10),
-                    Wrap(
-                      alignment: .end,
-                      spacing: 8,
-                      runSpacing: 8,
-                      children: [
-                        OutlinedButton.icon(
-                          key: const Key('addRecipeAsStep'),
-                          icon: const Icon(Icons.menu_book_outlined),
-                          label: Text(l10n.addRecipeAsStep),
-                          onPressed: () => viewModel.addRecipeAsStep(context),
-                        ),
-                        ElevatedButton.icon(
-                          key: const Key('addStep'),
-                          icon: const Icon(Icons.add),
-                          label: Text(l10n.addStep),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Theme.of(context).colorScheme.secondary,
-                            foregroundColor: Theme.of(context).colorScheme.onSecondary,
-                          ),
-                          onPressed: viewModel.addEmptyStep,
-                        ),
-                      ],
-                    ),
-                  ],
-
                   // Make ahead
                   const SizedBox(height: 16),
                   TextFormField(
@@ -903,7 +886,7 @@ class _EditRecipeState extends State<EditRecipe> {
                   ),
                   const SizedBox(height: 10),
                   // --- Language Selection ---
-                  FutureBuilder<List<dynamic>>(
+                  FutureBuilder<List<String>>(
                     future: viewModel.getAvailableTtsLanguages(),
                     builder: (context, snapshot) {
                       if (!snapshot.hasData) {
@@ -918,7 +901,7 @@ class _EditRecipeState extends State<EditRecipe> {
                       // Extract unique language codes (without locale variants)
                       final uniqueLanguageCodes =
                           availableLanguages
-                              .map((lang) => lang.toString().split('-')[0].toLowerCase())
+                              .map((language) => language.split('-')[0].toLowerCase())
                               .toSet()
                               .toList()
                             ..sort();

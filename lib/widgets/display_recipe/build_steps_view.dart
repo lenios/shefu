@@ -62,9 +62,7 @@ Widget buildStepsView(BuildContext context, DisplayRecipeViewModel viewModel) {
               ),
 
             GestureDetector(
-              onTap: () {
-                viewModel.setCurrentStep(originalIndex);
-              },
+              onTap: () => viewModel.onStepTapped(context, originalIndex),
               child: Container(
                 decoration: BoxDecoration(
                   border: (showActiveBorder || isCurrentStepIndex)
@@ -124,8 +122,7 @@ Widget _buildSpeakControl(BuildContext context, DisplayRecipeViewModel viewModel
           if (viewModel.isPlaying) {
             viewModel.pauseSpeak();
           } else if (viewModel.isPaused) {
-            // Resume from current step
-            viewModel.speakAllSteps(context, viewModel.currentStepIndex);
+            viewModel.resumeSpeak(context);
           } else {
             // Start from current step
             viewModel.speakAllSteps(context, viewModel.currentStepIndex);
