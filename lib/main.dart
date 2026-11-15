@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dynamic_color/dynamic_color.dart';
+import 'package:flutter_localizations/flutter_localizations.dart' as flutter_localizations;
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -168,7 +169,9 @@ class _MyAppState extends State<MyApp> {
               floatingLabelBehavior: FloatingLabelBehavior.always,
             ),
       ),
+      // flutter_localizations is still needed by country_picker
       localizationsDelegates:
+          flutter_localizations.GlobalMaterialLocalizations.delegates +
           GlobalMaterialLocalizations.delegates +
           const [AppLocalizations.delegate, CountryLocalizations.delegate],
       supportedLocales: AppLocalizations.supportedLocales,
